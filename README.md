@@ -6,6 +6,14 @@ A Windows Phone 8.1 Update experience built with **FerroUI, Rust and declarative
 
 The reference release is **Windows Phone 8.1 Update (2014)**, including live folders and the original `system` / `applications` Settings pivots. This is a working app recreation, not an operating system or an emulator for XAP/APPX applications. **Complete visual and feature parity has not been established.** The [parity document](docs/parity.md) records the implemented workflows and the remaining differences.
 
+## Preview
+
+The browser renders the retained FerroUI control tree through WebAssembly. These captures come from Chromium running the packaged app.
+
+![Windows Phone Start in the FerroUI browser app](docs/screenshots/start-desktop.png)
+
+[Phone history screenshot](docs/screenshots/phone-history.png)
+
 ## Explore
 
 - **Start:** live content and notification counts, small/medium/wide tiles, pin/unpin, resize, reorder, folders that preserve their child tiles, secondary content tiles, accent colors, light/dark backgrounds, photos behind transparent tile interiors, and the optional extra tile columns.
