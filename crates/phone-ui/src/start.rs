@@ -123,7 +123,7 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 on_click:move|_|{if editing{finish.edit_tile.set(None);finish.menu.set(false);}else{all.navigate(Route::Apps);}},
                 StackPanel{orientation:Orientation::Horizontal,spacing:12.0,
                     TextBlock{text:if editing{"done"}else{"all apps"},font_size:21.0,vertical_alignment:V::Center},
-                    Border{width:34.0,height:34.0,corner_radius:17.0,border_brush:common::fg(&vm).as_str(),border_thickness:2.0,{icon(if editing{Icon::Check}else{Icon::Next},16.0,&common::fg(&vm))}}
+                    Border{width:34.0,height:34.0,corner_radius:17.0,border_brush:common::fg(&vm).as_str(),border_thickness:2.0,{icon(if editing{Icon::Check}else{Icon::Forward},16.0,&common::fg(&vm))}}
                 }
             }
         }

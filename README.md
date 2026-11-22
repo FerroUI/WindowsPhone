@@ -8,13 +8,13 @@ The reference release is **Windows Phone 8.1 Update (2014)**, including live fol
 
 ## Preview
 
-The browser renders the retained FerroUI control tree through WebAssembly. The Start screenshots were captured from the published GitHub Pages app.
+The browser renders the retained FerroUI control tree through WebAssembly. The desktop Start capture comes from the published app; the mobile capture comes from the full browser verification run.
 
 ![Windows Phone Start in the FerroUI browser app](docs/screenshots/start-published-desktop.jpg)
 
-[Mobile Start screenshot](docs/screenshots/start-published-mobile.jpg) · [Phone history screenshot](docs/screenshots/phone-history.png)
+[Mobile Start screenshot](docs/screenshots/start-refined-mobile.png) · [Phone history screenshot](docs/screenshots/phone-history.png)
 
-The refinement suite also captures real native Office, Files and system workflows: [Word](docs/screenshots/refinement-word.png), [Excel](docs/screenshots/refinement-excel.png), [Files](docs/screenshots/refinement-files.png) and [volume controls](docs/screenshots/refinement-volume.png). [Capture provenance](docs/screenshots/README.md) distinguishes published-app captures from the isolated browser verification fixtures.
+The refinement suite also captures real native Office, Files and system workflows: [Word](docs/screenshots/refinement-word.png), [Excel](docs/screenshots/refinement-excel.png), [PowerPoint](docs/screenshots/refinement-powerpoint.png), [Files](docs/screenshots/refinement-files.png) and [volume controls](docs/screenshots/refinement-volume.png). [Capture provenance](docs/screenshots/README.md) distinguishes published-app captures from the isolated browser verification fixtures.
 
 ## Explore
 
@@ -106,7 +106,7 @@ With Chromium available, run the browser interaction and screenshot suite agains
 node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
 ```
 
-The [recorded refinement baseline](docs/parity.md#recorded-verification) passed **30 browser check groups** and produced **66 captures**, alongside **48 Rust domain/state tests** and **2 host-boundary tests**. It includes all 23 app surfaces, native Office editing and document persistence, Files copy/move/rename, system preferences, Mail/Messaging selection, browser tabs/history, desktop/mobile input, device-pixel-ratio checks, and offline reload. Camera permission, external services, app installation, complete upgrade recovery and original-device pixel comparisons require separate verification.
+The [recorded full browser verification](docs/parity.md#recorded-verification) passed **33 check groups** and produced **72 captures**, alongside **48 Rust domain/state tests** and **2 host-boundary tests**. It includes all 23 app surfaces, native Office editing and document persistence, Files copy/move/rename, system preferences, Mail/Messaging selection, browser tabs/history, independent live-tile clock updates, live-folder activation, lock-screen draft preservation, desktop/mobile input, device-pixel-ratio checks, and offline reload. A separate local run passed **13 UI unit tests**; native Skia probes also exercised retained control identity and actual input across clock ticks. Camera permission, external services, app installation, complete upgrade recovery and original-device pixel comparisons require separate verification.
 
 ## GitHub Pages
 
