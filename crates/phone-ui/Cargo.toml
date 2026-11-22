@@ -15,6 +15,7 @@ ferroui-controls.workspace = true
 ferroui-view.workspace = true
 ferroui-reactive.workspace = true
 ferroui-reactiveui.workspace = true
+ferroui-dynamic-data.workspace = true
 chrono.workspace = true
 serde_json.workspace = true
 

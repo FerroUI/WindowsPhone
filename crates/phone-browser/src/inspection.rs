@@ -1,12 +1,20 @@
 //! Live native control geometry for end-to-end input verification.
-use ferroui_base::{input::InputElement,Point,Visual};
-use ferroui_controls::{automation::AutomationProperties,Application,Button,Control,TextBlock,TextBox};
+use ferroui_base::{Point, Visual, input::InputElement};
+use ferroui_controls::{Application, Button, TextBlock, TextBox, automation::AutomationProperties};
 use serde_json::json;
 use wasm_bindgen::prelude::*;
 #[wasm_bindgen(js_name=inspectView)]
-pub fn inspect_view()->String{
-    let Some(root)=Application::current().and_then(|a|a.application_lifetime()).and_then(|l|l.as_single_top_level_application_lifetime().and_then(|l|l.top_level())) else{return "null".into();};
-    let viewport=root.bounds();
+pub fn inspect_view() -> String {
+    let Some(root) = Application::current()
+        .and_then(|a| a.application_lifetime())
+        .and_then(|l| {
+            l.as_single_top_level_application_lifetime()
+                .and_then(|l| l.top_level())
+        })
+    else {
+        return "null".into();
+    };
+    let viewport = root.bounds();
     let elements=root.get_visual_descendants().filter_map(|visual|{
         let name=visual.name();
         let text=if let Some(t)=visual.cast::<TextBlock>(){t.text()}else if let Some(t)=visual.cast::<TextBox>(){t.text()}else if visual.cast::<Button>().is_some()||name.is_some(){None}else{return None;};

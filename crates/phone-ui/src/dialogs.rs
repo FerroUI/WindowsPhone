@@ -2,7 +2,7 @@ use crate::{common, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::TextWrapping;
 use ferroui_view::prelude::*;
-use phone_controls::{action, Icon};
+use phone_controls::{Icon, action};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 

@@ -4,11 +4,12 @@ import path from "node:path";
 import { open, sleep, colours } from "../FerroUI/scripts/browser/harness.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
-// Exported state is an observation surface. Only gallery navigation and the
-// initial timeout fixture use model calls; no external service is contacted.
+// Exported state is an observation surface. Gallery navigation and controlled
+// local photo fixtures use host APIs; no external service is contacted.
 const site = path.resolve(process.argv[2] || "artifacts/site");
 const output = path.resolve(process.argv[3] || "artifacts/ui-smoke");
 const started = Date.now();
+const deadline = started + 270000;
 const results = { site, viewport: [1280, 936], checks: [], captures: [] };
 const apps = [
   ["Phone", "Phone"], ["Messaging", "Messaging"], ["People", "People"],
@@ -26,13 +27,16 @@ await mkdir(output, { recursive: true });
 const snapshot = async () => JSON.parse(await page.evaluate("phoneApp.inspectView()"));
 const state = async () => JSON.parse(await page.evaluate("phoneApp.exportData()"));
 const route = async () => JSON.parse(await page.evaluate("phoneApp.currentRoute()"));
-const healthy = () => assert.equal(page.errors.length, 0, page.errors.join("\n"));
+const healthy = () => {
+  assert(Date.now() < deadline, "UI verification exceeded the 4½-minute budget");
+  assert.equal(page.errors.length, 0, page.errors.join("\n"));
+};
 const button = element => /Button$/.test(element.type);
 const visibleText = element => /(?:TextBlock|AccessText)$/.test(element.type);
 const centre = element => [element.x + element.width / 2, element.y + element.height / 2];
 
 async function until(check, label, timeout = 10000) {
-  const end = Date.now() + timeout;
+  const end = Math.min(Date.now() + timeout, deadline);
   let lastError;
   while (Date.now() < end) {
     healthy();
@@ -61,6 +65,17 @@ const clickLabel = label => click(element => button(element) && element.automati
 const clickText = text => click(element => visibleText(element) && element.text === text, text);
 const isRoute = expected => until(async () => JSON.stringify(await route()) === JSON.stringify(expected),
   `route ${JSON.stringify(expected)}`);
+
+async function reveal(match, label, scrollMatch, scrollLabel) {
+  for (let attempt = 0; attempt < 14; attempt++) {
+    healthy();
+    const found = (await snapshot()).elements.filter(element => element.hit && match(element));
+    assert(found.length <= 1, `Ambiguous control: ${label}`);
+    if (found[0]) return found[0];
+    await page.wheel(...centre(await control(scrollMatch, scrollLabel)), 0, 530);
+  }
+  throw new Error(`Could not reveal ${label} by native scrolling`);
+}
 
 async function edit(name, text) {
   await clickName(name);
@@ -166,6 +181,14 @@ try {
   await ready();
   const initial = await state();
   initial.settings.lock_timeout = 0;
+  const originalPhotoIds = new Set(initial.photos.map(photo => photo.id));
+  const photoFixtures = Array.from({ length: 48 }, (_, index) => ({
+    id: initial.next_id++,
+    name: `Smoke photo ${String(index + 1).padStart(2, "0")}`,
+    source: ["mountains", "coast", "forest", "city"][index % 4],
+    favorite: false,
+  }));
+  initial.photos.push(...photoFixtures);
   await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(initial))})`);
   const phoneTile = initial.tiles.find(tile => tile.app === "Phone" && !tile.children.length);
   assert(phoneTile, "The initial Start screen must contain the Phone tile");
@@ -237,12 +260,28 @@ try {
     await isRoute({ Note: noteId });
     await capture("06-note-restored");
   });
+  await check("native secondary note tile opens its note", async () => {
+    await clickLabel("pin to start");
+    await isRoute("Start");
+    const pinned = await until(async () => (await state()).tiles.find(tile =>
+      tile.target?.Note === noteId), "pinned note destination");
+    const startScroll = await control(element => element.name === "StartScroll", "Start scroll viewer");
+    await page.wheel(...centre(startScroll), 0, -100000);
+    const tile = await reveal(element => element.name === `Tile-${pinned.id}`, "pinned note tile",
+      element => element.name === "StartScroll", "Start scroll viewer");
+    await capture("06b-note-pinned");
+    await page.click(...centre(tile));
+    await isRoute({ Note: noteId });
+    await control(element => visibleText(element) && element.text === noteTitle, "pinned note content");
+  });
   await check("native note deletion", async () => {
     await clickLabel("delete");
     await control(element => visibleText(element) && element.text === "delete this note?",
       "note deletion confirmation");
     await clickLabel("save");
     await until(async () => !(await state()).notes.some(note => note.id === noteId), "deleted note");
+    assert(!(await state()).tiles.some(tile => tile.target?.Note === noteId),
+      "Deleting a note should also remove its secondary tile");
     await isRoute({ App: "OneNote" });
   });
   await check("app search launches a working calculator", async () => {
@@ -273,6 +312,75 @@ try {
     await capture("09-action-center");
     await clickLabel("Close action center");
     await control(element => element.name === "HardwareStart", "Action Center dismissed");
+  });
+  await check("native quick-action customization updates Action Center", async () => {
+    await launchFromSearch("Settings", "Settings");
+    await clickText("notifications+actions");
+    await isRoute({ Setting: "notifications+actions" });
+    await clickLabel("Choose quick action 2: Bluetooth");
+    await clickLabel("Use location for quick action 2");
+    await until(async () => (await state()).settings.quick_actions[1] === "location",
+      "configured second quick-action slot");
+    assert.equal(new Set((await state()).settings.quick_actions).size, 4,
+      "Each quick-action slot must have a distinct action");
+    const stored = await page.evaluate("JSON.parse(localStorage.getItem('ferroui.windows-phone.v1'))");
+    assert.equal(stored.settings.quick_actions[1], "location");
+    await capture("09b-quick-action-settings");
+    await home();
+    const locationBefore = (await state()).settings.location;
+    await clickName("StatusBar");
+    await control(element => button(element) && element.automationName === "Toggle location",
+      "configured location quick action");
+    assert(!(await snapshot()).elements.some(element =>
+      element.hit && button(element) && element.automationName === "Toggle Bluetooth"),
+    "The replaced Bluetooth quick action should be absent");
+    await clickLabel("Toggle location");
+    await until(async () => (await state()).settings.location === !locationBefore,
+      "configured quick action changed the local location profile");
+    await capture("09c-customized-action-center");
+    await clickLabel("Close action center");
+  });
+  await check("native virtualized Photos rows update and select", async () => {
+    await launchFromSearch("Photos", "Photos");
+    const listMatch = element => /ListBox$/.test(element.type);
+    await control(listMatch, "native Photos list");
+    await until(async () => (await snapshot()).elements.some(element =>
+      element.hit && /ListBoxItem$/.test(element.type)), "native Photos rows");
+    const visiblePhotos = (await snapshot()).elements.filter(element =>
+      element.hit && button(element) && element.automationName?.startsWith("Smoke photo "));
+    assert(visiblePhotos.length > 0 && visiblePhotos.length < photoFixtures.length,
+      "The native gallery must show the visible subset of its photo rows");
+    await capture("photos-virtualized-grid");
+    const last = photoFixtures.at(-1);
+    const lastButton = await reveal(element => button(element) && element.automationName === last.name,
+      "last fixture photo", listMatch, "native Photos list");
+    await page.click(...centre(lastButton));
+    await control(element => visibleText(element) && element.text === last.name, "selected photo caption");
+    await clickLabel("favorite");
+    await until(async () => (await state()).photos.find(photo => photo.id === last.id)?.favorite,
+      "selected photo favorite state");
+    await capture("photos-scrolled-selection");
+    await clickName("HardwareBack");
+    await control(listMatch, "Photos grid after Back");
+
+    const importedName = "Smoke imported photo";
+    await page.evaluate(`phoneApp.photoImported(${JSON.stringify(importedName)}, "forest")`);
+    const imported = await until(async () => (await state()).photos.find(photo => photo.name === importedName),
+      "photo-import host callback");
+    await isRoute({ App: "Photos" });
+    const importedButton = await reveal(element => button(element) && element.automationName === importedName,
+      "newly imported photo row", listMatch, "updated native Photos list");
+    await page.click(...centre(importedButton));
+    await control(element => visibleText(element) && element.text === importedName,
+      "newly imported photo selection");
+    await capture("photos-imported-selection");
+    assert.equal((await state()).photos.find(photo => photo.id === imported.id)?.source, "forest");
+
+    await home();
+    const cleaned = await state();
+    cleaned.photos = cleaned.photos.filter(photo => originalPhotoIds.has(photo.id));
+    await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(cleaned))})`);
+    await isRoute("Start");
   });
   await check("all 23 app surfaces render", async () => {
     for (const [label, id] of apps) {

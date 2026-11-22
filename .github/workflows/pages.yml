@@ -4,6 +4,11 @@ on:
     branches: [main]
     paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
   workflow_dispatch:
+    inputs:
+      verify_ui:
+        description: Capture app screens and exercise desktop/touch interactions
+        type: boolean
+        default: false
 permissions:
   contents: read
   pages: write
@@ -32,7 +37,8 @@ jobs:
           echo "rust=$(sed -n 's/^RUST_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
           echo "bindgen=$(sed -n 's/^wasm-bindgen = "=\(.*\)"$/\1/p' FerroUI/Cargo.toml)" >> "$GITHUB_OUTPUT"
           echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: tools
         with:
           path: |
             ~/browser-tools/emsdk
@@ -44,6 +50,13 @@ jobs:
           source "$HOME/browser-tools/env.sh"
           printf '%s\n' "EMSDK=$EMSDK" "RUSTUP_TOOLCHAIN=$RUSTUP_TOOLCHAIN" "EMCC_CFLAGS=$EMCC_CFLAGS" >> "$GITHUB_ENV"
           printf '%s\n' "$EMSDK" "$EMSDK/upstream/emscripten" "$HOME/browser-tools/bin" >> "$GITHUB_PATH"
+      - uses: actions/cache/save@v4
+        if: steps.tools.outputs.cache-hit != 'true'
+        with:
+          path: |
+            ~/browser-tools/emsdk
+            ~/browser-tools/bin
+          key: phone-tools-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.emsdk }}-${{ steps.pins.outputs.bindgen }}
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -53,17 +66,25 @@ jobs:
         with:
           key: phone-${{ steps.pins.outputs.framework }}
           cache-all-crates: true
-      - name: Verify state and gestures
+          cache-on-failure: true
+      - name: Verify state and host boundaries
         run: |
           cargo test --locked -p phone-domain -p phone-state
           node --test scripts/*.test.mjs
       - name: Build Windows Phone
         run: bash scripts/build-browser.sh
+      - uses: actions/upload-artifact@v4
+        if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        with:
+          name: compiled-app
+          path: target/browser/phone-browser
+          retention-days: 3
       - name: Verify rendered desktop and touch views
+        if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
         timeout-minutes: 5
         run: node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && (inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]'))
         with:
           name: ui-verification
           path: target/ui-smoke

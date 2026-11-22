@@ -9,7 +9,7 @@ use ferroui_base::input::{
 };
 use ferroui_base::reactive::Subscription;
 use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
-use ferroui_base::{Point, Ref, WeakRef};
+use ferroui_base::{Ref, WeakRef};
 use ferroui_controls::{Control, Grid, TextBox};
 use phone_domain::{AppId, Id, Route};
 use phone_state::PhoneViewModel;
@@ -60,6 +60,7 @@ pub(super) struct Controller {
     pub vm: Weak<PhoneViewModel>,
     pub ui: Weak<Session>,
     pub contacts: RefCell<BTreeMap<i32, Contact>>,
+    pointers: RefCell<Vec<Weak<dyn IPointer>>>,
     pub drag_visual: RefCell<Option<drag::VisualDrag>>,
     hold_timer: RefCell<Option<Subscription>>,
     drag_timer: RefCell<Option<Subscription>>,
@@ -72,6 +73,7 @@ impl Controller {
             vm: Rc::downgrade(vm),
             ui: Rc::downgrade(ui),
             contacts: RefCell::new(BTreeMap::new()),
+            pointers: RefCell::new(Vec::new()),
             drag_visual: RefCell::new(None),
             hold_timer: RefCell::new(None),
             drag_timer: RefCell::new(None),
@@ -82,8 +84,17 @@ impl Controller {
         self.hold_timer.borrow_mut().take();
         self.drag_timer.borrow_mut().take();
         let contacts = self.contacts.take();
-        let active = !contacts.is_empty();
+        let pointers = self
+            .pointers
+            .take()
+            .into_iter()
+            .filter_map(|pointer| pointer.upgrade())
+            .collect::<Vec<_>>();
+        let active = !contacts.is_empty() || !pointers.is_empty();
         self.clear_feedback();
+        for pointer in pointers {
+            pointer.capture(None);
+        }
         for contact in contacts.into_values() {
             contact.pointer.capture(None);
         }
@@ -168,12 +179,13 @@ impl Controller {
                     .is_some_and(|name| name.starts_with("Hardware") && !back)
         });
         let native = editing
+            || ui.menu.get_untracked()
             || ui.dialog.get_untracked().is_some()
             || ui.switcher_open.get_untracked()
             || ui.alphabet.get_untracked();
         let single = self.contacts.borrow().is_empty()
             && (pointer.is_primary() || pointer.type_() == PointerType::Mouse);
-        let previous = if single {
+        let mut previous = if single {
             Vec::new()
         } else {
             self.hold_timer.borrow_mut().take();
@@ -187,6 +199,18 @@ impl Controller {
                 })
                 .collect::<Vec<_>>()
         };
+        {
+            let mut pointers = self.pointers.borrow_mut();
+            pointers.retain(|old| old.upgrade().is_some_and(|old| old.id() != pointer.id()));
+            if !single {
+                for old in pointers.iter().filter_map(Weak::upgrade) {
+                    if !previous.iter().any(|other| other.id() == old.id()) {
+                        previous.push(old);
+                    }
+                }
+            }
+            pointers.push(Rc::downgrade(pointer));
+        }
         self.contacts.borrow_mut().insert(
             pointer.id(),
             Contact {
@@ -216,6 +240,7 @@ impl Controller {
         }
         if !single {
             event.set_handled(true);
+            self.capture(pointer);
             self.clear_feedback();
             return;
         }
@@ -378,6 +403,11 @@ impl Controller {
         self.hold_timer.borrow_mut().take();
         self.drag_timer.borrow_mut().take();
         let contact = self.contacts.borrow_mut().remove(&event.pointer().id());
+        self.pointers.borrow_mut().retain(|pointer| {
+            pointer
+                .upgrade()
+                .is_some_and(|pointer| pointer.id() != event.pointer().id())
+        });
         let Some(contact) = contact else {
             if event.pointer().type_() != PointerType::Mouse {
                 event.set_handled(true);
@@ -452,7 +482,7 @@ fn pivot_count(route: &Route, ui: &Session) -> usize {
     }
 }
 fn can_swipe(route: &Route, ui: &Session) -> bool {
-    matches!(route, Route::Start | Route::Apps)
+    matches!(route, Route::Start | Route::Folder(_) | Route::Apps)
         || pivot_count(route, ui) > 0
         || (*route == Route::App(AppId::Photos)
             && ui.selected.get_untracked().is_some()
@@ -460,7 +490,7 @@ fn can_swipe(route: &Route, ui: &Session) -> bool {
 }
 fn complete_swipe(vm: &PhoneViewModel, ui: &Session, route: &Route, delta: f64) {
     match route {
-        Route::Start if delta < 0.0 => {
+        Route::Start | Route::Folder(_) if delta < 0.0 => {
             ui.edit_tile.set(None);
             ui.folder.set(None);
             vm.navigate(Route::Apps);

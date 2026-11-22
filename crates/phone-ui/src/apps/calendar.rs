@@ -2,20 +2,20 @@ use crate::{
     common::{accent, empty, muted, page, row, scroll, text},
     session::Session,
 };
-use chrono::NaiveDate;
+use chrono::{Datelike, Duration, NaiveDate};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_base::media::FontWeight;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat, pivot};
 use phone_domain::{
-    date_parts, date_string, days_from_date, days_in_month, first_weekday, month_name,
-    CalendarEvent,
+    CalendarEvent, date_parts, date_string, days_from_date, days_in_month, first_weekday,
+    month_name,
 };
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let (current_year, current_month, current_day) = date_parts(vm.now());
+    let (current_year, current_month, current_day) = date_parts(vm.local_now());
     let month_index = current_year * 12 + current_month as i32 - 1 + ui.calendar_month.get();
     let (year, month) = (
         month_index.div_euclid(12),
@@ -26,13 +26,15 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let mut events = vm.data().events.clone();
     events.sort_by(|a, b| (&a.date, &a.time, &a.title).cmp(&(&b.date, &b.time, &b.title)));
     let mode = ui.pivot.get().min(2);
-    let prev = ui.calendar_month;
-    let next = ui.calendar_month;
+    let previous = ui.clone();
+    let next = ui.clone();
+    let previous_date = selected.clone();
+    let next_date = selected.clone();
     let heading = format!("{} {}", month_name(month).to_lowercase(), year);
     let mut body=stack_panel().spacing(12.0).child(rsx! {Grid{column_definitions:"Auto,*,Auto",margin:(10.0,0.0),
-        {flat("‹",move ||prev.update(|month|*month-=1))}
+        {flat("‹",move ||move_period(&previous,&previous_date,mode,-1,current_year,current_month))}
         TextBlock{Grid.column:1,text:heading,font_size:30.0,font_weight:FontWeight::Light,vertical_alignment:ferroui_base::layout::VerticalAlignment::Center}
-        Border{Grid.column:2,{flat("›",move ||next.update(|month|*month+=1))}}
+        Border{Grid.column:2,{flat("›",move ||move_period(&next,&next_date,mode,1,current_year,current_month))}}
     }});
     let choices = ["month", "week", "day"]
         .into_iter()
@@ -49,11 +51,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         ));
     }
     if mode == 1 {
-        let parts = selected
-            .split('-')
-            .filter_map(|part| part.parse::<i32>().ok())
-            .collect::<Vec<_>>();
-        let day = days_from_date(parts[0], parts[1] as u32, parts[2] as u32);
+        let date = NaiveDate::parse_from_str(&selected, "%Y-%m-%d").unwrap_or_else(|_| {
+            NaiveDate::from_ymd_opt(current_year, current_month, current_day).unwrap_or_default()
+        });
+        let day = days_from_date(date.year(), date.month(), date.day());
         let start = day - (day + 3).rem_euclid(7);
         for offset in 0..7 {
             let timestamp = (start + offset) * 86400;
@@ -88,7 +89,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }),
             action(Icon::Calendar, "today", move || {
                 today_ui.calendar_month.set(0);
-                today_ui.entry.set(now_date.clone());
+                today_ui.calendar_date.set(now_date.clone());
             }),
         ],
         false,
@@ -98,7 +99,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
 }
 
 fn selected_date(ui: &Session, year: i32, month: u32, today: &str) -> String {
-    let selected = ui.entry.get();
+    let selected = ui.calendar_date.get();
     let prefix = format!("{year:04}-{month:02}-");
     if selected.starts_with(&prefix) && NaiveDate::parse_from_str(&selected, "%Y-%m-%d").is_ok() {
         selected
@@ -106,6 +107,37 @@ fn selected_date(ui: &Session, year: i32, month: u32, today: &str) -> String {
         today.to_owned()
     } else {
         date_string(year, month, 1)
+    }
+}
+
+fn move_period(
+    ui: &Session,
+    date: &str,
+    mode: usize,
+    direction: i32,
+    current_year: i32,
+    current_month: u32,
+) {
+    let Ok(date) = NaiveDate::parse_from_str(date, "%Y-%m-%d") else {
+        return;
+    };
+    let next = if mode == 0 {
+        let index = date.year() * 12 + date.month() as i32 - 1 + direction;
+        let year = index.div_euclid(12);
+        let month = index.rem_euclid(12) as u32 + 1;
+        if !(1..=9999).contains(&year) {
+            return;
+        }
+        NaiveDate::from_ymd_opt(year, month, date.day().min(days_in_month(year, month)))
+    } else {
+        date.checked_add_signed(Duration::days(
+            direction as i64 * if mode == 1 { 7 } else { 1 },
+        ))
+    };
+    if let Some(next) = next.filter(|date| (1..=9999).contains(&date.year())) {
+        ui.calendar_month
+            .set(next.year() * 12 + next.month() as i32 - current_year * 12 - current_month as i32);
+        ui.calendar_date.set(next.format("%Y-%m-%d").to_string());
     }
 }
 
@@ -134,7 +166,7 @@ fn month_grid(
         let active = date == selected;
         let is_today = date == today;
         let count = events.iter().filter(|event| event.date == date).count();
-        let chosen = ui.entry;
+        let chosen = ui.calendar_date;
         let color = accent(vm);
         cells=cells.child(rsx!{Button{Grid.row:(offset/7+1)as i32,Grid.column:(offset%7)as i32,class:"phone-flat",
             background:if active{color.as_str()}else{"Transparent"},foreground:if active{"White"}else{vm.data().settings.foreground()},
@@ -203,13 +235,15 @@ fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, event: CalendarEvent) {
         Rc::new(move |values| {
             let field = |index| values.get(index).cloned().unwrap_or_default();
             let title = field(0).trim().to_owned();
-            let date = field(1);
-            let time = field(2);
+            let date = field(1).trim().to_owned();
+            let time = field(2).trim().to_owned();
             if title.is_empty() {
                 error.set("Add a subject for your appointment.".into());
                 return;
             }
-            if NaiveDate::parse_from_str(&date, "%Y-%m-%d").is_err() {
+            if !NaiveDate::parse_from_str(&date, "%Y-%m-%d")
+                .is_ok_and(|date| (1..=9999).contains(&date.year()))
+            {
                 error.set("Enter a valid date as YYYY-MM-DD.".into());
                 return;
             }
@@ -217,7 +251,7 @@ fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, event: CalendarEvent) {
                 error.set("Enter a valid time as HH:MM.".into());
                 return;
             }
-            let Ok(duration_minutes) = field(3).parse::<u32>() else {
+            let Ok(duration_minutes) = field(3).trim().parse::<u32>() else {
                 error.set("Enter the duration in minutes.".into());
                 return;
             };

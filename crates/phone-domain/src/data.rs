@@ -60,7 +60,10 @@ impl PhoneData {
         id
     }
     pub fn tile(&self, id: Id) -> Option<&Tile> {
-        self.tiles.iter().find(|t| t.id == id)
+        self.tiles
+            .iter()
+            .flat_map(|tile| std::iter::once(tile).chain(tile.folder_tiles.iter()))
+            .find(|tile| tile.id == id)
     }
     pub fn contact(&self, id: Id) -> Option<&Contact> {
         self.contacts.iter().find(|t| t.id == id)
@@ -99,9 +102,8 @@ impl PhoneData {
         }
     }
     pub fn is_pinned(&self, app: AppId) -> bool {
-        self.tiles
-            .iter()
-            .any(|t| (t.children.is_empty() && t.app == app) || t.children.contains(&app))
+        self.all_tiles()
+            .any(|tile| !tile.is_folder() && tile.target.is_none() && tile.app == app)
     }
     pub fn to_json(&self) -> Result<String, String> {
         serde_json::to_string(self).map_err(|e| e.to_string())
@@ -183,9 +185,29 @@ impl PhoneData {
             alarm.weekdays.sort_unstable();
             alarm.weekdays.dedup();
         }
-        for tile in &mut self.tiles {
-            tile.children.sort_unstable();
-            tile.children.dedup();
+        self.normalize_tiles()?;
+        let fallback = Settings::default().quick_actions;
+        let mut quick = HashSet::new();
+        for (index, key) in self.settings.quick_actions.iter_mut().enumerate() {
+            if ![
+                "wi_fi",
+                "bluetooth",
+                "airplane",
+                "rotation_lock",
+                "location",
+                "brightness",
+                "camera",
+            ]
+            .contains(&key.as_str())
+                || !quick.insert(key.clone())
+            {
+                *key = fallback
+                    .iter()
+                    .find(|item| !quick.contains(*item))
+                    .cloned()
+                    .unwrap_or_else(|| fallback[index].clone());
+                quick.insert(key.clone());
+            }
         }
         Ok(())
     }
@@ -196,6 +218,7 @@ impl PhoneData {
         }
         let mut result = AppId::search(&query)
             .into_iter()
+            .filter(|app| self.installed.contains(app))
             .map(|app| SearchResult {
                 title: app.label().into(),
                 subtitle: "app".into(),

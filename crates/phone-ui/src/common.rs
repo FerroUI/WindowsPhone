@@ -1,8 +1,8 @@
-use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
+use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::AppId;
 use phone_state::PhoneViewModel;
 
@@ -82,7 +82,7 @@ pub fn app_square(app: AppId, size: f64, accent: &str) -> Element {
 }
 pub fn clock(vm: &PhoneViewModel) -> String {
     use chrono::{DateTime, Timelike};
-    let date = DateTime::from_timestamp(vm.now(), 0).unwrap_or_default();
+    let date = DateTime::from_timestamp(vm.local_now(), 0).unwrap_or_default();
     if vm.data().settings.time_24h {
         format!("{:02}:{:02}", date.hour(), date.minute())
     } else {
@@ -96,10 +96,4 @@ pub fn clock(vm: &PhoneViewModel) -> String {
             date.minute()
         )
     }
-}
-pub fn circular(icon_kind: Icon, label: &str, on_click: impl Fn() + 'static) -> Element {
-    rsx! {Button{class:"phone-flat",automation_properties_name:label.to_owned(),width:52.0,height:52.0,
-        horizontal_content_alignment:H::Center,vertical_content_alignment:V::Center,on_click:move |_|on_click(),
-        Border{width:34.0,height:34.0,corner_radius:17.0,border_brush:"White",border_thickness:2.0,{icon(icon_kind,17.0,"White")}}
-    }}
 }

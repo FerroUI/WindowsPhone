@@ -5,7 +5,7 @@ use crate::{
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat, pivot};
 use phone_domain::{AppId, Mail, Route};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
@@ -18,7 +18,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         }
     }
     let mode = ui.pivot.get().min(2);
-    let folder = if ui.entry.get() == "deleted" {
+    let folder = if ui.mail_folder.get() == "deleted" {
         "deleted"
     } else {
         "inbox"
@@ -41,15 +41,15 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     messages.sort_by_key(|mail| std::cmp::Reverse(mail.timestamp));
     let rows=messages.into_iter().map(|mail|{
         let model=vm.clone();let id=mail.id;let foreground=if mail.read{vm.data().settings.foreground().to_owned()}else{vm.data().settings.accent.clone()};
-        let preview=mail.body.lines().find(|line|!line.trim().is_empty()).unwrap_or("").to_owned();
+        let preview=mail.body.lines().find(|line|!line.trim().is_empty()).unwrap_or("").chars().take(180).collect::<String>();
         rsx!{Button{class:"phone-flat",padding:(20.0,12.0),horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,
             automation_properties_name:format!("{}: {}",mail.from,mail.subject),
-            on_click:move |_|{model.mark_mail(id,true);model.navigate(Route::Mail(id));},
+            on_click:move |_|model.navigate(Route::Mail(id)),
             StackPanel{spacing:3.0,
                 TextBlock{text:format!("{}{}",mail.from,if mail.flagged{"  ⚑"}else{""}),font_size:28.0,foreground:foreground.as_str(),font_weight:if mail.read{FontWeight::Light}else{FontWeight::SemiBold}}
                 TextBlock{text:mail.subject,font_size:21.0,foreground:foreground.as_str(),text_wrapping:TextWrapping::Wrap}
                 TextBlock{text:preview,font_size:17.0,foreground:"#929292",text_wrapping:TextWrapping::Wrap,max_height:48.0}
-                {muted(&phone_domain::time_text(mail.timestamp,vm.data().settings.time_24h),13.0)}
+                {muted(&phone_domain::time_text(mail.timestamp.saturating_add(i64::from(vm.utc_offset())),vm.data().settings.time_24h),13.0)}
             }
         }}
     }).collect::<Vec<_>>();
@@ -84,11 +84,11 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         ui.menu.get(),
         vec![
             flat("inbox", move || {
-                inbox.entry.set(String::new());
+                inbox.mail_folder.set("inbox".into());
                 inbox.menu.set(false);
             }),
             flat("deleted items", move || {
-                deleted.entry.set("deleted".into());
+                deleted.mail_folder.set("deleted".into());
                 deleted.menu.set(false);
             }),
         ],
@@ -133,7 +133,7 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, mail: Mail) -> Element {
         {text(&mail.subject,35.0)}
         {text(&mail.from,25.0)}
         {muted(&mail.address,16.0)}
-        {muted(&phone_domain::time_text(mail.timestamp,vm.data().settings.time_24h),14.0)}
+        {muted(&phone_domain::time_text(mail.timestamp.saturating_add(i64::from(vm.utc_offset())),vm.data().settings.time_24h),14.0)}
         TextBlock{text:mail.body,font_size:21.0,text_wrapping:TextWrapping::Wrap,line_height:30.0}
     }};
     let bar = app_bar(

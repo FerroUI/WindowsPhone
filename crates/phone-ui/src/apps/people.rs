@@ -3,10 +3,10 @@ use crate::{
     session::Session,
 };
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
-use ferroui_base::media::TextWrapping;
-use ferroui_controls::{primitives::ScrollBarVisibility, Control};
+use ferroui_controls::{Control, primitives::ScrollBarVisibility};
+use ferroui_dynamic_data::IObservableCache;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat, pivot};
 use phone_domain::{AppId, Contact, Route};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
@@ -21,9 +21,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let mode = ui.pivot.get().min(1);
     let query = ui.query.get().to_lowercase();
     let mut contacts = vm
-        .data()
         .contacts
-        .iter()
+        .items()
+        .into_iter()
         .filter(|contact| {
             (!query.is_empty()
                 && format!(
@@ -35,19 +35,13 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 || query.is_empty()
         })
         .filter(|contact| mode == 0 || contact.favorite)
-        .cloned()
         .collect::<Vec<_>>();
-    contacts.sort_by_key(|contact| contact.name.to_lowercase());
+    contacts.sort_by_key(|contact| (group_letter(&contact.name), contact.name.to_lowercase()));
     let mut list = stack_panel();
     let mut last = None;
     let mut available = Vec::new();
     for contact in contacts.iter() {
-        let letter = contact
-            .name
-            .chars()
-            .next()
-            .unwrap_or('#')
-            .to_ascii_lowercase();
+        let letter = group_letter(&contact.name);
         if last != Some(letter) {
             last = Some(letter);
             available.push(letter);
@@ -120,7 +114,7 @@ fn alphabet(ui: Rc<Session>, available: Vec<char>) -> Element {
         .row_spacing(8.0)
         .column_spacing(8.0)
         .margin(20.0);
-    for (index, letter) in ('a'..='z').chain(std::iter::once('#')).enumerate() {
+    for (index, letter) in std::iter::once('#').chain('a'..='z').enumerate() {
         let close = ui.alphabet;
         let enabled = available.contains(&letter);
         letters=letters.child(rsx!{Button{Grid.row:(index/4)as i32,Grid.column:(index%4)as i32,class:"phone-button",
@@ -151,6 +145,7 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) -> Element 
     let edit_ui = ui.clone();
     let editable = contact.clone();
     let favorite = vm.clone();
+    let pin = vm.clone();
     let id = contact.id;
     let remove = vm.clone();
     let confirm = ui.clone();
@@ -191,18 +186,33 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) -> Element 
             }),
         ],
         ui.menu.get(),
-        vec![flat("delete contact", move || {
-            let model = remove.clone();
-            confirm.confirm(
-                "delete this contact?",
-                Rc::new(move || {
-                    model.delete_contact(id);
-                    model.navigate(Route::App(AppId::People));
-                }),
-            );
-        })],
+        vec![
+            flat("pin to start", move || {
+                pin.pin_contact(id);
+                pin.home();
+            }),
+            flat("delete contact", move || {
+                let model = remove.clone();
+                confirm.confirm(
+                    "delete this contact?",
+                    Rc::new(move || {
+                        model.delete_contact(id);
+                        model.navigate(Route::App(AppId::People));
+                    }),
+                );
+            }),
+        ],
     );
     page("people", scroll(body), bar)
+}
+
+fn group_letter(name: &str) -> char {
+    name.trim_start()
+        .chars()
+        .next()
+        .filter(char::is_ascii_alphabetic)
+        .map(|letter| letter.to_ascii_lowercase())
+        .unwrap_or('#')
 }
 
 fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) {

@@ -2,9 +2,9 @@ use crate::{
     common::{empty, muted, page, scroll, text, title},
     session::Session,
 };
-use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
+use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, toggle, Icon};
+use phone_controls::{Icon, action, app_bar, toggle};
 use phone_domain::Alarm;
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -22,7 +22,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                     on_click:move |_|edit(edit_vm.clone(),edit_ui.clone(),edited.clone()),
                     StackPanel {spacing:3.0,{text(&alarm.time_text(),52.0)}{text(&alarm.label,21.0)}{muted(&alarm.repeat_text(),16.0)}}
                 }
-                Border {Grid.column:1,{toggle("",alarm.enabled,move |_|toggle_vm.toggle_alarm(id))}}
+                Border {Grid.column:1,width:88.0,{toggle("",alarm.enabled,move |_|toggle_vm.toggle_alarm(id))}}
             }
             Button {class:"phone-flat",content:"delete",font_size:15.0,foreground:"#929292",horizontal_alignment:H::Left,padding:0.0,
                 on_click:move |_|{let model=delete_vm.clone();delete_ui.confirm("delete this alarm?",Rc::new(move ||model.delete_alarm(id)));}}
@@ -107,7 +107,7 @@ fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, alarm: Alarm) {
             }
             weekdays.sort_unstable();
             weekdays.dedup();
-            let label = values.get(1).cloned().unwrap_or_default();
+            let label = values.get(1).cloned().unwrap_or_default().trim().to_owned();
             vm.save_alarm(Alarm {
                 id: alarm.id,
                 label: if label.trim().is_empty() {

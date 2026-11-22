@@ -8,6 +8,7 @@ mod models;
 mod navigation;
 mod seed;
 mod settings;
+mod tile_document;
 mod tiles;
 
 pub use action::*;

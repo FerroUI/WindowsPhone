@@ -2,10 +2,9 @@ use crate::{
     common::{empty, muted, page, row, scroll, text, title},
     session::Session,
 };
-use ferroui_base::layout::Orientation;
 use ferroui_base::media::TextWrapping;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, Icon};
+use phone_controls::{Icon, action, app_bar};
 use phone_domain::{Note, Route};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -34,8 +33,11 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 .body
                 .lines()
                 .find(|line| !line.trim().is_empty())
-                .unwrap_or("Empty note");
-            row(&note.title, preview, move || {
+                .unwrap_or("Empty note")
+                .chars()
+                .take(140)
+                .collect::<String>();
+            row(&note.title, &preview, move || {
                 model.navigate(Route::Note(id))
             })
         })
@@ -65,6 +67,7 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, note: Note) -> Element {
     let editable = note.clone();
     let delete_model = vm.clone();
     let delete_ui = ui.clone();
+    let pin = vm.clone();
     let id = note.id;
     let body = rsx! { StackPanel {margin:20.0,spacing:24.0,
         {text(&note.title,38.0)}
@@ -75,6 +78,10 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, note: Note) -> Element {
         vec![
             action(Icon::Edit, "edit", move || {
                 edit(edit_model.clone(), edit_ui.clone(), editable.clone())
+            }),
+            action(Icon::Pin, "pin to start", move || {
+                pin.pin_note(id);
+                pin.home();
             }),
             action(Icon::Delete, "delete", move || {
                 let model = delete_model.clone();
@@ -110,10 +117,15 @@ fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, note: Note) {
                 error.set("Give your note a title.".into());
                 return;
             }
+            let body = values.get(1).cloned().unwrap_or_default();
+            if body.len() > 1_048_576 {
+                error.set("This note exceeds the 1 MB limit.".into());
+                return;
+            }
             vm.save_note(Note {
                 id,
                 title,
-                body: values.get(1).cloned().unwrap_or_default(),
+                body,
                 modified: vm.now(),
             });
         }),

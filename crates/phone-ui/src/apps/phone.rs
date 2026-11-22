@@ -1,10 +1,10 @@
 use crate::{
-    common::{empty, muted, page, row, scroll, text},
+    common::{empty, muted, page, row, scroll},
     session::Session,
 };
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat, pivot};
 use phone_domain::{AppId, Route};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -35,7 +35,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 let model = vm.clone();
                 let name = call.name.clone();
                 let number = call.number.clone();
-                let time = phone_domain::time_text(call.timestamp, vm.data().settings.time_24h);
+                let time = phone_domain::time_text(
+                    call.timestamp.saturating_add(i64::from(vm.utc_offset())),
+                    vm.data().settings.time_24h,
+                );
                 let subtitle = format!(
                     "{} · {}",
                     if call.missed {

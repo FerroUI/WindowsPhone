@@ -9,7 +9,7 @@ impl PhoneViewModel {
             let data = self.data();
             (
                 data.contacts.clone(),
-                data.tiles.clone(),
+                data.all_tiles().cloned().collect(),
                 data.notifications.clone(),
             )
         };

@@ -1,4 +1,5 @@
 mod camera;
+mod photo_grid;
 mod photos;
 mod player;
 

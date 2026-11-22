@@ -4,7 +4,7 @@ use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignm
 use ferroui_base::media::FontWeight;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::Route;
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -39,7 +39,7 @@ pub fn bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             on_context_requested:move |e|{context.switcher_open.set(true);e.set_handled(true);},
             {icon(Icon::Back,23.0,"White")}},
         Button{name:"HardwareStart",Grid.column:1,class:"phone-flat",automation_properties_name:"Start",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Center,
-            on_click:move |_|{while go_home.dismiss(){}go_home.locked.set(false);home.home();},{icon(Icon::Windows,25.0,"White")}},
+            on_click:move |_|{go_home.clear_overlays();go_home.locked.set(false);home.home();},{icon(Icon::Windows,25.0,"White")}},
         Button{name:"HardwareSearch",Grid.column:2,class:"phone-flat",automation_properties_name:"Search",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Center,
             on_click:move |_|search.navigate(Route::Search),{icon(Icon::Search,22.0,"White")}}
     }}
@@ -54,7 +54,7 @@ pub fn lock(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let messages = data.unread_messages();
     let mail = data.unread_mail();
     drop(data);
-    let date = chrono::DateTime::from_timestamp(vm.now(), 0).unwrap_or_default();
+    let date = chrono::DateTime::from_timestamp(vm.local_now(), 0).unwrap_or_default();
     let unlock = ui.clone();
     let unlock_vm = vm.clone();
     rsx! {Grid{name:"LockScreen",background:"Black",row_definitions:"*,Auto,Auto",clip_to_bounds:true,
@@ -84,6 +84,7 @@ pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         let open_vm = vm.clone();
         let open_ui = ui.clone();
         let close_vm = vm.clone();
+        let close_ui = ui.clone();
         let color = if app.color().is_empty() {
             common::accent(&vm)
         } else {
@@ -91,7 +92,12 @@ pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         };
         cards=cards.child(rsx!{StackPanel{width:270.0,spacing:16.0,
             Grid{column_definitions:"*,40",TextBlock{text:app.label(),font_size:20.0,foreground:"White"},
-                Button{Grid.column:1,class:"phone-flat",automation_properties_name:format!("Close {}",app.label()),on_click:move |_|close_vm.close_app(app),{icon(Icon::Close,18.0,"White")}}
+                Button{Grid.column:1,class:"phone-flat",automation_properties_name:format!("Close {}",app.label()),on_click:move |_|{
+                    if close_vm.route().app()==Some(app){close_ui.selected.set(None);close_ui.pivot.set(0);}
+                    close_ui.app_selections.borrow_mut().remove(app.label());
+                    close_ui.app_pivots.borrow_mut().remove(app.label());
+                    close_vm.close_app(app);
+                },{icon(Icon::Close,18.0,"White")}}
             },
             Button{class:"phone-flat",height:400.0,horizontal_content_alignment:H::Stretch,automation_properties_name:format!("Switch to {}",app.label()),on_click:move |_|open_ui.open_app(&open_vm,app),
                 Border{background:color.as_str(),border_brush:"#777777",border_thickness:1.0,padding:22.0,

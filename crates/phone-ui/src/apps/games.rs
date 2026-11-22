@@ -4,7 +4,7 @@ use crate::{common::*, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_base::media::FontWeight;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, icon, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, icon, pivot};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 

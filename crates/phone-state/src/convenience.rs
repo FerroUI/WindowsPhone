@@ -164,6 +164,16 @@ impl PhoneViewModel {
             .and_then(|id| self.data().contact(id).map(|c| c.phone.clone()))
             .filter(|phone| !phone.is_empty())
             .unwrap_or(recipient);
+        let canonical = phone_key(&number);
+        if let Some(id) = self
+            .data()
+            .conversations
+            .iter()
+            .find(|conversation| phone_key(&conversation.recipient) == canonical)
+            .map(|conversation| conversation.id)
+        {
+            return id;
+        }
         let id = self.next_id();
         self.save_conversation(Conversation {
             id,
@@ -197,12 +207,28 @@ impl PhoneViewModel {
         }
         self.dispatch(Action::AddCall(CallRecord {
             id: 0,
-            name,
+            name: if name.trim().is_empty() {
+                number.clone()
+            } else {
+                name
+            },
             number: number.clone(),
             timestamp: self.now(),
             incoming: false,
             missed: false,
         }));
         self.request(HostRequest::Dial { number });
+    }
+}
+
+fn phone_key(number: &str) -> String {
+    let key = number
+        .chars()
+        .filter(|character| character.is_ascii_digit() || *character == '+')
+        .collect::<String>();
+    if key.is_empty() {
+        number.trim().to_lowercase()
+    } else {
+        key
     }
 }

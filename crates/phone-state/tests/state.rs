@@ -52,14 +52,18 @@ fn back_dismisses_overlays_and_preserves_navigation() {
     assert!(vm.recent_apps().contains(&AppId::OneNote));
 }
 #[test]
-fn tile_folder_operations_preserve_unique_apps_and_cache_identity() {
+fn tile_folder_operations_preserve_identity_and_cache_identity() {
     let (vm, saves) = model();
     let untouched = vm.tiles.lookup(&104).unwrap();
+    let source = vm.tiles.lookup(&100).unwrap();
     vm.create_folder(100, 101, "communication".into());
-    assert!(vm.data().tile(100).is_none());
-    assert_eq!(vm.data().tile(101).unwrap().children.len(), 2);
+    let folder = vm.data().parent_folder(100).unwrap();
+    assert_eq!(vm.data().parent_folder(101), Some(folder));
+    assert_eq!(vm.data().tile(folder).unwrap().folder_tiles.len(), 2);
+    assert!(Rc::ptr_eq(&source, &vm.tiles.lookup(&100).unwrap()));
     assert!(Rc::ptr_eq(&untouched, &vm.tiles.lookup(&104).unwrap()));
-    vm.remove_from_folder(101, AppId::Phone);
+    vm.extract_folder_tile(folder, 100);
+    assert!(vm.data().tile(folder).is_none());
     assert!(!vm.data().tile(101).unwrap().is_folder());
     assert_eq!(
         vm.data()
@@ -129,4 +133,73 @@ fn invalid_calendar_event_does_not_mutate_data() {
     assert_eq!(vm.data().events.len(), 2);
     assert_eq!(saves.get(), 0);
     assert!(!vm.status().is_empty());
+}
+
+#[test]
+fn contact_name_and_normalized_number_reuse_the_existing_conversation() {
+    let (vm, saves) = model();
+    assert_eq!(vm.create_conversation("Alex Morgan".into()), 201);
+    assert_eq!(vm.create_conversation("+12025550101".into()), 201);
+    assert_eq!(vm.data().conversations.len(), 3);
+    assert_eq!(saves.get(), 0);
+}
+
+#[test]
+fn utc_offset_changes_only_notify_and_local_dates_cross_midnight() {
+    let (vm, saves) = model();
+    vm.set_clock(86_100);
+    let revision = vm.revision();
+    vm.set_utc_offset(3_600);
+    assert_eq!(vm.local_now(), 89_700);
+    assert_eq!(vm.utc_offset(), 3_600);
+    assert_eq!(vm.revision(), revision + 1);
+    vm.set_utc_offset(3_600);
+    assert_eq!(vm.revision(), revision + 1);
+    vm.set_utc_offset(i32::MAX);
+    assert_eq!(vm.utc_offset(), 86_400);
+    vm.set_utc_offset(i32::MIN);
+    assert_eq!(vm.utc_offset(), -86_400);
+    assert_eq!(saves.get(), 0);
+}
+
+#[test]
+fn deleting_current_note_repairs_recents_before_resuming_the_app() {
+    let (vm, saves) = model();
+    vm.navigate(Route::App(AppId::OneNote));
+    vm.navigate(Route::Note(501));
+    vm.delete_note(501);
+    assert_eq!(vm.route(), Route::App(AppId::OneNote));
+    assert!(vm.recent_apps().contains(&AppId::OneNote));
+    vm.home();
+    vm.resume_app(AppId::OneNote);
+    assert_eq!(vm.route(), Route::App(AppId::OneNote));
+    assert_eq!(saves.get(), 1);
+}
+
+#[test]
+fn deleting_last_photo_reference_clears_wallpaper_but_duplicates_preserve_it() {
+    let mut data = PhoneData::demo();
+    let first = data.photos[0].id;
+    let second = data.photos[1].id;
+    let source = data.photos[0].source.clone();
+    data.photos[1].source = source.clone();
+    data.settings.wallpaper = source.clone();
+    let snapshots = Rc::new(RefCell::new(Vec::new()));
+    let saved = snapshots.clone();
+    let vm = PhoneViewModel::new(
+        data,
+        Rc::new(move |data| saved.borrow_mut().push(data.clone())),
+    );
+    vm.delete_photo(first);
+    assert_eq!(vm.data().settings.wallpaper, source);
+    vm.delete_photo(second);
+    assert!(vm.data().settings.wallpaper.is_empty());
+    assert_eq!(snapshots.borrow().len(), 2);
+    assert!(snapshots
+        .borrow()
+        .last()
+        .unwrap()
+        .settings
+        .wallpaper
+        .is_empty());
 }

@@ -32,6 +32,26 @@ pub struct Tile {
     pub label: String,
     #[serde(default)]
     pub children: Vec<AppId>,
+    /// Canonical child records; the legacy app list is retained for v1 backup compatibility.
+    #[serde(default)]
+    pub folder_tiles: Vec<Tile>,
+    #[serde(default)]
+    pub target: Option<TileTarget>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum TileTarget {
+    Contact(Id),
+    Note(Id),
+    Bookmark(Id),
+}
+impl TileTarget {
+    pub fn app(self) -> AppId {
+        match self {
+            Self::Contact(_) => AppId::People,
+            Self::Note(_) => AppId::OneNote,
+            Self::Bookmark(_) => AppId::InternetExplorer,
+        }
+    }
 }
 impl Tile {
     pub fn new(id: Id, app: AppId, size: TileSize) -> Self {
@@ -41,10 +61,21 @@ impl Tile {
             size,
             label: app.label().into(),
             children: Vec::new(),
+            folder_tiles: Vec::new(),
+            target: None,
         }
     }
     pub fn is_folder(&self) -> bool {
-        !self.children.is_empty()
+        !self.folder_tiles.is_empty() || !self.children.is_empty()
+    }
+    pub fn secondary(id: Id, target: TileTarget, label: String) -> Self {
+        let mut tile = Self::new(id, target.app(), TileSize::Medium);
+        tile.target = Some(target);
+        tile.label = label;
+        tile
+    }
+    pub fn sync_children(&mut self) {
+        self.children = self.folder_tiles.iter().map(|tile| tile.app).collect();
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

@@ -1,11 +1,21 @@
-import {load,save,preserveRecovery,getAsset}from'./storage.js';
+import {load,save,preserveRecovery,getAsset}from'./phone-storage.js';
 import {webUrl,dialUrl,smsUrl,mailUrl}from'./urls.js';
 import {attachMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
 import {exportBackup,importBackup}from'./backup.js';
 export {load,save,preserveRecovery,stopCamera};
-let runtime;let noticeTimer=0;let surfaceFrame=0;let lastAlarmMinute='';const alarmFired=new Set();
+let runtime;let noticeTimer=0;let surfaceFrame=0;let lastAlarmMinute='';let imageGeneration=0;const alarmFired=new Set();
 const surfaces={};
 export const now=()=>Date.now()/1000;
+export const utcOffset=()=>-new Date().getTimezoneOffset()*60;
+export function cancelImageRequests(){imageGeneration++;}
+export function loadImage(key){
+  // Queue the read beyond the retained-view render that requested the image.
+  const generation=imageGeneration;
+  queueMicrotask(async()=>{
+    try{const asset=await getAsset(key);if(generation!==imageGeneration)return;if(!asset||asset.kind!=='image')throw new Error('Photo file missing.');runtime.imageReady(key,new Uint8Array(asset.bytes));}
+    catch(error){if(generation!==imageGeneration)return;runtime.imageFailed(key);console.info('Photo unavailable:',key,error.message);}
+  });
+}
 export const width=()=>document.getElementById('out').getBoundingClientRect().width;
 export const height=()=>document.getElementById('out').getBoundingClientRect().height;
 export function attachRuntime(api){runtime=api;attachMedia(api,notice);for(const kind of ['browser','camera','media']){
@@ -32,7 +42,7 @@ export function request(json){
 }
 async function handle(op){
   switch(op.kind){
-    case'openUrl':{const opened=window.open(webUrl(op.url),'_blank','noopener,noreferrer');if(!opened)notice('Your browser may have blocked the new tab.');break;}
+    case'openUrl':{const link=document.createElement('a');link.href=webUrl(op.url);link.target='_blank';link.rel='noopener noreferrer';link.click();break;}
     case'browse':browse(op.url);break;
     case'dial':location.href=dialUrl(op.number);break;
     case'sms':location.href=smsUrl(op.number,op.body);break;
@@ -56,7 +66,7 @@ async function handle(op){
   }
 }
 function browse(value){
-  const url=webUrl(value);const frame=document.createElement('iframe');frame.src=url;frame.title='Web page';frame.referrerPolicy='no-referrer';
+  const url=webUrl(value);runtime.browserNavigated(url);const frame=document.createElement('iframe');frame.src=url;frame.title='Web page';frame.referrerPolicy='no-referrer';
   frame.sandbox='allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox';
   const tools=document.createElement('div');tools.className='browser-tools';const hint=document.createElement('span');hint.textContent='Some websites require a browser tab.';
   const open=document.createElement('a');open.href=url;open.target='_blank';open.rel='noopener noreferrer';open.textContent='open externally';tools.append(hint,open);surfaces.browser.replaceChildren(frame,tools);frame.addEventListener('load',refreshSurfaces,{once:true});
@@ -87,6 +97,7 @@ export function serviceTick(){
     const weekday=(date.getDay()+6)%7;const key=`${alarm.id}:${minute}`;
     if(alarm.enabled&&alarm.hour===date.getHours()&&alarm.minute===date.getMinutes()&&(!alarm.weekdays.length||alarm.weekdays.includes(weekday))&&!alarmFired.has(key)){
       alarmFired.add(key);notice(`Alarm — ${alarm.label||'alarm'}`);
+      runtime.alarmFired(alarm.id);
       if(data.settings.vibration)navigator.vibrate?.([200,100,200,100,400]);
       if(data.settings.sounds)try{const context=new AudioContext();const oscillator=context.createOscillator();const gain=context.createGain();oscillator.frequency.value=880;gain.gain.value=.12;oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(context.currentTime+1);oscillator.onended=()=>context.close();}catch{}
     }

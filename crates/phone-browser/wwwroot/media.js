@@ -1,11 +1,11 @@
-import {allAssets,getAsset,putAssets,deleteAsset}from'./storage.js';
+import {getAsset,putAssets,deleteAsset}from'./phone-storage.js';
 let runtime,report;
 let audio=new Audio();let mediaSource='',mediaTitle='';let video=null;let activePlayer=audio;let stream=null;let cameraGeneration=0;
 const urls=new Map();
 export function attachMedia(api,notice){runtime=api;report=notice;}
 export async function restoreAssets(api){
-  try{for(const asset of await allAssets())if(asset.kind==='image')api.imageReady(asset.key,new Uint8Array(asset.bytes));}
-  catch(error){report?.(`Your media library could not be loaded. ${error.message}`);}
+  // The view requests individual photos from IndexedDB as they are needed.
+  api.clearImages();
 }
 export function chooseFiles(accept,multiple=false){
   return new Promise(resolve=>{
@@ -27,7 +27,7 @@ async function reducePhoto(file){
 async function savePhoto(blob,name){
   const bytes=await blob.arrayBuffer();const key=`media:${crypto.randomUUID()}`;
   await putAssets([{key,name,mime:blob.type||'image/jpeg',kind:'image',bytes}]);
-  runtime.imageReady(key,new Uint8Array(bytes));runtime.photoImported(name,key);return key;
+  runtime.photoImported(name,key);return key;
 }
 export async function importPhotos(){
   for(const file of await chooseFiles('image/*',true)){const photo=await reducePhoto(file);if(photo)await savePhoto(photo,file.name);}

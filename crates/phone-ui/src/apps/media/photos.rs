@@ -1,7 +1,7 @@
 use crate::{common::*, images, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat, pivot};
 use phone_domain::{Action, Photo};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
@@ -24,21 +24,20 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         let switch = ui.clone();
         tabs = tabs.child(pivot(label, i == selected, move || switch.pivot.set(i)));
     }
-    let mut body = stack_panel().child(tabs);
-    if selected == 1 {
+    let content = if selected == 1 {
         let switch = ui.clone();
-        body = body.child(row(
+        scroll(row(
             "Camera Roll",
             &format!("{} photos", photos.len()),
             move || switch.pivot.set(0),
-        ));
+        ))
     } else {
         let visible = photos
             .into_iter()
             .filter(|p| selected != 2 || p.favorite)
             .collect::<Vec<_>>();
         if visible.is_empty() {
-            body = body.child(empty(
+            scroll(empty(
                 if selected == 2 {
                     "your favorites"
                 } else {
@@ -49,25 +48,13 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 } else {
                     "Add photos or take a picture to fill your Camera Roll."
                 },
-            ));
+            ))
+        } else {
+            let size = ((vm.viewport().0.min(400.0) - 56.0) / 3.0).max(70.0);
+            super::photo_grid::view(visible, size, ui.clone())
         }
-        let size = ((vm.viewport().0.min(400.0) - 56.0) / 3.0).max(70.0);
-        let mut tiles = wrap_panel()
-            .orientation(Orientation::Horizontal)
-            .margin((20.0, 12.0));
-        for photo in visible {
-            let open = ui.clone();
-            let id = photo.id;
-            tiles = tiles.child(
-                rsx! {Button{class:"phone-flat",width:size,height:size,margin:(0.0,0.0,8.0,8.0),
-                    automation_properties_name:photo.name.clone(),
-                    on_click:move |_| {open.photo_zoom.set(1.0);open.selected.set(Some(id));},
-                    {images::photo(&photo.source)}
-                }},
-            );
-        }
-        body = body.child(tiles);
-    }
+    };
+    let body = rsx! {Grid{row_definitions:"Auto,*",{tabs} Border{Grid.row:1,{content}}}};
     let import = vm.clone();
     let camera = vm.clone();
     let more = ui.clone();
@@ -80,7 +67,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     })];
     page(
         "photos",
-        scroll(body.into()),
+        body,
         app_bar(
             vec![
                 action(Icon::Plus, "add photos", move || {
@@ -135,9 +122,9 @@ fn viewer(vm: Rc<PhoneViewModel>, ui: Rc<Session>, photo: Photo) -> Element {
     let all = vm.data().photos.iter().map(|p| p.id).collect::<Vec<_>>();
     let prev_ids = all.clone();
     let navigation = rsx! {Grid{column_definitions:"Auto,*,Auto",margin:(12.0,0.0),
-        {flat("‹",move||step(&previous,&prev_ids,id,-1))}
+        Border{width:44.0,{flat("‹",move||step(&previous,&prev_ids,id,-1))}}
         TextBlock{Grid.column:1,text:photo.name.clone(),font_size:15.0,horizontal_alignment:H::Center,vertical_alignment:ferroui_base::layout::VerticalAlignment::Center}
-        Border{Grid.column:2,{flat("›",move||step(&next,&all,id,1))}}
+        Border{Grid.column:2,width:44.0,{flat("›",move||step(&next,&all,id,1))}}
     }};
     let secondary = vec![
         flat("zoom in", move || {
@@ -154,10 +141,13 @@ fn viewer(vm: Rc<PhoneViewModel>, ui: Rc<Session>, photo: Photo) -> Element {
                 "Delete this photo?",
                 Rc::new(move || {
                     vm.dispatch(Action::DeletePhoto(id));
-                    if source.starts_with("media:") {
-                        vm.request(HostRequest::DeleteMedia {
-                            source: source.clone(),
-                        });
+                    if !vm.data().photos.iter().any(|photo| photo.source == source) {
+                        images::forget(&source);
+                        if source.starts_with("media:") {
+                            vm.request(HostRequest::DeleteMedia {
+                                source: source.clone(),
+                            });
+                        }
                     }
                     ui.selected.set(None);
                     ui.dialog.set(None);

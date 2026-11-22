@@ -16,6 +16,9 @@ pub struct Session {
     pub entry: Signal<String>,
     pub menu: Signal<bool>,
     pub calendar_month: Signal<i32>,
+    pub calendar_date: Signal<String>,
+    pub mail_folder: Signal<String>,
+    pub message_drafts: Signal<BTreeMap<u64, String>>,
     pub edit_tile: Signal<Option<u64>>,
     pub drop_target: Signal<Option<u64>>,
     pub folder: Signal<Option<u64>>,
@@ -39,6 +42,7 @@ pub struct Session {
     pub weather: Signal<Option<(String, f64, String)>>,
     pub last_route: RefCell<Route>,
     pub app_pivots: RefCell<BTreeMap<String, usize>>,
+    pub app_selections: RefCell<BTreeMap<String, Option<u64>>>,
     pub scrolls: RefCell<BTreeMap<String, f64>>,
     pub app_scroll: NodeRef<ScrollViewer>,
 }
@@ -52,6 +56,9 @@ impl Session {
             entry: signal(String::new()),
             menu: signal(false),
             calendar_month: signal(0),
+            calendar_date: signal(String::new()),
+            mail_folder: signal("inbox".into()),
+            message_drafts: signal(BTreeMap::new()),
             edit_tile: signal(None),
             drop_target: signal(None),
             folder: signal(None),
@@ -75,6 +82,7 @@ impl Session {
             weather: signal(None),
             last_route: RefCell::new(Route::Start),
             app_pivots: RefCell::new(BTreeMap::new()),
+            app_selections: RefCell::new(BTreeMap::new()),
             scrolls: RefCell::new(BTreeMap::new()),
             app_scroll: NodeRef::new(),
         }
@@ -139,6 +147,9 @@ impl Session {
             self.app_pivots
                 .borrow_mut()
                 .insert(app.label().into(), self.pivot.get_untracked());
+            self.app_selections
+                .borrow_mut()
+                .insert(app.label().into(), self.selected.get_untracked());
         }
         let pivot = if let Route::App(app) = route {
             self.app_pivots
@@ -150,10 +161,21 @@ impl Session {
             0
         };
         self.pivot.set(pivot);
+        if matches!(route, Route::App(AppId::InternetExplorer)) {
+            self.entry.set(self.browser_url.get_untracked());
+        }
         self.query.set(String::new());
         self.menu.set(false);
         self.alphabet.set(false);
-        self.selected.set(None);
+        self.selected.set(if let Route::App(app) = route {
+            self.app_selections
+                .borrow()
+                .get(app.label())
+                .copied()
+                .flatten()
+        } else {
+            None
+        });
         self.dialog.set(None);
         self.edit_tile.set(None);
         *self.last_route.borrow_mut() = route.clone();
@@ -164,5 +186,15 @@ impl Session {
         self.edit_tile.set(None);
         self.switcher_open.set(false);
         vm.resume_app(app);
+    }
+
+    pub fn clear_overlays(&self) {
+        self.dialog.set(None);
+        self.menu.set(false);
+        self.notification_open.set(false);
+        self.switcher_open.set(false);
+        self.alphabet.set(false);
+        self.edit_tile.set(None);
+        self.folder.set(None);
     }
 }

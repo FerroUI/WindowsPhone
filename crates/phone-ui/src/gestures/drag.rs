@@ -199,22 +199,7 @@ pub(super) fn finish(vm: &PhoneViewModel, ui: &Session, contact: &Contact) {
         vm.create_folder(source, hover.target, name);
         ui.edit_tile.set(Some(hover.target));
     } else {
-        let before = if hover.after {
-            let data = vm.data();
-            data.tiles
-                .iter()
-                .position(|tile| tile.id == hover.target)
-                .and_then(|index| {
-                    data.tiles
-                        .iter()
-                        .skip(index + 1)
-                        .find(|tile| tile.id != source)
-                        .map(|tile| tile.id)
-                })
-        } else {
-            Some(hover.target)
-        };
-        vm.move_tile(source, before);
+        vm.move_tile_relative(source, hover.target, hover.after);
         ui.edit_tile.set(Some(source));
     }
 }

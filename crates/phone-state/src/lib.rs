@@ -5,6 +5,7 @@ mod convenience;
 mod mutation;
 mod navigation;
 mod projection;
+mod secondary_tiles;
 mod services;
 mod tiles;
 mod validation;
@@ -30,6 +31,7 @@ pub struct PhoneViewModel {
     recent: RefCell<Vec<(AppId, Route)>>,
     viewport_size: Cell<(f64, f64)>,
     clock: Cell<i64>,
+    utc_offset: Cell<i32>,
     status_text: RefCell<String>,
     services: RefCell<HostServices>,
     save: SaveCallback,
@@ -59,6 +61,7 @@ impl PhoneViewModel {
                 recent: RefCell::new(Vec::new()),
                 viewport_size: Cell::new((400.0, 800.0)),
                 clock: Cell::new(1_795_363_200),
+                utc_offset: Cell::new(0),
                 status_text: RefCell::new(error.unwrap_or_default()),
                 services: RefCell::new(HostServices::default()),
                 save,
@@ -92,6 +95,18 @@ impl PhoneViewModel {
     }
     pub fn now(&self) -> i64 {
         self.clock.get()
+    }
+    pub fn utc_offset(&self) -> i32 {
+        self.utc_offset.get()
+    }
+    pub fn local_now(&self) -> i64 {
+        self.now().saturating_add(i64::from(self.utc_offset.get()))
+    }
+    pub fn set_utc_offset(&self, seconds: i32) {
+        let offset = seconds.clamp(-86400, 86400);
+        if self.utc_offset.replace(offset) != offset {
+            self.notify();
+        }
     }
     pub fn viewport(&self) -> (f64, f64) {
         self.viewport_size.get()

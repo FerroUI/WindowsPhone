@@ -1,7 +1,7 @@
 use crate::{common::*, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, icon, input, pivot, toggle, Icon};
+use phone_controls::{Icon, action, app_bar, icon, input, pivot, toggle};
 use phone_domain::{AppId, Route};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
@@ -87,6 +87,7 @@ fn weather(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         Border{width:90.0,height:90.0,horizontal_alignment:H::Left,{icon(Icon::Weather,78.0,&accent(&vm))}}
         {text(&condition,24.0)}
         {muted("Current conditions for your location",16.0)}
+        {muted("Weather data: Open-Meteo",12.0)}
     }};
     page(
         "weather",

@@ -33,6 +33,8 @@ impl PhoneViewModel {
                 crate::mutation::mutate(&mut self.document.borrow_mut(), action, self.now());
             match result {
                 Ok(true) => {
+                    self.document.borrow_mut().clean_tile_targets();
+                    self.repair_navigation();
                     self.synchronize();
                     self.persist();
                     if !self.valid_route(&self.route()) {

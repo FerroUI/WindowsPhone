@@ -32,7 +32,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let background = common::bg(&vm);
     let attach_vm = vm.clone();
     let attach_ui = ui.clone();
-    let dismiss_status=vm.clone();
+    let dismiss_status = vm.clone();
     let screen = rsx! {Grid{name:"PhoneScreen",width:width,height:height,row_definitions:"26,*,54",background:background.as_str(),clip_to_bounds:true,
         with:move |root| {
             gestures::attach(root,attach_vm.clone(),attach_ui.clone());

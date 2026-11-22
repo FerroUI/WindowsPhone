@@ -2,7 +2,7 @@ use crate::{common::*, session::Session};
 use ferroui_base::input::Key;
 use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, icon, input, Icon};
+use phone_controls::{Icon, action, app_bar, icon, input};
 use phone_domain::{AppId, Route};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;

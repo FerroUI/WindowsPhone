@@ -18,11 +18,7 @@ pub fn outcome(board: &[u8; 9]) -> u8 {
             return board[a];
         }
     }
-    if board.contains(&0) {
-        0
-    } else {
-        3
-    }
+    if board.contains(&0) { 0 } else { 3 }
 }
 
 pub fn best_move(board: &[u8; 9]) -> Option<usize> {

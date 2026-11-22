@@ -1,11 +1,11 @@
 use crate::{common::*, session::Session};
 use ferroui_base::input::{
-    text_input::{TextInputContentType, TextInputReturnKeyType},
     Key,
+    text_input::{TextInputContentType, TextInputReturnKeyType},
 };
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, icon, input, Icon};
+use phone_controls::{Icon, action, app_bar, flat, icon, input};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
 
@@ -55,6 +55,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let external_url = url.clone();
     let refresh = vm.clone();
     let refresh_url = url.clone();
+    let pin = vm.clone();
+    let pin_ui = ui.clone();
     let controls = rsx! {Border{padding:(10.0,8.0),background:phone_controls::palette().surface,
         Grid{column_definitions:"*,48,40",column_spacing:6.0,
         {field}
@@ -79,6 +81,30 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             ],
             true,
             vec![
+                flat("pin to start", move || {
+                    let url = pin_ui.browser_url.get_untracked();
+                    if url.is_empty() {
+                        pin.set_status("Open a page before pinning it to Start.".into());
+                        return;
+                    }
+                    let existing = pin
+                        .data()
+                        .bookmarks
+                        .iter()
+                        .find(|bookmark| bookmark.url == url)
+                        .map(|bookmark| bookmark.id);
+                    let id = existing.unwrap_or_else(|| {
+                        let id = pin.next_id();
+                        pin.dispatch(phone_domain::Action::SaveBookmark(phone_domain::Bookmark {
+                            id,
+                            title: url.clone(),
+                            url,
+                        }));
+                        id
+                    });
+                    pin.pin_bookmark(id);
+                    pin_ui.menu.set(false);
+                }),
                 flat("add to favorites", move || {
                     let url = favorite_ui.browser_url.get_untracked();
                     if url.is_empty() {

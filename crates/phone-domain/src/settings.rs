@@ -46,6 +46,7 @@ pub struct Settings {
     pub sounds: bool,
     pub vibration: bool,
     pub text_scale: f64,
+    pub quick_actions: [String; 4],
 }
 impl Default for Settings {
     fn default() -> Self {
@@ -69,6 +70,7 @@ impl Default for Settings {
             sounds: true,
             vibration: true,
             text_scale: 1.0,
+            quick_actions: ["wi_fi", "bluetooth", "airplane", "rotation_lock"].map(str::to_owned),
         }
     }
 }

@@ -3,13 +3,17 @@ use phone_domain::*;
 pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<bool, String> {
     match action {
         action @ (Action::Pin(_)
+        | Action::PinTarget(_)
         | Action::Unpin(_)
         | Action::ResizeTile(_)
         | Action::SetTileSize(..)
         | Action::MoveTile { .. }
+        | Action::MoveTileRelative { .. }
         | Action::CreateFolder { .. }
         | Action::RenameFolder { .. }
-        | Action::RemoveFromFolder { .. }) => crate::tiles::mutate_tiles(data, action),
+        | Action::RemoveFromFolder { .. }
+        | Action::ExtractFolderTile { .. }
+        | Action::MoveFolderTile { .. }) => crate::tiles::mutate_tiles(data, action),
         Action::SetSettings(settings) => {
             let mut validation = PhoneData {
                 settings,
@@ -82,6 +86,12 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
             if note.body.len() > 1_048_576 {
                 return Err("This note exceeds the 1 MB limit.".into());
             }
+            if data
+                .note(note.id)
+                .is_some_and(|old| old.title == note.title && old.body == note.body)
+            {
+                return Ok(false);
+            }
             if note.id == 0 {
                 note.id = data.allocate_id();
             }
@@ -132,7 +142,22 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
             }
             Ok(upsert(&mut data.photos, photo, |v| v.id))
         }
-        Action::DeletePhoto(id) => Ok(remove(&mut data.photos, id, |v| v.id)),
+        Action::DeletePhoto(id) => {
+            let source = data
+                .photos
+                .iter()
+                .find(|photo| photo.id == id)
+                .map(|photo| photo.source.clone());
+            let changed = remove(&mut data.photos, id, |photo| photo.id);
+            if let Some(source) = source {
+                if data.settings.wallpaper == source
+                    && !data.photos.iter().any(|photo| photo.source == source)
+                {
+                    data.settings.wallpaper.clear();
+                }
+            }
+            Ok(changed)
+        }
         Action::ToggleFavoritePhoto(id) => Ok(data
             .photos
             .iter_mut()
@@ -286,10 +311,6 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
             }
             let count = data.installed.len();
             data.installed.retain(|id| *id != app);
-            data.tiles.retain(|t| t.is_folder() || t.app != app);
-            for tile in &mut data.tiles {
-                tile.children.retain(|id| *id != app);
-            }
             Ok(count != data.installed.len())
         }
         Action::Navigate(_) | Action::Back | Action::Home => Ok(false),

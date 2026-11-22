@@ -6,12 +6,12 @@ mod motion;
 
 use crate::session::Session;
 use controller::Controller;
+use ferroui_base::Ref;
 use ferroui_base::input::{HoldingState, InputElement, Key, KeyModifiers};
 use ferroui_base::interactivity::RoutingStrategies;
-use ferroui_base::Ref;
 use ferroui_controls::{Control, Grid, TextBox};
 use ferroui_view::on_cleanup;
-use phone_domain::Route;
+use phone_domain::{AppId, Route};
 use phone_state::PhoneViewModel;
 use std::{
     cell::RefCell,
@@ -29,6 +29,14 @@ pub(crate) fn cancel() {
 }
 
 pub(crate) fn attach(root: &Ref<Grid>, vm: Rc<PhoneViewModel>, ui: Rc<Session>) {
+    root.set_focusable(true);
+    root.set_is_tab_stop(false);
+    let focus = root.downgrade();
+    let loaded = root.add_handler(Control::loaded_event(), move |_, _| {
+        if let Some(root) = focus.upgrade() {
+            root.focus();
+        }
+    });
     let controller = Controller::new(root, &vm, &ui);
     ACTIVE.with(|slot| *slot.borrow_mut() = Rc::downgrade(&controller));
     let press = controller.clone();
@@ -106,11 +114,19 @@ pub(crate) fn attach(root: &Ref<Grid>, vm: Rc<PhoneViewModel>, ui: Rc<Session>) 
             match event.key {
                 Key::Home if !ctrl => {
                     keys.cancel();
-                    while keyboard_ui.dismiss() {}
+                    keyboard_ui.clear_overlays();
                     keyboard_ui.locked.set(false);
                     keyboard_vm.home();
                 }
-                Key::Back if !ctrl => {
+                Key::Back
+                    if !ctrl
+                        && (keyboard_vm.route() != Route::App(AppId::Calculator)
+                            || keyboard_ui.dialog.get_untracked().is_some()
+                            || keyboard_ui.menu.get_untracked()
+                            || keyboard_ui.notification_open.get_untracked()
+                            || keyboard_ui.switcher_open.get_untracked()
+                            || keyboard_ui.locked.get_untracked()) =>
+                {
                     keys.cancel();
                     crate::back(&keyboard_vm);
                 }
@@ -138,6 +154,7 @@ pub(crate) fn attach(root: &Ref<Grid>, vm: Rc<PhoneViewModel>, ui: Rc<Session>) 
         controller.cancel();
         detached.dispose();
         if let Some(root) = weak.upgrade() {
+            root.remove_handler(Control::loaded_event(), loaded);
             root.remove_handler(InputElement::pointer_pressed_event(), pressed);
             root.remove_handler(InputElement::pointer_moved_event(), moved);
             root.remove_handler(InputElement::pointer_released_event(), released);

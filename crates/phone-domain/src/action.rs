@@ -6,12 +6,18 @@ pub enum Action {
     Back,
     Home,
     Pin(AppId),
+    PinTarget(TileTarget),
     Unpin(Id),
     ResizeTile(Id),
     SetTileSize(Id, TileSize),
     MoveTile {
         id: Id,
         before: Option<Id>,
+    },
+    MoveTileRelative {
+        id: Id,
+        target: Id,
+        after: bool,
     },
     CreateFolder {
         source: Id,
@@ -25,6 +31,15 @@ pub enum Action {
     RemoveFromFolder {
         id: Id,
         app: AppId,
+    },
+    ExtractFolderTile {
+        folder: Id,
+        tile: Id,
+    },
+    MoveFolderTile {
+        folder: Id,
+        tile: Id,
+        before: Option<Id>,
     },
     SetSettings(Settings),
     ToggleSetting(String),

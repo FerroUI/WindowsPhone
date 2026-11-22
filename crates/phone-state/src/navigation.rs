@@ -61,6 +61,7 @@ impl PhoneViewModel {
             .iter()
             .find(|(id, _)| *id == app)
             .map(|(_, route)| route.clone())
+            .filter(|route| self.valid_route(route))
             .unwrap_or(Route::App(app));
         self.navigate(route);
     }
@@ -75,6 +76,9 @@ impl PhoneViewModel {
         self.notify();
     }
     fn remember(&self, route: &Route) {
+        if !self.valid_route(route) {
+            return;
+        }
         if let Some(app) = route.app() {
             let mut recent = self.recent.borrow_mut();
             recent.retain(|(id, _)| *id != app);
@@ -82,15 +86,37 @@ impl PhoneViewModel {
             recent.truncate(12);
         }
     }
+    /// Deleting a detail preserves the app in recents, but resumes its hub.
+    /// Uninstalled apps and deleted details cannot remain in the Back journal.
+    pub(crate) fn repair_navigation(&self) {
+        self.history
+            .borrow_mut()
+            .retain(|route| self.valid_route(route));
+        self.recent.borrow_mut().retain_mut(|(app, route)| {
+            let hub = Route::App(*app);
+            if !self.valid_route(&hub) {
+                return false;
+            }
+            if !self.valid_route(route) {
+                *route = hub;
+            }
+            true
+        });
+    }
     pub(crate) fn valid_route(&self, route: &Route) -> bool {
         let data = self.data();
+        if route
+            .app()
+            .is_some_and(|app| !data.installed.contains(&app))
+        {
+            return false;
+        }
         match route {
             Route::Conversation(id) => data.conversation(*id).is_some(),
             Route::Contact(id) => data.contact(*id).is_some(),
             Route::Mail(id) => data.mail(*id).is_some(),
             Route::Note(id) => data.note(*id).is_some(),
             Route::Folder(id) => data.tile(*id).is_some_and(|t| t.is_folder()),
-            Route::App(app) => data.installed.contains(app),
             _ => true,
         }
     }
