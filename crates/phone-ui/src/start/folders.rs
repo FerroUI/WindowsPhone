@@ -66,11 +66,13 @@ pub(super) fn cover(
             reference_h,
             badge,
         );
+        // Viewbox is a Control, not a Decorator: mount its typed Child property
+        // so the native container scales and retains the live miniature subtree.
         let glyph = rsx! {Viewbox{stretch:ferroui_base::media::Stretch::Uniform,
-            Grid{width:reference_w,height:reference_h,clip_to_bounds:true,
+            set(Viewbox::child_property(), rsx! {Grid{width:reference_w,height:reference_h,clip_to_bounds:true,
                 {inner}
                 if child.size!=TileSize::Small{TextBlock{text:child.label.clone(),font_size:14.0,foreground:"White",vertical_alignment:V::Bottom,margin:(9.0,0.0,5.0,7.0)}}
-            }
+            }})
         }};
         surface = surface.child(
             border()
