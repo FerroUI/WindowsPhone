@@ -44,6 +44,16 @@ pub(crate) fn install(styles: &Styles, palette: &Palette) {
             .set(Border::background_property(), background)
             .build(),
         );
+        // WinUI applies state foregrounds to the template's ScrollViewer.
+        // Keep its inherited TextPresenter ink aligned with our light input
+        // surface, including when the surrounding phone theme is dark.
+        styles.add(
+            style(&format!(
+                "TextBox.phone-input{state} /template/ ScrollViewer#PART_ScrollViewer"
+            ))
+            .set(TemplatedControl::foreground_property(), "#000000")
+            .build(),
+        );
     }
     styles.add(
         style("TextBox.phone-input:focus")
