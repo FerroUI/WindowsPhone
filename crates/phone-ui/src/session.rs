@@ -16,6 +16,8 @@ pub struct Dialog {
 
 pub struct Session {
     document_epoch: Cell<u64>,
+    pub(crate) live_clock: Signal<i64>,
+    pub(crate) live_clock_enabled: Cell<bool>,
     pub hardware: crate::hardware::HardwareState,
     pub office: crate::apps::office::OfficeSession,
     pub files: crate::apps::files::FilesSession,
@@ -62,9 +64,11 @@ pub struct Session {
 }
 
 impl Session {
-    pub fn new() -> Self {
+    pub fn new(now: i64) -> Self {
         Self {
             document_epoch: Cell::new(0),
+            live_clock: signal(now),
+            live_clock_enabled: Cell::new(false),
             hardware: crate::hardware::HardwareState::new(),
             office: crate::apps::office::OfficeSession::default(),
             files: crate::apps::files::FilesSession::default(),
@@ -192,10 +196,13 @@ impl Session {
         true
     }
 
-    pub fn route_changed(&self, route: &Route) {
+    pub fn route_changed(&self, route: &Route, now: i64) {
         let previous = self.last_route.borrow().clone();
         if previous == *route {
             return;
+        }
+        if matches!(route, Route::Start | Route::Folder(_)) {
+            self.live_clock.set(now);
         }
         self.mail.reset();
         self.messages.reset();
@@ -276,10 +283,11 @@ impl Session {
         self.files.transfer.set(None);
     }
 
-    pub(crate) fn reconcile_document(&self, epoch: u64) {
+    pub(crate) fn reconcile_document(&self, epoch: u64, now: i64) {
         if self.document_epoch.replace(epoch) == epoch {
             return;
         }
+        self.live_clock.set(now);
         crate::gestures::cancel();
         self.clear_overlays();
         self.previews.clear();
@@ -300,6 +308,25 @@ impl Session {
         self.office.slide.set(0);
         for field in &self.fields {
             field.set(String::new());
+        }
+    }
+
+    /// One transient cadence signal drives only the visible Start subtree.
+    /// Clock ticks never dispatch domain actions or touch persistence.
+    pub(crate) fn tick_live_tiles(&self, now: i64) {
+        if self.live_clock_enabled.get()
+            && matches!(*self.last_route.borrow(), Route::Start | Route::Folder(_))
+            && !self.hardware.is_open()
+            && !self.notification_open.get_untracked()
+            && !self.switcher_open.get_untracked()
+            && !self.locked.get_untracked()
+            && self.dialog.get_untracked().is_none()
+            && !self.menu.get_untracked()
+            && !self.alphabet.get_untracked()
+            && self.edit_tile.get_untracked().is_none()
+            && self.live_clock.get_untracked().unsigned_abs() / 4 != now.unsigned_abs() / 4
+        {
+            self.live_clock.set(now);
         }
     }
 

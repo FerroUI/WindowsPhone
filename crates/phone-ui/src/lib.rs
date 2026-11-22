@@ -32,7 +32,7 @@ ferroui_base::ferro_thread_local! {
 pub fn create_view(vm: Rc<PhoneViewModel>) -> Ref<Control> {
     ComponentHost::with_view(move || {
         let revision = signal(vm.revision());
-        let ui = Rc::new(session::Session::new());
+        let ui = Rc::new(session::Session::new(vm.now()));
         SESSION.with(|slot| *slot.borrow_mut() = Rc::downgrade(&ui));
         images::initialize();
         let observed = vm.clone();
@@ -154,11 +154,12 @@ pub fn has_overlay() -> bool {
     })
 }
 
-/// A host clock tick updates transient system panels without serializing data.
+/// A host clock tick updates visible transient panels and live tiles without serializing data.
 pub fn host_tick(now: i64) {
     SESSION.with(|slot| {
         if let Some(ui) = slot.borrow().upgrade() {
             ui.hardware.tick(now);
+            ui.tick_live_tiles(now);
         }
     });
 }
@@ -187,8 +188,11 @@ pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
                 ui.hardware.show(vm.now(), media);
             }
             "power" => {
-                let locked = ui.locked.get_untracked();
-                ui.clear_overlays();
+                let locked = ui.locked.get_untracked() || vm.route() == Route::Lock;
+                // Lock hides app overlays without discarding an unsaved form.
+                ui.hardware.close();
+                ui.notification_open.set(false);
+                ui.notification_peek.set(false);
                 ui.locked.set(!locked);
                 if locked && vm.route() == Route::Lock {
                     vm.back();

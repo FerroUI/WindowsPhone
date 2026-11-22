@@ -35,6 +35,8 @@ Additional `Settings` fields use Serde defaults so older phone documents retain 
 
 The lock view reads one detailed-status provider and five unique quick-status choices from settings. Action Center groups notifications by app. Its ingestion and visible list both respect the global notification switch and the app's Action Center preference. Hiding an existing group preserves its stored items until a read or explicit dismissal removes them. Per-app banner, sound and vibration flags are persisted preferences; the present host notification adapter does not deliver those independent channels. Global foreground-alarm behavior is separate from Action Center filtering.
 
+Locking hides and disables the underlying app page and suppresses app dialogs, status banners and the switcher. The session retains form fields and callbacks, so unlocking restores an unsaved form. The power key closes the transient hardware and Action Center panels without discarding that draft. The lock screen can still present its own permitted Action Center and volume controls.
+
 ### Communication workflows
 
 Mail and Messaging have small view modules with their own transient selection/search/context state. Their selection rails, held-row context actions and application bars dispatch domain commands. `MailBatch` and `ConversationBatch` deduplicate and validate the full identifier selection before mutating anything, update related notification projections, and persist once when data actually changes. Repeating an unchanged operation does not save again. Mail deletion moves an item to the local deleted folder; a second deletion is permanent, and restore returns it to the inbox.
@@ -65,7 +67,7 @@ Typography requests Segoe WP, then Segoe UI, the bundled Microsoft Selawik colle
 
 The domain layer packs tile spans on a four- or six-cell grid. Small, medium and wide tiles occupy deterministic spans; stable identifiers separate layout from app identity. Folders retain complete child tiles, including their identifiers, sizes and content targets. Secondary tiles can open saved content such as browser favorites through the same navigation/host-request path. Settings and tile operations are persisted, while drag ownership and transient edit affordances remain UI state.
 
-Live-tile cadence derives from the shared clock and stable tile identity. Photos stagger their frames; a People cadence changes one cell rather than rebuilding the mosaic. Keyed child content preserves the control tree between ticks, and folder previews reuse real child presentation. Document snippets consume only a bounded prefix. Holding a tile exposes temporary drop feedback after a dwell; empty Start/folder areas provide extraction and append destinations without persisting intermediate pointer positions.
+Live-tile cadence derives from one transient session signal, coalesced into four-second clock buckets while Start or a folder is visible and unobscured. A nested reactive scope confines cadence invalidation to the Start subtree. App pages, overlays, editing, disabled live tiles, Battery Saver and reduced motion pause that signal; returning to Start or replacing the phone document synchronizes its timestamp. No domain action, persistence write or per-tile timer is involved. Photos stagger their frames; a People cadence changes one cell rather than rebuilding the mosaic. Keyed child content preserves the other mounted controls between ticks, and folder previews reuse real child presentation. Document snippets consume only a bounded prefix. Holding a tile exposes temporary drop feedback after a dwell; empty Start/folder areas provide extraction and append destinations without persisting intermediate pointer positions.
 
 The navigation journal separates Start, the app list, apps and detail routes. Recent apps retain destinations for switching. Overlays such as Action Center, menus and the app switcher close before ordinary Back navigation. Host browser history participates through the browser bridge.
 
@@ -96,13 +98,15 @@ Views request platform behavior through the `HostRequest` enum. The browser adap
 | Location/weather | Explicit geolocation request; OpenStreetMap handoff or current Open-Meteo conditions. |
 | Share | Web Share, file sharing where supported, or clipboard fallback. |
 | Data | Phone JSON and media backup import/export. |
+| Office documents | Native file selection, bounded DOCX/XLSX/PPTX/TXT/CSV import into the shared Rust model, and exported document downloads. |
+| Clipboard | User-requested text copying from native app commands. |
 | Notifications/alarms | In-app notices, optional browser notifications and foreground alarm checks. |
 
 Named FerroUI controls (`BrowserViewport`, `CameraViewport`, `MediaViewport`) mark where browser-native surfaces belong. The host observes their current bounds and visibility and positions the iframe/video elements accordingly. These are platform content surfaces, not alternate DOM versions of app controls. Leaving the camera view releases its tracks.
 
 Before creating the runtime, the browser host installs a resize-entry adapter for `canvas.ferroui-canvas` elements inside `#out`. It corrects a device-pixel content box only when it differs by more than one pixel from the CSS content size multiplied by the advertised device-pixel ratio. Normal rounding, unrelated entries, callback context and the observer instance are preserved. This keeps the canvas backing size, native layout and input coordinates consistent when viewport emulation reports the physical display's density instead. The startup splash becomes hidden after its opacity fade so its loading status leaves the accessibility tree.
 
-The desktop host retains the shared core UI and local document persistence/recovery, provides URI handoff to installed applications, and exports document backups. It reports unavailable camera, imported-media, location, sharing and backup-restore requests. Browser backups include media; desktop document backups do not contain IndexedDB assets from a browser profile.
+The desktop host retains the shared core UI and local document persistence/recovery, provides URI handoff to installed applications, and exports document backups. Native FerroUI storage-provider pickers and clipboard adapters implement Office import/export and text copying. It reports unavailable camera, imported-media, location, sharing and backup-restore requests. Browser backups include media; desktop document backups do not contain IndexedDB assets from a browser profile.
 
 ## Storage and recovery
 

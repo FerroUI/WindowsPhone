@@ -14,6 +14,8 @@ The browser renders the retained FerroUI control tree through WebAssembly. The S
 
 [Mobile Start screenshot](docs/screenshots/start-published-mobile.jpg) · [Phone history screenshot](docs/screenshots/phone-history.png)
 
+The refinement suite also captures real native Office, Files and system workflows: [Word](docs/screenshots/refinement-word.png), [Excel](docs/screenshots/refinement-excel.png), [Files](docs/screenshots/refinement-files.png) and [volume controls](docs/screenshots/refinement-volume.png). [Capture provenance](docs/screenshots/README.md) distinguishes published-app captures from the isolated browser verification fixtures.
+
 ## Explore
 
 - **Start:** live content and notification counts, small/medium/wide tiles, pin/unpin, resize, reorder, folders that preserve their child tiles, secondary content tiles, accent colors, light/dark backgrounds, photos behind transparent tile interiors, and the optional extra tile columns.
@@ -23,7 +25,7 @@ The browser renders the retained FerroUI control tree through WebAssembly. The S
 - **Personal apps:** contacts and favorites, call history, appointments, alarms, notes, and a calculator.
 - **Office and Files:** a persistent document library with folders, search, sorting, multi-selection, copy/move, rename, deletion and secondary Start tiles. Native Word paragraph editing and formatting, Excel cells/formulas/worksheets, and PowerPoint text slides/speaker notes share real DOCX/XLSX/PPTX import/export; UTF-8 TXT and CSV imports are supported too. Complex unsupported Office structures are rejected, and imported supported files export as clearly named mobile copies.
 - **Media:** import photos, browse the Camera Roll, select favorites, zoom, share, and delete; capture from the camera; import audio and video and play them through browser media APIs.
-- **Web and services:** browser address entry and favorites, web search, OpenStreetMap handoff, current weather after location permission, local Cortana-style search and commands, and links to online documents.
+- **Web and services:** native browser tabs with independent Back/Forward journals, frequent sites and history, editable/pinnable favorites, and a configurable address-bar shortcut. Web search, OpenStreetMap handoff, current weather after location permission, local Cortana-style search and commands, and online-document links use explicit host integrations.
 - **Games and Store:** a playable tic-tac-toe game and management of the included app collection. The original cloud Store and Xbox services are not connected.
 - **Persistence:** phone data remains in the current browser; media uses IndexedDB. Export and restore a JSON backup, including imported media. The app includes a manifest and service worker for installation and offline shell use.
 
@@ -84,7 +86,7 @@ python3 -m http.server 8080 --directory target/browser/phone-browser
 cargo run --release -p phone-desktop
 ```
 
-The desktop host uses the same shell, views, state and theme and persists its phone document to the user's data directory, retaining unreadable data for recovery. It hands HTTP(S), phone, message and mail requests to the operating system's registered apps and exports a document backup. Camera, imported media, sharing, location and backup restoration currently use the browser host.
+The desktop host uses the same shell, views, state and theme and persists its phone document to the user's data directory, retaining unreadable data for recovery. It provides native Office import/export file pickers and clipboard commands, hands HTTP(S), phone, message and mail requests to the operating system's registered apps, and exports a document backup. Camera, imported media, sharing, location and backup restoration currently use the browser host.
 
 ### Checks
 
@@ -96,7 +98,7 @@ rustc --edition=2021 --test crates/phone-ui/src/apps/games/logic.rs -o target/ga
 target/game-tests
 ```
 
-The pure game test explores every human move sequence against the phone's minimax player. The domain and state tests cover persistent-data validation, tile layout, navigation and mutations. Focused settings and communication cases exercise old-profile defaults, preference normalization, atomic selections, one persistence write per bulk change, related-notification cleanup, restore/permanent deletion and nonpersistent host-environment updates. These checks do not establish pixel parity or validate every physical device.
+The pure game test explores every human move sequence against the phone's minimax player. The domain and state tests cover persistent-data validation, tile layout, navigation and mutations. Focused settings and communication cases exercise old-profile defaults, preference normalization, atomic selections, one persistence write per bulk change, related-notification cleanup, restore/permanent deletion and nonpersistent host-environment updates. Office cases cover supported OOXML roundtrips, bounded parsing, formula evaluation, atomic library changes and document activation. These checks do not establish pixel parity or validate every physical device.
 
 With Chromium available, run the browser interaction and screenshot suite against a packaged build:
 
@@ -104,7 +106,7 @@ With Chromium available, run the browser interaction and screenshot suite agains
 node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
 ```
 
-The [recorded browser verification](docs/parity.md#recorded-verification) passed 17 check groups and produced 46 captures, including all 23 app surfaces, desktop/mobile shell interactions, canvas geometry and input at different device-pixel ratios, and an offline reload of the canonical app directory with working native navigation. It covers selected workflows; camera permission, external services, app installation, complete upgrade recovery and original-device pixel comparisons require separate verification.
+The [recorded refinement baseline](docs/parity.md#recorded-verification) passed **30 browser check groups** and produced **66 captures**, alongside **48 Rust domain/state tests** and **2 host-boundary tests**. It includes all 23 app surfaces, native Office editing and document persistence, Files copy/move/rename, system preferences, Mail/Messaging selection, browser tabs/history, desktop/mobile input, device-pixel-ratio checks, and offline reload. Camera permission, external services, app installation, complete upgrade recovery and original-device pixel comparisons require separate verification.
 
 ## GitHub Pages
 

@@ -3,7 +3,7 @@ use crate::{common, images, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
-use phone_controls::{Icon, icon};
+use phone_controls::{icon, Icon};
 use phone_domain::{AppId, Tile, TileSize, TileTarget};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -19,8 +19,8 @@ pub(super) fn view(
     let small = tile.size == TileSize::Small;
     let wide = tile.size == TileSize::Wide;
     let data = vm.data();
-    let live = data.settings.live_tiles && !data.settings.battery_saver;
-    let animate = live && !data.settings.reduced_motion && ui.edit_tile.get().is_none();
+    let cycling = data.settings.live_tiles_enabled();
+    let animate = cycling && ui.edit_tile.get().is_none();
     if let Some(target) = tile.target {
         return match target {
             TileTarget::Contact(id) => {
@@ -81,7 +81,8 @@ pub(super) fn view(
     }
     match tile.app {
         AppId::Photos if !data.photos.is_empty() => {
-            let index = cadence::cycle(vm.now(), 17, tile.id, data.photos.len(), live);
+            let now = if cycling { ui.live_clock.get() } else { 0 };
+            let index = cadence::cycle(now, 17, tile.id, data.photos.len(), cycling);
             let photo = &data.photos[index];
             live::frame(
                 format!("photo-tile-{}-{}", tile.id, photo.id),
@@ -120,14 +121,14 @@ pub(super) fn view(
             }}
         }
         AppId::People if !small && !data.contacts.is_empty() => {
+            let now = if cycling { ui.live_clock.get() } else { 0 };
             let mut mosaic = grid()
                 .row_definitions("*,*")
                 .column_definitions("*,*,*")
                 .margin((0.0, 0.0, 0.0, 28.0));
             for i in 0..6 {
-                let person =
-                    &data.contacts[cadence::person(vm.now(), i, data.contacts.len(), live)];
-                let content = rsx! {Border{background:person.color.as_str(),TextBlock{text:person.initials(),font_size:if wide{28.0}else{22.0},font_weight:FontWeight::Light,foreground:"#EEFFFFFF",horizontal_alignment:H::Center,vertical_alignment:V::Center}}};
+                let person = &data.contacts[cadence::person(now, i, data.contacts.len(), cycling)];
+                let content = rsx! {Border{background:person.color.as_str(),TextBlock{name:format!("PeopleCell-{}-{i}",tile.id),text:person.initials(),font_size:if wide{28.0}else{22.0},font_weight:FontWeight::Light,foreground:"#EEFFFFFF",horizontal_alignment:H::Center,vertical_alignment:V::Center}}};
                 mosaic = mosaic.child(
                     border()
                         .key(format!("people-cell-{i}"))

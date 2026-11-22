@@ -6,6 +6,8 @@ import { verifyOfflineStartup } from "./ui-offline.mjs";
 import { verifySystemRefinements } from "./ui-system-refinements.mjs";
 import { verifyOfficeRefinements } from "./ui-office-refinements.mjs";
 import { verifyBrowserRefinements } from "./ui-browser-refinements.mjs";
+import { verifyLiveTiles } from "./ui-live-tiles.mjs";
+import { verifyLockscreenDraft } from "./ui-lockscreen.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -520,6 +522,8 @@ try {
   await verifyOfficeRefinements(refinementContext);
   await verifySystemRefinements(refinementContext);
   await verifyBrowserRefinements(refinementContext);
+  await verifyLiveTiles(refinementContext);
+  await verifyLockscreenDraft(refinementContext);
   await check("narrow viewport and trusted touch navigation", async () => {
     await page.resize(390, 844);
     await until(async () => {
