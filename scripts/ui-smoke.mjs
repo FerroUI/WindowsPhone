@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { open, sleep, colours } from "../FerroUI/scripts/browser/harness.mjs";
+import { verifyOfflineStartup } from "./ui-offline.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -557,6 +558,9 @@ try {
     await reload();
     await isRoute("Start");
     await verifyMobileDensity("14-start-mobile-emulated-dpr1", 1);
+  });
+  await check("offline canonical directory reload renders and accepts native input", async () => {
+    await verifyOfflineStartup(page, { ready, until, capture, clickName, isRoute });
   });
   healthy();
   results.passed = true;
