@@ -133,6 +133,64 @@ async function capture(name) {
     route: currentRoute, width: image.width, height: image.height, sampledColours, view,
   }, null, 2));
   results.captures.push({ name, route: currentRoute, width: image.width, height: image.height, sampledColours });
+  return image;
+}
+
+async function verifyMobileDensity(name, density) {
+  await sleep(150);
+  const geometry = await page.evaluate(`(() => {
+    const rectangle = element => {
+      const r = element.getBoundingClientRect();
+      return { x: r.x, y: r.y, width: r.width, height: r.height };
+    };
+    const canvas = document.querySelector("#out canvas");
+    return {
+      devicePixelRatio, visualScale: visualViewport?.scale ?? 1,
+      host: rectangle(document.getElementById("out")),
+      canvas: rectangle(canvas), backing: [canvas.width, canvas.height]
+    };
+  })()`);
+  const view = await snapshot();
+  geometry.nativeViewport = [view.width, view.height];
+  geometry.phoneScreen = view.elements.find(element => element.name === "PhoneScreen");
+  const report = path.join(output, `${name}-geometry.json`);
+  await writeFile(report, JSON.stringify(geometry, null, 2));
+  const image = await capture(name);
+  assert.equal(geometry.devicePixelRatio, density, "The advertised browser DPR must match the test");
+  assert.equal(geometry.visualScale, 1, "Page zoom must not conceal a density mismatch");
+  const viewport = { x: 0, y: 0, width: 390, height: 844 };
+  assert.deepEqual(geometry.host, viewport, "The host must fill the mobile CSS viewport");
+  assert.deepEqual(geometry.canvas, viewport, "Canvas CSS bounds must fill the mobile viewport");
+  assert.deepEqual(geometry.backing, [390 * density, 844 * density],
+    "Canvas backing pixels must equal CSS size times the advertised DPR");
+  assert.deepEqual(geometry.nativeViewport, [390, 844], "Native layout must use CSS dimensions");
+  const screen = geometry.phoneScreen;
+  assert.deepEqual({ x: screen?.x, y: screen?.y, width: screen?.width, height: screen?.height }, viewport,
+    "PhoneScreen must fill the native mobile viewport");
+  assert.deepEqual([image.width, image.height], [390 * density, 844 * density],
+    "Screenshot pixels must match the mobile backing size");
+
+  // Check pixels at expected CSS positions, independently of native inspection.
+  // A half-size centered phone leaves all three bottom-edge icon regions empty.
+  geometry.hardwareIconPixels = {};
+  for (const [index, label] of ["Back", "Start", "Search"].entries()) {
+    const centreX = 390 * (index + 0.5) / 3;
+    let white = 0;
+    for (let y = (844 - 47) * density; y < (844 - 7) * density; y++) {
+      for (let x = Math.floor((centreX - 22) * density); x < (centreX + 22) * density; x++) {
+        if (image.pixel(x, y).every(channel => channel >= 180)) white++;
+      }
+    }
+    geometry.hardwareIconPixels[label] = white;
+  }
+  await writeFile(report, JSON.stringify(geometry, null, 2));
+  for (const [label, pixels] of Object.entries(geometry.hardwareIconPixels)) {
+    assert(pixels >= 20 * density * density, `${label} must render at the bottom of the CSS viewport`);
+  }
+  await clickName("HardwareSearch");
+  await isRoute("Search");
+  await clickName("HardwareBack");
+  await isRoute("Start");
 }
 
 async function check(name, run) {
@@ -472,6 +530,33 @@ try {
     await isRoute("Start");
     await capture("12-start-after-swipe");
     await page.send("Emulation.setTouchEmulationEnabled", { enabled: false });
+  });
+  await check("mobile DPR2 canvas, native layout, pixels, and input agree", async () => {
+    const firstBrowser = page;
+    // A real 2× browser plus explicit metrics also permits reproducing the
+    // physical-2×/advertised-1× ResizeObserver mismatch of viewport emulation.
+    page = await open(site, {
+      query: "?nooffline=1", width: 390, height: 844, scale: 2, network: true, navigate: false,
+    });
+    await firstBrowser.close();
+    page.errors.unshift(...firstBrowser.errors);
+    page.log.unshift(...firstBrowser.log);
+    page.requests.unshift(...firstBrowser.requests);
+    await page.send("Emulation.setDeviceMetricsOverride", {
+      width: 390, height: 844, deviceScaleFactor: 2, mobile: true,
+    });
+    await page.navigate();
+    await ready();
+    await isRoute("Start");
+    await verifyMobileDensity("13-start-mobile-dpr2", 2);
+  });
+  await check("emulated DPR1 on a physical DPR2 browser stays full size", async () => {
+    await page.send("Emulation.setDeviceMetricsOverride", {
+      width: 390, height: 844, deviceScaleFactor: 1, mobile: true,
+    });
+    await reload();
+    await isRoute("Start");
+    await verifyMobileDensity("14-start-mobile-emulated-dpr1", 1);
   });
   healthy();
   results.passed = true;

@@ -37,6 +37,7 @@ pub fn page(title: &str, body: Element, bar: Element) -> Element {
 }
 pub fn row(title: &str, subtitle: &str, on_click: impl Fn() + 'static) -> Element {
     rsx! { Button { class:"phone-flat", horizontal_alignment:H::Stretch, horizontal_content_alignment:H::Stretch,
+        automation_properties_name:title, automation_properties_help_text:subtitle,
         padding:(20.0,12.0), min_height:66.0, on_click:move |_|on_click(),
         StackPanel {spacing:3.0,{text(title,26.0)} if !subtitle.is_empty() {{muted(subtitle,15.0)}}}
     } }

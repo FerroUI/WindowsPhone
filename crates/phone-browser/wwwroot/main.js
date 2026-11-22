@@ -1,8 +1,10 @@
 import {FerroExports} from './ferroui.js';
 import {loadModule} from './ferroui-loader.js';
 import {attachRuntime,now,utcOffset,notice,refreshSurfaces,stopCamera,serviceTick} from './host.js';
+import {installCanvasSizing} from './canvas-sizing.js';
 
 try{
+  installCanvasSizing(document.getElementById('out'));
   const loaded=await loadModule({script:new URL('./phone-browser.js',import.meta.url).href,element:document.getElementById('out')});
   if(!loaded)throw new Error('The WebAssembly runtime could not be loaded.');
   const runtime=await loaded.createRuntime();

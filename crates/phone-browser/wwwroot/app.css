@@ -5,7 +5,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 #out canvas{display:block;outline:none;touch-action:none}
 .ferroui-splash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;z-index:10;transition:opacity .18s}
 .ferroui-splash h1{font-size:32px;font-weight:300;margin:28px 0 6px;letter-spacing:-1px}
-.ferroui-splash p{font-size:14px;color:#a0a0a0}.splash-close{opacity:0;pointer-events:none}
+.ferroui-splash p{font-size:14px;color:#a0a0a0}.ferroui-splash.splash-close{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility 0s linear .18s}
 .loading-line{width:120px;height:3px;background:#252525;overflow:hidden;margin-top:20px;position:relative}
 .loading-line:after{content:'';position:absolute;width:36px;height:3px;background:#1ba1e2;animation:loading 1.6s linear infinite}
 @keyframes loading{from{transform:translateX(-36px)}to{transform:translateX(120px)}}
