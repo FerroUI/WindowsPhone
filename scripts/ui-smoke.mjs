@@ -46,6 +46,11 @@ const centreInside = (element, viewport) => {
   return x >= viewport.x && y >= viewport.y &&
     x < viewport.x + viewport.width && y < viewport.y + viewport.height;
 };
+const boundsInside = (element, viewport) => element.x >= viewport.x && element.y >= viewport.y &&
+  element.x + element.width <= viewport.x + viewport.width &&
+  element.y + element.height <= viewport.y + viewport.height;
+const renderedFrame = () => page.evaluate(
+  "new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))))");
 
 async function until(check, label, timeout = 10000) {
   const end = Math.min(Date.now() + timeout, deadline);
@@ -211,6 +216,9 @@ async function check(name, run) {
 
 async function home() {
   await clickName("HardwareStart");
+  // Start may already be the current route. Let native input and its retained
+  // overlay/layout changes commit before using that route as a completion cue.
+  await renderedFrame();
   await isRoute("Start");
 }
 
@@ -221,10 +229,42 @@ async function openApps() {
     const scroll = view.elements.find(element => element.name === "StartScroll" && element.hit);
     assert(scroll, "Start scroll viewer is not hit-testable");
     const allApps = view.elements.find(element => element.name === "AllApps" && element.hit &&
-      centreInside(element, scroll));
+      boundsInside(element, scroll));
     if (allApps) {
-      await page.click(...centre(allApps));
-      await isRoute("Apps");
+      // Wheel dispatch and native rendering are separate schedules. Require
+      // the actual All apps command (not the edit-mode Done command) to keep
+      // its fully visible, hittable geometry across rendered frames.
+      const settled = await until(async () => {
+        const first = (await snapshot()).elements.find(element => element.name === "AllApps");
+        await renderedFrame();
+        const current = await snapshot();
+        const second = current.elements.find(element => element.name === "AllApps");
+        const viewport = current.elements.find(element => element.name === "StartScroll");
+        if (!first || !second || !viewport || !second.hit || !boundsInside(second, viewport)) return;
+        assert.equal(second.automationName, "All apps", "Start must finish leaving tile-edit mode before navigation");
+        if (!["x", "y", "width", "height"].every(property => first[property] === second[property])) return;
+        return { first, second, viewport };
+      }, "stable, fully visible All apps command");
+      const [x, y] = centre(settled.second);
+      let pressed;
+      await page.mouseMove(x, y);
+      await page.mouseDown(x, y);
+      try {
+        // Send one complete native click with a rendered pressed frame. There
+        // is deliberately no second click if the navigation assertion fails.
+        await renderedFrame();
+        pressed = (await snapshot()).elements.find(element => element.name === "AllApps");
+      } finally {
+        await page.mouseUp(x, y);
+      }
+      try {
+        await isRoute("Apps");
+      } catch (error) {
+        await writeFile(path.join(output, "app-list-input-failure.json"), JSON.stringify({
+          settled, pointer: { x, y }, pressed, route: await route(), view: await snapshot(),
+        }, null, 2));
+        throw error;
+      }
       await control(element => element.name === "AppSearch", "app search field");
       return;
     }
