@@ -14,3 +14,4 @@ done
 FerroUI/scripts/build-browser.sh phone-browser "$@"
 PHONE_SITE="${CARGO_TARGET_DIR:-$PHONE_ROOT/target}/browser/phone-browser"
 node scripts/prepare-site.mjs "$PHONE_SITE"
+node --experimental-vm-modules scripts/verify-site.mjs "$PHONE_SITE"

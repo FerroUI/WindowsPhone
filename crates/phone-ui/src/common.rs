@@ -17,9 +17,11 @@ pub fn accent(vm: &PhoneViewModel) -> String {
 }
 
 pub fn text(value: &str, size: f64) -> Element {
+    let size = size * phone_controls::text_scale();
     rsx! { TextBlock { text:value.to_owned(), font_size:size, font_weight:FontWeight::Light,text_wrapping:TextWrapping::Wrap } }
 }
 pub fn muted(value: &str, size: f64) -> Element {
+    let size = size * phone_controls::text_scale();
     rsx! { TextBlock { text:value.to_owned(), font_size:size, foreground:"#929292",text_wrapping:TextWrapping::Wrap } }
 }
 pub fn scroll(content: Element) -> Element {

@@ -85,7 +85,7 @@ The pure game test explores every human move sequence against the phone's minima
 
 ## GitHub Pages
 
-The `Build and publish` workflow runs on application changes pushed to `main` and can also be started manually. It uses the pinned FerroUI browser toolchain, restores dependency caches, runs focused state/host checks, builds one browser target, uploads the static app, and deploys it to GitHub Pages. Documentation-only pushes do not rebuild. There is no separate lint workflow or platform matrix.
+The `Build and publish` workflow runs on application changes pushed to `main` and can also be started manually. It uses the pinned FerroUI browser toolchain, restores dependency caches, runs focused state/host checks, builds one browser target, validates the packaged module graph and first native frame, uploads the static app, and deploys it to GitHub Pages. Documentation-only pushes do not rebuild. There is no separate lint workflow or platform matrix.
 
 Rendered desktop/touch smoke checks and their screenshot artifact are opt-in: enable `verify_ui` for a manual run, or include `[verify-ui]` in the pushed commit message. This keeps routine publication lean while retaining an explicit visual verification path.
 

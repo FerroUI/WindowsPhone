@@ -73,6 +73,10 @@ jobs:
           node --test scripts/*.test.mjs
       - name: Build Windows Phone
         run: bash scripts/build-browser.sh
+      - name: Verify first frame
+        if: ${{ !inputs.verify_ui && !contains(github.event.head_commit.message, '[verify-ui]') }}
+        timeout-minutes: 2
+        run: node scripts/startup-smoke.mjs target/browser/phone-browser
       - uses: actions/upload-artifact@v4
         if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
         with:

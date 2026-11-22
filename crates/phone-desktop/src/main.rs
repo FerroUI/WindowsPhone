@@ -14,6 +14,7 @@ fn main() {
         .start(
             |app, _| {
                 phone_controls::install_theme(app);
+        phone_ui::set_preview_capture_enabled(true);
                 let path = storage::data_path();
                 let (data, warning, save_path) = storage::load(&path);
                 let vm = PhoneViewModel::new(

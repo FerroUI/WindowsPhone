@@ -27,8 +27,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         rsx!{Button{class:"phone-flat",padding:(20.0,14.0),horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,
             automation_properties_name:format!("{name}: {preview}"),on_click:move |_|model.navigate(Route::Conversation(id)),
             StackPanel{spacing:4.0,
-                TextBlock{text:name,font_size:29.0,foreground:color.as_str(),font_weight:if conversation.unread{FontWeight::SemiBold}else{FontWeight::Light}}
-                TextBlock{text:preview,font_size:19.0,text_wrapping:TextWrapping::Wrap,max_height:50.0,foreground:"#929292"}
+                TextBlock{text:name,font_size:29.0*phone_controls::text_scale(),foreground:color.as_str(),font_weight:if conversation.unread{FontWeight::SemiBold}else{FontWeight::Light}}
+                TextBlock{text:preview,font_size:19.0*phone_controls::text_scale(),text_wrapping:TextWrapping::Wrap,max_height:50.0,foreground:"#929292"}
                 TextBlock{text:phone_domain::time_text(conversation.timestamp().saturating_add(i64::from(vm.utc_offset())),vm.data().settings.time_24h),font_size:13.0,foreground:"#929292"}
             }
         }}
@@ -69,7 +69,7 @@ fn thread(vm: Rc<PhoneViewModel>, ui: Rc<Session>, conversation: Conversation) -
         let fill=if message.incoming{if vm.data().settings.dark{"#333333".into()}else{"#DDDDDD".into()}}else{vm.data().settings.accent.clone()};
         rsx!{Border{background:fill.as_str(),margin:if message.incoming{(0.0,6.0,32.0,6.0)}else{(32.0,6.0,0.0,6.0)},padding:14.0,
             StackPanel{spacing:8.0,
-                TextBlock{text:message.text.clone(),font_size:21.0,text_wrapping:TextWrapping::Wrap,foreground:if message.incoming{vm.data().settings.foreground()}else{"White"}}
+                TextBlock{text:message.text.clone(),font_size:21.0*phone_controls::text_scale(),text_wrapping:TextWrapping::Wrap,foreground:if message.incoming{vm.data().settings.foreground()}else{"White"}}
                 TextBlock{text:caption,font_size:12.0,text_wrapping:TextWrapping::Wrap,foreground:if message.incoming{"#A6A6A6"}else{"#EEEEEE"}}
             }
         }}

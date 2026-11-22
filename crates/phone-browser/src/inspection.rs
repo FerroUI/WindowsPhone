@@ -1,6 +1,6 @@
 //! Live native control geometry for end-to-end input verification.
-use ferroui_base::{Point, Visual, input::InputElement};
-use ferroui_controls::{Application, Button, TextBlock, TextBox, automation::AutomationProperties};
+use ferroui_base::{input::InputElement, Point, Visual};
+use ferroui_controls::{automation::AutomationProperties, Application, Button, TextBlock, TextBox};
 use serde_json::json;
 use wasm_bindgen::prelude::*;
 #[wasm_bindgen(js_name=inspectView)]

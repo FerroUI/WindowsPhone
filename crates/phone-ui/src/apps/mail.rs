@@ -46,9 +46,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             automation_properties_name:format!("{}: {}",mail.from,mail.subject),
             on_click:move |_|model.navigate(Route::Mail(id)),
             StackPanel{spacing:3.0,
-                TextBlock{text:format!("{}{}",mail.from,if mail.flagged{"  ⚑"}else{""}),font_size:28.0,foreground:foreground.as_str(),font_weight:if mail.read{FontWeight::Light}else{FontWeight::SemiBold}}
-                TextBlock{text:mail.subject,font_size:21.0,foreground:foreground.as_str(),text_wrapping:TextWrapping::Wrap}
-                TextBlock{text:preview,font_size:17.0,foreground:"#929292",text_wrapping:TextWrapping::Wrap,max_height:48.0}
+                TextBlock{text:format!("{}{}",mail.from,if mail.flagged{"  ⚑"}else{""}),font_size:28.0*phone_controls::text_scale(),foreground:foreground.as_str(),font_weight:if mail.read{FontWeight::Light}else{FontWeight::SemiBold}}
+                TextBlock{text:mail.subject,font_size:21.0*phone_controls::text_scale(),foreground:foreground.as_str(),text_wrapping:TextWrapping::Wrap}
+                TextBlock{text:preview,font_size:17.0*phone_controls::text_scale(),foreground:"#929292",text_wrapping:TextWrapping::Wrap,max_height:48.0}
                 {muted(&phone_domain::time_text(mail.timestamp.saturating_add(i64::from(vm.utc_offset())),vm.data().settings.time_24h),13.0)}
             }
         }}
@@ -134,7 +134,7 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, mail: Mail) -> Element {
         {text(&mail.from,25.0)}
         {muted(&mail.address,16.0)}
         {muted(&phone_domain::time_text(mail.timestamp.saturating_add(i64::from(vm.utc_offset())),vm.data().settings.time_24h),14.0)}
-        TextBlock{text:mail.body,font_size:21.0,text_wrapping:TextWrapping::Wrap,line_height:30.0}
+        TextBlock{text:mail.body,font_size:21.0*phone_controls::text_scale(),text_wrapping:TextWrapping::Wrap,line_height:30.0*phone_controls::text_scale()}
     }};
     let bar = app_bar(
         vec![

@@ -392,6 +392,40 @@ try {
       await capture(`app-${id.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`);
     }
   });
+  await check("native task switcher previews, resumes, and closes an app", async () => {
+    const openSwitcher = async () => {
+      const [x, y] = centre(await control(element => element.name === "HardwareBack", "hardware Back"));
+      await page.mouseMove(x, y);
+      await page.send("Input.dispatchMouseEvent", {
+        type: "mousePressed", x, y, button: "right", buttons: 2, clickCount: 1, pointerType: "mouse",
+      });
+      await page.send("Input.dispatchMouseEvent", {
+        type: "mouseReleased", x, y, button: "right", buttons: 0, clickCount: 1, pointerType: "mouse",
+      });
+      await control(element => element.name === "AppSwitcher", "native task switcher");
+    };
+    // Leaving the last gallery page captures its real retained-control image.
+    await home();
+    await openSwitcher();
+    await until(async () => (await snapshot()).elements.some(element =>
+      element.name === "AppPreview-data" && /Image$/.test(element.type) &&
+      element.width > 0 && element.height > 0), "Data Sense route snapshot");
+    await capture("task-switcher-preview");
+    await clickLabel("Switch to Data Sense");
+    await isRoute({ App: "DataSense" });
+    await until(async () => !(await snapshot()).elements.some(element => element.name === "AppSwitcher"),
+      "task switcher dismissed after resume");
+    await openSwitcher();
+    await clickLabel("Close Data Sense");
+    await until(async () => !(await snapshot()).elements.some(element =>
+      element.automationName === "Switch to Data Sense" || element.name === "AppPreview-data"),
+    "closed app card and snapshot removed");
+    await isRoute("Start");
+    await capture("task-switcher-closed-card");
+    await clickName("HardwareBack");
+    await until(async () => !(await snapshot()).elements.some(element => element.name === "AppSwitcher"),
+      "hardware Back dismisses task switcher");
+  });
   await check("narrow viewport and trusted touch navigation", async () => {
     await page.resize(390, 844);
     await until(async () => {

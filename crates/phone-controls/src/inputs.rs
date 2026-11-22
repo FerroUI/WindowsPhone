@@ -1,6 +1,6 @@
-use crate::{Palette, FONT_FAMILY};
-use ferroui_base::{layout::Layoutable, media::FontFamily, styling::Styles, Visual};
-use ferroui_controls::{primitives::TemplatedControl, Border, TextBox};
+use crate::{FONT_FAMILY, Palette};
+use ferroui_base::{Visual, layout::Layoutable, media::FontFamily, styling::Styles};
+use ferroui_controls::{Border, TextBox, primitives::TemplatedControl};
 use ferroui_view::style;
 
 pub(crate) fn install(styles: &Styles, palette: &Palette) {
@@ -10,7 +10,10 @@ pub(crate) fn install(styles: &Styles, palette: &Palette) {
                 TemplatedControl::font_family_property(),
                 FontFamily::new(FONT_FAMILY),
             )
-            .set(TemplatedControl::font_size_property(), 20.0)
+            .set(
+                TemplatedControl::font_size_property(),
+                20.0 * palette.text_scale,
+            )
             .set(TemplatedControl::foreground_property(), "#000000")
             .set(TemplatedControl::background_property(), "#FFFFFF")
             .set(TemplatedControl::border_brush_property(), "#D6D6D6")

@@ -26,6 +26,7 @@ export function storageError(message){notice(`Changes could not be saved. Export
 export function refreshSurfaces(){
   cancelAnimationFrame(surfaceFrame);surfaceFrame=requestAnimationFrame(()=>{
     if(!runtime)return;
+    applyAppearance(JSON.parse(runtime.hostState()).settings);
     const view=JSON.parse(runtime.inspectView());if(!view)return;
     const host=document.getElementById('out').getBoundingClientRect();
     for(const [kind,name]of[['browser','BrowserViewport'],['camera','CameraViewport'],['media','MediaViewport']]){
@@ -71,7 +72,7 @@ function browse(value){
   const tools=document.createElement('div');tools.className='browser-tools';const hint=document.createElement('span');hint.textContent='Some websites require a browser tab.';
   const open=document.createElement('a');open.href=url;open.target='_blank';open.rel='noopener noreferrer';open.textContent='open externally';tools.append(hint,open);surfaces.browser.replaceChildren(frame,tools);frame.addEventListener('load',refreshSurfaces,{once:true});
 }
-function locate(){if(!navigator.geolocation)return Promise.reject(new Error('Location is unavailable in this browser.'));return new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{timeout:15000,maximumAge:300000}));}
+function locate(){if(!JSON.parse(runtime.hostState()).settings.location)return Promise.reject(new Error('Turn on location services in Settings → location, then try again.'));if(!navigator.geolocation)return Promise.reject(new Error('Location is unavailable in this browser.'));return new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{timeout:15000,maximumAge:300000}));}
 async function weather(){
   notice('Choose Allow to get weather at your current location.');const position=await locate();
   const url=new URL('https://api.open-meteo.com/v1/forecast');url.search=new URLSearchParams({latitude:position.coords.latitude,longitude:position.coords.longitude,current:'temperature_2m,weather_code',timezone:'auto'});
@@ -88,9 +89,17 @@ async function share(op){
   else if(navigator.clipboard){await navigator.clipboard.writeText([op.title,op.text,payload.url].filter(Boolean).join('\n'));notice('Copied to clipboard.');}
   else throw new Error('Sharing is unavailable in this browser.');
 }
-async function notify(title,body){notice(`${title}: ${body}`);if('Notification'in window){let permission=Notification.permission;if(permission==='default')permission=await Notification.requestPermission();if(permission==='granted')new Notification(title,{body,icon:new URL('./icon.svg',import.meta.url).href});}}
+async function notify(title,body){if(!JSON.parse(runtime.hostState()).settings.notifications)return;notice(`${title}: ${body}`);if('Notification'in window){let permission=Notification.permission;if(permission==='default')permission=await Notification.requestPermission();if(permission==='granted')new Notification(title,{body,icon:new URL('./icon.svg',import.meta.url).href});}}
+let lastBrightness;
+function applyAppearance(settings){
+  const brightness=Math.max(.1,Math.min(1,Number(settings.brightness)||.8));
+  if(brightness===lastBrightness)return;lastBrightness=brightness;
+  const filter=brightness===.8?'none':`brightness(${brightness/.8})`;
+  document.getElementById('out').style.filter=filter;
+  document.getElementById('platform-surfaces').style.filter=filter;
+}
 export function serviceTick(){
-  if(!runtime)return;const data=JSON.parse(runtime.hostState());updateVolume(data.settings.volume);
+  if(!runtime)return;const data=JSON.parse(runtime.hostState());updateVolume(data.settings.volume);applyAppearance(data.settings);
   const date=new Date();const minute=`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`;
   if(minute===lastAlarmMinute)return;lastAlarmMinute=minute;
   for(const alarm of data.alarms){

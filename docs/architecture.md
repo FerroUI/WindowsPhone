@@ -42,6 +42,8 @@ The domain layer packs tile spans on a four- or six-cell grid. Small, medium and
 
 The navigation journal separates Start, the app list, apps and detail routes. Recent apps retain destinations for switching. Overlays such as Action Center, menus and the app switcher close before ordinary Back navigation. Host browser history participates through the browser bridge.
 
+The task switcher keeps up to six immutable native page snapshots, each limited to 270 × 560 pixels. A snapshot is taken on the UI thread before the old page is reconciled away, only when its layout is valid and the page is unobscured. The capture cache does not publish reactive notifications or persist image data. Dropping a cache entry releases its reference while a mounted card can finish using its image. Browser-native iframe, camera and video content remains outside the captured FerroUI tree.
+
 Gesture handling has one controller for a pointer sequence. It arbitrates unclaimed native scrolling, shell navigation, top-edge Action Center gestures, lock dismissal and held-tile dragging. Text editors keep their own editing input. Cancelled capture, detachment, navigation and keyboard cancellation release transient gesture ownership. The pure motion classifier can be checked independently from rendering.
 
 This structure avoids separate touch and mouse implementations mutating the same tile model concurrently. It does not yet reproduce every original inertia, tilt, connected transition or multipointer gesture; those are explicit fidelity gaps.
@@ -75,8 +77,8 @@ Imported images are oriented and reduced to a maximum dimension of 1,600 pixels 
 
 ## Build and deployment
 
-The workspace imports FerroUI's dependency pins and build profiles through its synchronization script. Browser compilation uses the framework's Emscripten target and exact `wasm-bindgen` version. The browser build wrapper packages the runtime with app assets and prepares the static site.
+The workspace imports FerroUI's dependency pins and build profiles through its synchronization script. Browser compilation uses the framework's Emscripten target and exact `wasm-bindgen` version. The browser build wrapper rejects app filenames reserved by the runtime, packages the runtime with app assets, prepares the static site, and statically links its JavaScript module graph without executing browser code.
 
-One GitHub Actions workflow performs focused state/host checks, builds the browser and deploys the Pages artifact. Rendered smoke checks are opt-in through `workflow_dispatch.verify_ui` or a `[verify-ui]` commit message; their screenshots are retained as a separate verification artifact. Documentation-only changes skip compilation. Toolchain and Cargo caches keep subsequent builds smaller. A deployed artifact comes from the same pinned framework and application source revision.
+One GitHub Actions workflow performs focused state/host checks, builds the browser, verifies its first rendered native frame, and deploys the Pages artifact. Longer interaction and screenshot checks are opt-in through `workflow_dispatch.verify_ui` or a `[verify-ui]` commit message; their screenshots are retained as a separate verification artifact. Documentation-only changes skip compilation. Toolchain and Cargo caches keep subsequent builds smaller. A deployed artifact comes from the same pinned framework and application source revision.
 
 Compilation, domain tests and smoke interactions establish different things. Compilation checks API/type compatibility; domain tests check state invariants; browser smoke checks detect startup and selected interaction failures. None alone establishes complete Windows Phone parity or hardware qualification.

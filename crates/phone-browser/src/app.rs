@@ -1,4 +1,4 @@
-use ferroui_base::{FerroObjectImpl, Ref, ferro_class, ferro_impl_classes, instantiate};
+use ferroui_base::{ferro_class, ferro_impl_classes, instantiate, FerroObjectImpl, Ref};
 use ferroui_controls::{Application, ApplicationImpl, ApplicationImplExt, NewApplication};
 use phone_domain::PhoneData;
 use phone_state::{HostServices, PhoneViewModel};
@@ -70,6 +70,7 @@ impl ApplicationImpl for App {
         }
         MODEL.with(|slot| *slot.borrow_mut() = Some(vm.clone()));
         phone_ui::set_image_loader(Rc::new(|key| crate::host::load_image(&key)));
+        phone_ui::set_preview_capture_enabled(true);
         if let Some(lifetime) = this
             .application_lifetime()
             .as_ref()

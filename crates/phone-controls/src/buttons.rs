@@ -1,4 +1,4 @@
-use crate::{icon, palette, text, Icon};
+use crate::{Icon, icon, palette, text};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
@@ -25,7 +25,7 @@ pub fn flat(label: &str, on_click: impl Fn() + 'static) -> Element {
     rsx! { Button {class:"phone-flat",min_height:44.0,automation_properties_name:label,
         horizontal_content_alignment:H::Left,vertical_content_alignment:V::Center,
         on_click:move |event| { event.set_handled(true); on_click(); },
-        TextBlock {text:label,font_size:22.0,text_wrapping:TextWrapping::Wrap}
+        TextBlock {text:label,font_size:22.0*crate::text_scale(),text_wrapping:TextWrapping::Wrap}
     } }
 }
 
@@ -61,7 +61,7 @@ pub fn toggle(label: &str, value: bool, on_change: impl Fn(bool) + 'static) -> E
     rsx! { ToggleButton {class:"phone-toggle",is_checked:Some(value),min_height:66.0,automation_properties_name:accessible,
         on_click:move |event| {event.set_handled(true);on_change(!value);},
         Grid {column_definitions:"*,70",column_spacing:18.0,
-            TextBlock {text:label,font_size:22.0,text_wrapping:TextWrapping::Wrap,vertical_alignment:V::Center}
+            TextBlock {text:label,font_size:22.0*crate::text_scale(),text_wrapping:TextWrapping::Wrap,vertical_alignment:V::Center}
             Border {Grid.column:1,width:60.0,height:26.0,border_brush:p.foreground,border_thickness:2.0,padding:3.0,vertical_alignment:V::Center,
                 Border {width:25.0,background:if value{p.accent.as_str()}else{p.secondary},
                     horizontal_alignment:if value{H::Right}else{H::Left}}

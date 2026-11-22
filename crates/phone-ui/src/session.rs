@@ -10,6 +10,7 @@ pub struct Dialog {
 }
 
 pub struct Session {
+    pub(crate) previews: crate::previews::PreviewCache,
     pub pivot: Signal<usize>,
     pub selected: Signal<Option<u64>>,
     pub query: Signal<String>,
@@ -50,6 +51,7 @@ pub struct Session {
 impl Session {
     pub fn new() -> Self {
         Self {
+            previews: crate::previews::PreviewCache::default(),
             pivot: signal(0),
             selected: signal(None),
             query: signal(String::new()),
@@ -196,5 +198,17 @@ impl Session {
         self.alphabet.set(false);
         self.edit_tile.set(None);
         self.folder.set(None);
+    }
+
+    pub(crate) fn preview_obscured(&self, route: &Route) -> bool {
+        route.is_overlay()
+            || self.notification_open.get_untracked()
+            || self.switcher_open.get_untracked()
+            || self.locked.get_untracked()
+            || self.dialog.get_untracked().is_some()
+            || self.menu.get_untracked()
+            || self.alphabet.get_untracked()
+            || self.edit_tile.get_untracked().is_some()
+            || self.folder.get_untracked().is_some()
     }
 }

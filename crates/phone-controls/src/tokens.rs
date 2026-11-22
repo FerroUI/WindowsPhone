@@ -1,5 +1,5 @@
 //! Logical pixels. A four-cell Start grid is two medium Windows Phone tiles.
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
 pub const DEFAULT_ACCENT: &str = "#00ABA9";
 pub const PHONE_WIDTH: f64 = 400.0;
@@ -21,6 +21,7 @@ pub struct Palette {
     pub surface: &'static str,
     pub subtle: &'static str,
     pub light: bool,
+    pub text_scale: f64,
 }
 
 impl Palette {
@@ -38,6 +39,7 @@ impl Palette {
             surface: if light { "#E6E6E6" } else { "#1F1F1F" },
             subtle: if light { "#EEEEEE" } else { "#333333" },
             light,
+            text_scale: text_scale(),
         }
     }
 }
@@ -50,6 +52,20 @@ impl Default for Palette {
 
 ferroui_base::ferro_thread_local! {
     pub(crate) static PALETTE: RefCell<Palette> = RefCell::new(Palette::default());
+    static TEXT_SCALE: Cell<f64> = const {Cell::new(1.0)};
+}
+
+pub fn text_scale() -> f64 {
+    TEXT_SCALE.with(Cell::get)
+}
+pub fn set_text_scale(value: f64) {
+    TEXT_SCALE.with(|scale| {
+        scale.set(if value.is_finite() {
+            value.clamp(0.8, 1.6)
+        } else {
+            1.0
+        })
+    });
 }
 
 pub fn palette() -> Palette {

@@ -7,6 +7,7 @@ mod gestures;
 mod images;
 mod navigation;
 mod notifications;
+mod previews;
 pub(crate) mod session;
 mod shell;
 mod start;
@@ -44,6 +45,19 @@ pub fn create_view(vm: Rc<PhoneViewModel>) -> Ref<Control> {
         })
     })
     .upcast()
+}
+
+/// Opt a real rendering host into native page previews. Disabled by default so
+/// headless/stub hosts never enter bitmap rendering. May be set before create_view.
+pub fn set_preview_capture_enabled(enabled: bool) {
+    previews::set_enabled(enabled);
+    if !enabled {
+        SESSION.with(|slot| {
+            if let Some(ui) = slot.borrow().upgrade() {
+                ui.previews.clear();
+            }
+        });
+    }
 }
 
 pub fn back(vm: &Rc<PhoneViewModel>) {

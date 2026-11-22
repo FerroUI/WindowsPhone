@@ -4,7 +4,7 @@ use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignm
 use ferroui_base::media::FontWeight;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{Icon, icon};
+use phone_controls::{icon, Icon};
 use phone_domain::Route;
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -75,12 +75,25 @@ pub fn lock(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     }}
 }
 pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let recent = vm.recent_apps();
+    let (screen_width, screen_height, _) = crate::shell::phone_size(&vm);
+    // A routed switcher occupies the app row; a held-Back overlay spans the
+    // screen. Both leave their image cards fully visible on short viewports.
+    let available_height = screen_height
+        - if vm.route() == Route::Switcher {
+            80.0
+        } else {
+            0.0
+        };
+    let compact = available_height < 430.0;
+    let header_height = if compact { 58.0 } else { 84.0 };
+    let card_width = (screen_width - 48.0).min(270.0).max(120.0);
+    let max_image_height = (available_height - header_height - 54.0 - 44.0 - 10.0 - 20.0).max(1.0);
     let mut cards = stack_panel()
         .orientation(Orientation::Horizontal)
         .spacing(22.0)
-        .margin((28.0, 30.0));
-    for app in recent {
+        .margin((24.0, 10.0))
+        .vertical_alignment(V::Top);
+    for app in vm.recent_apps() {
         let open_vm = vm.clone();
         let open_ui = ui.clone();
         let close_vm = vm.clone();
@@ -90,26 +103,47 @@ pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         } else {
             app.color().into()
         };
-        cards=cards.child(rsx!{StackPanel{width:270.0,spacing:16.0,
-            Grid{column_definitions:"*,40",TextBlock{text:app.label(),font_size:20.0,foreground:"White"},
+        let preview = ui.previews.get(app);
+        let ratio = preview
+            .as_ref()
+            .map(|preview| preview.logical_size.height / preview.logical_size.width)
+            .unwrap_or(screen_height / screen_width);
+        let image_height = (card_width * ratio).min(max_image_height);
+        let content = match preview {
+            Some(preview) => rsx! {Image{
+                name:format!("AppPreview-{}",app.icon()),source:Some(preview.image),
+                stretch:ferroui_base::media::Stretch::Uniform,is_hit_test_visible:false
+            }},
+            None => rsx! {Border{background:color.as_str(),
+                StackPanel{vertical_alignment:V::Center,spacing:16.0,
+                    {icon(common::app_icon(app),(image_height*0.24).clamp(24.0,78.0),"White")},
+                    if image_height > 180.0 {TextBlock{text:app.label().to_lowercase(),font_size:28.0,foreground:"White",margin:(16.0,0.0),text_wrapping:ferroui_base::media::TextWrapping::Wrap}}
+                }
+            }},
+        };
+        cards=cards.child(rsx!{StackPanel{width:card_width,spacing:10.0,
+            Grid{height:44.0,column_definitions:"*,40",clip_to_bounds:true,
+                TextBlock{text:app.label(),font_size:20.0,foreground:"White",vertical_alignment:V::Center},
                 Button{Grid.column:1,class:"phone-flat",automation_properties_name:format!("Close {}",app.label()),on_click:move |_|{
                     if close_vm.route().app()==Some(app){close_ui.selected.set(None);close_ui.pivot.set(0);}
+                    close_ui.previews.remove(app);
                     close_ui.app_selections.borrow_mut().remove(app.label());
                     close_ui.app_pivots.borrow_mut().remove(app.label());
                     close_vm.close_app(app);
                 },{icon(Icon::Close,18.0,"White")}}
             },
-            Button{class:"phone-flat",height:400.0,horizontal_content_alignment:H::Stretch,automation_properties_name:format!("Switch to {}",app.label()),on_click:move |_|open_ui.open_app(&open_vm,app),
-                Border{background:color.as_str(),border_brush:"#777777",border_thickness:1.0,padding:22.0,
-                    StackPanel{vertical_alignment:V::Center,spacing:26.0,{icon(common::app_icon(app),78.0,"White")},TextBlock{text:app.label().to_lowercase(),font_size:36.0,foreground:"White",text_wrapping:ferroui_base::media::TextWrapping::Wrap}}
-                }
+            Button{class:"phone-flat",height:image_height,min_height:0.0,padding:0.0,
+                horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
+                automation_properties_name:format!("Switch to {}",app.label()),on_click:move |_|open_ui.open_app(&open_vm,app),
+                Border{background:"Black",border_brush:"#777777",border_thickness:1.0,clip_to_bounds:true,{content}}
             }
         }});
     }
     let done = ui.clone();
     let done_vm = vm.clone();
-    rsx! {Grid{name:"AppSwitcher",background:"#222222",row_definitions:"Auto,*,54",
-        TextBlock{text:"recent apps",font_size:35.0,foreground:"White",margin:(22.0,20.0)},
+    let rows = format!("{header_height},*,54");
+    rsx! {Grid{name:"AppSwitcher",background:"#222222",row_definitions:rows.as_str(),clip_to_bounds:true,
+        TextBlock{text:"recent apps",font_size:if compact{26.0}else{35.0},font_weight:FontWeight::Light,foreground:"White",margin:(22.0,8.0),vertical_alignment:V::Center},
         ScrollViewer{Grid.row:1,horizontal_scroll_bar_visibility:ScrollBarVisibility::Hidden,vertical_scroll_bar_visibility:ScrollBarVisibility::Disabled,{cards}},
         Button{Grid.row:2,class:"phone-flat",horizontal_content_alignment:H::Center,on_click:move |_|{done.switcher_open.set(false);if done_vm.route()==Route::Switcher{done_vm.back();}},TextBlock{text:"back",font_size:18.0,foreground:"White"}}
     }}

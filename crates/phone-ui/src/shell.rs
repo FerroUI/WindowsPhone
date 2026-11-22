@@ -20,12 +20,19 @@ pub fn phone_size(vm: &PhoneViewModel) -> (f64, f64, bool) {
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let route = vm.route();
+    ui.previews.before_render(
+        &route,
+        ui.switcher_open.get_untracked() || route == Route::Switcher,
+        &vm.recent_apps(),
+    );
     ui.route_changed(&route);
     let (width, height, desktop) = phone_size(&vm);
     let data = vm.data();
     let accent = data.settings.accent.clone();
     let dark = data.settings.dark;
+    let text_scale = data.settings.text_scale;
     drop(data);
+    phone_controls::set_text_scale(text_scale);
     if let Some(app) = Application::current() {
         phone_controls::set_palette(&app, &accent, !dark);
     }
@@ -35,6 +42,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let dismiss_status = vm.clone();
     let screen = rsx! {Grid{name:"PhoneScreen",width:width,height:height,row_definitions:"26,*,54",background:background.as_str(),clip_to_bounds:true,
         with:move |root| {
+            attach_ui.previews.attach(root);
             gestures::attach(root,attach_vm.clone(),attach_ui.clone());
         },
         {navigation::status(vm.clone(),ui.clone())}
@@ -61,6 +69,11 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }
         }}
     }};
+    ui.previews.presented(
+        &route,
+        ui.preview_obscured(&route) || !vm.status().is_empty(),
+        ui.switcher_open.get_untracked() || route == Route::Switcher,
+    );
     if desktop {
         rsx! {Grid{name:"WindowsPhoneApp",background:"#151619",focusable:true,
             Border{width:width+24.0,height:height+58.0,background:"#080809",border_brush:"#393B3F",border_thickness:1.0,corner_radius:26.0,horizontal_alignment:H::Center,vertical_alignment:V::Center,
