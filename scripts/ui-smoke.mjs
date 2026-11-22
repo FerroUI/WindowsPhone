@@ -311,10 +311,14 @@ try {
   await check("app search launches a working calculator", async () => {
     await openApps();
     await edit("AppSearch", "Calculator");
-    const filtered = (await snapshot()).elements.filter(element =>
-      element.hit && button(element) && element.name?.startsWith("App-"));
-    assert.equal(filtered.length, 1, "App search should show one matching app");
-    assert.equal(filtered[0].automationName, "Calculator");
+    // TextBox edits are observable before the retained result list commits.
+    await until(async () => {
+      const filtered = (await snapshot()).elements.filter(element =>
+        element.hit && button(element) && element.name?.startsWith("App-"));
+      assert.equal(filtered.length, 1, "App search should show one matching app");
+      assert.equal(filtered[0].automationName, "Calculator");
+      return true;
+    }, "exactly one clickable Calculator search result");
     await capture("07-app-search");
     await clickLabel("Calculator");
     await isRoute({ App: "Calculator" });
