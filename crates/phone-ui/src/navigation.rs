@@ -74,16 +74,11 @@ pub fn lock(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             TextBlock{text:"swipe up to unlock",font_size:14.0,foreground:"White"}}
     }}
 }
-pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>, overlay: bool) -> Element {
     let (screen_width, screen_height, _) = crate::shell::phone_size(&vm);
-    // A routed switcher occupies the app row; a held-Back overlay spans the
-    // screen. Both leave their image cards fully visible on short viewports.
-    let available_height = screen_height
-        - if vm.route() == Route::Switcher {
-            80.0
-        } else {
-            0.0
-        };
+    // Overlays cover the status/app rows; routed pages cover only the app row.
+    // The hardware navigation row remains reachable in either presentation.
+    let available_height = screen_height - if overlay { 54.0 } else { 80.0 };
     let compact = available_height < 430.0;
     let header_height = if compact { 58.0 } else { 84.0 };
     let card_width = (screen_width - 48.0).min(270.0).max(120.0);

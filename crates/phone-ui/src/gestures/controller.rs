@@ -340,7 +340,7 @@ impl Controller {
                         }
                         Axis::Vertical
                             if contact.notification_open
-                                && contact.motion.origin.1 >= root.bounds().height - 76.0
+                                && contact.motion.origin.1 >= root.bounds().height - 54.0 - 76.0
                                 && dy < 0.0 =>
                         {
                             Mode::CloseNotifications

@@ -37,6 +37,7 @@ jobs:
           echo "rust=$(sed -n 's/^RUST_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
           echo "bindgen=$(sed -n 's/^wasm-bindgen = "=\(.*\)"$/\1/p' FerroUI/Cargo.toml)" >> "$GITHUB_OUTPUT"
           echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "build=${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/*/Cargo.toml', '.cargo/config.toml', 'scripts/build-browser.sh', 'scripts/ci-framework-mtimes.py') }}-${CARGO_PROFILE_BROWSER_CODEGEN_UNITS}-${CARGO_PROFILE_TEST_DEBUG}-${CARGO_INCREMENTAL}" >> "$GITHUB_OUTPUT"
       - uses: actions/cache/restore@v4
         id: tools
         with:
@@ -62,17 +63,35 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: FerroUI/src/Browser/FerroUI.Browser/webapp/package-lock.json
-      - uses: Swatinem/rust-cache@v2
+      - name: Normalize pinned framework timestamps
+        run: python3 scripts/ci-framework-mtimes.py
+      # Keep FerroUI path dependencies: rust-cache prunes nonmember crates below
+      # the workspace root. The SHA suffix lets each successful build refresh
+      # the cache while the prefix preserves framework/configuration boundaries.
+      - uses: actions/cache/restore@v4
+        id: build-cache
         with:
-          key: phone-${{ steps.pins.outputs.framework }}
-          cache-all-crates: true
-          cache-on-failure: true
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-${{ github.sha }}
+          restore-keys: phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-
       - name: Verify state and host boundaries
         run: |
           cargo test --locked -p phone-domain -p phone-state
           node --test scripts/*.test.mjs
       - name: Build Windows Phone
         run: bash scripts/build-browser.sh
+      - name: Save compiled framework and app
+        uses: actions/cache/save@v4
+        if: steps.build-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ steps.build-cache.outputs.cache-primary-key }}
       - name: Verify first frame
         if: ${{ !inputs.verify_ui && !contains(github.event.head_commit.message, '[verify-ui]') }}
         timeout-minutes: 2

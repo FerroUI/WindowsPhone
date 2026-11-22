@@ -34,6 +34,11 @@ const healthy = () => {
 const button = element => /Button$/.test(element.type);
 const visibleText = element => /(?:TextBlock|AccessText)$/.test(element.type);
 const centre = element => [element.x + element.width / 2, element.y + element.height / 2];
+const centreInside = (element, viewport) => {
+  const [x, y] = centre(element);
+  return x >= viewport.x && y >= viewport.y &&
+    x < viewport.x + viewport.width && y < viewport.y + viewport.height;
+};
 
 async function until(check, label, timeout = 10000) {
   const end = Math.min(Date.now() + timeout, deadline);
@@ -129,15 +134,16 @@ async function openApps() {
   await home();
   for (let attempt = 0; attempt < 12; attempt++) {
     const view = await snapshot();
-    const allApps = view.elements.find(element => element.name === "AllApps" && element.hit);
+    const scroll = view.elements.find(element => element.name === "StartScroll" && element.hit);
+    assert(scroll, "Start scroll viewer is not hit-testable");
+    const allApps = view.elements.find(element => element.name === "AllApps" && element.hit &&
+      centreInside(element, scroll));
     if (allApps) {
       await page.click(...centre(allApps));
       await isRoute("Apps");
       await control(element => element.name === "AppSearch", "app search field");
       return;
     }
-    const scroll = view.elements.find(element => element.name === "StartScroll" && element.hit);
-    assert(scroll, "Start scroll viewer is not hit-testable");
     await page.wheel(...centre(scroll), 0, 550);
   }
   throw new Error("All apps did not become visible after scrolling Start");

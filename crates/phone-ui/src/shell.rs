@@ -53,15 +53,15 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 Route::Search=>apps::services::view(vm.clone(),ui.clone(),phone_domain::AppId::Cortana),
                 Route::Lock=>navigation::lock(vm.clone(),ui.clone()),
                 Route::Notifications=>notifications::view(vm.clone(),ui.clone()),
-                Route::Switcher=>navigation::switcher(vm.clone(),ui.clone()),
+                Route::Switcher=>navigation::switcher(vm.clone(),ui.clone(),false),
                 _=>apps::view(vm.clone(),ui.clone()),
             }}
         }
         Border{Grid.row:2,{navigation::bar(vm.clone(),ui.clone())}}
-        if ui.notification_open.get(){Border{Grid.row_span:3,background:background.as_str(),{notifications::view(vm.clone(),ui.clone())}}}
-        if ui.switcher_open.get(){Border{Grid.row_span:3,background:background.as_str(),{navigation::switcher(vm.clone(),ui.clone())}}}
+        if ui.notification_open.get(){Border{Grid.row_span:2,background:background.as_str(),{notifications::view(vm.clone(),ui.clone())}}}
+        if ui.switcher_open.get(){Border{Grid.row_span:2,background:background.as_str(),{navigation::switcher(vm.clone(),ui.clone(),true)}}}
         if ui.locked.get(){Border{Grid.row_span:3,{navigation::lock(vm.clone(),ui.clone())}}}
-        if ui.dialog.get().is_some(){Border{Grid.row_span:3,background:background.as_str(),{dialogs::view(vm.clone(),ui.clone())}}}
+        if ui.dialog.get().is_some(){Border{Grid.row_span:2,background:background.as_str(),{dialogs::view(vm.clone(),ui.clone())}}}
         if !vm.status().is_empty(){Border{Grid.row:1,vertical_alignment:V::Top,background:accent.as_str(),padding:(16.0,12.0),
             Grid{column_definitions:"*,36",column_spacing:8.0,
                 TextBlock{text:vm.status(),foreground:"White",font_size:15.0,text_wrapping:ferroui_base::media::TextWrapping::Wrap},
