@@ -4,7 +4,9 @@ The images in this directory are application captures. They are not original Win
 
 ## Published app
 
-`start-published-desktop.jpg` and the older `start-published-mobile.jpg` were captured from the public [GitHub Pages app](https://ferroui.com/WindowsPhone/). They preserve the browser session's phone profile. `start-desktop.png` and `phone-history.png` are earlier application captures retained for the existing documentation.
+[Published Start](start-published-desktop.jpg) and [published All apps arrow](all-apps-published-desktop.jpg) were captured from the public [GitHub Pages app](https://ferroui.com/WindowsPhone/) after [run 45081854486](https://github.com/FerroUI/WindowsPhone/actions/runs/45081854486) deployed runtime [`528c982686ee765476bb2f8cbeaf6c9d857819b4`](https://github.com/FerroUI/WindowsPhone/commit/528c982686ee765476bb2f8cbeaf6c9d857819b4). The page's `data-phone-build` attribute confirmed `528c982`; the corrected arrow rendered and one native All apps click opened the app list, followed by Start returning to the tile screen. These unmodified JPEGs are 1363 × 936 pixels and preserve the browser session's phone profile.
+
+`start-published-mobile.jpg`, `start-desktop.png` and `phone-history.png` are older application captures retained for the existing documentation. The current mobile evidence is the isolated browser-suite capture described below.
 
 ## Full refinement verification
 
@@ -25,4 +27,4 @@ The full artifact contains 72 captures, native inspection JSON and `results.json
 
 ## Final icon correction
 
-[The forward-arrow capture](refinement-forward-arrow.png) is an unmodified local native Skia capture of the subsequent one-line All apps icon correction (`Icon::Next` → `Icon::Forward`). The capture-only renderer completed successfully. It is separate from the 33-group browser suite above; those earlier images retain the prior glyph wherever the footer is visible.
+[The forward-arrow capture](refinement-forward-arrow.png) is an unmodified local native Skia capture of the subsequent one-line All apps icon correction (`Icon::Next` → `Icon::Forward`). The capture-only renderer completed successfully. The subsequent `528c982` release passed 48 Rust domain/state tests, two host-boundary tests, packaged module linking and its native first-frame check, then deployed successfully. The public capture above confirms the released glyph. This evidence is separate from the 33-group browser suite above; those earlier images retain the prior glyph wherever the footer is visible.
