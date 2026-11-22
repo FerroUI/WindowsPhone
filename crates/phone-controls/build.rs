@@ -1,0 +1,28 @@
+fn main() {
+    ferroui_build::Build::from_env()
+        .type_system(ferroui_build::TypeSystem::Model)
+        .theme("WinUITheme")
+        .theme_roots(&[
+            "Window",
+            "Button",
+            "ToggleButton",
+            "TextBox",
+            "TextBlock",
+            "PathIcon",
+            "ScrollViewer",
+            "ListBox",
+            "ListBoxItem",
+            "CheckBox",
+            "ToggleSwitch",
+            "RadioButton",
+            "ComboBox",
+            "ComboBoxItem",
+            "Slider",
+            "ProgressBar",
+            "ToolTip",
+            "ContextMenu",
+            "MenuItem",
+            "Separator",
+        ])
+        .run();
+}

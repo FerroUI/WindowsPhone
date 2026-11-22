@@ -1,0 +1,174 @@
+//! Retained ReactiveUI view model with granular DynamicData collection projections.
+//! Navigation and clock updates never write persisted application data.
+mod commands;
+mod convenience;
+mod mutation;
+mod navigation;
+mod projection;
+mod services;
+mod tiles;
+mod validation;
+
+use ferroui_dynamic_data::SourceCache;
+use ferroui_reactive::{concurrency::ImmediateScheduler, ObservableExt};
+use ferroui_reactiveui::{reactive_object, IReactiveObjectExt, ReactiveCommand, ReactiveObject};
+pub use phone_domain::Action;
+use phone_domain::*;
+pub use services::*;
+use std::{
+    cell::{Cell, Ref, RefCell},
+    collections::VecDeque,
+    rc::Rc,
+};
+
+pub struct PhoneViewModel {
+    reactive: ReactiveObject,
+    revision: RefCell<u64>,
+    document: RefCell<PhoneData>,
+    current_route: RefCell<Route>,
+    history: RefCell<Vec<Route>>,
+    recent: RefCell<Vec<(AppId, Route)>>,
+    viewport_size: Cell<(f64, f64)>,
+    clock: Cell<i64>,
+    status_text: RefCell<String>,
+    services: RefCell<HostServices>,
+    save: SaveCallback,
+    applying: Cell<bool>,
+    pending: RefCell<VecDeque<Action>>,
+    pub contacts: SourceCache<Rc<Contact>, Id>,
+    pub tiles: SourceCache<Rc<Tile>, Id>,
+    pub notifications: SourceCache<Rc<Notification>, Id>,
+    pub execute: ReactiveCommand<Option<Action>, ()>,
+}
+reactive_object!(PhoneViewModel);
+
+impl PhoneViewModel {
+    pub fn new(mut data: PhoneData, save: SaveCallback) -> Rc<Self> {
+        let error = data.normalize().err();
+        if error.is_some() {
+            data = PhoneData::demo();
+        }
+        let vm = Rc::new_cyclic(|weak: &std::rc::Weak<Self>| {
+            let receiver = weak.clone();
+            Self {
+                reactive: ReactiveObject::new(),
+                revision: RefCell::new(0),
+                document: RefCell::new(data),
+                current_route: RefCell::new(Route::Start),
+                history: RefCell::new(Vec::new()),
+                recent: RefCell::new(Vec::new()),
+                viewport_size: Cell::new((400.0, 800.0)),
+                clock: Cell::new(1_795_363_200),
+                status_text: RefCell::new(error.unwrap_or_default()),
+                services: RefCell::new(HostServices::default()),
+                save,
+                applying: Cell::new(false),
+                pending: RefCell::new(VecDeque::new()),
+                contacts: SourceCache::new(|value: &Rc<Contact>| value.id),
+                tiles: SourceCache::new(|value: &Rc<Tile>| value.id),
+                notifications: SourceCache::new(|value: &Rc<Notification>| value.id),
+                execute: ReactiveCommand::create_param_with(
+                    move |action: Option<Action>| {
+                        if let Some(vm) = receiver.upgrade() {
+                            vm.apply(action);
+                        }
+                    },
+                    None,
+                    Some(ImmediateScheduler::instance()),
+                ),
+            }
+        });
+        vm.synchronize();
+        vm
+    }
+    pub fn data(&self) -> Ref<'_, PhoneData> {
+        self.document.borrow()
+    }
+    pub fn revision(&self) -> u64 {
+        *self.revision.borrow()
+    }
+    pub fn route(&self) -> Route {
+        self.current_route.borrow().clone()
+    }
+    pub fn now(&self) -> i64 {
+        self.clock.get()
+    }
+    pub fn viewport(&self) -> (f64, f64) {
+        self.viewport_size.get()
+    }
+    pub fn set_viewport(&self, width: f64, height: f64) {
+        if !width.is_finite() || !height.is_finite() {
+            return;
+        }
+        let size = (width.max(1.0), height.max(1.0));
+        if self.viewport_size.replace(size) != size {
+            self.notify();
+        }
+    }
+    pub fn set_clock(&self, unix_seconds: i64) {
+        let old = self.clock.replace(unix_seconds);
+        if old.div_euclid(60) != unix_seconds.div_euclid(60) {
+            self.notify();
+        }
+    }
+    pub fn status(&self) -> String {
+        self.status_text.borrow().clone()
+    }
+    pub fn set_status(&self, text: String) {
+        if *self.status_text.borrow() != text {
+            *self.status_text.borrow_mut() = text;
+            self.notify();
+        }
+    }
+    pub fn clear_status(&self) {
+        self.set_status(String::new());
+    }
+    pub fn set_services(&self, services: HostServices) {
+        *self.services.borrow_mut() = services;
+    }
+    pub fn request(&self, request: HostRequest) {
+        let callback = self.services.borrow().request.clone();
+        callback(request);
+    }
+    pub fn dispatch(&self, action: Action) {
+        if self.applying.get() {
+            self.pending.borrow_mut().push_back(action);
+            return;
+        }
+        let _subscription = self.execute.execute(Some(action)).subscribe_next(|_| {});
+    }
+    pub fn search(&self, query: &str) -> Vec<SearchResult> {
+        self.data().search(query)
+    }
+    pub fn export_json(&self) -> Result<String, String> {
+        self.data().to_json()
+    }
+    pub fn import_json(&self, json: &str) -> Result<(), String> {
+        let data = PhoneData::from_json(json)?;
+        self.replace_data(data)
+    }
+    pub fn replace_data(&self, mut data: PhoneData) -> Result<(), String> {
+        data.normalize()?;
+        *self.document.borrow_mut() = data;
+        self.history.borrow_mut().clear();
+        self.recent.borrow_mut().clear();
+        *self.current_route.borrow_mut() = Route::Start;
+        self.synchronize();
+        self.persist();
+        self.notify();
+        Ok(())
+    }
+    pub fn next_id(&self) -> Id {
+        let id = self.document.borrow_mut().allocate_id();
+        self.persist();
+        id
+    }
+    pub(crate) fn notify(&self) {
+        self.raise_and_set_if_changed(&self.revision, self.revision().wrapping_add(1), "Revision");
+    }
+    pub(crate) fn persist(&self) {
+        // No document borrow is held across host code: callbacks can inspect the model.
+        let snapshot = self.document.borrow().clone();
+        (self.save)(&snapshot);
+    }
+}

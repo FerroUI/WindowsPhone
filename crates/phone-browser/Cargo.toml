@@ -1,0 +1,23 @@
+[package]
+name = "phone-browser"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "phone-browser"
+path = "src/main.rs"
+test = false
+
+[dependencies]
+phone-domain.workspace = true
+phone-state.workspace = true
+phone-controls.workspace = true
+phone-ui.workspace = true
+ferroui-base.workspace = true
+ferroui-controls.workspace = true
+ferroui-browser.workspace = true
+ferroui-fonts-inter.workspace = true
+serde_json.workspace = true
+wasm-bindgen.workspace = true

@@ -1,0 +1,95 @@
+import {load,save,preserveRecovery,getAsset}from'./storage.js';
+import {webUrl,dialUrl,smsUrl,mailUrl}from'./urls.js';
+import {attachMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
+import {exportBackup,importBackup}from'./backup.js';
+export {load,save,preserveRecovery,stopCamera};
+let runtime;let noticeTimer=0;let surfaceFrame=0;let lastAlarmMinute='';const alarmFired=new Set();
+const surfaces={};
+export const now=()=>Date.now()/1000;
+export const width=()=>document.getElementById('out').getBoundingClientRect().width;
+export const height=()=>document.getElementById('out').getBoundingClientRect().height;
+export function attachRuntime(api){runtime=api;attachMedia(api,notice);for(const kind of ['browser','camera','media']){
+  const surface=document.createElement('div');surface.id=`${kind}-surface`;surface.className=`platform-surface ${kind}-surface`;surface.hidden=true;document.getElementById('platform-surfaces').append(surface);surfaces[kind]=surface;
+}}
+export function notice(message){const element=document.getElementById('host-notice');element.textContent=message;element.hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>element.hidden=true,5000);}
+export function storageError(message){notice(`Changes could not be saved. Export a backup. ${message}`);}
+export function refreshSurfaces(){
+  cancelAnimationFrame(surfaceFrame);surfaceFrame=requestAnimationFrame(()=>{
+    if(!runtime)return;
+    const view=JSON.parse(runtime.inspectView());if(!view)return;
+    const host=document.getElementById('out').getBoundingClientRect();
+    for(const [kind,name]of[['browser','BrowserViewport'],['camera','CameraViewport'],['media','MediaViewport']]){
+      const target=view.elements.find(e=>e.name===name&&e.hit);const surface=surfaces[kind];
+      if(!target){surface.hidden=true;if(kind==='camera'&&surface.childElementCount)stopCamera();continue;}
+      surface.hidden=surface.childElementCount===0;
+      Object.assign(surface.style,{left:`${host.left+target.x}px`,top:`${host.top+target.y}px`,width:`${target.width}px`,height:`${target.height}px`});
+    }
+  });
+}
+export function request(json){
+  let operation;try{operation=JSON.parse(json);}catch{return;}
+  void handle(operation).catch(error=>{notice(error.message||String(error));if(operation.kind==='playMedia')runtime.mediaChanged('','',false);}).finally(refreshSurfaces);
+}
+async function handle(op){
+  switch(op.kind){
+    case'openUrl':{const opened=window.open(webUrl(op.url),'_blank','noopener,noreferrer');if(!opened)notice('Your browser may have blocked the new tab.');break;}
+    case'browse':browse(op.url);break;
+    case'dial':location.href=dialUrl(op.number);break;
+    case'sms':location.href=smsUrl(op.number,op.body);break;
+    case'email':location.href=mailUrl(op.to,op.subject,op.body);break;
+    case'importPhotos':await importPhotos();break;
+    case'importMusic':await importMedia('audio');break;
+    case'importVideo':await importMedia('video');break;
+    case'playMedia':await playMedia(op.source,surfaces.media);break;
+    case'mediaControl':await mediaControl(op.action);break;
+    case'deleteMedia':await removeMedia(op.source);break;
+    case'startCamera':await startCamera(surfaces.camera);break;
+    case'capturePhoto':await capturePhoto(surfaces.camera);break;
+    case'stopCamera':stopCamera();break;
+    case'exportBackup':await exportBackup(runtime);break;
+    case'importBackup':await importBackup(runtime);break;
+    case'locate':{const p=await locate();const url=`https://www.openstreetmap.org/?mlat=${p.coords.latitude}&mlon=${p.coords.longitude}#map=16/${p.coords.latitude}/${p.coords.longitude}`;window.open(url,'_blank','noopener,noreferrer');break;}
+    case'fetchWeather':await weather();break;
+    case'share':await share(op);break;
+    case'notify':await notify(op.title,op.body);break;
+    default:throw new Error(`Unsupported platform request: ${op.kind}`);
+  }
+}
+function browse(value){
+  const url=webUrl(value);const frame=document.createElement('iframe');frame.src=url;frame.title='Web page';frame.referrerPolicy='no-referrer';
+  frame.sandbox='allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox';
+  const tools=document.createElement('div');tools.className='browser-tools';const hint=document.createElement('span');hint.textContent='Some websites require a browser tab.';
+  const open=document.createElement('a');open.href=url;open.target='_blank';open.rel='noopener noreferrer';open.textContent='open externally';tools.append(hint,open);surfaces.browser.replaceChildren(frame,tools);frame.addEventListener('load',refreshSurfaces,{once:true});
+}
+function locate(){if(!navigator.geolocation)return Promise.reject(new Error('Location is unavailable in this browser.'));return new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{timeout:15000,maximumAge:300000}));}
+async function weather(){
+  notice('Choose Allow to get weather at your current location.');const position=await locate();
+  const url=new URL('https://api.open-meteo.com/v1/forecast');url.search=new URLSearchParams({latitude:position.coords.latitude,longitude:position.coords.longitude,current:'temperature_2m,weather_code',timezone:'auto'});
+  const response=await fetch(url,{signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error(`Weather service returned ${response.status}.`);
+  const data=await response.json();const current=data.current;if(!Number.isFinite(current?.temperature_2m))throw new Error('Weather response was incomplete.');
+  const code=current.weather_code;const condition=code===0?'clear sky':code<=3?'partly cloudy':code<=48?'fog':code<=67?'rain':code<=77?'snow':code<=82?'rain showers':code<=86?'snow showers':'thunderstorms';
+  runtime.weatherReady('current location',current.temperature_2m,condition);
+}
+async function share(op){
+  const payload={title:op.title,text:op.text};
+  if(String(op.url).startsWith('media:')){const asset=await getAsset(op.url);if(asset){const files=[new File([asset.bytes],asset.name,{type:asset.mime})];if(navigator.canShare?.({files}))payload.files=files;}}
+  else if(/^https?:/i.test(op.url))payload.url=webUrl(op.url);
+  if(navigator.share){try{await navigator.share(payload);}catch(error){if(error.name!=='AbortError')throw error;}}
+  else if(navigator.clipboard){await navigator.clipboard.writeText([op.title,op.text,payload.url].filter(Boolean).join('\n'));notice('Copied to clipboard.');}
+  else throw new Error('Sharing is unavailable in this browser.');
+}
+async function notify(title,body){notice(`${title}: ${body}`);if('Notification'in window){let permission=Notification.permission;if(permission==='default')permission=await Notification.requestPermission();if(permission==='granted')new Notification(title,{body,icon:new URL('./icon.svg',import.meta.url).href});}}
+export function serviceTick(){
+  if(!runtime)return;const data=JSON.parse(runtime.hostState());updateVolume(data.settings.volume);
+  const date=new Date();const minute=`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`;
+  if(minute===lastAlarmMinute)return;lastAlarmMinute=minute;
+  for(const alarm of data.alarms){
+    const weekday=(date.getDay()+6)%7;const key=`${alarm.id}:${minute}`;
+    if(alarm.enabled&&alarm.hour===date.getHours()&&alarm.minute===date.getMinutes()&&(!alarm.weekdays.length||alarm.weekdays.includes(weekday))&&!alarmFired.has(key)){
+      alarmFired.add(key);notice(`Alarm — ${alarm.label||'alarm'}`);
+      if(data.settings.vibration)navigator.vibrate?.([200,100,200,100,400]);
+      if(data.settings.sounds)try{const context=new AudioContext();const oscillator=context.createOscillator();const gain=context.createGain();oscillator.frequency.value=880;gain.gain.value=.12;oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(context.currentTime+1);oscillator.onended=()=>context.close();}catch{}
+    }
+  }
+  if(alarmFired.size>500)alarmFired.clear();
+}

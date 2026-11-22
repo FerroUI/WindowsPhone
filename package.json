@@ -1,0 +1,1 @@
+{"name":"ferroui-windows-phone","private":true,"type":"module","scripts":{"test:host":"node --test scripts/*.test.mjs","test:ui":"node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke"}}

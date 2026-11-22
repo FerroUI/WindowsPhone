@@ -1,0 +1,87 @@
+name: Build and publish
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: windows-phone-pages
+  cancel-in-progress: true
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_BUILD_JOBS: 1
+  CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+  CARGO_PROFILE_TEST_DEBUG: 0
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Read framework tool pins
+        id: pins
+        run: |
+          echo "emsdk=$(sed -n 's/^EMSDK_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
+          echo "rust=$(sed -n 's/^RUST_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
+          echo "bindgen=$(sed -n 's/^wasm-bindgen = "=\(.*\)"$/\1/p' FerroUI/Cargo.toml)" >> "$GITHUB_OUTPUT"
+          echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/browser-tools/emsdk
+            ~/browser-tools/bin
+          key: phone-tools-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.emsdk }}-${{ steps.pins.outputs.bindgen }}
+      - name: Install pinned browser tools
+        run: |
+          FerroUI/scripts/browser/setup.sh "$HOME/browser-tools"
+          source "$HOME/browser-tools/env.sh"
+          printf '%s\n' "EMSDK=$EMSDK" "RUSTUP_TOOLCHAIN=$RUSTUP_TOOLCHAIN" "EMCC_CFLAGS=$EMCC_CFLAGS" >> "$GITHUB_ENV"
+          printf '%s\n' "$EMSDK" "$EMSDK/upstream/emscripten" "$HOME/browser-tools/bin" >> "$GITHUB_PATH"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: FerroUI/src/Browser/FerroUI.Browser/webapp/package-lock.json
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: phone-${{ steps.pins.outputs.framework }}
+          cache-all-crates: true
+      - name: Verify state and gestures
+        run: |
+          cargo test --locked -p phone-domain -p phone-state
+          node --test scripts/*.test.mjs
+      - name: Build Windows Phone
+        run: bash scripts/build-browser.sh
+      - name: Verify rendered desktop and touch views
+        timeout-minutes: 5
+        run: node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-verification
+          path: target/ui-smoke
+          if-no-files-found: ignore
+          retention-days: 5
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/browser/phone-browser
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

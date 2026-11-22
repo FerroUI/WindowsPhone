@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" data-phone-build="__BUILD_VERSION__">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="The live tiles, typography and personal experience of Windows Phone, recreated with FerroUI and Rust.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Windows Phone</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+  <main id="out" aria-label="Windows Phone">
+    <div class="ferroui-splash" role="status" aria-live="polite">
+      <img src="./icon.svg" width="60" height="60" alt="">
+      <h1>Windows Phone</h1>
+      <p id="loading-status">Starting your phone…</p>
+      <span class="loading-line" aria-hidden="true"></span>
+    </div>
+  </main>
+  <div id="platform-surfaces"></div>
+  <div id="host-notice" role="status" aria-live="polite" hidden></div>
+  <noscript>Windows Phone needs JavaScript and WebAssembly enabled.</noscript>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

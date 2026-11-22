@@ -1,0 +1,14 @@
+[package]
+name = "phone-state"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+phone-domain = { path = "../phone-domain" }
+ferroui-reactive.workspace = true
+ferroui-reactiveui.workspace = true
+ferroui-dynamic-data.workspace = true
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true

@@ -1,0 +1,330 @@
+import assert from "node:assert/strict";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { open, sleep, colours } from "../FerroUI/scripts/browser/harness.mjs";
+
+// Input goes through Chromium and FerroUI's retained native control tree.
+// Exported state is an observation surface. Only gallery navigation and the
+// initial timeout fixture use model calls; no external service is contacted.
+const site = path.resolve(process.argv[2] || "artifacts/site");
+const output = path.resolve(process.argv[3] || "artifacts/ui-smoke");
+const started = Date.now();
+const results = { site, viewport: [1280, 936], checks: [], captures: [] };
+const apps = [
+  ["Phone", "Phone"], ["Messaging", "Messaging"], ["People", "People"],
+  ["Outlook", "Outlook"], ["Calendar", "Calendar"], ["Photos", "Photos"],
+  ["Camera", "Camera"], ["Internet Explorer", "InternetExplorer"],
+  ["Music", "Music"], ["Video", "Video"], ["Games", "Games"],
+  ["Store", "Store"], ["Settings", "Settings"], ["Alarms", "Alarms"],
+  ["Calculator", "Calculator"], ["OneNote", "OneNote"], ["Maps", "Maps"],
+  ["Cortana", "Cortana"], ["Weather", "Weather"], ["Files", "Files"],
+  ["Office", "Office"], ["Battery Saver", "BatterySaver"], ["Data Sense", "DataSense"],
+];
+let page;
+await mkdir(output, { recursive: true });
+
+const snapshot = async () => JSON.parse(await page.evaluate("phoneApp.inspectView()"));
+const state = async () => JSON.parse(await page.evaluate("phoneApp.exportData()"));
+const route = async () => JSON.parse(await page.evaluate("phoneApp.currentRoute()"));
+const healthy = () => assert.equal(page.errors.length, 0, page.errors.join("\n"));
+const button = element => /Button$/.test(element.type);
+const visibleText = element => /(?:TextBlock|AccessText)$/.test(element.type);
+const centre = element => [element.x + element.width / 2, element.y + element.height / 2];
+
+async function until(check, label, timeout = 10000) {
+  const end = Date.now() + timeout;
+  let lastError;
+  while (Date.now() < end) {
+    healthy();
+    try {
+      const result = await check();
+      if (result) return result;
+    } catch (error) { lastError = error; }
+    await sleep(75);
+  }
+  throw new Error(`Timed out: ${label}${lastError ? ` (${lastError.message})` : ""}`);
+}
+
+async function control(match, label) {
+  return until(async () => {
+    const found = (await snapshot())?.elements.filter(element => element.hit && match(element)) || [];
+    assert(found.length <= 1, `Ambiguous control: ${label} (${found.length})`);
+    return found[0];
+  }, label);
+}
+
+async function click(match, label) {
+  await page.click(...centre(await control(match, label)));
+}
+const clickName = name => click(element => element.name === name, name);
+const clickLabel = label => click(element => button(element) && element.automationName === label, label);
+const clickText = text => click(element => visibleText(element) && element.text === text, text);
+const isRoute = expected => until(async () => JSON.stringify(await route()) === JSON.stringify(expected),
+  `route ${JSON.stringify(expected)}`);
+
+async function edit(name, text) {
+  await clickName(name);
+  await page.press("a", ["ctrl"]);
+  if (text) await page.send("Input.insertText", { text });
+  else await page.press("Backspace");
+  await until(async () => (await snapshot()).elements.some(element =>
+    element.name === name && element.text === text), `native text in ${name}`);
+}
+
+async function ready() {
+  await until(() => page.evaluate(`!!globalThis.phoneApp?.inspectView &&
+    !!document.querySelector("canvas") &&
+    (!document.querySelector(".ferroui-splash") ||
+      document.querySelector(".ferroui-splash").classList.contains("splash-close"))`),
+  "first native frame", 60000);
+  await control(element => element.name === "HardwareStart", "hardware navigation");
+}
+
+async function capture(name) {
+  await sleep(150);
+  healthy();
+  const view = await snapshot();
+  const currentRoute = await route();
+  assert(view?.elements.some(element => element.hit && element.name === "PhoneScreen"),
+    `${name}: phone surface missing from native hit testing`);
+  const image = await page.screenshot(path.join(output, `${name}.png`));
+  const sampledColours = colours(image);
+  assert(sampledColours > 40, `${name}: empty rendered surface (${sampledColours} colours)`);
+  await writeFile(path.join(output, `${name}.json`), JSON.stringify({
+    route: currentRoute, width: image.width, height: image.height, sampledColours, view,
+  }, null, 2));
+  results.captures.push({ name, route: currentRoute, width: image.width, height: image.height, sampledColours });
+}
+
+async function check(name, run) {
+  const begin = Date.now();
+  await run();
+  healthy();
+  const elapsedMs = Date.now() - begin;
+  results.checks.push({ name, elapsedMs, passed: true });
+  console.log(`ok  ${name} (${elapsedMs} ms)`);
+}
+
+async function home() {
+  await clickName("HardwareStart");
+  await isRoute("Start");
+}
+
+async function openApps() {
+  await home();
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const view = await snapshot();
+    const allApps = view.elements.find(element => element.name === "AllApps" && element.hit);
+    if (allApps) {
+      await page.click(...centre(allApps));
+      await isRoute("Apps");
+      await control(element => element.name === "AppSearch", "app search field");
+      return;
+    }
+    const scroll = view.elements.find(element => element.name === "StartScroll" && element.hit);
+    assert(scroll, "Start scroll viewer is not hit-testable");
+    await page.wheel(...centre(scroll), 0, 550);
+  }
+  throw new Error("All apps did not become visible after scrolling Start");
+}
+
+async function launchFromSearch(label, id) {
+  await openApps();
+  await edit("AppSearch", label);
+  await clickLabel(label);
+  await isRoute({ App: id });
+}
+
+async function reload() {
+  const previous = await page.evaluate("performance.timeOrigin");
+  const result = await page.send("Page.reload", {});
+  assert(!result?.error, JSON.stringify(result));
+  await until(() => page.evaluate(`performance.timeOrigin !== ${JSON.stringify(previous)}`),
+    "reload created a new document", 60000);
+  await ready();
+}
+
+async function touchSwipe(from, to) {
+  const send = (type, x, y) => page.send("Input.dispatchTouchEvent", {
+    type,
+    touchPoints: type === "touchEnd" ? [] : [{ x, y, id: 0, radiusX: 2, radiusY: 2, force: 1 }],
+  });
+  await send("touchStart", ...from);
+  await sleep(45);
+  for (let step = 1; step <= 8; step++) {
+    const amount = step / 8;
+    await send("touchMove", from[0] + (to[0] - from[0]) * amount,
+      from[1] + (to[1] - from[1]) * amount);
+    await sleep(25);
+  }
+  await send("touchEnd", ...to);
+  await sleep(180);
+}
+
+try {
+  page = await open(site, { query: "?nooffline=1", width: 1280, height: 936, network: true });
+  await ready();
+  const initial = await state();
+  initial.settings.lock_timeout = 0;
+  await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(initial))})`);
+  const phoneTile = initial.tiles.find(tile => tile.app === "Phone" && !tile.children.length);
+  assert(phoneTile, "The initial Start screen must contain the Phone tile");
+  let resizedTileSize;
+  let noteId;
+  const noteTitle = "Native UI smoke note";
+  const originalBody = "Created through the native form.\nPersistence is checked by reloading.";
+  const editedBody = "Edited through the native text box.\nThis survives a complete reload.";
+
+  await check("desktop Start renders", async () => {
+    await isRoute("Start");
+    await capture("01-start-desktop");
+  });
+  await check("native tile launch and Back", async () => {
+    await clickName(`Tile-${phoneTile.id}`);
+    await isRoute({ App: "Phone" });
+    await control(element => visibleText(element) && element.text === "history", "phone history");
+    await capture("02-phone-history");
+    await clickName("HardwareBack");
+    await isRoute("Start");
+  });
+  await check("native context menu resizes a tile", async () => {
+    const tile = await control(element => element.name === `Tile-${phoneTile.id}`, "Phone tile");
+    const [x, y] = centre(tile);
+    await page.mouseMove(x, y);
+    await page.send("Input.dispatchMouseEvent", {
+      type: "mousePressed", x, y, button: "right", buttons: 2, clickCount: 1, pointerType: "mouse",
+    });
+    await page.send("Input.dispatchMouseEvent", {
+      type: "mouseReleased", x, y, button: "right", buttons: 0, clickCount: 1, pointerType: "mouse",
+    });
+    await clickName(`Resize-${phoneTile.id}`);
+    resizedTileSize = await until(async () => {
+      const size = (await state()).tiles.find(tile => tile.id === phoneTile.id)?.size;
+      return size && size !== phoneTile.size && size;
+    }, "resized tile model");
+    await clickName("HardwareBack");
+    await isRoute("Start");
+    await capture("03-start-resized");
+  });
+  await check("app list search and native note creation", async () => {
+    await launchFromSearch("OneNote", "OneNote");
+    await clickLabel("new");
+    await edit("FormField0", noteTitle);
+    await edit("FormField1", originalBody);
+    await capture("04-native-note-form");
+    await clickLabel("save");
+    noteId = await until(async () => (await state()).notes.find(note =>
+      note.title === noteTitle && note.body === originalBody)?.id, "created note");
+    await clickText(noteTitle);
+    await isRoute({ Note: noteId });
+    await capture("05-note-created");
+  });
+  await check("native note edit and reload persistence", async () => {
+    await clickLabel("edit");
+    await edit("FormField1", editedBody);
+    await clickLabel("save");
+    await until(async () => (await state()).notes.find(note => note.id === noteId)?.body === editedBody,
+      "edited note");
+    const stored = await page.evaluate("JSON.parse(localStorage.getItem('ferroui.windows-phone.v1'))");
+    assert.equal(stored.notes.find(note => note.id === noteId)?.body, editedBody);
+    assert.equal(stored.tiles.find(tile => tile.id === phoneTile.id)?.size, resizedTileSize);
+    await reload();
+    const restored = await state();
+    assert.equal(restored.notes.find(note => note.id === noteId)?.body, editedBody);
+    assert.equal(restored.tiles.find(tile => tile.id === phoneTile.id)?.size, resizedTileSize);
+    await launchFromSearch("OneNote", "OneNote");
+    await clickText(noteTitle);
+    await isRoute({ Note: noteId });
+    await capture("06-note-restored");
+  });
+  await check("native note deletion", async () => {
+    await clickLabel("delete");
+    await control(element => visibleText(element) && element.text === "delete this note?",
+      "note deletion confirmation");
+    await clickLabel("save");
+    await until(async () => !(await state()).notes.some(note => note.id === noteId), "deleted note");
+    await isRoute({ App: "OneNote" });
+  });
+  await check("app search launches a working calculator", async () => {
+    await openApps();
+    await edit("AppSearch", "Calculator");
+    const filtered = (await snapshot()).elements.filter(element =>
+      element.hit && button(element) && element.name?.startsWith("App-"));
+    assert.equal(filtered.length, 1, "App search should show one matching app");
+    assert.equal(filtered[0].automationName, "Calculator");
+    await capture("07-app-search");
+    await clickLabel("Calculator");
+    await isRoute({ App: "Calculator" });
+    for (const label of ["Clear", "7", "+", "8", "Equals"]) await clickLabel(label);
+    await control(element => element.automationName === "Calculator result" && element.text === "15",
+      "calculator 7 + 8 = 15");
+    await capture("08-calculator");
+  });
+  await check("Action Center toggles and clears notifications", async () => {
+    await home();
+    const wifiBefore = (await state()).settings.wi_fi;
+    await clickName("StatusBar");
+    await control(element => element.name === "ActionCenter", "Action Center");
+    await clickLabel("Toggle Wi-Fi");
+    await until(async () => (await state()).settings.wi_fi === !wifiBefore, "Wi-Fi setting toggled");
+    assert((await state()).notifications.length > 0, "The seeded notification list should be nonempty");
+    await clickLabel("Clear all notifications");
+    await until(async () => (await state()).notifications.length === 0, "notifications cleared");
+    await capture("09-action-center");
+    await clickLabel("Close action center");
+    await control(element => element.name === "HardwareStart", "Action Center dismissed");
+  });
+  await check("all 23 app surfaces render", async () => {
+    for (const [label, id] of apps) {
+      const before = JSON.stringify((await snapshot()).elements.map(element => [element.name, element.text]));
+      await page.evaluate(`phoneApp.openApp(${JSON.stringify(label)})`);
+      await isRoute({ App: id });
+      await until(async () => JSON.stringify((await snapshot()).elements.map(element =>
+        [element.name, element.text])) !== before, `${label} native view committed`);
+      await capture(`app-${id.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`);
+    }
+  });
+  await check("narrow viewport and trusted touch navigation", async () => {
+    await page.resize(390, 844);
+    await until(async () => {
+      const view = await snapshot();
+      return view.width === 390 && view.height === 844;
+    }, "390 × 844 native viewport");
+    await home();
+    await capture("10-start-mobile");
+    await page.send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
+    const screen = await control(element => element.name === "PhoneScreen", "mobile phone surface");
+    const y = screen.y + Math.min(screen.height * 0.45, 380);
+    await touchSwipe([screen.x + screen.width - 42, y], [screen.x + 42, y]);
+    await isRoute("Apps");
+    await control(element => element.name === "AppSearch", "touch-opened app list");
+    await capture("11-app-list-mobile");
+    await touchSwipe([screen.x + 42, y], [screen.x + screen.width - 42, y]);
+    await isRoute("Start");
+    await capture("12-start-after-swipe");
+    await page.send("Emulation.setTouchEmulationEnabled", { enabled: false });
+  });
+  healthy();
+  results.passed = true;
+} catch (error) {
+  results.passed = false;
+  results.error = error.stack || String(error);
+  console.error(results.error);
+  if (page) {
+    await page.screenshot(path.join(output, "failure.png")).catch(() => {});
+    await snapshot().then(view => writeFile(path.join(output, "failure-view.json"),
+      JSON.stringify(view, null, 2))).catch(() => {});
+  }
+  process.exitCode = 1;
+} finally {
+  results.elapsedMs = Date.now() - started;
+  if (page) {
+    results.errors = [...page.errors];
+    results.requests = [...new Set(page.requests)];
+    await writeFile(path.join(output, "browser.log"), `${page.log.join("\n")}\n`);
+    await page.close();
+  }
+  await writeFile(path.join(output, "results.json"), JSON.stringify(results, null, 2));
+  console.log(`${results.passed ? "PASS" : "FAIL"}: ${results.checks.length} checks, ` +
+    `${results.captures.length} captures, ${results.elapsedMs} ms`);
+}
