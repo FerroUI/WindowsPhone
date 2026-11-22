@@ -1,11 +1,13 @@
 pub mod alarms;
 pub mod calculator;
 pub mod calendar;
+pub mod files;
 pub mod games;
 pub mod mail;
 pub mod media;
 pub mod messaging;
 pub mod notes;
+pub mod office;
 pub mod people;
 pub mod phone;
 pub mod services;
@@ -23,6 +25,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         Route::Contact(_) => people::view(vm, ui),
         Route::Mail(_) => mail::view(vm, ui),
         Route::Note(_) => notes::view(vm, ui),
+        Route::Document(_) => office::view(vm, ui),
+        Route::FileFolder(_) => files::view(vm, ui),
         Route::Setting(_) => settings::view(vm, ui),
         Route::App(app) => match app {
             AppId::Phone => phone::view(vm, ui),
@@ -31,6 +35,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             AppId::Outlook => mail::view(vm, ui),
             AppId::Calendar => calendar::view(vm, ui),
             AppId::OneNote => notes::view(vm, ui),
+            AppId::Office => office::view(vm, ui),
+            AppId::Files => files::view(vm, ui),
+            AppId::BatterySaver => settings::battery_page(vm, ui),
+            AppId::DataSense => settings::data_page(vm, ui),
             AppId::Alarms => alarms::view(vm, ui),
             AppId::Calculator => calculator::view(vm, ui),
             AppId::Settings => settings::view(vm, ui),

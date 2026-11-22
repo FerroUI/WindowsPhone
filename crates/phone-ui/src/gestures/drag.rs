@@ -2,6 +2,7 @@ use super::controller::{Contact, Controller, Hover, Mode};
 use crate::session::Session;
 use ferroui_base::{Point, Vector, Vector3D, Visual, WeakRef};
 use ferroui_controls::{Canvas, Control, ScrollViewer};
+use phone_domain::Id;
 use phone_state::PhoneViewModel;
 use std::time::{Duration, Instant};
 
@@ -11,11 +12,21 @@ pub(super) struct VisualDrag {
     translation: Vector3D,
     opacity: f64,
     z_index: i32,
+    target: Option<WeakRef<Control>>,
+}
+
+#[derive(Clone, Copy)]
+pub(super) enum DropArea {
+    Start,
+    Folder(Id),
 }
 
 pub(super) fn clear(controller: &Controller) {
     let drag = controller.drag_visual.borrow_mut().take();
     if let Some(drag) = drag {
+        if let Some(target) = drag.target.and_then(|target| target.upgrade()) {
+            target.classes().remove("folder-drop");
+        }
         if let Some(control) = drag.control.upgrade() {
             control.set_translation(drag.translation);
             control.set_opacity(drag.opacity);
@@ -76,6 +87,7 @@ pub(super) fn update(controller: &Controller, scroll: bool) -> bool {
                         translation: control.translation(),
                         opacity: control.opacity(),
                         z_index: control.z_index(),
+                        target: None,
                     };
                     control.set_z_index(10_000);
                     control.set_opacity(0.88);
@@ -126,44 +138,62 @@ pub(super) fn update(controller: &Controller, scroll: bool) -> bool {
             ));
         }
     }
-    let target = root
-        .input_hit_test_filtered(
-            point,
-            &|visual| {
-                dragged.as_ref().is_none_or(|control| {
-                    let source_visual: &Visual = control;
-                    !std::ptr::eq(source_visual, visual)
-                })
-            },
-            false,
-        )
-        .and_then(|hit| {
-            hit.get_self_and_visual_ancestors()
-                .filter_map(|visual| visual.cast::<Control>())
-                .find_map(|control| {
-                    let id = control.name().and_then(|name| {
-                        name.strip_prefix("Tile-")
-                            .and_then(|id| id.parse::<u64>().ok())
-                    })?;
-                    if id == source {
-                        return None;
-                    }
-                    let local = root.translate_point(point, &control)?;
-                    let bounds = control.bounds();
-                    let center = local.x > bounds.width * 0.23
-                        && local.x < bounds.width * 0.77
-                        && local.y > bounds.height * 0.23
-                        && local.y < bounds.height * 0.77;
-                    let after = local.y > bounds.height * 0.70
-                        || (local.y > bounds.height * 0.30 && local.x > bounds.width * 0.70);
-                    Some((id, center, after))
-                })
-        });
+    let hit = root.input_hit_test_filtered(
+        point,
+        &|visual| {
+            dragged.as_ref().is_none_or(|control| {
+                let source_visual: &Visual = control;
+                !std::ptr::eq(source_visual, visual)
+            })
+        },
+        false,
+    );
+    let drop_area = hit.as_ref().and_then(|hit| {
+        let mut over_start = false;
+        for control in hit
+            .get_self_and_visual_ancestors()
+            .filter_map(|visual| visual.cast::<Control>())
+        {
+            if let Some(id) = control.name().and_then(|name| {
+                name.strip_prefix("FolderTiles-")
+                    .and_then(|id| id.parse().ok())
+            }) {
+                return Some(DropArea::Folder(id));
+            }
+            if control.has_name("StartTiles") || control.has_name("StartScroll") {
+                over_start = true;
+            }
+        }
+        over_start.then_some(DropArea::Start)
+    });
+    let target = hit.and_then(|hit| {
+        hit.get_self_and_visual_ancestors()
+            .filter_map(|visual| visual.cast::<Control>())
+            .find_map(|control| {
+                let id = control.name().and_then(|name| {
+                    name.strip_prefix("Tile-")
+                        .and_then(|id| id.parse::<u64>().ok())
+                })?;
+                if id == source {
+                    return None;
+                }
+                let local = root.translate_point(point, &control)?;
+                let bounds = control.bounds();
+                let center = local.x > bounds.width * 0.23
+                    && local.x < bounds.width * 0.77
+                    && local.y > bounds.height * 0.23
+                    && local.y < bounds.height * 0.77;
+                let after = local.y > bounds.height * 0.70
+                    || (local.y > bounds.height * 0.30 && local.x > bounds.width * 0.70);
+                Some((id, center, after))
+            })
+    });
     {
         let mut contacts = controller.contacts.borrow_mut();
         let Some(contact) = contacts.get_mut(&pointer_id) else {
             return false;
         };
+        contact.drop_area = drop_area;
         contact.hover = target.map(|(target, center, after)| {
             let entered = contact
                 .hover
@@ -179,6 +209,41 @@ pub(super) fn update(controller: &Controller, scroll: bool) -> bool {
             }
         });
     }
+    let ready = controller
+        .contacts
+        .borrow()
+        .get(&pointer_id)
+        .and_then(|contact| contact.hover.as_ref())
+        .filter(|hover| hover.center && hover.entered.elapsed() >= Duration::from_millis(600))
+        .map(|hover| hover.target)
+        .filter(|target| {
+            controller
+                .vm
+                .upgrade()
+                .is_some_and(|vm| can_group(&vm, source, *target))
+        });
+    if let Some(drag) = controller.drag_visual.borrow_mut().as_mut() {
+        let old = drag.target.as_ref().and_then(|target| target.upgrade());
+        let name = ready.map(|id| format!("Tile-{id}"));
+        if !old
+            .as_ref()
+            .is_some_and(|target| name.as_ref().is_some_and(|name| target.has_name(name)))
+        {
+            if let Some(old) = old {
+                old.classes().remove("folder-drop");
+            }
+            drag.target = name
+                .and_then(|name| {
+                    root.find_descendant_of_type_where::<Control>(false, |control| {
+                        control.has_name(&name)
+                    })
+                })
+                .map(|target| {
+                    target.classes().add("folder-drop");
+                    target.downgrade()
+                });
+        }
+    }
     let target = target.map(|(id, _, _)| id);
     if ui.drop_target.get_untracked() != target {
         ui.drop_target.set(target);
@@ -186,10 +251,37 @@ pub(super) fn update(controller: &Controller, scroll: bool) -> bool {
     true
 }
 pub(super) fn finish(vm: &PhoneViewModel, ui: &Session, contact: &Contact) {
-    let (Some(source), Some(hover)) = (contact.tile, contact.hover.as_ref()) else {
+    let Some(source) = contact.tile else { return };
+    let Some(hover) = contact.hover.as_ref() else {
+        match contact.drop_area {
+            Some(DropArea::Start) => {
+                let parent = vm.data().parent_folder(source);
+                if let Some(folder) = parent {
+                    vm.extract_folder_tile(folder, source);
+                } else {
+                    vm.move_tile(source, None);
+                }
+                ui.edit_tile.set(Some(source));
+            }
+            Some(DropArea::Folder(folder)) => {
+                let last = vm
+                    .data()
+                    .tile(folder)
+                    .and_then(|folder| folder.folder_tiles.last())
+                    .map(|tile| tile.id);
+                if let Some(last) = last {
+                    vm.move_tile_relative(source, last, true);
+                    ui.edit_tile.set(Some(source));
+                }
+            }
+            None => {}
+        }
         return;
     };
-    if hover.center && hover.entered.elapsed() >= Duration::from_millis(600) {
+    if hover.center
+        && hover.entered.elapsed() >= Duration::from_millis(600)
+        && can_group(vm, source, hover.target)
+    {
         let name = vm
             .data()
             .tile(hover.target)
@@ -202,4 +294,12 @@ pub(super) fn finish(vm: &PhoneViewModel, ui: &Session, contact: &Contact) {
         vm.move_tile_relative(source, hover.target, hover.after);
         ui.edit_tile.set(Some(source));
     }
+}
+
+fn can_group(vm: &PhoneViewModel, source: Id, target: Id) -> bool {
+    let data = vm.data();
+    source != target
+        && data.parent_folder(target).is_none()
+        && data.parent_folder(source) != Some(target)
+        && data.parent_folder(target) != Some(source)
 }

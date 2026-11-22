@@ -4,7 +4,9 @@ mod apps;
 mod common;
 mod dialogs;
 mod gestures;
+mod hardware;
 mod images;
+mod lockscreen;
 mod navigation;
 mod notifications;
 mod previews;
@@ -61,14 +63,17 @@ pub fn set_preview_capture_enabled(enabled: bool) {
 }
 
 pub fn back(vm: &Rc<PhoneViewModel>) {
-    if SESSION.with(|slot| {
-        slot.borrow()
-            .upgrade()
-            .is_some_and(|ui| ui.locked.get_untracked())
+    if !SESSION.with(|slot| {
+        slot.borrow().upgrade().is_some_and(|ui| {
+            if ui.locked.get_untracked()
+                && !ui.hardware.is_open()
+                && !ui.notification_open.get_untracked()
+            {
+                return true;
+            }
+            ui.dismiss() || apps::services::browser_back(vm, &ui)
+        })
     }) {
-        return;
-    }
-    if !SESSION.with(|slot| slot.borrow().upgrade().is_some_and(|ui| ui.dismiss())) {
         vm.back();
     }
 }
@@ -117,13 +122,10 @@ pub fn lock() {
         }
     });
 }
-pub fn browser_navigated(url: String) {
+pub fn browser_navigated(vm: &PhoneViewModel, url: String) {
     SESSION.with(|slot| {
         if let Some(ui) = slot.borrow().upgrade() {
-            ui.browser_url.set(url.clone());
-            ui.entry.set(url);
-            ui.pivot.set(0);
-            ui.menu.set(false);
+            apps::services::browser_navigated(vm, &ui, &url);
         }
     });
 }
@@ -139,7 +141,8 @@ pub fn home(vm: &Rc<PhoneViewModel>) {
 pub fn has_overlay() -> bool {
     SESSION.with(|slot| {
         slot.borrow().upgrade().is_some_and(|ui| {
-            ui.locked.get_untracked()
+            ui.hardware.is_open()
+                || ui.locked.get_untracked()
                 || ui.notification_open.get_untracked()
                 || ui.switcher_open.get_untracked()
                 || ui.alphabet.get_untracked()
@@ -149,4 +152,54 @@ pub fn has_overlay() -> bool {
                 || ui.folder.get_untracked().is_some()
         })
     })
+}
+
+/// A host clock tick updates transient system panels without serializing data.
+pub fn host_tick(now: i64) {
+    SESSION.with(|slot| {
+        if let Some(ui) = slot.borrow().upgrade() {
+            ui.hardware.tick(now);
+        }
+    });
+}
+
+/// Shared hardware-key contract for a desktop frame and browser-delivered keys.
+pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
+    use phone_domain::{AppId, Route};
+    SESSION.with(|slot| {
+        let Some(ui) = slot.borrow().upgrade() else {
+            return;
+        };
+        let media = ui.media_playing.get_untracked()
+            || matches!(vm.route().app(), Some(AppId::Music | AppId::Video));
+        match key {
+            "volumeUp" => hardware::adjust(vm, &ui.hardware, 1, media),
+            "volumeDown" => hardware::adjust(vm, &ui.hardware, -1, media),
+            "volume" => ui.hardware.show(vm.now(), media),
+            "volumeMute" => {
+                let mut settings = vm.data().settings.clone();
+                if media {
+                    settings.media_muted = !settings.media_muted;
+                } else {
+                    settings.sounds = !settings.sounds;
+                }
+                vm.set_settings(settings);
+                ui.hardware.show(vm.now(), media);
+            }
+            "power" => {
+                let locked = ui.locked.get_untracked();
+                ui.clear_overlays();
+                ui.locked.set(!locked);
+                if locked && vm.route() == Route::Lock {
+                    vm.back();
+                }
+            }
+            "camera" => {
+                ui.clear_overlays();
+                ui.locked.set(false);
+                vm.navigate(Route::App(AppId::Camera));
+            }
+            _ => {}
+        }
+    });
 }

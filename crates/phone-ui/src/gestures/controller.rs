@@ -1,5 +1,5 @@
 use super::{
-    drag,
+    drag, feedback,
     motion::{Axis, Motion},
 };
 use crate::session::Session;
@@ -27,11 +27,13 @@ pub(super) enum Mode {
     Scroll,
     Swipe,
     OpenNotifications,
+    ExpandNotifications,
     CloseNotifications,
     Unlock,
     Drag,
     Held,
     DismissNotification,
+    DismissAllNotifications,
     Canceled,
 }
 #[derive(Clone)]
@@ -52,6 +54,7 @@ pub(super) struct Contact {
     pub context: Option<WeakRef<Control>>,
     pub held: bool,
     pub hover: Option<Hover>,
+    pub drop_area: Option<drag::DropArea>,
     pub notification_open: bool,
     pub locked: bool,
 }
@@ -62,6 +65,7 @@ pub(super) struct Controller {
     pub contacts: RefCell<BTreeMap<i32, Contact>>,
     pointers: RefCell<Vec<Weak<dyn IPointer>>>,
     pub drag_visual: RefCell<Option<drag::VisualDrag>>,
+    pub feedback: RefCell<Option<feedback::Feedback>>,
     hold_timer: RefCell<Option<Subscription>>,
     drag_timer: RefCell<Option<Subscription>>,
     transitioning: Cell<bool>,
@@ -75,12 +79,16 @@ impl Controller {
             contacts: RefCell::new(BTreeMap::new()),
             pointers: RefCell::new(Vec::new()),
             drag_visual: RefCell::new(None),
+            feedback: RefCell::new(None),
             hold_timer: RefCell::new(None),
             drag_timer: RefCell::new(None),
             transitioning: Cell::new(false),
         })
     }
     pub fn cancel(&self) -> bool {
+        if let (Some(vm), Some(ui)) = (self.vm.upgrade(), self.ui.upgrade()) {
+            ui.hardware.end_interaction(vm.now());
+        }
         self.hold_timer.borrow_mut().take();
         self.drag_timer.borrow_mut().take();
         let contacts = self.contacts.take();
@@ -104,6 +112,9 @@ impl Controller {
         if self.transitioning.get() {
             return;
         }
+        if let (Some(vm), Some(ui)) = (self.vm.upgrade(), self.ui.upgrade()) {
+            ui.hardware.end_interaction(vm.now());
+        }
         let contact = self.contacts.borrow_mut().remove(&id);
         if contact.is_some() {
             self.hold_timer.borrow_mut().take();
@@ -113,6 +124,7 @@ impl Controller {
     }
     fn clear_feedback(&self) {
         drag::clear(self);
+        feedback::clear(self, false);
         if let Some(ui) = self.ui.upgrade() {
             if ui.drop_target.get_untracked().is_some() {
                 ui.drop_target.set(None);
@@ -154,6 +166,12 @@ impl Controller {
                     .collect::<Vec<_>>()
             })
             .unwrap_or_default();
+        if ancestors
+            .iter()
+            .any(|control| control.has_name("PhoneVolumePanel"))
+        {
+            ui.hardware.begin_interaction(vm.now());
+        }
         let tile = ancestors.iter().find_map(|control| {
             control
                 .name()
@@ -170,7 +188,11 @@ impl Controller {
             .any(|control| control.has_name("HardwareBack"));
         let context = ancestors
             .iter()
-            .find(|control| control.name().is_some_and(|name| name.starts_with("App-")))
+            .find(|control| {
+                control
+                    .name()
+                    .is_some_and(|name| name.starts_with("App-") || name.starts_with("Context-"))
+            })
             .map(|control| control.downgrade());
         let editing = ancestors.iter().any(|control| {
             control.cast::<TextBox>().is_some()
@@ -179,12 +201,26 @@ impl Controller {
                     .is_some_and(|name| name.starts_with("Hardware") && !back)
         });
         let native = editing
+            || ui.hardware.is_open()
             || ui.menu.get_untracked()
             || ui.dialog.get_untracked().is_some()
             || ui.switcher_open.get_untracked()
             || ui.alphabet.get_untracked();
         let single = self.contacts.borrow().is_empty()
             && (pointer.is_primary() || pointer.type_() == PointerType::Mouse);
+        let two_finger_clear = !single
+            && !native
+            && pointer.type_() == PointerType::Touch
+            && (ui.notification_open.get_untracked() || vm.route() == Route::Notifications)
+            && !ui.notification_peek.get_untracked()
+            && self.contacts.borrow().len() == 1
+            && self.contacts.borrow().values().all(|contact| {
+                contact.pointer.type_() == PointerType::Touch
+                    && contact.notification_open
+                    && contact.mode == Mode::Pending
+                    && contact.motion.is_tap()
+                    && event.timestamp().saturating_sub(contact.motion.started) <= 250
+            });
         let mut previous = if single {
             Vec::new()
         } else {
@@ -194,7 +230,11 @@ impl Controller {
             contacts
                 .values_mut()
                 .map(|contact| {
-                    contact.mode = Mode::Canceled;
+                    contact.mode = if two_finger_clear {
+                        Mode::DismissAllNotifications
+                    } else {
+                        Mode::Canceled
+                    };
                     contact.pointer.clone()
                 })
                 .collect::<Vec<_>>()
@@ -217,7 +257,9 @@ impl Controller {
                 pointer: pointer.clone(),
                 motion: Motion::new(point.x, point.y, event.timestamp()),
                 route: vm.route(),
-                mode: if !single {
+                mode: if two_finger_clear {
+                    Mode::DismissAllNotifications
+                } else if !single {
                     Mode::Canceled
                 } else if native {
                     Mode::Native
@@ -230,13 +272,18 @@ impl Controller {
                 context: context.clone(),
                 held: false,
                 hover: None,
+                drop_area: None,
                 notification_open: ui.notification_open.get_untracked()
                     || vm.route() == Route::Notifications,
                 locked: ui.locked.get_untracked() || vm.route() == Route::Lock,
             },
         );
         for old in previous {
-            old.capture(None);
+            if two_finger_clear {
+                self.capture(&old);
+            } else {
+                old.capture(None);
+            }
         }
         if !single {
             event.set_handled(true);
@@ -334,13 +381,27 @@ impl Controller {
                         Axis::Vertical
                             if !contact.notification_open
                                 && contact.motion.origin.1 <= 32.0
+                                && (!contact.locked
+                                    || vm.data().settings.notifications_on_lock)
                                 && dy > 0.0 =>
                         {
                             Mode::OpenNotifications
                         }
                         Axis::Vertical
                             if contact.notification_open
-                                && contact.motion.origin.1 >= root.bounds().height - 54.0 - 76.0
+                                && ui.notification_peek.get_untracked()
+                                && dy > 0.0 =>
+                        {
+                            Mode::ExpandNotifications
+                        }
+                        Axis::Vertical
+                            if contact.notification_open
+                                && contact.motion.origin.1
+                                    >= (if ui.notification_peek.get_untracked() {
+                                        114.0
+                                    } else {
+                                        root.bounds().height - 54.0 - 76.0
+                                    })
                                 && dy < 0.0 =>
                         {
                             Mode::CloseNotifications
@@ -369,10 +430,12 @@ impl Controller {
                 Mode::Drag
                     | Mode::Swipe
                     | Mode::OpenNotifications
+                    | Mode::ExpandNotifications
                     | Mode::CloseNotifications
                     | Mode::Unlock
                     | Mode::Held
                     | Mode::DismissNotification
+                    | Mode::DismissAllNotifications
             );
             (
                 old != contact.mode && owned,
@@ -393,9 +456,14 @@ impl Controller {
         if dragging {
             self.start_drag_timer();
             drag::update(self, false);
+        } else if owned {
+            feedback::update(self);
         }
     }
     pub fn released(self: &Rc<Self>, event: &PointerReleasedEventArgs) {
+        if let (Some(vm), Some(ui)) = (self.vm.upgrade(), self.ui.upgrade()) {
+            ui.hardware.end_interaction(vm.now());
+        }
         if event.initial_press_mouse_button() != MouseButton::Left {
             return;
         }
@@ -415,6 +483,7 @@ impl Controller {
             }
             return;
         };
+        feedback::clear(self, true);
         self.clear_feedback();
         let suppressed = contact.mode != Mode::Native
             && (contact.held || !contact.motion.is_tap() || contact.mode == Mode::Canceled);
@@ -430,16 +499,29 @@ impl Controller {
         }
         match contact.mode {
             Mode::Drag if contact.motion.distance >= 8.0 => drag::finish(&vm, &ui, &contact),
-            Mode::OpenNotifications if contact.motion.swipe(Axis::Vertical) => {
+            Mode::OpenNotifications
+                if contact.motion.swipe(Axis::Vertical) && contact.motion.delta().1 > 0.0 =>
+            {
+                ui.notification_peek.set(contact.motion.delta().1 < 220.0);
                 ui.notification_open.set(true)
             }
-            Mode::CloseNotifications if contact.motion.swipe(Axis::Vertical) => {
+            Mode::ExpandNotifications
+                if contact.motion.swipe(Axis::Vertical) && contact.motion.delta().1 > 0.0 =>
+            {
+                ui.notification_peek.set(false)
+            }
+            Mode::CloseNotifications
+                if contact.motion.swipe(Axis::Vertical) && contact.motion.delta().1 < 0.0 =>
+            {
                 ui.notification_open.set(false);
+                ui.notification_peek.set(false);
                 if vm.route() == Route::Notifications {
                     vm.back();
                 }
             }
-            Mode::Unlock if contact.motion.swipe(Axis::Vertical) => {
+            Mode::Unlock
+                if contact.motion.swipe(Axis::Vertical) && contact.motion.delta().1 < 0.0 =>
+            {
                 ui.locked.set(false);
                 if vm.route() == Route::Lock {
                     vm.back();
@@ -447,7 +529,19 @@ impl Controller {
             }
             Mode::DismissNotification if contact.motion.swipe(Axis::Horizontal) => {
                 if let Some(id) = contact.notification {
-                    vm.dismiss_notification(id);
+                    vm.dismiss_notification_group(id);
+                }
+            }
+            Mode::DismissAllNotifications if contact.motion.swipe(Axis::Horizontal) => {
+                let paired = self.contacts.borrow().values().any(|other| {
+                    other.mode == Mode::DismissAllNotifications
+                        && other.motion.parallel_swipe(&contact.motion)
+                });
+                if paired {
+                    for other in self.contacts.borrow_mut().values_mut() {
+                        other.mode = Mode::Canceled;
+                    }
+                    vm.clear_notifications();
                 }
             }
             Mode::Swipe if contact.motion.swipe(Axis::Horizontal) => {
@@ -476,6 +570,7 @@ fn pivot_count(route: &Route, ui: &Session) -> usize {
     match route {
         Route::App(AppId::Phone) if ui.pivot.get_untracked() < 2 => 2,
         Route::App(AppId::People | AppId::Settings | AppId::Music | AppId::Video) => 2,
+        Route::App(AppId::Office) if !ui.office.show_new.get_untracked() => 2,
         Route::App(AppId::Calendar | AppId::Outlook) => 3,
         Route::App(AppId::Photos) if ui.selected.get_untracked().is_none() => 3,
         _ => 0,

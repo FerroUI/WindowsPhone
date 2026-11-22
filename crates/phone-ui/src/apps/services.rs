@@ -1,4 +1,5 @@
 mod browser;
+pub use browser::{BrowserSession, browser_back, browser_navigated};
 mod search;
 mod tools;
 
@@ -12,12 +13,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppId) -> Element {
     match app {
         AppId::InternetExplorer => browser::view(vm, ui),
         AppId::Cortana => search::view(vm, ui),
-        AppId::Maps
-        | AppId::Weather
-        | AppId::Files
-        | AppId::Office
-        | AppId::BatterySaver
-        | AppId::DataSense => tools::view(vm, ui, app),
+        AppId::Maps | AppId::Weather => tools::view(vm, ui, app),
         _ => unreachable!("service route"),
     }
 }

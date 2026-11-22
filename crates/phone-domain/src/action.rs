@@ -43,6 +43,20 @@ pub enum Action {
     },
     SetSettings(Settings),
     ToggleSetting(String),
+    Document(DocumentAction),
+    Browser(BrowserAction),
+    MailBatch {
+        ids: Vec<Id>,
+        operation: MailOperation,
+    },
+    ConversationBatch {
+        ids: Vec<Id>,
+        delete: bool,
+    },
+    DeleteMessage {
+        conversation: Id,
+        message: Id,
+    },
     SaveContact(Contact),
     DeleteContact(Id),
     ToggleFavoriteContact(Id),
@@ -76,7 +90,18 @@ pub enum Action {
     DeleteTrack(Id),
     ClearNotifications,
     DismissNotification(Id),
+    DismissAppNotifications(AppId),
     AddNotification(Notification),
     Install(AppId),
     Uninstall(AppId),
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MailOperation {
+    Read,
+    Unread,
+    Flag,
+    Unflag,
+    Delete,
+    Restore,
 }

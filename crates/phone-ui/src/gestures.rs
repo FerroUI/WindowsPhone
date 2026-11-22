@@ -2,6 +2,7 @@
 //! drags. Unclaimed presses/releases remain ordinary FerroUI control input.
 mod controller;
 mod drag;
+mod feedback;
 mod motion;
 
 use crate::session::Session;

@@ -1,3 +1,6 @@
+use ferroui_base::input::platform::ClipboardExtensions;
+use ferroui_base::{Ref, threading::Dispatcher};
+use ferroui_controls::Window;
 use phone_state::{HostRequest, PhoneViewModel};
 use std::{process::Command, rc::Rc};
 
@@ -27,8 +30,27 @@ fn open(url: &str) -> Result<(), String> {
         .map_err(|e| format!("No application could open this request: {e}"))
 }
 
-pub fn handle(vm: &Rc<PhoneViewModel>, request: HostRequest) -> Result<(), String> {
+pub fn handle(
+    vm: &Rc<PhoneViewModel>,
+    window: &Ref<Window>,
+    request: HostRequest,
+) -> Result<(), String> {
     match request {
+        request @ (HostRequest::ImportDocuments { .. } | HostRequest::ExportDocument { .. }) => {
+            crate::documents::start(vm.clone(), window.storage_provider(), request);
+            Ok(())
+        }
+        HostRequest::CopyText { text } => {
+            let clipboard = window.clipboard().ok_or("Clipboard access is unavailable.")?;
+            let vm = vm.clone();
+            drop(Dispatcher::current_dispatcher().spawn_local(async move {
+                match clipboard.set_text_async(Some(&text)).await {
+                    Ok(()) => vm.set_status("Copied.".into()),
+                    Err(error) => vm.set_status(format!("Could not copy: {error}")),
+                }
+            }));
+            Ok(())
+        }
         HostRequest::OpenUrl { url } | HostRequest::Browse { url } => {
             if !url.starts_with("https://") && !url.starts_with("http://") { return Err("Enter an HTTP or HTTPS address.".into()); }
             open(&url)
@@ -42,7 +64,7 @@ pub fn handle(vm: &Rc<PhoneViewModel>, request: HostRequest) -> Result<(), Strin
             vm.set_status(format!("Backup saved to {}", path.display()));
             Ok(())
         }
-        HostRequest::StopCamera | HostRequest::DeleteMedia { .. } => Ok(()),
+        HostRequest::StopCamera | HostRequest::ClearBrowser | HostRequest::DeleteMedia { .. } => Ok(()),
         HostRequest::Notify { title, body } => { vm.set_status(format!("{title}: {body}")); Ok(()) }
         _ => Err("Open the web edition to use camera, media import, sharing, location and backup restore.".into()),
     }

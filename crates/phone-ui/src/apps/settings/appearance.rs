@@ -1,6 +1,9 @@
 //! Theme, sounds and readable display settings.
 use super::update;
-use crate::common::{muted, text};
+use crate::{
+    common::{muted, text},
+    session::Session,
+};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_view::prelude::*;
 use phone_controls::{flat, toggle};
@@ -14,6 +17,7 @@ pub(super) fn theme(vm: Rc<PhoneViewModel>) -> Element {
     let light = vm.clone();
     let more = vm.clone();
     let none = vm.clone();
+    let live = vm.clone();
     let mut colors = grid()
         .column_definitions("*,*,*,*,*")
         .row_definitions("48,48,48,48")
@@ -29,16 +33,12 @@ pub(super) fn theme(vm: Rc<PhoneViewModel>) -> Element {
         }});
     }
     let photos = vm.data().photos.clone();
-    let wallpaper_options = photos
-        .into_iter()
-        .map(|photo| {
-            let model = vm.clone();
-            let source = photo.source.clone();
-            flat(&photo.name, move || {
-                update(&model, |value| value.wallpaper = source.clone())
-            })
-        })
-        .collect::<Vec<_>>();
+    let background = vm.clone();
+    let wallpaper_picker = super::photo_picker::view(
+        photos,
+        280.0,
+        Rc::new(move |source| update(&background, |settings| settings.wallpaper = source)),
+    );
     rsx! {StackPanel{spacing:16.0,
         {muted("Background",18.0)}
         StackPanel{orientation:Orientation::Horizontal,spacing:18.0,
@@ -48,26 +48,41 @@ pub(super) fn theme(vm: Rc<PhoneViewModel>) -> Element {
         {muted(&format!("Accent color · {}",settings.accent_name()),18.0)}
         {colors}
         {toggle("Show more Tiles",settings.more_tiles,move |enabled|update(&more,|value|value.more_tiles=enabled))}
+        {toggle("Live Tiles",settings.live_tiles,move |enabled|update(&live,|value|value.live_tiles=enabled))}
         {muted("Start background",18.0)}
         {flat("none",move ||update(&none,|value|value.wallpaper.clear()))}
-        for option in wallpaper_options {{option}}
+        {wallpaper_picker}
     }}
 }
 
-pub(super) fn sounds(vm: Rc<PhoneViewModel>) -> Element {
+pub(super) fn sounds(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let settings = vm.data().settings.clone();
     let sound = vm.clone();
     let vibration = vm.clone();
-    let volume = vm.clone();
+    let ringer = vm.clone();
+    let media = vm.clone();
+    let mute_media = vm.clone();
+    let panel = vm.clone();
+    let panel_ui = ui.clone();
+    let notifications = vm.clone();
     rsx! {StackPanel{spacing:14.0,
-        {toggle("Sounds",settings.sounds,move |enabled|update(&sound,|value|value.sounds=enabled))}
+        {toggle("Ringer",settings.sounds,move |enabled|update(&sound,|value|{value.sounds=enabled;if enabled&&value.ringer_volume==0{value.ringer_volume=1;}}))}
         {toggle("Vibrate",settings.vibration,move |enabled|update(&vibration,|value|value.vibration=enabled))}
-        {text(&format!("Volume   {}/30",settings.volume),23.0)}
-        Slider{minimum:0.0,maximum:30.0,value:settings.volume as f64,small_change:1.0,large_change:5.0,
-            automation_properties_name:"Volume",on_value_changed:move |event|{
-                let current=volume.data().settings.volume;let next=event.new_value().round().clamp(0.0,30.0)as u8;
-                if next!=current{update(&volume,|value|value.volume=next);}
+        {text(&format!("Ringer + notifications   {}/10",settings.ringer_volume),23.0)}
+        Slider{class:"phone-slider",minimum:0.0,maximum:10.0,value:settings.ringer_volume as f64,small_change:1.0,large_change:1.0,
+            automation_properties_name:"Ringer volume",on_value_changed:move |event|{
+                let current=ringer.data().settings.ringer_volume;let next=event.new_value().round().clamp(0.0,10.0)as u8;
+                if next!=current{update(&ringer,|value|{value.ringer_volume=next;value.sounds=next>0;});}
             }}
+        {text(&format!("Media + apps   {}/30",settings.volume),23.0)}
+        Slider{class:"phone-slider",minimum:0.0,maximum:30.0,value:settings.volume as f64,small_change:1.0,large_change:5.0,
+            automation_properties_name:"Media volume",on_value_changed:move |event|{
+                let current=media.data().settings.volume;let next=event.new_value().round().clamp(0.0,30.0)as u8;
+                if next!=current{update(&media,|value|{value.volume=next;value.media_muted=false;});}
+            }}
+        {toggle("Mute media",settings.media_muted,move |enabled|update(&mute_media,|value|value.media_muted=enabled))}
+        {flat("show volume controls",move ||panel_ui.hardware.show(panel.now(),false))}
+        {flat("manage app notifications",move ||notifications.navigate(phone_domain::Route::Setting("notifications+actions".into())))}
         {muted("These controls change sound and feedback inside this app.",15.0)}
     }}
 }
@@ -76,17 +91,23 @@ pub(super) fn display(vm: Rc<PhoneViewModel>, accessibility: bool) -> Element {
     let settings = vm.data().settings.clone();
     let model = vm.clone();
     if accessibility {
+        let contrast = vm.clone();
+        let motion = vm.clone();
         rsx! {StackPanel{spacing:20.0,
             {text("Text size",25.0)}
-            Slider{minimum:0.8,maximum:1.6,value:settings.text_scale,small_change:0.1,automation_properties_name:"Text size",
+            Slider{class:"phone-slider",minimum:0.8,maximum:1.6,value:settings.text_scale,small_change:0.1,automation_properties_name:"Text size",
                 on_value_changed:move |event|{let next=event.new_value();let current=model.data().settings.text_scale;if (current-next).abs()>0.01{update(&model,|value|value.text_scale=next);}}}
             TextBlock{text:"Make your phone easier to read",font_size:24.0*settings.text_scale,text_wrapping:ferroui_base::media::TextWrapping::Wrap}
+            {toggle("High contrast",settings.high_contrast,move |enabled|update(&contrast,|value|value.high_contrast=enabled))}
+            {muted("Makes text and controls easier to see and removes decorative backgrounds.",16.0)}
+            {toggle("Reduce motion",settings.reduced_motion,move |enabled|update(&motion,|value|value.reduced_motion=enabled))}
+            {muted("Uses still content instead of tile motion and page transitions.",16.0)}
             {muted("Use your browser or operating system's accessibility tools for screen magnification and screen reading.",15.0)}
         }}
     } else {
         rsx! {StackPanel{spacing:20.0,
             {text(&format!("Level   {}%",(settings.brightness*100.0).round()),25.0)}
-            Slider{minimum:0.1,maximum:1.0,value:settings.brightness,small_change:0.1,automation_properties_name:"Brightness",
+            Slider{class:"phone-slider",minimum:0.1,maximum:1.0,value:settings.brightness,small_change:0.1,automation_properties_name:"Brightness",
                 on_value_changed:move |event|{let next=event.new_value();let current=model.data().settings.brightness;if (current-next).abs()>0.01{update(&model,|value|value.brightness=next);}}}
             {muted("Adjusts the appearance of this app.",15.0)}
         }}

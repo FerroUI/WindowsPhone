@@ -2,6 +2,11 @@ use phone_domain::*;
 
 pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<bool, String> {
     match action {
+        Action::Document(action) => crate::documents::mutate(data, action, now),
+        Action::Browser(action) => data.browser.apply(action, now),
+        action @ (Action::MailBatch { .. }
+        | Action::ConversationBatch { .. }
+        | Action::DeleteMessage { .. }) => crate::communication::mutate(data, action),
         action @ (Action::Pin(_)
         | Action::PinTarget(_)
         | Action::Unpin(_)
@@ -150,10 +155,13 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
                 .map(|photo| photo.source.clone());
             let changed = remove(&mut data.photos, id, |photo| photo.id);
             if let Some(source) = source {
-                if data.settings.wallpaper == source
-                    && !data.photos.iter().any(|photo| photo.source == source)
-                {
-                    data.settings.wallpaper.clear();
+                if !data.photos.iter().any(|photo| photo.source == source) {
+                    if data.settings.wallpaper == source {
+                        data.settings.wallpaper.clear();
+                    }
+                    if data.settings.lock_wallpaper == source {
+                        data.settings.lock_wallpaper.clear();
+                    }
                 }
             }
             Ok(changed)
@@ -187,15 +195,13 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
                 true
             }))
         }
-        Action::DeleteMail(id) => {
-            if let Some(mail) = data.mail.iter_mut().find(|m| m.id == id) {
-                if mail.folder != "deleted" {
-                    mail.folder = "deleted".into();
-                    return Ok(true);
-                }
-            }
-            Ok(remove(&mut data.mail, id, |v| v.id))
-        }
+        Action::DeleteMail(id) => crate::communication::mutate(
+            data,
+            Action::MailBatch {
+                ids: vec![id],
+                operation: MailOperation::Delete,
+            },
+        ),
         Action::MarkConversationRead(id) => {
             let changed = data
                 .conversations
@@ -210,7 +216,13 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
                 .retain(|n| n.route != Route::Conversation(id));
             Ok(changed || notifications != data.notifications.len())
         }
-        Action::DeleteConversation(id) => Ok(remove(&mut data.conversations, id, |v| v.id)),
+        Action::DeleteConversation(id) => crate::communication::mutate(
+            data,
+            Action::ConversationBatch {
+                ids: vec![id],
+                delete: true,
+            },
+        ),
         Action::SaveConversation(mut value) => {
             if value.recipient.trim().is_empty() {
                 return Err("Enter a recipient.".into());
@@ -284,7 +296,15 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
             Ok(changed)
         }
         Action::DismissNotification(id) => Ok(remove(&mut data.notifications, id, |v| v.id)),
+        Action::DismissAppNotifications(app) => {
+            let before = data.notifications.len();
+            data.notifications.retain(|item| item.app != app);
+            Ok(data.notifications.len() != before)
+        }
         Action::AddNotification(mut value) => {
+            if !data.settings.notifications_allowed(value.app) {
+                return Ok(false);
+            }
             if value.id == 0 {
                 value.id = data.allocate_id();
             }

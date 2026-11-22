@@ -3,6 +3,9 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { open, sleep, colours } from "../FerroUI/scripts/browser/harness.mjs";
 import { verifyOfflineStartup } from "./ui-offline.mjs";
+import { verifySystemRefinements } from "./ui-system-refinements.mjs";
+import { verifyOfficeRefinements } from "./ui-office-refinements.mjs";
+import { verifyBrowserRefinements } from "./ui-browser-refinements.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -512,6 +515,11 @@ try {
     await until(async () => !(await snapshot()).elements.some(element => element.name === "AppSwitcher"),
       "hardware Back dismisses task switcher");
   });
+  const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control,
+    clickName, clickLabel, clickText, textPresent, reveal, edit, home, isRoute, reload };
+  await verifyOfficeRefinements(refinementContext);
+  await verifySystemRefinements(refinementContext);
+  await verifyBrowserRefinements(refinementContext);
   await check("narrow viewport and trusted touch navigation", async () => {
     await page.resize(390, 844);
     await until(async () => {

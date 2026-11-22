@@ -53,7 +53,7 @@ export async function playMedia(source,surface){
   const player=asset.kind==='video'?(video||=document.createElement('video')):audio;
   activePlayer=player;
   if(player===video){player.controls=true;player.playsInline=true;surface.replaceChildren(player);}
-  player.src=await objectUrl(source);player.volume=Math.min(1,JSON.parse(runtime.exportData()).settings.volume/30);
+  player.src=await objectUrl(source);const settings=JSON.parse(runtime.hostState()).settings;player.volume=settings.media_muted?0:Math.min(1,settings.volume/30);
   player.onended=()=>runtime.mediaChanged(mediaTitle,mediaSource,false);
   player.onerror=()=>{runtime.mediaChanged(mediaTitle,mediaSource,false);report('This browser cannot decode that media format.');};
   player.onplay=()=>runtime.mediaChanged(mediaTitle,mediaSource,true);player.onpause=()=>runtime.mediaChanged(mediaTitle,mediaSource,false);

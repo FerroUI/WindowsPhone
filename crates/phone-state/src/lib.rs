@@ -1,7 +1,9 @@
 //! Retained ReactiveUI view model with granular DynamicData collection projections.
 //! Navigation and clock updates never write persisted application data.
 mod commands;
+mod communication;
 mod convenience;
+mod documents;
 mod mutation;
 mod navigation;
 mod projection;
@@ -11,8 +13,8 @@ mod tiles;
 mod validation;
 
 use ferroui_dynamic_data::SourceCache;
-use ferroui_reactive::{concurrency::ImmediateScheduler, ObservableExt};
-use ferroui_reactiveui::{reactive_object, IReactiveObjectExt, ReactiveCommand, ReactiveObject};
+use ferroui_reactive::{ObservableExt, concurrency::ImmediateScheduler};
+use ferroui_reactiveui::{IReactiveObjectExt, ReactiveCommand, ReactiveObject, reactive_object};
 pub use phone_domain::Action;
 use phone_domain::*;
 pub use services::*;
@@ -26,6 +28,7 @@ pub struct PhoneViewModel {
     reactive: ReactiveObject,
     revision: RefCell<u64>,
     document: RefCell<PhoneData>,
+    document_epoch: Cell<u64>,
     current_route: RefCell<Route>,
     history: RefCell<Vec<Route>>,
     recent: RefCell<Vec<(AppId, Route)>>,
@@ -34,6 +37,7 @@ pub struct PhoneViewModel {
     utc_offset: Cell<i32>,
     status_text: RefCell<String>,
     services: RefCell<HostServices>,
+    environment: RefCell<HostEnvironment>,
     save: SaveCallback,
     applying: Cell<bool>,
     pending: RefCell<VecDeque<Action>>,
@@ -56,6 +60,7 @@ impl PhoneViewModel {
                 reactive: ReactiveObject::new(),
                 revision: RefCell::new(0),
                 document: RefCell::new(data),
+                document_epoch: Cell::new(0),
                 current_route: RefCell::new(Route::Start),
                 history: RefCell::new(Vec::new()),
                 recent: RefCell::new(Vec::new()),
@@ -64,6 +69,7 @@ impl PhoneViewModel {
                 utc_offset: Cell::new(0),
                 status_text: RefCell::new(error.unwrap_or_default()),
                 services: RefCell::new(HostServices::default()),
+                environment: RefCell::new(HostEnvironment::default()),
                 save,
                 applying: Cell::new(false),
                 pending: RefCell::new(VecDeque::new()),
@@ -89,6 +95,10 @@ impl PhoneViewModel {
     }
     pub fn revision(&self) -> u64 {
         *self.revision.borrow()
+    }
+    /// Invalidate transient object references when an entire backup replaces data.
+    pub fn document_epoch(&self) -> u64 {
+        self.document_epoch.get()
     }
     pub fn route(&self) -> Route {
         self.current_route.borrow().clone()
@@ -141,6 +151,16 @@ impl PhoneViewModel {
     pub fn set_services(&self, services: HostServices) {
         *self.services.borrow_mut() = services;
     }
+    pub fn environment(&self) -> HostEnvironment {
+        self.environment.borrow().clone()
+    }
+    pub fn set_environment(&self, mut environment: HostEnvironment) {
+        environment.battery_percent = environment.battery_percent.map(|value| value.min(100));
+        if *self.environment.borrow() != environment {
+            *self.environment.borrow_mut() = environment;
+            self.notify();
+        }
+    }
     pub fn request(&self, request: HostRequest) {
         let callback = self.services.borrow().request.clone();
         callback(request);
@@ -165,6 +185,8 @@ impl PhoneViewModel {
     pub fn replace_data(&self, mut data: PhoneData) -> Result<(), String> {
         data.normalize()?;
         *self.document.borrow_mut() = data;
+        self.document_epoch
+            .set(self.document_epoch.get().wrapping_add(1));
         self.history.borrow_mut().clear();
         self.recent.borrow_mut().clear();
         *self.current_route.borrow_mut() = Route::Start;

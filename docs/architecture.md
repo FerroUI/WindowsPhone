@@ -2,13 +2,14 @@
 
 ## One control tree across hosts
 
-The application has six reusable Rust crates and a pinned FerroUI submodule. The browser is a real FerroUI application: its retained control tree, layout, input, styling and rendering are authored in Rust. HTML and JavaScript host the WebAssembly runtime and provide browser-only facilities; they are not a second implementation of the Start screen or core apps.
+The application has seven reusable Rust crates and a pinned FerroUI submodule. The browser is a real FerroUI application: its retained control tree, layout, input, styling and rendering are authored in Rust. HTML and JavaScript host the WebAssembly runtime and provide browser-only facilities; they are not a second implementation of the Start screen or core apps.
 
 | Layer | Owns | Does not own |
 | --- | --- | --- |
 | `phone-domain` | Serializable data, identifiers, app catalog, tile sizes and packing, validation, pure calculator/calendar behavior. | Controls, browser objects or disk I/O. |
 | `phone-state` | `PhoneViewModel`, `Action` dispatch, ReactiveUI notification, navigation history, recent-app state, DynamicData caches and persistence requests. | Widget construction or direct browser API calls. |
 | `phone-controls` | Reusable templates, design tokens, palette, icons, typography and command controls. | App-specific data. |
+| `phone-fonts` | Licensed embedded Selawik assets and shared `EmbeddedFontCollection` registration. | Theme selection or app data. |
 | `phone-ui` | Shell/app composition, transient edit/selection/menu state, input arbitration and platform-surface markers. | Account credentials or network protocols. |
 | Hosts | Runtime startup, serialization storage and `HostRequest` adapters. | A second authoritative phone document. |
 
@@ -16,13 +17,29 @@ The browser and desktop hosts construct a `PhoneViewModel` and the same `phone_u
 
 ## State and MVVM
 
-`PhoneData` contains the durable document: settings, tiles, contacts, conversations, mail, appointments, notes, alarms, photos, media metadata, notifications, bookmarks, call history and the installed-app set. Its versioned JSON parser validates input before an import replaces existing data. Media bytes are separate from the serializable document.
+`PhoneData` contains the durable document: settings, tiles, contacts, conversations, mail, appointments, notes, alarms, photos, media metadata, notifications, bookmarks, call history, Office documents/folders, browser tabs/history and the installed-app set. Its versioned JSON parser validates input before an import replaces existing data. Media bytes are separate from the serializable document.
 
 `PhoneViewModel` contains a real FerroUI `ReactiveObject` and a `ReactiveCommand`. Actions pass through the command path and a reentrancy queue. A command updates the relevant collection, synchronizes projections and raises the revision property. Contacts, tiles and notifications use keyed DynamicData `SourceCache` projections.
 
 The view subscribes to the ReactiveUI change stream and observes fine-grained FerroUI signals for transient UI state. A `Session` retains pivot positions, selected rows, edit fields, menus, open folders, lock/drawer state and media presentation. A route change clears transient UI that belongs to the previous view; saved app pivots remain available when returning.
 
-Persistence occurs for document mutations. Navigating between screens and updating the clock do not serialize the document. Host callbacks are invoked after releasing the document borrow so a platform callback can safely inspect state.
+Persistence occurs for document mutations. Navigating between screens and updating the clock do not serialize the document. Host callbacks are invoked after releasing the document borrow so a platform callback can safely inspect state. Whole-document replacement increments an ephemeral document epoch: the shared UI then cancels input, clears previews and invalidates drafts, selections and transfer identifiers from the previous dataset. Visible system overlays take Back priority over app-local state. Synchronous Office imports reject command reentrancy before queuing anything and return the identifier only after the document is committed.
+
+### System preferences and hardware state
+
+Additional `Settings` fields use Serde defaults so older phone documents retain their original data. Normalization bounds the two volume scales, validates the lock timeout and status providers, removes duplicate quick-status providers, and rejects unknown app notification keys. Date display order and the first calendar weekday are preferences; stored appointment dates remain ISO dates. The supported regional presets do not change the English interface language.
+
+`HardwareState` owns only transient volume-panel signals, an expiry deadline and a held-pointer flag. Pressing a volume button selects the active sound channel; the expanded panel exposes independent ringer/notification and media/app sliders. Mute retains the stored level. Slider callbacks distinguish a user change from the value being reconciled into a control, preventing mounting a muted slider from overwriting its saved volume or unmuting it. The panel remains open while a pointer is interacting with it, and closes after inactivity. Durable levels and mute preferences stay in `Settings`.
+
+`HostEnvironment` contains optional battery percentage, charging and online observations. Updating those values notifies the view without saving the phone document; unavailable readings remain unknown. Battery Saver affects this app's decorative motion and live-tile cycling. Storage Sense and Data Sense report measured JSON document sizes; imported media bytes, host disk capacity, per-app power consumption and carrier traffic are outside that measurement.
+
+The lock view reads one detailed-status provider and five unique quick-status choices from settings. Action Center groups notifications by app. Its ingestion and visible list both respect the global notification switch and the app's Action Center preference. Hiding an existing group preserves its stored items until a read or explicit dismissal removes them. Per-app banner, sound and vibration flags are persisted preferences; the present host notification adapter does not deliver those independent channels. Global foreground-alarm behavior is separate from Action Center filtering.
+
+### Communication workflows
+
+Mail and Messaging have small view modules with their own transient selection/search/context state. Their selection rails, held-row context actions and application bars dispatch domain commands. `MailBatch` and `ConversationBatch` deduplicate and validate the full identifier selection before mutating anything, update related notification projections, and persist once when data actually changes. Repeating an unchanged operation does not save again. Mail deletion moves an item to the local deleted folder; a second deletion is permanent, and restore returns it to the inbox.
+
+Message bubbles expose copy, forward and delete commands. Forwarding opens a prefilled compose form; copy uses a host request and retains the host's clipboard permission boundary. A conversation's unknown phone number can create a local contact and link it back to that thread. Unsent text-entry drafts live in session state; a message handed to `sms:` is recorded as a draft because the host cannot confirm delivery. Email composition uses `mailto:` without inventing a synchronized sent mailbox. Compose forms label their primary action `open message` or `open email` to make that boundary visible.
 
 ## Controls and theme
 
@@ -30,17 +47,25 @@ Persistence occurs for document mutations. Navigating between screens and updati
 
 Reusable `ControlTheme` / `FuncControlTemplate` definitions cover flat buttons, tiles, application-bar actions, toggle buttons and list containers. Their `ContentPresenter` binds content, brushes, padding, borders, typography and alignment using actual `TemplateBinding` objects. Input, focus, automation and command behavior stay on the native FerroUI control classes. Text boxes retain the WinUI editing template with square Windows Phone colors and borders.
 
+The phone slider supplies square rails/thumbs in cached horizontal and vertical templates, retaining native `PART_Track`, decrease/increase buttons, `Thumb`, range bindings and automation. The visible thumb has a larger transparent input area. This replaces presentation without duplicating range arithmetic or pointer handling.
+
+Page entry, app-bar/folder reveal and live-tile replacement use finite native transform/opacity animations. Their completion and unload paths release subscriptions and restore owned transforms; no perpetual per-tile animation timer runs. Pressed transitions are shared. Reduced motion and Battery Saver disable decorative motion through the common palette/motion gate.
+
 Shared actionable rows assign an explicit automation name from their title and help text from their subtitle. Native focus and editing behavior remain on the control, and text-box template foregrounds are styled through focus, hover and disabled states.
 
 The icon catalog consists of cached vector geometries. Raster photographs use lazy host loading and are rendered by FerroUI. Camera Roll uses a native virtualized `ListBox` of three-photo rows and declarative recycling item templates. Source and template identities survive unrelated clock/menu renders, and the decoded working set follows the realized viewport.
 
+The Start and lock wallpaper pickers reuse a bounded native `ListBox` with a stable items source and recycling template. They request the thumbnail image variant rather than eagerly decoding every full-sized photograph. Both selection flows save only the chosen source identifier.
+
 Images have separate 320-pixel thumbnails and 1,200-pixel full-view variants. A header parser validates encoded length and dimensions before calling a native codec; source images are limited to 16 megapixels and 16 MiB of encoded data. The decoded cache has a 24 MiB soft target and evicts the least recently used idle entry. Active native controls and mounted image leases retain their sources, even if the visible working set exceeds that target. Completion resolves all mounted leases before scheduling a render, preventing concurrent loads from evicting one another into a reload loop. Requests are deduplicated by source, failed loads are suppressed until registration/reset, deleted assets reject late completions, and backup restore clears caches and host request generations.
 
-Typography requests Segoe UI and falls back to bundled Inter. This is a practical portability choice, not a claim of original Segoe WP metrics. The visual system uses square surfaces, large lightweight headings, monochrome actions and bottom command bars. Exact original metric tuning and device comparisons remain tracked in [parity](parity.md).
+Typography requests Segoe WP, then Segoe UI, the bundled Microsoft Selawik collection and Inter. `PhoneFontBuilderExt::with_phone_font()` registers the same four unmodified Selawik 1.01 weights in both hosts. Their SIL license and release-archive hash are recorded in `phone-fonts/NOTICE.md`; the browser distribution includes the license text. Selawik is an open Segoe UI replacement with documented upstream kerning/hinting differences, so this does not assert original Segoe WP metrics. The visual system uses square surfaces, large lightweight headings, monochrome actions and bottom command bars. Exact original metric tuning and device comparisons remain tracked in [parity](parity.md).
 
 ## Tiles, navigation and gestures
 
 The domain layer packs tile spans on a four- or six-cell grid. Small, medium and wide tiles occupy deterministic spans; stable identifiers separate layout from app identity. Folders retain complete child tiles, including their identifiers, sizes and content targets. Secondary tiles can open saved content such as browser favorites through the same navigation/host-request path. Settings and tile operations are persisted, while drag ownership and transient edit affordances remain UI state.
+
+Live-tile cadence derives from the shared clock and stable tile identity. Photos stagger their frames; a People cadence changes one cell rather than rebuilding the mosaic. Keyed child content preserves the control tree between ticks, and folder previews reuse real child presentation. Document snippets consume only a bounded prefix. Holding a tile exposes temporary drop feedback after a dwell; empty Start/folder areas provide extraction and append destinations without persisting intermediate pointer positions.
 
 The navigation journal separates Start, the app list, apps and detail routes. Recent apps retain destinations for switching. Overlays such as Action Center, menus and the app switcher close before ordinary Back navigation. Host browser history participates through the browser bridge.
 
@@ -48,7 +73,15 @@ The task switcher keeps up to six immutable native page snapshots, each limited 
 
 Gesture handling has one controller for a pointer sequence. It arbitrates unclaimed native scrolling, shell navigation, top-edge Action Center gestures, lock dismissal and held-tile dragging. Text editors keep their own editing input. Cancelled capture, detachment, navigation and keyboard cancellation release transient gesture ownership. The pure motion classifier can be checked independently from rendering.
 
+Partial Action Center pulls expose quick actions; a further pull expands it. A one-finger horizontal gesture dismisses the app group. Two-finger clear-all requires both contacts to complete horizontal strokes in the same direction; a stationary or opposing contact does not clear everything. Native visual translation supplies reversible drag feedback without modifying durable state. Document routes stay outside Office hub pivot navigation, preserving native worksheet horizontal scrolling.
+
 This structure avoids separate touch and mouse implementations mutating the same tile model concurrently. It does not yet reproduce every original inertia, tilt, connected transition or multipointer gesture; those are explicit fidelity gaps.
+
+## Browser state
+
+`BrowserData` owns stable tab identifiers, per-tab address-entry journals, visit frequency/history and the address-bar shortcut. Actions validate and normalize HTTP(S) addresses before changing state. The model bounds tabs to 32, journal entries to 128 per tab and distinct history URLs to 512. Back followed by a new address truncates only that tab's forward branch. Closing the last tab leaves a blank one.
+
+Native collections, chrome and navigation modules compose the tab list, frequent/history/favorites views and compact commands. Host acknowledgements record only app-initiated navigation and avoid duplicating explicit Back/Forward entries. Cross-origin iframe-internal navigation and page titles remain inaccessible. Opening a blank tab or closing the final page issues `ClearBrowser` to stop the previous host document; temporarily showing native tabs/history merely hides the surface. Reattaching a retained browser page after resize preserves its collection and menu state.
 
 ## Host service contract
 
@@ -83,13 +116,25 @@ The offline shell cache is versioned by build. Precache requests use `cache: "re
 
 Fetch handling looks only in the active build's cache. Canonical directory navigation falls back to that cache's `index.html`; uncached same-origin GETs use the network, while external and non-GET requests are left to the browser. The browser suite verifies an offline canonical-directory reload, a rendered Start screen and native Search/Back input. Installation through the browser UI, interrupted updates and multi-client upgrade recovery require separate verification.
 
+## Local documents, Office and Files
+
+The `phone-domain::documents` module owns `OfficeDocument`, `DocumentFolder`, Word paragraphs, sparse workbook sheets and PowerPoint text slides. `DocumentAction` passes through the same ReactiveUI command queue as the other phone data. The state layer edits a candidate library, validates names, parent references, cycles, uniqueness and size limits, then publishes the complete mutation. Multi-document copy and move are atomic; a failed destination or name check does not consume identifiers or partially change the library. Deleting an open or pinned document repairs navigation and secondary tiles through the existing cleanup path.
+
+Office and Files share the persistent library. The hub presents recent and places views; Files supplies hierarchy, search, sorting, selection and destination selection. Word uses a native virtualized `ListBox` with cached source/template identities, while the Excel editor realizes a bounded 12-row by 6-column window into a sparse worksheet. Edits use native text controls and explicit save/cancel forms, so clock updates do not replace a user's draft. The paragraph editor, worksheet controls and slide editor remain small shared Rust view modules.
+
+The document engine creates actual OPC/OOXML ZIP packages for DOCX, XLSX and PPTX. The ZIP reader checks central/local directory agreement, entry names, CRCs, methods, compression ratios and resource limits before parsing XML; it never extracts filesystem paths. Import is limited to 8 MiB of encoded input, 1,024 package entries, 4 MiB per expanded part and 16 MiB total expanded data. DTD/entity declarations, encryption, macros, embedded active objects and unsupported structures are rejected. Unused custom XML metadata is not imported, and mapped Word content controls remain unsupported.
+
+The editable model is bounded to 512 documents, 256 folders, 2 MiB of text per document and 8 MiB of library text. A Word document has at most 2,000 paragraphs. Workbooks have at most 16 sheets and 10,000 populated cells per sheet within A1:IV10000; presentations have at most 200 slides. Formula evaluation uses its own parser with cycle detection, depth limits and an evaluation budget. It does not evaluate JavaScript, fetch data or resolve external workbook links.
+
+`ImportDocuments` and `ExportDocument` are host requests. The browser uses a user-initiated file picker, passes bytes to Rust for validation, and downloads exported bytes as a file. The desktop uses FerroUI storage-provider pickers and the same import/export engine. Imported supported OOXML documents retain a compatibility notice; their exports receive a `-mobile-copy` suffix because desktop layout, fonts, themes and metadata are not preserved. Rich unsupported structures are rejected with an explanation. OneDrive and Office 365 remain explicit web handoffs, not authenticated synchronization.
+
 ## Build and deployment
 
 The workspace imports FerroUI's dependency pins and build profiles through its synchronization script. Browser compilation uses the framework's Emscripten target and exact `wasm-bindgen` version. The browser build wrapper rejects app filenames reserved by the runtime, packages the runtime with app assets, prepares the static site, and statically links its JavaScript module graph without executing browser code.
 
 One GitHub Actions workflow performs focused state/host checks, builds the browser, verifies its first rendered native frame, and deploys the Pages artifact. Longer interaction and screenshot checks are opt-in through `workflow_dispatch.verify_ui` or a `[verify-ui]` commit message; their screenshots are retained as a separate verification artifact. Documentation-only changes skip compilation. Toolchain and Cargo caches keep subsequent builds smaller. A deployed artifact comes from the same pinned framework and application source revision.
 
-The Cargo cache retains the full target directory, including FerroUI's local path dependencies. Its compatibility prefix includes the pinned framework, Rust version, lockfile, manifests and build configuration; a source-commit suffix allows a successful build to refresh it. Saving occurs before browser interaction checks. Clean tracked files and watched asset directories in the pinned framework receive stable commit timestamps, so a fresh checkout does not make unchanged framework inputs newer than cached Cargo fingerprints. Application source timestamps are left alone, and a modified framework checkout is rejected by the normalization helper.
+The Cargo cache retains the full target directory, including FerroUI's local path dependencies. Its compatibility prefix includes the pinned framework, Rust version, lockfile, manifests and build configuration; a source-commit suffix allows a successful build to refresh it. An additional fallback cache prefix retains dependencies across application manifest changes while keeping the OS, architecture, compiler and pinned framework boundary; Cargo fingerprints determine which changed inputs need rebuilding. Saving occurs before browser interaction checks. Clean tracked files and watched asset directories in the pinned framework receive stable commit timestamps, so a fresh checkout does not make unchanged framework inputs newer than cached Cargo fingerprints. Application source timestamps are left alone, and a modified framework checkout is rejected by the normalization helper.
 
 An optional manual `reuse_run` avoids compilation when only tests or documentation have changed. Before selecting an immutable artifact ID, the workflow verifies a completed main-branch Pages run from the same repository and compares its runtime input trees with the current commit. It then repeats host checks, module linking and the full browser interaction suite. A runtime-source difference fails the reuse path, and publication still requires successful browser verification. Manual runs can set `publish=false` to retain diagnostic artifacts without deployment.
 

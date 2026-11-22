@@ -42,6 +42,7 @@ pub struct Tile {
 pub enum TileTarget {
     Contact(Id),
     Note(Id),
+    Document(Id),
     Bookmark(Id),
 }
 impl TileTarget {
@@ -49,6 +50,7 @@ impl TileTarget {
         match self {
             Self::Contact(_) => AppId::People,
             Self::Note(_) => AppId::OneNote,
+            Self::Document(_) => AppId::Office,
             Self::Bookmark(_) => AppId::InternetExplorer,
         }
     }

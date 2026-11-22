@@ -10,42 +10,26 @@ use phone_domain::Settings;
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
 
-pub(super) fn lock(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let timeout = vm.data().settings.lock_timeout;
-    let options = [
-        ("30 seconds", 30),
-        ("1 minute", 60),
-        ("3 minutes", 180),
-        ("5 minutes", 300),
-        ("never", 0),
-    ];
-    let choices = options
-        .into_iter()
-        .map(|(label, seconds)| {
-            let model = vm.clone();
-            flat(
-                &format!("{} {label}", if timeout == seconds { "●" } else { "○" }),
-                move || update(&model, |value| value.lock_timeout = seconds),
-            )
-        })
-        .collect::<Vec<_>>();
-    rsx! {StackPanel{spacing:12.0,
-        {muted("Screen times out after",18.0)}
-        for choice in choices {{choice}}
-        {flat("lock now",move ||ui.locked.set(true))}
-        {muted("This locks the app view. Your device's own security settings remain separate.",15.0)}
-    }}
-}
-
 pub(super) fn date_time(vm: Rc<PhoneViewModel>) -> Element {
     let settings = vm.data().settings.clone();
     let model = vm.clone();
     let (year, month, day) = phone_domain::date_parts(vm.local_now());
+    let offset = vm.utc_offset();
+    let zone = format!(
+        "UTC{}{:02}:{:02}",
+        if offset < 0 { "−" } else { "+" },
+        offset.unsigned_abs() / 3600,
+        offset.unsigned_abs() % 3600 / 60
+    );
+    let region = vm.clone();
     rsx! {StackPanel{spacing:18.0,
         {text(&format!("{} {}",day,phone_domain::month_name(month)),32.0)}
         {muted(&year.to_string(),22.0)}
         {text(&phone_domain::time_text(vm.local_now(),settings.time_24h),46.0)}
         {toggle("24-hour clock",settings.time_24h,move |enabled|update(&model,|value|value.time_24h=enabled))}
+        {muted("Time zone",18.0)}{text(&zone,25.0)}
+        {muted("Short date",18.0)}{text(&settings.date_order.format(year,month,day),25.0)}
+        {flat("regional format",move ||region.navigate(phone_domain::Route::Setting("region".into())))}
         {muted("Date and time are supplied by your device.",16.0)}
     }}
 }

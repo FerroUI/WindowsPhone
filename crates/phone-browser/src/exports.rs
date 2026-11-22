@@ -10,6 +10,22 @@ pub fn resize(width: f64, height: f64) {
 pub fn tick(now: f64) {
     if let Some(vm) = crate::app::model() {
         vm.set_clock(now as i64);
+        phone_ui::host_tick(now as i64);
+    }
+}
+#[wasm_bindgen(js_name=setEnvironment)]
+pub fn set_environment(json: &str) -> Result<(), JsValue> {
+    let environment = serde_json::from_str::<phone_state::HostEnvironment>(json)
+        .map_err(|error| JsValue::from_str(&error.to_string()))?;
+    if let Some(vm) = crate::app::model() {
+        vm.set_environment(environment);
+    }
+    Ok(())
+}
+#[wasm_bindgen(js_name=hardwareKey)]
+pub fn hardware_key(key: &str) {
+    if let Some(vm) = crate::app::model() {
+        phone_ui::hardware_key(&vm, key);
     }
 }
 #[wasm_bindgen(js_name=setUtcOffset)]
@@ -35,6 +51,7 @@ pub fn import_data(json: &str) -> Result<(), JsValue> {
     let data = PhoneData::from_json(json).map_err(|error| JsValue::from_str(&error.to_string()))?;
     if let Some(vm) = crate::app::model() {
         vm.replace_data(data).map_err(|e| JsValue::from_str(&e))?;
+        vm.request(phone_state::HostRequest::ClearBrowser);
     }
     Ok(())
 }
@@ -113,7 +130,9 @@ pub fn weather_ready(place: String, temperature: f64, condition: String) {
 }
 #[wasm_bindgen(js_name=browserNavigated)]
 pub fn browser_navigated(url: String) {
-    phone_ui::browser_navigated(url);
+    if let Some(vm) = crate::app::model() {
+        phone_ui::browser_navigated(&vm, url);
+    }
 }
 #[wasm_bindgen(js_name=alarmFired)]
 pub fn alarm_fired(id: f64) {

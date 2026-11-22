@@ -1,9 +1,11 @@
+mod documents;
 mod services;
 mod storage;
 use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
 use ferroui_controls::{AppBuilder, Application, Control, Window};
 use ferroui_desktop::AppBuilderDesktopExtensions;
 use ferroui_fonts_inter::AppBuilderExtension;
+use phone_fonts::PhoneFontBuilderExt;
 use phone_state::{HostServices, PhoneViewModel};
 use std::rc::Rc;
 
@@ -11,10 +13,11 @@ fn main() {
     AppBuilder::configure::<Application>()
         .use_platform_detect()
         .with_inter_font()
+        .with_phone_font()
         .start(
             |app, _| {
                 phone_controls::install_theme(app);
-        phone_ui::set_preview_capture_enabled(true);
+                phone_ui::set_preview_capture_enabled(true);
                 let path = storage::data_path();
                 let (data, warning, save_path) = storage::load(&path);
                 let vm = PhoneViewModel::new(
@@ -39,21 +42,24 @@ fn main() {
                         if let Some(vm) = ticking.upgrade() {
                             let date = chrono::Local::now();
                             vm.set_clock(date.timestamp());
+                            phone_ui::host_tick(date.timestamp());
                             vm.set_utc_offset(date.offset().local_minus_utc());
                         }
                     },
                 );
+                let window = Window::new();
                 let host_vm = Rc::downgrade(&vm);
+                let host_window = window.downgrade();
                 vm.set_services(HostServices {
                     request: Rc::new(move |request| {
-                        if let Some(vm) = host_vm.upgrade() {
-                            if let Err(error) = services::handle(&vm, request) {
+                        if let (Some(vm), Some(window)) = (host_vm.upgrade(), host_window.upgrade())
+                        {
+                            if let Err(error) = services::handle(&vm, &window, request) {
                                 vm.set_status(error);
                             }
                         }
                     }),
                 });
-                let window = Window::new();
                 window.set_title(Some("Windows Phone".into()));
                 window.set_width(430.0);
                 window.set_height(860.0);

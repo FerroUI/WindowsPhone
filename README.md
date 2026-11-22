@@ -17,8 +17,11 @@ The browser renders the retained FerroUI control tree through WebAssembly. The S
 ## Explore
 
 - **Start:** live content and notification counts, small/medium/wide tiles, pin/unpin, resize, reorder, folders that preserve their child tiles, secondary content tiles, accent colors, light/dark backgrounds, photos behind transparent tile interiors, and the optional extra tile columns.
-- **Phone navigation:** swipe between Start and the alphabetical Apps list; search and letter jump; Back/Start/Search buttons; recent-app cards; lock view; Action Center and notification deep links.
-- **Personal apps:** contacts and favorites, conversation drafts, call history, sample mail and mail composition, appointments, alarms, notes, and a calculator.
+- **Phone navigation:** swipe between Start and the alphabetical Apps list; search and letter jump; Back/Start/Search buttons; recent-app cards; configurable lock wallpaper and status providers; grouped Action Center notifications and deep links.
+- **System controls:** separate ringer/notification and media/app volume, mute and vibration controls; a hardware-style volume panel; light/dark and high-contrast themes; reduced motion; live-tile preferences; date order and calendar week start. Battery information uses an actual host reading when available; storage views measure the saved phone document.
+- **Messaging and Outlook:** search local threads and mail, select rows from the left edge or a held item, and apply bulk actions. Messaging includes contact selection, unknown-number contact creation, drafts, and copy/forward/delete commands on individual messages. Outlook includes folders, all/unread/flagged views, bulk read/flag changes, deleted items and restore. Compose actions explicitly open the host's messaging or email app; local drafts do not claim delivery.
+- **Personal apps:** contacts and favorites, call history, appointments, alarms, notes, and a calculator.
+- **Office and Files:** a persistent document library with folders, search, sorting, multi-selection, copy/move, rename, deletion and secondary Start tiles. Native Word paragraph editing and formatting, Excel cells/formulas/worksheets, and PowerPoint text slides/speaker notes share real DOCX/XLSX/PPTX import/export; UTF-8 TXT and CSV imports are supported too. Complex unsupported Office structures are rejected, and imported supported files export as clearly named mobile copies.
 - **Media:** import photos, browse the Camera Roll, select favorites, zoom, share, and delete; capture from the camera; import audio and video and play them through browser media APIs.
 - **Web and services:** browser address entry and favorites, web search, OpenStreetMap handoff, current weather after location permission, local Cortana-style search and commands, and links to online documents.
 - **Games and Store:** a playable tic-tac-toe game and management of the included app collection. The original cloud Store and Xbox services are not connected.
@@ -37,6 +40,10 @@ The first run contains fictional example contacts, messages, mail, notes and pho
 | Arrange Start | Hold a tile to select it; resize/unpin or drag it to another position. |
 | Make a folder | Drop a held tile onto another tile. |
 | Read notifications | Pull down from the status bar, or tap the status bar. |
+| Adjust volume | Use the desktop phone frame's volume buttons, or Settings → ringtones+sounds → show volume controls. Expand the panel to adjust both channels. |
+| Select mail or threads | Tap the left selection rail, hold a row, or choose select in the application bar. |
+| Work with a message | Hold or right-click its bubble to copy, forward or delete it. |
+| Restore deleted mail | Open Outlook → more → folders → deleted items, select a message, then more → move to inbox. The same command is available in its detail view. |
 | Change app section | Select a pivot heading or swipe horizontally on a supported pivot surface. |
 | See more commands | Use the application bar's ellipsis. |
 | Import personal content | Use the relevant app's add command; file selection stays under your control. |
@@ -89,7 +96,7 @@ rustc --edition=2021 --test crates/phone-ui/src/apps/games/logic.rs -o target/ga
 target/game-tests
 ```
 
-The pure game test explores every human move sequence against the phone's minimax player. The domain and state tests cover persistent-data validation, tile layout, navigation and mutations. These checks do not establish pixel parity or validate every physical device.
+The pure game test explores every human move sequence against the phone's minimax player. The domain and state tests cover persistent-data validation, tile layout, navigation and mutations. Focused settings and communication cases exercise old-profile defaults, preference normalization, atomic selections, one persistence write per bulk change, related-notification cleanup, restore/permanent deletion and nonpersistent host-environment updates. These checks do not establish pixel parity or validate every physical device.
 
 With Chromium available, run the browser interaction and screenshot suite against a packaged build:
 
@@ -122,14 +129,15 @@ The successful deployment run is the source of truth for publication; a source c
 | `phone-domain` | Serializable phone document, app catalog, tile packing, calendar and calculator logic, validation. |
 | `phone-state` | ReactiveUI view model and commands, navigation journal, DynamicData projections, persistence boundary. |
 | `phone-controls` | Trimmed WinUI base, Metro control templates, palette, typography, vector icons and reusable app bars. |
+| `phone-fonts` | Embedded Microsoft Selawik font collection, four weights, licensing and shared host registration. |
 | `phone-ui` | Shared `rsx!` shell and app views, session state, gestures, images and host-facing UI hooks. |
 | `phone-browser` | FerroUI browser startup, WebAssembly exports, browser services and static/PWA assets. |
-| `phone-desktop` | Native window startup, local document persistence/recovery, URI handoff and document backup export. |
+| `phone-desktop` | Native startup, persistence/recovery, clipboard and URI handoff, Office file pickers and document backup export. |
 
 Read [architecture](docs/architecture.md) for the state, rendering and service boundaries, and [parity](docs/parity.md) before assuming original phone capabilities are available.
 
 ## Fonts and attribution
 
-The original design uses Segoe WP. The app requests Segoe UI where the host can supply it and includes FerroUI's Inter family as a portable fallback. It does not redistribute proprietary Segoe WP fonts; text metrics consequently differ on some hosts. Original interface research and source links are collected in [the reference document](docs/reference.md). Third-party component and bundled asset notices are in [NOTICE.md](NOTICE.md) and the FerroUI submodule.
+The original design uses Segoe WP. The theme requests Segoe WP or Segoe UI when the host provides a licensed system copy, then falls back to bundled **Microsoft Selawik 1.01** and FerroUI's Inter. The `phone-fonts` crate embeds unmodified Light, Regular, Semibold and Bold Selawik files under the SIL Open Font License 1.1. Microsoft describes Selawik as an open replacement for Segoe UI and records outstanding kerning and hinting differences; the font is not a claim of Segoe WP pixel parity. See [font provenance and license](crates/phone-fonts/NOTICE.md). Original interface research and source links are collected in [the reference document](docs/reference.md). Third-party component and bundled asset notices are in [NOTICE.md](NOTICE.md) and the FerroUI submodule.
 
 Windows Phone, Lumia, Microsoft, Cortana and related names identify the referenced products. This project is an independent recreation and is not an official Microsoft product.

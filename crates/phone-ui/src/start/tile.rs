@@ -42,7 +42,7 @@ pub(super) fn view(
     let edit = ui.clone();
     let context = ui.clone();
     let content = if is_folder {
-        folders::cover(&vm, &tile, w, h)
+        folders::cover(vm.clone(), ui.clone(), &tile, w, h)
     } else {
         content::view(vm.clone(), ui.clone(), &tile, w, h, badge)
     };
@@ -62,6 +62,15 @@ pub(super) fn view(
     }
     visual = visual.child(content);
     if !small {
+        if app == AppId::Photos && !is_folder {
+            visual = visual.child(
+                border()
+                    .height(34.0)
+                    .background("#66000000")
+                    .vertical_alignment(V::Bottom)
+                    .is_hit_test_visible(false),
+            );
+        }
         visual = visual.child(
             text_block()
                 .text(tile.label.clone())
@@ -74,6 +83,7 @@ pub(super) fn view(
     }
     let mut result=grid().child(rsx!{Button{key:format!("tile-{id}"),name:format!("Tile-{id}"),class:"phone-tile",width:w,height:h,padding:0.0,
         automation_properties_name:format!("{} tile",tile.label),horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
+        automation_properties_help_text:if is_folder{format!("Folder, {} tiles. Hold to arrange.",tile.folder_tiles.len())}else{format!("{} tile{}. Hold to resize, move or unpin.",match tile.size{TileSize::Small=>"Small",TileSize::Medium=>"Medium",TileSize::Wide=>"Wide"},if badge>0{format!(", {badge} new items")}else{String::new()})},
         on_click:move|_|{
             if open.edit_tile.get_untracked().is_some(){
                 if is_folder&&open.edit_tile.get_untracked()==Some(id){open.folder.update(|folder|*folder=if *folder==Some(id){None}else{Some(id)});}

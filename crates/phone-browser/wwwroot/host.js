@@ -2,6 +2,7 @@ import {load,save,preserveRecovery,getAsset}from'./phone-storage.js';
 import {webUrl,dialUrl,smsUrl,mailUrl}from'./urls.js';
 import {attachMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
 import {exportBackup,importBackup}from'./backup.js';
+import {importDocuments,exportDocument}from'./documents.js';
 export {load,save,preserveRecovery,stopCamera};
 let runtime;let noticeTimer=0;let surfaceFrame=0;let lastAlarmMinute='';let imageGeneration=0;const alarmFired=new Set();
 const surfaces={};
@@ -26,7 +27,8 @@ export function storageError(message){notice(`Changes could not be saved. Export
 export function refreshSurfaces(){
   cancelAnimationFrame(surfaceFrame);surfaceFrame=requestAnimationFrame(()=>{
     if(!runtime)return;
-    applyAppearance(JSON.parse(runtime.hostState()).settings);
+    const settings=JSON.parse(runtime.hostState()).settings;
+    applyAppearance(settings);updateVolume(settings.media_muted?0:settings.volume);
     const view=JSON.parse(runtime.inspectView());if(!view)return;
     const host=document.getElementById('out').getBoundingClientRect();
     for(const [kind,name]of[['browser','BrowserViewport'],['camera','CameraViewport'],['media','MediaViewport']]){
@@ -45,6 +47,7 @@ async function handle(op){
   switch(op.kind){
     case'openUrl':{const link=document.createElement('a');link.href=webUrl(op.url);link.target='_blank';link.rel='noopener noreferrer';link.click();break;}
     case'browse':browse(op.url);break;
+    case'clearBrowser':surfaces.browser.replaceChildren();surfaces.browser.hidden=true;break;
     case'dial':location.href=dialUrl(op.number);break;
     case'sms':location.href=smsUrl(op.number,op.body);break;
     case'email':location.href=mailUrl(op.to,op.subject,op.body);break;
@@ -59,6 +62,9 @@ async function handle(op){
     case'stopCamera':stopCamera();break;
     case'exportBackup':await exportBackup(runtime);break;
     case'importBackup':await importBackup(runtime);break;
+    case'importDocuments':await importDocuments(runtime,op.folder,notice);break;
+    case'exportDocument':exportDocument(runtime,op.id);break;
+    case'copyText':if(!navigator.clipboard)throw new Error('Clipboard access is unavailable.');await navigator.clipboard.writeText(op.text);notice('Copied.');break;
     case'locate':{const p=await locate();const url=`https://www.openstreetmap.org/?mlat=${p.coords.latitude}&mlon=${p.coords.longitude}#map=16/${p.coords.latitude}/${p.coords.longitude}`;window.open(url,'_blank','noopener,noreferrer');break;}
     case'fetchWeather':await weather();break;
     case'share':await share(op);break;
@@ -99,7 +105,7 @@ function applyAppearance(settings){
   document.getElementById('platform-surfaces').style.filter=filter;
 }
 export function serviceTick(){
-  if(!runtime)return;const data=JSON.parse(runtime.hostState());updateVolume(data.settings.volume);applyAppearance(data.settings);
+  if(!runtime)return;const data=JSON.parse(runtime.hostState());updateVolume(data.settings.media_muted?0:data.settings.volume);applyAppearance(data.settings);
   const date=new Date();const minute=`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`;
   if(minute===lastAlarmMinute)return;lastAlarmMinute=minute;
   for(const alarm of data.alarms){

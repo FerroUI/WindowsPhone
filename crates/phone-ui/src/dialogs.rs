@@ -31,7 +31,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         Border{Grid.row:1,{common::scroll(rsx!{StackPanel{{fields}{common::muted(&ui.form_error.get(),16.0)}}})}},
         Border{Grid.row:2,background:if vm.data().settings.dark{"#1F1F1F"}else{"#E7E7E7"},height:76.0,
             StackPanel{orientation:ferroui_base::layout::Orientation::Horizontal,horizontal_alignment:H::Center,vertical_alignment:V::Center,spacing:38.0,
-                {action(Icon::Save,"save",move||{
+                {action(if dialog.action_label.starts_with("open "){Icon::Send}else{Icon::Save},&dialog.action_label,move||{
                     save_ui.form_error.set(String::new());
                     save(save_ui.fields.iter().take(field_count).map(|field|field.get_untracked()).collect());
                     if save_ui.form_error.get_untracked().is_empty(){save_ui.dialog.set(None);}

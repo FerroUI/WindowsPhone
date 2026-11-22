@@ -1,4 +1,8 @@
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
+
+mod preferences;
+pub use preferences::*;
 
 /// The twenty accent colours offered by Windows Phone 8.1.
 pub const ACCENTS: [(&str, &str); 20] = [
@@ -39,6 +43,8 @@ pub struct Settings {
     pub battery_saver: bool,
     pub time_24h: bool,
     pub volume: u8,
+    pub ringer_volume: u8,
+    pub media_muted: bool,
     pub brightness: f64,
     pub phone_name: String,
     pub lock_timeout: u32,
@@ -46,6 +52,17 @@ pub struct Settings {
     pub sounds: bool,
     pub vibration: bool,
     pub text_scale: f64,
+    pub reduced_motion: bool,
+    pub high_contrast: bool,
+    pub live_tiles: bool,
+    pub lock_wallpaper: String,
+    pub lock_detail_app: String,
+    pub lock_quick_apps: [String; 5],
+    pub notifications_on_lock: bool,
+    pub app_notifications: BTreeMap<String, NotificationPreference>,
+    pub first_day_monday: bool,
+    pub date_order: DateOrder,
+    pub region: String,
     pub quick_actions: [String; 4],
 }
 impl Default for Settings {
@@ -63,6 +80,8 @@ impl Default for Settings {
             battery_saver: false,
             time_24h: true,
             volume: 16,
+            ringer_volume: 8,
+            media_muted: false,
             brightness: 0.8,
             phone_name: "Lumia".into(),
             lock_timeout: 60,
@@ -70,34 +89,43 @@ impl Default for Settings {
             sounds: true,
             vibration: true,
             text_scale: 1.0,
+            reduced_motion: false,
+            high_contrast: false,
+            live_tiles: true,
+            lock_wallpaper: String::new(),
+            lock_detail_app: "Calendar".into(),
+            lock_quick_apps: ["Phone", "Messaging", "Outlook", "", ""].map(str::to_owned),
+            notifications_on_lock: true,
+            app_notifications: BTreeMap::new(),
+            first_day_monday: true,
+            date_order: DateOrder::DayMonthYear,
+            region: "United Kingdom".into(),
             quick_actions: ["wi_fi", "bluetooth", "airplane", "rotation_lock"].map(str::to_owned),
         }
     }
 }
 impl Settings {
     pub fn columns(&self) -> usize {
-        if self.more_tiles {
-            6
-        } else {
-            4
-        }
+        if self.more_tiles { 6 } else { 4 }
     }
     pub fn foreground(&self) -> &'static str {
-        if self.dark {
+        if self.dark || self.high_contrast {
             "#FFFFFF"
         } else {
             "#000000"
         }
     }
     pub fn background(&self) -> &'static str {
-        if self.dark {
+        if self.dark || self.high_contrast {
             "#000000"
         } else {
             "#FFFFFF"
         }
     }
     pub fn secondary(&self) -> &'static str {
-        if self.dark {
+        if self.high_contrast {
+            "#FFFFFF"
+        } else if self.dark {
             "#A6A6A6"
         } else {
             "#666666"

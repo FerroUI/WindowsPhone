@@ -7,6 +7,7 @@ use crate::{
 use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_view::prelude::*;
 use phone_controls::{Icon, flat, icon, toggle};
+use phone_domain::{AppId, Route};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -58,6 +59,7 @@ pub(super) fn notifications(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element 
     }
     let enabled = vm.clone();
     let clear = vm.clone();
+    let locked = vm.clone();
     let mut slots = grid().column_definitions("*,*,*,*").column_spacing(7.0);
     for (index, key) in settings.quick_actions.iter().enumerate() {
         let (label, kind) = quick_action(key);
@@ -72,13 +74,31 @@ pub(super) fn notifications(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element 
             }
         }});
     }
+    let mut apps = stack_panel().spacing(3.0);
+    for app in [
+        AppId::Phone,
+        AppId::Messaging,
+        AppId::Outlook,
+        AppId::Calendar,
+        AppId::Alarms,
+        AppId::Store,
+        AppId::OneNote,
+    ] {
+        let model = vm.clone();
+        apps=apps.child(rsx!{Button{class:"phone-flat",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,padding:(0.0,10.0),
+            automation_properties_name:format!("Notification settings for {}",app.label()),
+            on_click:move |_|model.navigate(Route::Setting(format!("notification:{}",app.label()))),
+            StackPanel{spacing:5.0,{text(app.label(),27.0)}{muted(&super::notification_apps::summary(settings.notification_preference(app)),15.0)}}
+        }});
+    }
     rsx! {StackPanel{spacing:16.0,
         {text("Choose your quick actions",23.0)}
         {slots}
         {muted("Tap a button to change it. Your four choices appear in Action Center.",17.0)}
         {toggle("Show notifications",settings.notifications,move |value|update(&enabled,|settings|settings.notifications=value))}
+        {toggle("Show notifications when locked",settings.notifications_on_lock,move |value|update(&locked,|settings|settings.notifications_on_lock=value))}
         {flat("clear all notifications",move ||clear.dispatch(phone_domain::Action::ClearNotifications))}
-        {muted("Notification settings apply to this phone experience.",15.0)}
+        {text("Manage notifications for each app",24.0)}{apps}
     }}
 }
 

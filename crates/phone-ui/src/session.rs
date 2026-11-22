@@ -1,15 +1,27 @@
 use ferroui_view::prelude::*;
 use phone_domain::{AppId, Route};
-use std::{cell::RefCell, collections::BTreeMap, rc::Rc};
+use std::{
+    cell::{Cell, RefCell},
+    collections::BTreeMap,
+    rc::Rc,
+};
 
 #[derive(Clone)]
 pub struct Dialog {
     pub title: String,
+    pub action_label: String,
     pub labels: Vec<String>,
     pub save: Rc<dyn Fn(Vec<String>)>,
 }
 
 pub struct Session {
+    document_epoch: Cell<u64>,
+    pub hardware: crate::hardware::HardwareState,
+    pub office: crate::apps::office::OfficeSession,
+    pub files: crate::apps::files::FilesSession,
+    pub browser: crate::apps::services::BrowserSession,
+    pub mail: crate::apps::mail::MailState,
+    pub messages: crate::apps::messaging::MessageState,
     pub(crate) previews: crate::previews::PreviewCache,
     pub pivot: Signal<usize>,
     pub selected: Signal<Option<u64>>,
@@ -25,6 +37,7 @@ pub struct Session {
     pub folder: Signal<Option<u64>>,
     pub alphabet: Signal<bool>,
     pub notification_open: Signal<bool>,
+    pub notification_peek: Signal<bool>,
     pub switcher_open: Signal<bool>,
     pub locked: Signal<bool>,
     pub dialog: Signal<Option<Dialog>>,
@@ -51,6 +64,13 @@ pub struct Session {
 impl Session {
     pub fn new() -> Self {
         Self {
+            document_epoch: Cell::new(0),
+            hardware: crate::hardware::HardwareState::new(),
+            office: crate::apps::office::OfficeSession::default(),
+            files: crate::apps::files::FilesSession::default(),
+            browser: crate::apps::services::BrowserSession::default(),
+            mail: crate::apps::mail::MailState::new(),
+            messages: crate::apps::messaging::MessageState::new(),
             previews: crate::previews::PreviewCache::default(),
             pivot: signal(0),
             selected: signal(None),
@@ -66,6 +86,7 @@ impl Session {
             folder: signal(None),
             alphabet: signal(false),
             notification_open: signal(false),
+            notification_peek: signal(false),
             switcher_open: signal(false),
             locked: signal(false),
             dialog: signal(None),
@@ -96,6 +117,16 @@ impl Session {
         fields: Vec<(&str, String)>,
         callback: Rc<dyn Fn(Vec<String>)>,
     ) {
+        self.form_with_action(title, fields, "save", callback);
+    }
+
+    pub fn form_with_action(
+        &self,
+        title: &str,
+        fields: Vec<(&str, String)>,
+        action_label: &str,
+        callback: Rc<dyn Fn(Vec<String>)>,
+    ) {
         self.menu.set(false);
         self.form_error.set(String::new());
         for (index, field) in self.fields.iter().enumerate() {
@@ -108,6 +139,7 @@ impl Session {
         }
         self.dialog.set(Some(Dialog {
             title: title.into(),
+            action_label: action_label.into(),
             labels: fields.into_iter().take(6).map(|f| f.0.into()).collect(),
             save: callback,
         }));
@@ -118,14 +150,34 @@ impl Session {
     }
 
     pub fn dismiss(&self) -> bool {
-        if self.dialog.get_untracked().is_some() {
+        if self.hardware.is_open() {
+            self.hardware.close();
+        } else if self.dialog.get_untracked().is_some() {
             self.dialog.set(None);
-        } else if self.menu.get_untracked() {
-            self.menu.set(false);
         } else if self.notification_open.get_untracked() {
             self.notification_open.set(false);
+            self.notification_peek.set(false);
         } else if self.switcher_open.get_untracked() {
             self.switcher_open.set(false);
+        } else if self.menu.get_untracked() {
+            self.menu.set(false);
+        } else if self.mail.dismiss() || self.messages.dismiss() {
+            self.query.set(String::new());
+        } else if self.office.show_new.get_untracked() {
+            self.office.show_new.set(false);
+        } else if self.office.show_find.get_untracked() {
+            self.office.show_find.set(false);
+            self.query.set(String::new());
+        } else if self.files.folder_menu.get_untracked().is_some() {
+            self.files.folder_menu.set(None);
+        } else if self.files.selecting.get_untracked() {
+            self.files.selecting.set(false);
+            self.files.selection.set(Default::default());
+        } else if self.files.searching.get_untracked() {
+            self.files.searching.set(false);
+            self.query.set(String::new());
+        } else if self.files.transfer.get_untracked().is_some() {
+            self.files.transfer.set(None);
         } else if self.alphabet.get_untracked() {
             self.alphabet.set(false);
         } else if self.edit_tile.get_untracked().is_some() {
@@ -144,6 +196,14 @@ impl Session {
         let previous = self.last_route.borrow().clone();
         if previous == *route {
             return;
+        }
+        self.mail.reset();
+        self.messages.reset();
+        self.office.show_new.set(false);
+        self.office.show_find.set(false);
+        self.office.formatting.set(false);
+        if !matches!(route, Route::FileFolder(_) | Route::App(AppId::Files)) {
+            self.clear_files();
         }
         if let Route::App(app) = previous {
             self.app_pivots
@@ -191,17 +251,61 @@ impl Session {
     }
 
     pub fn clear_overlays(&self) {
+        self.hardware.close();
+        self.mail.reset();
+        self.messages.reset();
+        self.office.show_new.set(false);
+        self.office.show_find.set(false);
+        self.office.formatting.set(false);
+        self.clear_files();
         self.dialog.set(None);
         self.menu.set(false);
         self.notification_open.set(false);
+        self.notification_peek.set(false);
         self.switcher_open.set(false);
         self.alphabet.set(false);
         self.edit_tile.set(None);
         self.folder.set(None);
     }
 
+    fn clear_files(&self) {
+        self.files.folder_menu.set(None);
+        self.files.selecting.set(false);
+        self.files.selection.set(Default::default());
+        self.files.searching.set(false);
+        self.files.transfer.set(None);
+    }
+
+    pub(crate) fn reconcile_document(&self, epoch: u64) {
+        if self.document_epoch.replace(epoch) == epoch {
+            return;
+        }
+        crate::gestures::cancel();
+        self.clear_overlays();
+        self.previews.clear();
+        self.app_pivots.borrow_mut().clear();
+        self.app_selections.borrow_mut().clear();
+        *self.last_route.borrow_mut() = Route::Start;
+        self.message_drafts.set(BTreeMap::new());
+        self.query.set(String::new());
+        self.entry.set(String::new());
+        self.browser_url.set(String::new());
+        self.selected.set(None);
+        self.pivot.set(0);
+        self.mail_folder.set("inbox".into());
+        self.office.paragraph.set(0);
+        self.office.sheet.set(0);
+        self.office.row_page.set(0);
+        self.office.col_page.set(0);
+        self.office.slide.set(0);
+        for field in &self.fields {
+            field.set(String::new());
+        }
+    }
+
     pub(crate) fn preview_obscured(&self, route: &Route) -> bool {
         route.is_overlay()
+            || self.hardware.is_open()
             || self.notification_open.get_untracked()
             || self.switcher_open.get_untracked()
             || self.locked.get_untracked()

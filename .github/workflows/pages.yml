@@ -97,7 +97,9 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
           key: phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-${{ github.sha }}
-          restore-keys: phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-
+          restore-keys: |
+            phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-
+            phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
       - name: Verify state
         if: steps.reuse.outputs.artifact_id == ''
         run: cargo test --locked -p phone-domain -p phone-state

@@ -1,8 +1,10 @@
 //! The Start canvas uses half-tile cells for both root tiles and live folders.
 //! Tile identity, size and secondary activation targets survive every move.
+mod cadence;
 mod content;
 mod folders;
 mod layout;
+mod live;
 mod menu;
 mod tile;
 
@@ -65,6 +67,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         let h = placement.height as f64 * (cell + GAP) - GAP;
         surface = surface.child(
             border()
+                .key(format!("tile-slot-{}", placement.id))
                 .canvas_left(x)
                 .canvas_top(y)
                 .width(w)
@@ -76,10 +79,19 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         let y = after as f64 * (cell + GAP);
         surface = surface.child(
             border()
+                .key(format!("folder-band-{}", folder.id))
                 .canvas_left(0.0)
                 .canvas_top(y)
                 .width(width - PADDING * 2.0)
                 .height(folder_height - GAP)
+                .clip_to_bounds(true)
+                .on_loaded(|event| {
+                    if let Some(control) =
+                        event.source().and_then(|source| source.cast::<Control>())
+                    {
+                        phone_controls::reveal(&control);
+                    }
+                })
                 .child(folders::expanded(
                     vm.clone(),
                     ui.clone(),

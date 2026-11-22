@@ -116,6 +116,10 @@ impl PhoneViewModel {
             Route::Contact(id) => data.contact(*id).is_some(),
             Route::Mail(id) => data.mail(*id).is_some(),
             Route::Note(id) => data.note(*id).is_some(),
+            Route::Document(id) => data.document(*id).is_some(),
+            Route::FileFolder(Some(id)) => {
+                data.document_folders.iter().any(|folder| folder.id == *id)
+            }
             Route::Folder(id) => data.tile(*id).is_some_and(|t| t.is_folder()),
             _ => true,
         }

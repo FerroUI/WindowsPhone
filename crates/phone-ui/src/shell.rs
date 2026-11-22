@@ -2,7 +2,7 @@ use crate::{
     app_list, apps, common, dialogs, gestures, navigation, notifications, session::Session, start,
 };
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
-use ferroui_controls::Application;
+use ferroui_controls::{Application, Control};
 use ferroui_view::prelude::*;
 use phone_domain::Route;
 use phone_state::PhoneViewModel;
@@ -19,7 +19,13 @@ pub fn phone_size(vm: &PhoneViewModel) -> (f64, f64, bool) {
 }
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    ui.reconcile_document(vm.document_epoch());
     let route = vm.route();
+    let direction = if matches!(route, Route::Start) {
+        -1.0
+    } else {
+        1.0
+    };
     ui.previews.before_render(
         &route,
         ui.switcher_open.get_untracked() || route == Route::Switcher,
@@ -29,7 +35,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let (width, height, desktop) = phone_size(&vm);
     let data = vm.data();
     let accent = data.settings.accent.clone();
-    let dark = data.settings.dark;
+    let dark = data.settings.dark || data.settings.high_contrast;
+    phone_controls::set_high_contrast(data.settings.high_contrast);
+    phone_controls::set_motion_enabled(data.settings.motion_enabled());
     let text_scale = data.settings.text_scale;
     drop(data);
     phone_controls::set_text_scale(text_scale);
@@ -46,7 +54,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             gestures::attach(root,attach_vm.clone(),attach_ui.clone());
         },
         {navigation::status(vm.clone(),ui.clone())}
-        Border{Grid.row:1,clip_to_bounds:true,
+        Border{Grid.row:1,name:"PhonePage",key:format!("page-{route:?}"),clip_to_bounds:true,
+            on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){
+                phone_controls::page_enter(&control,direction);
+            },
             {match &route {
                 Route::Start|Route::Folder(_)=>start::view(vm.clone(),ui.clone()),
                 Route::Apps=>app_list::view(vm.clone(),ui.clone()),
@@ -58,15 +69,23 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }}
         }
         Border{Grid.row:2,{navigation::bar(vm.clone(),ui.clone())}}
-        if ui.notification_open.get(){Border{Grid.row_span:2,background:background.as_str(),{notifications::view(vm.clone(),ui.clone())}}}
         if ui.switcher_open.get(){Border{Grid.row_span:2,background:background.as_str(),{navigation::switcher(vm.clone(),ui.clone(),true)}}}
         if ui.locked.get(){Border{Grid.row_span:3,{navigation::lock(vm.clone(),ui.clone())}}}
+        if ui.notification_open.get(){Border{Grid.row_span:2,vertical_alignment:if ui.notification_peek.get(){V::Top}else{V::Stretch},
+            height:if ui.notification_peek.get(){190.0}else{f64::NAN},background:"#1F1F1F",
+            on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){phone_controls::reveal(&control);},
+            {notifications::view(vm.clone(),ui.clone())}
+        }}
         if ui.dialog.get().is_some(){Border{Grid.row_span:2,background:background.as_str(),{dialogs::view(vm.clone(),ui.clone())}}}
         if !vm.status().is_empty(){Border{Grid.row:1,vertical_alignment:V::Top,background:accent.as_str(),padding:(16.0,12.0),
             Grid{column_definitions:"*,36",column_spacing:8.0,
                 TextBlock{text:vm.status(),foreground:"White",font_size:15.0,text_wrapping:ferroui_base::media::TextWrapping::Wrap},
                 Border{Grid.column:1,{phone_controls::flat("×",move||dismiss_status.clear_status())}}
             }
+        }}
+        if ui.hardware.open.get(){Border{Grid.row_span:3,vertical_alignment:V::Top,
+            on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){phone_controls::reveal(&control);},
+            {crate::hardware::view(vm.clone(),ui.clone())}
         }}
     }};
     ui.previews.presented(
@@ -75,12 +94,24 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         ui.switcher_open.get_untracked() || route == Route::Switcher,
     );
     if desktop {
+        let up = vm.clone();
+        let down = vm.clone();
+        let power = vm.clone();
+        let camera = vm.clone();
         rsx! {Grid{name:"WindowsPhoneApp",background:"#151619",focusable:true,
             Border{width:width+24.0,height:height+58.0,background:"#080809",border_brush:"#393B3F",border_thickness:1.0,corner_radius:26.0,horizontal_alignment:H::Center,vertical_alignment:V::Center,
                 Grid{row_definitions:"31,*,25",
                     Border{width:52.0,height:4.0,corner_radius:2.0,background:"#3A3A3C",horizontal_alignment:H::Center,vertical_alignment:V::Center},
                     Border{Grid.row:1,horizontal_alignment:H::Center,{screen}},
                     Border{Grid.row:2,width:24.0,height:3.0,background:"#202022",horizontal_alignment:H::Center,vertical_alignment:V::Center}
+                }
+            }
+            Grid{width:width+42.0,height:height+58.0,horizontal_alignment:H::Center,vertical_alignment:V::Center,is_hit_test_visible:true,
+                StackPanel{horizontal_alignment:H::Right,vertical_alignment:V::Top,margin:(0.0,115.0,0.0,0.0),spacing:3.0,
+                    Button{class:"phone-flat",width:12.0,height:44.0,min_width:0.0,min_height:0.0,padding:0.0,background:"#3A3A3C",automation_properties_name:"Volume up",on_click:move |_|crate::hardware_key(&up,"volumeUp")},
+                    Button{class:"phone-flat",width:12.0,height:44.0,min_width:0.0,min_height:0.0,padding:0.0,background:"#3A3A3C",automation_properties_name:"Volume down",on_click:move |_|crate::hardware_key(&down,"volumeDown")},
+                    Button{class:"phone-flat",width:12.0,height:38.0,min_width:0.0,min_height:0.0,padding:0.0,margin:(0.0,40.0,0.0,0.0),background:"#3A3A3C",automation_properties_name:"Power and lock",on_click:move |_|crate::hardware_key(&power,"power")},
+                    Button{class:"phone-flat",width:12.0,height:44.0,min_width:0.0,min_height:0.0,padding:0.0,margin:(0.0,85.0,0.0,0.0),background:"#3A3A3C",automation_properties_name:"Camera button",on_click:move |_|crate::hardware_key(&camera,"camera")}
                 }
             }
         }}

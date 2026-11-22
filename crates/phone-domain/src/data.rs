@@ -17,6 +17,9 @@ pub struct PhoneData {
     pub mail: Vec<Mail>,
     pub events: Vec<CalendarEvent>,
     pub notes: Vec<Note>,
+    pub documents: Vec<OfficeDocument>,
+    pub document_folders: Vec<DocumentFolder>,
+    pub browser: BrowserData,
     pub alarms: Vec<Alarm>,
     pub photos: Vec<Photo>,
     pub notifications: Vec<Notification>,
@@ -37,6 +40,9 @@ impl Default for PhoneData {
             mail: Vec::new(),
             events: Vec::new(),
             notes: Vec::new(),
+            documents: Vec::new(),
+            document_folders: Vec::new(),
+            browser: BrowserData::default(),
             alarms: Vec::new(),
             photos: Vec::new(),
             notifications: Vec::new(),
@@ -76,6 +82,9 @@ impl PhoneData {
     }
     pub fn note(&self, id: Id) -> Option<&Note> {
         self.notes.iter().find(|t| t.id == id)
+    }
+    pub fn document(&self, id: Id) -> Option<&OfficeDocument> {
+        self.documents.iter().find(|document| document.id == id)
     }
     pub fn contact_name(&self, conversation: &Conversation) -> String {
         conversation
@@ -146,6 +155,8 @@ impl PhoneData {
         validate_ids!(self.mail, "mail");
         validate_ids!(self.events, "events");
         validate_ids!(self.notes, "notes");
+        validate_ids!(self.documents, "documents");
+        validate_ids!(self.document_folders, "document folders");
         validate_ids!(self.alarms, "alarms");
         validate_ids!(self.photos, "photos");
         validate_ids!(self.notifications, "notifications");
@@ -159,6 +170,9 @@ impl PhoneData {
             return Err("The phone backup has exhausted its identifier range.".into());
         }
         self.next_id = self.next_id.max(max_id + 1).max(1_000);
+        crate::documents::validate_library(&self.documents, &self.document_folders)?;
+        self.settings.normalize();
+        self.browser.normalize()?;
         self.settings.volume = self.settings.volume.min(30);
         if !self.settings.brightness.is_finite() {
             self.settings.brightness = 0.8;
@@ -254,6 +268,17 @@ impl PhoneData {
                     subtitle: "OneNote".into(),
                     route: Route::Note(n.id),
                     app: AppId::OneNote,
+                }),
+        );
+        result.extend(
+            self.documents
+                .iter()
+                .filter(|document| document.name.to_lowercase().contains(&query))
+                .map(|document| SearchResult {
+                    title: document.name.clone(),
+                    subtitle: document.kind().label().into(),
+                    route: Route::Document(document.id),
+                    app: AppId::Office,
                 }),
         );
         result.truncate(100);

@@ -2,6 +2,7 @@ import {FerroExports} from './ferroui.js';
 import {loadModule} from './ferroui-loader.js';
 import {attachRuntime,now,utcOffset,notice,refreshSurfaces,stopCamera,serviceTick} from './host.js';
 import {installCanvasSizing} from './canvas-sizing.js';
+import {observeEnvironment} from './environment.js';
 
 try{
   installCanvasSizing(document.getElementById('out'));
@@ -9,6 +10,11 @@ try{
   if(!loaded)throw new Error('The WebAssembly runtime could not be loaded.');
   const runtime=await loaded.createRuntime();
   FerroExports.attach(runtime);globalThis.phoneApp=runtime;attachRuntime(runtime);runtime.runMain();
+  observeEnvironment(runtime);
+  document.addEventListener('keydown',event=>{
+    const key={AudioVolumeUp:'volumeUp',AudioVolumeDown:'volumeDown',AudioVolumeMute:'volumeMute'}[event.key];
+    if(key){event.preventDefault();runtime.hardwareKey(key);refreshSurfaces();}
+  },{capture:true});
   const host=document.getElementById('out');
   let resizeFrame=0;
   const resize=()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{const bounds=host.getBoundingClientRect();runtime.resize(bounds.width,bounds.height);refreshSurfaces();});};

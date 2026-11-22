@@ -29,6 +29,7 @@ impl PhoneData {
         match target {
             TileTarget::Contact(id) => self.contact(id).map(|contact| contact.name.clone()),
             TileTarget::Note(id) => self.note(id).map(|note| note.title.clone()),
+            TileTarget::Document(id) => self.document(id).map(|document| document.name.clone()),
             TileTarget::Bookmark(id) => self
                 .bookmarks
                 .iter()

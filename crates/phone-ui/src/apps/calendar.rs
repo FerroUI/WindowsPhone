@@ -55,7 +55,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             NaiveDate::from_ymd_opt(current_year, current_month, current_day).unwrap_or_default()
         });
         let day = days_from_date(date.year(), date.month(), date.day());
-        let start = day - (day + 3).rem_euclid(7);
+        let monday = vm.data().settings.first_day_monday;
+        let start = day - (day + if monday { 3 } else { 4 }).rem_euclid(7);
         for offset in 0..7 {
             let timestamp = (start + offset) * 86400;
             let (y, m, d) = date_parts(timestamp);
@@ -65,7 +66,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         }
     } else {
         body = body
-            .child(rsx! {Border{margin:(20.0,12.0,20.0,0.0),{text(&selected,24.0)}}})
+            .child(rsx! {Border{margin:(20.0,12.0,20.0,0.0),{text(&display_date(&vm,&selected),24.0)}}})
             .child(event_list(vm.clone(), ui.clone(), &events, &selected, true));
     }
     let add_vm = vm.clone();
@@ -108,6 +109,17 @@ fn selected_date(ui: &Session, year: i32, month: u32, today: &str) -> String {
     } else {
         date_string(year, month, 1)
     }
+}
+
+fn display_date(vm: &PhoneViewModel, value: &str) -> String {
+    NaiveDate::parse_from_str(value, "%Y-%m-%d")
+        .map(|date| {
+            vm.data()
+                .settings
+                .date_order
+                .format(date.year(), date.month(), date.day())
+        })
+        .unwrap_or_else(|_| value.to_owned())
 }
 
 fn move_period(
@@ -156,10 +168,16 @@ fn month_grid(
         .row_spacing(2.0)
         .column_spacing(2.0)
         .margin((16.0, 0.0));
-    for (column, day) in ["m", "t", "w", "t", "f", "s", "s"].into_iter().enumerate() {
+    let monday = vm.data().settings.first_day_monday;
+    let headings = if monday {
+        ["m", "t", "w", "t", "f", "s", "s"]
+    } else {
+        ["s", "m", "t", "w", "t", "f", "s"]
+    };
+    for (column, day) in headings.into_iter().enumerate() {
         cells=cells.child(rsx!{TextBlock{Grid.column:column as i32,text:day,font_size:16.0,foreground:"#929292",horizontal_alignment:H::Center}});
     }
-    let first = first_weekday(year, month);
+    let first = (first_weekday(year, month) + if monday { 0 } else { 1 }) % 7;
     for day in 1..=days_in_month(year, month) {
         let date = date_string(year, month, day);
         let offset = first + day as usize - 1;

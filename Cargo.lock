@@ -1087,6 +1087,7 @@ dependencies = [
  "ferroui-fonts-inter",
  "phone-controls",
  "phone-domain",
+ "phone-fonts",
  "phone-state",
  "phone-ui",
  "serde_json",
@@ -1116,6 +1117,7 @@ dependencies = [
  "ferroui-fonts-inter",
  "phone-controls",
  "phone-domain",
+ "phone-fonts",
  "phone-state",
  "phone-ui",
  "serde_json",
@@ -1125,8 +1127,20 @@ dependencies = [
 name = "phone-domain"
 version = "0.1.0"
 dependencies = [
+ "flate2",
+ "roxmltree",
  "serde",
  "serde_json",
+ "url",
+]
+
+[[package]]
+name = "phone-fonts"
+version = "0.1.0"
+dependencies = [
+ "ferroui-base",
+ "ferroui-controls",
+ "url",
 ]
 
 [[package]]

@@ -1,10 +1,10 @@
-use crate::{common, images, session::Session};
+use crate::{common, session::Session};
 use ferroui_base::input::HoldingState;
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_base::media::FontWeight;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::Route;
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -16,13 +16,35 @@ pub fn status(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     drop(data);
     let color = common::fg(&vm);
     rsx! {Button{name:"StatusBar",class:"phone-flat",height:26.0,horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,
-        automation_properties_name:"Open action center",on_click:move |_|ui.notification_open.set(true),
+        automation_properties_name:"Open action center",on_click:move |_|{ui.notification_peek.set(false);ui.notification_open.set(true);},
         Grid{column_definitions:"Auto,Auto,Auto,*,Auto",column_spacing:7.0,margin:(15.0,3.0),
             {icon(if flight{Icon::Airplane}else{Icon::Signal},14.0,&color)}
             Border{Grid.column:1,if wifi{{icon(Icon::Wifi,14.0,&color)}}}
-            Border{Grid.column:2,{icon(Icon::Battery,17.0,&color)}}
+            Border{Grid.column:2,{battery(&vm,&color)}}
             TextBlock{Grid.column:4,text:common::clock(&vm),font_size:13.0,font_weight:FontWeight::SemiBold,vertical_alignment:V::Center}
         }
+    }}
+}
+pub fn battery(vm: &PhoneViewModel, color: &str) -> Element {
+    let environment = vm.environment();
+    let level = environment.battery_percent;
+    let label = level
+        .map(|level| {
+            format!(
+                "Battery {level}%{}",
+                if environment.charging == Some(true) {
+                    ", charging"
+                } else {
+                    ""
+                }
+            )
+        })
+        .unwrap_or_else(|| "Battery status unavailable".into());
+    rsx! {Grid{width:19.0,height:12.0,column_definitions:"17,2",automation_properties_name:label,
+        Border{height:10.0,border_brush:color,border_thickness:1.0,vertical_alignment:V::Center,
+            if let Some(level)=level {Border{height:6.0,width:13.0*f64::from(level)/100.0,background:if vm.data().settings.battery_saver{"#F0A30A"}else{color},horizontal_alignment:H::Left,margin:(1.0,0.0)}}
+        }
+        Border{Grid.column:1,height:4.0,background:color,vertical_alignment:V::Center}
     }}
 }
 pub fn bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
@@ -45,34 +67,7 @@ pub fn bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     }}
 }
 pub fn lock(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let data = vm.data();
-    let wallpaper = if data.settings.wallpaper.is_empty() {
-        "coast".into()
-    } else {
-        data.settings.wallpaper.clone()
-    };
-    let messages = data.unread_messages();
-    let mail = data.unread_mail();
-    drop(data);
-    let date = chrono::DateTime::from_timestamp(vm.local_now(), 0).unwrap_or_default();
-    let unlock = ui.clone();
-    let unlock_vm = vm.clone();
-    rsx! {Grid{name:"LockScreen",background:"Black",row_definitions:"*,Auto,Auto",clip_to_bounds:true,
-        Border{Grid.row_span:3,{images::photo(&wallpaper)}},
-        Border{Grid.row_span:3,background:"#33000000"},
-        StackPanel{Grid.row:1,margin:(22.0,0.0,20.0,24.0),spacing:0.0,
-            TextBlock{text:common::clock(&vm),font_size:86.0,font_weight:FontWeight::Light,foreground:"White"},
-            TextBlock{text:date.format("%A").to_string(),font_size:29.0,font_weight:FontWeight::Light,foreground:"White"},
-            TextBlock{text:date.format("%e %B").to_string().trim().to_owned(),font_size:29.0,font_weight:FontWeight::Light,foreground:"White"},
-            StackPanel{orientation:Orientation::Horizontal,spacing:16.0,margin:(0.0,20.0,0.0,0.0),
-                {icon(Icon::Message,20.0,"White")} TextBlock{text:messages.to_string(),foreground:"White",font_size:20.0},
-                {icon(Icon::Mail,20.0,"White")} TextBlock{text:mail.to_string(),foreground:"White",font_size:20.0}
-            }
-        },
-        Button{Grid.row:2,class:"phone-flat",automation_properties_name:"Unlock",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Center,height:58.0,
-            on_click:move |_|{unlock.locked.set(false);if unlock_vm.route()==Route::Lock{unlock_vm.back();}},
-            TextBlock{text:"swipe up to unlock",font_size:14.0,foreground:"White"}}
-    }}
+    crate::lockscreen::view(vm, ui)
 }
 pub fn switcher(vm: Rc<PhoneViewModel>, ui: Rc<Session>, overlay: bool) -> Element {
     let (screen_width, screen_height, _) = crate::shell::phone_size(&vm);

@@ -8,6 +8,9 @@ impl PhoneViewModel {
     pub fn pin_note(&self, id: Id) {
         self.dispatch(Action::PinTarget(TileTarget::Note(id)));
     }
+    pub fn pin_document(&self, id: Id) {
+        self.dispatch(Action::PinTarget(TileTarget::Document(id)));
+    }
     pub fn pin_bookmark(&self, id: Id) {
         self.dispatch(Action::PinTarget(TileTarget::Bookmark(id)));
     }
@@ -36,6 +39,7 @@ impl PhoneViewModel {
         match tile.target {
             Some(TileTarget::Contact(id)) => self.navigate(Route::Contact(id)),
             Some(TileTarget::Note(id)) => self.navigate(Route::Note(id)),
+            Some(TileTarget::Document(id)) => self.navigate(Route::Document(id)),
             Some(TileTarget::Bookmark(id)) => {
                 let url = self
                     .data()

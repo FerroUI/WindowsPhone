@@ -1,3 +1,4 @@
+use super::{cadence, live};
 use crate::{common, images, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
@@ -18,6 +19,8 @@ pub(super) fn view(
     let small = tile.size == TileSize::Small;
     let wide = tile.size == TileSize::Wide;
     let data = vm.data();
+    let live = data.settings.live_tiles && !data.settings.battery_saver;
+    let animate = live && !data.settings.reduced_motion && ui.edit_tile.get().is_none();
     if let Some(target) = tile.target {
         return match target {
             TileTarget::Contact(id) => {
@@ -38,6 +41,19 @@ pub(super) fn view(
                     })
                     .unwrap_or_default();
                 rsx! {StackPanel{margin:(12.0,12.0,12.0,38.0),spacing:7.0,{icon(Icon::Note,29.0,"White")},TextBlock{text:body,font_size:19.0,foreground:"White",text_wrapping:TextWrapping::Wrap}}}
+            }
+            TileTarget::Document(id) if !small => {
+                let document = data.document(id);
+                let snippet = document
+                    .map(|document| live::document_preview(document, if wide { 140 } else { 75 }))
+                    .unwrap_or_default();
+                let letter = document
+                    .map(|document| document.kind().letter())
+                    .unwrap_or("O");
+                rsx! {StackPanel{margin:(12.0,10.0,12.0,38.0),spacing:7.0,
+                    TextBlock{text:letter,font_size:32.0,font_weight:FontWeight::SemiBold,foreground:"White"}
+                    TextBlock{text:snippet,font_size:18.0,foreground:"White",text_wrapping:TextWrapping::Wrap}
+                }}
             }
             TileTarget::Bookmark(id) if !small => {
                 let url = data
@@ -65,12 +81,14 @@ pub(super) fn view(
     }
     match tile.app {
         AppId::Photos if !data.photos.is_empty() => {
-            let index = if data.settings.battery_saver {
-                0
-            } else {
-                (vm.now() / 20).unsigned_abs() as usize % data.photos.len()
-            };
-            rsx! {Grid{{images::photo(&data.photos[index].source)},Border{background:"#11000000"}}}
+            let index = cadence::cycle(vm.now(), 17, tile.id, data.photos.len(), live);
+            let photo = &data.photos[index];
+            live::frame(
+                format!("photo-tile-{}-{}", tile.id, photo.id),
+                rsx! {Grid{{images::photo(&photo.source)},Border{background:"#11000000"}}},
+                h * 0.65,
+                animate,
+            )
         }
         AppId::Calendar if !small => {
             let date = chrono::DateTime::from_timestamp(vm.local_now(), 0).unwrap_or_default();
@@ -78,8 +96,18 @@ pub(super) fn view(
             let next = data
                 .events
                 .iter()
-                .filter(|event| event.date == today)
-                .min_by_key(|event| event.time.as_str());
+                .filter(|event| {
+                    chrono::NaiveDate::parse_from_str(&event.date, "%Y-%m-%d")
+                        .ok()
+                        .zip(chrono::NaiveTime::parse_from_str(&event.time, "%H:%M").ok())
+                        .is_some_and(|(day, time)| {
+                            let start = day.and_time(time);
+                            date.naive_utc()
+                                < start
+                                    + chrono::Duration::minutes(i64::from(event.duration_minutes))
+                        })
+                })
+                .min_by_key(|event| (event.date.as_str(), event.time.as_str()));
             rsx! {Grid{
                 StackPanel{margin:(12.0,7.0),spacing:0.0,horizontal_alignment:H::Left,
                     TextBlock{text:date.format("%A").to_string(),font_size:16.0,foreground:"White"},
@@ -87,7 +115,7 @@ pub(super) fn view(
                 },
                 if wide{StackPanel{margin:(133.0,23.0,14.0,36.0),spacing:8.0,
                     TextBlock{text:next.map(|event|event.title.clone()).unwrap_or_else(||"No more events".into()),font_size:22.0,foreground:"White",text_wrapping:TextWrapping::Wrap},
-                    TextBlock{text:next.map(|event|format!("{}  {}",event.time,event.location)).unwrap_or_default(),font_size:16.0,foreground:"White",text_wrapping:TextWrapping::Wrap}
+                    TextBlock{text:next.map(|event|format!("{}{}  {}",if event.date==today{String::new()}else{format!("{}  ",event.date)},event.time,event.location)).unwrap_or_default(),font_size:16.0,foreground:"White",text_wrapping:TextWrapping::Wrap}
                 }}
             }}
         }
@@ -96,15 +124,23 @@ pub(super) fn view(
                 .row_definitions("*,*")
                 .column_definitions("*,*,*")
                 .margin((0.0, 0.0, 0.0, 28.0));
-            let offset = if data.settings.battery_saver {
-                0
-            } else {
-                (vm.now() / 60).unsigned_abs() as usize
-            };
             for i in 0..6 {
-                let person = &data.contacts[(i + offset) % data.contacts.len()];
-                mosaic=mosaic.child(border().grid_row((i/3)as i32).grid_column((i%3)as i32).background(person.color.as_str())
-                    .child(rsx!{TextBlock{text:person.initials(),font_size:if wide{28.0}else{22.0},font_weight:FontWeight::Light,foreground:"#EEFFFFFF",horizontal_alignment:H::Center,vertical_alignment:V::Center}}));
+                let person =
+                    &data.contacts[cadence::person(vm.now(), i, data.contacts.len(), live)];
+                let content = rsx! {Border{background:person.color.as_str(),TextBlock{text:person.initials(),font_size:if wide{28.0}else{22.0},font_weight:FontWeight::Light,foreground:"#EEFFFFFF",horizontal_alignment:H::Center,vertical_alignment:V::Center}}};
+                mosaic = mosaic.child(
+                    border()
+                        .key(format!("people-cell-{i}"))
+                        .grid_row((i / 3) as i32)
+                        .grid_column((i % 3) as i32)
+                        .clip_to_bounds(true)
+                        .child(live::frame(
+                            format!("person-{}", person.id),
+                            content,
+                            28.0,
+                            animate,
+                        )),
+                );
             }
             mosaic.into()
         }

@@ -11,6 +11,7 @@ path = "src/main.rs"
 test = false
 
 [dependencies]
+phone-fonts.workspace = true
 phone-domain.workspace = true
 phone-state.workspace = true
 phone-controls.workspace = true

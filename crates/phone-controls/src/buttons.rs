@@ -63,8 +63,11 @@ pub fn toggle(label: &str, value: bool, on_change: impl Fn(bool) + 'static) -> E
         Grid {column_definitions:"*,70",column_spacing:18.0,
             TextBlock {text:label,font_size:22.0*crate::text_scale(),text_wrapping:TextWrapping::Wrap,vertical_alignment:V::Center}
             Border {Grid.column:1,width:60.0,height:26.0,border_brush:p.foreground,border_thickness:2.0,padding:3.0,vertical_alignment:V::Center,
-                Border {width:25.0,background:if value{p.accent.as_str()}else{p.secondary},
-                    horizontal_alignment:if value{H::Right}else{H::Left}}
+                Grid{background:if value{p.accent.as_str()}else{"Transparent"},
+                    Border {width:15.0,background:p.foreground,horizontal_alignment:H::Left,
+                        transitions:crate::motion::press_transitions(),
+                        render_transform:crate::motion::switch_position(value)}
+                }
             }
         }
     } }
@@ -81,7 +84,15 @@ pub fn app_bar(actions: Vec<Element>, expanded: bool, secondary: Vec<Element>) -
     }
     let mut body = stack_panel().child(icons);
     if expanded {
-        let mut menu = stack_panel().spacing(5.0).margin((20.0, 8.0, 20.0, 18.0));
+        let mut menu = stack_panel()
+            .key("app-bar-menu")
+            .spacing(5.0)
+            .margin((20.0, 8.0, 20.0, 18.0))
+            .on_loaded(|event| {
+                if let Some(control) = event.source().and_then(|source| source.cast::<Control>()) {
+                    crate::reveal(&control);
+                }
+            });
         for action in secondary {
             menu = menu.child(action);
         }

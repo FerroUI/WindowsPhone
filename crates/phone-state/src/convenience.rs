@@ -107,6 +107,17 @@ impl PhoneViewModel {
     pub fn dismiss_notification(&self, id: Id) {
         self.dispatch(Action::DismissNotification(id));
     }
+    pub fn dismiss_notification_group(&self, id: Id) {
+        let app = self
+            .data()
+            .notifications
+            .iter()
+            .find(|item| item.id == id)
+            .map(|item| item.app);
+        if let Some(app) = app {
+            self.dispatch(Action::DismissAppNotifications(app));
+        }
+    }
     pub fn add_notification(&self, value: Notification) {
         self.dispatch(Action::AddNotification(value));
     }

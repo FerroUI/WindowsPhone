@@ -1,9 +1,9 @@
-use super::{GAP, layout, tile};
+use super::{GAP, content, layout, tile};
 use crate::{common, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
-use phone_controls::icon;
-use phone_domain::{Tile, TileSize, TileTarget, pack_tiles};
+use phone_controls::{Icon, icon};
+use phone_domain::{Tile, TileSize, pack_tiles};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -13,7 +13,13 @@ pub(super) fn height(folder: &Tile, cell: f64, columns: usize) -> f64 {
     HEADER + layout::rows(&pack_tiles(&folder.folder_tiles, columns)) as f64 * (cell + GAP) + GAP
 }
 
-pub(super) fn cover(vm: &PhoneViewModel, folder: &Tile, w: f64, h: f64) -> Element {
+pub(super) fn cover(
+    vm: Rc<PhoneViewModel>,
+    ui: Rc<Session>,
+    folder: &Tile,
+    w: f64,
+    h: f64,
+) -> Element {
     let small = folder.size == TileSize::Small;
     let preview: Vec<Tile> = folder
         .folder_tiles
@@ -41,22 +47,40 @@ pub(super) fn cover(vm: &PhoneViewModel, folder: &Tile, w: f64, h: f64) -> Eleme
         };
         let width = place.width as f64 * slot - 3.0;
         let height = place.height as f64 * slot - 3.0;
-        let glyph = if let Some(TileTarget::Contact(id)) = child.target {
-            rsx! {TextBlock{text:data.contact(id).map(|contact|contact.initials()).unwrap_or_default(),font_size:(height*0.45).min(22.0),foreground:"White",horizontal_alignment:H::Center,vertical_alignment:V::Center}}
+        let badge = if child.target.is_none() {
+            data.badge(child.app)
         } else {
-            icon(
-                common::app_icon(child.app),
-                (width.min(height) * 0.55).clamp(8.0, 28.0),
-                "White",
-            )
+            0
         };
+        let reference_h = if child.size == TileSize::Small {
+            86.0
+        } else {
+            180.0
+        };
+        let reference_w = reference_h * place.width as f64 / place.height as f64;
+        let inner = content::view(
+            vm.clone(),
+            ui.clone(),
+            child,
+            reference_w,
+            reference_h,
+            badge,
+        );
+        let glyph = rsx! {Viewbox{stretch:ferroui_base::media::Stretch::Uniform,
+            Grid{width:reference_w,height:reference_h,clip_to_bounds:true,
+                {inner}
+                if child.size!=TileSize::Small{TextBlock{text:child.label.clone(),font_size:14.0,foreground:"White",vertical_alignment:V::Bottom,margin:(9.0,0.0,5.0,7.0)}}
+            }
+        }};
         surface = surface.child(
             border()
+                .key(format!("folder-preview-{}", child.id))
                 .canvas_left(place.column as f64 * slot)
                 .canvas_top(place.row as f64 * slot)
                 .width(width)
                 .height(height)
                 .background(color)
+                .clip_to_bounds(true)
                 .child(glyph),
         );
     }
@@ -89,6 +113,7 @@ pub(super) fn expanded(
         let h = place.height as f64 * (cell + GAP) - GAP;
         surface = surface.child(
             border()
+                .key(format!("folder-child-{}", child.id))
                 .canvas_left(x)
                 .canvas_top(top)
                 .width(w)
@@ -109,11 +134,15 @@ pub(super) fn expanded(
     let name = folder.label.clone();
     let id = folder.id;
     let accent = common::accent(&vm);
+    let close = ui.clone();
     rsx! {Grid{row_definitions:"50,*",
         Border{height:2.0,vertical_alignment:V::Top,background:accent.as_str()},
+        Grid{column_definitions:"*,44",
         Button{name:format!("FolderName-{id}"),class:"phone-flat",horizontal_content_alignment:H::Left,padding:(0.0,4.0),automation_properties_name:format!("Rename folder {}",folder.label),
             on_click:move|_|{let vm=rename_vm.clone();rename.form("folder name",vec![("name",name.clone())],Rc::new(move|fields|vm.rename_folder(id,fields[0].clone())));},
             TextBlock{text:folder.label,font_size:20.0,foreground:accent.as_str()}
+        },
+        Button{Grid.column:1,class:"phone-flat",automation_properties_name:"Close folder",on_click:move|_|{close.folder.set(None);close.edit_tile.set(None);},{icon(Icon::Close,16.0,&accent)}}
         },
         Border{Grid.row:1,{surface}}
     }}

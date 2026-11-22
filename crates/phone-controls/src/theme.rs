@@ -1,11 +1,12 @@
 use crate::{
-    compiled_markup::THEME_PARTS_FERROUI_THEMES_WINUI_WINUITHEME as PARTS, templates, Palette,
-    DEFAULT_ACCENT, FONT_FAMILY,
+    DEFAULT_ACCENT, FONT_FAMILY, Palette,
+    compiled_markup::THEME_PARTS_FERROUI_THEMES_WINUI_WINUITHEME as PARTS, templates,
 };
+use ferroui_base::animation::Animatable;
 use ferroui_base::layout::{HorizontalAlignment as H, Layoutable, VerticalAlignment as V};
 use ferroui_base::media::{FontFamily, FontWeight};
 use ferroui_base::styling::{Styles, ThemeVariant};
-use ferroui_base::{Ref, StyledElement, Visual};
+use ferroui_base::{Ref, RelativePoint, StyledElement, Visual};
 use ferroui_controls::primitives::{ScrollBarVisibility, TemplatedControl};
 use ferroui_controls::{Application, ContentControl, ItemsControl, ScrollViewer, TextBlock};
 use ferroui_view::style;
@@ -86,6 +87,14 @@ fn install_palette(styles: &Styles, p: &Palette) {
                 .set(TemplatedControl::corner_radius_property(), 0.0)
                 .set(TemplatedControl::border_thickness_property(), 0.0)
                 .set(TemplatedControl::padding_property(), 0.0)
+                .set(
+                    Visual::render_transform_origin_property(),
+                    RelativePoint::CENTER,
+                )
+                .set(
+                    Animatable::transitions_property(),
+                    crate::motion::press_transitions(),
+                )
                 .set(Layoutable::min_width_property(), 0.0)
                 .set(Layoutable::min_height_property(), 0.0)
                 .set(
@@ -100,7 +109,18 @@ fn install_palette(styles: &Styles, p: &Palette) {
         );
         styles.add(
             style(&format!("{selector}:pressed"))
-                .set(Visual::opacity_property(), 0.62)
+                .set(
+                    Visual::opacity_property(),
+                    if selector == "Button.phone-tile" {
+                        0.94
+                    } else {
+                        0.76
+                    },
+                )
+                .set(
+                    Visual::render_transform_property(),
+                    crate::motion::scale(if p.motion_enabled { 0.965 } else { 1.0 }),
+                )
                 .build(),
         );
         styles.add(
@@ -115,6 +135,15 @@ fn install_palette(styles: &Styles, p: &Palette) {
                 .build(),
         );
     }
+    styles.add(
+        style("Button.phone-tile.folder-drop")
+            .set(
+                Visual::render_transform_property(),
+                crate::motion::scale(if p.motion_enabled { 0.88 } else { 1.0 }),
+            )
+            .set(Visual::opacity_property(), 0.72)
+            .build(),
+    );
     styles.add(
         style("Button.phone-button")
             .set(TemplatedControl::border_brush_property(), p.foreground)
@@ -158,6 +187,7 @@ fn install_palette(styles: &Styles, p: &Palette) {
     );
     install_lists(styles);
     crate::inputs::install(styles, p);
+    crate::sliders::install(styles, p);
 }
 
 fn install_lists(styles: &Styles) {

@@ -70,6 +70,15 @@ impl Motion {
         displacement.abs() >= 46.0
             || (displacement.abs() >= 24.0 && displacement.abs() / elapsed >= 380.0)
     }
+
+    /// Both fingers must finish meaningful horizontal strokes in the same
+    /// direction; a stationary second finger never turns a dismissal into
+    /// the destructive clear-all gesture.
+    pub fn parallel_swipe(&self, other: &Self) -> bool {
+        self.swipe(Axis::Horizontal)
+            && other.swipe(Axis::Horizontal)
+            && self.delta().0.signum() == other.delta().0.signum()
+    }
 }
 
 #[cfg(test)]
@@ -111,5 +120,18 @@ mod tests {
         m.update(f64::NAN, 0.0, 20);
         assert!(!m.is_tap());
         assert!(!m.swipe(Axis::Horizontal));
+    }
+    #[test]
+    fn clear_all_requires_two_parallel_completed_strokes() {
+        let mut first = Motion::new(20.0, 80.0, 0);
+        let mut second = Motion::new(40.0, 160.0, 5);
+        first.update(120.0, 82.0, 200);
+        assert!(!first.parallel_swipe(&second));
+        second.update(-60.0, 160.0, 200);
+        assert!(!first.parallel_swipe(&second));
+        second.update(140.0, 160.0, 230);
+        assert!(first.parallel_swipe(&second));
+        second.update(40.0, 160.0, 260);
+        assert!(!first.parallel_swipe(&second));
     }
 }

@@ -1,0 +1,11 @@
+[package]
+name = "phone-fonts"
+version.workspace = true
+edition.workspace = true
+license = "MIT AND OFL-1.1"
+publish = false
+
+[dependencies]
+ferroui-base.workspace = true
+ferroui-controls.workspace = true
+url.workspace = true

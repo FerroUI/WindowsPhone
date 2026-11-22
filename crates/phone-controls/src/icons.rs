@@ -1,7 +1,7 @@
 //! Resolution-independent monochrome icon geometry, cached on the UI thread.
+use ferroui_base::Ref;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::Geometry;
-use ferroui_base::Ref;
 use ferroui_view::prelude::*;
 use std::{cell::RefCell, collections::HashMap};
 
@@ -27,6 +27,7 @@ pub enum Icon {
     Cortana,
     Search,
     Back,
+    Forward,
     Windows,
     Plus,
     More,

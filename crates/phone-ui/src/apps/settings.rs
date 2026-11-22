@@ -1,8 +1,15 @@
 //! Windows Phone Settings category navigation and shared mutation helpers.
 mod appearance;
 mod integrations;
+mod lock;
+mod notification_apps;
+mod photo_picker;
+mod power_storage;
 mod quick_actions;
+mod region;
 mod system;
+
+pub use power_storage::{battery_page, data_page};
 
 use crate::{
     common::{page, row, scroll, title},
@@ -11,7 +18,7 @@ use crate::{
 use ferroui_base::layout::Orientation;
 use ferroui_view::prelude::*;
 use phone_controls::pivot;
-use phone_domain::{Route, Settings};
+use phone_domain::{AppId, Route, Settings};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -19,24 +26,39 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if let Route::Setting(name) = vm.route() {
         let content = match name.as_str() {
             "start+theme" => appearance::theme(vm.clone()),
-            "ringtones+sounds" | "music+videos" => appearance::sounds(vm.clone()),
+            "ringtones+sounds" | "music+videos" => appearance::sounds(vm.clone(), ui.clone()),
             "notifications+actions" => quick_actions::notifications(vm.clone(), ui.clone()),
-            "lock screen" => system::lock(vm.clone(), ui.clone()),
+            "lock screen" => lock::view(vm.clone(), ui.clone()),
             "brightness" => appearance::display(vm.clone(), false),
             "ease of access" => appearance::display(vm.clone(), true),
             "date+time" => system::date_time(vm.clone()),
+            "region" => region::view(vm.clone()),
+            "storage sense" => power_storage::storage(vm.clone()),
+            "battery saver" => power_storage::battery_settings(vm.clone()),
             "backup" => system::backup(vm.clone()),
             "about" => system::about(vm.clone(), ui.clone()),
             "photos+camera" => integrations::photos(vm.clone()),
             "Internet Explorer" => integrations::browser(vm.clone()),
             "messaging" => integrations::messaging(vm.clone()),
-            "maps" => integrations::location(vm.clone()),
+            "maps" | "location" => integrations::location(vm.clone()),
+            value if value.starts_with("notification:") => {
+                let app = AppId::ALL
+                    .into_iter()
+                    .find(|app| Some(app.label()) == value.strip_prefix("notification:"))
+                    .unwrap_or(AppId::Messaging);
+                notification_apps::view(vm.clone(), app)
+            }
             _ => system::radio(vm.clone(), &name),
+        };
+        let heading = if name.starts_with("notification:") {
+            "notifications+actions"
+        } else {
+            &name
         };
         return page(
             "settings",
             scroll(
-                rsx! {StackPanel{spacing:12.0,{title(&name)}Border{margin:(20.0,0.0,20.0,24.0),{content}}}},
+                rsx! {StackPanel{spacing:12.0,{title(heading)}Border{margin:(20.0,0.0,20.0,24.0),{content}}}},
             ),
             Element::Empty,
         );
@@ -95,6 +117,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 format!("{}%", (settings.brightness * 100.0).round()),
             ),
             ("battery saver", on_off(settings.battery_saver).into()),
+            ("storage sense", "phone storage".into()),
+            ("location", on_off(settings.location).into()),
             (
                 "date+time",
                 if settings.time_24h {
@@ -107,6 +131,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 "ease of access",
                 format!("text size {}%", (settings.text_scale * 100.0).round()),
             ),
+            ("region", settings.region.clone()),
             ("backup", "apps, settings and local content".into()),
             ("about", settings.phone_name.clone()),
         ]
