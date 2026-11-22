@@ -98,8 +98,14 @@ async function reveal(match, label, scrollMatch, scrollLabel) {
 async function edit(name, text) {
   await clickName(name);
   await page.press("a", ["ctrl"]);
-  if (text) await page.send("Input.insertText", { text });
-  else await page.press("Backspace");
+  if (text) {
+    // Keep line breaks on the native keyboard path: a single browser text
+    // insertion can normalize them before the framework receives the edit.
+    for (const [index, line] of text.split("\n").entries()) {
+      if (index) await page.press("Enter");
+      if (line) await page.send("Input.insertText", { text: line });
+    }
+  } else await page.press("Backspace");
   await until(async () => (await snapshot()).elements.some(element =>
     element.name === name && element.text === text), `native text in ${name}`);
 }

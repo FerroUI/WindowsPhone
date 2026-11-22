@@ -13,6 +13,10 @@ on:
         description: Reverify and publish a matching compiled-app from a completed main run
         type: string
         default: ''
+      publish:
+        description: Publish the verified app to GitHub Pages
+        type: boolean
+        default: true
 permissions:
   contents: read
   actions: read
@@ -145,13 +149,16 @@ jobs:
           if-no-files-found: ignore
           retention-days: 5
       - uses: actions/configure-pages@v5
+        if: github.event_name != 'workflow_dispatch' || inputs.publish
         with:
           enablement: true
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'workflow_dispatch' || inputs.publish
         with:
           path: target/browser/phone-browser
   deploy:
     needs: build
+    if: github.event_name != 'workflow_dispatch' || inputs.publish
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
