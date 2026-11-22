@@ -9,8 +9,13 @@ on:
         description: Capture app screens and exercise desktop/touch interactions
         type: boolean
         default: false
+      reuse_run:
+        description: Reverify and publish a matching compiled-app from a completed main run
+        type: string
+        default: ''
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 concurrency:
@@ -30,7 +35,20 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: FerroUI/src/Browser/FerroUI.Browser/webapp/package-lock.json
+      - name: Validate compiled artifact reuse
+        if: inputs.reuse_run != ''
+        id: reuse
+        env:
+          PHONE_REUSE_RUN: ${{ inputs.reuse_run }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/verify-reuse.mjs
       - name: Read framework tool pins
+        if: steps.reuse.outputs.artifact_id == ''
         id: pins
         run: |
           echo "emsdk=$(sed -n 's/^EMSDK_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
@@ -39,6 +57,7 @@ jobs:
           echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           echo "build=${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/*/Cargo.toml', '.cargo/config.toml', 'scripts/build-browser.sh', 'scripts/ci-framework-mtimes.py') }}-${CARGO_PROFILE_BROWSER_CODEGEN_UNITS}-${CARGO_PROFILE_TEST_DEBUG}-${CARGO_INCREMENTAL}" >> "$GITHUB_OUTPUT"
       - uses: actions/cache/restore@v4
+        if: steps.reuse.outputs.artifact_id == ''
         id: tools
         with:
           path: |
@@ -46,29 +65,27 @@ jobs:
             ~/browser-tools/bin
           key: phone-tools-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.emsdk }}-${{ steps.pins.outputs.bindgen }}
       - name: Install pinned browser tools
+        if: steps.reuse.outputs.artifact_id == ''
         run: |
           FerroUI/scripts/browser/setup.sh "$HOME/browser-tools"
           source "$HOME/browser-tools/env.sh"
           printf '%s\n' "EMSDK=$EMSDK" "RUSTUP_TOOLCHAIN=$RUSTUP_TOOLCHAIN" "EMCC_CFLAGS=$EMCC_CFLAGS" >> "$GITHUB_ENV"
           printf '%s\n' "$EMSDK" "$EMSDK/upstream/emscripten" "$HOME/browser-tools/bin" >> "$GITHUB_PATH"
       - uses: actions/cache/save@v4
-        if: steps.tools.outputs.cache-hit != 'true'
+        if: steps.reuse.outputs.artifact_id == '' && steps.tools.outputs.cache-hit != 'true'
         with:
           path: |
             ~/browser-tools/emsdk
             ~/browser-tools/bin
           key: phone-tools-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.emsdk }}-${{ steps.pins.outputs.bindgen }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: FerroUI/src/Browser/FerroUI.Browser/webapp/package-lock.json
       - name: Normalize pinned framework timestamps
+        if: steps.reuse.outputs.artifact_id == ''
         run: python3 scripts/ci-framework-mtimes.py
       # Keep FerroUI path dependencies: rust-cache prunes nonmember crates below
       # the workspace root. The SHA suffix lets each successful build refresh
       # the cache while the prefix preserves framework/configuration boundaries.
       - uses: actions/cache/restore@v4
+        if: steps.reuse.outputs.artifact_id == ''
         id: build-cache
         with:
           path: |
@@ -77,37 +94,51 @@ jobs:
             ~/.cargo/git
           key: phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-${{ github.sha }}
           restore-keys: phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ steps.pins.outputs.build }}-
-      - name: Verify state and host boundaries
-        run: |
-          cargo test --locked -p phone-domain -p phone-state
-          node --test scripts/*.test.mjs
+      - name: Verify state
+        if: steps.reuse.outputs.artifact_id == ''
+        run: cargo test --locked -p phone-domain -p phone-state
+      - name: Verify host boundaries
+        run: node --test scripts/*.test.mjs
       - name: Build Windows Phone
+        if: steps.reuse.outputs.artifact_id == ''
         run: bash scripts/build-browser.sh
       - name: Save compiled framework and app
         uses: actions/cache/save@v4
-        if: steps.build-cache.outputs.cache-hit != 'true'
+        if: steps.reuse.outputs.artifact_id == '' && steps.build-cache.outputs.cache-hit != 'true'
         with:
           path: |
             target
             ~/.cargo/registry
             ~/.cargo/git
           key: ${{ steps.build-cache.outputs.cache-primary-key }}
+      - uses: actions/download-artifact@v4
+        if: steps.reuse.outputs.artifact_id != ''
+        with:
+          artifact-ids: ${{ steps.reuse.outputs.artifact_id }}
+          merge-multiple: true
+          path: target/browser/phone-browser
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.reuse_run }}
+          github-token: ${{ github.token }}
+      - name: Verify reused module links
+        if: steps.reuse.outputs.artifact_id != ''
+        run: node --experimental-vm-modules scripts/verify-site.mjs target/browser/phone-browser
       - name: Verify first frame
-        if: ${{ !inputs.verify_ui && !contains(github.event.head_commit.message, '[verify-ui]') }}
+        if: ${{ steps.reuse.outputs.artifact_id == '' && !inputs.verify_ui && !contains(github.event.head_commit.message, '[verify-ui]') }}
         timeout-minutes: 2
         run: node scripts/startup-smoke.mjs target/browser/phone-browser
       - uses: actions/upload-artifact@v4
-        if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        if: steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
         with:
           name: compiled-app
           path: target/browser/phone-browser
           retention-days: 3
       - name: Verify rendered desktop and touch views
-        if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        if: steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
         timeout-minutes: 5
         run: node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
       - uses: actions/upload-artifact@v4
-        if: always() && (inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]'))
+        if: always() && (steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]'))
         with:
           name: ui-verification
           path: target/ui-smoke

@@ -62,6 +62,19 @@ async function control(match, label) {
   }, label);
 }
 
+async function presence(match, label) {
+  return until(async () => {
+    const view = await snapshot();
+    const screen = view?.elements.find(element => element.name === "PhoneScreen");
+    if (!screen) return;
+    const found = view.elements.filter(element => match(element) && centreInside(element, screen));
+    assert(found.length <= 1, `Ambiguous visible content: ${label} (${found.length})`);
+    return found[0];
+  }, label);
+}
+const textPresent = (text, label = text) =>
+  presence(element => visibleText(element) && element.text === text, label);
+
 async function click(match, label) {
   await page.click(...centre(await control(match, label)));
 }
@@ -211,7 +224,7 @@ try {
   await check("native tile launch and Back", async () => {
     await clickName(`Tile-${phoneTile.id}`);
     await isRoute({ App: "Phone" });
-    await control(element => visibleText(element) && element.text === "history", "phone history");
+    await textPresent("history", "phone history");
     await capture("02-phone-history");
     await clickName("HardwareBack");
     await isRoute("Start");
@@ -278,12 +291,11 @@ try {
     await capture("06b-note-pinned");
     await page.click(...centre(tile));
     await isRoute({ Note: noteId });
-    await control(element => visibleText(element) && element.text === noteTitle, "pinned note content");
+    await textPresent(noteTitle, "pinned note content");
   });
   await check("native note deletion", async () => {
     await clickLabel("delete");
-    await control(element => visibleText(element) && element.text === "delete this note?",
-      "note deletion confirmation");
+    await textPresent("delete this note?", "note deletion confirmation");
     await clickLabel("save");
     await until(async () => !(await state()).notes.some(note => note.id === noteId), "deleted note");
     assert(!(await state()).tiles.some(tile => tile.target?.Note === noteId),
@@ -301,7 +313,7 @@ try {
     await clickLabel("Calculator");
     await isRoute({ App: "Calculator" });
     for (const label of ["Clear", "7", "+", "8", "Equals"]) await clickLabel(label);
-    await control(element => element.automationName === "Calculator result" && element.text === "15",
+    await presence(element => element.automationName === "Calculator result" && element.text === "15",
       "calculator 7 + 8 = 15");
     await capture("08-calculator");
   });
@@ -361,7 +373,7 @@ try {
     const lastButton = await reveal(element => button(element) && element.automationName === last.name,
       "last fixture photo", listMatch, "native Photos list");
     await page.click(...centre(lastButton));
-    await control(element => visibleText(element) && element.text === last.name, "selected photo caption");
+    await textPresent(last.name, "selected photo caption");
     await clickLabel("favorite");
     await until(async () => (await state()).photos.find(photo => photo.id === last.id)?.favorite,
       "selected photo favorite state");
@@ -377,8 +389,7 @@ try {
     const importedButton = await reveal(element => button(element) && element.automationName === importedName,
       "newly imported photo row", listMatch, "updated native Photos list");
     await page.click(...centre(importedButton));
-    await control(element => visibleText(element) && element.text === importedName,
-      "newly imported photo selection");
+    await textPresent(importedName, "newly imported photo selection");
     await capture("photos-imported-selection");
     assert.equal((await state()).photos.find(photo => photo.id === imported.id)?.source, "forest");
 
