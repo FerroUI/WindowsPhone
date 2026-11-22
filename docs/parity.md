@@ -45,6 +45,25 @@ The target is **Windows Phone 8.1 Update (2014, often called Update 1)**. Live f
 | Backup/PWA | Local phone data, IndexedDB media, JSON export/restore, manifest and offline shell cache. | No Microsoft cloud backup/sync. External services and uncached remote web content still need connectivity. |
 | Desktop host | Shared FerroUI UI, local document storage/recovery, URI handoff and document backup export. | Camera, imported media, location, sharing and backup restoration currently require the browser host. |
 
+## Recorded verification
+
+The [22 November 2026 browser and deployment run](https://github.com/FerroUI/WindowsPhone/actions/runs/45070427846) passed **17 check groups**, produced **46 PNG captures with native inspection JSON**, and recorded no console/runtime error entries. The suite took **51.753 seconds** at 1280 × 936 and 390 × 844 CSS viewports, including device-pixel-ratio and offline-startup checks; this is verification time, not a startup or frame-rate benchmark. The same run passed **23 Rust domain/state tests** and the host-boundary checks. It built runtime commit `0b1e7372d1423bc8cab915c92738d31640decccf` and deployed successfully to [ferroui.com/WindowsPhone](https://ferroui.com/WindowsPhone/).
+
+| Checked surface | What the passing run establishes |
+| --- | --- |
+| Start/navigation | Native tile launch and Back, context-menu tile resizing, persisted sizing, app-list search, and trusted touch swipes between Start and Apps. |
+| Notes | Native form creation and multiline editing, save/reload persistence, a secondary tile reopening its note, and deletion removing the note and its tile. |
+| Calculator/Action Center | Native `7 + 8 = 15`, notification clearing, preference toggles, and editing a quick-action slot through Settings updating the drawer. |
+| Photos | Native virtualized rows from a 48-photo fixture, scrolling and selection, favorite mutation, and a new item appearing after the photo-import host callback. The file picker and camera were not exercised. |
+| Recent apps | Hardware Back's context action opens the switcher; a real native preview image is present; a card resumes its app, closes, and removes its cached preview; Back dismisses the overlay. |
+| App gallery | All 23 included app routes render and are captured. Gallery navigation uses the host API; the selected interaction checks above use browser pointer, keyboard and touch events. |
+| Browser density | On a physical 2× browser, both genuine DPR2 and an emulated DPR1 retain the 390 × 844 CSS/native viewport. The canvas backing is respectively 780 × 1688 and 390 × 844. Each case checks DOM/native geometry, actual hardware-icon pixels at the expected bottom positions, and native Search/Back clicks. |
+| Offline startup | With registration enabled and the app worker controlling the page, Chromium is switched offline and the canonical directory URL is reloaded. `navigator.onLine` is false, Start renders from the cached shell, and native Search/Back clicks work. |
+
+A separate native Skia check exercised text input in focused, unfocused, hovered, disabled and light-theme states, and verified Enter-preserved multiline note saving. The deployed runtime above includes that [template-foreground correction](https://github.com/FerroUI/WindowsPhone/commit/d658e5ca2af03cb4ec8362b884159cfe87ff4418). This report records the named runtime and workflows; later commits require their own verification and deployment evidence.
+
+The browser suite deliberately avoids camera/geolocation permissions, outbound messaging, authenticated accounts and external services. It does not test installation through the browser's app-install UI, interrupted or multi-tab upgrade recovery, full backup/media recovery, every gesture combination, all app CRUD paths, browser/device diversity, or screenshot equality with original Windows Phone hardware. Its captured request list contains only files served from the packaged app.
+
 ## Verification still required
 
 The original reference material establishes behavior and visual direction. It does not replace comparison with original-device output. Before promoting any surface to a pixel-parity claim, record the original device/release, logical resolution, font, scaling and a matching application capture.
@@ -59,7 +78,7 @@ The highest-value remaining comparisons are:
 6. Long lists, imported photographs/media, app suspension, browser storage limits and repeated backup recovery.
 7. iOS Safari/Chrome and Android Chrome behavior for camera, sharing, media, browser history and installation.
 
-Focused compile/unit/smoke checks are useful gates. They should not be described as exhaustive device testing, service parity or a completed visual audit.
+Focused compile/unit/smoke checks are useful gates. They should not be described as exhaustive device testing, service parity or a completed comparison against original-device screenshots.
 
 ## Service authenticity
 

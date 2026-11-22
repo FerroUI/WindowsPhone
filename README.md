@@ -2,17 +2,17 @@
 
 A Windows Phone 8.1 Update experience built with **FerroUI, Rust and declarative `rsx!` views**. The Start screen, apps, controls, navigation and data model run in FerroUI; the browser host supplies storage, camera, media, sharing and web integration.
 
-[Open the app](https://ferroui.github.io/WindowsPhone/) · [Original references](docs/reference.md) · [Architecture](docs/architecture.md) · [Feature and fidelity status](docs/parity.md)
+[Open the app](https://ferroui.com/WindowsPhone/) · [Original references](docs/reference.md) · [Architecture](docs/architecture.md) · [Feature and fidelity status](docs/parity.md)
 
 The reference release is **Windows Phone 8.1 Update (2014)**, including live folders and the original `system` / `applications` Settings pivots. This is a working app recreation, not an operating system or an emulator for XAP/APPX applications. **Complete visual and feature parity has not been established.** The [parity document](docs/parity.md) records the implemented workflows and the remaining differences.
 
 ## Preview
 
-The browser renders the retained FerroUI control tree through WebAssembly. These captures come from Chromium running the packaged app.
+The browser renders the retained FerroUI control tree through WebAssembly. The Start screenshots were captured from the published GitHub Pages app.
 
-![Windows Phone Start in the FerroUI browser app](docs/screenshots/start-desktop.png)
+![Windows Phone Start in the FerroUI browser app](docs/screenshots/start-published-desktop.jpg)
 
-[Phone history screenshot](docs/screenshots/phone-history.png)
+[Mobile Start screenshot](docs/screenshots/start-published-mobile.jpg) · [Phone history screenshot](docs/screenshots/phone-history.png)
 
 ## Explore
 
@@ -91,6 +91,14 @@ target/game-tests
 
 The pure game test explores every human move sequence against the phone's minimax player. The domain and state tests cover persistent-data validation, tile layout, navigation and mutations. These checks do not establish pixel parity or validate every physical device.
 
+With Chromium available, run the browser interaction and screenshot suite against a packaged build:
+
+```bash
+node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
+```
+
+The [recorded browser verification](docs/parity.md#recorded-verification) passed 17 check groups and produced 46 captures, including all 23 app surfaces, desktop/mobile shell interactions, canvas geometry and input at different device-pixel ratios, and an offline reload of the canonical app directory with working native navigation. It covers selected workflows; camera permission, external services, app installation, complete upgrade recovery and original-device pixel comparisons require separate verification.
+
 ## GitHub Pages
 
 The `Build and publish` workflow runs on application changes pushed to `main` and can also be started manually. It uses the pinned FerroUI browser toolchain, restores dependency caches, runs focused state/host checks, builds one browser target, validates the packaged module graph and first native frame, uploads the static app, and deploys it to GitHub Pages. Documentation-only pushes do not rebuild. There is no separate lint workflow or platform matrix.
@@ -99,9 +107,11 @@ Rendered desktop/touch smoke checks and their screenshot artifact are opt-in: en
 
 For test or documentation changes, a manual run can set `reuse_run` to a completed main-branch run with a `compiled-app` artifact. The workflow checks the source repository, workflow, commit and runtime input trees before downloading that artifact. Reuse still runs host checks, module-link validation and the full browser suite before publication; changes to application sources or the FerroUI pin require a normal build.
 
-Set the repository's **Settings → Pages → Build and deployment → Source** to **GitHub Actions** if it is not already configured. The workflow also requests Pages enablement. The intended URL for this repository is:
+Set `publish` to `false` for a manual verification run that retains its test artifacts without deploying to Pages. Push-triggered runs publish after their checks succeed.
 
-**https://ferroui.github.io/WindowsPhone/**
+Set the repository's **Settings → Pages → Build and deployment → Source** to **GitHub Actions** if it is not already configured. The workflow also requests Pages enablement. The app is published through the organization's Pages domain at:
+
+**https://ferroui.com/WindowsPhone/**
 
 The successful deployment run is the source of truth for publication; a source commit alone does not establish that the site is live.
 
