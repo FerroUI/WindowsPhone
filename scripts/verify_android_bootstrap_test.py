@@ -4,7 +4,7 @@ import sys
 import unittest
 
 sys.dont_write_bytecode = True
-from verify_android_bootstrap import listener_set, verify, verify_help
+from verify_android_bootstrap import listener_set, listener_transition, verify, verify_help
 from verify_android_ui_test import NONCE, mounted
 
 TITLE, BODY = 'FerroUI-bootstrap-' + NONCE, 'Native-listener-' + NONCE
@@ -25,6 +25,12 @@ flags:
   -t|--title <text>
   -i|--icon <iconspec>
 '''
+# Exact unchanged pre/post-grant mirror from run45275444506 attempt2. The system
+# had already connected our service; its Settings mirror updated about700ms later.
+ORIGINAL_LISTENERS = [
+    'com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener',
+    'com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService',
+]
 
 
 def ready():
@@ -153,6 +159,24 @@ class BootstrapContract(unittest.TestCase):
                 verify_help(COMMAND_HELP, POST_HELP.replace(fragment, ''))
         with self.assertRaises(ValueError):
             verify_help(COMMAND_HELP, POST_HELP.replace('cmd notification post', 'cmd different post'))
+
+    def test_captured_listener_mirror_can_be_pending_but_only_exact_access_passes(self):
+        before = ORIGINAL_LISTENERS
+        granted = before + [LISTENER]
+        self.assertFalse(listener_transition(before, before, LISTENER, 'grant'))
+        self.assertTrue(listener_transition(before, granted, LISTENER, 'grant'))
+        self.assertFalse(listener_transition(before, granted, LISTENER, 'revoke'))
+        self.assertTrue(listener_transition(before, before, LISTENER, 'revoke'))
+        self.assertFalse(listener_transition(before, granted, LISTENER, 'restore'))
+        self.assertTrue(listener_transition(before, before, LISTENER, 'restore'))
+        self.assertFalse(listener_transition(granted, before, LISTENER, 'restore'))
+        self.assertTrue(listener_transition(granted, granted, LISTENER, 'restore'))
+
+    def test_listener_wait_never_accepts_an_unrelated_grant_or_revocation(self):
+        for operation in ['grant', 'revoke', 'restore']:
+            for changed in [ORIGINAL_LISTENERS[1:], ORIGINAL_LISTENERS + ['com.example/com.example.Listener']]:
+                with self.subTest(operation=operation, changed=changed), self.assertRaisesRegex(ValueError, 'unrelated'):
+                    listener_transition(ORIGINAL_LISTENERS, changed, LISTENER, operation)
 
 
 if __name__ == '__main__':

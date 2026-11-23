@@ -14,20 +14,44 @@ for component in listener_set(pathlib.Path(sys.argv[2]).read_text()): print(comp
 PY
 }
 
-restore_notification_access() {
-    local command=disallow_listener stop=$((SECONDS + 30))
-    if grep -Fx "$phone_listener" "$phone_out/listener-before.txt" >/dev/null; then command=allow_listener; fi
-    adb_shell cmd notification "$command" "$phone_listener" "$phone_user" > "$phone_out/listener-restore.txt" 2>&1 || return 1
+wait_listener_state() {
+    local operation="$1" output="$2" status=0 stop=$((SECONDS + 30))
     while [ "$SECONDS" -lt "$stop" ]; do
-        listener_state > "$phone_out/listener-after.txt" || return 1
-        if cmp -s "$phone_out/listener-before.txt" "$phone_out/listener-after.txt"; then
-            phone_notification_access=0
+        listener_state > "$phone_out/listener-observed.txt" || return 1
+        if python3 - "$phone_repo/scripts" "$phone_out/listener-before.txt" "$phone_out/listener-observed.txt" "$phone_listener" "$operation" \
+            >> "$phone_out/listener-$operation-observations.jsonl" <<'PY'
+import json,pathlib,sys,time
+sys.path.insert(0,sys.argv[1])
+from verify_android_bootstrap import listener_transition
+before=pathlib.Path(sys.argv[2]).read_text().splitlines()
+observed=pathlib.Path(sys.argv[3]).read_text().splitlines()
+try:
+    matched=listener_transition(before,observed,sys.argv[4],sys.argv[5])
+except ValueError as error:
+    print(json.dumps({'observed_at_unix_ms':round(time.time()*1000),'components':observed,'error':str(error)}))
+    print(str(error),file=sys.stderr)
+    raise SystemExit(1)
+print(json.dumps({'observed_at_unix_ms':round(time.time()*1000),'components':observed,'matched':matched}))
+raise SystemExit(0 if matched else 2)
+PY
+        then
+            cp "$phone_out/listener-observed.txt" "$phone_out/$output"
+            cp "$phone_out/listener-current-raw.txt" "$phone_out/listener-$operation-raw.txt"
             return 0
-        fi
+        else status=$?; fi
+        [ "$status" = 2 ] || return "$status"
         sleep 0.5
     done
-    printf 'Original notification-listener access was not restored\n' >&2
+    printf 'Android did not publish the exact listener %s set within 30 seconds\n' "$operation" >&2
     return 1
+}
+
+restore_notification_access() {
+    local command=disallow_listener
+    if grep -Fx "$phone_listener" "$phone_out/listener-before.txt" >/dev/null; then command=allow_listener; fi
+    adb_shell cmd notification "$command" "$phone_listener" "$phone_user" > "$phone_out/listener-restore.txt" 2>&1 || return 1
+    wait_listener_state restore listener-after.txt || return 1
+    phone_notification_access=0
 }
 
 phase 'Checking real Android notification shell syntax and original listener access'
@@ -49,14 +73,7 @@ listener_state > "$phone_out/listener-before.txt"
 phone_notification_access=1
 phase 'Granting only the app listener and posting a unique native notification in the private emulator'
 adb_shell cmd notification allow_listener "$phone_listener" "$phone_user" > "$phone_out/listener-grant.txt" 2>&1
-listener_state > "$phone_out/listener-granted.txt"
-python3 - "$phone_out/listener-before.txt" "$phone_out/listener-granted.txt" "$phone_listener" <<'PY'
-from pathlib import Path
-import sys
-before=set(Path(sys.argv[1]).read_text().splitlines())
-after=set(Path(sys.argv[2]).read_text().splitlines())
-assert after == before | {sys.argv[3]}, 'The command changed unrelated listener access'
-PY
+wait_listener_state grant listener-granted.txt
 adb_shell cmd notification post -t "FerroUI-bootstrap-$phone_device_nonce" "ferroui-smoke-$phone_device_nonce" "Native-listener-$phone_device_nonce" > "$phone_out/notification-post.txt" 2>&1
 wait_bootstrap notifications-admitted
 
@@ -89,14 +106,7 @@ emu_screencap "$phone_out/device-action-center.png"
 
 phase 'Revoking the listener and requiring shared/private rendered rows to clear'
 adb_shell cmd notification disallow_listener "$phone_listener" "$phone_user" > "$phone_out/listener-revoke.txt" 2>&1
-listener_state > "$phone_out/listener-revoked.txt"
-python3 - "$phone_out/listener-before.txt" "$phone_out/listener-revoked.txt" "$phone_listener" <<'PY'
-from pathlib import Path
-import sys
-before=set(Path(sys.argv[1]).read_text().splitlines())
-after=set(Path(sys.argv[2]).read_text().splitlines())
-assert after == before - {sys.argv[3]}, 'Listener revocation changed unrelated access or did not complete'
-PY
+wait_listener_state revoke listener-revoked.txt
 wait_bootstrap notifications-revoked
 emu_screencap "$phone_out/device-action-center-revoked.png"
 adb_shell input keyevent KEYCODE_BACK

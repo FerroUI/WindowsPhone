@@ -25,6 +25,22 @@ def listener_set(text):
     return sorted(result)
 
 
+def listener_transition(before, observed, component, operation):
+    """Permit a pending own-component update, never an unrelated access change."""
+    original, current = set(before), set(observed)
+    require(current - {component} == original - {component},
+            'The command changed unrelated listener access')
+    if operation == 'grant':
+        expected = original | {component}
+    elif operation == 'revoke':
+        expected = original - {component}
+    elif operation == 'restore':
+        expected = original
+    else:
+        raise ValueError('Unknown listener access transition')
+    return current == expected
+
+
 def verify_help(commands, post):
     require(all(re.search(r'(?m)^\s*' + command + r'\s+COMPONENT\s+\[user_id\b', commands)
                 for command in ('allow_listener', 'disallow_listener')),
