@@ -74,9 +74,15 @@ final class PhoneMessageProvider {
         Uri uri = Telephony.MmsSms.CONTENT_URI.buildUpon().appendPath("canonical-addresses").build();
         try (Cursor cursor = context.getContentResolver().query(uri, new String[]{"address"}, selection,
                 ids.toArray(new String[0]), null, signal)) {
-            if (cursor != null) while (result.length() < 32 && cursor.moveToNext()) {
-                String address = PhoneJson.text(cursor.getString(0), 256, false).trim();
-                if (!address.isEmpty()) result.put(address);
+            if (cursor != null) {
+                // AOSP returns its fixed _id,address projection for this endpoint,
+                // regardless of the caller's requested projection. Never decode it by position.
+                int addressColumn = cursor.getColumnIndexOrThrow("address");
+                while (result.length() < 32 && cursor.moveToNext()) {
+                    signal.throwIfCanceled();
+                    String address = PhoneJson.text(cursor.getString(addressColumn), 256, false).trim();
+                    if (!address.isEmpty()) result.put(address);
+                }
             }
         }
         return result;

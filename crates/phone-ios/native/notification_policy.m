@@ -16,7 +16,7 @@ static BOOL carrierContent(UNNotificationContent *content) {
 }
 
 void wp_ios_set_notification_policy(uint32_t policy) {
-    NSAssert(NSThread.isMainThread, @"Phone notification policy belongs to the UIKit thread");
+    NSCAssert(NSThread.isMainThread, @"Phone notification policy belongs to the UIKit thread");
     policy &= 63u;
     uint32_t previous = wp_ios_notification_policy();
     if (previous == policy) return;

@@ -58,7 +58,7 @@ void wp_ios_device_dirty(void) {
 }
 
 void wp_ios_device_emit(NSString *kind, id value) {
-    NSAssert(NSThread.isMainThread, @"Device observations require the UIKit thread");
+    NSCAssert(NSThread.isMainThread, @"Device observations require the UIKit thread");
     NSData *data = encoded(kind, value);
     if (!data) return;
     if ([kind isEqualToString:@"snapshot"]) {

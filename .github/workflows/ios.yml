@@ -58,6 +58,18 @@ jobs:
           xcrun --sdk iphoneos swiftc -sdk "$(xcrun --sdk iphoneos --show-sdk-path)" \
             -target arm64-apple-ios15.0 -swift-version 5 -parse-as-library -typecheck \
             crates/phone-ios/native/telephony/*.swift
+      - name: Check all native bridge files against the simulator SDK
+        run: |
+          sdk="$(xcrun --sdk iphonesimulator --show-sdk-path)"
+          result=0
+          for feature in 0 1; do
+            for source in crates/phone-ios/native/*.m; do
+              if ! xcrun --sdk iphonesimulator clang -target arm64-apple-ios15.0-simulator \
+                -isysroot "$sdk" -fobjc-arc -fblocks -fsyntax-only -Wall -Wextra \
+                -DWP_IOS_TELEPHONY="$feature" "$source"; then result=1; fi
+            done
+          done
+          exit "$result"
       - name: Build and bundle the standard UIKit application
         id: standard-bundle
         run: bash scripts/build-ios.sh --target aarch64-apple-ios-sim

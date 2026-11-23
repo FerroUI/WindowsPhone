@@ -45,7 +45,7 @@ void wp_ios_cancel(uint64_t identifier) {
 }
 
 void wp_ios_operation_complete(uint64_t identifier, int code, const char *message) {
-    NSAssert(NSThread.isMainThread, @"Operation delivery requires the UIKit thread");
+    NSCAssert(NSThread.isMainThread, @"Operation delivery requires the UIKit thread");
     WPIOSOperation *operation = operations[@(identifier)];
     if (!operation || operation.finished) return;
     NSString *text = message ? [NSString stringWithUTF8String:message] : @"";
