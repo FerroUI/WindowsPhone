@@ -67,7 +67,9 @@ jobs:
             ~/.cargo/git
           key: ${{ steps.native-cache.outputs.cache-primary-key }}
       - name: Verify simulator mounting and native activation
-        timeout-minutes: 12
+        # A fresh iOS 26.5 runtime took over nine minutes to create and boot.
+        # Per-route assertions retain their independent 90-second deadlines.
+        timeout-minutes: 20
         run: bash scripts/smoke-ios.sh '${{ steps.bundle.outputs.app }}' "$RUNNER_TEMP/phone-ios-ui"
       - uses: actions/upload-artifact@v4
         if: always()

@@ -44,8 +44,17 @@ print(r[0]["identifier"],devices[-1]["identifier"])
 read -r runtime device_type <<< "$spec"
 printf '%s\n' "$runtime" "$device_type" > "$out/simulator.txt"
 udid="$(xcrun simctl create "WindowsPhone-CI-${GITHUB_RUN_ID:-$$}" "$device_type" "$runtime")"
+save_observations() {
+  if [ -n "${status:-}" ] && [ -f "$status" ]; then
+    cp "$status" "$out/last-observation.json" || true
+  fi
+  if [ -n "${ui_status:-}" ] && [ -f "$ui_status" ]; then
+    cp "$ui_status" "$out/prompt-handler.json" || true
+  fi
+}
 cleanup() {
   local result=$?
+  save_observations
   if [ "$result" != 0 ]; then
     printf 'iOS verification failed during: %s\n' "$(cat "$out/phase.txt")" >&2
     if [ -n "${status:-}" ] && [ -f "$status" ]; then
@@ -72,6 +81,8 @@ cleanup() {
   return "$result"
 }
 trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 phase 'Booting the simulator'
 xcrun simctl boot "$udid"
 xcrun simctl bootstatus "$udid" -b
@@ -91,6 +102,7 @@ wait_for_route() {
   # Use a wall-clock bound; never treat a received URL alone as route success.
   local deadline=$((SECONDS + 90))
   while [ "$SECONDS" -lt "$deadline" ]; do
+    save_observations
     if ! kill -0 "$launch" 2>/dev/null; then
       if wait "$launch"; then code=0; else code=$?; fi
       printf 'Simulator launch console exited with code %s while waiting for %s.\n' "$code" "$expected" >&2
@@ -119,6 +131,7 @@ ui_test=$!
 deadline=$((SECONDS + 120))
 ui_container=
 while [ "$SECONDS" -lt "$deadline" ]; do
+  save_observations
   if ! kill -0 "$ui_test" 2>/dev/null; then cat "$out/xctest.log" >&2; exit 1; fi
   if [ -z "$ui_container" ]; then
     ui_container="$(xcrun simctl get_app_container "$udid" org.ferroui.phoneprompttests.xctrunner data 2>/dev/null || true)"
