@@ -24,6 +24,12 @@ pub fn view(
 ) -> Element {
     let state = ui.state::<LibrarySession>();
     let section = state.page(app).get();
+    let category = match &section {
+        LibraryPage::Artist(_) => LibraryPage::Artists,
+        LibraryPage::Album(_) => LibraryPage::Albums,
+        LibraryPage::Playlist(_) | LibraryPage::Select(_) => LibraryPage::Playlists,
+        page => page.clone(),
+    };
     let mut header = stack_panel().spacing(5.0).margin((20.0, 4.0, 20.0, 8.0));
     let mut categories = stack_panel()
         .orientation(Orientation::Horizontal)
@@ -44,7 +50,7 @@ pub fn view(
     for (label, target) in categories_list {
         let destination = target.clone();
         let switch = ui.clone();
-        let chosen = section == target;
+        let chosen = category == target;
         categories=categories.child(rsx!{Button{class:"phone-flat",min_height:44.0,padding:0.0,automation_properties_name:label,
             on_click:move |_|{switch.state::<LibrarySession>().page(app).set(destination.clone());switch.query.set(String::new());},
             TextBlock{text:label,font_size:18.0,foreground:if chosen{phone_controls::palette().foreground}else{phone_controls::secondary_color()}}

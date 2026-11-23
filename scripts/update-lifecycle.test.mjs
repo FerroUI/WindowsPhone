@@ -152,17 +152,23 @@ test('activation retires only this installation scope and preserves other phone 
   await original.lifecycle('install');
   await original.lifecycle('activate');
   const originalNames = await caches.keys();
-  const preview = worker({version: 'old', caches, appScope: 'https://example.test/Preview/'});
-  await preview.lifecycle('install');
-  await preview.lifecycle('activate');
+  const previews = ['/Preview/', '/WindowsPhone/:preview/'].map(path => ({
+    path, app: worker({version: 'old', caches, appScope: `https://example.test${path}`}),
+  }));
+  for (const {app} of previews) {
+    await app.lifecycle('install');
+    await app.lifecycle('activate');
+  }
   for (const name of originalNames) assert.ok(caches.stores.has(name));
   await caches.open('windows-phone-legacy-build');
   serveVersion(caches, 'new');
   const replacement = worker({version: 'new', caches});
   await replacement.lifecycle('install');
   await replacement.lifecycle('activate');
-  assert.equal(await (await preview.fetch('main.js')).text(), 'old:/Preview/main.js');
-  assert.equal(await (await preview.fetch('phone.wasm')).text(), 'old:/Preview/phone.wasm');
+  for (const {path, app} of previews) {
+    assert.equal(await (await app.fetch('main.js')).text(), `old:${path}main.js`);
+    assert.equal(await (await app.fetch('phone.wasm')).text(), `old:${path}phone.wasm`);
+  }
   assert.equal(await (await replacement.fetch('main.js')).text(), 'new:/WindowsPhone/main.js');
   assert.ok(caches.stores.has('windows-phone-legacy-build'), 'ambiguous legacy caches remain untouched');
   for (const name of originalNames) assert.ok(!caches.stores.has(name));

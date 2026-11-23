@@ -1,4 +1,4 @@
-const CACHE_PREFIX=`ferroui-phone:${self.registration.scope}:`;
+const CACHE_PREFIX=`ferroui-phone:${encodeURIComponent(self.registration.scope)}:`;
 const CACHE=CACHE_PREFIX+'__BUILD_VERSION__';
 const FILES=__PRECACHE__;
 const INDEX=new URL('index.html',self.registration.scope).href;

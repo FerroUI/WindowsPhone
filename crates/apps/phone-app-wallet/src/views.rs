@@ -115,14 +115,8 @@ fn details(cx: AppContext, card: &Card) -> Element {
         .child(text(&card.title, 38.0))
         .child(muted(card.kind.label(), 16.0));
     if card.barcode == Barcode::Code39 {
-        match phone_controls::barcode::code39(&card.code) {
-            Ok(code) => {
-                let width = (cx.vm.viewport().0.min(400.0) - 40.0).max(80.0).min(
-                    phone_controls::barcode::code39_modules(&card.code)
-                        .map_or(305.0, |bits| bits.len() as f64),
-                );
-                body=body.child(rsx!{Viewbox{name:"WalletBarcode",width:width,stretch:ferroui_base::media::Stretch::Uniform,{code}}});
-            }
+        match barcode_view(&card.code, cx.vm.viewport().0.min(400.0) - 40.0) {
+            Ok(code) => body = body.child(code),
             Err(error) => body = body.child(muted(&error, 16.0)),
         }
     }
@@ -240,4 +234,35 @@ fn details(cx: AppContext, card: &Card) -> Element {
             menu,
         ),
     )
+}
+
+fn barcode_view(value: &str, available_width: f64) -> Result<Element, String> {
+    let width = available_width
+        .max(80.0)
+        .min(phone_controls::barcode::code39_modules(value)?.len() as f64);
+    let code = phone_controls::barcode::code39(value)?;
+    // Viewbox is a Control rather than a Decorator in the pinned framework;
+    // mount its typed Child property explicitly, as the live folder tiles do.
+    Ok(rsx! {Viewbox{name:"WalletBarcode",width:width,
+    stretch:ferroui_base::media::Stretch::Uniform,
+    set(Viewbox::child_property(), code)}})
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn longest_barcode_mounts_native_content_at_narrow_phone_width() {
+        let (control, owner) = barcode_view("ABCDEFGHIJKLMNOPQRST", 280.0)
+            .unwrap()
+            .mount_root();
+        let viewbox = control.cast::<Viewbox>().expect("native scaling container");
+        assert_eq!(viewbox.width(), 280.0);
+        let content = viewbox.child().expect("mounted barcode content");
+        assert!(content
+            .get_visual_descendants()
+            .any(|visual| visual.cast::<Canvas>().is_some()));
+        owner.dispose();
+    }
 }
