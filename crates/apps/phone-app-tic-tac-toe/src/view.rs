@@ -3,10 +3,9 @@ use crate::{
     model::{Mode, Saved},
 };
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
-use ferroui_base::media::FontWeight;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, Icon};
-use phone_sdk::{common::*, AppContext};
+use phone_controls::{Icon, action, app_bar, flat, icon};
+use phone_sdk::{AppContext, common::*};
 
 pub fn view(context: AppContext) -> Element {
     let save = match context.storage().read::<Saved>().and_then(|save| {
@@ -44,18 +43,24 @@ pub fn view(context: AppContext) -> Element {
         .column_spacing(5.0);
     for (index, value) in board.iter().enumerate() {
         let play = context.clone();
-        squares = squares.child(rsx! {Button {
-            class:"phone-flat", name:format!("TicTacToeCell{index}"),
+        let symbol = match value {
+            1 => icon(Icon::Close, size / 6.0, &active_color),
+            2 => icon(Icon::Cortana, size / 6.0, &foreground),
+            _ => Element::Empty,
+        };
+        squares = squares.child(rsx! {Grid {
             Grid.row:(index / 3) as i32, Grid.column:(index % 3) as i32,
-            background:if context.vm.data().settings.dark {"#202020"} else {"#E6E6E6"},
-            horizontal_content_alignment:H::Center, vertical_content_alignment:V::Center,
-            automation_properties_name:format!("Row {}, column {}, {}", index / 3 + 1, index % 3 + 1,
-                match value {1=>"X",2=>"O",_=>"empty"}),
-            is_enabled:*value == 0 && outcome == 0,
-            on_click:move |_| commands::change(&play, |save| save.play(index)),
-            TextBlock {text:match value {1=>"×",2=>"○",_=>""}, font_size:size / 5.0,
-                font_weight:FontWeight::Light,
-                foreground:if *value == 1 {active_color.as_str()} else {foreground.as_str()}}
+            Button {
+                class:"phone-flat", name:format!("TicTacToeCell{index}"),
+                background:if context.vm.data().settings.dark {"#202020"} else {"#E6E6E6"},
+                horizontal_content_alignment:H::Center, vertical_content_alignment:V::Center,
+                automation_properties_name:format!("Row {}, column {}, {}", index / 3 + 1, index % 3 + 1,
+                    match value {1=>"X",2=>"O",_=>"empty"}),
+                is_enabled:*value == 0 && outcome == 0,
+                on_click:move |_| commands::change(&play, |save| save.play(index))
+            }
+            // Input remains disabled for occupied/completed cells without dimming the result.
+            Border {is_hit_test_visible:false, automation_properties_is_control_element_override:Some(false), {symbol}}
         }});
     }
     let again = context.clone();

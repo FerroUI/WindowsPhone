@@ -1,7 +1,7 @@
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, command, Icon};
+use phone_controls::{Icon, action, app_bar, command};
 use phone_domain::AppId;
-use phone_sdk::{common::*, session::Session, AppManifest, AppStorage};
+use phone_sdk::{AppCategory, AppManifest, AppStorage, common::*, session::Session};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -31,8 +31,13 @@ pub(crate) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppManifest) ->
             }
         },
     );
-    let description=app.builtin.map(crate::description::description)
-        .unwrap_or("This independently registered app is included in your phone build. Its data is stored in its own app namespace and included in phone backups.");
+    let description = app.builtin.map(crate::description::description).unwrap_or(
+        if app.category == AppCategory::Game {
+            "Your progress is saved on this device and included in phone backups."
+        } else {
+            "Your data is saved on this device and included in phone backups."
+        },
+    );
     let mut body=stack_panel().margin(20.0).spacing(24.0)
         .child(rsx!{Grid{column_definitions:"84,*",column_spacing:18.0,
             {crate::square(&vm,&app,84.0)}
@@ -40,29 +45,24 @@ pub(crate) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppManifest) ->
         }})
         .child(primary).child(text("overview",38.0)).child(phone_controls::paragraph(description))
         .child(muted(&format!("version {}",app.version),16.0))
-        .child(muted("This collection lists apps included in this build. The retired Windows Phone Store is not connected.",16.0));
+        .child(muted("Manage the apps on this phone. The original Windows Phone Store is not connected.",16.0));
     if app.builtin.is_none() {
-        body = body
-            .child(text("app information", 28.0))
-            .child(muted(app.id, 15.0));
+        body = body.child(text("app information", 28.0));
         let services = if app.capabilities.is_empty() {
             "none".into()
         } else {
             app.capabilities
                 .iter()
-                .map(|service| format!("{service:?}").to_lowercase())
+                .map(crate::description::device_feature)
                 .collect::<Vec<_>>()
                 .join(", ")
         };
-        body = body.child(muted(
-            &format!("declared device services: {services}"),
-            15.0,
-        ));
+        body = body.child(muted(&format!("requested device access: {services}"), 15.0));
         let bytes = vm
             .app_data(app.id)
             .and_then(|value| serde_json::to_vec(&value).ok())
             .map_or(0, |bytes| bytes.len());
-        body = body.child(muted(&format!("saved app data: {bytes} bytes"), 15.0));
+        body = body.child(muted(&format!("saved data: {bytes} bytes"), 15.0));
         if bytes > 0 {
             body = body.child(reset_data(vm.clone(), ui.clone(), app));
         }
@@ -108,7 +108,7 @@ fn remove(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppManifest) -> Element 
                 format!("Uninstall {}?", app.title)
             } else {
                 format!(
-                    "Disable {}? Its Start tiles will be removed. Saved app data will be kept so you can enable it again.",
+                    "Disable {}? Its Start tiles will be removed. Your saved data will be kept so you can pick up where you left off.",
                     app.title
                 )
             };

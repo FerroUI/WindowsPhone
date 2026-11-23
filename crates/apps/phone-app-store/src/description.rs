@@ -28,10 +28,8 @@ pub(crate) fn description(app: AppId) -> &'static str {
         }
         AppId::Music => "Add songs from your device and enjoy your own music collection.",
         AppId::Video => "Import and play your video files.",
-        AppId::Games => {
-            "Find the games registered on your phone, resume saved games, and pin your favorites to Start."
-        }
-        AppId::Store => "Find, enable and pin the apps included in this phone build.",
+        AppId::Games => "Find your games, resume saved progress, and pin your favorites to Start.",
+        AppId::Store => "Find, enable and pin the apps on this phone.",
         AppId::Settings => {
             "Make your phone yours. Pick an accent, change the background, and arrange the Start screen."
         }
@@ -53,5 +51,26 @@ pub(crate) fn description(app: AppId) -> &'static str {
         }
         AppId::BatterySaver => "Reduce unnecessary background activity in this app.",
         AppId::DataSense => "See how much data your phone collection uses and save a backup.",
+    }
+}
+
+pub(crate) fn device_feature(capability: &phone_sdk::Capability) -> &'static str {
+    use phone_sdk::Capability::*;
+    match capability {
+        All => "all device features",
+        Network => "internet",
+        Camera => "camera",
+        Location => "location",
+        Notifications => "notifications",
+        Media => "photos, music and videos",
+        Contacts => "contacts",
+        Calendar => "calendar",
+        Clipboard => "clipboard",
+        Sharing => "sharing",
+        Phone => "phone calls",
+        Messaging => "text messages",
+        Email => "email",
+        Files => "files",
+        Backup => "phone backups",
     }
 }

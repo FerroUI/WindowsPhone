@@ -2,7 +2,9 @@ use crate::{commands, model::Game};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::FontWeight;
 use ferroui_view::prelude::*;
-use phone_sdk::{common::*, AppContext};
+use phone_sdk::{AppContext, common::*};
+
+mod symbols;
 
 pub fn view(context: &AppContext, game: &Game, flag_mode: bool) -> Element {
     let (width, height, _) = game.difficulty.dimensions();
@@ -25,11 +27,7 @@ pub fn view(context: &AppContext, game: &Game, flag_mode: bool) -> Element {
         } else if cell.flagged {
             "#FFBD38"
         } else if cell.mine {
-            if dark {
-                "White"
-            } else {
-                "Black"
-            }
+            if dark { "White" } else { "Black" }
         } else {
             match cell.adjacent {
                 1 => "#369BFF",
@@ -45,16 +43,21 @@ pub fn view(context: &AppContext, game: &Game, flag_mode: bool) -> Element {
                 }
             }
         };
-        let glyph = if cell.flagged && game.status != crate::model::Status::Lost {
-            "⚑".into()
+        let symbol_size = (size / width as f64 * 0.62).min(28.0);
+        let content = if cell.flagged && game.status != crate::model::Status::Lost {
+            symbols::view(symbols::Symbol::Flag, symbol_size, foreground)
         } else if ended_mine {
-            "●".into()
+            symbols::view(symbols::Symbol::Mine, symbol_size, foreground)
         } else if cell.flagged {
-            "⚑".into()
+            symbols::view(symbols::Symbol::Flag, symbol_size, foreground)
         } else if cell.revealed && cell.adjacent != 0 {
-            cell.adjacent.to_string()
+            rsx! {TextBlock {
+                text:cell.adjacent.to_string(), font_size:symbol_size, font_weight:FontWeight::SemiBold,
+                foreground:foreground, horizontal_alignment:H::Center, vertical_alignment:V::Center,
+                automation_properties_is_control_element_override:Some(false)
+            }}
         } else {
-            String::new()
+            Element::Empty
         };
         let label = if hit {
             "mine, exploded".into()
@@ -69,16 +72,20 @@ pub fn view(context: &AppContext, game: &Game, flag_mode: bool) -> Element {
         };
         let play = context.clone();
         let enabled = !game.complete() && (!cell.revealed || (!flag_mode && cell.adjacent > 0));
-        board = board.child(rsx! {Button {
-            class:"phone-flat", name:format!("MineCell{index}"), Grid.column:(index % width) as i32, Grid.row:(index / width) as i32,
-            min_width:0.0, min_height:0.0, padding:0.0,
-            horizontal_content_alignment:H::Center, vertical_content_alignment:V::Center,
-            background:if hit {"#C42B1C"} else if cell.revealed {if dark {"#161616"} else {"#F1F1F1"}} else {if dark {"#383838"} else {"#CCCCCC"}},
-            automation_properties_name:format!("Row {}, column {}, {label}", index / width + 1, index % width + 1),
-            automation_properties_help_text:if flag_mode {"Toggle flag"} else {"Reveal square"},
-            is_enabled:enabled,
-            on_click:move |_| commands::select(&play, index),
-            TextBlock {text:glyph, font_size:(size / width as f64 * 0.62).min(28.0), font_weight:FontWeight::SemiBold, foreground:foreground}
+        board = board.child(rsx! {Grid {
+            Grid.column:(index % width) as i32, Grid.row:(index / width) as i32,
+            Button {
+                class:"phone-flat", name:format!("MineCell{index}"),
+                min_width:0.0, min_height:0.0, padding:0.0,
+                horizontal_content_alignment:H::Center, vertical_content_alignment:V::Center,
+                background:if hit {"#C42B1C"} else if cell.revealed {if dark {"#161616"} else {"#F1F1F1"}} else {if dark {"#383838"} else {"#CCCCCC"}},
+                automation_properties_name:format!("Row {}, column {}, {label}", index / width + 1, index % width + 1),
+                automation_properties_help_text:if flag_mode {"Toggle flag"} else {"Reveal square"},
+                is_enabled:enabled,
+                on_click:move |_| commands::select(&play, index)
+            }
+            // Completed cells stay disabled; their symbols remain full contrast.
+            Border {is_hit_test_visible:false, automation_properties_is_control_element_override:Some(false), {content}}
         }});
     }
     board.into()

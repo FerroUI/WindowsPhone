@@ -7,7 +7,8 @@ export async function verifySdkGames(ctx) {
     textPresent, home, isRoute, reload, button, centre, control, reveal, edit} = ctx;
   const original = await state();
   const fixture = structuredClone(original);
-  Object.assign(fixture.settings, {lock_timeout: 0, reduced_motion: true});
+  Object.assign(fixture.settings, {lock_timeout: 0, reduced_motion: true, dark: true,
+    high_contrast: false, accent: '#1BA1E2', brightness: 0.8});
   fixture.alarms = []; fixture.events = [];
   fixture.app_data ||= {};
   const tic = 'org.ferroui.tic-tac-toe', mines = 'org.ferroui.minesweeper';
@@ -37,6 +38,27 @@ export async function verifySdkGames(ctx) {
     await isRoute({Extension: {app: id, path: ''}});
   };
   const saved = async id => (await state()).app_data?.[id];
+  const cellColor = async (image, name, rgb, label) => {
+    const view = await snapshot();
+    const cell = view.elements.find(element => element.name === name);
+    assert(cell, `${label}: native cell geometry is available`);
+    const sx = image.width / view.width, sy = image.height / view.height;
+    const left = Math.ceil((cell.x + 2) * sx), right = Math.floor((cell.x + cell.width - 2) * sx);
+    const top = Math.ceil((cell.y + 2) * sy), bottom = Math.floor((cell.y + cell.height - 2) * sy);
+    assert(left >= 0 && top >= 0 && right <= image.width && bottom <= image.height,
+      `${label}: sample stays inside the rendered cell`);
+    let count = 0, minX = right, maxX = left, minY = bottom, maxY = top;
+    for (let y = top; y < bottom; y++) for (let x = left; x < right; x++) {
+      if (image.pixel(x, y).every((channel, index) => Math.abs(channel - rgb[index]) <= 24)) {
+        count++; minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+      }
+    }
+    const minimum = Math.ceil(Math.max(20, cell.width * cell.height * 0.02) * sx * sy);
+    assert(count >= minimum, `${label}: expected at least ${minimum} full-contrast symbol pixels, found ${count}`);
+    assert(maxX - minX >= cell.width * sx * 0.3 && maxY - minY >= cell.height * sy * 0.35,
+      `${label}: the visible symbol must occupy the cell, not just isolated pixels`);
+  };
   await load(fixture);
   try {
     await check('SDK rejects unregistered and malformed application activation without mutation', async () => {
@@ -57,7 +79,9 @@ export async function verifySdkGames(ctx) {
       const completed = await saved(tic);
       assert.deepEqual(completed.game.moves, [0, 3, 1, 4, 2]);
       assert.deepEqual(completed.local_scores, [1, 0, 0]);
-      await capture('sdk-tic-tac-toe-completed-game');
+      const completedImage = await capture('sdk-tic-tac-toe-completed-game');
+      await cellColor(completedImage, 'TicTacToeCell0', [27, 161, 226], 'completed X remains accent colored');
+      await cellColor(completedImage, 'TicTacToeCell3', [255, 255, 255], 'completed O remains white');
       await reload(); await launch(tic);
       assert.deepEqual(await saved(tic), completed, 'board and scores survive a real reload');
       await textPresent('X wins');
@@ -93,10 +117,12 @@ export async function verifySdkGames(ctx) {
       assert.deepEqual(await saved(mines), data, 'clock does not mutate the game model');
       assert.equal(await page.evaluate("localStorage.getItem('ferroui.windows-phone.v1')"), bytes,
         'clock does not persist phone data');
-      await capture('sdk-minesweeper-playing');
+      const playingImage = await capture('sdk-minesweeper-playing');
+      await cellColor(playingImage, `MineCell${hidden}`, [255, 189, 56], 'native flag is visibly amber');
       await reload(); await launch(mines);
       assert.deepEqual(await saved(mines), data, 'minefield and flags survive reload');
-      await capture('sdk-minesweeper-restored');
+      const restoredImage = await capture('sdk-minesweeper-restored');
+      await cellColor(restoredImage, `MineCell${hidden}`, [255, 189, 56], 'restored flag remains visibly amber');
       const roundtrip = await state();
       await load(roundtrip); await launch(mines);
       assert.deepEqual(await saved(mines), data, 'phone restore retains isolated app data');
