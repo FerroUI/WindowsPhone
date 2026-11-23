@@ -129,6 +129,14 @@ settings remain final. Required Telecom call presentation is independent of the
 Messaging notification preference. Full-screen call entry uses Android's actual
 full-screen eligibility; foreground incoming calls have the independent native
 call UI, and background calls retain their native notification actions.
+The Telecom-bound `InCallService` takes a non-sticky started lease and owns one actual `phoneCall` foreground
+notification while a live call exists and this package remains the selected
+Dialer. Ringing calls take priority; secondary calls retain individual actions.
+The notification follows the primary call without a second service or forged
+foreground flags, and the final call, Telecom unbind, or service destruction
+removes foreground ownership and releases the started lease. Full-screen access is used only for incoming calls; ongoing calls do
+not request full-screen presentation. No boot receiver starts a call service and
+no self-managed-call permission is added.
 
 ### Completion, cancellation and stale work
 
@@ -249,8 +257,10 @@ A second private debug marker (`phone-device-smoke.enabled`) enables only native
 observations and local codec fixtures. The gate records pre-role permissions,
 selects the qualified dialer/SMS roles **only in that newly created AVD**, injects
 an emulator modem SMS, verifies the provider and shared Messaging UI, rings an
-emulator call, presses the actual native Answer button, observes Telecom Active,
-and ends the modem call. It restores and verifies the original carrier role
+emulator call, presses the actual native Answer button, and observes Telecom Active.
+It requires Android's actual `phoneCall` foreground type and posted `CallStyle`
+notification, ends the modem call, and verifies both are released. It then
+restores and verifies the original carrier role
 holders. Thirteen codec assertions cover group/Unicode/binary round trips,
 truncated lengths, part-count and nested-depth bounds without sending any MMS.
 This proves emulator integration, not delivery over a real carrier. Each observed page has a real screenshot and JSON record. Failure

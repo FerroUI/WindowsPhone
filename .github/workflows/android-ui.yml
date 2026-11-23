@@ -85,6 +85,7 @@ jobs:
           bash scripts/test-android-contracts.sh
           python3 scripts/verify_android_package_test.py
           python3 scripts/verify_android_ui_test.py
+          python3 scripts/verify_android_device_test.py
           cargo test --locked -p phone-android --lib
       - name: Build x86_64 application and launcher APKs
         id: packages

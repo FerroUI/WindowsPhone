@@ -37,6 +37,7 @@ final class PhoneDeviceSmoke {
             PhoneJson.put(proof, "nonce", nonce); PhoneJson.put(proof, "sequence", ++sequence); PhoneJson.put(proof, "observed_at", System.currentTimeMillis());
             PhoneJson.put(proof, "snapshot", PhoneDevice.snapshot(context).optJSONObject("response").optJSONObject("value"));
             PhoneJson.put(proof, "calls", PhoneInCallService.snapshot(context)); PhoneJson.put(proof, "native_call_visible", PhoneCallActivity.isVisible());
+            PhoneJson.put(proof, "call_presentation", PhoneInCallService.presentation(context));
             PhoneSmsReceiver.INCOMING.execute(() -> {
                 try {
                     if (codec == null) codec = PhoneCodecFixtures.run(context);

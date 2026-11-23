@@ -38,8 +38,15 @@ def verify(proof, nonce, phase, after):
     if phase in ('ringing', 'active'):
         require(proof['native_call_visible'] is True, 'The independent native call UI is not visible')
         require(any(call['state'] == phase and call['incoming'] for call in proof['calls']), 'Telecom did not report the real expected call state')
+        presentation = proof.get('call_presentation', {})
+        require(not presentation.get('error'), 'Android rejected call-notification presentation: ' + str(presentation.get('error')))
+        require(presentation.get('service_type') == 4 and presentation.get('foreground_notification') is True
+                and presentation.get('call_style') is True, 'The native CallStyle notification has no observed phone-call foreground owner')
     if phase == 'ended':
         require(not proof['calls'] or all(call['state'] == 'disconnected' for call in proof['calls']), 'The modem call is still live')
+        presentation = proof.get('call_presentation', {})
+        require(presentation.get('service_type') == 0 and presentation.get('foreground_notification') is False,
+                'The final call left a foreground service or call notification behind')
     require(phase in ('baseline', 'roles', 'sms', 'ringing', 'active', 'ended'), 'Unknown phase')
     return proof['sequence']
 

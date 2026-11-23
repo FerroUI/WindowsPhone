@@ -77,6 +77,10 @@ def verify_manifest(root, launcher):
         return value
 
     call = protected("service", "PhoneInCallService", "BIND_INCALL_SERVICE")
+    require("android.permission.FOREGROUND_SERVICE_PHONE_CALL" in permissions,
+            "Phone-call foreground service permission is missing")
+    require(android_enum(call.get(A + "foregroundServiceType"), "phoneCall", 4),
+            "Invalid phone-call foreground service type")
     require(call.get(A + "exported") == "true" and any(value.get(A + "name") == "android.telecom.IN_CALL_SERVICE_UI"
             and value.get(A + "value") == "true" for value in call.findall("meta-data")), "The default dialer needs the real exported Telecom UI service")
     require(not any(value.get(A + "name") == "android.telecom.IN_CALL_SERVICE_RINGING" for value in call.findall("meta-data")),

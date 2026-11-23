@@ -1,8 +1,10 @@
 package org.ferroui.phone;
 
 import android.Manifest;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +32,8 @@ public final class PhoneInCallService extends InCallService {
     private static boolean dirty = true;
     private final LinkedHashMap<String, Entry> calls = new LinkedHashMap<>();
     private final ArrayList<CallEndpoint> endpoints = new ArrayList<>();
-    private boolean muted, speaker;
+    private final PhoneCallNotifications notifications = new PhoneCallNotifications();
+    private boolean muted, speaker, startedForCalls;
 
     static final class Entry {
         final String id = "call:" + UUID.randomUUID();
@@ -46,8 +49,35 @@ public final class PhoneInCallService extends InCallService {
     static PhoneInCallService current() { return current.get(); }
     static boolean takeDirty() { boolean result = dirty; dirty = false; return result; }
     static int state(Call call) { return Build.VERSION.SDK_INT >= 31 ? call.getDetails().getState() : call.getState(); }
+    static JSONObject presentation(Context context) {
+        PhoneInCallService service = current.get();
+        return PhoneCallNotifications.observe(context, service, service == null ? null : service.notifications.error());
+    }
 
     @Override public void onCreate() { super.onCreate(); current = new WeakReference<>(this); dirty = true; }
+    @Override public int onStartCommand(Intent intent, int flags, int startId) {
+        // The intent grants no call authority. A late start after the final call,
+        // or a fresh process without Telecom callbacks, immediately releases it.
+        startedForCalls = true;
+        changed();
+        return START_NOT_STICKY;
+    }
+    void startCallForeground(Notification notification) {
+        if (!startedForCalls) {
+            if (startForegroundService(new Intent(this, PhoneInCallService.class)) == null)
+                throw new IllegalStateException("Android did not start the call service.");
+            startedForCalls = true;
+        }
+        if (Build.VERSION.SDK_INT >= 29)
+            startForeground(PhoneCallNotifications.ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_PHONE_CALL);
+        else startForeground(PhoneCallNotifications.ID, notification);
+    }
+    void stopCallForeground() {
+        try { stopForeground(STOP_FOREGROUND_REMOVE); }
+        finally {
+            if (startedForCalls) { startedForCalls = false; stopSelf(); }
+        }
+    }
     @Override public void onCallAdded(Call call) {
         super.onCallAdded(call);
         Entry entry = new Entry(call);
@@ -86,13 +116,23 @@ public final class PhoneInCallService extends InCallService {
         endpoints.addAll(available);
         changed();
     }
-    @Override public void onDestroy() {
+    private void clearCalls() {
         for (Entry entry : calls.values()) release(entry);
         calls.clear();
         endpoints.clear();
-        PhoneCallNotifications.clear(this);
-        if (current.get() == this) current.clear();
+        notifications.clear(this);
         dirty = true;
+        PhoneCallActivity.changed();
+    }
+    @Override public boolean onUnbind(Intent intent) {
+        // A started lease must not keep this service alive after Telecom detaches.
+        // Super still destroys its Phone and owns the Android binding contract.
+        clearCalls();
+        return super.onUnbind(intent);
+    }
+    @Override public void onDestroy() {
+        clearCalls();
+        if (current.get() == this) current.clear();
         super.onDestroy();
     }
 
@@ -104,7 +144,7 @@ public final class PhoneInCallService extends InCallService {
 
     private void changed() {
         dirty = true;
-        PhoneCallNotifications.update(this, new ArrayList<>(calls.values()));
+        notifications.update(this, new ArrayList<>(calls.values()));
         PhoneCallActivity.changed();
     }
 

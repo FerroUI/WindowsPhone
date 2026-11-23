@@ -30,6 +30,29 @@ def manifest(launcher=False):
 
 
 class ManifestContract(unittest.TestCase):
+    def test_call_service_requires_only_the_phone_call_type_and_permission(self):
+        for value in ["phoneCall", "4", "0x00000004"]:
+            root = manifest()
+            call = next(v for v in root.findall("application/service")
+                        if v.get(A + "name") == "org.ferroui.phone.PhoneInCallService")
+            call.set(A + "foregroundServiceType", value)
+            VERIFY.verify_manifest(root, False)
+        for value in ["", "0", "2", "6", "phoneCall|microphone"]:
+            root = manifest()
+            call = next(v for v in root.findall("application/service")
+                        if v.get(A + "name") == "org.ferroui.phone.PhoneInCallService")
+            call.set(A + "foregroundServiceType", value)
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "phone-call foreground service type"):
+                VERIFY.verify_manifest(root, False)
+
+    def test_call_service_cannot_omit_its_foreground_permission(self):
+        root = manifest()
+        permission = next(v for v in root.findall("uses-permission")
+                          if v.get(A + "name") == "android.permission.FOREGROUND_SERVICE_PHONE_CALL")
+        root.remove(permission)
+        with self.assertRaisesRegex(ValueError, "Phone-call foreground service permission"):
+            VERIFY.verify_manifest(root, False)
+
     def test_named_decimal_and_hex_encoded_enum_values_are_equivalent(self):
         for launcher in [False, True]:
             for launch_mode in ["singleTask", "2", "0x00000002"]:
