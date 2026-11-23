@@ -1,5 +1,9 @@
 //! Phone styling for native date/time wheels. The WinUI templates still own
 //! their selectors, repeat buttons, validation, popup and accept/cancel logic.
+mod focus;
+
+pub use focus::attach_picker_focus;
+
 use crate::{FONT_FAMILY, Palette};
 use ferroui_base::layout::{HorizontalAlignment, Layoutable};
 use ferroui_base::media::FontFamily;

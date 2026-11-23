@@ -162,6 +162,10 @@ export async function verifyShellParity(ctx) {
         {app:"Alarms",action:"add",picker:"AlarmTimePicker",selector:"PART_HourSelector",capture:"time"},
         {app:"Calendar",action:"new",picker:"CalendarDate",selector:"PART_MonthSelector",capture:"date"},
       ]){
+        const focusedSelector=()=>control(element=>element.focused&&/DateTimePickerPanel$/.test(element.type)&&
+          (entry.capture==="time"?element.name==="PART_HourSelector":
+            ["PART_YearSelector","PART_MonthSelector","PART_DaySelector"].includes(element.name)),
+          `${entry.app} popup gives native keyboard focus to its initial selector`);
         await page.evaluate(`phoneApp.openApp(${JSON.stringify(entry.app)})`);
         await isRoute({App:entry.app});await clickLabel(entry.action);
         const picker=await control(element=>element.name===entry.picker,`${entry.app} native picker`);
@@ -169,6 +173,7 @@ export async function verifyShellParity(ctx) {
         assert(picker.width<=screen.width-40+0.6&&picker.height>=44,"Native phone picker fits its form and touch target");
         await clickName(entry.picker);
         await control(element=>element.name===entry.selector,"Native picker selector panel");
+        await focusedSelector();
         await capture(`shell-native-${entry.capture}-picker`,{
           picker:entry.capture==="time"?"TimePickerPresenter":"DatePickerPresenter",
         });
@@ -176,6 +181,7 @@ export async function verifyShellParity(ctx) {
         await until(async()=>!(await snapshot()).elements.some(element=>element.name===entry.selector),"Native picker cancel dismisses its popup");
         await clickName(entry.picker);
         await control(element=>element.name===entry.selector,"Reopened native picker selector");
+        await focusedSelector();
         await clickName("PART_AcceptButton");
         await until(async()=>!(await snapshot()).elements.some(element=>element.name===entry.selector),"Native picker accept dismisses its popup");
         await clickLabel("cancel");

@@ -8,6 +8,10 @@ pub struct FileProperties {
     pub rows: Vec<(String, String)>,
 }
 
+fn counted(count: usize, noun: &str) -> String {
+    format!("{count} {noun}{}", if count == 1 { "" } else { "s" })
+}
+
 pub(super) fn folder(vm: &PhoneViewModel, id: Id) -> Result<FileProperties, String> {
     let data = vm.data();
     let folder = data
@@ -40,9 +44,9 @@ pub(super) fn folder(vm: &PhoneViewModel, id: Id) -> Result<FileProperties, Stri
             (
                 "contains".into(),
                 format!(
-                    "{} files, {} folders",
-                    documents.len(),
-                    descendants.len().saturating_sub(1)
+                    "{}, {}",
+                    counted(documents.len(), "file"),
+                    counted(descendants.len().saturating_sub(1), "folder")
                 ),
             ),
             (
@@ -58,13 +62,13 @@ pub(super) fn document(vm: &PhoneViewModel, id: Id) -> Result<FileProperties, St
     let document = data.document(id).ok_or("This document no longer exists.")?;
     let exported = export_office(document)?;
     let details = match &document.content {
-        DocumentContent::Word(word) => format!("{} paragraphs", word.paragraphs.len()),
+        DocumentContent::Word(word) => counted(word.paragraphs.len(), "paragraph"),
         DocumentContent::Excel(book) => format!(
-            "{} worksheets, {} cells",
-            book.sheets.len(),
-            book.sheets.iter().map(|s| s.cells.len()).sum::<usize>()
+            "{}, {}",
+            counted(book.sheets.len(), "worksheet"),
+            counted(book.sheets.iter().map(|s| s.cells.len()).sum(), "cell")
         ),
-        DocumentContent::PowerPoint(deck) => format!("{} slides", deck.slides.len()),
+        DocumentContent::PowerPoint(deck) => counted(deck.slides.len(), "slide"),
     };
     let mut rows = vec![
         (

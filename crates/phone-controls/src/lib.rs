@@ -18,6 +18,7 @@ mod typography;
 pub use buttons::*;
 pub use icons::{Icon, icon};
 pub use motion::{live_tile_enter, motion_enabled, page_enter, reveal, set_motion_enabled, settle};
+pub use pickers::attach_picker_focus;
 pub use theme::{install_theme, set_palette};
 pub use tilt::attach_press_tilt;
 pub use tokens::*;

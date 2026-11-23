@@ -133,6 +133,7 @@ fn jump_date(ui: Rc<Session>) -> Element {
         scroll(rsx! {StackPanel{margin:20.0,spacing:24.0,
             {text("jump to date",40.0)}
             DatePicker{name:"CalendarJumpDate",class:"phone-picker",selected_date:ui.calendar.date_value.two_way(),
+                with:|picker|phone_controls::attach_picker_focus(picker),
                 min_year:ferroui_base::utilities::DateTimeOffset::MIN_VALUE,max_year:ferroui_base::utilities::DateTimeOffset::MAX_VALUE,
                 automation_properties_name:"jump to date",horizontal_alignment:ferroui_base::layout::HorizontalAlignment::Stretch}
         }}),

@@ -122,6 +122,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             rsx! {StackPanel{margin:(20.0,0.0,20.0,20.0),spacing:18.0,
                 StackPanel{spacing:5.0,{common::muted("time",16.0)}
                     TimePicker{name:"AlarmTimePicker",class:"phone-picker",horizontal_alignment:H::Stretch,
+                        with:|picker|phone_controls::attach_picker_focus(picker),
                         selected_time:editor.time.two_way(),minute_increment:1,
                         clock_identifier:if vm.data().settings.time_24h{"24HourClock"}else{"12HourClock"},automation_properties_name:"Alarm time"}
                 }

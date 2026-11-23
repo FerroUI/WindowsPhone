@@ -34,12 +34,14 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 automation_properties_name:"appointment location",font_size:21.0,min_height:48.0,horizontal_alignment:H::Stretch}}
         StackPanel{spacing:6.0,{muted("when",16.0)}
             DatePicker{name:"CalendarDate",class:"phone-picker",selected_date:state.date_value.two_way(),
+                with:|picker|phone_controls::attach_picker_focus(picker),
                 min_year:DateTimeOffset::MIN_VALUE,max_year:DateTimeOffset::MAX_VALUE,
                 automation_properties_name:"appointment date",horizontal_alignment:H::Stretch}}
         {toggle("all day",all_day,move|value|{all_day_ui.calendar.all_day.set(value);
             if value {all_day_ui.calendar.duration.set(1440);}else if all_day_ui.calendar.duration.get_untracked()%1440==0{all_day_ui.calendar.duration.set(60);}})}
         if !all_day {StackPanel{spacing:6.0,{muted("time",16.0)}
             TimePicker{name:"CalendarTime",class:"phone-picker",selected_time:state.time_value.two_way(),minute_increment:1,
+                with:|picker|phone_controls::attach_picker_focus(picker),
                 clock_identifier:if vm.data().settings.time_24h{"24HourClock"}else{"12HourClock"},
                 automation_properties_name:"appointment time",horizontal_alignment:H::Stretch}}}
         {choice(&ui,"how long",&pickers::duration_label(state.duration.get(),all_day),CalendarPicker::Duration)}
@@ -52,6 +54,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                     if repeat!=CalendarRepeat::Never {
                         {toggle("end repeating",ends,move|value|end_ui.calendar.repeat_ends.set(value))}
                         if ends {DatePicker{name:"CalendarRepeatEnd",class:"phone-picker",selected_date:state.until.two_way(),
+                            with:|picker|phone_controls::attach_picker_focus(picker),
                             min_year:DateTimeOffset::MIN_VALUE,max_year:DateTimeOffset::MAX_VALUE,
                             automation_properties_name:"repeat end date",horizontal_alignment:H::Stretch}}
                     }
