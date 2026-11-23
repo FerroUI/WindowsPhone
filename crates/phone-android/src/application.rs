@@ -68,6 +68,8 @@ impl ApplicationImpl for PhoneApplication {
             }
         };
         let root = safe_area_root(host.view());
+        #[cfg(debug_assertions)]
+        crate::smoke::install(&host, &root);
         this.host.replace(Some(host.clone()));
         if let Some(lifetime) = this
             .application_lifetime()
@@ -85,7 +87,11 @@ impl ApplicationImpl for PhoneApplication {
                 if let Some(host) = active.upgrade() {
                     host.lifecycle(HostLifecycle::Resumed);
                     if let Some(protocol) = args.as_protocol_activated() {
-                        if let Err(error) = host.activate_uri(protocol.uri().as_str()) {
+                        let uri = protocol.uri().as_str();
+                        let result = host.activate_uri(uri);
+                        #[cfg(debug_assertions)]
+                        crate::smoke::activation(uri, &result);
+                        if let Err(error) = result {
                             host.vm().set_status(error);
                         }
                     }

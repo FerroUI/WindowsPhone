@@ -163,6 +163,47 @@ a later verification fails, so the workflow conclusion and verification JSON mus
 be checked before calling an artifact verified. On success it uploads the APKs and verification metadata;
 it does not install them on a device or select a HOME app.
 
+### Focused emulator gate
+
+`.github/workflows/android-ui.yml` runs only on manual dispatch or a main commit
+containing `[verify-android-ui]`. Its concurrency and build-cache namespaces are
+independent from the ARM64 package job. It builds both **x86_64** debug variants,
+verifies their package boundaries, then creates a private Android **36** AVD with
+KVM and software graphics. It reuses FerroUI's Android environment and emulator
+helpers. The AVD is stopped and its private directory removed afterward.
+
+The standalone debug host observes the mounted UI only when
+`files/windows-phone/phone-android-smoke.enabled` contains the test's 32-digit
+hexadecimal nonce. Release and embedding builds exclude the observer. It writes
+an atomic private JSON snapshot every 500 ms for at most ten minutes, and stops
+when the marker is removed or the host closes. It records the actual layout,
+route and normal activity activation outcome; it cannot inject an activation.
+
+`scripts/smoke-android.sh` installs both variants into its own emulator and sends
+explicit-component `ACTION_VIEW` intents for **Start → Wallet → Home**. It requires
+fresh nonce/sequence observations, actual named page controls, nonzero native
+system insets, an inner viewport matching the inset content slot, and a
+`PhoneScreen` contained in that slot. It also verifies that the current Android
+user and HOME role holder are unchanged. It never asks to become the default
+launcher. Each observed page has a real screenshot and JSON record. Failure
+artifacts include the last observation, screenshot, activation output, emulator
+log, logcat and crash buffer; successful build outputs are cached before runtime
+checks. The CI emulator step is limited to fifteen minutes plus cleanup.
+
+```sh
+rustup target add x86_64-linux-android
+sdkmanager emulator 'system-images;android-36;google_apis;x86_64'
+bash scripts/build-android.sh --abi x86_64
+bash scripts/build-android.sh --abi x86_64 --launcher --no-cargo
+timeout --signal=TERM --kill-after=30s 900 bash scripts/smoke-android.sh
+```
+
+The `phone-android-x86_64-ui` artifact retains the UI evidence even when a runtime
+assertion fails. The separate `phone-android-x86_64-debug` artifact retains APKs
+only after the current run successfully builds both variants. Check `result.json`
+and the workflow conclusion; the presence of an artifact alone does not prove the
+UI gate passed. Cached observation files are removed before each run.
+
 Successful packaging proves native/Java compilation and the package boundary.
 Device qualification still needs actual activity recreation, HOME consent and
 reentry, denied/revoked runtime permissions, approximate location, camera and
@@ -177,3 +218,6 @@ and external-player handoff on supported Android/OEM versions.
 - [Audio focus and Android 15 foreground requirements](https://developer.android.com/media/optimize/audio-focus)
 - [FileProvider content URIs and temporary grants](https://developer.android.com/reference/androidx/core/content/FileProvider)
 - [Android Gradle plugin 8.13 compatibility](https://developer.android.com/build/releases/agp-8-13-0-release-notes)
+- [Android emulator command-line options](https://developer.android.com/studio/run/emulator-commandline)
+- [Emulator hardware and graphics acceleration](https://developer.android.com/studio/run/emulator-acceleration)
+- [ADB explicit activity intents](https://developer.android.com/tools/adb)

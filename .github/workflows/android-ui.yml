@@ -1,0 +1,131 @@
+name: Verify Android mounted UI
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-android-ui]')) && 'windows-phone-android-ui' || format('windows-phone-android-ui-skip-{0}', github.run_id) }}
+  cancel-in-progress: true
+jobs:
+  android-ui:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-android-ui]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      CARGO_BUILD_JOBS: 1
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+      CARGO_PROFILE_TEST_DEBUG: 0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Read framework tool pins
+        id: pins
+        run: |
+          mkdir -p target/android-ui
+          git rev-parse HEAD > target/android-ui/head.txt
+          echo "rust=$(sed -n 's/^RUST_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
+          echo "ndk=$(sed -n 's/^FERROUI_ANDROID_NDK_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/android/env.sh)" >> "$GITHUB_OUTPUT"
+          echo "platform=$(sed -n 's/^FERROUI_ANDROID_PLATFORM="\(.*\)"$/\1/p' FerroUI/scripts/android/env.sh)" >> "$GITHUB_OUTPUT"
+          echo "build_tools=$(sed -n 's/^FERROUI_ANDROID_BUILD_TOOLS_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/android/env.sh)" >> "$GITHUB_OUTPUT"
+          echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
+      - name: Install the pinned Android tools and API 36 x86_64 image
+        run: |
+          sdkmanager "platforms;${{ steps.pins.outputs.platform }}" "build-tools;${{ steps.pins.outputs.build_tools }}" "ndk;${{ steps.pins.outputs.ndk }}" emulator "system-images;android-36;google_apis;x86_64"
+          java -version
+          gradle --version
+      - name: Enable KVM for this ephemeral runner
+        run: |
+          test -c /dev/kvm
+          sudo chgrp "$(id -gn)" /dev/kvm
+          sudo chmod g+rw /dev/kvm
+          test -r /dev/kvm && test -w /dev/kvm
+      - name: Install pinned Rust and the Android emulator target
+        run: |
+          rustup toolchain install '${{ steps.pins.outputs.rust }}' --profile minimal --target x86_64-linux-android
+          echo 'RUSTUP_TOOLCHAIN=${{ steps.pins.outputs.rust }}' >> "$GITHUB_ENV"
+      - name: Normalize framework source timestamps
+        run: python3 scripts/ci-framework-mtimes.py
+      - uses: actions/cache/restore@v4
+        id: native-cache
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          # Deliberately separate from the ARM64 package workflow's cache namespace.
+          key: phone-android-ui-x86-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'scripts/build-android.sh') }}-${{ github.sha }}
+          restore-keys: |
+            phone-android-ui-x86-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'scripts/build-android.sh') }}-
+            phone-android-ui-x86-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
+      - name: Reset per-run observation artifacts
+        run: |
+          rm -rf target/android-ui target/android/verification-ui
+          mkdir -p target/android-ui
+          git rev-parse HEAD > target/android-ui/head.txt
+      - name: Verify package and mounted-layout contracts
+        run: |
+          bash -n scripts/smoke-android.sh
+          python3 scripts/verify_android_package_test.py
+          python3 scripts/verify_android_ui_test.py
+          cargo test --locked -p phone-android --lib
+      - name: Build x86_64 application and launcher APKs
+        id: packages
+        run: |
+          bash scripts/build-android.sh --abi x86_64
+          bash scripts/build-android.sh --abi x86_64 --launcher --no-cargo
+      - name: Save successfully built native outputs before runtime verification
+        uses: actions/cache/save@v4
+        if: always() && steps.packages.outcome == 'success' && steps.native-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ steps.native-cache.outputs.cache-primary-key }}
+      - name: Verify the actual emulator packages
+        run: |
+          phone_outputs=target/android/phone-x86_64-debug/outputs/apk
+          mkdir -p target/android/verification-ui
+          python3 scripts/verify-android-package.py "$phone_outputs/app/debug" --abi x86_64 --manifest-out target/android/verification-ui/app-manifest.xml > target/android/verification-ui/app.json
+          python3 scripts/verify-android-package.py "$phone_outputs/launcher/debug" --abi x86_64 --launcher --manifest-out target/android/verification-ui/launcher-manifest.xml > target/android/verification-ui/launcher.json
+          for phone_apk in "$phone_outputs"/*/debug/*.apk; do
+            "$ANDROID_HOME/build-tools/${{ steps.pins.outputs.build_tools }}/zipalign" -c -P 16 -v 4 "$phone_apk"
+          done
+      - name: Verify real Android insets and Start, Wallet, Home activation
+        timeout-minutes: 17
+        run: |
+          timeout --signal=TERM --kill-after=30s 900 bash scripts/smoke-android.sh target/android/phone-x86_64-debug/outputs/apk target/android-ui
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.packages.outcome == 'success'
+        with:
+          name: phone-android-x86_64-debug
+          path: |
+            target/android/phone-x86_64-debug/outputs/apk/**/*.apk
+            target/android/verification-ui/*
+          if-no-files-found: error
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phone-android-x86_64-ui
+          path: |
+            target/android-ui/**
+          if-no-files-found: warn
+          retention-days: 3

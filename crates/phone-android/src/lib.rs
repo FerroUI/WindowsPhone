@@ -16,6 +16,8 @@ mod bridge;
 mod media;
 #[cfg(target_os = "android")]
 mod plugin;
+#[cfg(all(target_os = "android", feature = "standalone", debug_assertions))]
+mod smoke;
 #[cfg(target_os = "android")]
 pub use plugin::AndroidPlatformPlugin;
 
