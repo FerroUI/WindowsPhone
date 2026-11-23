@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import ntpath
 from pathlib import Path, PureWindowsPath
 import shutil
 import uuid
@@ -14,11 +15,20 @@ ET.register_namespace("", NS)
 ET.register_namespace("V2", V2)
 
 
+def reserved_component(value: str) -> bool:
+    # Use Windows rules even when generating the policy on Linux/macOS.
+    # Python 3.13 introduced ntpath.isreserved; 3.15 removed pathlib's method.
+    modern = getattr(ntpath, "isreserved", None)
+    if modern is not None:
+        return modern(value)
+    return PureWindowsPath(value).is_reserved()
+
+
 def configuration(executable: str, account: str) -> bytes:
     path = PureWindowsPath(executable)
     if (not path.is_absolute() or len(path.drive) != 2 or path.drive[1] != ":"
             or path.suffix.lower() != ".exe" or ".." in path.parts
-            or any(":" in part or part.endswith((".", " ")) or PureWindowsPath(part).is_reserved() for part in path.parts[1:])
+            or any(":" in part or part.endswith((".", " ")) or reserved_component(part) for part in path.parts[1:])
             or any(character in executable for character in '\"<>|?*%\r\n\0')
             or any(ord(character) < 32 or ord(character) == 127 for character in executable)
             or len(executable) > 1000):

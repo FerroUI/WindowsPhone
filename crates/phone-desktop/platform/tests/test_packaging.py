@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import xml.etree.ElementTree as ET
 
 PLATFORM = Path(__file__).resolve().parents[1]
@@ -46,6 +47,20 @@ class ShellConfigurationTests(unittest.TestCase):
                 windows.configuration(executable, r".\Phone")
         with self.assertRaises(ValueError):
             windows.configuration(r"C:\Phone\phone-desktop.exe", "bad\naccount")
+
+    def test_windows_reserved_names_without_deprecated_pathlib_api(self):
+        # Exercise the Python 3.15 interface on older CI interpreters as well.
+        # The predicate is still the interpreter's own Windows name checker.
+        modern = getattr(windows.ntpath, "isreserved", None)
+        if modern is None:
+            legacy = windows.PureWindowsPath.is_reserved
+            modern = lambda value: legacy(windows.PureWindowsPath(value))
+        with mock.patch.object(windows.ntpath, "isreserved", modern, create=True), \
+             mock.patch.object(windows.PureWindowsPath, "is_reserved", side_effect=AssertionError("removed API"), create=True):
+            ET.fromstring(windows.configuration(r"C:\Phone App\phone-desktop.exe", r".\Phone"))
+            for component in ["NUL", "con.exe", "COM1", "LPT9.log", "COM¹", "LPT³.txt", "CONIN$", "CONOUT$"]:
+                with self.subTest(component=component), self.assertRaises(ValueError):
+                    windows.configuration(f"C:\\{component}\\phone-desktop.exe", r".\Phone")
 
     @unittest.skipIf(os.name == "nt", "POSIX session scripts are exercised on Linux/macOS")
     def test_linux_client_preserves_executable_path_and_closed_argument_set(self):

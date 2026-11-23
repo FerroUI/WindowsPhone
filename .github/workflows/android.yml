@@ -41,6 +41,10 @@ jobs:
         with:
           gradle-version: '8.13'
       - uses: android-actions/setup-android@v3
+        with:
+          # The action's default also requests the retired SDK `tools` package.
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
       - name: Install the pinned Android SDK and NDK
         run: |
           sdkmanager "platforms;${{ steps.pins.outputs.platform }}" "build-tools;${{ steps.pins.outputs.build_tools }}" "ndk;${{ steps.pins.outputs.ndk }}"
