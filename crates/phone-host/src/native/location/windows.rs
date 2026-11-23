@@ -2,7 +2,7 @@ use super::Position;
 use windows::{
     Devices::Geolocation::{GeolocationAccessStatus, Geolocator, PositionAccuracy},
     Foundation::TimeSpan,
-    Win32::System::WinRT::{RoInitialize, RoUninitialize, RO_INIT_SINGLETHREADED},
+    Win32::System::WinRT::{RO_INIT_SINGLETHREADED, RoInitialize, RoUninitialize},
 };
 
 struct Runtime(bool);
@@ -46,9 +46,13 @@ pub(super) async fn locate() -> Result<Position, String> {
         .await
         .map_err(|e| e.to_string())?;
     let coordinate = position.Coordinate().map_err(|e| e.to_string())?;
+    let point = coordinate
+        .Point()
+        .and_then(|point| point.Position())
+        .map_err(|e| e.to_string())?;
     let result = Position {
-        latitude: coordinate.Latitude().map_err(|e| e.to_string())?,
-        longitude: coordinate.Longitude().map_err(|e| e.to_string())?,
+        latitude: point.Latitude,
+        longitude: point.Longitude,
         accuracy_metres: coordinate.Accuracy().map_err(|e| e.to_string())?,
     };
     drop(runtime);
