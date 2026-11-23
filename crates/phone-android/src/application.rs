@@ -9,7 +9,7 @@ use ferroui_base::{
 };
 use ferroui_controls::{
     application_lifetimes::IActivatableLifetime, AppBuilder, Application, ApplicationImpl,
-    ApplicationImplExt, Control, NewApplication, TextBlock, TopLevel,
+    ApplicationImplExt, Control, NewApplication, TextBlock, TopLevel, UserControl,
 };
 use ferroui_fonts_inter::AppBuilderExtension;
 use phone_fonts::PhoneFontBuilderExt;
@@ -57,20 +57,17 @@ impl ApplicationImpl for PhoneApplication {
                     .and_then(|lifetime| lifetime.as_activity_application_lifetime())
                 {
                     let message = format!("Could not open Windows Phone: {error}");
-                    lifetime.set_main_view_factory(Some(Rc::new(move || {
-                        let label = TextBlock::new();
-                        label.set_text(Some(&message));
-                        label.set_text_wrapping(ferroui_base::media::TextWrapping::Wrap);
-                        let view = label.upcast::<Control>();
-                        TopLevel::set_auto_safe_area_padding(&view, true);
-                        view
-                    })));
+                    let label = TextBlock::new();
+                    label.set_text(Some(&message));
+                    label.set_text_wrapping(ferroui_base::media::TextWrapping::Wrap);
+                    let root = safe_area_root(label.upcast());
+                    lifetime.set_main_view_factory(Some(Rc::new(move || root.clone())));
                 }
                 Self::parent_on_framework_initialization_completed(this);
                 return;
             }
         };
-        TopLevel::set_auto_safe_area_padding(&host.view(), true);
+        let root = safe_area_root(host.view());
         this.host.replace(Some(host.clone()));
         if let Some(lifetime) = this
             .application_lifetime()
@@ -78,10 +75,9 @@ impl ApplicationImpl for PhoneApplication {
             .and_then(|lifetime| lifetime.as_activity_application_lifetime())
         {
             // The manifest uses singleTask. FerroActivity::on_destroy clears the old
-            // content before recreation, so the retained root can be reattached and
-            // unsaved app drafts remain in the same NativeHost.
-            let host = host.clone();
-            lifetime.set_main_view_factory(Some(Rc::new(move || host.view())));
+            // content before recreation, so the retained wrapper and inner view can
+            // be reattached together without reparenting the live NativeHost view.
+            lifetime.set_main_view_factory(Some(Rc::new(move || root.clone())));
         }
         if let Some(activation) = this.try_get::<dyn IActivatableLifetime>() {
             let active = Rc::downgrade(&host);
@@ -107,6 +103,16 @@ impl ApplicationImpl for PhoneApplication {
         }
         Self::parent_on_framework_initialization_completed(this);
     }
+}
+
+fn safe_area_root(view: Ref<Control>) -> Ref<Control> {
+    // NativeHost measures its own view to size PhoneScreen. Apply system insets to
+    // an outer container so those measurements describe the inset content area.
+    TopLevel::set_auto_safe_area_padding(&view, false);
+    let root = UserControl::new();
+    root.set_content(Some(Control::boxed(view)));
+    TopLevel::set_auto_safe_area_padding(&root, true);
+    root.upcast()
 }
 
 pub fn build() -> AppBuilder {
