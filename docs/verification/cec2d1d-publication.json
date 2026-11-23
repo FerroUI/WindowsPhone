@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "target": "Windows Phone 8.1 Update (2014)",
+  "runtime_commit": "cec2d1d214310e33ef4908949fd3d6fe647630a9",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "run_id": 45163782836,
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836",
+  "conclusion": "success",
+  "completed_at_utc": "2026-11-23T11:30:21Z",
+  "browser_verification": {
+    "build_job_id": 137655455056,
+    "conclusion": "success",
+    "rust_tests": 161,
+    "javascript_tests": 25,
+    "local_modules_linked": 21,
+    "native_first_frame": "success",
+    "browser_groups": 53,
+    "captures": 104,
+    "elapsed_ms": 165364,
+    "console_runtime_errors": [],
+    "results_file": "cec2d1d-results.json",
+    "results_sha256": "ce1834fbc7a06bb4df7cf7d9034c56fe880ebe18dd60c6c86bc0bd67d638869a",
+    "artifact": {
+      "id": 14812709655,
+      "name": "ui-verification",
+      "size_bytes": 6245135,
+      "zip_sha256": "ae3045a225ef578da14fe22ca2505004a215a1f99c25dba40b3e2e1c69c58d10"
+    },
+    "compiled_artifact": {
+      "id": 14813597949,
+      "size_bytes": 9306650,
+      "zip_sha256": "3a5e49ffca4f966ec7475ecd129c529e15454e2d7a3b6df0473f969f629c1cd6"
+    },
+    "refined_browser_checks": [
+      {
+        "name": "registered Tic tac toe supports local search, native play, exact score persistence and turn undo",
+        "elapsedMs": 5764,
+        "passed": true
+      },
+      {
+        "name": "SDK app Start links, local search, and Store disable/enable preserve game progress",
+        "elapsedMs": 4303,
+        "passed": true
+      }
+    ],
+    "selected_captures": [
+      {
+        "path": "docs/screenshots/sdk-start-desktop.png",
+        "source": "01-start-desktop.png",
+        "sha256": "1bf4d97ac48fc15170df6345346704be7ef464861e9826d142e795ec105a531d",
+        "bytes": 167305
+      },
+      {
+        "path": "docs/screenshots/sdk-start-mobile.png",
+        "source": "13-start-mobile-dpr2.png",
+        "sha256": "aaf147c6352623f5d8a627e42764a8926dc6b2adc517b422dd70e0c2b6e6e5ed",
+        "bytes": 536914
+      },
+      {
+        "path": "docs/screenshots/sdk-tic-tac-toe.png",
+        "source": "sdk-tic-tac-toe-completed-game.png",
+        "sha256": "a312ea14b1447d2591ffb00287eb5beb56536b60e9e3feedf8c600813aba0224",
+        "bytes": 30742
+      },
+      {
+        "path": "docs/screenshots/sdk-minesweeper-playing.png",
+        "source": "sdk-minesweeper-playing.png",
+        "sha256": "c28c781c025be2a9da1321afe7071b654796332bd549d1c518a2a7eebcbc67fc",
+        "bytes": 32416
+      },
+      {
+        "path": "docs/screenshots/sdk-minesweeper-restored.png",
+        "source": "sdk-minesweeper-restored.png",
+        "sha256": "c1f6221d45f25b430b430f3776dba827ca835aace2eb4a9ca9c44ea81791384d",
+        "bytes": 32320
+      },
+      {
+        "path": "docs/screenshots/sdk-store-disabled.png",
+        "source": "sdk-game-store-disabled.png",
+        "sha256": "c1cc6def9b1d92a3aaba9e9a7bad8df8bff0100ad7c01e528923abfd16402d98",
+        "bytes": 45897
+      }
+    ],
+    "selected_captures_visually_reviewed": 6,
+    "visual_review_notes": [
+      "Vector flags and completed X/O marks remain visible.",
+      "Minesweeper displays the singular '1 move' label before and after reload.",
+      "Selected Start layouts and the disabled Store details have no new obvious clipping or overlap regression; viewport continuation and the finite Photos entry frame remain visible."
+    ]
+  },
+  "native_verification": {
+    "conclusion": "success",
+    "runtime_commit": "cec2d1d214310e33ef4908949fd3d6fe647630a9",
+    "commands": [
+      "cargo test --locked -p phone-host",
+      "cargo build --locked -p phone-desktop"
+    ],
+    "platforms": [
+      {
+        "platform": "Linux x86_64",
+        "runner": "ubuntu-latest",
+        "job_id": 137655454554,
+        "conclusion": "success",
+        "host_tests": 16,
+        "desktop_build_and_link": "success",
+        "build_duration": "52.92s",
+        "real_provider_bridges": true,
+        "cache": "exact compiler/framework-pinned v2 restored"
+      },
+      {
+        "platform": "macOS ARM64",
+        "runner": "macos-latest",
+        "job_id": 137655455038,
+        "conclusion": "success",
+        "host_tests": 14,
+        "desktop_build_and_link": "success",
+        "build_duration": "4m04s",
+        "real_provider_bridges": true,
+        "cache": "exact compiler/framework-pinned v2 restored"
+      },
+      {
+        "platform": "Windows x86_64",
+        "runner": "windows-2022",
+        "job_id": 137655455218,
+        "conclusion": "success",
+        "host_tests": 15,
+        "desktop_build_and_link": "success",
+        "build_duration": "3m11s",
+        "compiler_header_preflight": "success",
+        "clang_version": "20.1.8",
+        "real_provider_bridges": true,
+        "cache": "exact compiler/framework/runner-pinned v2 restored"
+      }
+    ],
+    "physical_device_or_permission_interaction_exercised": false
+  },
+  "publication": {
+    "deploy_job_id": 137662122359,
+    "conclusion": "success",
+    "url": "https://ferroui.com/WindowsPhone/",
+    "http_observations": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at_utc": "2026-11-23T11:32:46.112078+00:00",
+        "status": 200,
+        "last_modified": "Mon, 23 Nov 2026 11:30:14 GMT",
+        "etag": "\"6b0423c6-54f\"",
+        "build": "cec2d1d",
+        "cache_name": null
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at_utc": "2026-11-23T11:32:50.755297+00:00",
+        "status": 200,
+        "last_modified": "Mon, 23 Nov 2026 11:30:14 GMT",
+        "etag": "\"6b0423c6-99b\"",
+        "build": null,
+        "cache_name": "windows-phone-cec2d1d"
+      }
+    ]
+  },
+  "local_followup": {
+    "command": "cargo test --locked -p phone-sdk -p phone-app-cortana",
+    "rust_tests": 33,
+    "new_regressions": 10,
+    "conclusion": "success",
+    "composition_check": {
+      "command": "cargo check --locked -p phone-ui",
+      "conclusion": "success",
+      "duration": "41.24s"
+    }
+  },
+  "architecture": {
+    "workspace_packages": 44,
+    "app_editor_support_example_crates": 33,
+    "registered_apps": 25,
+    "built_in_apps": 23,
+    "game_apps": 2,
+    "forbidden_dependency_edges": 0
+  },
+  "refinement": [
+    "Registry-backed app search and unambiguous opening for built-ins and extensions.",
+    "Local content routes preserve owner availability and avoid duplicate legacy app metadata.",
+    "Hidden, disabled, uninstalled and unknown apps cannot be found or opened through local discovery.",
+    "Case-insensitive identity and title collisions require user selection instead of arbitrary activation.",
+    "Cortana discovery and disabled-app checks extend existing browser groups; routine CI stays unchanged."
+  ],
+  "previous_records": [
+    "9c392ef-publication.json",
+    "d8f3d03-local.json"
+  ],
+  "limitations": [
+    "Isolated CI captures do not establish original-device font, pixel or animation parity.",
+    "Public HTTP build markers do not establish an existing browser profile's service-worker upgrade behavior.",
+    "Native development compilation/linking and host unit tests do not establish hardware, OS permission dialogs, codecs, notification delivery or signed-package qualification.",
+    "Native Android/iOS launch targets, cellular privileges, retired services, native media-key sessions, haptics, native share-sheet delivery and closed-app alarm wake-up remain outstanding.",
+    "SDK apps are trusted statically linked Rust; no XAP/APPX ABI compatibility or process sandbox is provided.",
+    "Office document support remains a bounded supported subset."
+  ]
+}

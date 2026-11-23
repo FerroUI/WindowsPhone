@@ -139,14 +139,20 @@
         "platform": "Windows x86_64",
         "runner": "windows-2022",
         "job_id": 137640484996,
-        "conclusion": "in_progress",
+        "conclusion": "success",
         "compiler_header_preflight": "success",
         "host_tests_conclusion": "success",
-        "desktop_build_and_link": "in_progress"
+        "desktop_build_and_link": "success",
+        "host_tests": 15,
+        "build_duration": "25m29s",
+        "real_provider_bridges": true,
+        "cache": "cold build; exact compiler/framework/runner-pinned v2 cache saved",
+        "cache_key": "phone-native-v2-Windows-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-windows-2022-b98e0bf6fa2e76b81bec8aac741ee6116e89162071b9d64c6b1765b4cfa2c181"
       }
     ],
     "physical_device_or_permission_interaction_exercised": false,
-    "conclusion": "in_progress"
+    "conclusion": "success",
+    "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45159375726"
   },
   "publication_followup": {
     "runtime_commit": "9c392ef24bb43529b716088c05bd4af6d4684b09",

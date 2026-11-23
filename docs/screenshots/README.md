@@ -2,6 +2,29 @@
 
 The images in this directory are application captures. They are not original Windows Phone reference screenshots and do not establish pixel equality with original hardware.
 
+<!-- BEGIN SDK SCREENSHOT EVIDENCE CEC2D1D -->
+
+## Current SDK app verification (cec2d1d)
+
+These six unmodified PNGs come from the [verification artifact of run 45163782836](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836/artifacts/14812709655), built from [`cec2d1d214310e33ef4908949fd3d6fe647630a9`](https://github.com/FerroUI/WindowsPhone/commit/cec2d1d214310e33ef4908949fd3d6fe647630a9). Chromium rendered the packaged FerroUI application with isolated local fixtures and native input. Desktop images are **1280 × 936 pixels**; mobile Start uses a **390 × 844 CSS viewport**, captured at **780 × 1688 pixels with DPR2**.
+
+| Repository image | Artifact source | Captured state |
+| --- | --- | --- |
+| [SDK Start](sdk-start-desktop.png) | `01-start-desktop.png` | Desktop Start using the shared system and independent app crates. |
+| [SDK mobile Start](sdk-start-mobile.png) | `13-start-mobile-dpr2.png` | Mobile Start at 2× density with fully readable tile labels. |
+| [Tic tac toe](sdk-tic-tac-toe.png) | `sdk-tic-tac-toe-completed-game.png` | A completed two-player win after native local app discovery/open checks. |
+| [Minesweeper playing](sdk-minesweeper-playing.png) | `sdk-minesweeper-playing.png` | Safe opening, a visible vector flag and the corrected `1 move` counter. |
+| [Minesweeper after reload](sdk-minesweeper-restored.png) | `sdk-minesweeper-restored.png` | The same saved board and flag after a real page reload. |
+| [Disabled SDK game](sdk-store-disabled.png) | `sdk-game-store-disabled.png` | Store details show **enable**, preserved saved-data size and separate reset. |
+
+The full suite passed **53 groups**, produced **104 captures**, and recorded **zero console/runtime errors** in **165.364 seconds**. Its [retained results](../verification/cec2d1d-results.json) have SHA-256 `ce1834fbc7a06bb4df7cf7d9034c56fe880ebe18dd60c6c86bc0bd67d638869a`; the artifact ZIP has SHA-256 `ae3045a225ef578da14fe22ca2505004a215a1f99c25dba40b3e2e1c69c58d10`. The same run passed browser deployment and complete Windows/macOS/Linux desktop links. [The publication record](../verification/cec2d1d-publication.json) records the separate test and HTTP evidence.
+
+All six selected images were visually inspected. Flags and completed X/O symbols remain visible; the singular minefield label is correct before and after reload. Start's partial lower row is scrollable viewport continuation, and the Photos entry frame is a finite animation. The Minesweeper instructions and statistics below the board remain in its ScrollViewer. Store labels and saved-data controls have no observed overlap or truncation in the selected frame.
+
+The associated native-input assertions additionally verify local game discovery/open, disabled-app exclusion, no search-related data writes, exact game progress after reload, Start links and Store lifecycle. These still frames do not establish animation traces, original-device pixel equality, hardware/permission behavior or an existing public browser profile's upgrade. Historical images below keep their original revision-specific links.
+
+<!-- END SDK SCREENSHOT EVIDENCE CEC2D1D -->
+
 <!-- BEGIN SDK SCREENSHOT EVIDENCE 73DC39F -->
 
 ## SDK app verification (73dc39f)
@@ -10,18 +33,18 @@ The following unmodified PNGs come from the [`ui-verification` artifact of run 4
 
 | Repository image | Artifact source | Captured state |
 | --- | --- | --- |
-| [SDK Start](sdk-start-desktop.png) | `01-start-desktop.png` | Desktop Start after extracting the shared system and independent app crates. |
-| [SDK mobile Start](sdk-start-mobile.png) | `13-start-mobile-dpr2.png` | The retained mobile Start layout at 2× browser density. |
-| [Tic tac toe](sdk-tic-tac-toe.png) | `sdk-tic-tac-toe-completed-game.png` | A completed local two-player win in the independently registered SDK app. |
-| [Minesweeper playing](sdk-minesweeper-playing.png) | `sdk-minesweeper-playing.png` | A safely opened minefield with a native flag action and visible elapsed clock. |
-| [Minesweeper after reload](sdk-minesweeper-restored.png) | `sdk-minesweeper-restored.png` | The saved board and flag state reopened after an actual page reload. The separate restore assertion follows this capture. |
-| [Disabled SDK game](sdk-store-disabled.png) | `sdk-game-store-disabled.png` | Store details after disabling Tic tac toe, with the Enable command available. Assertions separately verify removed pins and preserved progress. |
+| [SDK Start](https://github.com/FerroUI/WindowsPhone/blob/69849dbe5793490c4030673fc74c0d7b90950d77/docs/screenshots/sdk-start-desktop.png) | `01-start-desktop.png` | Desktop Start after extracting the shared system and independent app crates. |
+| [SDK mobile Start](https://github.com/FerroUI/WindowsPhone/blob/69849dbe5793490c4030673fc74c0d7b90950d77/docs/screenshots/sdk-start-mobile.png) | `13-start-mobile-dpr2.png` | The retained mobile Start layout at 2× browser density. |
+| [Tic tac toe](https://github.com/FerroUI/WindowsPhone/blob/69849dbe5793490c4030673fc74c0d7b90950d77/docs/screenshots/sdk-tic-tac-toe.png) | `sdk-tic-tac-toe-completed-game.png` | A completed local two-player win in the independently registered SDK app. |
+| [Minesweeper playing](https://github.com/FerroUI/WindowsPhone/blob/69849dbe5793490c4030673fc74c0d7b90950d77/docs/screenshots/sdk-minesweeper-playing.png) | `sdk-minesweeper-playing.png` | A safely opened minefield with a native flag action and visible elapsed clock. |
+| [Minesweeper after reload](https://github.com/FerroUI/WindowsPhone/blob/69849dbe5793490c4030673fc74c0d7b90950d77/docs/screenshots/sdk-minesweeper-restored.png) | `sdk-minesweeper-restored.png` | The saved board and flag state reopened after an actual page reload. The separate restore assertion follows this capture. |
+| [Disabled SDK game](https://github.com/FerroUI/WindowsPhone/blob/69849dbe5793490c4030673fc74c0d7b90950d77/docs/screenshots/sdk-store-disabled.png) | `sdk-game-store-disabled.png` | Store details after disabling Tic tac toe, with the Enable command available. Assertions separately verify removed pins and preserved progress. |
 
 The suite passed **53 check groups**, produced **104 captures**, and recorded **zero console/runtime error entries** in **153.227 seconds**. That duration describes the test run, not startup or rendering performance. The original `results.json` has SHA-256 `9800e148edc5dc0293a27b56ea22e44b05959fb375de4ab2fed1d19ac1646e28`; the complete artifact ZIP SHA-256 is `506fcbbed0261dbd46c913cf5c00a5a11c57aeecb50e66ee57ac10047e63a866`.
 
 The run's browser build and Pages deployment jobs succeeded. The same run's Windows native job stopped on deprecated coordinate accessors; that platform-only correction is tracked separately in the [native verification run](https://github.com/FerroUI/WindowsPhone/actions/runs/45159375726). [The parity record](../parity.md#browser-verification-73dc39f) keeps the browser and native evidence distinct.
 
-All six retained images were visually inspected. The flagged minefield cell contains **271 amber pixels** in both gameplay and reload captures; completed Tic tac toe cells contain **943 accent-colored X pixels** and **1,104 white O pixels** under the documented sampling bounds. The prior font-dependent flag and dimmed completed symbols failed those criteria. The readable vectors are noninteractive overlays; native Buttons still own availability, input and accessible labels.
+All six historical images were visually inspected; their links are pinned to the earlier documentation commit. The flagged minefield cell contains **271 amber pixels** in both gameplay and reload captures; completed Tic tac toe cells contain **943 accent-colored X pixels** and **1,104 white O pixels** under the documented sampling bounds. The prior font-dependent flag and dimmed completed symbols failed those criteria. The readable vectors are noninteractive overlays; native Buttons still own availability, input and accessible labels.
 
 The instruction paragraph below Minesweeper's board exceeds the initial viewport but belongs to the same ScrollViewer; its complete instructions and statistics are reachable by scrolling. Start's partially visible lower tiles also belong to its scroll viewport. These still frames do not measure animation curves; the Photos content has a finite vertical entrance. The later `9c392ef` source corrects the displayed singular counter labels (`1 move`, `1 second`, `1 mine left`). These PNGs are unmodified `73dc39f` captures and retain the previous wording.
 
@@ -79,7 +102,7 @@ During that earlier check, the existing cloud-browser profile continued to displ
 
 [Published Start](start-published-desktop.jpg) and [published All apps arrow](all-apps-published-desktop.jpg) were captured from the public [GitHub Pages app](https://ferroui.com/WindowsPhone/) after [run 45081854486](https://github.com/FerroUI/WindowsPhone/actions/runs/45081854486) deployed runtime [`528c982686ee765476bb2f8cbeaf6c9d857819b4`](https://github.com/FerroUI/WindowsPhone/commit/528c982686ee765476bb2f8cbeaf6c9d857819b4). The page's `data-phone-build` attribute confirmed `528c982`; the corrected arrow rendered and one native All apps click opened the app list, followed by Start returning to the tile screen. These unmodified JPEGs are 1363 × 936 pixels and preserve the browser session's phone profile.
 
-`start-published-mobile.jpg`, `start-desktop.png` and `phone-history.png` are older application captures retained for the existing documentation. The `73dc39f` SDK captures are listed above; the `b4c63a3` and `6a7cf14` mobile images retain their earlier revision attribution.
+`start-published-mobile.jpg`, `start-desktop.png` and `phone-history.png` are older application captures retained for the existing documentation. The current `cec2d1d` captures and historical `73dc39f` SDK captures are listed above; the `b4c63a3` and `6a7cf14` mobile images retain their earlier revision attribution.
 
 ## Earlier full refinement verification
 
