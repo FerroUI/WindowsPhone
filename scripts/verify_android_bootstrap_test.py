@@ -4,7 +4,7 @@ import sys
 import unittest
 
 sys.dont_write_bytecode = True
-from verify_android_bootstrap import listener_set, listener_transition, verify, verify_help
+from verify_android_bootstrap import listener_set, listener_transition, notification_swipe, verify, verify_help
 from verify_android_ui_test import NONCE, mounted
 
 TITLE, BODY = 'FerroUI-bootstrap-' + NONCE, 'Native-listener-' + NONCE
@@ -58,6 +58,26 @@ def notified():
         notification_fixture_labels=[{'text': text, 'bounds': {
             'x': 18, 'y': 300 + index * 45, 'width': 320, 'height': 40, 'fully_visible': True}}
             for index, text in enumerate((TITLE, BODY))])
+    return proof
+
+
+def scrollable():
+    proof = notified()
+    # Actual root/safe-area geometry from run45278542129; this run exposed a
+    # bottom-65 swipe starting inside the shell's bottom-76 close region.
+    proof['safe_area']['top'] = 68
+    proof['inner'].update(y=68, height=628)
+    proof['screen'].update(y=68, height=628)
+    proof['viewport']['height'] = 628
+    proof['action_center'].update(y=68, height=574)
+    proof['notification_scroll'] = {
+        'bounds': {'x': 0, 'y': 300, 'width': 360, 'height': 294, 'fully_visible': True},
+        'viewport': {'width': 360, 'height': 294},
+        'extent': {'width': 360, 'height': 1200}, 'offset': {'x': 0, 'y': 0},
+        'targets': [{'text': TITLE, 'bounds': {'x': 18, 'y': 720, 'width': 324, 'height': 75}},
+                    {'text': BODY, 'bounds': {'x': 18, 'y': 800, 'width': 324, 'height': 50}}],
+    }
+    proof['notification_fixture_labels'] = []
     return proof
 
 
@@ -177,6 +197,62 @@ class BootstrapContract(unittest.TestCase):
             for changed in [ORIGINAL_LISTENERS[1:], ORIGINAL_LISTENERS + ['com.example/com.example.Listener']]:
                 with self.subTest(operation=operation, changed=changed), self.assertRaisesRegex(ValueError, 'unrelated'):
                     listener_transition(ORIGINAL_LISTENERS, changed, LISTENER, operation)
+
+    def test_notification_swipe_stays_in_its_viewport_and_above_shell_dismissal(self):
+        proof = scrollable()
+        x, start, end = notification_swipe(proof, NONCE, 4)
+        scale = proof['render_scaling']
+        threshold = proof['screen']['y'] + proof['screen']['height'] - 54 - 76
+        previous = proof['action_center']['y'] + proof['action_center']['height'] - 65
+        self.assertGreaterEqual(previous, threshold)
+        self.assertLess(start / scale, threshold)
+        self.assertEqual(x, 360)
+        self.assertTrue(300 < end / scale < start / scale < 594)
+        # Choosing input does not claim that hidden labels are already rendered.
+        with self.assertRaisesRegex(ValueError, 'visibly rendered'):
+            verify(proof, NONCE, 'notifications-visible', 4)
+
+    def test_notification_swipe_can_correct_native_scroll_overshoot(self):
+        proof = scrollable()
+        proof['notification_scroll']['offset']['y'] = 400
+        for row, y in zip(proof['notification_scroll']['targets'], (220, 295)):
+            row['bounds']['y'] = y
+        _, start, end = notification_swipe(proof, NONCE, 4)
+        self.assertTrue(300 < start / 2 < end / 2 < 594)
+
+    def test_notification_swipe_rejects_missing_ambiguous_or_clipped_owner(self):
+        for change in (None, {}):
+            proof = scrollable(); proof['notification_scroll'] = change
+            with self.assertRaises((ValueError, KeyError)):
+                notification_swipe(proof, NONCE, 4)
+        proof = scrollable(); proof['notification_scroll']['bounds']['fully_visible'] = False
+        with self.assertRaisesRegex(ValueError, 'single visible'):
+            notification_swipe(proof, NONCE, 4)
+        proof = scrollable(); proof['notification_scroll']['targets'][0]['text'] = 'unrelated'
+        with self.assertRaisesRegex(ValueError, 'exact title'):
+            notification_swipe(proof, NONCE, 4)
+
+    def test_notification_swipe_rejects_no_safe_range_or_unfittable_rows(self):
+        proof = scrollable()
+        proof['notification_scroll']['bounds'].update(y=520, height=74)
+        proof['notification_scroll']['viewport']['height'] = 74
+        for row, y in zip(proof['notification_scroll']['targets'], (720, 744)):
+            row['bounds'].update(y=y, height=24)
+        with self.assertRaisesRegex(ValueError, 'No safe'):
+            notification_swipe(proof, NONCE, 4)
+        proof = scrollable(); proof['notification_scroll']['targets'][1]['bounds']['y'] = 1100
+        with self.assertRaisesRegex(ValueError, 'cannot fit'):
+            notification_swipe(proof, NONCE, 4)
+
+    def test_notification_swipe_refuses_blind_input_at_list_boundaries(self):
+        proof = scrollable(); proof['notification_scroll']['offset']['y'] = 906
+        with self.assertRaisesRegex(ValueError, 'already at the end'):
+            notification_swipe(proof, NONCE, 4)
+        proof = scrollable()
+        for row, y in zip(proof['notification_scroll']['targets'], (350, 430)):
+            row['bounds']['y'] = y
+        with self.assertRaisesRegex(ValueError, 'refusing blind input'):
+            notification_swipe(proof, NONCE, 4)
 
 
 if __name__ == '__main__':

@@ -81,7 +81,8 @@ impl SystemSessionExt for Session {
         crate::app_list::dismiss_native(self);
         self.state::<HardwareState>().close();
         self.state::<AlarmState>().editor.close();
-        self.registry().deactivate(&self.last_route.borrow(), self);
+        let previous = self.last_route.borrow().clone();
+        self.registry().deactivate(&previous, self);
         self.dialog.set(None);
         self.menu.set(false);
         self.notification_open.set(false);

@@ -1,4 +1,5 @@
 use crate::{session::Session, AppStorage, Capability};
+use ferroui_view::prelude::batch;
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
 
@@ -13,6 +14,7 @@ impl AppContext {
         AppStorage::new(self.vm.clone(), self.id)
     }
     pub fn navigate(&self, path: &str) {
+        let epoch = self.vm.document_epoch();
         let result = (|| {
             phone_domain::validate_app_path(path)?;
             let registry = self.session.registry();
@@ -20,14 +22,26 @@ impl AppContext {
                 .by_id(self.id)
                 .ok_or("Application is not registered.")?;
             require_available(&app.manifest, &self.vm)?;
-            if let Some(payload) = app.launch_payload(path)? {
-                self.session.queue_activation(self.id, payload)?;
+            let payload = app.launch_payload(path)?;
+            if self.vm.document_epoch() != epoch {
+                return Ok(());
             }
-            self.vm.navigate(app.manifest.route(path));
-            Ok(())
+            require_available(&app.manifest, &self.vm)?;
+            // An active app can consume a queue write synchronously. Commit its
+            // base route before effects deliver the payload, so a typed child
+            // redirect (or document restore) is not overwritten afterward.
+            batch(|| {
+                if let Some(payload) = payload {
+                    self.session.queue_activation(self.id, payload)?;
+                }
+                self.vm.navigate(app.manifest.route(path));
+                Ok(())
+            })
         })();
-        if let Err(error) = result {
-            self.vm.set_status(error);
+        if self.vm.document_epoch() == epoch {
+            if let Err(error) = result {
+                self.vm.set_status(error);
+            }
         }
     }
     pub fn pin(&self, path: &str, title: &str) -> Result<(), String> {

@@ -4,7 +4,9 @@ use ferroui_base::{
     Point, Ref,
     threading::{DispatcherPriority, DispatcherTimer},
 };
-use ferroui_controls::{Control, TextBlock, TopLevel};
+use ferroui_controls::{
+    Control, ScrollViewer, TextBlock, TopLevel, presenters::ScrollContentPresenter,
+};
 use phone_native::NativeHost;
 use serde_json::{Value, json};
 use std::{
@@ -77,6 +79,52 @@ fn visible_rectangle(view: &Control, top: &TopLevel) -> Option<Value> {
         "fully_visible": (left - point.x).abs() < 0.5 && (upper - point.y).abs() < 0.5
             && (right - point.x - bounds.width).abs() < 0.5 && (bottom - point.y - bounds.height).abs() < 0.5}),
     )
+}
+
+/// Locate the real list by the fixture's visual ancestry, including clipped text.
+/// This only reads geometry; the emulator must perform any scrolling through input.
+fn notification_scroll(center: &Control, top: &TopLevel, title: &str, body: &str) -> Option<Value> {
+    let labels = center
+        .get_visual_descendants()
+        .filter_map(|visual| visual.cast::<TextBlock>())
+        .filter(|label| {
+            label
+                .text()
+                .is_some_and(|text| text == title || text == body)
+        })
+        .collect::<Vec<_>>();
+    if labels.len() != 2 || labels[0].text() == labels[1].text() {
+        return None;
+    }
+    let viewer = labels[0]
+        .get_visual_ancestors()
+        .find_map(|visual| visual.cast::<ScrollViewer>())?;
+    let presenter = labels[0]
+        .get_visual_ancestors()
+        .find_map(|visual| visual.cast::<ScrollContentPresenter>())?;
+    if !labels[1]
+        .get_visual_ancestors()
+        .find_map(|visual| visual.cast::<ScrollViewer>())?
+        .ptr_eq(&viewer)
+        || !labels[1]
+            .get_visual_ancestors()
+            .find_map(|visual| visual.cast::<ScrollContentPresenter>())?
+            .ptr_eq(&presenter)
+    {
+        return None;
+    }
+    let viewport = viewer.viewport();
+    let extent = viewer.extent();
+    let offset = viewer.offset();
+    Some(json!({
+        "bounds": visible_rectangle(&presenter, top)?,
+        "viewport": {"width": viewport.width, "height": viewport.height},
+        "extent": {"width": extent.width, "height": extent.height},
+        "offset": {"x": offset.x, "y": offset.y},
+        "targets": labels.iter().map(|label| json!({
+            "text": label.text(), "bounds": rectangle(label, top)
+        })).collect::<Vec<_>>()
+    }))
 }
 
 impl Observer {
@@ -197,6 +245,7 @@ impl Observer {
             "device_notification_fixture": device.notifications.iter().filter(|notice| notice.title == title && notice.body == body).take(4).collect::<Vec<_>>(),
             "notification_fixture_labels": notification_labels,
             "action_center": action_center.as_ref().and_then(|center| visible_rectangle(center, &top)),
+            "notification_scroll": action_center.as_ref().and_then(|center| notification_scroll(center, &top, &title, &body)),
             "status_bar": status_bar,
             "activation": self.activation.borrow().clone(),
             "client": {"width": client.width, "height": client.height},

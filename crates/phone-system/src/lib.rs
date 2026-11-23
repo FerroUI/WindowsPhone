@@ -1,6 +1,8 @@
 //! Core system shell shared by native and browser hosts.
 use crate::session::SystemSessionExt;
 use phone_alarm_service as alarm;
+#[cfg(test)]
+mod activation_tests;
 mod app_list;
 mod device_notifications;
 mod quick_settings;
@@ -363,37 +365,65 @@ pub fn open_tile(vm: &Rc<PhoneViewModel>, id: phone_domain::Id) {
 }
 
 /// Launch a registered app by stable SDK identity, preserving normal Back behavior.
+/// Typed activation may synchronously redirect within that app. Acceptance remains
+/// scoped to the mounted shell and document that received the launch.
 pub fn launch_app(vm: &Rc<PhoneViewModel>, id: &str, path: &str) -> bool {
-    if path.len() > 2048 || path.chars().any(char::is_control) {
+    if path.len() > 2048 || path.chars().any(char::is_control) || !host_ready(vm) {
         return false;
     }
     SESSION.with(|slot| {
         let Some(ui) = slot.borrow().upgrade() else {
             return false;
         };
+        let epoch = vm.document_epoch();
         let registry = ui.registry();
         let Some(app) = registry.by_id(id) else {
             return false;
+        };
+        let current = || {
+            vm.document_epoch() == epoch
+                && host_ready(vm)
+                && slot
+                    .borrow()
+                    .upgrade()
+                    .is_some_and(|mounted| Rc::ptr_eq(&mounted, &ui))
+                && app.manifest.builtin.map_or_else(
+                    || vm.extension_enabled(id),
+                    |app| vm.data().installed.contains(&app),
+                )
         };
         let payload = match app.launch_payload(path) {
             Ok(value) => value,
             Err(_) => return false,
         };
-        if app.manifest.builtin.map_or_else(
-            || !vm.extension_enabled(id),
-            |app| !vm.data().installed.contains(&app),
-        ) {
+        if !current() {
             return false;
         }
         let route = app.manifest.route(path);
-        ui.clear_overlays();
-        if let Some(payload) = payload {
-            if ui.queue_activation(id, payload).is_err() {
+        // Queue writes can rerender an already active app immediately. Commit
+        // its base route in the same FerroUI transaction, then let normal shell
+        // lifecycle/activation deliver the payload without overwriting its redirect.
+        let admitted = batch(|| {
+            ui.clear_overlays();
+            if !current() {
                 return false;
             }
-        }
-        vm.navigate(route.clone());
-        vm.route() == route
+            if let Some(payload) = payload {
+                if ui.queue_activation(id, payload).is_err() {
+                    return false;
+                }
+            }
+            if !current() {
+                return false;
+            }
+            vm.navigate(route);
+            true
+        });
+        admitted
+            && current()
+            && registry
+                .for_route(&vm.route())
+                .is_some_and(|active| active.manifest.id == id)
     })
 }
 

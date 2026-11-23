@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from verify_android_ui import rectangle, require, verify as verify_view
+from verify_android_ui import number, rectangle, require, verify as verify_view
 
 
 def listener_set(text):
@@ -55,6 +55,52 @@ def fully_visible(value, parent):
     x, y, width, height = rectangle(value)
     px, py, pw, ph = rectangle(parent)
     return value.get('fully_visible') is True and x >= px - 1 and y >= py - 1 and x + width <= px + pw + 1 and y + height <= py + ph + 1
+
+
+def notification_swipe(proof, nonce, after):
+    """Choose native input inside the fixture's measured list, outside shell dismissal."""
+    verify(proof, nonce, 'notifications-admitted', after)
+    center, scroll = proof.get('action_center'), proof.get('notification_scroll')
+    require(center is not None and fully_visible(center, proof['inner']),
+            'Cannot scroll an absent or clipped Action Center')
+    require(isinstance(scroll, dict) and fully_visible(scroll['bounds'], center),
+            'The fixture has no single visible notification ScrollViewer')
+    x, y, width, height = rectangle(scroll['bounds'])
+    viewport = scroll['viewport']
+    require(abs(number(viewport['width']) - width) <= 1 and abs(number(viewport['height']) - height) <= 1,
+            'The measured list bounds do not match its scrolling viewport')
+    targets = scroll['targets']
+    require(len(targets) == 2 and {row['text'] for row in targets} == {
+        'FerroUI-bootstrap-' + nonce, 'Native-listener-' + nonce},
+        'Scrolling requires the exact title and body in the same list')
+    rectangles = [rectangle(row['bounds']) for row in targets]
+    top = min(row[1] for row in rectangles)
+    bottom = max(row[1] + row[3] for row in rectangles)
+    require(bottom - top <= height - 16, 'The title and body cannot fit together in the notification viewport')
+    # phone-system gestures/controller.rs reserves the final 76 DIP above the
+    # 54-DIP navigation bar for closing the overlay. The old bottom-65 swipe
+    # entered that region and closed Action Center instead of scrolling its list.
+    _, screen_y, _, screen_height = rectangle(proof['screen'])
+    safe_top = y + 24
+    safe_bottom = min(y + height - 24, screen_y + screen_height - 54 - 76 - 16)
+    distance = min(140, safe_bottom - safe_top)
+    require(distance >= 48, 'No safe notification scroll range outside the shell close gesture')
+    offset = number(scroll['offset']['y'])
+    extent = number(scroll['extent']['height'])
+    require(0 <= offset <= max(0, extent - height) + 1, 'Invalid native notification scroll offset')
+    if bottom > y + height - 8:
+        require(offset < extent - height - 1, 'The clipped fixture is already at the end of the native list')
+        shift = min(distance, max(48, bottom - (y + height - 8)))
+        start, end = safe_bottom, safe_bottom - shift
+    elif top < y + 8:
+        require(offset > 1, 'The clipped fixture is already at the beginning of the native list')
+        shift = min(distance, max(48, y + 8 - top))
+        start, end = safe_top, safe_top + shift
+    else:
+        raise ValueError('Fixture geometry is in range but its rendered labels failed; refusing blind input')
+    scale = number(proof['render_scaling'])
+    require(scale > 0, 'Missing native render scale')
+    return round((x + width / 2) * scale), round(start * scale), round(end * scale)
 
 
 def verify(proof, nonce, phase, after, sms=None):

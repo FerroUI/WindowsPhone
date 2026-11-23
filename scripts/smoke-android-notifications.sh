@@ -88,18 +88,28 @@ PY
 [[ "$phone_notice_x" =~ ^[0-9]+$ ]] && [[ "$phone_notice_y" =~ ^[0-9]+$ ]]
 adb_shell input tap "$phone_notice_x" "$phone_notice_y"
 phone_notice_visible=0
-for phone_notice_scroll in 0 1 2 3; do
+for phone_notice_scroll in 0 1 2 3 4 5 6 7; do
     if wait_bootstrap notifications-visible 10; then phone_notice_visible=1; break; fi
-    # Only scroll the observed Action Center; never navigate or inject a response through debug code.
-    read -r phone_notice_x phone_notice_from phone_notice_to < <(python3 - "$phone_out/bootstrap-current.json" <<'PY'
+    cp "$phone_out/bootstrap-current.json" "$phone_out/device-notifications-scroll-$phone_notice_scroll.json"
+    cp "$phone_out/bootstrap-last-error.txt" "$phone_out/device-notifications-scroll-$phone_notice_scroll-error.txt"
+    emu_screencap "$phone_out/device-notifications-scroll-$phone_notice_scroll.png"
+    [ "$phone_notice_scroll" -lt 7 ] || break
+    # Resolve the exact fixture's own list ancestry; preserve the failure before
+    # native input and never start in the shell's deliberate swipe-to-close zone.
+    phone_notice_points="$(python3 - "$phone_repo/scripts" "$phone_out/bootstrap-current.json" "$phone_device_nonce" "$phone_bootstrap_sequence" <<'PY'
 import json,sys
-p=json.load(open(sys.argv[1])); r=p['action_center']; s=p['render_scaling']
-assert r['fully_visible'] and r['height']>300 and s>0
-print(round((r['x']+r['width']/2)*s),round((r['y']+r['height']-65)*s),round((r['y']+r['height']*0.45)*s))
+sys.path.insert(0,sys.argv[1])
+from verify_android_bootstrap import notification_swipe
+try:
+    print(*notification_swipe(json.load(open(sys.argv[2])),sys.argv[3],int(sys.argv[4])))
+except (ValueError,KeyError,TypeError) as error:
+    raise SystemExit(str(error))
 PY
-)
+)"
+    read -r phone_notice_x phone_notice_from phone_notice_to <<< "$phone_notice_points"
     [[ "$phone_notice_x" =~ ^[0-9]+$ ]] && [[ "$phone_notice_from" =~ ^[0-9]+$ ]] && [[ "$phone_notice_to" =~ ^[0-9]+$ ]]
-    adb_shell input swipe "$phone_notice_x" "$phone_notice_from" "$phone_notice_x" "$phone_notice_to" 500
+    printf '%s\n' "$phone_notice_points" > "$phone_out/device-notifications-scroll-$phone_notice_scroll-input.txt"
+    adb_shell input swipe "$phone_notice_x" "$phone_notice_from" "$phone_notice_x" "$phone_notice_to" 650
 done
 [ "$phone_notice_visible" = 1 ]
 emu_screencap "$phone_out/device-action-center.png"
