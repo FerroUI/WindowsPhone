@@ -179,12 +179,16 @@ final class TelephonyProvider {
                 do { _ = try await self.refreshHistory() } catch { /* observed in snapshot */ }
             }
             if historyObservation == nil {
+                let observerGeneration = generation
                 historyObservation = NotificationCenter.default.addObserver(of: ConversationHistoryManager.self, for: .conversationHistoryDidUpdateMessage) { [weak self] _ in
-                    guard let self, !self.closed, self.observingHistory else { return }
-                    self.historyTask?.cancel()
-                    self.historyTask = Task { @MainActor in
-                        do { let history = try await self.refreshHistory(); emit("callHistory", history) }
-                        catch { /* permission and role are refreshed by the provider */ }
+                    Task { @MainActor [weak self] in
+                        guard let self, !self.closed, self.observingHistory,
+                              self.generation == observerGeneration else { return }
+                        self.historyTask?.cancel()
+                        self.historyTask = Task { @MainActor in
+                            do { let history = try await self.refreshHistory(); emit("callHistory", history) }
+                            catch { /* permission and role are refreshed by the provider */ }
+                        }
                     }
                 }
             }
