@@ -10,7 +10,7 @@ bundle_id=org.ferroui.windowsphone
 phase() {
   printf '%s\n' "$1" | tee "$out/phase.txt"
 }
-phase 'Building the public XCTest confirmation handler'
+phase 'Building the public XCTest system URL driver'
 prompt_build="$(mktemp -d "${TMPDIR:-/tmp}/phone-ios-prompt.XXXXXX")"
 if ! xcodebuild build-for-testing \
   -project "$root/scripts/ios-ui-tests/PhonePromptTests.xcodeproj" \
@@ -103,6 +103,8 @@ wait_for_route() {
   local expected="$1"
   local after_sequence="${2:-0}"
   local expected_uri="${3:-}"
+  local baseline=
+  if [ -n "$expected_uri" ]; then baseline="$out/start.json"; fi
   # A first boot on a hosted runner can spend over a minute scheduling UIKit.
   # Use a wall-clock bound; never treat a received URL alone as route success.
   local deadline=$((SECONDS + 90))
@@ -114,11 +116,14 @@ wait_for_route() {
       cat "$out/console.log" >&2
       return 1
     fi
-    if python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri"; then return 0; fi
+    if python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline"; then
+      if [ -n "$expected_uri" ]; then acknowledge_url; fi
+      return 0
+    fi
     sleep 0.5
   done
   printf 'Timed out waiting for the mounted route %s.\n' "$expected" >&2
-  python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --explain || true
+  python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline" --explain || true
   cat "$out/console.log" >&2
   return 1
 }
@@ -145,10 +150,10 @@ if [ "$SECONDS" -ge "$deadline" ]; then
   exit 1
 fi
 cp "$device_status" "$out/device-tests.json"
-phase 'Starting the specific UIKit confirmation handler'
+phase 'Starting the fixed-URL XCTest system driver'
 xcodebuild test-without-building -xctestrun "$test_run" \
   -destination "platform=iOS Simulator,id=$udid" -parallel-testing-enabled NO \
-  -only-testing:PhonePromptTests/PhonePromptTests/testAcceptWindowsPhoneURLConfirmation \
+  -only-testing:PhonePromptTests/PhonePromptTests/testOpenWindowsPhoneURLs \
   -resultBundlePath "$out/prompt-ui.xcresult" \
   > "$out/xctest.log" 2>&1 &
 ui_test=$!
@@ -174,13 +179,35 @@ PY
   sleep 0.5
 done
 if [ "$SECONDS" -ge "$deadline" ]; then
-  echo 'The XCTest confirmation handler did not become ready.' >&2
+  echo 'The XCTest system URL driver did not become ready.' >&2
   cat "$out/xctest.log" >&2
   exit 1
 fi
+url_request_sequence=0
+acknowledge_url() {
+  python3 - "$ui_container/Documents/phone-url-verified.json" "$url_request_sequence" <<'PY'
+import json,pathlib,sys
+path=pathlib.Path(sys.argv[1])
+temporary=path.with_suffix('.tmp')
+temporary.write_text(json.dumps({'sequence':int(sys.argv[2])}))
+temporary.replace(path)
+PY
+}
+request_url() {
+  url_request_sequence=$((url_request_sequence + 1))
+  python3 - "$ui_container/Documents/phone-url-request.json" "$out/request-$url_request_sequence.json" "$url_request_sequence" "$1" <<'PY'
+import json,pathlib,sys,time
+path=pathlib.Path(sys.argv[1])
+request=json.dumps({'sequence':int(sys.argv[3]), 'uri':sys.argv[4], 'issued_at_unix_ms':time.time_ns()//1_000_000})
+pathlib.Path(sys.argv[2]).write_text(request)
+temporary=path.with_suffix('.tmp')
+temporary.write_text(request)
+temporary.replace(path)
+PY
+}
 sequence="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sequence"])' "$status")"
-phase 'Delivering the Wallet URL through UIKit'
-xcrun simctl openurl "$udid" 'ferroui-phone://app/org.ferroui.wallet'
+phase 'Delivering the Wallet URL through the system XCTest API'
+request_url 'ferroui-phone://app/org.ferroui.wallet'
 phase 'Waiting for the Wallet route'
 wait_for_route org.ferroui.wallet "$sequence" 'ferroui-phone://app/org.ferroui.wallet'
 cp "$status" "$out/wallet.json"
@@ -192,15 +219,15 @@ for spec in \
   'settings|phone.settings|ferroui-phone://app/phone.settings?path=device'; do
   IFS='|' read -r capture route uri <<< "$spec"
   sequence="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sequence"])' "$status")"
-  phase "Delivering the $capture URL through UIKit"
-  xcrun simctl openurl "$udid" "$uri"
+  phase "Delivering the $capture URL through the system XCTest API"
+  request_url "$uri"
   wait_for_route "$route" "$sequence" "$uri"
   cp "$status" "$out/$capture.json"
   xcrun simctl io "$udid" screenshot "$out/$capture.png"
 done
 sequence="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sequence"])' "$status")"
-phase 'Delivering the Home URL through UIKit'
-xcrun simctl openurl "$udid" 'ferroui-phone://home'
+phase 'Delivering the Home URL through the system XCTest API'
+request_url 'ferroui-phone://home'
 phase 'Waiting for the restored Start route'
 wait_for_route home "$sequence" 'ferroui-phone://home'
 cp "$status" "$out/home-restored.json"

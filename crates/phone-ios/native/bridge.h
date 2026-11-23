@@ -19,3 +19,4 @@ void wp_ios_cancel(uint64_t identifier);
 void wp_ios_operation_complete(uint64_t identifier, int code, const char *message);
 WPIOSOperation *wp_ios_operation_lookup(uint64_t identifier);
 int wp_ios_data_path(char *buffer, size_t length);
+size_t wp_ios_smoke_metadata(char *buffer, size_t capacity);

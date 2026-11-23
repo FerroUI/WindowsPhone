@@ -15,6 +15,10 @@ spec.loader.exec_module(module)
 def observation():
     return {
         "schema": 1, "platform": "ios", "ready": True, "closed": False, "sequence": 4,
+        "observed_at_unix_ms": 4000,
+        "native": {"pid": 123, "launch_id": "43BA0793-1276-4B2D-9819-549201309501",
+                   "bundle_id": "org.ferroui.windowsphone", "application_state": 0,
+                   "scenes": [{"activation_state": 0, "delegate_class": "FerroSceneDelegate"}]},
         "route": "Start", "activation": None,
         "client": {"width": 414, "height": 896},
         "safe_area": {"left": 0, "top": 48, "right": 0, "bottom": 34},
@@ -22,6 +26,10 @@ def observation():
         "screen": {"x": 0, "y": 48, "width": 414, "height": 814},
         "mounted_controls": ["PhoneScreen", "PhonePage", "StartTiles"],
     }
+
+
+def baseline():
+    return {**observation(), "sequence": 1, "observed_at_unix_ms": 1000}
 
 
 class UIKitProofTests(unittest.TestCase):
@@ -32,14 +40,40 @@ class UIKitProofTests(unittest.TestCase):
         data["route"] = {"Extension": {"app": "org.ferroui.wallet", "path": ""}}
         data["activation"] = {"uri": uri, "outcome": "accepted"}
         with self.assertRaises(ValueError):
-            module.verify(data, "org.ferroui.wallet", 3, uri)
+            module.verify(data, "org.ferroui.wallet", 3, uri, baseline())
         data["mounted_controls"][-1] = "WalletSearch"
-        module.verify(data, "org.ferroui.wallet", 3, uri)
+        module.verify(data, "org.ferroui.wallet", 3, uri, baseline())
         with self.assertRaises(ValueError):
-            module.verify(data, "org.ferroui.wallet", 4, uri)
+            module.verify(data, "org.ferroui.wallet", 4, uri, baseline())
         data["activation"]["outcome"] = "received"
         with self.assertRaises(ValueError):
-            module.verify(data, "org.ferroui.wallet", 3, uri)
+            module.verify(data, "org.ferroui.wallet", 3, uri, baseline())
+
+    def test_warm_activation_rejects_another_process_or_restarted_launch(self):
+        original = baseline()
+        data = observation()
+        uri = "ferroui-phone://home"
+        data["activation"] = {"uri": uri, "outcome": "accepted"}
+        module.verify(data, "home", 3, uri, original)
+        for changes in ({"pid": 124}, {"launch_id": "299FD601-E24F-484F-BB03-6B53BAF8D653"},
+                        {"bundle_id": "org.other.application"}):
+            changed = copy.deepcopy(data)
+            changed["native"].update(changes)
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                module.verify(changed, "home", 3, uri, original)
+        with self.assertRaisesRegex(ValueError, "original Start"):
+            module.verify(data, "home", 3, uri)
+        data["observed_at_unix_ms"] = original["observed_at_unix_ms"]
+        with self.assertRaisesRegex(ValueError, "fresh"):
+            module.verify(data, "home", 3, uri, original)
+
+    def test_rejects_a_background_application_or_inactive_scene(self):
+        for changes in ({"application_state": 2}, {"application_state": 1},
+                        {"scenes": []}, {"scenes": [{"activation_state": 1}]}):
+            data = observation()
+            data["native"].update(changes)
+            with self.subTest(changes=changes), self.assertRaisesRegex(ValueError, "foreground-active"):
+                module.verify(data, "home", 0)
 
     def test_rejects_original_screen_overlapping_uikit_insets(self):
         data = observation()
@@ -69,10 +103,10 @@ class UIKitProofTests(unittest.TestCase):
         data["activation"] = {"uri": uri, "outcome": "accepted"}
         data["mounted_controls"][-1] = "DevicePhoneNumber"
         data["device_fields"] = {"DevicePhoneNumber": "+1 202 555 0147"}
-        module.verify(data, "phone.phone", 3, uri)
+        module.verify(data, "phone.phone", 3, uri, baseline())
         data["device_fields"]["DevicePhoneNumber"] = ""
         with self.assertRaisesRegex(ValueError, "dial"):
-            module.verify(data, "phone.phone", 3, uri)
+            module.verify(data, "phone.phone", 3, uri, baseline())
 
     def test_provider_proof_requires_cleanup_and_no_outgoing_communication(self):
         spec = importlib.util.spec_from_file_location("ios_devices", pathlib.Path(__file__).with_name("verify-ios-devices.py"))

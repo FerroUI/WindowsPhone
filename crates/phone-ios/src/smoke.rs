@@ -20,6 +20,18 @@ fn enabled() -> bool {
     std::env::var("PHONE_IOS_SMOKE").as_deref() == Ok("1")
 }
 
+fn native_metadata() -> Option<serde_json::Value> {
+    unsafe extern "C" {
+        fn wp_ios_smoke_metadata(buffer: *mut std::ffi::c_char, capacity: usize) -> usize;
+    }
+    let mut buffer = [0_u8; 16 * 1024];
+    // UIKit copies bounded JSON on its own thread; no native pointer escapes.
+    let length = unsafe { wp_ios_smoke_metadata(buffer.as_mut_ptr().cast(), buffer.len()) };
+    (length > 0 && length < buffer.len())
+        .then(|| serde_json::from_slice(&buffer[..length]).ok())
+        .flatten()
+}
+
 /// Observe the real delegate path without injecting an activation or changing it.
 pub fn activation(host: Option<&Rc<NativeHost>>, uri: &str, outcome: &str) {
     if !enabled() {
@@ -104,6 +116,7 @@ fn write_status(host: &NativeHost) {
             && wrapper.as_ref().is_some_and(|control| control.is_attached_to_visual_tree()),
         "width": bounds.width, "height": bounds.height,
         "platform": "ios", "route": host.vm().route(),
+        "native": native_metadata(),
         "status": host.vm().status(), "sequence": sequence,
         "observed_at_unix_ms": SystemTime::now().duration_since(UNIX_EPOCH)
             .map(|elapsed| elapsed.as_millis()).unwrap_or_default(),

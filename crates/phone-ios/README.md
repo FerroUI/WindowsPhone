@@ -158,11 +158,15 @@ standard and feature-enabled simulator executables and native bridges, and
 type-checks the Swift provider against the physical iPhone SDK. It installs the
 feature-enabled bundle on a newly created simulator, verifies visible Start,
 Wallet, Phone, People, Messages and Settings controls and valid layout inside
-UIKit's safe area, opens the app routes through `simctl openurl`, returns Home, and uploads
-JSON/screenshot evidence. A small public XCTest runner accepts only SpringBoard's
-exact `Open in “Windows Phone”?` confirmation; the shell independently verifies
-fresh observations and the real delegate's accepted URI. Other system prompts
-are untouched. XCTest results and the final state are retained on failure.
+UIKit's safe area, opens six fixed URLs through Apple's public
+`XCUIDevice.shared.system.open` API, returns Home, and uploads JSON/screenshot
+evidence. The shell independently verifies fresh observations, the original
+phone PID and per-launch UUID, foreground-active UIKit application/scene state,
+and the real delegate's accepted URI. The runner
+handles only SpringBoard's exact `Open in “Windows Phone”?` confirmation if it
+appears; other system prompts are untouched. Read-only observations also record
+the actual application and scene delegate classes and scene activation states.
+XCTest results and the final state are retained on failure.
 The simulator is removed afterward. A production launch has no smoke
 timer; the harness explicitly supplies `PHONE_IOS_SMOKE=1`. A separate
 `PHONE_IOS_DEVICE_TEST=1` opt-in additionally requires a simulator build. It

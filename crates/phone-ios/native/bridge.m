@@ -150,3 +150,37 @@ int wp_ios_data_path(char *buffer, size_t length) {
     snprintf(buffer, length, "%s", path);
     return 1;
 }
+
+// Read-only diagnostics for the explicitly enabled simulator qualification.
+// These observations never replace delegates or dispatch an activation.
+size_t wp_ios_smoke_metadata(char *buffer, size_t capacity) {
+    if (!NSThread.isMainThread || !buffer || !capacity ||
+        ![NSProcessInfo.processInfo.environment[@"PHONE_IOS_SMOKE"] isEqualToString:@"1"]) return 0;
+    static NSString *launchIdentifier;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{ launchIdentifier = NSUUID.UUID.UUIDString; });
+    UIApplication *application = UIApplication.sharedApplication;
+    NSMutableArray *scenes = [NSMutableArray new];
+    for (UIScene *scene in application.connectedScenes) {
+        if (scenes.count >= 8) break;
+        [scenes addObject:@{
+            @"scene_class": NSStringFromClass(scene.class),
+            @"delegate_class": scene.delegate ? NSStringFromClass([scene.delegate class]) : @"",
+            @"activation_state": @(scene.activationState),
+            @"session_id": scene.session.persistentIdentifier ?: @""
+        }];
+    }
+    NSDictionary *value = @{
+        @"pid": @(NSProcessInfo.processInfo.processIdentifier),
+        @"launch_id": launchIdentifier,
+        @"bundle_id": NSBundle.mainBundle.bundleIdentifier ?: @"",
+        @"application_delegate": application.delegate ? NSStringFromClass([application.delegate class]) : @"",
+        @"application_state": @(application.applicationState),
+        @"scenes": scenes
+    };
+    NSData *data = [NSJSONSerialization dataWithJSONObject:value options:NSJSONWritingSortedKeys error:nil];
+    if (!data || data.length >= capacity) return 0;
+    memcpy(buffer, data.bytes, data.length);
+    buffer[data.length] = 0;
+    return data.length;
+}

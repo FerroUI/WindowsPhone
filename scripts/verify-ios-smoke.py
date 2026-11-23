@@ -1,18 +1,43 @@
 #!/usr/bin/env python3
 """Validate an observation of the mounted UIKit phone; never drive its state."""
+import argparse
 import json
 import math
 import pathlib
 import sys
+import uuid
 
 
-def verify(data, expected, after_sequence, uri=""):
+def verify(data, expected, after_sequence, uri="", baseline=None):
     if data.get("schema") != 1 or data.get("platform") != "ios":
         raise ValueError("Expected an iOS observation with schema 1.")
     if not data.get("ready") or data.get("closed"):
         raise ValueError("The phone must remain attached with valid measure and arrangement.")
     if data.get("sequence", 0) <= after_sequence:
         raise ValueError("The observation must be newer than the URL request.")
+    native = data.get("native", {})
+    if not isinstance(native, dict):
+        raise ValueError("The observation must include read-only native identity diagnostics.")
+    if native.get("bundle_id") != "org.ferroui.windowsphone":
+        raise ValueError("The observed native process must be the installed phone application.")
+    if type(native.get("pid")) is not int or native["pid"] <= 0:
+        raise ValueError("The observation must contain the actual native process ID.")
+    launch_id = native.get("launch_id")
+    if not isinstance(launch_id, str) or len(launch_id) != 36 or str(uuid.UUID(launch_id)).lower() != launch_id.lower():
+        raise ValueError("The observation must contain its native per-launch UUID.")
+    # UIKit's UIApplicationStateActive and UISceneActivationStateForegroundActive
+    # are both zero. Attached controls alone can also exist in a background scene.
+    if native.get("application_state") != 0 or not any(
+        scene.get("activation_state") == 0 for scene in native.get("scenes", [])
+    ):
+        raise ValueError("The phone application and a connected scene must be foreground-active.")
+    if uri:
+        if baseline is None:
+            raise ValueError("Warm activation requires the original Start process observation.")
+        if any(native[key] != baseline.get("native", {}).get(key) for key in ("pid", "launch_id", "bundle_id")):
+            raise ValueError("Warm activation must preserve the original phone process and launch.")
+        if data.get("observed_at_unix_ms", 0) <= baseline.get("observed_at_unix_ms", 0):
+            raise ValueError("Warm activation must have a fresh observation from the same process.")
     client, inset = data["client"], data["safe_area"]
     values = [client["width"], client["height"], *inset.values()]
     if not all(isinstance(value, (int, float)) and math.isfinite(value) and value >= 0 for value in values):
@@ -62,9 +87,18 @@ def verify(data, expected, after_sequence, uri=""):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("observation", type=pathlib.Path)
+    parser.add_argument("route")
+    parser.add_argument("after_sequence", type=int)
+    parser.add_argument("uri")
+    parser.add_argument("--baseline", default="")
+    parser.add_argument("--explain", action="store_true")
+    arguments = parser.parse_args()
     try:
-        verify(json.loads(pathlib.Path(sys.argv[1]).read_text()), sys.argv[2], int(sys.argv[3]), sys.argv[4])
+        baseline = json.loads(pathlib.Path(arguments.baseline).read_text()) if arguments.baseline else None
+        verify(json.loads(arguments.observation.read_text()), arguments.route, arguments.after_sequence, arguments.uri, baseline)
     except (OSError, ValueError, KeyError, TypeError) as error:
-        if "--explain" in sys.argv[5:]:
+        if arguments.explain:
             print(error, file=sys.stderr)
         raise SystemExit(1)
