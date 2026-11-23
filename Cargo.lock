@@ -1916,6 +1916,7 @@ dependencies = [
  "ureq",
  "url",
  "windows",
+ "windows-future",
  "zbus",
 ]
 

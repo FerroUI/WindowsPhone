@@ -86,6 +86,22 @@ The shell and local data workflows can be reproduced as an application. A browse
 - Select an Excel range, create an aggregate outside it, find across sheets, sort values with a retained header, and reject formula relocation atomically.
 - Inspect a generated document's actual package size; share a selected set without mutating its identifiers or silently including a stale selection.
 
+## SDK, app data and Games reference boundaries
+
+Windows Phone 8.1 supported both Windows Runtime and Phone Silverlight application models. Their lifecycle and system-task APIs should not be treated as a single source-compatible API. The FerroUI SDK borrows application concepts while defining its own Rust registration, retained UI and host contracts; it does not implement the original ABI or package runtime.
+
+| Original concept | FerroUI phone implementation | Remaining boundary |
+| --- | --- | --- |
+| App lifecycle/state | Registration hooks for activation, deactivation, suspension, resume, closing and reset; app-private typed transient state. | No process tombstoning, OS scheduler or original PhoneApplicationService/WinRT ABI. |
+| Application data | Bounded, versioned JSON namespaces included in the phone's portable backup. | No OneDrive roaming or separate Local/LocalCache/Temporary directory service. Original 8.1 backup distinguished those data locations. |
+| Primary/secondary tiles | Manifest metadata, persistent app/path links and custom retained tile renderers; targets and content data restore together. | No original package restore queue, push channels or background-task registration. Apps must handle missing or obsolete path data explicitly. |
+| User-selected files | Typed cancellable `choose_file`, bounded owned bytes and separate save/copy operations. | No original StorageFile ABI, future-access token service or provider continuation activation. The source selection is not an arbitrary write grant. |
+| Games collection | Registry-based category discovery and separately compiled playable games. | The original Xbox pane, avatars, Gamerscore, achievements, friends, messages and service synchronization are separate features. |
+
+Microsoft's original app-data and Start-screen backup guidance explicitly discusses restored games/settings and secondary tiles whose associated data may be missing. Those cases motivate the shared backup validation, canonical launch links and app-owned schema validation here. They do not establish equivalence with Microsoft's automatic cloud backup service. See references 32–36 below.
+
+The original Microsoft Minesweeper was distributed as a downloadable Xbox game, with achievements, leaderboards and cross-device features. This repository's local Minesweeper and Tic tac toe are independent SDK applications; their presence is not a claim that these exact games were bundled in Windows Phone or that the original Microsoft Minesweeper interface/services have been reproduced. See references 37–38.
+
 ## Primary references
 
 1. [Microsoft: Deep dive into Windows Phone 8.1 Start screen backgrounds, 29 April 2014](https://blogs.windows.com/devices/2014/04/29/deep-dive-windows-phone-8-1-start-screen-backgrounds/)
@@ -122,3 +138,10 @@ The shell and local data workflows can be reproduced as an application. A browse
 29. [Microsoft: Make your tiles transparent for Windows Phone 8.1, 19 May 2014](https://blogs.windows.com/windowsdeveloper/2014/05/19/developers-make-your-tiles-transparent-for-windows-phone-8-1/), the transparency requirement for Start backgrounds.
 30. [Microsoft Devices: How and why — Excel Mobile on your Lumia, 4 June 2013](https://blogs.windows.com/devices/2013/06/04/how-and-why-excel-mobile-on-your-lumia/), range selection, five AutoSum choices, formatting and chart capabilities.
 31. [Microsoft Devices: PowerPoint Mobile on your Nokia Lumia, 8 July 2013](https://blogs.windows.com/devices/2013/07/08/powerpoint-mobile-on-your-nokia-lumia/), existing-presentation editing and the absence of phone-side presentation creation.
+32. [Microsoft: Back up and restore your app on Windows Phone 8.1, Part 2: App data, 6 June 2014](https://blogs.windows.com/windowsdeveloper/2014/06/06/back-up-and-restore-your-app-on-windows-phone-8-1-part-2-app-data/), both app models and app-data restoration.
+33. [Microsoft: Common questions and answers about files and app data, Part 1, 19 June 2014](https://blogs.windows.com/windowsdeveloper/2014/06/19/common-questions-and-answers-about-files-and-app-data-part-1-app-data/), Local, LocalCache, Temporary and roaming distinctions.
+34. [Microsoft: Common questions and answers about files and app data, Part 2, 20 June 2014](https://blogs.windows.com/windowsdeveloper/2014/06/20/common-questions-and-answers-about-files-and-app-data-part-2-files/), picker consent, read access and storage abstractions.
+35. [Microsoft: Backup and restore your app on Windows Phone 8.1, Part 1: Start screen, 4 June 2014](https://blogs.windows.com/windowsdeveloper/2014/06/04/backup-and-restore-your-app-on-windows-phone-8-1-part-1-start-screen/), primary/secondary tile metadata and missing restored data.
+36. [Microsoft: PhoneApplicationService](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff707299(v=vs.105)), Phone Silverlight lifetime/state APIs; this is not the separate Windows Runtime application ABI.
+37. [Microsoft: What's new for gamers in Windows Phone 8, 12 December 2012](https://blogs.windows.com/windowsexperience/2012/12/12/whats-new-for-gamers-in-windows-phone-8/), Games Hub collection, Xbox pane, avatars, achievements, friends and notifications.
+38. [Microsoft: Gaming classics arrive on Windows Phone, 27 December 2013](https://blogs.windows.com/windowsexperience/2013/12/27/microsoft-gaming-classics-solitaire-mahjong-and-minesweeper-arrive-on-windows-phone/), downloadable Minesweeper, Solitaire and Mahjong, including their original connected Xbox features.

@@ -10,7 +10,7 @@ on:
         type: boolean
         default: false
       verify_native:
-        description: Check Windows, macOS and Linux native adapters only (no Pages rebuild)
+        description: Build Windows, macOS and Linux native adapters only (no Pages rebuild)
         type: boolean
         default: false
       reuse_run:
@@ -185,6 +185,9 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
+    env:
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
     defaults:
       run:
         shell: bash
@@ -197,6 +200,9 @@ jobs:
           PHONE_NATIVE_RUST=$(sed -n 's/^channel = "\(.*\)"/\1/p' rust-toolchain.toml)
           rustup toolchain install "$PHONE_NATIVE_RUST" --profile minimal
           echo "RUSTUP_TOOLCHAIN=$PHONE_NATIVE_RUST" >> "$GITHUB_ENV"
+          echo "PHONE_NATIVE_FRAMEWORK=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Normalize pinned framework timestamps
+        run: python scripts/ci-framework-mtimes.py
       - name: Install Linux media development libraries
         if: runner.os == 'Linux'
         run: |
@@ -208,8 +214,10 @@ jobs:
             target
             ~/.cargo/registry
             ~/.cargo/git
-          key: phone-native-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'rust-toolchain.toml') }}
+          key: phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'rust-toolchain.toml') }}
+          restore-keys: |
+            phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-
       - name: Verify portable host boundaries
         run: cargo test --locked -p phone-host
-      - name: Check the complete native host
-        run: cargo check --locked -p phone-desktop
+      - name: Build and link the complete native host
+        run: cargo build --locked -p phone-desktop

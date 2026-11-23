@@ -251,6 +251,8 @@ Capabilities are an application contract for trusted code. `AppContext` exposes 
 
 Camera and video app views place `host_surface(HostSurface::Camera)` or `host_surface(HostSurface::Video)` in their retained preview containers. A native host can install a control factory with `set_host_surface_factory`. An unavailable surface produces an empty element, preserving the normal view and browser overlay geometry. Host adapters own their native device/player lifecycle; the app owns layout and commands.
 
+For the browser host, name the surrounding retained container `CameraViewport` or `MediaViewport` respectively, give it a background so the native inspection hit test identifies its bounds, and keep it inside the app's normal content area. The browser positions its permitted media element over that control. The built-in Camera and shared media views are concrete examples of this contract; using only `host_surface` without that container does not create a browser overlay. Host surfaces are foreground UI and do not grant background capture or playback scheduling.
+
 Shared image helpers admit and cache application media for app lists, Photos, lock backgrounds and tiles. Use the existing host/SDK service rather than decoding arbitrary files independently in every app.
 
 ## Built-in migration map
