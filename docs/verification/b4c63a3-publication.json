@@ -1,0 +1,61 @@
+{
+  "revision": "b4c63a36ed7d7d35168085409033711a61951103",
+  "run_id": 45138808865,
+  "build_job": 137571455356,
+  "deploy_job": 137575350649,
+  "artifact_id": 14802170105,
+  "artifact_sha256": "f004f37fa1ec121d1aedebe3b2581be86d42a8046200c5b1ac71ee9666938f2c",
+  "results_sha256": "6d29304ef7632f0188cbe18c53490a13ac759d0207f626d1c0617cd729f78755",
+  "browser_checks": 49,
+  "captures": 100,
+  "elapsed_ms": 148364,
+  "errors": [],
+  "ci_rust_tests": 99,
+  "ci_js_tests": 20,
+  "packaged_modules": 20,
+  "http_observed_utc": "2026-11-23T08:38:00.062278+00:00",
+  "public_url": "https://ferroui.com/WindowsPhone/",
+  "http_index_build": "b4c63a3",
+  "http_service_worker_cache": "windows-phone-b4c63a3",
+  "http_index_sha256": "e1fb74b4fb00ec87a30068e3935228a18d9a8cc1dd1481a7bce160bcd18cc7cf",
+  "http_index_headers": "HTTP/1.1 200 OK\ndate: Mon, 23 Nov 2026 08:37:55 GMT\n\nHTTP/2 200 \nserver: envoy\ncontent-type: text/html; charset=utf-8\nlast-modified: Mon, 23 Nov 2026 08:36:47 GMT\naccess-control-allow-origin: *\netag: \"6b03fb1f-54f\"\nexpires: Mon, 23 Nov 2026 08:47:55 GMT\ncache-control: max-age=600\nx-proxy-cache: MISS\nx-github-request-id: 9F90:1D3A:30A3846:366B641:6B03FB63\nx-github-edge-region: iad\naccept-ranges: bytes\nage: 0\ndate: Mon, 23 Nov 2026 08:37:56 GMT\nvia: 1.1 varnish\nx-served-by: cache-chi-klot8100057-CHI\nx-cache: MISS\nx-cache-hits: 0\nx-timer: S1795423076.963066,VS0,VE51\nvary: Accept-Encoding\nx-fastly-request-id: 23dd471d5033481b657f3add56fa297c4257a80a\ncontent-length: 1359\nx-envoy-upstream-service-time: 107\n\n",
+  "screenshots": [
+    {
+      "path": "docs/screenshots/host-people-vcard.png",
+      "artifact_source": "people-native-vcard-contact.png",
+      "sha256": "fbef12b9f05a8fe035ce5f5778b953a2009a70865da7702d1959dc66af0c7946"
+    },
+    {
+      "path": "docs/screenshots/host-calendar-series.png",
+      "artifact_source": "calendar-native-icalendar-series.png",
+      "sha256": "206ba59921e19791b6d4fcaca3df3f65cfbdb07988eb122fadb5e70fd8cad88d"
+    },
+    {
+      "path": "docs/screenshots/host-storage.png",
+      "artifact_source": "host-native-storage-observations.png",
+      "sha256": "2f6145f5f6c61ac0ced2bb36f255137e068e540ca2df6922c4b121303a6a6b0f"
+    },
+    {
+      "path": "docs/screenshots/host-notifications.png",
+      "artifact_source": "host-native-notification-permission.png",
+      "sha256": "bf3f3ff98ea5b61ecb9875ca264e89058e74ffc0ed20e97dcca01db2ae049b30"
+    },
+    {
+      "path": "docs/screenshots/host-start-desktop.png",
+      "artifact_source": "01-start-desktop.png",
+      "sha256": "38a74666966ca61800508418e5804b34af273176e9da0ee23092ce2c87c7f03b"
+    },
+    {
+      "path": "docs/screenshots/host-start-mobile.png",
+      "artifact_source": "13-start-mobile-dpr2.png",
+      "sha256": "98493ce006a70b8c62e1f36dd471fdfb6013a5d1fe6687ffecdf95698c1e4646"
+    }
+  ],
+  "limits": [
+    "Screenshots are isolated CI fixtures, not an existing public browser profile.",
+    "Host observations use injected adapters in the native Settings UI.",
+    "No host permission dialog, system share sheet, native file picker, external player or actual hardware battery was exercised.",
+    "Windows/macOS power adapters were source-reviewed only.",
+    "The 148.364-second duration measures the browser verification suite, not app performance."
+  ]
+}

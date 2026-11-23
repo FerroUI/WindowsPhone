@@ -8,13 +8,13 @@ The reference release is **Windows Phone 8.1 Update (2014)**, including live fol
 
 ## Preview
 
-The browser renders the retained FerroUI control tree through WebAssembly. These current captures come from the passing browser verification of deployed runtime `6a7cf14`, using isolated sample data and native pointer, keyboard and touch input.
+The browser renders the retained FerroUI control tree through WebAssembly. These captures come from the passing browser verification of deployed runtime `b4c63a3`, using isolated sample data and native pointer, keyboard and touch input.
 
-![Windows Phone Start in the FerroUI browser app](docs/screenshots/start-current-desktop.png)
+![Windows Phone Start in the FerroUI browser app](docs/screenshots/host-start-desktop.png)
 
-[Mobile Start](docs/screenshots/start-current-mobile.png) · [Calendar day](docs/screenshots/calendar-day-native.png) · [Alarm editor](docs/screenshots/alarm-editor-native.png) · [Shared tile wallpaper](docs/screenshots/start-wallpaper-native.png)
+[Mobile Start](docs/screenshots/host-start-mobile.png) · [Contact file commands](docs/screenshots/host-people-vcard.png) · [Calendar series sharing](docs/screenshots/host-calendar-series.png) · [Host storage](docs/screenshots/host-storage.png) · [Notification permission](docs/screenshots/host-notifications.png)
 
-The current suite also captures [Calendar editing](docs/screenshots/calendar-editor-native.png), [keyboard time selection](docs/screenshots/calendar-time-picker-native.png), [foreground alerts](docs/screenshots/alarm-alert-native.png), [Excel range operations](docs/screenshots/excel-range-native.png), and [Files Properties](docs/screenshots/files-properties-native.png). [Capture provenance](docs/screenshots/README.md) records the exact build and artifact, retains the earlier published-app captures, and explains the live browser's cached-preview limitation.
+Earlier `6a7cf14` reference captures show [Calendar editing](docs/screenshots/calendar-editor-native.png), [keyboard time selection](docs/screenshots/calendar-time-picker-native.png), [foreground alerts](docs/screenshots/alarm-alert-native.png), [Excel range operations](docs/screenshots/excel-range-native.png), and [Files Properties](docs/screenshots/files-properties-native.png). [Capture provenance](docs/screenshots/README.md) records each build and artifact, retains earlier published-app captures, and distinguishes isolated CI screenshots from existing browser-profile update verification.
 
 ## Explore
 
@@ -53,7 +53,11 @@ The first run contains fictional example contacts, messages, mail, notes and pho
 | Edit a recurring appointment | Open its details, choose edit or delete, then select this appointment or the entire series. |
 | Snooze an alert | Select a snooze duration on the alert, then snooze; Back snoozes an alarm for two minutes and a Calendar reminder for five. |
 | See more commands | Use the application bar's ellipsis. |
-| Import personal content | Use the relevant app's add command; file selection stays under your control. |
+| Import contacts or appointments | Open People or Calendar, then more → import contacts or import appointments. |
+| Share a contact or appointment | Open its details, then more → share contact, share appointment or share series. The desktop host saves an attachment copy. |
+| Allow device banners | Open Settings → notifications+actions → Device notifications → allow device notifications. The browser owns the permission decision. |
+| Keep browser data | Open Settings → storage sense → Device app storage → keep app data on this device, where the browser supports persistence requests. |
+| Import other personal content | Use the relevant app's add command; file selection stays under your control. |
 
 When the host delivers the shortcut to the app, **Home** opens Start, **Backspace/Escape** go back, **Ctrl/Cmd+F** opens search, and **Ctrl/Cmd+L** toggles the in-app lock. Editing controls keep their normal text-editing keys. Browsers can reserve some shortcuts for their own interface.
 
@@ -91,12 +95,12 @@ python3 -m http.server 8080 --directory target/browser/phone-browser
 cargo run --release -p phone-desktop
 ```
 
-The desktop host uses the same shell, views, state and theme and persists its phone document to the user's data directory, retaining unreadable data for recovery. It provides native Office import/export file pickers and clipboard commands, hands HTTP(S), phone, message and mail requests to the operating system's registered apps, and exports a document backup. Calendar/alarm scheduling and alert controls also run on the desktop; its sound/vibration adapter is not implemented. Camera, imported media, sharing, location and backup restoration currently use the browser host.
+The desktop host uses the same shell, views, state and theme. Native FerroUI pickers support Office documents, vCard contacts, iCalendar appointments, photos, music, video and compatible media backups. App-owned images load through the shared cache; audio/video opens in the system's default player. Sharing personal-information or media files saves a real attachment copy. Restoring a backup preserves a recovery snapshot and requires a successful save before replacing live state. Windows, macOS and Linux power adapters report optional battery observations. Live camera/location, system notifications, embedded playback and alarm sound/vibration remain outstanding. See the [platform matrix and ownership details](docs/host-integration.md).
 
 ### Checks
 
 ```bash
-cargo test --locked -p phone-domain -p phone-state
+cargo test --locked -p phone-host -p phone-domain -p phone-state
 cargo check --locked -p phone-ui
 node --test scripts/*.test.mjs
 rustc --edition=2021 --test crates/phone-ui/src/apps/games/logic.rs -o target/game-tests
@@ -111,9 +115,11 @@ With Chromium available, run the browser interaction and screenshot suite agains
 node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
 ```
 
-The [full verification and publication run 45131005447](https://github.com/FerroUI/WindowsPhone/actions/runs/45131005447) for runtime [`6a7cf14`](https://github.com/FerroUI/WindowsPhone/commit/6a7cf1422bc1153fb668f754b71d3b0bf4f4fff6) passed **45 browser check groups**, produced **96 captures**, and recorded **zero console/runtime error entries**. The browser suite took **128.451 seconds**; this is verification time, not startup latency or frame rate. The same CI run passed **78 Rust domain/state tests**, **six JavaScript host-boundary tests**, and linking of **14 packaged local modules**. Its [build](https://github.com/FerroUI/WindowsPhone/actions/runs/45131005447/job/137546233581) and [Pages deployment](https://github.com/FerroUI/WindowsPhone/actions/runs/45131005447/job/137549405676) both succeeded. Final-revision local checks also passed **17 UI/control unit tests** (16 `phone-ui`, one `phone-controls`) and UI compilation.
+The [full verification and publication run 45138808865](https://github.com/FerroUI/WindowsPhone/actions/runs/45138808865) for runtime [`b4c63a3`](https://github.com/FerroUI/WindowsPhone/commit/b4c63a36ed7d7d35168085409033711a61951103) passed **49 browser check groups**, produced **100 captures**, and recorded **zero console/runtime error entries**. The browser suite took **148.364 seconds**; this measures verification time, not startup latency or frame rate. CI also passed **99 Rust host/domain/state tests**, **20 JavaScript tests**, and linking of **20 packaged local modules**. Its [build](https://github.com/FerroUI/WindowsPhone/actions/runs/45138808865/job/137571455356) and [Pages deployment](https://github.com/FerroUI/WindowsPhone/actions/runs/45138808865/job/137575350649) both succeeded. A [local Linux run](docs/verification/b4c63a3-local.json) passed **128 Rust tests**, including desktop, UI and control tests, plus the same 20 JavaScript tests.
 
-The passing native-input checks cover Calendar views and picker bindings, recurrence edits and reload, foreground alarms/reminders, wallpaper/tilt/sticky headers, Files properties and availability of the Share command, and Excel range workflows. Earlier blocked runs led to actual Calendar initial-scroll and popup-focus corrections; the final suite retains the interaction assertions and explicitly validates picker-popup captures. Separate JavaScript tests check file payload preparation, capability rejection and cancellation with mocked browser adapters; the system share sheet is not exercised. The [`ui-verification` artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45131005447/artifacts/14797962911) contains the results, captures and native inspection data. [Current implementation verification](docs/parity.md#current-refinement-verification) records the correction history, capture contract and remaining limits.
+The new checks import real vCard/iCalendar bytes through the Rust WebAssembly callbacks, verify atomic rejection and supported recurrence, and use native controls to inspect contact/series sharing commands. Settings tests inject host observations to verify storage estimates, persistence and notification permission states without writing phone preferences. Existing Calendar, alarm, Office, Files, live-tile, touch, density and offline checks also pass. The [`ui-verification` artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45138808865/artifacts/14802170105), retained [results](docs/verification/b4c63a3-results.json) and [publication record](docs/verification/b4c63a3-publication.json) identify the exact evidence. Host permission dialogs, system share sheets, physical battery hardware and native Windows/macOS execution require separate verification.
+
+The preceding [`6a7cf14` run](https://github.com/FerroUI/WindowsPhone/actions/runs/45131005447) passed 45 browser groups with 96 captures, 78 Rust domain/state tests, six JavaScript tests and 14 linked modules. Its [refinement record](docs/parity.md#earlier-refinement-verification-6a7cf14) retains the Calendar initial-scroll and popup-focus corrections and original capture attribution. These older figures are not the current release's test totals.
 
 The [historical full browser verification](docs/parity.md#recorded-verification) passed **33 check groups** and produced **72 captures**, alongside **48 Rust domain/state tests** and **2 host-boundary tests**. It includes all 23 app surfaces, native Office editing and document persistence, Files copy/move/rename, system preferences, Mail/Messaging selection, browser tabs/history, independent live-tile clock updates, live-folder activation, lock-screen draft preservation, desktop/mobile input, device-pixel-ratio checks, and offline reload. A separate local run passed **13 UI unit tests**; native Skia probes also exercised retained control identity and actual input across clock ticks. These results belong to the revisions named below. Camera permission, external services, app installation, complete upgrade recovery and original-device pixel comparisons require separate verification.
 
@@ -139,13 +145,14 @@ The successful deployment run is the source of truth for publication; a source c
 
 | Crate | Responsibility |
 | --- | --- |
+| `phone-host` | UI-independent host contracts, permissions/observations, URI validation, native paths, atomic files, power adapters and bounded background work. |
 | `phone-domain` | Serializable phone document, app catalog, tile packing, calendar and calculator logic, validation. |
 | `phone-state` | ReactiveUI view model and commands, navigation journal, DynamicData projections, persistence boundary. |
 | `phone-controls` | Trimmed WinUI base, Metro control templates, palette, typography, vector icons and reusable app bars. |
 | `phone-fonts` | Embedded Microsoft Selawik font collection, four weights, licensing and shared host registration. |
 | `phone-ui` | Shared `rsx!` shell and app views, session state, gestures, images and host-facing UI hooks. |
 | `phone-browser` | FerroUI browser startup, WebAssembly exports, browser services and static/PWA assets. |
-| `phone-desktop` | Native startup, persistence/recovery, clipboard and URI handoff, Office file pickers and document backup export. |
+| `phone-desktop` | Native startup, atomic persistence/recovery, clipboard/URI handoff, Office/PIM/media/backup pickers, image loading, external media playback and power observations. |
 
 Read [architecture](docs/architecture.md) for the state, rendering and service boundaries, and [parity](docs/parity.md) before assuming original phone capabilities are available.
 

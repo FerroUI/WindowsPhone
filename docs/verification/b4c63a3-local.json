@@ -1,0 +1,109 @@
+{
+  "revision": "b4c63a36ed7d7d35168085409033711a61951103",
+  "platform": "x86_64-unknown-linux-gnu",
+  "rust_command": "cargo test --locked -p phone-host -p phone-domain -p phone-state -p phone-ui -p phone-controls -p phone-desktop",
+  "rust_passed": 128,
+  "rust_failed": 0,
+  "targets": [
+    {
+      "target": "Running unittests src/lib.rs (target/debug/deps/phone_controls-57eb27e4363aaf6b)",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "target": "Running unittests src/main.rs (target/debug/deps/phone_desktop-12b1ed4546d5fa10)",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "target": "Running unittests src/lib.rs (target/debug/deps/phone_domain-69e97d760a96f191)",
+      "passed": 28,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/calendar.rs (target/debug/deps/calendar-c8eded3e97d246d0)",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/domain.rs (target/debug/deps/domain-234624674442d01b)",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/interchange.rs (target/debug/deps/interchange-311a70a873d99eca)",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/settings.rs (target/debug/deps/settings-b71da01d138923d3)",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/tiles.rs (target/debug/deps/tiles-d9d197568a3c70cd)",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "target": "Running unittests src/lib.rs (target/debug/deps/phone_host-7e144b6a94cfab4d)",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/alarms.rs (target/debug/deps/alarms-db68de454abc3c0b)",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/calendar.rs (target/debug/deps/calendar-dbb4fdc22aa3012e)",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/communication.rs (target/debug/deps/communication-7594942e43ea4655)",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/documents.rs (target/debug/deps/documents-03e6dd2da4d1c1c1)",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/host_restore.rs (target/debug/deps/host_restore-92a533ca82b02053)",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/pim.rs (target/debug/deps/pim-fee3f9e92dfe643f)",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/state.rs (target/debug/deps/state-0fd62cceb447c477)",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "target": "Running tests/tiles.rs (target/debug/deps/tiles-f4f04a68e7a29776)",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "target": "Running unittests src/lib.rs (target/debug/deps/phone_ui-2ac7036835a70951)",
+      "passed": 17,
+      "failed": 0
+    }
+  ],
+  "rust_log_sha256": "bdae7c7fdc5b98e9c27eb025ea847dd9b1b3833111978dd99c572a529731c794",
+  "js_command": "node --test scripts/*.test.mjs",
+  "js_passed": 20,
+  "js_failed": 0,
+  "js_log_sha256": "13a347338d55775e4983b909798e90756dd4a309e863dd1699c773dd73667082",
+  "notes": [
+    "Native linking used local development aliases for installed libfreetype.so.6 and libfontconfig.so.1. No application or framework source change was required.",
+    "Windows/macOS adapters were source-reviewed; they were not executed on Windows/macOS hardware.",
+    "No OS permission prompt, file picker, share sheet, notification delivery or external media playback was exercised by these unit tests."
+  ]
+}
