@@ -18,7 +18,17 @@ import org.json.JSONObject;
 final class PhoneMessageProvider {
     static final Object MUTATIONS = new Object();
     private PhoneMessageProvider() {}
-    static boolean readable(Context context) { return PhonePermissions.granted(context, Manifest.permission.READ_SMS); }
+    static boolean readable(Context context) {
+        if (!PhonePermissions.granted(context, Manifest.permission.READ_SMS)) return false;
+        android.app.AppOpsManager manager = context.getSystemService(android.app.AppOpsManager.class);
+        if (manager == null) return false;
+        try {
+            int mode = manager.checkOpNoThrow(android.app.AppOpsManager.OPSTR_READ_SMS,
+                    android.os.Process.myUid(), context.getPackageName());
+            // This is an observed usability filter. The provider still enforces every actual read.
+            return mode == android.app.AppOpsManager.MODE_ALLOWED || mode == android.app.AppOpsManager.MODE_DEFAULT;
+        } catch (RuntimeException unavailable) { return false; }
+    }
     static boolean writable(Context context) { return PhoneRoles.held(context, "sms") && readable(context); }
 
     static long identity(String value, String prefix) {

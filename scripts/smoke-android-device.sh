@@ -43,11 +43,32 @@ wait_device() {
     return 1
 }
 
+wait_bootstrap() {
+    local expected="$1" candidate=0 current=0 stop=$((SECONDS + ${2:-75}))
+    while [ "$SECONDS" -lt "$stop" ]; do
+        emu_read_file "$phone_package" windows-phone/phone-android-smoke.json > "$phone_out/bootstrap-current.tmp"
+        mv "$phone_out/bootstrap-current.tmp" "$phone_out/bootstrap-current.json"
+        if current="$(python3 "$phone_repo/scripts/verify_android_bootstrap.py" "$phone_out/bootstrap-current.json" \
+            "$phone_device_nonce" "$expected" "$phone_bootstrap_sequence" --sms "$phone_out/device-sms.json" 2> "$phone_out/bootstrap-last-error.txt")"; then
+            if [ "$candidate" -gt 0 ] && [ "$current" -gt "$candidate" ]; then
+                phone_bootstrap_sequence="$current"
+                cp "$phone_out/bootstrap-current.json" "$phone_out/device-$expected.json"
+                return 0
+            fi
+            candidate="$current"
+        else candidate=0; fi
+        sleep 0.5
+    done
+    printf 'Shared %s observation failed: %s\n' "$expected" "$(cat "$phone_out/bootstrap-last-error.txt")" >&2
+    return 1
+}
+
 for phone_role in DIALER SMS; do
     adb_shell cmd role get-role-holders --user "$phone_user" "android.app.role.$phone_role" | tr -d '\r' | sort > "$phone_out/$phone_role-before.txt"
 done
 phone_device_nonce="$(python3 -c 'import secrets; print(secrets.token_hex(16))')"
 phone_device_sequence=0
+phone_bootstrap_sequence=0
 emu_write_file "$phone_package" windows-phone/phone-device-smoke.enabled "$phone_device_nonce"
 emu_write_file "$phone_package" windows-phone/phone-android-smoke.enabled "$phone_device_nonce"
 phase 'Checking native codec bounds and carrier permission boundaries before role selection'
@@ -69,6 +90,10 @@ wait_device roles
 phase 'Receiving a modem SMS through the protected receiver, native job and Android provider'
 adb_do emu sms send 5550101 "FerroUI SMS $phone_device_nonce" > "$phone_out/modem-sms.txt" 2>&1
 wait_device sms
+phase 'Verifying native unread state and the mounted Messaging badge on Start before opening Messaging'
+wait_bootstrap start-unread
+emu_screencap "$phone_out/device-start-unread.png"
+source "$phone_repo/scripts/smoke-android-notifications.sh"
 phone_thread="$(python3 - "$phone_out/device-sms.json" <<'PY'
 import base64,json,sys
 value=json.load(open(sys.argv[1]))['received_sms']['thread_id']

@@ -83,8 +83,14 @@ Package enumeration and shortcuts are scoped to the current profile. Dialer, SMS
 notification-listener and settings-write access are separate Android roles or
 permissions; holding HOME grants none of them. Role/permission requests occur
 only from explicit commands. A `DeviceSnapshot` lists currently usable operations,
-and the shared runtime rejects stale results after access is revoked. No contact,
-call, SMS or notification collection is read at application startup.
+and the shared runtime rejects stale results after access is revoked. The foreground
+shell initializes its bounded SMS conversation/unread and notification snapshots
+only when their existing permissions or listener connection make those reads usable.
+This starts no consent flow. Contacts and call history still require their explicit
+views/commands. Own-UID SMS AppOps changes and listener connection changes invalidate
+native private-read epochs, cancel observations and purge queued private rows;
+explicit read results also recheck that epoch at completion and poll. Accepted
+carrier sends, downloads and independent call ownership retain their own lifetime.
 
 SMS/MMS use Android's native provider and the selected carrier, outside portable
 phone backups. RCS, eSIM provisioning, privileged global toggles, carrier account
@@ -256,7 +262,20 @@ HOME chooser consent and denial still require separate device qualification.
 A second private debug marker (`phone-device-smoke.enabled`) enables only native
 observations and local codec fixtures. The gate records pre-role permissions,
 selects the qualified dialer/SMS roles **only in that newly created AVD**, injects
-an emulator modem SMS, verifies the provider and shared Messaging UI, rings an
+an emulator modem SMS, and requires its exact native conversation/unread count in
+the shared store plus the actual visible Messaging tile badge while still on Start,
+before the first Messaging activation. The debug Rust observer reads already-admitted
+state and mounted text; it never requests messages or mutates the UI.
+
+The same isolated gate records Android's notification shell help and original
+listener grants, enables only this package's listener, and posts a unique native
+shell notification. It requires shared-store admission, taps the actual mounted
+status bar, and checks the fixture title/body within the clipped Action Center
+viewport. Revoking access must remove both admitted rows and rendered private
+text. Original listener grants are restored exactly in success and failure cleanup.
+These checks distinguish native provider data from real shell initialization.
+
+The gate then verifies the shared Messaging UI, rings an
 emulator call, presses the actual native Answer button, and observes Telecom Active.
 It requires Android's actual `phoneCall` foreground type and posted `CallStyle`
 notification, ends the modem call, and verifies both are released. It then
@@ -306,6 +325,7 @@ and external-player handoff on supported Android/OEM versions.
 - [SMS delivery-status encoding](https://developer.android.com/reference/android/telephony/SmsMessage#getStatus())
 - [GSM TP-Status definitions, TS23.040 §9.2.3.15](https://www.etsi.org/deliver/etsi_ts/123000_123099/123040/19.00.00_60/ts_123040v190000p.pdf)
 - [Notification listener and current-profile callbacks](https://developer.android.com/reference/android/service/notification/NotificationListenerService)
+- [Public own-UID app-operation change observation](https://developer.android.com/reference/android/app/AppOpsManager#startWatchingMode(java.lang.String,java.lang.String,android.app.AppOpsManager.OnOpChangedListener))
 - [Public native contact editing](https://developer.android.com/identity/providers/contacts-provider/modify-data)
 - [Launcher shortcut-host access](https://developer.android.com/reference/android/content/pm/LauncherApps)
 - [Android public settings actions](https://developer.android.com/reference/android/provider/Settings)

@@ -45,6 +45,7 @@ adb_do() {
 phone_package=""
 phone_carrier_roles=0
 phone_home_role=0
+phone_notification_access=0
 phone_phase="Preparing the ephemeral emulator"
 phase() {
     phone_phase="$1"
@@ -90,6 +91,7 @@ cleanup() {
         ADB_TIMEOUT=20 adb_shell dumpsys activity activities > "$phone_out/activities.txt" 2>&1
         ADB_TIMEOUT=20 adb_shell dumpsys window > "$phone_out/windows.txt" 2>&1
     fi
+    if [ "$phone_notification_access" = 1 ]; then ADB_TIMEOUT=10 restore_notification_access || result=1; fi
     if [ "$phone_carrier_roles" = 1 ]; then ADB_TIMEOUT=10 restore_carrier_roles || result=1; fi
     if [ "$phone_home_role" = 1 ]; then ADB_TIMEOUT=10 restore_home_role || result=1; fi
     write_result "$result"
@@ -220,4 +222,4 @@ adb_shell cmd role get-role-holders --user "$phone_user" android.app.role.HOME \
     | tr -d '\r' | sort > "$phone_out/home-after.txt"
 cmp "$phone_out/user-before.txt" "$phone_out/user-after.txt"
 cmp "$phone_out/home-before.txt" "$phone_out/home-after.txt"
-phase 'Both variants passed native geometry and Back; active HOME, restored roles, real incoming SMS, native call controls and bounded MMS codec passed'
+phase 'Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed'

@@ -176,6 +176,159 @@ fn cold_start_initializes_authorized_private_rows_without_visiting_an_app() {
 }
 
 #[test]
+fn newer_private_events_during_initial_reads_require_one_fresh_seed() {
+    let (runtime, provider) = boot();
+    let newer_notice = response(DeviceResponse::Notifications(vec![DeviceNotification {
+        key: "notice:2".into(),
+        package_id: "org.example".into(),
+        application: "Example".into(),
+        title: "Newer notice".into(),
+        ..Default::default()
+    }]));
+    provider
+        .events
+        .borrow_mut()
+        .extend([threads(9), newer_notice.clone()]);
+    provider.reply(1, Ok(threads(1)));
+    provider.reply(2, Ok(notices()));
+    pump();
+    assert_eq!(
+        provider.keys(),
+        [
+            "snapshot",
+            "threads:200",
+            "notifications",
+            "threads:200",
+            "notifications"
+        ],
+        "a suppressed newer event must not leave the older initial read permanently current"
+    );
+    for _ in 0..20 {
+        runtime.observe();
+    }
+    assert_eq!(provider.keys().len(), 5, "the fresh reads coalesce");
+    provider.reply(3, Ok(threads(9)));
+    provider.reply(4, Ok(newer_notice));
+    pump();
+    assert_eq!(runtime.vm.device_state().threads[0].unread, 9);
+    assert_eq!(runtime.vm.device_state().notifications[0].key, "notice:2");
+    for _ in 0..20 {
+        runtime.observe();
+    }
+    assert_eq!(provider.keys().len(), 5, "settled seeds stop reading");
+    close(&runtime);
+}
+
+#[test]
+fn newer_empty_events_during_initial_reads_cannot_leave_deleted_rows_restored() {
+    let (runtime, provider) = boot();
+    provider.events.borrow_mut().extend([
+        response(DeviceResponse::MessageThreads(Vec::new())),
+        response(DeviceResponse::Notifications(Vec::new())),
+    ]);
+    provider.reply(1, Ok(threads(1)));
+    provider.reply(2, Ok(notices()));
+    pump();
+    assert_eq!(provider.keys()[3..], ["threads:200", "notifications"]);
+    provider.reply(3, Ok(response(DeviceResponse::MessageThreads(Vec::new()))));
+    provider.reply(4, Ok(response(DeviceResponse::Notifications(Vec::new()))));
+    pump();
+    assert!(runtime.vm.device_state().threads.is_empty());
+    assert!(runtime.vm.device_state().notifications.is_empty());
+    for _ in 0..20 {
+        runtime.observe();
+    }
+    assert_eq!(provider.keys().len(), 5);
+    close(&runtime);
+}
+
+#[test]
+fn a_current_snapshot_event_retires_an_older_owned_snapshot_before_delivery() {
+    for current_is_granted in [false, true] {
+        let (runtime, provider) = fixture(vec![
+            HostFeature::Messaging,
+            HostFeature::NotificationCenter,
+        ]);
+        let (old, current) = if current_is_granted {
+            (DeviceSnapshot::default(), granted())
+        } else {
+            (granted(), DeviceSnapshot::default())
+        };
+        provider
+            .events
+            .borrow_mut()
+            .push(response(DeviceResponse::Snapshot(current)));
+        provider.reply(0, Ok(response(DeviceResponse::Snapshot(old))));
+        pump();
+        assert_eq!(
+            runtime
+                .vm
+                .device_state()
+                .snapshot
+                .supports(DeviceOperation::ReadMessages),
+            current_is_granted,
+            "a captured query cannot overwrite the newer authority observation"
+        );
+        assert_eq!(
+            provider.keys().len(),
+            if current_is_granted { 3 } else { 1 }
+        );
+        for _ in 0..20 {
+            runtime.observe();
+        }
+        assert_eq!(
+            provider.keys().len(),
+            if current_is_granted { 3 } else { 1 }
+        );
+        close(&runtime);
+    }
+}
+
+#[test]
+fn newer_events_during_an_equivalent_explicit_refresh_require_one_fresh_read() {
+    let (runtime, provider) = boot();
+    provider.reply(1, Ok(threads(1)));
+    provider.reply(2, Ok(notices()));
+    pump();
+    runtime
+        .dispatch_platform(device(DeviceRequest::MessageThreads { limit: 200 }), None)
+        .unwrap();
+    runtime
+        .dispatch_platform(device(DeviceRequest::Notifications), None)
+        .unwrap();
+    provider.events.borrow_mut().extend([
+        threads(9),
+        response(DeviceResponse::Notifications(Vec::new())),
+    ]);
+    provider.reply(3, Ok(threads(2)));
+    provider.reply(4, Ok(notices()));
+    pump();
+    assert_eq!(provider.keys()[5..], ["threads:200", "notifications"]);
+    for _ in 0..20 {
+        runtime.observe();
+    }
+    assert_eq!(provider.keys().len(), 7);
+    provider.reply(5, Ok(threads(9)));
+    provider.reply(6, Ok(response(DeviceResponse::Notifications(Vec::new()))));
+    pump();
+    assert_eq!(runtime.vm.device_state().threads[0].unread, 9);
+    assert!(runtime.vm.device_state().notifications.is_empty());
+    for _ in 0..20 {
+        runtime.observe();
+    }
+    assert_eq!(provider.keys().len(), 7);
+    provider
+        .events
+        .borrow_mut()
+        .extend([threads(10), notices()]);
+    runtime.observe();
+    assert_eq!(runtime.vm.device_state().threads[0].unread, 10);
+    assert_eq!(runtime.vm.device_state().notifications.len(), 1);
+    assert_eq!(provider.keys().len(), 7, "ordinary live events do not poll");
+    close(&runtime);
+}
+
+#[test]
 fn display_notifications_alone_and_ungranted_capabilities_never_read_private_data() {
     let (runtime, provider) = fixture(vec![HostFeature::Notifications, HostFeature::Location]);
     for _ in 0..20 {

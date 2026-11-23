@@ -256,6 +256,11 @@ impl PhoneRuntime {
                 }
             }
         }
+        if complete.is_none() {
+            if let Some(seed) = read_key.and_then(observations::ReadKey::seed) {
+                self.observations.borrow_mut().started(seed);
+            }
+        }
         let epoch = self.vm.document_epoch();
         let send_client = match &request {
             PlatformRequest::Device {
@@ -425,6 +430,26 @@ impl PhoneRuntime {
             }
         }
     }
+    fn accept_event(&self, event: PlatformResponse) -> Result<(), String> {
+        if let PlatformResponse::Device(response) = &event {
+            response.validate()?;
+            if matches!(response, DeviceResponse::Snapshot(_)) {
+                // Provider events carry its current authority. A query captured
+                // before this observation must not restore older permissions.
+                self.cancel_reads(&[2]);
+            }
+            let refreshing = observations::Seed::for_event(response).is_some_and(|seed| {
+                self.reads.borrow().get(&seed.channel()).is_some_and(|read| {
+                    read.coalescible
+                        && read.key.and_then(observations::ReadKey::seed) == Some(seed)
+                })
+            });
+            if !self.observations.borrow_mut().admits_event(response, refreshing) {
+                return Ok(());
+            }
+        }
+        self.accept(event)
+    }
     pub fn observe(&self) {
         if self.closed.get()
             || self.closing.get()
@@ -472,11 +497,7 @@ impl PhoneRuntime {
             if self.closed.get() || self.closing.get() || self.vm.document_epoch() != epoch {
                 break;
             }
-            if matches!(&event, PlatformResponse::Device(response) if !self.observations.borrow().admits_event(response))
-            {
-                continue;
-            }
-            if let Err(error) = self.accept(event) {
+            if let Err(error) = self.accept_event(event) {
                 if !self.closed.get() && !self.closing.get() && self.vm.document_epoch() == epoch {
                     self.vm.set_status(error);
                 }

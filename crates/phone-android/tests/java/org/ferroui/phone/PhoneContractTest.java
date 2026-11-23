@@ -5,6 +5,32 @@ public final class PhoneContractTest {
     private static int assertions;
     private static void check(boolean value, String message) { assertions++; if (!value) throw new AssertionError(message); }
     public static void main(String[] args) {
+        PhoneObservationEpoch epoch = new PhoneObservationEpoch();
+        check(epoch.reconcile(0) == PhoneObservationEpoch.ALL, "First authority observation establishes a fresh private-read epoch");
+        long unavailable = epoch.lease();
+        check(epoch.reconcile(0) == 0 && epoch.current(unavailable), "An unchanged snapshot does not restart observations");
+        check(epoch.reconcile(PhoneObservationEpoch.MESSAGES) == PhoneObservationEpoch.MESSAGES, "Message grant identifies only the changed authority");
+        long granted = epoch.lease();
+        check(!epoch.current(unavailable), "An old denied epoch cannot publish after grant");
+        check(epoch.reconcile(0) == PhoneObservationEpoch.MESSAGES && !epoch.current(granted), "Revocation rejects a still-running private query");
+        epoch.reconcile(PhoneObservationEpoch.MESSAGES);
+        check(!epoch.current(granted), "Regrant never revives a query from before revocation");
+        long regranted = epoch.lease(); epoch.invalidate();
+        check(!epoch.current(regranted), "An own-app authority callback invalidates reads even if a revoke/regrant occurred between snapshots");
+        check(epoch.reconcile(PhoneObservationEpoch.ALL) == PhoneObservationEpoch.NOTIFICATIONS, "Listener connection has its own authority bit");
+        long connected = epoch.lease();
+        check(epoch.reconcile(PhoneObservationEpoch.MESSAGES) == PhoneObservationEpoch.NOTIFICATIONS && !epoch.current(connected), "Listener disconnection invalidates the prior read epoch");
+        for (String kind : new String[]{"messageThreads", "messages", "notifications"})
+            check(PhoneObservationEpoch.privateRow(kind, PhoneObservationEpoch.ALL), "Queued private rows are purged: " + kind);
+        for (String kind : new String[]{"messageSent", "sendFailed", "messageDownloaded", "composeDraft", "calls", "snapshot"})
+            check(!PhoneObservationEpoch.privateRow(kind, PhoneObservationEpoch.ALL), "Authority invalidation preserves accepted side effects: " + kind);
+        check(!PhoneObservationEpoch.privateRow("notifications", PhoneObservationEpoch.MESSAGES), "SMS authority does not purge independent notification rows");
+        check(!PhoneObservationEpoch.privateRow("messages", PhoneObservationEpoch.NOTIFICATIONS), "Listener authority does not purge independent message rows");
+        long beforeBinder = epoch.lease();
+        check(!epoch.usable(beforeBinder, () -> { epoch.invalidate(); return true; }), "A revoke/regrant during the authority IPC rejects a previously queued response");
+        check(!epoch.usable(beforeBinder, () -> { throw new AssertionError("Stale lease queried authority"); }), "Stale reads do not query authority again");
+        check(!epoch.usable(epoch.lease(), () -> false), "Current epoch does not override an actual denied operation");
+        check(epoch.usable(epoch.lease(), () -> true), "A fresh authorized read remains usable");
         PhoneBackKey back = new PhoneBackKey();
         check(!back.up(1, 10, false), "An orphan Back release cannot navigate");
         back.down(1, 10, 0);

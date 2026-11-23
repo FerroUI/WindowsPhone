@@ -1,12 +1,12 @@
 //! Debug-only observation of the real activity, mounted tree and activation path.
 //! A private nonce file opts one fresh test process in; this module never navigates.
 use ferroui_base::{
-    threading::{DispatcherPriority, DispatcherTimer},
     Point, Ref,
+    threading::{DispatcherPriority, DispatcherTimer},
 };
-use ferroui_controls::{Control, TopLevel};
+use ferroui_controls::{Control, TextBlock, TopLevel};
 use phone_native::NativeHost;
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 use std::{
     cell::{Cell, RefCell},
     io::Read,
@@ -45,6 +45,40 @@ fn rectangle(view: &Control, top: &TopLevel) -> Option<Value> {
     Some(json!({"x": point.x, "y": point.y, "width": bounds.width, "height": bounds.height}))
 }
 
+fn visible_rectangle(view: &Control, top: &TopLevel) -> Option<Value> {
+    let bounds = view.bounds();
+    if !view.is_effectively_visible() || bounds.width <= 0.0 || bounds.height <= 0.0 {
+        return None;
+    }
+    let point = view.translate_point(Point::new(0.0, 0.0), top)?;
+    let client = top.client_size();
+    let (mut left, mut upper, mut right, mut bottom) = (
+        point.x.max(0.0),
+        point.y.max(0.0),
+        (point.x + bounds.width).min(client.width),
+        (point.y + bounds.height).min(client.height),
+    );
+    for ancestor in view
+        .get_visual_ancestors()
+        .filter(|visual| visual.clip_to_bounds())
+    {
+        let origin = ancestor.translate_point(Point::new(0.0, 0.0), top)?;
+        let clip = ancestor.bounds();
+        left = left.max(origin.x);
+        upper = upper.max(origin.y);
+        right = right.min(origin.x + clip.width);
+        bottom = bottom.min(origin.y + clip.height);
+    }
+    if right <= left || bottom <= upper {
+        return None;
+    }
+    Some(
+        json!({"x": point.x, "y": point.y, "width": bounds.width, "height": bounds.height,
+        "fully_visible": (left - point.x).abs() < 0.5 && (upper - point.y).abs() < 0.5
+            && (right - point.x - bounds.width).abs() < 0.5 && (bottom - point.y - bounds.height).abs() < 0.5}),
+    )
+}
+
 impl Observer {
     fn write(&self, host: &NativeHost, wrapper: &Control) {
         let view = host.view();
@@ -77,7 +111,68 @@ impl Observer {
             })
             .take(16)
             .collect::<Vec<_>>();
-        let device = host.vm().device_state();
+        let vm = host.vm();
+        let device = vm.device_state();
+        let messaging_tiles = {
+            let data = vm.data();
+            let mut pending = data.tiles.iter().collect::<Vec<_>>();
+            let mut ids = Vec::new();
+            while let Some(tile) = pending.pop() {
+                pending.extend(tile.folder_tiles.iter());
+                if !tile.is_folder()
+                    && tile.target.is_none()
+                    && serde_json::to_value(tile.app).ok().as_ref() == Some(&json!("Messaging"))
+                {
+                    ids.push(tile.id);
+                }
+            }
+            ids
+        };
+        let messaging_badges = view
+            .get_visual_descendants()
+            .filter_map(|visual| {
+                let label = visual.cast::<TextBlock>()?;
+                let name = label.name()?;
+                let id = name.strip_prefix("TileBadge-")?.parse::<u64>().ok()?;
+                if !messaging_tiles.contains(&id) {
+                    return None;
+                }
+                Some(json!({"tile_id": id, "name": name, "text": label.text(),
+                "bounds": visible_rectangle(&label, &top)?}))
+            })
+            .take(16)
+            .collect::<Vec<_>>();
+        let title = format!("FerroUI-bootstrap-{}", self.nonce);
+        let body = format!("Native-listener-{}", self.nonce);
+        let action_center = view
+            .get_visual_descendants()
+            .filter_map(|visual| visual.cast::<Control>())
+            .find(|control| {
+                control.name().as_deref() == Some("ActionCenter")
+                    && visible_rectangle(control, &top).is_some()
+            });
+        let notification_labels = action_center
+            .as_ref()
+            .map(|center| {
+                center
+                    .get_visual_descendants()
+                    .filter_map(|visual| {
+                        let label = visual.cast::<TextBlock>()?;
+                        let text = label.text()?;
+                        if text != title && text != body {
+                            return None;
+                        }
+                        Some(json!({"text": text, "bounds": visible_rectangle(&label, &top)?}))
+                    })
+                    .take(8)
+                    .collect::<Vec<_>>()
+            })
+            .unwrap_or_default();
+        let status_bar = view
+            .get_visual_descendants()
+            .filter_map(|visual| visual.cast::<Control>())
+            .find(|control| control.name().as_deref() == Some("StatusBar"))
+            .and_then(|control| visible_rectangle(&control, &top));
         let client = top.client_size();
         let viewport = host.vm().viewport();
         let sequence = self.sequence.get().saturating_add(1);
@@ -94,6 +189,15 @@ impl Observer {
             "device_snapshot": device.snapshot,
             "device_message_thread": device.message_thread,
             "device_message_ids": device.messages.iter().map(|message| &message.id).collect::<Vec<_>>(),
+            // Observe already-admitted state only: no DeviceRequest, provider query or UI mutation.
+            "device_threads": device.threads.iter().take(200).map(|thread| json!({"id":thread.id,"unread":thread.unread})).collect::<Vec<_>>(),
+            "device_message_unread": device.threads.iter().map(|thread| u64::from(thread.unread)).sum::<u64>(),
+            "messaging_tile_ids": messaging_tiles, "messaging_badges": messaging_badges,
+            "device_notification_count": device.notifications.len(),
+            "device_notification_fixture": device.notifications.iter().filter(|notice| notice.title == title && notice.body == body).take(4).collect::<Vec<_>>(),
+            "notification_fixture_labels": notification_labels,
+            "action_center": action_center.as_ref().and_then(|center| visible_rectangle(center, &top)),
+            "status_bar": status_bar,
             "activation": self.activation.borrow().clone(),
             "client": {"width": client.width, "height": client.height},
             "render_scaling": top.render_scaling(),

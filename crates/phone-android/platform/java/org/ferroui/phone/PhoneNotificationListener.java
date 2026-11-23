@@ -40,13 +40,14 @@ public final class PhoneNotificationListener extends NotificationListenerService
         return NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.getPackageName());
     }
 
-    @Override public void onListenerConnected() { connected = true; current = new WeakReference<>(this); dirty = true; }
-    @Override public void onListenerDisconnected() { connected = false; observed.clear(); dirty = true; }
+    @Override public void onListenerConnected() { connected = true; current = new WeakReference<>(this); dirty = true; PhoneDevice.notificationAuthorityChanged(); }
+    @Override public void onListenerDisconnected() { connected = false; observed.clear(); dirty = true; PhoneDevice.notificationAuthorityChanged(); }
     @Override public void onDestroy() {
         connected = false;
         observed.clear();
         if (current.get() == this) current.clear();
         dirty = true;
+        PhoneDevice.notificationAuthorityChanged();
         super.onDestroy();
     }
     @Override public void onNotificationPosted(StatusBarNotification notification) { dirty = true; }

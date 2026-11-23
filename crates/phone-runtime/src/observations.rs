@@ -28,6 +28,15 @@ impl Seed {
             Self::Notifications => 8,
         }
     }
+    pub fn for_event(response: &DeviceResponse) -> Option<Self> {
+        match response {
+            DeviceResponse::MessageThreads(_) | DeviceResponse::Messages { .. } => {
+                Some(Self::Messages)
+            }
+            DeviceResponse::Notifications(_) => Some(Self::Notifications),
+            _ => None,
+        }
+    }
 }
 
 /// Only equivalent observation reads may share an in-flight request. A larger
@@ -59,6 +68,7 @@ impl ReadKey {
 #[derive(Default)]
 struct Bootstrap {
     complete: bool,
+    dirty: bool,
     failures: u8,
     retry_at: Option<i64>,
 }
@@ -69,11 +79,15 @@ impl Bootstrap {
     fn settled(&mut self, success: bool, now: i64) {
         if success {
             *self = Self {
-                complete: true,
+                // The provider may have published a newer observation while
+                // this read was pending. Initial unscoped rows stay gated, and
+                // a fresh read must supersede this potentially older page.
+                complete: !self.dirty,
                 ..Self::default()
             };
         } else {
             self.complete = false;
+            self.dirty = false;
             let delay = (4_i64 << self.failures.min(3)).min(30);
             self.failures = self.failures.saturating_add(1);
             self.retry_at = Some(now.saturating_add(delay));
@@ -85,6 +99,14 @@ impl Bootstrap {
                 .retry_at
                 .map(|time| now.saturating_add(time.saturating_sub(old).clamp(0, 30)));
         }
+    }
+    fn admits_rows(&mut self, usable: bool, empty: bool, refreshing: bool) -> bool {
+        if usable && (!self.complete || refreshing) {
+            // Empty events can be newer deletions too. Admit their cleanup,
+            // while preventing an older pending seed from becoming final.
+            self.dirty = true;
+        }
+        empty || (usable && self.complete)
     }
 }
 
@@ -223,26 +245,39 @@ impl Observations {
         }
         .settled(success, now);
     }
+    pub fn started(&mut self, seed: Seed) {
+        // A new read covers observations preceding its dispatch. Joining an
+        // existing read must not clear changes that happened during that read.
+        match seed {
+            Seed::Snapshot => &mut self.snapshot,
+            Seed::Messages => &mut self.messages,
+            Seed::Notifications => &mut self.notifications,
+        }
+        .dirty = false;
+    }
     /// Unsolicited rows cannot refill a new grant/document before its own initial
     /// read completes. Providers additionally invalidate their queued old work.
-    pub fn admits_event(&self, response: &DeviceResponse) -> bool {
+    pub fn admits_event(&mut self, response: &DeviceResponse, refreshing: bool) -> bool {
         match response {
-            DeviceResponse::MessageThreads(rows) => {
-                rows.is_empty()
-                    || (self.foreground && self.messages_usable && self.messages.complete)
-            }
-            DeviceResponse::Messages { messages, .. } => {
-                messages.is_empty()
-                    || (self.foreground && self.messages_usable && self.messages.complete)
-            }
+            DeviceResponse::MessageThreads(rows) => self.messages.admits_rows(
+                self.foreground && self.messages_usable,
+                rows.is_empty(),
+                refreshing,
+            ),
+            DeviceResponse::Messages { messages, .. } => self.messages.admits_rows(
+                self.foreground && self.messages_usable,
+                messages.is_empty(),
+                refreshing,
+            ),
             DeviceResponse::MessageAttachments { attachments, .. } => {
                 attachments.is_empty()
                     || (self.foreground && self.authorities[7] == PermissionState::Granted)
             }
-            DeviceResponse::Notifications(rows) => {
-                rows.is_empty()
-                    || (self.foreground && self.notifications_usable && self.notifications.complete)
-            }
+            DeviceResponse::Notifications(rows) => self.notifications.admits_rows(
+                self.foreground && self.notifications_usable,
+                rows.is_empty(),
+                refreshing,
+            ),
             _ => true,
         }
     }

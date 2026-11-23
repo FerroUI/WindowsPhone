@@ -10,6 +10,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BooleanSupplier;
 import org.json.JSONObject;
 
 /** Bounded native operations. Dropped Rust futures cancel delivery and provider resources. */
@@ -31,6 +32,7 @@ final class PhoneTasks {
         Runnable cancel;
         Runnable timeout;
         Runnable expiry;
+        BooleanSupplier readLease;
     }
 
     static JSONObject onMain(Callable<JSONObject> operation) throws Exception {
@@ -58,8 +60,18 @@ final class PhoneTasks {
         return id;
     }
 
-    static long work(Callable<JSONObject> operation) {
+    static synchronized long createRead(BooleanSupplier lease) {
         long id = create();
+        if (id != 0) tasks.get(id).readLease = lease;
+        return id;
+    }
+
+    static long work(Callable<JSONObject> operation) {
+        return work(operation, null);
+    }
+
+    private static long work(Callable<JSONObject> operation, BooleanSupplier lease) {
+        long id = lease == null ? create() : createRead(lease);
         if (id == 0) return 0;
         try {
             Future<?> future = worker.submit(() -> {
@@ -80,8 +92,12 @@ final class PhoneTasks {
     }
 
     static long query(Query operation) {
+        return query(operation, null);
+    }
+
+    static long query(Query operation, BooleanSupplier lease) {
         CancellationSignal signal = new CancellationSignal();
-        long id = work(() -> operation.run(signal));
+        long id = work(() -> operation.run(signal), lease);
         if (id != 0) cancellation(id, signal::cancel);
         return id;
     }
@@ -110,7 +126,7 @@ final class PhoneTasks {
         synchronized (PhoneTasks.class) {
             Task task = tasks.get(id);
             if (task == null || task.result != null) return false;
-            task.result = result.toString();
+            task.result = (valid(task) ? result : readExpired()).toString();
             MAIN.removeCallbacks(task.timeout);
             cancel = task.cancel;
             task.cancel = null;
@@ -122,11 +138,43 @@ final class PhoneTasks {
     static synchronized String poll(long id) {
         Task task = tasks.get(id);
         if (task == null) return PhoneJson.error("The Android request expired or was cancelled.").toString();
+        if (!valid(task)) {
+            cancel(id);
+            return readExpired().toString();
+        }
         if (task.result == null) return PhoneJson.value("pending").toString();
         tasks.remove(id);
         MAIN.removeCallbacks(task.timeout);
         MAIN.removeCallbacks(task.expiry);
         return task.result;
+    }
+
+    private static boolean valid(Task task) {
+        if (task.readLease == null) return true;
+        try { return task.readLease.getAsBoolean(); }
+        catch (RuntimeException revokedOrUnavailable) { return false; }
+    }
+
+    private static JSONObject readExpired() { return PhoneJson.error("Android private-read access changed. Refresh the authorized data."); }
+
+    static void invalidateReads() {
+        java.util.ArrayList<Task> stale = new java.util.ArrayList<>();
+        synchronized (PhoneTasks.class) {
+            for (Task task : tasks.values()) {
+                if (task.readLease != null && !valid(task)) {
+                    // Replace even a completed result: it may not have been polled by Rust yet.
+                    task.result = readExpired().toString();
+                    MAIN.removeCallbacks(task.timeout);
+                    stale.add(task);
+                }
+            }
+        }
+        for (Task task : stale) {
+            if (task.future != null) task.future.cancel(true);
+            Runnable cancel;
+            synchronized (PhoneTasks.class) { cancel = task.cancel; task.cancel = null; }
+            if (cancel != null) MAIN.post(cancel);
+        }
     }
 
     static void cancel(long id) {
