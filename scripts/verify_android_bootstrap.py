@@ -26,9 +26,12 @@ def listener_set(text):
 
 
 def verify_help(commands, post):
-    require(all(command in commands for command in ('allow_listener', 'disallow_listener', 'post')),
-            'This Android image does not advertise scoped listener access and notification posting')
-    require('--title' in post and 'TAG' in post and 'TEXT' in post,
+    require(all(re.search(r'(?m)^\s*' + command + r'\s+COMPONENT\s+\[user_id\b', commands)
+                for command in ('allow_listener', 'disallow_listener')),
+            'This Android image does not advertise scoped listener component/user operands')
+    require(re.search(r'(?im)^\s*usage:\s*cmd\s+notification\s+post\s+\[flags\]\s+(?:<tag>|tag)\s+(?:<text>|text)\s*$', post)
+            and re.search(r'(?m)^\s*-t\|--title\s+<text>\s*$', post)
+            and re.search(r'(?m)^\s*-h\|--help\s*$', post),
             'This Android image does not advertise the expected notification post syntax')
 
 

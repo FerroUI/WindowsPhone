@@ -9,6 +9,22 @@ from verify_android_ui_test import NONCE, mounted
 
 TITLE, BODY = 'FerroUI-bootstrap-' + NONCE, 'Native-listener-' + NONCE
 LISTENER = 'org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneNotificationListener'
+# Relevant lines from the unmodified API36 emulator capture in run45273540227.
+COMMAND_HELP = '''usage: cmd notification SUBCMD [args]
+
+SUBCMDs:
+  allow_listener COMPONENT [user_id (current user if not specified)]
+  disallow_listener COMPONENT [user_id (current user if not specified)]
+  post [--help | flags] TAG TEXT
+'''
+POST_HELP = '''usage: cmd notification post [flags] <tag> <text>
+
+flags:
+  -h|--help
+  -v|--verbose
+  -t|--title <text>
+  -i|--icon <iconspec>
+'''
 
 
 def ready():
@@ -123,9 +139,20 @@ class BootstrapContract(unittest.TestCase):
             with self.assertRaises(ValueError): listener_set(value)
 
     def test_observed_shell_help_is_required(self):
-        verify_help('allow_listener COMPONENT\ndisallow_listener COMPONENT\npost', '-t|--title text TAG TEXT')
-        with self.assertRaises(ValueError): verify_help('post', '--title TAG TEXT')
-        with self.assertRaises(ValueError): verify_help('allow_listener disallow_listener post', 'unknown flags')
+        verify_help(COMMAND_HELP, POST_HELP)
+        verify_help(COMMAND_HELP, POST_HELP.replace('<tag> <text>', 'TAG TEXT'))
+        with self.assertRaises(ValueError): verify_help('post', POST_HELP)
+        with self.assertRaises(ValueError): verify_help(COMMAND_HELP, 'unknown flags')
+
+    def test_actual_android36_help_requires_every_used_operand_and_option(self):
+        for fragment in ['allow_listener COMPONENT', 'disallow_listener COMPONENT', '[user_id']:
+            with self.subTest(fragment=fragment), self.assertRaises(ValueError):
+                verify_help(COMMAND_HELP.replace(fragment, ''), POST_HELP)
+        for fragment in ['<tag>', '<text>', '-t|--title', '-h|--help']:
+            with self.subTest(fragment=fragment), self.assertRaises(ValueError):
+                verify_help(COMMAND_HELP, POST_HELP.replace(fragment, ''))
+        with self.assertRaises(ValueError):
+            verify_help(COMMAND_HELP, POST_HELP.replace('cmd notification post', 'cmd different post'))
 
 
 if __name__ == '__main__':
