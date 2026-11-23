@@ -35,6 +35,8 @@ pub fn view(context: AppContext) -> Element {
     let tick = state.clock.get();
     let now = if tick == 0 { context.vm.now() } else { tick };
     let game = &save.game;
+    let elapsed = game.elapsed(now);
+    let remaining = game.remaining();
     let stats = save.stats[game.difficulty.index()];
     let outcome = match game.status {
         Status::Ready => "choose your first square",
@@ -46,12 +48,12 @@ pub fn view(context: AppContext) -> Element {
     let body = rsx! {StackPanel {margin:20.0, spacing:16.0,
         {text("minesweeper", 40.0)} {muted(game.difficulty.label(), 18.0)}
         Grid {column_definitions:"*,*,*", column_spacing:12.0,
-            StackPanel {{text(&game.remaining().to_string(), 30.0)} {muted("mines left", 15.0)}}
-            StackPanel {Grid.column:1, {text(&game.moves.to_string(), 30.0)} {muted("moves", 15.0)}}
+            StackPanel {{text(&remaining.to_string(), 30.0)} {muted(if remaining == 1 {"mine left"} else {"mines left"}, 15.0)}}
+            StackPanel {Grid.column:1, {text(&game.moves.to_string(), 30.0)} {muted(if game.moves == 1 {"move"} else {"moves"}, 15.0)}}
             StackPanel {Grid.column:2,
-                TextBlock {name:"MinesweeperSeconds", text:game.elapsed(now).to_string(), font_size:30.0,
+                TextBlock {name:"MinesweeperSeconds", text:elapsed.to_string(), font_size:30.0,
                     font_weight:ferroui_base::media::FontWeight::Light}
-                {muted("seconds", 15.0)}}
+                {muted(if elapsed == 1 {"second"} else {"seconds"}, 15.0)}}
         }
         {text(outcome, 22.0)}
         {board::view(&context, game, flag_mode)}
