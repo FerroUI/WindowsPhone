@@ -1,6 +1,7 @@
 //! Portable Windows Phone application models, persistence and deterministic algorithms.
 mod action;
 mod alarms;
+mod app_data;
 mod apps;
 mod browser;
 mod calculator;
@@ -18,6 +19,7 @@ mod tiles;
 
 pub use action::*;
 pub use alarms::*;
+pub use app_data::*;
 pub use apps::*;
 pub use browser::*;
 pub use calculator::*;

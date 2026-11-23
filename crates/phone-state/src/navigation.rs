@@ -1,6 +1,12 @@
 use crate::PhoneViewModel;
 use phone_domain::{AppId, Route};
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum RecentApp {
+    Builtin(AppId),
+    Extension(String),
+}
+
 impl PhoneViewModel {
     pub fn navigate(&self, route: Route) {
         if !self.valid_route(&route) {
@@ -51,6 +57,38 @@ impl PhoneViewModel {
             self.notify();
         }
     }
+    pub fn recent_entries(&self) -> Vec<RecentApp> {
+        self.recent_order.borrow().clone()
+    }
+    pub fn resume_extension(&self, app: &str) {
+        let route = self
+            .extension_recent
+            .borrow()
+            .iter()
+            .find(|(id, _)| id == app)
+            .map(|(_, route)| route.clone())
+            .filter(|route| self.valid_route(route))
+            .unwrap_or(Route::Extension {
+                app: app.into(),
+                path: String::new(),
+            });
+        self.navigate(route);
+    }
+    pub fn close_extension(&self, app: &str) {
+        self.extension_recent
+            .borrow_mut()
+            .retain(|(id, _)| id != app);
+        self.recent_order
+            .borrow_mut()
+            .retain(|entry| !matches!(entry,RecentApp::Extension(id) if id==app));
+        self.history
+            .borrow_mut()
+            .retain(|route| !matches!(route,Route::Extension{app:id,..} if id==app));
+        if matches!(self.route(),Route::Extension{app:id,..} if id==app) {
+            *self.current_route.borrow_mut() = Route::Start;
+        }
+        self.notify();
+    }
     pub fn recent_apps(&self) -> Vec<AppId> {
         self.recent.borrow().iter().map(|(app, _)| *app).collect()
     }
@@ -66,6 +104,9 @@ impl PhoneViewModel {
         self.navigate(route);
     }
     pub fn close_app(&self, app: AppId) {
+        self.recent_order
+            .borrow_mut()
+            .retain(|entry| *entry != RecentApp::Builtin(app));
         self.recent.borrow_mut().retain(|(id, _)| *id != app);
         self.history
             .borrow_mut()
@@ -79,16 +120,37 @@ impl PhoneViewModel {
         if !self.valid_route(route) {
             return;
         }
+        if let Route::Extension { app, .. } = route {
+            let mut recent = self.extension_recent.borrow_mut();
+            recent.retain(|(id, _)| id != app);
+            recent.insert(0, (app.clone(), route.clone()));
+            recent.truncate(12);
+            self.order_recent(RecentApp::Extension(app.clone()));
+        }
         if let Some(app) = route.app() {
+            self.order_recent(RecentApp::Builtin(app));
             let mut recent = self.recent.borrow_mut();
             recent.retain(|(id, _)| *id != app);
             recent.insert(0, (app, route.clone()));
             recent.truncate(12);
         }
     }
+    fn order_recent(&self, app: RecentApp) {
+        let mut order = self.recent_order.borrow_mut();
+        order.retain(|entry| *entry != app);
+        order.insert(0, app);
+        order.truncate(12);
+    }
     /// Deleting a detail preserves the app in recents, but resumes its hub.
     /// Uninstalled apps and deleted details cannot remain in the Back journal.
     pub(crate) fn repair_navigation(&self) {
+        self.extension_recent
+            .borrow_mut()
+            .retain(|(_, route)| self.valid_route(route));
+        self.recent_order.borrow_mut().retain(|entry| match entry {
+            RecentApp::Builtin(app) => self.valid_route(&Route::App(*app)),
+            RecentApp::Extension(id) => self.extension_enabled(id),
+        });
         self.history
             .borrow_mut()
             .retain(|route| self.valid_route(route));
@@ -112,6 +174,11 @@ impl PhoneViewModel {
             return false;
         }
         match route {
+            Route::Extension { app, path } => {
+                self.registered_apps.borrow().contains(app)
+                    && !data.disabled_extensions.contains(app)
+                    && phone_domain::validate_app_path(path).is_ok()
+            }
             Route::Conversation(id) => data.conversation(*id).is_some(),
             Route::Contact(id) => data.contact(*id).is_some(),
             Route::Mail(id) => data.mail(*id).is_some(),

@@ -2,7 +2,7 @@
 
 A Windows Phone 8.1 Update experience built with **FerroUI, Rust and declarative `rsx!` views**. The Start screen, apps, controls, navigation and data model run in FerroUI; portable host adapters supply storage, files, power observations and platform integrations.
 
-[Open the app](https://ferroui.com/WindowsPhone/) · [Original references](docs/reference.md) · [Architecture](docs/architecture.md) · [Host integration](docs/host-integration.md) · [Feature and fidelity status](docs/parity.md)
+[Open the app](https://ferroui.com/WindowsPhone/) · [App SDK](docs/sdk.md) · [Original references](docs/reference.md) · [Architecture](docs/architecture.md) · [Host integration](docs/host-integration.md) · [Feature and fidelity status](docs/parity.md)
 
 The reference release is **Windows Phone 8.1 Update (2014)**, including live folders and the original `system` / `applications` Settings pivots. This is a working app recreation, not an operating system or an emulator for XAP/APPX applications. **Complete visual and feature parity has not been established.** The [parity document](docs/parity.md) records the implemented workflows and the remaining differences.
 
@@ -24,11 +24,12 @@ Earlier `6a7cf14` reference captures show [Calendar editing](docs/screenshots/ca
 - **Messaging and Outlook:** search local threads and mail, select rows from the left edge or a held item, and apply bulk actions. Messaging includes contact selection, unknown-number contact creation, drafts, and copy/forward/delete commands on individual messages. Outlook includes folders, all/unread/flagged views, bulk read/flag changes, deleted items and restore. Compose actions explicitly open the host's messaging or email app; local drafts do not claim delivery.
 - **Calendar:** day, week, month and year navigation; inline month appointments and an hourly day view with separate columns for overlapping appointments; native date/time controls; all-day appointments, duration, reminders, status and notes; daily/weekday/weekly/biweekly/monthly/yearly repeats with an end date and individual-occurrence editing or deletion. Start and lock details use the same occurrence engine. Import/export supported local-time iCalendar files and share a saved appointment or series.
 - **Alarms and reminders:** native time/name/repeat/snooze editing, one-time and weekday alarms, foreground alert screens, configurable snooze and dismissal, and the original two-minute alarm snooze on Back. A Calendar reminder opens its occurrence. The browser plays a synthetic tone using the saved ringer level when browser audio is available; permitted foreground alert banners can also appear through device notifications. Delivery requires the app to remain running.
-- **Personal apps:** contacts and favorites, atomic vCard imports, contact-file copy/sharing, call history, notes, and a calculator.
+- **Personal apps:** contacts and favorites, atomic vCard imports, contact-file copy/sharing, call history, notes, and a calculator. OneNote imports bounded UTF-8 TXT/Markdown files through the shared SDK file chooser.
 - **Office and Files:** a persistent document library with folders, search, sorting, multi-selection, atomic file copy/move, rename, properties, file sharing and secondary Start tiles. New creates Word or Excel documents; existing supported PowerPoint presentations offer text and speaker-note editing. Excel includes typed range selection, five AutoSum operations, workbook find, range clear and bounded single-key value sorting. Native editors share real DOCX/XLSX/PPTX import/export; UTF-8 TXT and CSV imports are supported too. Complex unsupported Office structures are rejected, and imported supported OOXML files export or share as explicitly named mobile copies.
-- **Media:** import photos, browse the Camera Roll, select favorites, zoom, share, and delete; capture from the camera; import audio and video and play them through browser media APIs with OS Media Session controls. Native desktop imports store app-owned media and hand playback to the default media app.
+- **Media:** import photos, browse the Camera Roll, select favorites, zoom, share, and delete; capture from the camera; import audio and video and play them through browser media APIs with OS Media Session controls. The desktop host supplies embedded FerroUI media/camera providers, native texture surfaces, and a separate foreground alarm player. Availability depends on platform permissions, renderer and installed codecs; external-player handoff remains an explicit command.
 - **Web and services:** native browser tabs with independent Back/Forward journals, frequent sites and history, editable/pinnable favorites, and a configurable address-bar shortcut. Web search, OpenStreetMap handoff, current weather after location permission, local Cortana-style search and commands, and online-document links use explicit host integrations.
-- **Games and Store:** a playable tic-tac-toe game and management of the included app collection. The original cloud Store and Xbox services are not connected.
+- **Games and Store:** independent Tic tac toe and Minesweeper SDK apps with validated resumable games and persisted results. Tic tac toe offers a perfect phone opponent, two-player mode and unfinished-turn undo. Minesweeper offers three difficulties, safe opening areas, flags, chord reveal and best times. Games discovers registered game apps; Store enables, disables, pins and resets linked SDK apps. The original cloud Store and Xbox services are not connected.
+- **App SDK:** immutable manifest registration, independent app routes, lifecycle/input hooks, typed app-owned session state, bounded JSON storage, data activation, custom live tiles and a cancellable typed host file picker. All built-in apps and the three Office editors live in separate crates. A scaffolder and compiled example show how to add another app without editing the system shell.
 - **Persistence:** phone data stays in its host profile; browser media uses IndexedDB and desktop media uses app-owned files. Export and restore compatible JSON/media backups, including both wallpapers. Restore validates and saves before replacing live state; native restore preserves a recovery snapshot. The app includes a manifest and service worker for installation and offline shell use.
 
 The first run contains fictional example contacts, messages, mail, notes and photos so the phone has something useful to explore. These are local sample data, not a signed-in account or a simulated live inbox.
@@ -95,19 +96,29 @@ python3 -m http.server 8080 --directory target/browser/phone-browser
 cargo run --release -p phone-desktop
 ```
 
-The desktop host uses the same shell, views, state and theme. Native FerroUI pickers support Office documents, vCard contacts, iCalendar appointments, photos, music, video and compatible media backups. App-owned images load through the shared cache; audio/video opens in the system's default player. Sharing personal-information or media files saves a real attachment copy. Restoring a backup preserves a recovery snapshot and requires a successful save before replacing live state. Windows, macOS and Linux power adapters report optional battery observations. Live camera/location, system notifications, embedded playback and alarm sound/vibration remain outstanding. See the [platform matrix and ownership details](docs/host-integration.md).
+The desktop host uses the same shell, app crates, state and theme. Native FerroUI pickers support Office documents, vCard contacts, iCalendar appointments, photos, music, video, SDK file selections and compatible media backups. Embedded audio/video and camera use FerroUI's platform media providers. Native adapters supply one-shot location, explicit weather requests, device notification banners and foreground alarm audio. Sharing saves actual attachment copies through native pickers; it does not confirm delivery to another app. Restoring a backup preserves a recovery snapshot and requires a successful save before replacing live state. Windows, macOS and Linux power adapters report optional battery observations.
+
+See [native prerequisites and macOS packaging](crates/phone-desktop/platform/README.md), including Linux GStreamer/EGL/PipeWire requirements and the macOS `.app` bundle needed for consent. Desktop haptics, background alarm wake-up and OS media-key sessions remain outstanding. The [platform matrix](docs/host-integration.md) separates implemented adapters from device verification.
+
+### Build an SDK app
+
+```bash
+python scripts/new-phone-app.py phone-app-counter --title Counter --id example.counter
+cargo check -p phone-app-counter
+```
+
+Add the generated crate as a dependency of your composition, then pass its registration to `phone_ui::create_view_with_apps(vm, vec![phone_app_counter::registration()])`. The checked-in `phone-app-sdk-example` demonstrates this architecture without adding the example to the default app list. The [SDK guide](docs/sdk.md) covers declarative views, storage schemas, lifecycle, capability declarations, file tasks and live tiles.
 
 ### Checks
 
 ```bash
 cargo test --locked -p phone-host -p phone-domain -p phone-state
-cargo check --locked -p phone-ui
+cargo test --locked -p phone-sdk -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote
+cargo check --locked -p phone-desktop -p phone-app-sdk-example
 node --test scripts/*.test.mjs
-rustc --edition=2021 --test crates/phone-ui/src/apps/games/logic.rs -o target/game-tests
-target/game-tests
 ```
 
-The pure game test explores every human move sequence against the phone's minimax player. The domain and state tests cover persistent-data validation, tile layout, navigation and mutations. Focused settings and communication cases exercise old-profile defaults, preference normalization, atomic selections, one persistence write per bulk change, related-notification cleanup, restore/permanent deletion and nonpersistent host-environment updates. Office cases cover supported OOXML roundtrips, bounded parsing, formula evaluation, atomic library changes and document activation. These checks do not establish pixel parity or validate every physical device.
+The Tic tac toe solver test explores every human move sequence against the phone's minimax player. Minesweeper tests cover safe openings, expansion, flags and restored-board validation. SDK tests cover stable reactive ownership, lifecycle ordering, capability refusal, bounded storage, file-task cancellation and stale completion after restore. Domain and state tests cover persistent-data validation, tile layout, navigation and mutations. Office cases cover supported OOXML roundtrips, bounded parsing, formula evaluation, atomic library changes and document activation. These checks do not establish pixel parity or validate every physical device.
 
 With Chromium available, run the browser interaction and screenshot suite against a packaged build:
 
@@ -127,9 +138,11 @@ Previously published runtime [`528c982`](https://github.com/FerroUI/WindowsPhone
 
 ## GitHub Pages
 
-The `Build and publish` workflow runs on application changes pushed to `main` and can also be started manually. It uses the pinned FerroUI browser toolchain, restores dependency caches, runs focused state/host checks, builds one browser target, validates the packaged module graph and first native frame, uploads the static app, and deploys it to GitHub Pages. Documentation-only pushes do not rebuild. There is no separate lint workflow or platform matrix.
+The `Build and publish` workflow runs on application changes pushed to `main` and can also be started manually. It uses the pinned FerroUI browser toolchain, restores dependency caches, runs focused state/host checks, builds one browser target, validates the packaged module graph and first native frame, uploads the static app, and deploys it to GitHub Pages. Documentation-only pushes do not rebuild. Routine publication has no platform matrix or separate lint workflow.
 
 Rendered desktop/touch smoke checks and their screenshot artifact are opt-in: enable `verify_ui` for a manual run, or include `[verify-ui]` in the pushed commit message. This keeps routine publication lean while retaining an explicit visual verification path.
+
+Native adapter compilation is also opt-in: `verify_native` runs Windows, macOS and Linux host checks without rebuilding Pages. A `[verify-native]` push marker adds those independent checks to a release run. The Linux check installs the media development libraries so it compiles the full native bridges. These jobs compile native adapters and run portable host tests; they do not open permission dialogs or exercise physical hardware.
 
 For test or documentation changes, a manual run can set `reuse_run` to a completed main-branch run with a `compiled-app` artifact. The workflow checks the source repository, workflow, commit and runtime input trees before downloading that artifact. Reuse still runs host checks, module-link validation and the full browser suite before publication; changes to application sources or the FerroUI pin require a normal build.
 
@@ -150,9 +163,13 @@ The successful deployment run is the source of truth for publication; a source c
 | `phone-state` | ReactiveUI view model and commands, navigation journal, DynamicData projections, persistence boundary. |
 | `phone-controls` | Trimmed WinUI base, Metro control templates, palette, typography, vector icons and reusable app bars. |
 | `phone-fonts` | Embedded Microsoft Selawik font collection, four weights, licensing and shared host registration. |
-| `phone-ui` | Shared `rsx!` shell and app views, session state, gestures, images and host-facing UI hooks. |
+| `phone-sdk` | Manifest/registry contracts, contexts, typed session state, bounded app storage, lifecycle hooks, typed host tasks and reusable page helpers. |
+| `phone-system` | Shared `rsx!` system shell, Start/app list, lock screen, notifications, hardware panels, previews and gestures. |
+| `phone-alarm-service` | Reusable foreground alarm/reminder scheduling and alert/editor state. |
+| `crates/apps/phone-app-*` | Separate built-in apps, Word/Excel/PowerPoint editors, shared app support, independent games and SDK example. |
+| `phone-ui` | Default app composition and compatible host-facing facade; no embedded app implementations. |
 | `phone-browser` | FerroUI browser startup, WebAssembly exports, browser services and static/PWA assets. |
-| `phone-desktop` | Native startup, atomic persistence/recovery, clipboard/URI handoff, Office/PIM/media/backup pickers, image loading, external media playback and power observations. |
+| `phone-desktop` | Native startup, atomic persistence/recovery, pickers and document copies, embedded media/camera surfaces, foreground audio, location/weather, notifications and power observations. |
 
 Read [architecture](docs/architecture.md) for the state, rendering and service boundaries, and [parity](docs/parity.md) before assuming original phone capabilities are available.
 

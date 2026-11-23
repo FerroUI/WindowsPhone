@@ -4,20 +4,35 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 publish = false
-build = "build.rs"
 
 [dependencies]
-phone-domain.workspace = true
+phone-sdk.workspace = true
+phone-system.workspace = true
 phone-state.workspace = true
-phone-controls.workspace = true
 ferroui-base.workspace = true
 ferroui-controls.workspace = true
-ferroui-view.workspace = true
-ferroui-reactive.workspace = true
-ferroui-reactiveui.workspace = true
-ferroui-dynamic-data.workspace = true
-chrono.workspace = true
-serde_json.workspace = true
-
-[build-dependencies]
-ferroui-build.workspace = true
+phone-app-alarms.workspace = true
+phone-app-battery-saver.workspace = true
+phone-app-browser.workspace = true
+phone-app-calculator.workspace = true
+phone-app-calendar.workspace = true
+phone-app-camera.workspace = true
+phone-app-cortana.workspace = true
+phone-app-data-sense.workspace = true
+phone-app-files.workspace = true
+phone-app-games.workspace = true
+phone-app-maps.workspace = true
+phone-app-messaging.workspace = true
+phone-app-minesweeper.workspace = true
+phone-app-music.workspace = true
+phone-app-office.workspace = true
+phone-app-onenote.workspace = true
+phone-app-outlook.workspace = true
+phone-app-people.workspace = true
+phone-app-phone.workspace = true
+phone-app-photos.workspace = true
+phone-app-settings.workspace = true
+phone-app-store.workspace = true
+phone-app-tic-tac-toe.workspace = true
+phone-app-video.workspace = true
+phone-app-weather.workspace = true

@@ -11,6 +11,38 @@ pub(crate) fn mutate_tiles(data: &mut PhoneData, action: Action) -> Result<bool,
             data.tiles.push(Tile::new(id, app, TileSize::Medium));
             Ok(true)
         }
+        Action::PinApp { app, path, title } => {
+            validate_app_link(&app, &path, &title)?;
+            if data.disabled_extensions.contains(&app) {
+                return Err("Enable this app before pinning it.".into());
+            }
+            if data
+                .app_links
+                .iter()
+                .any(|link| link.app == app && link.path == path)
+            {
+                return Ok(false);
+            }
+            ensure_capacity(data)?;
+            if data.app_links.len() >= 512 || data.next_id > Id::MAX - 3 {
+                return Err("The application link limit has been reached.".into());
+            }
+            let link_id = data.allocate_id();
+            let tile_id = data.allocate_id();
+            data.app_links.push(AppLink {
+                id: link_id,
+                app,
+                path,
+                title: title.trim().into(),
+            });
+            let title = data.app_links.last().unwrap().title.clone();
+            data.tiles.push(Tile::secondary(
+                tile_id,
+                TileTarget::AppLink(link_id),
+                title,
+            ));
+            Ok(true)
+        }
         Action::PinTarget(target) => {
             if data.target_is_pinned(target) {
                 return Ok(false);

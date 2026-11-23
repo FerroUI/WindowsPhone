@@ -1,0 +1,25 @@
+[package]
+name = "phone-app-cortana"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+build = "build.rs"
+
+[dependencies]
+phone-sdk.workspace = true
+phone-domain.workspace = true
+phone-state.workspace = true
+phone-controls.workspace = true
+ferroui-base.workspace = true
+ferroui-controls.workspace = true
+ferroui-view.workspace = true
+ferroui-reactive.workspace = true
+ferroui-reactiveui.workspace = true
+ferroui-dynamic-data.workspace = true
+chrono.workspace = true
+serde_json.workspace = true
+phone-app-support.workspace = true
+
+[build-dependencies]
+ferroui-build.workspace = true

@@ -37,6 +37,26 @@ impl PhoneViewModel {
             return;
         }
         match tile.target {
+            Some(TileTarget::AppLink(id)) => {
+                let link = self
+                    .data()
+                    .app_links
+                    .iter()
+                    .find(|link| link.id == id)
+                    .cloned();
+                if let Some(link) = link {
+                    if self.extension_enabled(&link.app) {
+                        self.navigate(Route::Extension {
+                            app: link.app,
+                            path: link.path,
+                        });
+                    } else {
+                        self.set_status(
+                            "This app is unavailable or disabled in this build.".into(),
+                        );
+                    }
+                }
+            }
             Some(TileTarget::Contact(id)) => self.navigate(Route::Contact(id)),
             Some(TileTarget::Note(id)) => self.navigate(Route::Note(id)),
             Some(TileTarget::Document(id)) => self.navigate(Route::Document(id)),

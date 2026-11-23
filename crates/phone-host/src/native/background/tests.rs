@@ -88,3 +88,18 @@ fn dropping_queued_task_cancels_work_without_poisoning_worker() {
     finish(run(|| Ok(()))).unwrap();
     assert!(!called.load(Ordering::Acquire));
 }
+
+#[test]
+fn a_pending_system_prompt_does_not_block_file_work() {
+    let (started, running) = mpsc::channel();
+    let (release, wait) = mpsc::channel();
+    let system = run_system(move || {
+        started.send(()).unwrap();
+        wait.recv().unwrap();
+        Ok(())
+    });
+    running.recv_timeout(Duration::from_secs(3)).unwrap();
+    assert_eq!(finish(run(|| Ok(42))).unwrap(), 42);
+    release.send(()).unwrap();
+    finish(system).unwrap();
+}

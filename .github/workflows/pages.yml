@@ -9,6 +9,10 @@ on:
         description: Capture app screens and exercise desktop/touch interactions
         type: boolean
         default: false
+      verify_native:
+        description: Check Windows, macOS and Linux native adapters only (no Pages rebuild)
+        type: boolean
+        default: false
       reuse_run:
         description: Reverify and publish a matching compiled-app from a completed main run
         type: string
@@ -23,7 +27,7 @@ permissions:
   pages: write
   id-token: write
 concurrency:
-  group: windows-phone-pages
+  group: windows-phone-${{ inputs.verify_native && 'native-check' || 'pages' }}
   cancel-in-progress: true
 env:
   CARGO_TERM_COLOR: always
@@ -33,6 +37,7 @@ env:
   CARGO_PROFILE_TEST_DEBUG: 0
 jobs:
   build:
+    if: github.event_name != 'workflow_dispatch' || !inputs.verify_native
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -59,7 +64,7 @@ jobs:
           echo "rust=$(sed -n 's/^RUST_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
           echo "bindgen=$(sed -n 's/^wasm-bindgen = "=\(.*\)"$/\1/p' FerroUI/Cargo.toml)" >> "$GITHUB_OUTPUT"
           echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          echo "build=${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/*/Cargo.toml', '.cargo/config.toml', 'scripts/build-browser.sh', 'scripts/ci-framework-mtimes.py') }}-${CARGO_PROFILE_BROWSER_CODEGEN_UNITS}-${CARGO_PROFILE_TEST_DEBUG}-${CARGO_INCREMENTAL}" >> "$GITHUB_OUTPUT"
+          echo "build=${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', '.cargo/config.toml', 'scripts/build-browser.sh', 'scripts/ci-framework-mtimes.py') }}-${CARGO_PROFILE_BROWSER_CODEGEN_UNITS}-${CARGO_PROFILE_TEST_DEBUG}-${CARGO_INCREMENTAL}" >> "$GITHUB_OUTPUT"
       - uses: actions/cache/restore@v4
         if: steps.reuse.outputs.artifact_id == ''
         id: tools
@@ -103,6 +108,9 @@ jobs:
       - name: Verify state
         if: steps.reuse.outputs.artifact_id == ''
         run: cargo test --locked -p phone-host -p phone-domain -p phone-state
+      - name: Verify SDK and game contracts
+        if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        run: cargo test --locked -p phone-sdk -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-sdk-example
       - name: Verify host boundaries
         run: node --test scripts/*.test.mjs
       - name: Build Windows Phone
@@ -169,3 +177,39 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+  native:
+    if: (github.event_name == 'workflow_dispatch' && inputs.verify_native) || contains(github.event.head_commit.message, '[verify-native]')
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install the pinned Rust toolchain
+        run: |
+          PHONE_NATIVE_RUST=$(sed -n 's/^channel = "\(.*\)"/\1/p' rust-toolchain.toml)
+          rustup toolchain install "$PHONE_NATIVE_RUST" --profile minimal
+          echo "RUSTUP_TOOLCHAIN=$PHONE_NATIVE_RUST" >> "$GITHUB_ENV"
+      - name: Install Linux media development libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pkg-config libfontconfig1-dev libfreetype-dev libegl-dev libgles-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libglib2.0-dev libpipewire-0.3-dev
+      - uses: actions/cache@v4
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: phone-native-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'rust-toolchain.toml') }}
+      - name: Verify portable host boundaries
+        run: cargo test --locked -p phone-host
+      - name: Check the complete native host
+        run: cargo check --locked -p phone-desktop

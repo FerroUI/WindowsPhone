@@ -7,6 +7,11 @@ pub enum Route {
     Start,
     Apps,
     App(AppId),
+    /// SDK app route; identity is validated against the host registry.
+    Extension {
+        app: String,
+        path: String,
+    },
     Conversation(Id),
     Contact(Id),
     Mail(Id),

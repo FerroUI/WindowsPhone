@@ -27,6 +27,9 @@ pub struct PhoneData {
     pub bookmarks: Vec<Bookmark>,
     pub tracks: Vec<MediaTrack>,
     pub installed: Vec<AppId>,
+    pub app_links: Vec<AppLink>,
+    pub disabled_extensions: std::collections::BTreeSet<String>,
+    pub app_data: std::collections::BTreeMap<String, serde_json::Value>,
 }
 impl Default for PhoneData {
     fn default() -> Self {
@@ -50,6 +53,9 @@ impl Default for PhoneData {
             bookmarks: Vec::new(),
             tracks: Vec::new(),
             installed: AppId::ALL.to_vec(),
+            app_data: Default::default(),
+            app_links: Vec::new(),
+            disabled_extensions: Default::default(),
         }
     }
 }
@@ -128,6 +134,8 @@ impl PhoneData {
     }
     /// Validate before replacing an existing document. Unknown future versions are never rewritten.
     pub fn normalize(&mut self) -> Result<(), String> {
+        crate::app_data::validate_app_data(&self.app_data)?;
+        crate::app_data::validate_app_links(&self.app_links, &self.disabled_extensions)?;
         if self.version != DATA_VERSION {
             return Err(format!(
                 "Unsupported phone backup version {}.",
@@ -150,6 +158,7 @@ impl PhoneData {
             }};
         }
         validate_ids!(self.tiles, "tiles");
+        validate_ids!(self.app_links, "application links");
         validate_ids!(self.contacts, "contacts");
         validate_ids!(self.conversations, "conversations");
         validate_ids!(self.mail, "mail");

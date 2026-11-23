@@ -2,8 +2,11 @@
 pub mod background;
 mod files;
 mod launch;
+pub mod location;
+pub mod notifications;
 mod paths;
 mod power;
+pub mod weather;
 
 pub use files::atomic_write;
 pub use launch::open_external;

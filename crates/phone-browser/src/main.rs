@@ -5,6 +5,7 @@ mod exports;
 mod host;
 mod inspection;
 mod pim;
+mod sdk_tasks;
 use ferroui_base::media::FontManagerOptions;
 use ferroui_browser::{BrowserAccessibilityMode, BrowserAppBuilder, BrowserPlatformOptions};
 use ferroui_controls::AppBuilder;

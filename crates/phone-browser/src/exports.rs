@@ -169,3 +169,12 @@ pub fn host_state() -> String {
         })
         .unwrap_or_else(|| "{}".into())
 }
+
+#[wasm_bindgen(js_name=launchApp)]
+pub fn launch_app(id: &str, path: &str) -> bool {
+    crate::app::model().is_some_and(|vm| phone_ui::launch_app(&vm, id, path))
+}
+#[wasm_bindgen(js_name=hostVisibility)]
+pub fn host_visibility(visible: bool) {
+    phone_ui::host_visibility(visible);
+}

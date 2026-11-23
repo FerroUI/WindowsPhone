@@ -9,6 +9,7 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
         | Action::DeleteMessage { .. }) => crate::communication::mutate(data, action),
         action @ (Action::Pin(_)
         | Action::PinTarget(_)
+        | Action::PinApp { .. }
         | Action::Unpin(_)
         | Action::ResizeTile(_)
         | Action::SetTileSize(..)
@@ -334,6 +335,22 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
                 data.notifications.drain(..data.notifications.len() - 100);
             }
             Ok(changed)
+        }
+        Action::SetExtensionEnabled { app, enabled } => {
+            validate_app_key(&app)?;
+            if enabled {
+                return Ok(data.disabled_extensions.remove(&app));
+            }
+            if data.disabled_extensions.contains(&app) {
+                return Ok(false);
+            }
+            if data.disabled_extensions.len() >= MAX_APP_NAMESPACES {
+                return Err("Too many disabled apps.".into());
+            }
+            data.disabled_extensions.insert(app.clone());
+            data.app_links.retain(|link| link.app != app);
+            // The caller's normal cleanup removes orphaned top-level and folder tiles.
+            Ok(true)
         }
         Action::Install(app) => {
             if data.installed.contains(&app) {

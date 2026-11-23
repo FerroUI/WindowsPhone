@@ -1,0 +1,18 @@
+[package]
+name = "phone-app-tic-tac-toe"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+build = "build.rs"
+
+[dependencies]
+phone-sdk.workspace = true
+phone-controls.workspace = true
+ferroui-base.workspace = true
+ferroui-controls.workspace = true
+ferroui-view.workspace = true
+serde = { workspace = true, features = ["derive"] }
+
+[build-dependencies]
+ferroui-build.workspace = true

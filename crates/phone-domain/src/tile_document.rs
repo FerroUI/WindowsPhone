@@ -27,6 +27,11 @@ impl PhoneData {
     }
     pub fn tile_target_label(&self, target: TileTarget) -> Option<String> {
         match target {
+            TileTarget::AppLink(id) => self
+                .app_links
+                .iter()
+                .find(|link| link.id == id)
+                .map(|link| link.title.clone()),
             TileTarget::Contact(id) => self.contact(id).map(|contact| contact.name.clone()),
             TileTarget::Note(id) => self.note(id).map(|note| note.title.clone()),
             TileTarget::Document(id) => self.document(id).map(|document| document.name.clone()),
@@ -101,6 +106,20 @@ impl PhoneData {
                 }
             }
         }
+        let referenced = self
+            .all_tiles()
+            .filter_map(|tile| match tile.target {
+                Some(TileTarget::AppLink(id)) => Some(id),
+                _ => None,
+            })
+            .collect::<HashSet<_>>();
+        if self
+            .app_links
+            .iter()
+            .any(|link| !referenced.contains(&link.id))
+        {
+            return Err("An application link is not referenced by a Start tile.".into());
+        }
         Ok(())
     }
     /// Keep secondary labels current and discard shortcuts only when their
@@ -129,7 +148,7 @@ impl PhoneData {
                     return false;
                 }
             }
-            installed.contains(&tile.app)
+            matches!(tile.target, Some(TileTarget::AppLink(_))) || installed.contains(&tile.app)
         }
         self.tiles.retain_mut(|tile| {
             if tile.is_folder() {
@@ -146,6 +165,14 @@ impl PhoneData {
             }
         });
         self.tidy_folders();
+        let used = self
+            .all_tiles()
+            .filter_map(|tile| match tile.target {
+                Some(TileTarget::AppLink(id)) => Some(id),
+                _ => None,
+            })
+            .collect::<HashSet<_>>();
+        self.app_links.retain(|link| used.contains(&link.id));
     }
     pub fn tidy_folders(&mut self) {
         let old = std::mem::take(&mut self.tiles);

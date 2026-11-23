@@ -3,9 +3,14 @@ use phone_host::native::background;
 mod backup;
 mod documents;
 mod environment;
+mod file_picker;
+mod location;
 mod media_files;
+mod native_media;
+mod notifications;
 mod picker_io;
 mod pim;
+mod platform;
 mod services;
 mod storage;
 use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
@@ -17,8 +22,8 @@ use phone_state::{HostServices, PhoneViewModel};
 use std::rc::Rc;
 
 fn main() {
-    AppBuilder::configure::<Application>()
-        .use_platform_detect()
+    let builder = AppBuilder::configure::<Application>().use_platform_detect();
+    platform::configure(builder)
         .with_inter_font()
         .with_phone_font()
         .start(
@@ -59,6 +64,29 @@ fn main() {
                     },
                 );
                 let window = Window::new();
+                let activated_vm = Rc::downgrade(&vm);
+                window
+                    .activated(move || {
+                        if let Some(vm) = activated_vm.upgrade() {
+                            notifications::refresh(&vm, false);
+                        }
+                    })
+                    .detach();
+                let native_media = native_media::NativeMedia::install(&vm, &window);
+                let closing_media = Rc::downgrade(&native_media);
+                let closing_window = window.downgrade();
+                window
+                    .closing(move |_| {
+                        if let Some(media) = closing_media.upgrade() {
+                            media.stop_all();
+                        }
+                        if let Some(window) = closing_window.upgrade() {
+                            phone_host::native::notifications::close(notifications::window_handle(
+                                &window,
+                            ));
+                        }
+                    })
+                    .detach();
                 let host_vm = Rc::downgrade(&vm);
                 let host_window = window.downgrade();
                 vm.set_services(HostServices {
@@ -79,6 +107,7 @@ fn main() {
                 vm.set_viewport(430.0, 860.0);
                 media_files::install_image_loader();
                 window.set_content(Some(Control::boxed(&phone_ui::create_view(vm.clone()))));
+                let visibility = platform::follow_visibility(&window);
                 let weak_window = window.downgrade();
                 let weak_vm = Rc::downgrade(&vm);
                 window
@@ -91,6 +120,8 @@ fn main() {
                     })
                     .detach();
                 app.run_window(window);
+                visibility.dispose();
+                native_media.stop_all();
                 timer.stop();
             },
             &std::env::args().collect::<Vec<_>>(),

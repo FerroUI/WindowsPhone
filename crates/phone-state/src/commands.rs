@@ -29,6 +29,12 @@ impl PhoneViewModel {
                 }
                 _ => {}
             }
+            if let Action::PinApp { app, .. } | Action::SetExtensionEnabled { app, .. } = &action {
+                if !self.registered_apps.borrow().contains(app) {
+                    self.set_status("This application is not registered in this build.".into());
+                    continue;
+                }
+            }
             let schedule_changed = matches!(
                 &action,
                 Action::Calendar(_)

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/phone-fonts", "crates/phone-host", "crates/phone-domain", "crates/phone-state", "crates/phone-controls", "crates/phone-ui", "crates/phone-browser", "crates/phone-desktop"]
+members = ["crates/phone-fonts", "crates/phone-host", "crates/phone-domain", "crates/phone-state", "crates/phone-controls", "crates/phone-ui", "crates/phone-sdk", "crates/phone-system", "crates/phone-alarm-service", "crates/apps/*", "crates/phone-browser", "crates/phone-desktop"]
 default-members = ["crates/phone-domain", "crates/phone-state", "crates/phone-desktop"]
 exclude = ["FerroUI"]
 
@@ -288,6 +288,42 @@ phone-domain = { path = "crates/phone-domain" }
 phone-state = { path = "crates/phone-state" }
 phone-controls = { path = "crates/phone-controls" }
 phone-ui = { path = "crates/phone-ui" }
+
+phone-sdk = { path = "crates/phone-sdk" }
+phone-system = { path = "crates/phone-system" }
+phone-alarm-service = { path = "crates/phone-alarm-service" }
+phone-app-alarms = { path = "crates/apps/phone-app-alarms" }
+phone-app-battery-saver = { path = "crates/apps/phone-app-battery-saver" }
+phone-app-browser = { path = "crates/apps/phone-app-browser" }
+phone-app-calculator = { path = "crates/apps/phone-app-calculator" }
+phone-app-calendar = { path = "crates/apps/phone-app-calendar" }
+phone-app-camera = { path = "crates/apps/phone-app-camera" }
+phone-app-cortana = { path = "crates/apps/phone-app-cortana" }
+phone-app-data-sense = { path = "crates/apps/phone-app-data-sense" }
+phone-app-excel = { path = "crates/apps/phone-app-excel" }
+phone-app-files = { path = "crates/apps/phone-app-files" }
+phone-app-games = { path = "crates/apps/phone-app-games" }
+phone-app-maps = { path = "crates/apps/phone-app-maps" }
+phone-app-messaging = { path = "crates/apps/phone-app-messaging" }
+phone-app-minesweeper = { path = "crates/apps/phone-app-minesweeper" }
+phone-app-music = { path = "crates/apps/phone-app-music" }
+phone-app-office = { path = "crates/apps/phone-app-office" }
+phone-app-onenote = { path = "crates/apps/phone-app-onenote" }
+phone-app-outlook = { path = "crates/apps/phone-app-outlook" }
+phone-app-people = { path = "crates/apps/phone-app-people" }
+phone-app-phone = { path = "crates/apps/phone-app-phone" }
+phone-app-photos = { path = "crates/apps/phone-app-photos" }
+phone-app-powerpoint = { path = "crates/apps/phone-app-powerpoint" }
+phone-app-settings = { path = "crates/apps/phone-app-settings" }
+phone-app-store = { path = "crates/apps/phone-app-store" }
+phone-app-support = { path = "crates/apps/phone-app-support" }
+phone-app-tic-tac-toe = { path = "crates/apps/phone-app-tic-tac-toe" }
+phone-app-video = { path = "crates/apps/phone-app-video" }
+phone-app-weather = { path = "crates/apps/phone-app-weather" }
+phone-app-word = { path = "crates/apps/phone-app-word" }
+phone-media-support = { path = "crates/apps/phone-media-support" }
+phone-office-support = { path = "crates/apps/phone-office-support" }
+phone-storage-support = { path = "crates/apps/phone-storage-support" }
 chrono = { version = "0.4", default-features = false, features = ["std", "serde"] }
 
 # >>> FerroUI profiles (written by FerroUI/scripts/apps/sync-workspace.py from FerroUI/Cargo.toml; do not edit)

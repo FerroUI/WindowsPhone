@@ -7,7 +7,20 @@ publish = false
 
 [dependencies]
 serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
 url.workspace = true
 
 [dev-dependencies]
 serde_json.workspace = true
+
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus.workspace = true
+
+[target.'cfg(not(any(target_arch = "wasm32", target_os = "emscripten")))'.dependencies]
+ureq = { version = "=3.5.2", default-features = false, features = ["rustls"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "=0.61.3", features = ["Foundation", "Devices_Geolocation", "Win32_System_WinRT", "Win32_Foundation", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+
+[build-dependencies]
+cc.workspace = true

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleIdentifier</key><string>com.ferroui.WindowsPhone</string>
+<key>CFBundleName</key><string>Windows Phone</string>
+<key>CFBundleDisplayName</key><string>Windows Phone</string>
+<key>CFBundleExecutable</key><string>phone-desktop</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleShortVersionString</key><string>0.1.0</string>
+<key>CFBundleVersion</key><string>1</string>
+<key>LSMinimumSystemVersion</key><string>11.0</string>
+<key>NSHighResolutionCapable</key><true/>
+<key>NSCameraUsageDescription</key><string>Take photos in Camera and save them to your local Camera Roll.</string>
+<key>NSLocationUsageDescription</key><string>Use your location when you request maps or local weather.</string>
+<key>NSLocationWhenInUseUsageDescription</key><string>Use your location when you request maps or local weather.</string>
+</dict></plist>

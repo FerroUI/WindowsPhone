@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Windows Phone
+Comment=FerroUI Windows Phone experience
+Exec=phone-desktop
+Icon=phone
+Terminal=false
+Categories=Utility;
+StartupNotify=true
+StartupWMClass=com.ferroui.WindowsPhone
+X-Geoclue-Reason=Show your position in Maps and retrieve local weather when requested.

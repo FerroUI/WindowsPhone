@@ -30,9 +30,9 @@ try{
     if(settings.lock_timeout>0&&Date.now()-lastActivity>settings.lock_timeout*1000){runtime.lockPhone();lastActivity=Date.now();refreshSurfaces();}
   };
   setInterval(update,1000);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){runtime.cancelInput();stopCamera();}else{update();resize();}});
+  document.addEventListener('visibilitychange',()=>{runtime.hostVisibility(!document.hidden);if(document.hidden){runtime.cancelInput();stopCamera();}else{update();resize();}});
   window.addEventListener('blur',()=>runtime.cancelInput());
-  window.addEventListener('pagehide',()=>{runtime.cancelInput();stopCamera();});
+  window.addEventListener('pagehide',()=>{runtime.hostVisibility(false);runtime.cancelInput();stopCamera();});
   const controller=new AbortController();
   // Pin one navigation sentinel so browser Back has the phone's Back semantics.
   history.replaceState({phone:true},'',location.href);history.pushState({phone:true},'',location.href);

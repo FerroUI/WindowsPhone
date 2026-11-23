@@ -1,4 +1,4 @@
-use crate::{CalendarEvent, Id, date_parts, date_string, days_from_date, days_in_month};
+use crate::{date_parts, date_string, days_from_date, days_in_month, CalendarEvent, Id};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
@@ -75,7 +75,7 @@ pub enum CalendarAction {
 }
 
 /// A local wall-clock occurrence; recurrence is expanded only for the requested range.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CalendarOccurrence {
     pub event_id: Id,
     pub date: String,

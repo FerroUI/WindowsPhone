@@ -3,15 +3,16 @@ use std::{
     future::Future,
     pin::Pin,
     sync::{
-        Arc, Mutex, OnceLock,
         atomic::{AtomicBool, Ordering},
-        mpsc::{SyncSender, sync_channel},
+        mpsc::{sync_channel, SyncSender},
+        Arc, Mutex, OnceLock,
     },
     task::{Context, Poll, Waker},
 };
 
 type Job = Box<dyn FnOnce() + Send>;
 static WORKER: OnceLock<Result<SyncSender<Job>, String>> = OnceLock::new();
+static SYSTEM_WORKER: OnceLock<Result<SyncSender<Job>, String>> = OnceLock::new();
 
 struct Completion<T> {
     result: Option<Result<T, String>>,
@@ -24,6 +25,23 @@ pub struct Task<T> {
 }
 
 pub fn run<T: Send + 'static>(
+    operation: impl FnOnce() -> Result<T, String> + Send + 'static,
+) -> Task<T> {
+    enqueue(&WORKER, "phone-file-services", 32, operation)
+}
+
+/// Blocking host permission/network work has its own bounded queue so a person
+/// responding to an OS prompt never stalls file and image processing.
+pub fn run_system<T: Send + 'static>(
+    operation: impl FnOnce() -> Result<T, String> + Send + 'static,
+) -> Task<T> {
+    enqueue(&SYSTEM_WORKER, "phone-system-services", 4, operation)
+}
+
+fn enqueue<T: Send + 'static>(
+    worker: &OnceLock<Result<SyncSender<Job>, String>>,
+    name: &'static str,
+    capacity: usize,
     operation: impl FnOnce() -> Result<T, String> + Send + 'static,
 ) -> Task<T> {
     let completion = Arc::new(Mutex::new(Completion {
@@ -40,16 +58,16 @@ pub fn run<T: Send + 'static>(
             return;
         }
         let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(operation))
-            .unwrap_or_else(|_| Err("The native file operation could not finish.".into()));
+            .unwrap_or_else(|_| Err("The native host operation could not finish.".into()));
         if cancelled.load(Ordering::Acquire) {
             return;
         }
         complete(&completion, result);
     });
-    let sender = WORKER.get_or_init(|| {
-        let (sender, receiver) = sync_channel::<Job>(32);
+    let sender = worker.get_or_init(|| {
+        let (sender, receiver) = sync_channel::<Job>(capacity);
         std::thread::Builder::new()
-            .name("phone-file-services".into())
+            .name(name.into())
             .spawn(move || {
                 while let Ok(job) = receiver.recv() {
                     job();
@@ -62,7 +80,7 @@ pub fn run<T: Send + 'static>(
         Ok(sender) => sender
             .try_send(job)
             .err()
-            .map(|_| "Native file services are busy. Try again shortly.".to_owned()),
+            .map(|_| "Native host services are busy. Try again shortly.".to_owned()),
         Err(error) => Some(error.clone()),
     };
     if let Some(error) = error {

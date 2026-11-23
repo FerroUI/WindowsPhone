@@ -40,6 +40,7 @@ pub struct Tile {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum TileTarget {
+    AppLink(Id),
     Contact(Id),
     Note(Id),
     Document(Id),
@@ -48,6 +49,8 @@ pub enum TileTarget {
 impl TileTarget {
     pub fn app(self) -> AppId {
         match self {
+            // The v1 app enum remains a presentation fallback; AppLink owns routing.
+            Self::AppLink(_) => AppId::Store,
             Self::Contact(_) => AppId::People,
             Self::Note(_) => AppId::OneNote,
             Self::Document(_) => AppId::Office,

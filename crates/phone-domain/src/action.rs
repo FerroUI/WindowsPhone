@@ -7,6 +7,15 @@ pub enum Action {
     Home,
     Pin(AppId),
     PinTarget(TileTarget),
+    PinApp {
+        app: String,
+        path: String,
+        title: String,
+    },
+    SetExtensionEnabled {
+        app: String,
+        enabled: bool,
+    },
     Unpin(Id),
     ResizeTile(Id),
     SetTileSize(Id, TileSize),

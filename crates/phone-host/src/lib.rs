@@ -1,6 +1,8 @@
 //! Reusable host contracts and platform primitives, independent of the UI and
 //! application view models. Host observations never become persisted settings.
 mod environment;
+pub mod file_names;
+pub mod file_picker;
 mod request;
 pub mod urls;
 

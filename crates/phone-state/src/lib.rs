@@ -1,5 +1,6 @@
 //! Retained ReactiveUI view model with granular DynamicData collection projections.
 //! Navigation and clock updates never write persisted application data.
+mod app_data;
 mod calendar;
 mod commands;
 mod communication;
@@ -15,8 +16,9 @@ mod tiles;
 mod validation;
 
 use ferroui_dynamic_data::SourceCache;
-use ferroui_reactive::{ObservableExt, concurrency::ImmediateScheduler};
-use ferroui_reactiveui::{IReactiveObjectExt, ReactiveCommand, ReactiveObject, reactive_object};
+use ferroui_reactive::{concurrency::ImmediateScheduler, ObservableExt};
+use ferroui_reactiveui::{reactive_object, IReactiveObjectExt, ReactiveCommand, ReactiveObject};
+pub use navigation::RecentApp;
 pub use phone_domain::Action;
 use phone_domain::*;
 pub use services::*;
@@ -33,8 +35,11 @@ pub struct PhoneViewModel {
     document_epoch: Cell<u64>,
     schedule_revision: Cell<u64>,
     current_route: RefCell<Route>,
+    registered_apps: RefCell<std::collections::BTreeSet<String>>,
     history: RefCell<Vec<Route>>,
     recent: RefCell<Vec<(AppId, Route)>>,
+    extension_recent: RefCell<Vec<(String, Route)>>,
+    recent_order: RefCell<Vec<RecentApp>>,
     viewport_size: Cell<(f64, f64)>,
     clock: Cell<i64>,
     utc_offset: Cell<i32>,
@@ -66,8 +71,11 @@ impl PhoneViewModel {
                 document_epoch: Cell::new(0),
                 schedule_revision: Cell::new(0),
                 current_route: RefCell::new(Route::Start),
+                registered_apps: RefCell::new(Default::default()),
                 history: RefCell::new(Vec::new()),
                 recent: RefCell::new(Vec::new()),
+                extension_recent: RefCell::new(Vec::new()),
+                recent_order: RefCell::new(Vec::new()),
                 viewport_size: Cell::new((400.0, 800.0)),
                 clock: Cell::new(1_795_363_200),
                 utc_offset: Cell::new(0),
@@ -218,6 +226,8 @@ impl PhoneViewModel {
             .set(self.document_epoch.get().wrapping_add(1));
         self.history.borrow_mut().clear();
         self.recent.borrow_mut().clear();
+        self.extension_recent.borrow_mut().clear();
+        self.recent_order.borrow_mut().clear();
         *self.current_route.borrow_mut() = Route::Start;
         self.synchronize();
         self.notify();

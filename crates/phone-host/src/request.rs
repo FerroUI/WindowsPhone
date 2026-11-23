@@ -3,6 +3,11 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "camelCase")]
 pub enum HostRequest {
+    ChooseFile {
+        request_id: u32,
+        extensions: Vec<String>,
+        max_bytes: u32,
+    },
     OpenUrl {
         url: String,
     },

@@ -19,3 +19,31 @@ ferroui-desktop.workspace = true
 ferroui-fonts-inter.workspace = true
 serde_json.workspace = true
 chrono = { workspace = true, features = ["clock"] }
+zune-core.workspace = true
+zune-jpeg.workspace = true
+jpeg-encoder.workspace = true
+
+# Portable media contracts and texture presentation. Native providers stay in the host.
+ferroui-media.workspace = true
+ferroui-media-controls.workspace = true
+ferroui-media-video.workspace = true
+ferroui-media-camera.workspace = true
+
+[target.'cfg(target_os = "linux")'.dependencies]
+ferroui-x11.workspace = true
+ferroui-opengl.workspace = true
+ferroui-media-linux = { workspace = true, features = ["controls"] }
+ferroui-media-video-linux.workspace = true
+ferroui-media-camera-linux.workspace = true
+ferroui-media-opengl.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+ferroui-media-windows = { workspace = true, features = ["controls"] }
+ferroui-media-video-windows.workspace = true
+ferroui-media-camera-windows.workspace = true
+ferroui-media-opengl.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+ferroui-media-apple = { workspace = true, features = ["controls", "opengl"] }
+ferroui-media-video-apple.workspace = true
+ferroui-media-camera-apple.workspace = true

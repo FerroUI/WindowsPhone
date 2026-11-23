@@ -83,7 +83,7 @@ async fn import(
     options.set_title(Some(title.into()));
     options.set_allow_multiple(true);
     options.set_file_type_filter(Some(vec![
-        FilePickerFileType::new(Some(title)).with_patterns(&patterns),
+        FilePickerFileType::new(Some(title)).with_patterns(&patterns)
     ]));
     let files = provider
         .open_file_picker_async(options)
@@ -187,29 +187,7 @@ async fn save_copy(
 }
 
 fn copy_name(metadata: &crate::asset_store::Metadata) -> String {
-    let mut clean = String::new();
-    for value in metadata.name.chars() {
-        let value = if value.is_control() || "<>:\"/\\|?*".contains(value) {
-            '_'
-        } else {
-            value
-        };
-        if clean.len() + value.len_utf8() > 120 {
-            break;
-        }
-        clean.push(value);
-    }
-    let stem = clean
-        .rsplit_once('.')
-        .map(|(stem, _)| stem)
-        .unwrap_or(&clean)
-        .trim_matches([' ', '.']);
-    // The prefix also avoids DOS device names and leading-dot hidden files.
-    format!(
-        "WindowsPhone-{}.{}",
-        if stem.is_empty() { "media" } else { stem },
-        metadata.extension
-    )
+    phone_host::file_names::copy_name(&metadata.name, "WindowsPhone", &metadata.extension)
 }
 
 #[cfg(test)]
