@@ -40,8 +40,14 @@ pub fn view(cx: AppContext, saved: &Saved) -> Element {
     }
     let body = rsx! {StackPanel{margin:20.0,spacing:16.0,
         {text("directions",38.0)}
-        {input("from (current location if empty)").name("MapOrigin").text(state.origin.two_way())}
-        {input("destination").name("MapDestination").text(state.destination.two_way())}
+        StackPanel{spacing:7.0,
+            {muted("from",16.0)}
+            {input("from (current location if empty)").name("MapOrigin").text(state.origin.two_way())}
+        }
+        StackPanel{spacing:7.0,
+            {muted("to",16.0)}
+            {input("destination").name("MapDestination").text(state.destination.two_way())}
+        }
         {shortcuts}{modes}
         TextBlock{text:"Google Maps will open with these places and your travel mode.",font_size:17.0,text_wrapping:ferroui_base::media::TextWrapping::Wrap,horizontal_alignment:H::Stretch}
     }};

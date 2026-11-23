@@ -17,12 +17,17 @@ export async function verifyMapsExpansion(ctx) {
       const id=await until(async()=>(await state()).app_data['phone.maps']?.places.find(place=>place.name==='Raciborz home')?.id,'saved map place');
       await clickLabel('more');await clickLabel('set as home');
       await until(async()=>(await state()).app_data['phone.maps']?.home===id,'home shortcut');
+      await clickLabel('×');
+      await until(async()=>!(await snapshot()).elements.some(element=>element.text==='Home updated.'),'home status dismissed through its native control');
       await clickLabel('directions');
       await textPresent('directions','native directions page');
       await edit('MapDestination','Main station');await clickLabel('walking');await clickLabel('from home');
       await until(async()=>(await snapshot()).elements.some(element=>element.name==='MapOrigin'&&element.text==='50.091000, 18.219000'),'origin from saved coordinates');
       await clickLabel('swap');
       await until(async()=>(await snapshot()).elements.some(element=>element.name==='MapDestination'&&element.text==='50.091000, 18.219000'),'swapped destination');
+      await until(async()=>(await snapshot()).elements.some(element=>element.name==='MapOrigin'&&element.text==='Main station'),'swapped origin');
+      await textPresent('from','origin label remains visible with a populated field');
+      await textPresent('to','destination label remains visible with a populated field');
       assert.equal((await state()).app_data['phone.maps'].travel_mode,'walking');
       await capture('maps-saved-place-directions');
       await reload();await open();await clickLabel('home');
