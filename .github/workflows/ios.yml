@@ -49,7 +49,9 @@ jobs:
             phone-ios-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml') }}-
             phone-ios-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
       - name: Verify portable iOS completion contracts
-        run: cargo test --locked -p phone-ios --lib
+        run: |
+          python3 scripts/verify_ios_smoke_test.py
+          cargo test --locked -p phone-ios --lib
       - name: Build and bundle the UIKit application
         id: bundle
         run: |
@@ -65,7 +67,7 @@ jobs:
             ~/.cargo/git
           key: ${{ steps.native-cache.outputs.cache-primary-key }}
       - name: Verify simulator mounting and native activation
-        timeout-minutes: 8
+        timeout-minutes: 12
         run: bash scripts/smoke-ios.sh '${{ steps.bundle.outputs.app }}' "$RUNNER_TEMP/phone-ios-ui"
       - uses: actions/upload-artifact@v4
         if: always()

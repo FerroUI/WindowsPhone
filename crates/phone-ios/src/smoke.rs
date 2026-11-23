@@ -1,6 +1,9 @@
 //! Explicit simulator-only observation hook; production launches create no timer.
-use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
-use ferroui_controls::TopLevel;
+use ferroui_base::{
+    Point,
+    threading::{DispatcherPriority, DispatcherTimer},
+};
+use ferroui_controls::{Control, TopLevel};
 use phone_native::NativeHost;
 use std::{
     cell::{Cell, RefCell},
@@ -33,15 +36,47 @@ pub fn activation(host: Option<&Rc<NativeHost>>, uri: &str, outcome: &str) {
 
 fn write_status(host: &NativeHost) {
     let view = host.view();
+    let Some(top) = TopLevel::get_top_level(Some(&view)) else {
+        return;
+    };
+    let wrapper = top.content().and_then(|value| Control::from_boxed(&value));
+    let screen = view
+        .get_visual_descendants()
+        .filter_map(|visual| visual.cast::<Control>())
+        .find(|control| control.name().as_deref() == Some("PhoneScreen"));
+    let controls = view
+        .get_visual_descendants()
+        .filter(|visual| {
+            let bounds = visual.bounds();
+            visual.is_effectively_visible() && bounds.width > 0.0 && bounds.height > 0.0
+        })
+        .filter_map(|visual| visual.name())
+        .filter(|name| {
+            matches!(
+                name.as_str(),
+                "PhoneScreen" | "PhonePage" | "StartTiles" | "StartScroll" | "WalletSearch"
+            )
+        })
+        .take(16)
+        .collect::<Vec<_>>();
+    let rectangle = |control: &Control| {
+        let bounds = control.bounds();
+        control.translate_point(Point::new(0.0, 0.0), &top).map(|point| {
+            serde_json::json!({"x": point.x, "y": point.y, "width": bounds.width, "height": bounds.height})
+        })
+    };
     let bounds = view.bounds();
-    let attached = TopLevel::get_top_level(Some(&view)).is_some();
+    let client = top.client_size();
+    let viewport = host.vm().viewport();
     let sequence = SEQUENCE.with(|value| {
         let next = value.get().saturating_add(1);
         value.set(next);
         next
     });
     let proof = serde_json::json!({
-        "ready": attached && bounds.width > 0.0 && bounds.height > 0.0,
+        "schema": 1,
+        "ready": view.is_attached_to_visual_tree() && view.is_measure_valid() && view.is_arrange_valid()
+            && wrapper.as_ref().is_some_and(|control| control.is_attached_to_visual_tree()),
         "width": bounds.width, "height": bounds.height,
         "platform": "ios", "route": host.vm().route(),
         "status": host.vm().status(), "sequence": sequence,
@@ -49,6 +84,17 @@ fn write_status(host: &NativeHost) {
             .map(|elapsed| elapsed.as_millis()).unwrap_or_default(),
         "closed": host.runtime().is_closed(),
         "activation": ACTIVATION.with(|value| value.borrow().clone()),
+        "client": {"width": client.width, "height": client.height},
+        "render_scaling": top.render_scaling(),
+        "safe_area": top.insets_manager().map(|manager| {
+            let padding = manager.safe_area_padding();
+            serde_json::json!({"left": padding.left, "top": padding.top, "right": padding.right, "bottom": padding.bottom})
+        }),
+        "wrapper": wrapper.as_ref().and_then(|control| rectangle(control)),
+        "inner": rectangle(&view),
+        "screen": screen.as_ref().and_then(|control| rectangle(control)),
+        "viewport": {"width": viewport.0, "height": viewport.1},
+        "mounted_controls": controls,
     });
     // HOME is supplied by iOS for its own sandbox; it is never reassigned.
     if let Some(directory) = std::env::var_os("HOME").map(std::path::PathBuf::from) {

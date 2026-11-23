@@ -88,9 +88,13 @@ profile. The script does not change accounts, certificates or entitlements.
 `.github/workflows/ios.yml` uses the pinned Rust/FerroUI revisions and runs on
 manual dispatch or a main commit containing `[verify-mobile]` or `[verify-ios]`. It compiles the
 actual simulator executable and Objective-C bridges, installs on a newly
-created simulator, verifies that UIKit mounted a nonzero phone view, opens
-Wallet through `simctl openurl`, returns Home, and uploads JSON/screenshot
-evidence. The simulator is removed afterward. A production launch has no smoke
+created simulator, verifies visible Start/Wallet controls and valid layout inside
+UIKit's safe area, opens Wallet through `simctl openurl`, returns Home, and uploads
+JSON/screenshot evidence. A small public XCTest runner accepts only SpringBoard's
+exact `Open in “Windows Phone”?` confirmation; the shell independently verifies
+fresh observations and the real delegate's accepted URI. Other system prompts
+are untouched. XCTest results and the final state are retained on failure.
+The simulator is removed afterward. A production launch has no smoke
 timer; the harness explicitly supplies `PHONE_IOS_SMOKE=1`.
 
 Portable tests (`cargo test -p phone-ios --lib`) exercise completion ownership,
