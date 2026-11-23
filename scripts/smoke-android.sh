@@ -75,7 +75,7 @@ cleanup() {
         ADB_TIMEOUT=30 adb_do logcat -d -t 12000 -v threadtime > "$phone_out/logcat.txt" 2>&1
         ADB_TIMEOUT=30 adb_do logcat -d -b crash -v threadtime > "$phone_out/crash.txt" 2>&1
         ADB_TIMEOUT=20 adb_shell dumpsys activity activities > "$phone_out/activities.txt" 2>&1
-        ADB_TIMEOUT=20 adb_shell dumpsys window windows > "$phone_out/windows.txt" 2>&1
+        ADB_TIMEOUT=20 adb_shell dumpsys window > "$phone_out/windows.txt" 2>&1
     fi
     write_result "$result"
     emu_stop
@@ -165,8 +165,15 @@ for phone_variant in app launcher; do
         adb_shell am start -W -a android.intent.action.VIEW -d "$phone_uri" -n "$phone_component" \
             > "$phone_out/$phone_variant-$phone_page-activation.txt" 2>&1
         wait_for_view "$phone_nonce" "$phone_uri" "$phone_sequence"
-        adb_shell dumpsys window windows > "$phone_out/$phone_variant-$phone_page-window.txt"
-        grep 'mCurrentFocus' "$phone_out/$phone_variant-$phone_page-window.txt" | grep -F "$phone_package" >/dev/null
+        phase "Checking the focused native window for $phone_variant / $phone_page"
+        # Android 36's windows-only section omits the per-display mCurrentFocus.
+        # Match the framework smoke helper's full dump without weakening focus checks.
+        adb_shell dumpsys window > "$phone_out/$phone_variant-$phone_page-window.txt"
+        if ! grep 'mCurrentFocus' "$phone_out/$phone_variant-$phone_page-window.txt" \
+            | grep -F "$phone_component" >/dev/null; then
+            printf 'The requested activity is not the focused native window: %s\n' "$phone_component" >&2
+            exit 1
+        fi
         cp "$phone_out/current.json" "$phone_out/$phone_variant-$phone_page.json"
         emu_screencap "$phone_out/$phone_variant-$phone_page.png"
     done
