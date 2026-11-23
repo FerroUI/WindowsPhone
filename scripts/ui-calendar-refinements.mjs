@@ -54,6 +54,15 @@ export async function verifyCalendarRefinements(ctx) {
       assert(first.x+first.width<=second.x+1||second.x+second.width<=first.x+1,
         "overlapping appointments must have separate native hit regions");
       await capture("calendar-day-overlapping-appointments");
+      const timelineY=async()=>(await snapshot()).elements.find(element=>element.name==="CalendarTimeline")?.y;
+      const beforeScroll=await timelineY();
+      await page.wheel(...centre(await control(element=>element.name==="CalendarDayScroll","day scroll viewer")),0,180);
+      const remembered=await until(async()=>{
+        const y=await timelineY();return y<beforeScroll-1?{y}:false;
+      },"native day timeline moves on wheel input");
+      await chooseView("month");await chooseView("day");
+      await until(async()=>Math.abs((await timelineY())-remembered.y)<0.6,
+        "day view restores the user's native scroll offset after remount");
       await chooseView("year");await capture("calendar-year-navigation");
       await showLabel(`${dateInfo.month} ${dateInfo.year}`);
       await control(element=>element.name===`CalendarDay${date}`,"month restored from native year grid");

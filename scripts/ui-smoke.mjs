@@ -563,15 +563,20 @@ try {
   });
   const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control,
     clickName, clickLabel, clickText, textPresent, reveal, edit, home, isRoute, reload };
-  await verifyOfficeRefinements(refinementContext);
-  await verifyCalendarRefinements(refinementContext);
-  await verifyAlarmRefinements(refinementContext);
-  await verifyShellParity(refinementContext);
-  await verifySystemRefinements(refinementContext);
-  await verifyBrowserRefinements(refinementContext);
-  await verifyLiveTiles(refinementContext);
-  await verifyLockscreenDraft(refinementContext);
-  await verifyLiveFolder(refinementContext);
+  // These modules restore isolated fixtures in finally. Collect their independent
+  // failures in one opt-in run, while keeping every assertion a publication gate.
+  const refinementFailures = [];
+  for (const verify of [verifyOfficeRefinements, verifyCalendarRefinements,
+    verifyAlarmRefinements, verifyShellParity, verifySystemRefinements,
+    verifyBrowserRefinements, verifyLiveTiles, verifyLockscreenDraft, verifyLiveFolder]) {
+    try { await verify(refinementContext); }
+    catch (error) {
+      refinementFailures.push({ module: verify.name, error: error.stack || String(error) });
+      results.refinementFailures = refinementFailures;
+      console.error(`FAIL ${verify.name}: ${error.stack || error}`);
+      if (page.errors.length || Date.now() >= deadline) throw error;
+    }
+  }
   await check("narrow viewport and trusted touch navigation", async () => {
     await page.resize(390, 844);
     await until(async () => {
@@ -623,6 +628,10 @@ try {
     await verifyOfflineStartup(page, { ready, until, capture, clickName, isRoute });
   });
   healthy();
+  if (refinementFailures.length) {
+    throw new Error(`${refinementFailures.length} native refinement module(s) failed: ` +
+      refinementFailures.map(failure => failure.module).join(", "));
+  }
   results.passed = true;
 } catch (error) {
   results.passed = false;

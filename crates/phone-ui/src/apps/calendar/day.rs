@@ -1,7 +1,6 @@
 use super::{commands, details};
 use crate::{common::*, session::Session};
 use ferroui_base::{
-    Vector,
     layout::{HorizontalAlignment as H, VerticalAlignment as V},
     media::{TextTrimming, TextWrapping},
 };
@@ -81,11 +80,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, day: i64) -> Element {
             .iter()
             .any(|event| event.id == item.event_id && event.all_day)
     });
-    let mut timeline = grid()
-        .name("CalendarTimeline")
-        .column_definitions("48,*")
-        .row_definitions(&vec!["64"; 24].join(","))
-        .margin((12.0, 0.0, 14.0, 20.0));
+    let mut timeline_children: Vec<Element> = Vec::new();
     for hour in 0..24 {
         let create = ui.clone();
         let chosen = date.clone();
@@ -98,18 +93,15 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, day: i64) -> Element {
                 if hour < 12 { "am" } else { "pm" }
             )
         };
-        timeline=timeline.child(rsx!{TextBlock{Grid.row:hour as i32,text:label,font_size:12.0,foreground:line.as_str(),vertical_alignment:V::Top,margin:(0.0,3.0,4.0,0.0)}})
-            .child(rsx!{Button{Grid.row:hour as i32,Grid.column:1,class:"phone-flat",name:format!("CalendarHour{hour}"),
+        timeline_children.push(rsx!{TextBlock{Grid.row:hour as i32,text:label,font_size:12.0,foreground:line.as_str(),vertical_alignment:V::Top,margin:(0.0,3.0,4.0,0.0)}});
+        timeline_children.push(rsx!{Button{Grid.row:hour as i32,Grid.column:1,class:"phone-flat",name:format!("CalendarHour{hour}"),
                 automation_properties_name:format!("New appointment {date} {hour:02}:00"),padding:0.0,horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
                 on_click:move|_|commands::new_event(&create,chosen.clone(),hour*60),
                 Border{border_brush:line.as_str(),border_thickness:(0.0,0.5,0.0,0.0)}}});
     }
     for (group_index, group) in groups(&timed, day).into_iter().enumerate() {
-        let mut panel = grid()
-            .column_definitions(&vec!["*"; group.lanes.len()].join(","))
-            .height(group.bottom - group.top)
-            .margin((0.0, group.top, 0.0, 0.0))
-            .vertical_alignment(V::Top);
+        let columns = vec!["*"; group.lanes.len()].join(",");
+        let mut appointments: Vec<Element> = Vec::new();
         for entry in group.items {
             let Some(event) = events.iter().find(|event| event.id == entry.item.event_id) else {
                 continue;
@@ -117,7 +109,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, day: i64) -> Element {
             let open = ui.clone();
             let item = entry.item.clone();
             let label = format!("{} {}", event.title, time_text(item.start, is24));
-            panel=panel.child(rsx!{Button{Grid.column:entry.lane as i32,class:"phone-flat",name:format!("CalendarAppointment{}",event.id),
+            appointments.push(rsx!{Button{Grid.column:entry.lane as i32,class:"phone-flat",name:format!("CalendarAppointment{}",event.id),
                 key:format!("appointment-{}-{}",event.id,item.date),automation_properties_name:label,
                 margin:(2.0,entry.top-group.top,2.0,0.0),height:entry.height,padding:0.0,
                 vertical_alignment:V::Top,vertical_content_alignment:V::Stretch,horizontal_content_alignment:H::Stretch,
@@ -131,12 +123,20 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, day: i64) -> Element {
                 }
             }});
         }
-        timeline=timeline.child(rsx!{Border{Grid.column:1,Grid.row_span:24,key:format!("calendar-overlap-{group_index}"),vertical_alignment:V::Stretch,{panel}}});
+        timeline_children.push(rsx!{Border{Grid.column:1,Grid.row_span:24,key:format!("calendar-overlap-{group_index}"),vertical_alignment:V::Stretch,
+            Grid{column_definitions:columns.as_str(),height:group.bottom-group.top,
+                margin:(0.0,group.top,0.0,0.0),vertical_alignment:V::Top,
+                for appointment in appointments{{appointment}}
+            }
+        }});
     }
-    let remember = ui.clone();
-    let restore = ui.clone();
-    let remember_date = date.clone();
-    let restore_date = date.clone();
+    let rows = vec!["64"; 24].join(",");
+    let timeline = rsx! {Grid{name:"CalendarTimeline",column_definitions:"48,*",
+        row_definitions:rows.as_str(),margin:(12.0,0.0,14.0,20.0),
+        for child in timeline_children{{child}}
+    }};
+    let scroll_ui = ui.clone();
+    let scroll_date = date.clone();
     let initial = timed
         .first()
         .map(|item| {
@@ -148,13 +148,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, day: i64) -> Element {
         if !all_day.is_empty(){Border{margin:(14.0,0.0),max_height:160.0,{scroll(details::list(&vm,&ui,&events,&all_day,day))}}}
         ScrollViewer{Grid.row:1,key:format!("calendar-day-{date}"),name:"CalendarDayScroll",
             vertical_scroll_bar_visibility:ScrollBarVisibility::Hidden,horizontal_scroll_bar_visibility:ScrollBarVisibility::Disabled,
-            on_loaded:move|event|if let Some(scroll)=event.source().and_then(|source|source.cast::<ScrollViewer>()){
-                let offset=restore.calendar.day_scroll.borrow().as_ref().filter(|(date,_)|*date==restore_date).map(|(_,offset)|*offset).unwrap_or(initial);
-                scroll.set_offset(Vector::new(0.0,offset));
-            },
-            on_scroll_changed:move|event|if let Some(scroll)=event.source().and_then(|source|source.cast::<ScrollViewer>()){
-                *remember.calendar.day_scroll.borrow_mut()=Some((remember_date.clone(),scroll.offset().y));
-            },
+            with:move|scroll|super::scroll::restore_day(scroll,&scroll_ui,scroll_date.clone(),initial),
             {timeline}
         }
     }}

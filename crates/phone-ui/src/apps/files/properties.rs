@@ -101,20 +101,24 @@ pub(super) fn document(vm: &PhoneViewModel, id: Id) -> Result<FileProperties, St
 
 pub(super) fn view(ui: Rc<Session>, properties: FileProperties) -> Element {
     let close = ui.clone();
-    let mut body = stack_panel()
-        .spacing(20.0)
-        .margin((20.0, 4.0, 20.0, 24.0))
-        .child(text("properties", 48.0))
-        .child(text(&properties.name, 28.0));
-    for (label, value) in properties.rows {
-        body = body.child(rsx! {StackPanel{spacing:4.0,
-            {muted(&label, 16.0)}
-            {text(&value, 23.0)}
-        }});
-    }
+    let rows = properties
+        .rows
+        .into_iter()
+        .map(|(label, value)| {
+            rsx! {StackPanel{spacing:4.0,
+                {muted(&label, 16.0)}
+                {text(&value, 23.0)}
+            }}
+        })
+        .collect::<Vec<_>>();
+    let body = rsx! {StackPanel{spacing:20.0,margin:(20.0,4.0,20.0,24.0),
+        {text("properties", 48.0)}
+        {text(&properties.name, 28.0)}
+        for row in rows {{row}}
+    }};
     page(
         "files",
-        scroll(body.into()),
+        scroll(body),
         app_bar(
             vec![action(Icon::Check, "done", move || {
                 close.files.clear_properties()

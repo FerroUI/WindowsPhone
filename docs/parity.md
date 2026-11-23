@@ -54,7 +54,7 @@ The target is **Windows Phone 8.1 Update (2014, often called Update 1)**. Live f
 
 The current source adds Calendar views and recurrence, shared foreground alarms/reminders, measured Start wallpaper and app-list behavior, native picker styling, Files properties/sharing, and Excel range workflows. It also corrects the Office New page to Word/Excel and keeps PowerPoint editing focused on existing presentations. These are implementation claims; **100% visual and functional parity remains unestablished**.
 
-The shared native `cargo check --locked -p phone-ui -p phone-desktop`, **78 Rust domain/state tests**, and **six JavaScript host-boundary tests** passed during integration. The expanded full browser suite, original-device comparisons and publication for this source are still pending. The historical results below must not be read as proof for these new paths.
+The shared native `cargo check --locked -p phone-ui -p phone-desktop`, **78 Rust domain/state tests**, **17 UI/control unit tests**, and **six JavaScript host-boundary tests** passed during integration. The first expanded browser run passed 20 groups, including all Office/Files workflows, then blocked publication because Calendar day-view restoration ran before native layout established its scroll extent. The day-view correction now restores initial or saved positions after the native extent becomes available; the original direct appointment-hit assertion remains, with a scroll/remount regression added. Final full browser results and publication are pending; original-device comparisons remain outstanding. The historical results below must not be read as proof for these new paths.
 
 | Added verification | Scope |
 | --- | --- |

@@ -79,7 +79,7 @@ mod tests {
 
     #[test]
     fn visible_tiles_never_sample_beyond_the_shared_image() {
-        for viewport in [200.0, 460.0, 740.0, 1600.0] {
+        for viewport in [200.0_f64, 460.0, 740.0, 1600.0] {
             for extent in [100.0, 950.0, 1600.0, 30_000.0] {
                 let maximum = (extent - viewport).max(0.0);
                 for step in 0..=20 {

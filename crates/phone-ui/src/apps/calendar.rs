@@ -5,6 +5,7 @@ mod details;
 mod editor;
 mod month;
 mod pickers;
+mod scroll;
 mod session;
 mod week;
 

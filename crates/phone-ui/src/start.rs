@@ -53,10 +53,7 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         .map(|tile| folders::height(tile, cell, columns))
         .unwrap_or(0.0);
     let rows = layout::rows(&placements);
-    let mut surface = canvas()
-        .name("StartTiles")
-        .width(width - PADDING * 2.0)
-        .height(rows as f64 * (cell + GAP) + folder_height);
+    let mut slots = Vec::<Element>::new();
     for placement in &placements {
         let item = tiles
             .iter()
@@ -72,43 +69,29 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             };
         let w = placement.width as f64 * (cell + GAP) - GAP;
         let h = placement.height as f64 * (cell + GAP) - GAP;
-        surface = surface.child(
-            border()
-                .key(format!("tile-slot-{}", placement.id))
-                .canvas_left(x)
-                .canvas_top(y)
-                .width(w)
-                .height(h)
-                .child(tile::view(vm.clone(), ui.clone(), item, w, h, x, y)),
-        );
+        slots.push(rsx!{Border{key:format!("tile-slot-{}",placement.id),Canvas.left:x,Canvas.top:y,width:w,height:h,
+            {tile::view(vm.clone(),ui.clone(),item,w,h,x,y)}
+        }});
     }
     if let (Some(folder), Some(after)) = (folder, folder_after) {
         let y = after as f64 * (cell + GAP);
-        surface = surface.child(
-            border()
-                .key(format!("folder-band-{}", folder.id))
-                .canvas_left(0.0)
-                .canvas_top(y)
-                .width(width - PADDING * 2.0)
-                .height(folder_height - GAP)
-                .clip_to_bounds(true)
-                .on_loaded(|event| {
-                    if let Some(control) =
-                        event.source().and_then(|source| source.cast::<Control>())
-                    {
-                        phone_controls::reveal(&control);
-                    }
-                })
-                .child(folders::expanded(
-                    vm.clone(),
-                    ui.clone(),
-                    folder,
-                    cell,
-                    columns,
-                    y,
-                )),
+        slots.push(
+            rsx! {Border{key:format!("folder-band-{}",folder.id),Canvas.left:0.0,Canvas.top:y,
+                    width:width-PADDING*2.0,height:folder_height-GAP,clip_to_bounds:true,
+                    on_loaded:|event| {
+                        if let Some(control) =
+                            event.source().and_then(|source| source.cast::<Control>())
+                        {
+                            phone_controls::reveal(&control);
+                        }
+                    },
+                    {folders::expanded(vm.clone(),ui.clone(),folder,cell,columns,y)}
+            }},
         );
     }
+    let surface = rsx! {Canvas{name:"StartTiles",width:width-PADDING*2.0,
+        height:rows as f64*(cell+GAP)+folder_height,for slot in slots{{slot}}
+    }};
     let all = vm.clone();
     let finish = ui.clone();
     let editing = ui.edit_tile.get().is_some();
@@ -134,9 +117,9 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }
         }
     }};
-    let mut result = grid().child(scroll);
+    let mut layers = vec![scroll];
     if ui.menu.get() && ui.edit_tile.get().is_some() {
-        result = result.child(menu::view(vm, ui));
+        layers.push(menu::view(vm, ui));
     }
-    result.into()
+    rsx! {Grid{for layer in layers{{layer}}}}
 }

@@ -47,13 +47,10 @@ pub(super) fn view(
     } else {
         content::view(vm.clone(), ui.clone(), &tile, w, h, badge)
     };
-    let mut visual = grid()
-        .name(format!("TileVisual-{id}"))
-        .clip_to_bounds(true)
-        .background(color.as_str());
+    let mut layers = Vec::<Element>::new();
     if !wallpaper.is_empty() && (app.color().is_empty() || is_folder) && app != AppId::Photos {
         let (width, height, _) = crate::shell::phone_size(&vm);
-        visual = visual.child(wallpaper::view(
+        layers.push(wallpaper::view(
             &ui,
             id,
             &wallpaper,
@@ -62,30 +59,23 @@ pub(super) fn view(
             x,
             y,
         ));
-        visual = visual.child(border().background("#33000000"));
+        layers.push(rsx! {Border{background:"#33000000"}});
     }
-    visual = visual.child(content);
+    layers.push(content);
     if !small {
         if app == AppId::Photos && !is_folder {
-            visual = visual.child(
-                border()
-                    .height(34.0)
-                    .background("#66000000")
-                    .vertical_alignment(V::Bottom)
-                    .is_hit_test_visible(false),
-            );
+            layers.push(rsx!{Border{height:34.0,background:"#66000000",vertical_alignment:V::Bottom,is_hit_test_visible:false}});
         }
-        visual = visual.child(
-            text_block()
-                .text(tile.label.clone())
-                .foreground("White")
-                .font_size(14.0)
-                .margin((10.0, 0.0, 8.0, 8.0))
-                .vertical_alignment(V::Bottom)
-                .is_hit_test_visible(false),
+        layers.push(
+            rsx! {TextBlock{text:tile.label.clone(),foreground:"White",font_size:14.0,
+                margin:(10.0,0.0,8.0,8.0),vertical_alignment:V::Bottom,is_hit_test_visible:false
+            }},
         );
     }
-    let mut result=grid().child(rsx!{Button{key:format!("tile-{id}"),name:format!("Tile-{id}"),class:"phone-tile",width:w,height:h,padding:0.0,
+    let visual = rsx! {Grid{name:format!("TileVisual-{id}"),clip_to_bounds:true,background:color.as_str(),
+        for layer in layers{{layer}}
+    }};
+    let button = rsx! {Button{key:format!("tile-{id}"),name:format!("Tile-{id}"),class:"phone-tile",width:w,height:h,padding:0.0,
         with:move|button|{let ui=tilt_ui.clone();phone_controls::attach_press_tilt(button,move||ui.upgrade().is_some_and(|ui|ui.edit_tile.get_untracked().is_none()));},
         automation_properties_name:format!("{} tile",tile.label),horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
         automation_properties_help_text:if is_folder{format!("Folder, {} tiles. Hold to arrange.",tile.folder_tiles.len())}else{format!("{} tile{}. Hold to resize, move or unpin.",match tile.size{TileSize::Small=>"Small",TileSize::Medium=>"Medium",TileSize::Wide=>"Wide"},if badge>0{format!(", {badge} new items")}else{String::new()})},
@@ -99,13 +89,11 @@ pub(super) fn view(
         on_holding:move|event|if event.holding_state()==HoldingState::Started{edit.edit_tile.set(Some(id));event.set_handled(true);},
         on_context_requested:move|event|{context.edit_tile.set(Some(id));event.set_handled(true);},
         {visual}
-    }});
+    }};
+    let mut overlays = vec![button];
     if target {
-        result = result.child(
-            border()
-                .border_brush("White")
-                .border_thickness(4.0)
-                .is_hit_test_visible(false),
+        overlays.push(
+            rsx! {Border{border_brush:"White",border_thickness:4.0,is_hit_test_visible:false}},
         );
     }
     if selected {
@@ -113,23 +101,20 @@ pub(super) fn view(
         let unpin_ui = ui.clone();
         let resize = vm.clone();
         let actions = ui.clone();
-        result = result.child(
-            border()
-                .border_brush("White")
-                .border_thickness(2.0)
-                .is_hit_test_visible(false),
+        overlays.push(
+            rsx! {Border{border_brush:"White",border_thickness:2.0,is_hit_test_visible:false}},
         );
-        result=result.child(rsx!{Button{class:"phone-flat",name:format!("Unpin-{id}"),automation_properties_name:"Unpin tile",width:32.0,height:32.0,min_height:0.0,background:"Black",horizontal_alignment:H::Right,vertical_alignment:V::Top,
+        overlays.push(rsx!{Button{class:"phone-flat",name:format!("Unpin-{id}"),automation_properties_name:"Unpin tile",width:32.0,height:32.0,min_height:0.0,background:"Black",horizontal_alignment:H::Right,vertical_alignment:V::Top,
             on_click:move|_|{unpin.unpin(id);unpin_ui.edit_tile.set(None);unpin_ui.menu.set(false);},
             Border{border_brush:"White",border_thickness:2.0,corner_radius:16.0,{icon(Icon::Unpin,15.0,"White")}}
         }});
-        result=result.child(rsx!{Button{class:"phone-flat",name:format!("Resize-{id}"),automation_properties_name:"Resize tile",width:32.0,height:32.0,min_height:0.0,background:"Black",horizontal_alignment:H::Right,vertical_alignment:V::Bottom,
+        overlays.push(rsx!{Button{class:"phone-flat",name:format!("Resize-{id}"),automation_properties_name:"Resize tile",width:32.0,height:32.0,min_height:0.0,background:"Black",horizontal_alignment:H::Right,vertical_alignment:V::Bottom,
             on_click:move|_|resize.resize_tile(id),
             Border{border_brush:"White",border_thickness:2.0,corner_radius:16.0,{icon(Icon::Resize,15.0,"White")}}
         }});
-        result=result.child(rsx!{Button{class:"phone-flat",name:format!("TileActions-{id}"),automation_properties_name:"Tile actions",width:32.0,height:32.0,min_height:0.0,background:"Black",horizontal_alignment:H::Left,vertical_alignment:V::Top,
+        overlays.push(rsx!{Button{class:"phone-flat",name:format!("TileActions-{id}"),automation_properties_name:"Tile actions",width:32.0,height:32.0,min_height:0.0,background:"Black",horizontal_alignment:H::Left,vertical_alignment:V::Top,
             on_click:move|_|actions.menu.update(|menu|*menu=!*menu),{icon(Icon::More,18.0,"White")}
         }});
     }
-    result.into()
+    rsx! {Grid{for overlay in overlays{{overlay}}}}
 }
