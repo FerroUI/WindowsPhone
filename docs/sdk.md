@@ -214,6 +214,8 @@ The session keeps one pending activation, bounded to 64 KiB. Delivery uses `AppR
 
 Use `AppContext::request` to request host services. It checks that the app remains installed/enabled and verifies the requested service family against the manifest's declared capabilities before forwarding to the existing host adapter. Declare only the families used by the app. The browser or native OS still owns its permissions, prompts and delivery outcome.
 
+`AppManifest::new` starts with no host capabilities. The built-in registration constructor explicitly declares `Capability::All` for the trusted system apps' existing host commands. These declarations describe SDK service admission; linked Rust code shares the process and view model, so they are not a security sandbox.
+
 ```rust
 let manifest = AppManifest::new("example.camera", "Camera tool", Icon::Camera)
     .capabilities(&[Capability::Camera]);

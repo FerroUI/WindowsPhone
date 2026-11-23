@@ -55,6 +55,26 @@ are preserved, and partial failures report how many copies completed. The app
 then asks the user to attach those copies in their sharing application. This
 workflow does not claim native share-sheet delivery.
 
+## Windows build prerequisites
+
+Install the MSVC C++ build tools, Windows SDK and a compatible LLVM/libclang.
+The pinned ANGLE dependency generates bindings against the installed MSVC
+standard library. CI uses the Windows 2022 image with VS2022/MSVC 14.44 and LLVM
+20.1.8. MSVC 14.52 requires Clang 22 or newer; the [Microsoft compatibility
+table](https://github.com/microsoft/STL/wiki/Macro-_MSVC_STL_UPDATE) lists the
+supported pairs. Set `LIBCLANG_PATH` to the matching installation's `bin`
+directory so bindgen loads the same compiler that was checked:
+
+```powershell
+$env:LIBCLANG_PATH = 'C:\Program Files\LLVM\bin'
+& "$env:LIBCLANG_PATH\clang.exe" --version
+'#include <string>' | & "$env:LIBCLANG_PATH\clang.exe" --target=x86_64-pc-windows-msvc -x c++ -std=c++17 -fsyntax-only -
+```
+
+The workflow runs this header check before compiling Rust, and scopes Windows
+caches by runner, compiler and framework pin. It keeps ANGLE/media enabled and
+does not override the standard library's compiler-version guard.
+
 ## Windows notification and location state
 
 Win32 notification-area banners have no per-app consent prompt. The host queries

@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "target": "Windows Phone 8.1 Update (2014)",
+  "full_browser_verification": {
+    "runtime_commit": "73dc39f1b0072166c7f57d54e2fbb687e252c0ba",
+    "run_id": 45155078320,
+    "build_job": {
+      "id": 137625841657,
+      "conclusion": "success"
+    },
+    "deployment_job": {
+      "id": 137631693471,
+      "conclusion": "success"
+    },
+    "overall_workflow_conclusion": "failure",
+    "overall_workflow_note": "The browser build and deployment passed. Its Windows native job failed on deprecated coordinate accessors, corrected and verified separately at c8c6170.",
+    "rust_tests": 151,
+    "javascript_tests": 25,
+    "local_modules_linked": 21,
+    "browser_groups": 53,
+    "captures": 104,
+    "elapsed_ms": 153227,
+    "console_runtime_errors": [],
+    "results_file": "73dc39f-results.json",
+    "results_sha256": "9800e148edc5dc0293a27b56ea22e44b05959fb375de4ab2fed1d19ac1646e28",
+    "artifact": {
+      "id": 14808786559,
+      "name": "ui-verification",
+      "zip_sha256": "506fcbbed0261dbd46c913cf5c00a5a11c57aeecb50e66ee57ac10047e63a866",
+      "size_bytes": 6253498
+    },
+    "deployment_http": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at_utc": "2026-11-23T10:33:26.237467+00:00",
+        "status": 200,
+        "last_modified": "Mon, 23 Nov 2026 10:31:08 GMT",
+        "etag": "\"6b0415ec-54f\"",
+        "build": "73dc39f",
+        "cache_name": null
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at_utc": "2026-11-23T10:33:29.759821+00:00",
+        "status": 200,
+        "last_modified": "Mon, 23 Nov 2026 10:31:08 GMT",
+        "etag": "\"6b0415ec-99b\"",
+        "build": null,
+        "cache_name": "windows-phone-73dc39f"
+      }
+    ],
+    "rendered_symbol_checks": [
+      {
+        "capture": "sdk-tic-tac-toe-completed-game.png",
+        "cell": "TicTacToeCell0",
+        "colour_rgb": [
+          27,
+          161,
+          226
+        ],
+        "tolerance_per_channel": 24,
+        "matching_pixels": 943,
+        "required_pixels": 274
+      },
+      {
+        "capture": "sdk-tic-tac-toe-completed-game.png",
+        "cell": "TicTacToeCell3",
+        "colour_rgb": [
+          255,
+          255,
+          255
+        ],
+        "tolerance_per_channel": 24,
+        "matching_pixels": 1104,
+        "required_pixels": 274
+      },
+      {
+        "capture": "sdk-minesweeper-playing.png",
+        "cell": "MineCell5",
+        "colour_rgb": [
+          255,
+          189,
+          56
+        ],
+        "tolerance_per_channel": 24,
+        "matching_pixels": 271,
+        "required_pixels": 38
+      },
+      {
+        "capture": "sdk-minesweeper-restored.png",
+        "cell": "MineCell5",
+        "colour_rgb": [
+          255,
+          189,
+          56
+        ],
+        "tolerance_per_channel": 24,
+        "matching_pixels": 271,
+        "required_pixels": 38
+      }
+    ]
+  },
+  "native_verification": {
+    "runtime_commit": "aae7b7a648d908b935665875d57a8ea167592db5",
+    "run_id": 45159375726,
+    "commands": [
+      "cargo test --locked -p phone-host",
+      "cargo build --locked -p phone-desktop"
+    ],
+    "application_source_matches_published_release": true,
+    "changes_since_published_release": [
+      ".github/workflows/pages.yml"
+    ],
+    "browser_and_deploy_jobs": "skipped by explicit native-only trigger",
+    "platforms": [
+      {
+        "platform": "Linux x86_64",
+        "job_id": 137640484622,
+        "conclusion": "success",
+        "host_tests": 16,
+        "desktop_build_and_link": "success",
+        "build_duration": "53.07s",
+        "real_provider_bridges": true,
+        "cache": "exact compiler/framework-pinned v2"
+      },
+      {
+        "platform": "macOS ARM64",
+        "job_id": 137640484806,
+        "conclusion": "success",
+        "host_tests": 14,
+        "desktop_build_and_link": "success",
+        "build_duration": "2m49s",
+        "real_provider_bridges": true,
+        "cache": "exact compiler/framework-pinned v2"
+      },
+      {
+        "platform": "Windows x86_64",
+        "runner": "windows-2022",
+        "job_id": 137640484996,
+        "conclusion": "in_progress",
+        "compiler_header_preflight": "success",
+        "host_tests_conclusion": "success",
+        "desktop_build_and_link": "in_progress"
+      }
+    ],
+    "physical_device_or_permission_interaction_exercised": false,
+    "conclusion": "in_progress"
+  },
+  "publication_followup": {
+    "runtime_commit": "9c392ef24bb43529b716088c05bd4af6d4684b09",
+    "run_id": 45157753990,
+    "conclusion": "success",
+    "build_job_id": 137634934128,
+    "changes_since_full_browser_verification": [
+      ".github/workflows/pages.yml",
+      "crates/phone-host/src/native/location/windows.rs",
+      "crates/apps/phone-app-minesweeper/src/view.rs"
+    ],
+    "browser_change": "Singular minefield counter labels only; game interaction and vector-symbol code unchanged.",
+    "scoped_check": {
+      "command": "cargo check --locked -p phone-app-minesweeper",
+      "conclusion": "success",
+      "duration": "2.30s"
+    },
+    "deployment_job_id": 137639203386,
+    "rust_tests": 115,
+    "javascript_tests": 25,
+    "local_modules_linked": 21,
+    "native_first_frame": "passed without runtime errors",
+    "http_observations": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at_utc": "2026-11-23T10:49:34.770914+00:00",
+        "status": 200,
+        "last_modified": "Mon, 23 Nov 2026 10:45:43 GMT",
+        "etag": "\"6b041957-54f\"",
+        "build": "9c392ef",
+        "cache_name": null
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at_utc": "2026-11-23T10:49:39.139171+00:00",
+        "status": 200,
+        "last_modified": "Mon, 23 Nov 2026 10:45:43 GMT",
+        "etag": "\"6b041957-99b\"",
+        "build": null,
+        "cache_name": "windows-phone-9c392ef"
+      }
+    ]
+  },
+  "local_extraction_verification": {
+    "runtime_commit": "d8f3d03c8b6604e12361aebcd9ecd7430e9f9bd1",
+    "file": "d8f3d03-local.json",
+    "rust_tests": 179,
+    "javascript_tests": 25
+  },
+  "architecture": {
+    "workspace_packages": 44,
+    "app_editor_support_example_crates": 33,
+    "registered_apps": 25,
+    "built_in_apps": 23,
+    "game_apps": 2,
+    "forbidden_dependency_edges": 0
+  },
+  "limitations": [
+    "Isolated CI captures do not establish original-device pixel or animation parity.",
+    "Public HTTP build markers do not establish an existing browser profile's service-worker upgrade behavior.",
+    "Native compilation/linking and host unit tests do not establish hardware, OS permission dialogs, codec behavior or notification delivery.",
+    "Native Android/iOS launch targets, cellular privileges, retired services, native media-key sessions, haptics and closed-app alarm wake-up remain outstanding.",
+    "SDK apps are trusted statically linked Rust; no XAP/APPX ABI compatibility or process sandbox is provided.",
+    "Office document support is a bounded supported subset, not complete desktop Office compatibility."
+  ],
+  "native_previous_attempt": {
+    "runtime_commit": "c8c61703bdc8acc2011b999fd5401da333b23c7a",
+    "run_id": 45155823880,
+    "linux": {
+      "host_tests": 16,
+      "desktop_build_and_link": "success"
+    },
+    "macos": {
+      "host_tests": 14,
+      "desktop_build_and_link": "success"
+    },
+    "windows": {
+      "job_id": 137628352423,
+      "host_tests": 15,
+      "desktop_build_and_link": "failed in mozangle bindgen",
+      "reason": "windows-latest supplied MSVC 14.52 headers requiring Clang22 while installed LLVM was20.1.8"
+    },
+    "correction": "Pin windows-2022 (VS2022/MSVC14.44 and LLVM20.1.8), verify standard-header parsing, select LIBCLANG_PATH and scope Windows caches by runner."
+  }
+}

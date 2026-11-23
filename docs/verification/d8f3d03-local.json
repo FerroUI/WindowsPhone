@@ -1,0 +1,19 @@
+{
+  "command": "cargo test --locked --workspace --exclude phone-browser",
+  "exit_code": 0,
+  "passed": 179,
+  "failed": 0,
+  "ignored": 0,
+  "log_sha256": "5c94db430e58c361b376257cb4c83ae065c70b0993e5fcf38fda9ff8264ac1bb",
+  "javascript": {
+    "command": "node --test scripts/*.test.mjs",
+    "passed": 25,
+    "failed": 0
+  },
+  "workspace_packages": 44,
+  "app_editor_support_example_crates": 33,
+  "framework": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "platform": "Linux x86_64",
+  "scope": "All non-browser workspace packages, including desktop, SDK, system, apps and starter. Local native media/camera use documented unavailable bridges because development dependencies are absent. No hardware or OS permission interaction was exercised.",
+  "runtime_commit": "d8f3d03c8b6604e12361aebcd9ecd7430e9f9bd1"
+}
