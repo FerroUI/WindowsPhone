@@ -39,9 +39,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let accent = data.settings.accent.clone();
     let dark = data.settings.dark || data.settings.high_contrast;
     phone_controls::set_high_contrast(data.settings.high_contrast);
-    phone_controls::set_motion_enabled(data.settings.motion_enabled());
-    ui.live_clock_enabled
-        .set(data.settings.live_tiles_enabled());
+    phone_controls::set_motion_enabled(vm.motion_enabled());
+    ui.live_clock_enabled.set(vm.live_tiles_enabled());
     let text_scale = data.settings.text_scale;
     drop(data);
     phone_controls::set_text_scale(text_scale);

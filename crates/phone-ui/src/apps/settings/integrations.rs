@@ -15,7 +15,7 @@ pub(super) fn photos(vm: Rc<PhoneViewModel>) -> Element {
         {flat("choose photos",move ||import.request(HostRequest::ImportPhotos))}
         {flat("open camera",move ||capture.navigate(Route::App(AppId::Camera)))}
         {flat("open Photos",move ||open.navigate(Route::App(AppId::Photos)))}
-        {muted("Pictures stay in this browser unless you share or export them.",16.0)}
+        {muted("Imported pictures are copied into this app. Share or export a backup to keep them elsewhere.",16.0)}
     }}
 }
 

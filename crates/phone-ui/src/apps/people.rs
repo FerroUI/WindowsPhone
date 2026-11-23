@@ -87,6 +87,13 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let add_ui = ui.clone();
     let menu = ui.menu;
     let jump = ui.alphabet;
+    let mut more = super::pim::contacts(vm.clone(), ui.clone(), None);
+    more.push(flat("show all contacts", move || {
+        ui.pivot.set(0);
+        ui.query.set(String::new());
+        ui.menu.set(false);
+    }));
+    let expanded = menu.get();
     let bar = app_bar(
         vec![
             action(Icon::Plus, "new", move || {
@@ -97,12 +104,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 menu.update(|value| *value = !*value)
             }),
         ],
-        ui.menu.get(),
-        vec![flat("show all contacts", move || {
-            ui.pivot.set(0);
-            ui.query.set(String::new());
-            ui.menu.set(false);
-        })],
+        expanded,
+        more,
     );
     page("people", body, bar)
 }
@@ -150,6 +153,21 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) -> Element 
     let remove = vm.clone();
     let confirm = ui.clone();
     let menu = ui.menu;
+    let mut more = super::pim::contacts(vm.clone(), ui.clone(), Some(id));
+    more.push(flat("pin to start", move || {
+        pin.pin_contact(id);
+        pin.home();
+    }));
+    more.push(flat("delete contact", move || {
+        let model = remove.clone();
+        confirm.confirm(
+            "delete this contact?",
+            Rc::new(move || {
+                model.delete_contact(id);
+                model.navigate(Route::App(AppId::People));
+            }),
+        );
+    }));
     let body = rsx! {StackPanel{margin:20.0,spacing:18.0,
         Border{background:contact.color.as_str(),width:100.0,height:100.0,horizontal_alignment:H::Left,
             TextBlock{text:contact.initials(),font_size:42.0,foreground:"White",horizontal_alignment:H::Center,vertical_alignment:ferroui_base::layout::VerticalAlignment::Center}}
@@ -186,22 +204,7 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) -> Element 
             }),
         ],
         ui.menu.get(),
-        vec![
-            flat("pin to start", move || {
-                pin.pin_contact(id);
-                pin.home();
-            }),
-            flat("delete contact", move || {
-                let model = remove.clone();
-                confirm.confirm(
-                    "delete this contact?",
-                    Rc::new(move || {
-                        model.delete_contact(id);
-                        model.navigate(Route::App(AppId::People));
-                    }),
-                );
-            }),
-        ],
+        more,
     );
     page("people", scroll(body), bar)
 }

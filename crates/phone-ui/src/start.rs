@@ -31,7 +31,7 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let data = vm.data();
     let tiles = data.tiles.clone();
     let columns = data.settings.columns();
-    let wallpaper_motion = data.settings.motion_enabled();
+    let wallpaper_motion = vm.motion_enabled();
     let folder_id = ui
         .edit_tile
         .get()

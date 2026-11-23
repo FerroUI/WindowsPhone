@@ -2,10 +2,11 @@
 
 ## One control tree across hosts
 
-The application has seven reusable Rust crates and a pinned FerroUI submodule. The browser is a real FerroUI application: its retained control tree, layout, input, styling and rendering are authored in Rust. HTML and JavaScript host the WebAssembly runtime and provide browser-only facilities; they are not a second implementation of the Start screen or core apps.
+The application has eight Rust crates with reusable domain, host, state and UI layers and a pinned FerroUI submodule. The browser is a real FerroUI application: its retained control tree, layout, input, styling and rendering are authored in Rust. HTML and JavaScript host the WebAssembly runtime and provide browser-only facilities; they are not a second implementation of the Start screen or core apps.
 
 | Layer | Owns | Does not own |
 | --- | --- | --- |
+| `phone-host` | Host request/environment contracts, URI validation, native paths, atomic files, background tasks and power observations. | UI controls or application state. |
 | `phone-domain` | Serializable data, identifiers, app catalog, tile sizes and packing, validation, pure calculator/calendar behavior. | Controls, browser objects or disk I/O. |
 | `phone-state` | `PhoneViewModel`, `Action` dispatch, ReactiveUI notification, navigation history, recent-app state, DynamicData caches and persistence requests. | Widget construction or direct browser API calls. |
 | `phone-controls` | Reusable templates, design tokens, palette, icons, typography and command controls. | App-specific data. |
@@ -31,9 +32,9 @@ Additional `Settings` fields use Serde defaults so older phone documents retain 
 
 `HardwareState` owns only transient volume-panel signals, an expiry deadline and a held-pointer flag. Pressing a volume button selects the active sound channel; the expanded panel exposes independent ringer/notification and media/app sliders. Mute retains the stored level. Slider callbacks distinguish a user change from the value being reconciled into a control, preventing mounting a muted slider from overwriting its saved volume or unmuting it. The panel remains open while a pointer is interacting with it, and closes after inactivity. Durable levels and mute preferences stay in `Settings`.
 
-`HostEnvironment` contains optional battery percentage, charging and online observations. Updating those values notifies the view without saving the phone document; unavailable readings remain unknown. Battery Saver affects this app's decorative motion and live-tile cycling. Storage Sense and Data Sense report measured JSON document sizes; imported media bytes, host disk capacity, per-app power consumption and carrier traffic are outside that measurement.
+`HostEnvironment` contains platform and permission states plus optional battery, charging, external-power, power-saving, online and browser-origin storage observations. Updating those values notifies the view without saving the phone document; unavailable readings remain unknown. Battery Saver affects this app's decorative motion and live-tile cycling. Storage Sense and Data Sense report measured JSON document sizes; imported media bytes, host disk capacity, per-app power consumption and carrier traffic are outside that measurement.
 
-The lock view reads one detailed-status provider and five unique quick-status choices from settings. Action Center groups notifications by app. Its ingestion and visible list both respect the global notification switch and the app's Action Center preference. Hiding an existing group preserves its stored items until a read or explicit dismissal removes them. Per-app banner, sound and vibration flags are persisted preferences; the present host notification adapter does not deliver those independent channels. Global foreground-alarm behavior is separate from Action Center filtering.
+The lock view reads one detailed-status provider and five unique quick-status choices from settings. Action Center groups notifications by app. Its ingestion and visible list both respect the global notification switch and the app's Action Center preference. Hiding an existing group preserves its stored items until a read or explicit dismissal removes them. Per-app banner, sound and vibration flags are persisted preferences. Foreground Calendar/alarm device banners respect global/app/lock policies and granted host permission; independent host sound/vibration channels remain incomplete. Global foreground-alarm behavior is separate from Action Center filtering.
 
 Locking hides and disables the underlying app page and suppresses app dialogs, status banners and the switcher. The session retains form fields and callbacks, so unlocking restores an unsaved form. The power key closes the transient hardware and Action Center panels without discarding that draft. The lock screen can still present its own permitted Action Center and volume controls.
 
@@ -107,7 +108,7 @@ Native collections, chrome and navigation modules compose the tab list, frequent
 
 ## Host service contract
 
-Views request platform behavior through the `HostRequest` enum. The browser adapter implements the following families:
+Views request platform behavior through the `phone-host::HostRequest` enum. [Host integration](host-integration.md) records the platform matrix, ownership, restore transactions and verification limits. The browser adapter implements the following families:
 
 | Request family | Browser adapter |
 | --- | --- |
@@ -117,7 +118,9 @@ Views request platform behavior through the `HostRequest` enum. The browser adap
 | Audio/video | IndexedDB media files, HTML media playback, volume, play/pause/stop and media-session actions. |
 | Location/weather | Explicit geolocation request; OpenStreetMap handoff or current Open-Meteo conditions. |
 | Share | Text/URL Web Share with clipboard fallback. Office document sharing requires file-capable Web Share; unsupported browsers receive an error suggesting export. |
-| Data | Phone JSON and media backup import/export. |
+| Data | Validated phone/media backup with immutable-key staging and fallible save before live-state replacement. |
+| Contacts/calendar | Shared bounded vCard/iCalendar codecs; file import, downloads and file-capable sharing. |
+| Environment | Battery/online/notification permission and origin storage estimates; explicit permission/persistence commands. |
 | Office documents | Native file selection, bounded DOCX/XLSX/PPTX/TXT/CSV import into the shared Rust model, and exported document downloads. |
 | Clipboard | User-requested text copying from native app commands. |
 | Notifications/alarms | In-app notices and optional browser notifications; shared Rust alarm/reminder timing; synthetic foreground alert sound/vibration through a small host adapter. |
@@ -126,7 +129,7 @@ Named FerroUI controls (`BrowserViewport`, `CameraViewport`, `MediaViewport`) ma
 
 Before creating the runtime, the browser host installs a resize-entry adapter for `canvas.ferroui-canvas` elements inside `#out`. It corrects a device-pixel content box only when it differs by more than one pixel from the CSS content size multiplied by the advertised device-pixel ratio. Normal rounding, unrelated entries, callback context and the observer instance are preserved. This keeps the canvas backing size, native layout and input coordinates consistent when viewport emulation reports the physical display's density instead. The startup splash becomes hidden after its opacity fade so its loading status leaves the accessibility tree.
 
-The desktop host retains the shared core UI and local document persistence/recovery, provides URI handoff to installed applications, and exports document backups. Native FerroUI storage-provider pickers and clipboard adapters implement Office import/export and text copying. It reports unavailable camera, imported-media, location, sharing and backup-restore requests. Alarm/reminder timing and native alert controls run on its foreground clock; the desktop audio request currently has no sound/vibration implementation. Browser backups include media; desktop document backups do not contain IndexedDB assets from a browser profile.
+The desktop host uses native FerroUI storage-provider pickers for Office, contacts, calendar files, photos, music, video and compatible media backups. App-owned media loads through the shared image cache; audio/video playback is handed to the default media app. Sharing a contact, appointment or media asset saves an attachment copy. URI handoff and clipboard remain native. Windows/macOS/Linux power adapters feed transient observations. Restore preserves a recovery snapshot and saves the candidate before changing live data. Live camera, location, system notification delivery, embedded playback and alarm sound/vibration remain unavailable on the desktop host.
 
 ## Storage and recovery
 
@@ -134,7 +137,7 @@ The browser stores the phone document in local storage and binary media in a ver
 
 A backup wraps the versioned phone document together with its media manifest and encoded bytes. Import validates document data before applying it and checks the media manifest. The current browser import limit is 256 MB for the backup envelope; the domain document has its own 16 MB limit. Large media operations can require substantial transient memory because JSON/base64 representations and decoded assets coexist.
 
-Imported images are oriented and reduced to a maximum dimension of 1,600 pixels before being stored as JPEG. They are application copies, not a lossless archive of the original selected files. Audio and video formats remain subject to the browser's codecs. Export backups if data must survive clearing browser storage or moving to another device.
+Browser-imported images are oriented and reduced to a maximum dimension of 1,600 pixels before being stored as JPEG; desktop imports keep admitted encoded bytes in app-owned storage. They are application copies, not a lossless archive of the original selected files. Audio and video formats remain subject to the browser's codecs. Export backups if data must survive clearing browser storage or moving to another device.
 
 The offline shell cache is versioned by build. Precache requests use `cache: "reload"` to bypass stale HTTP-cache entries, and a new service worker calls `skipWaiting()` only after the complete packaged file list has been cached successfully. Activation removes older Windows Phone shell caches and claims existing clients. It does not force a page reload: an open page keeps its loaded runtime and current editing session. Shell-cache cleanup does not clear phone data in local storage or media in IndexedDB.
 

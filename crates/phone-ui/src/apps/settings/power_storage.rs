@@ -20,13 +20,22 @@ pub(super) fn battery_settings(vm: Rc<PhoneViewModel>) -> Element {
         .unwrap_or_else(|| "not available".into());
     let charging = environment
         .charging
-        .map(|value| if value { "charging" } else { "on battery" })
+        .map(|value| {
+            if value {
+                "charging"
+            } else if environment.external_power == Some(true) {
+                "connected to power"
+            } else {
+                "not charging"
+            }
+        })
         .unwrap_or("battery information unavailable");
     let save = vm.clone();
     let motion = vm.clone();
     rsx! {StackPanel{spacing:20.0,
         {muted("Remaining battery life",18.0)}{text(&percent,55.0)}{muted(charging,19.0)}
         {toggle("Battery Saver",settings.battery_saver,move |enabled|update(&save,|s|s.battery_saver=enabled))}
+        if environment.power_saver==Some(true) {{muted("Your device is also saving power. Decorative motion and live tiles pause until that policy changes.",16.0)}}
         {muted("Pauses live-tile animation and decorative motion inside this app. Media playback and saved changes remain available.",17.0)}
         {flat("ease of access",move ||motion.navigate(Route::Setting("ease of access".into())))}
         {muted("Battery readings are shown only when your host supplies them. Your device controls charging and system power policies.",15.0)}
@@ -48,7 +57,7 @@ pub fn battery_page(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         rsx! {StackPanel{spacing:20.0,margin:20.0,
             {text(&level,72.0)}{text("remaining battery",24.0)}
             {muted(if environment.charging==Some(true){"Connected to power"}else if environment.battery_percent.is_some(){"Using your host's current battery reading"}else{"This host does not expose its battery level."},18.0)}
-            {muted("Per-app battery usage is not available from the browser. This page does not estimate another app's power consumption.",17.0)}
+            {muted("Per-app battery usage is not available from this host. This page does not estimate another app's power consumption.",17.0)}
         }}
     };
     page(
@@ -145,6 +154,7 @@ pub(super) fn storage(vm: Rc<PhoneViewModel>) -> Element {
         {muted("These are measured JSON document sizes. Imported photo, audio and video bytes are stored separately; your host's free disk space is not reported here.",16.0)}
         {flat("manage files",move ||files.navigate(Route::App(AppId::Files)))}
         {flat("back up now",move ||backup.request(HostRequest::ExportBackup))}
+        {super::host::storage(vm.clone())}
     }}
 }
 

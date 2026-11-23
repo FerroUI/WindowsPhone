@@ -7,6 +7,7 @@ mod calculator;
 mod calendar;
 mod data;
 pub mod documents;
+pub mod interchange;
 mod models;
 mod navigation;
 mod reminders;

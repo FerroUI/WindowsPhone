@@ -1118,8 +1118,10 @@ dependencies = [
  "phone-controls",
  "phone-domain",
  "phone-fonts",
+ "phone-host",
  "phone-state",
  "phone-ui",
+ "serde",
  "serde_json",
 ]
 
@@ -1144,6 +1146,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "phone-host"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "url",
+]
+
+[[package]]
 name = "phone-state"
 version = "0.1.0"
 dependencies = [
@@ -1151,6 +1162,7 @@ dependencies = [
  "ferroui-reactive",
  "ferroui-reactiveui",
  "phone-domain",
+ "phone-host",
  "serde",
  "serde_json",
 ]

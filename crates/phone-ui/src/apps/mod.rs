@@ -1,3 +1,4 @@
+mod pim;
 pub mod alarms;
 pub mod calculator;
 pub mod calendar;

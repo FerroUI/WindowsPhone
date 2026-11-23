@@ -102,7 +102,7 @@ jobs:
             phone-build-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
       - name: Verify state
         if: steps.reuse.outputs.artifact_id == ''
-        run: cargo test --locked -p phone-domain -p phone-state
+        run: cargo test --locked -p phone-host -p phone-domain -p phone-state
       - name: Verify host boundaries
         run: node --test scripts/*.test.mjs
       - name: Build Windows Phone

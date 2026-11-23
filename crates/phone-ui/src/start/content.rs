@@ -3,7 +3,7 @@ use crate::{common, images, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::{AppId, Tile, TileSize, TileTarget};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -19,7 +19,7 @@ pub(super) fn view(
     let small = tile.size == TileSize::Small;
     let wide = tile.size == TileSize::Wide;
     let data = vm.data();
-    let cycling = data.settings.live_tiles_enabled();
+    let cycling = vm.live_tiles_enabled();
     let animate = cycling && ui.edit_tile.get().is_none();
     if let Some(target) = tile.target {
         return match target {

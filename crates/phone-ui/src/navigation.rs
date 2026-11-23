@@ -4,7 +4,7 @@ use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignm
 use ferroui_base::media::FontWeight;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::Route;
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -42,7 +42,7 @@ pub fn battery(vm: &PhoneViewModel, color: &str) -> Element {
         .unwrap_or_else(|| "Battery status unavailable".into());
     rsx! {Grid{width:19.0,height:12.0,column_definitions:"17,2",automation_properties_name:label,
         Border{height:10.0,border_brush:color,border_thickness:1.0,vertical_alignment:V::Center,
-            if let Some(level)=level {Border{height:6.0,width:13.0*f64::from(level)/100.0,background:if vm.data().settings.battery_saver{"#F0A30A"}else{color},horizontal_alignment:H::Left,margin:(1.0,0.0)}}
+            if let Some(level)=level {Border{height:6.0,width:13.0*f64::from(level)/100.0,background:if vm.data().settings.battery_saver || environment.power_saver==Some(true){"#F0A30A"}else{color},horizontal_alignment:H::Left,margin:(1.0,0.0)}}
         }
         Border{Grid.column:1,height:4.0,background:color,vertical_alignment:V::Center}
     }}

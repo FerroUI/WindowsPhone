@@ -5,6 +5,10 @@ import {exportBackup,importBackup}from'./backup.js';
 import {importDocuments,exportDocument}from'./documents.js';
 import {shareDocuments}from'./document-share.js';
 import {attachAlarmAudio,setAlarmAlert}from'./alarm-alert.js';
+import {requestNotificationPermission,showSystemNotification} from './system-notifications.js';
+import {requestPersistentStorage} from './storage-environment.js';
+import {refreshEnvironment} from './environment.js';
+import {importContacts,exportContacts,shareContacts,importCalendar,exportCalendar,shareCalendar} from './pim.js';
 export {load,save,preserveRecovery,stopCamera};
 let runtime;let noticeTimer=0;let surfaceFrame=0;let imageGeneration=0;
 const surfaces={};
@@ -43,7 +47,7 @@ export function refreshSurfaces(){
 }
 export function request(json){
   let operation;try{operation=JSON.parse(json);}catch{return;}
-  void handle(operation).catch(error=>{notice(error.message||String(error));if(operation.kind==='playMedia')runtime.mediaChanged('','',false);}).finally(refreshSurfaces);
+  void handle(operation).catch(error=>{notice(error.message||String(error));}).finally(()=>{refreshSurfaces();refreshEnvironment();});
 }
 async function handle(op){
   switch(op.kind){
@@ -67,12 +71,25 @@ async function handle(op){
     case'importDocuments':await importDocuments(runtime,op.folder,notice);break;
     case'exportDocument':exportDocument(runtime,op.id);break;
     case'shareDocuments':await shareDocuments(runtime,op.ids);break;
+    case'importContacts':await importContacts(runtime,notice);break;
+    case'exportContacts':exportContacts(runtime,op.ids);break;
+    case'shareContacts':await shareContacts(runtime,op.ids);break;
+    case'importCalendar':await importCalendar(runtime,notice);break;
+    case'exportCalendar':exportCalendar(runtime,op.ids);break;
+    case'shareCalendar':await shareCalendar(runtime,op.ids);break;
     case'alarmAlert':setAlarmAlert(op);break;
     case'copyText':if(!navigator.clipboard)throw new Error('Clipboard access is unavailable.');await navigator.clipboard.writeText(op.text);notice('Copied.');break;
     case'locate':{const p=await locate();const url=`https://www.openstreetmap.org/?mlat=${p.coords.latitude}&mlon=${p.coords.longitude}#map=16/${p.coords.latitude}/${p.coords.longitude}`;window.open(url,'_blank','noopener,noreferrer');break;}
     case'fetchWeather':await weather();break;
     case'share':await share(op);break;
     case'notify':await notify(op.title,op.body);break;
+    case'requestNotificationPermission':{
+      const state=await requestNotificationPermission();
+      notice(state==='granted'?'System notifications are allowed.':state==='denied'?'System notifications are blocked. Change this site permission in your browser settings.':'System notifications were not enabled.');
+      break;
+    }
+    case'requestPersistentStorage':notice(await requestPersistentStorage()?'Persistent storage is enabled for this site. Keep backups for recovery.':'Your browser did not grant persistent storage. Your saved phone is still available; keep a backup.');break;
+    case'refreshEnvironment':refreshEnvironment();notice('Host information refreshed.');break;
     default:throw new Error(`Unsupported platform request: ${op.kind}`);
   }
 }
@@ -99,7 +116,7 @@ async function share(op){
   else if(navigator.clipboard){await navigator.clipboard.writeText([op.title,op.text,payload.url].filter(Boolean).join('\n'));notice('Copied to clipboard.');}
   else throw new Error('Sharing is unavailable in this browser.');
 }
-async function notify(title,body){if(!JSON.parse(runtime.hostState()).settings.notifications)return;notice(`${title}: ${body}`);if('Notification'in window){let permission=Notification.permission;if(permission==='default')permission=await Notification.requestPermission();if(permission==='granted')new Notification(title,{body,icon:new URL('./icon.svg',import.meta.url).href});}}
+async function notify(title,body){if(!JSON.parse(runtime.hostState()).settings.notifications)return;notice(`${title}: ${body}`);await showSystemNotification(title,body);}
 let lastBrightness;
 function applyAppearance(settings){
   const brightness=Math.max(.1,Math.min(1,Number(settings.brightness)||.8));

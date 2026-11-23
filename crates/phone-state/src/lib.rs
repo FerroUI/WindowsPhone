@@ -7,6 +7,7 @@ mod convenience;
 mod documents;
 mod mutation;
 mod navigation;
+mod pim;
 mod projection;
 mod secondary_tiles;
 mod services;
@@ -14,8 +15,8 @@ mod tiles;
 mod validation;
 
 use ferroui_dynamic_data::SourceCache;
-use ferroui_reactive::{concurrency::ImmediateScheduler, ObservableExt};
-use ferroui_reactiveui::{reactive_object, IReactiveObjectExt, ReactiveCommand, ReactiveObject};
+use ferroui_reactive::{ObservableExt, concurrency::ImmediateScheduler};
+use ferroui_reactiveui::{IReactiveObjectExt, ReactiveCommand, ReactiveObject, reactive_object};
 pub use phone_domain::Action;
 use phone_domain::*;
 pub use services::*;
@@ -163,11 +164,17 @@ impl PhoneViewModel {
         self.environment.borrow().clone()
     }
     pub fn set_environment(&self, mut environment: HostEnvironment) {
-        environment.battery_percent = environment.battery_percent.map(|value| value.min(100));
+        environment.normalize();
         if *self.environment.borrow() != environment {
             *self.environment.borrow_mut() = environment;
             self.notify();
         }
+    }
+    pub fn motion_enabled(&self) -> bool {
+        self.data().settings.motion_enabled() && self.environment.borrow().power_saver != Some(true)
+    }
+    pub fn live_tiles_enabled(&self) -> bool {
+        self.data().settings.live_tiles && self.motion_enabled()
     }
     pub fn request(&self, request: HostRequest) {
         let callback = self.services.borrow().request.clone();
@@ -190,8 +197,22 @@ impl PhoneViewModel {
         let data = PhoneData::from_json(json)?;
         self.replace_data(data)
     }
-    pub fn replace_data(&self, mut data: PhoneData) -> Result<(), String> {
+    pub fn replace_data(&self, data: PhoneData) -> Result<(), String> {
+        self.replace_data_after_save(data, |normalized| {
+            (self.save)(normalized);
+            Ok(())
+        })
+    }
+    /// Host restore transaction: validate and persist the complete candidate
+    /// before changing any live state. A quota/disk failure keeps drafts,
+    /// navigation, projections and identifiers untouched.
+    pub fn replace_data_after_save(
+        &self,
+        mut data: PhoneData,
+        save: impl FnOnce(&PhoneData) -> Result<(), String>,
+    ) -> Result<(), String> {
         data.normalize()?;
+        save(&data)?;
         *self.document.borrow_mut() = data;
         self.document_epoch
             .set(self.document_epoch.get().wrapping_add(1));
@@ -199,7 +220,6 @@ impl PhoneViewModel {
         self.recent.borrow_mut().clear();
         *self.current_route.borrow_mut() = Route::Start;
         self.synchronize();
-        self.persist();
         self.notify();
         Ok(())
     }

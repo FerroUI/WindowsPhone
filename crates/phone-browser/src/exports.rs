@@ -51,7 +51,14 @@ pub fn export_data() -> String {
 pub fn import_data(json: &str) -> Result<(), JsValue> {
     let data = PhoneData::from_json(json).map_err(|error| JsValue::from_str(&error.to_string()))?;
     if let Some(vm) = crate::app::model() {
-        vm.replace_data(data).map_err(|e| JsValue::from_str(&e))?;
+        vm.replace_data_after_save(data, |normalized| {
+            crate::host::save(&normalized.to_json()?).map_err(|error| {
+                error
+                    .as_string()
+                    .unwrap_or_else(|| format!("Could not save restored data: {error:?}"))
+            })
+        })
+        .map_err(|e| JsValue::from_str(&e))?;
         vm.request(phone_state::HostRequest::ClearBrowser);
     }
     Ok(())
@@ -158,7 +165,7 @@ pub fn host_state() -> String {
     crate::app::model()
         .map(|vm| {
             let data = vm.data();
-            serde_json::json!({"settings":data.settings,"alarms":data.alarms}).to_string()
+            serde_json::json!({"settings":data.settings,"alarms":data.alarms,"environment":vm.environment()}).to_string()
         })
         .unwrap_or_else(|| "{}".into())
 }

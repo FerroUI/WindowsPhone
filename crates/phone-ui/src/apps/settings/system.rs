@@ -49,9 +49,9 @@ pub(super) fn backup(vm: Rc<PhoneViewModel>) -> Element {
     rsx! {StackPanel{spacing:20.0,
         {text("apps+settings",30.0)}
         {muted(&detail,18.0)}
-        {flat("download a backup",move ||export.request(HostRequest::ExportBackup))}
+        {flat("save a backup",move ||export.request(HostRequest::ExportBackup))}
         {flat("restore from a backup",move ||import.request(HostRequest::ImportBackup))}
-        {muted("A backup includes this app's settings, tile layout and local data. Keep the downloaded file somewhere safe. Restoring replaces the current local data.",16.0)}
+        {muted("A backup includes this app's settings, tile layout and local data. Keep the backup file somewhere safe. Restoring replaces the current local data.",16.0)}
     }}
 }
 
@@ -71,7 +71,7 @@ pub(super) fn about(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }));
         })}
         {muted("Software",17.0)}{text("Windows Phone 8.1 experience",25.0)}
-        {muted("An independent recreation built with FerroUI and Rust. This is an app, with local data and browser integrations; it does not run the Windows Phone operating system.",16.0)}
+        {muted("An independent recreation built with FerroUI and Rust. This is an app, with local data and host integrations; it does not run the Windows Phone operating system.",16.0)}
         {flat("project + source",move ||link.request(HostRequest::OpenUrl{url:"https://github.com/FerroUI/WindowsPhone".into()}))}
     }}
 }

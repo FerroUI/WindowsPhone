@@ -6,6 +6,7 @@ license.workspace = true
 publish = false
 
 [dependencies]
+phone-host.workspace = true
 phone-domain = { path = "../phone-domain" }
 ferroui-reactive.workspace = true
 ferroui-reactiveui.workspace = true

@@ -1,4 +1,11 @@
+mod asset_store;
+use phone_host::native::background;
+mod backup;
 mod documents;
+mod environment;
+mod media_files;
+mod picker_io;
+mod pim;
 mod services;
 mod storage;
 use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
@@ -20,6 +27,7 @@ fn main() {
                 phone_ui::set_preview_capture_enabled(true);
                 let path = storage::data_path();
                 let (data, warning, save_path) = storage::load(&path);
+                storage::set_active_data_path(save_path.clone());
                 let vm = PhoneViewModel::new(
                     data,
                     Rc::new(move |data| {
@@ -34,12 +42,14 @@ fn main() {
                 if let Some(warning) = warning {
                     vm.set_status(warning);
                 }
+                let native_environment = environment::NativeEnvironment::new(&vm);
                 let ticking = Rc::downgrade(&vm);
                 let timer = DispatcherTimer::with_callback(
                     std::time::Duration::from_secs(1),
                     DispatcherPriority::BACKGROUND,
                     move |_| {
                         if let Some(vm) = ticking.upgrade() {
+                            native_environment.tick(&vm);
                             let date = chrono::Local::now();
                             vm.set_clock(date.timestamp());
                             vm.set_utc_offset(date.offset().local_minus_utc());
@@ -67,6 +77,7 @@ fn main() {
                 window.set_min_width(320.0);
                 window.set_min_height(560.0);
                 vm.set_viewport(430.0, 860.0);
+                media_files::install_image_loader();
                 window.set_content(Some(Control::boxed(&phone_ui::create_view(vm.clone()))));
                 let weak_window = window.downgrade();
                 let weak_vm = Rc::downgrade(&vm);

@@ -99,6 +99,7 @@ pub(super) fn notifications(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element 
         {toggle("Show notifications when locked",settings.notifications_on_lock,move |value|update(&locked,|settings|settings.notifications_on_lock=value))}
         {flat("clear all notifications",move ||clear.dispatch(phone_domain::Action::ClearNotifications))}
         {text("Manage notifications for each app",24.0)}{apps}
+        {super::host::notifications(vm.clone())}
     }}
 }
 

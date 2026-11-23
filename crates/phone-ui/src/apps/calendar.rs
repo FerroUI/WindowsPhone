@@ -52,6 +52,24 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let next_ui = ui.clone();
     let jump = ui.clone();
     let jump_date = calendar_date(day);
+    let mut more = vec![
+        flat(&format!("previous {}", mode.label()), move || {
+            previous_ui.menu.set(false);
+            move_period(&previous_vm, &previous_ui, -1);
+        }),
+        flat(&format!("next {}", mode.label()), move || {
+            next_ui.menu.set(false);
+            move_period(&next_vm, &next_ui, 1);
+        }),
+        flat("jump to date", move || {
+            jump.menu.set(false);
+            jump.calendar
+                .date_value
+                .set(session::date_value(&jump_date));
+            jump.calendar.picker.set(Some(CalendarPicker::JumpDate));
+        }),
+    ];
+    more.extend(super::pim::calendar(vm.clone(), ui.clone(), None));
     let bar = app_bar(
         vec![
             action(Icon::Calendar, "today", move || {
@@ -68,23 +86,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             action(Icon::More, "more", move || menu.set(!menu.get_untracked())),
         ],
         ui.menu.get(),
-        vec![
-            flat(&format!("previous {}", mode.label()), move || {
-                previous_ui.menu.set(false);
-                move_period(&previous_vm, &previous_ui, -1);
-            }),
-            flat(&format!("next {}", mode.label()), move || {
-                next_ui.menu.set(false);
-                move_period(&next_vm, &next_ui, 1);
-            }),
-            flat("jump to date", move || {
-                jump.menu.set(false);
-                jump.calendar
-                    .date_value
-                    .set(session::date_value(&jump_date));
-                jump.calendar.picker.set(Some(CalendarPicker::JumpDate));
-            }),
-        ],
+        more,
     );
     rsx! {Grid{name:"CalendarPage",row_definitions:"Auto,*,Auto",clip_to_bounds:true,
         {heading(&vm,&ui,day,mode)}

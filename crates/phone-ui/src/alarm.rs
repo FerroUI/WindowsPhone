@@ -1,10 +1,11 @@
 //! Shared native alarm/reminder presentation; hosts supply only sound/vibration.
+mod notifications;
 mod pickers;
 use crate::{apps::alarms::editor::AlarmEditor, common, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
 use phone_domain::{
-    reminder_is_current, Alarm, AlarmSchedule, CalendarReminder, Id, ReminderSchedule,
+    Alarm, AlarmSchedule, CalendarReminder, Id, ReminderSchedule, reminder_is_current,
 };
 use phone_state::{HostRequest, PhoneViewModel};
 use std::{
@@ -101,7 +102,7 @@ impl AlarmState {
         }
         queue.push_back(item);
     }
-    fn next(&self) {
+    fn next(&self, vm: &PhoneViewModel) {
         if self.active.get_untracked().is_some() {
             return;
         }
@@ -113,7 +114,10 @@ impl AlarmState {
             });
         }
         self.choosing_snooze.set(false);
-        self.active.set(item);
+        self.active.set(item.clone());
+        if let Some(item) = &item {
+            notifications::deliver(vm, item);
+        }
     }
     fn audio(&self, vm: &PhoneViewModel) {
         let active = self.active.get_untracked().is_some();
@@ -154,7 +158,7 @@ impl AlarmState {
                 vm.toggle_alarm(id);
             }
             self.enqueue(Alert::Alarm(alarm));
-            self.next();
+            self.next(vm);
             self.audio(vm);
         }
     }
@@ -192,7 +196,7 @@ impl AlarmState {
         for reminder in reminders {
             self.enqueue(Alert::Calendar(reminder));
         }
-        self.next();
+        self.next(vm);
         self.audio(vm);
     }
     pub fn dismiss(&self, vm: &PhoneViewModel) {
@@ -203,7 +207,7 @@ impl AlarmState {
             }
         }
         self.active.set(None);
-        self.next();
+        self.next(vm);
         self.audio(vm);
     }
     pub fn cancel_alarm(&self, vm: &PhoneViewModel, id: Id) {
@@ -213,7 +217,7 @@ impl AlarmState {
             .retain(|item| !matches!(item, Alert::Alarm(alarm) if alarm.id == id));
         if matches!(self.active.get_untracked(), Some(Alert::Alarm(alarm)) if alarm.id == id) {
             self.active.set(None);
-            self.next();
+            self.next(vm);
         }
         self.audio(vm);
     }
@@ -229,7 +233,7 @@ impl AlarmState {
             }
         }
         self.active.set(None);
-        self.next();
+        self.next(vm);
         self.audio(vm);
     }
     pub fn back(&self, vm: &PhoneViewModel) -> bool {

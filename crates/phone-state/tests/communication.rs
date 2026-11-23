@@ -242,6 +242,7 @@ fn environment_changes_notify_without_persisting_or_fabricating_values() {
         battery_percent: Some(255),
         charging: Some(true),
         online: Some(false),
+        ..Default::default()
     };
     vm.set_environment(environment);
     assert_eq!(vm.environment().battery_percent, Some(100));

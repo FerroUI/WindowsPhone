@@ -1,5 +1,6 @@
 //! Windows Phone Settings category navigation and shared mutation helpers.
 mod appearance;
+mod host;
 mod integrations;
 mod lock;
 mod notification_apps;

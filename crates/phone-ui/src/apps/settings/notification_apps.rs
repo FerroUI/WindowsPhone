@@ -20,7 +20,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, app: AppId) -> Element {
         {toggle("Show notification banners",prefs.banners,move |enabled|set(&banners,app,|p|p.banners=enabled))}
         {toggle("Play a sound",prefs.sound,move |enabled|set(&sound,app,|p|p.sound=enabled))}
         {toggle("Vibrate",prefs.vibrate,move |enabled|set(&vibrate,app,|p|p.vibrate=enabled))}
-        {muted("Banner, sound and vibration choices are saved. Per-app alerts are not currently delivered; your browser also controls notification permission.",16.0)}
+        {muted("Calendar and alarm banners can also appear on your device when notification permission is allowed. Other apps keep these preferences for local notifications; your host controls device delivery.",16.0)}
     }}
 }
 

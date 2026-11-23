@@ -12,6 +12,8 @@ import { verifyLiveFolder } from "./ui-folders.mjs";
 import { verifyCalendarRefinements } from "./ui-calendar-refinements.mjs";
 import { verifyAlarmRefinements } from "./ui-alarm-refinements.mjs";
 import { verifyShellParity } from "./ui-shell-parity.mjs";
+import { verifyPimRefinements } from "./ui-pim-refinements.mjs";
+import { verifyHostRefinements } from "./ui-host-refinements.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -595,7 +597,8 @@ try {
   const refinementFailures = [];
   for (const verify of [verifyOfficeRefinements, verifyCalendarRefinements,
     verifyAlarmRefinements, verifyShellParity, verifySystemRefinements,
-    verifyBrowserRefinements, verifyLiveTiles, verifyLockscreenDraft, verifyLiveFolder]) {
+    verifyBrowserRefinements, verifyPimRefinements, verifyHostRefinements,
+    verifyLiveTiles, verifyLockscreenDraft, verifyLiveFolder]) {
     try { await verify(refinementContext); }
     catch (error) {
       refinementFailures.push({ module: verify.name, error: error.stack || String(error) });

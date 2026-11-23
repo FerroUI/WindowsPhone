@@ -5,10 +5,7 @@ use ferroui_base::platform::storage::{
 use ferroui_base::threading::Dispatcher;
 use phone_domain::Id;
 use phone_state::{HostRequest, PhoneViewModel};
-use std::{
-    io::{Read, Write},
-    rc::Rc,
-};
+use std::rc::Rc;
 
 pub fn start(vm: Rc<PhoneViewModel>, provider: Rc<dyn IStorageProvider>, request: HostRequest) {
     drop(Dispatcher::current_dispatcher().spawn_local(async move {
@@ -40,18 +37,7 @@ async fn import(
         .map_err(|error| error.to_string())?;
     let mut count = 0;
     for file in files {
-        let stream = file
-            .open_read_async()
-            .await
-            .map_err(|error| error.to_string())?;
-        let mut bytes = Vec::new();
-        stream
-            .take(8 * 1024 * 1024 + 1)
-            .read_to_end(&mut bytes)
-            .map_err(|error| error.to_string())?;
-        if bytes.len() > 8 * 1024 * 1024 {
-            return Err(format!("{} exceeds the 8 MB import limit.", file.name()));
-        }
+        let bytes = crate::picker_io::read(file.as_ref(), 8 * 1024 * 1024).await?;
         let mut document = phone_domain::import_office(&file.name(), &bytes)?;
         document.folder = folder;
         vm.import_document(document)?;
@@ -82,14 +68,7 @@ async fn export(
         .await
         .map_err(|error| error.to_string())?;
     if let Some(file) = file {
-        let mut stream = file
-            .open_write_async()
-            .await
-            .map_err(|error| error.to_string())?;
-        stream
-            .write_all(&exported.bytes)
-            .map_err(|error| error.to_string())?;
-        stream.flush().map_err(|error| error.to_string())?;
+        crate::picker_io::write(file.as_ref(), &exported.bytes).await?;
         vm.set_status(format!("Saved {}.", file.name()));
     }
     Ok(())

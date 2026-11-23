@@ -20,3 +20,19 @@ self.addEventListener('fetch',event=>{
     return fetch(event.request);
   })());
 });
+self.addEventListener('notificationclick',event=>{
+  event.notification.close();
+  // Only app-created notifications resume this app; notification data is never
+  // used as an arbitrary URL or executable command.
+  if(event.notification.data?.phone!==true)return;
+  event.waitUntil((async()=>{
+    const scope=new URL(self.registration.scope);
+    const windows=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    const client=windows.find(client=>{
+      const url=new URL(client.url);
+      return url.origin===scope.origin&&url.pathname.startsWith(scope.pathname);
+    });
+    if(client)return client.focus();
+    return self.clients.openWindow(scope.href);
+  })());
+});

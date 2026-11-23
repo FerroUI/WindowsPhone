@@ -6,6 +6,8 @@ license.workspace = true
 publish = false
 
 [dependencies]
+phone-host.workspace = true
+serde = { workspace = true, features = ["derive"] }
 phone-fonts.workspace = true
 phone-domain.workspace = true
 phone-state.workspace = true

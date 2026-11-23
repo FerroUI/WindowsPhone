@@ -32,6 +32,12 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, item: CalendarOccurrence) -
     let delete_vm = vm.clone();
     let delete_ui = ui.clone();
     let close = ui.clone();
+    let menu = ui.menu;
+    let more = super::super::pim::calendar(
+        vm.clone(),
+        ui.clone(),
+        Some((event.id, event.repeat != CalendarRepeat::Never)),
+    );
     let is24 = vm.data().settings.time_24h;
     let when = if event.all_day {
         "all day".into()
@@ -66,9 +72,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, item: CalendarOccurrence) -
                 action(Icon::Back, "calendar", move || {
                     close.calendar.selected.set(None)
                 }),
+                action(Icon::More, "more", move || menu.set(!menu.get_untracked())),
             ],
-            false,
-            Vec::new(),
+            ui.menu.get(),
+            more,
         ),
     )
 }
