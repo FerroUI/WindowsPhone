@@ -77,7 +77,7 @@ export async function verifyCalendarRefinements(ctx) {
       await page.click(...centre(datePicker));
       await control(element=>element.name==="PART_PickerPresenter"&&/DatePickerPresenter$/.test(element.type),
         "native date picker presenter");
-      await capture("calendar-native-date-picker");
+      await capture("calendar-native-date-picker", {picker:"DatePickerPresenter"});
       await clickName("PART_DismissButton");
       const timePicker=await revealName("CalendarTime");
       assert(/TimePicker$/.test(timePicker.type));
@@ -87,7 +87,7 @@ export async function verifyCalendarRefinements(ctx) {
       // The pinned native presenter focuses its hour selector when opened;
       // Down advances one hour and accept commits the two-way selection.
       await page.press("ArrowDown");
-      await capture("calendar-native-time-picker");
+      await capture("calendar-native-time-picker", {picker:"TimePickerPresenter"});
       await clickName("PART_AcceptButton");
       await capture("calendar-native-occurrence-editor");
       await clickLabel("save");

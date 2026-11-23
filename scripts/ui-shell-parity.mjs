@@ -169,7 +169,9 @@ export async function verifyShellParity(ctx) {
         assert(picker.width<=screen.width-40+0.6&&picker.height>=44,"Native phone picker fits its form and touch target");
         await clickName(entry.picker);
         await control(element=>element.name===entry.selector,"Native picker selector panel");
-        await capture(`shell-native-${entry.capture}-picker`);
+        await capture(`shell-native-${entry.capture}-picker`,{
+          picker:entry.capture==="time"?"TimePickerPresenter":"DatePickerPresenter",
+        });
         await clickName("PART_DismissButton");
         await until(async()=>!(await snapshot()).elements.some(element=>element.name===entry.selector),"Native picker cancel dismisses its popup");
         await clickName(entry.picker);

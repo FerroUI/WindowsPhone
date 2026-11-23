@@ -169,7 +169,7 @@ pub fn demo() -> PhoneData {
         label: "Good morning".into(),
         hour: 7,
         minute: 0,
-        enabled: true,
+        enabled: false,
         weekdays: vec![0, 1, 2, 3, 4],
         ..Alarm::default()
     }];

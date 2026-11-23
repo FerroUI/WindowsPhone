@@ -45,7 +45,7 @@ Calendar dates and start times use canonical local wall-clock strings. New all-d
 
 `AlarmSchedule` and `ReminderSchedule` are pure Rust foreground schedulers shared by both hosts. They track delivered occurrences and pending snoozes without serializing ticking state. Alarm weekdays and Calendar occurrences use local time; snooze deadlines use the absolute host clock. A one-time alarm is disabled after its first delivery. Series exclusions, deletion or disabling a reminder invalidate pending delivery. A separate schedule revision rechecks same-minute edits without resetting delivered/snoozed state; a due snoozed reminder refreshes its subject, location and end time from the current event. The shared native alert queue covers underlying app input while retaining unsaved forms; dismissal or snooze reveals the same draft. Back snoozes an alarm for two minutes. Opening a Calendar alert navigates first, then selects the actual occurrence so route cleanup cannot discard the target.
 
-Only `HostRequest::AlarmAlert` crosses the alert/audio boundary. The browser keeps one reusable Web Audio context and one active-alert pulse timer, scales its synthetic tone from the ringer channel, and uses supported vibration. It stops audible voices while hidden and on dismissal. Browser activation/audio restrictions still apply. Desktop ticks and alert controls work, but its sound/vibration adapter is absent. Schedules are transient and do not replay missed background minutes or wake a suspended/closed app.
+Only `HostRequest::AlarmAlert` crosses the alert/audio boundary. The browser keeps one reusable Web Audio context and one active-alert pulse timer, scales its synthetic tone from the ringer channel, and uses supported vibration. It stops audible voices while hidden and on dismissal. Browser activation/audio restrictions still apply. Desktop ticks and alert controls work, but its sound/vibration adapter is absent. Missed scheduled alarm or appointment occurrences are skipped; pending snoozes become due on the next running tick even if their deadline passed during a background interval. Snoozes and delivered-occurrence history are transient and clear on reload. The schedulers cannot wake a suspended or closed app. The demonstration alarm starts disabled.
 
 ### Communication workflows
 
@@ -114,7 +114,7 @@ Views request platform behavior through the `HostRequest` enum. The browser adap
 | Photos/camera | File picker, normalized imported images, camera permission and live preview/capture. |
 | Audio/video | IndexedDB media files, HTML media playback, volume, play/pause/stop and media-session actions. |
 | Location/weather | Explicit geolocation request; OpenStreetMap handoff or current Open-Meteo conditions. |
-| Share | Web Share, file sharing where supported, or clipboard fallback. |
+| Share | Text/URL Web Share with clipboard fallback. Office document sharing requires file-capable Web Share; unsupported browsers receive an error suggesting export. |
 | Data | Phone JSON and media backup import/export. |
 | Office documents | Native file selection, bounded DOCX/XLSX/PPTX/TXT/CSV import into the shared Rust model, and exported document downloads. |
 | Clipboard | User-requested text copying from native app commands. |

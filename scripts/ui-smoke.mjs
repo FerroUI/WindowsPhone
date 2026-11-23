@@ -134,19 +134,42 @@ async function ready() {
   await control(element => element.name === "HardwareStart", "hardware navigation");
 }
 
-async function capture(name) {
+async function capture(name, {picker} = {}) {
   await sleep(150);
   healthy();
   const view = await snapshot();
   const currentRoute = await route();
-  assert(view?.elements.some(element => element.hit && element.name === "PhoneScreen"),
-    `${name}: phone surface missing from native hit testing`);
   const image = await page.screenshot(path.join(output, `${name}.png`));
   const sampledColours = colours(image);
-  assert(sampledColours > 40, `${name}: empty rendered surface (${sampledColours} colours)`);
+  // Retain diagnostics even when a geometry assertion fails.
   await writeFile(path.join(output, `${name}.json`), JSON.stringify({
     route: currentRoute, width: image.width, height: image.height, sampledColours, view,
   }, null, 2));
+  const screens = view?.elements.filter(element => element.name === "PhoneScreen") || [];
+  assert.equal(screens.length, 1, `${name}: one native phone surface must remain mounted`);
+  const viewport = {x: 0, y: 0, width: view.width, height: view.height};
+  assert(boundsInside(screens[0], viewport), `${name}: phone surface must fit the native viewport`);
+  if (picker) {
+    // Native picker popups belong to TopLevel's OverlayLayer. Their hit region
+    // can cover PhoneScreen's center without being a descendant of that screen.
+    // Only explicitly requested, interactive picker presenters satisfy this path.
+    assert(["DatePickerPresenter", "TimePickerPresenter"].includes(picker));
+    const presenters = view.elements.filter(element =>
+      element.name === "PART_PickerPresenter" && element.type.endsWith(picker));
+    assert.equal(presenters.length, 1, `${name}: expected ${picker} must be mounted`);
+    const presenter = presenters[0];
+    assert(presenter.hit && boundsInside(presenter, viewport),
+      `${name}: native picker presenter must be hittable and fit the viewport`);
+    for (const part of ["PART_AcceptButton", "PART_DismissButton"]) {
+      const commands = view.elements.filter(element => element.name === part && button(element));
+      assert.equal(commands.length, 1, `${name}: expected one ${part}`);
+      assert(commands[0].hit && boundsInside(commands[0], presenter),
+        `${name}: ${part} must be hittable inside its presenter`);
+    }
+  } else {
+    assert(screens[0].hit, `${name}: phone surface missing from native hit testing`);
+  }
+  assert(sampledColours > 40, `${name}: empty rendered surface (${sampledColours} colours)`);
   results.captures.push({ name, route: currentRoute, width: image.width, height: image.height, sampledColours });
   return image;
 }
@@ -314,6 +337,10 @@ try {
   await ready();
   const initial = await state();
   initial.settings.lock_timeout = 0;
+  // Scheduling is exercised with the alarm module's isolated clock fixtures.
+  // Unrelated interaction checks must never depend on the runner's wall time.
+  initial.alarms.forEach(alarm => { alarm.enabled = false; });
+  initial.events.forEach(event => { event.reminder_minutes = null; });
   const originalPhotoIds = new Set(initial.photos.map(photo => photo.id));
   const photoFixtures = Array.from({ length: 48 }, (_, index) => ({
     id: initial.next_id++,
