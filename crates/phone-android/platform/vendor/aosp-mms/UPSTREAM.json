@@ -1,0 +1,182 @@
+{
+  "repository": "https://android.googlesource.com/platform/packages/apps/Messaging/",
+  "commit": "de315b762312dd1a5d2bbd16e62ef2bd123f61e5",
+  "license": "Apache-2.0",
+  "scope": "MMS PDU parse/compose/data classes plus ContentType; no PduPersister, hidden Android APIs, network code or upstream application UI.",
+  "files": [
+    {
+      "path": "com/android/messaging/mmslib/InvalidHeaderValueException.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/InvalidHeaderValueException.java",
+      "upstream_sha256": "ad1b3b1ac4fdb2bccb613cf84690ff061020862d37551c339f1f3a25496546a6",
+      "vendored_sha256": "ad1b3b1ac4fdb2bccb613cf84690ff061020862d37551c339f1f3a25496546a6",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/MmsException.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/MmsException.java",
+      "upstream_sha256": "1a1125bd866d7a6c5fe7d21650be2bb352625588435b530ba4ef5ffcccc0fa02",
+      "vendored_sha256": "1a1125bd866d7a6c5fe7d21650be2bb352625588435b530ba4ef5ffcccc0fa02",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/AcknowledgeInd.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/AcknowledgeInd.java",
+      "upstream_sha256": "91ef332f84fb43c99be7abc1f4c478d23915840541afb66a711032ce5eea847b",
+      "vendored_sha256": "91ef332f84fb43c99be7abc1f4c478d23915840541afb66a711032ce5eea847b",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/Base64.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/Base64.java",
+      "upstream_sha256": "a3eb5a2af7a83408e2c2de7731a40c49da8ee491752546fc871bec4ec066477a",
+      "vendored_sha256": "a3eb5a2af7a83408e2c2de7731a40c49da8ee491752546fc871bec4ec066477a",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/CharacterSets.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/CharacterSets.java",
+      "upstream_sha256": "a5097ab99c61ae29b441c6e3e5927828a73f3ac924b613f66226a2f5164c79b4",
+      "vendored_sha256": "f85735b05c056e28f16a0b6977f45b74ac5209983572661abe06bc0c5725e91d",
+      "changes": [
+        "Replace the get/put-only AndroidX SimpleArrayMap with java.util.HashMap; no codec behavior change."
+      ]
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/DeliveryInd.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/DeliveryInd.java",
+      "upstream_sha256": "85c6e222bd85a9e2f396bac13fb618278f654cf1eece6f9bd0ff057ed8b0186c",
+      "vendored_sha256": "85c6e222bd85a9e2f396bac13fb618278f654cf1eece6f9bd0ff057ed8b0186c",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/EncodedStringValue.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/EncodedStringValue.java",
+      "upstream_sha256": "f03646c98c48edfa9eefba6862900d3bb38884dc6215eac3296413d84ae2d2dd",
+      "vendored_sha256": "f03646c98c48edfa9eefba6862900d3bb38884dc6215eac3296413d84ae2d2dd",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/GenericPdu.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/GenericPdu.java",
+      "upstream_sha256": "482a8a60632f0843b2e37a1cb22b1da17267ba26392ae8828321af7852d9c63b",
+      "vendored_sha256": "482a8a60632f0843b2e37a1cb22b1da17267ba26392ae8828321af7852d9c63b",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/MultimediaMessagePdu.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/MultimediaMessagePdu.java",
+      "upstream_sha256": "e790e7888daeba988f1cb0dc2031be423ae73ba7a43cc164ba3c008b622a994f",
+      "vendored_sha256": "e790e7888daeba988f1cb0dc2031be423ae73ba7a43cc164ba3c008b622a994f",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/NotificationInd.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/NotificationInd.java",
+      "upstream_sha256": "8f43c6043d002de6440f760e2e19b44c799f7c95bc941739578c7c5b3240721e",
+      "vendored_sha256": "8f43c6043d002de6440f760e2e19b44c799f7c95bc941739578c7c5b3240721e",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/NotifyRespInd.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/NotifyRespInd.java",
+      "upstream_sha256": "6ebf40864998768c53ea4bece772a5e9e92d446f036e3bf71e7acdf3301f948c",
+      "vendored_sha256": "6ebf40864998768c53ea4bece772a5e9e92d446f036e3bf71e7acdf3301f948c",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/PduBody.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/PduBody.java",
+      "upstream_sha256": "35463a617c9113418075f4e0ad3c133efc9762e8de9696c37f068a3a9d9d182b",
+      "vendored_sha256": "35463a617c9113418075f4e0ad3c133efc9762e8de9696c37f068a3a9d9d182b",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/PduComposer.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/PduComposer.java",
+      "upstream_sha256": "3195a243547956f980612468c7b0bfd3f67cb3fe5b84f29f0e70479eb56ad1d3",
+      "vendored_sha256": "c4f29ba3bce22ca6a789b4833be85c6229492f9ceef461d97da44793a8cbffd1",
+      "changes": [
+        "Replace the get/put-only AndroidX SimpleArrayMap with java.util.HashMap; no codec behavior change."
+      ]
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/PduContentTypes.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/PduContentTypes.java",
+      "upstream_sha256": "e6f70b2476f42125f55497544e7a5a75d0e54a8350d1ca53f11e959d25132dc3",
+      "vendored_sha256": "e6f70b2476f42125f55497544e7a5a75d0e54a8350d1ca53f11e959d25132dc3",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/PduHeaders.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/PduHeaders.java",
+      "upstream_sha256": "d3b5b169a8fe61e349cba5de8a9bc5fa1660ebe73b740962066b8717a7da9383",
+      "vendored_sha256": "d3b5b169a8fe61e349cba5de8a9bc5fa1660ebe73b740962066b8717a7da9383",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/PduParser.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/PduParser.java",
+      "upstream_sha256": "7b5fa91ba1a52abe2674159a75ad0e9be829e1b068f557a2b5370a02fd071e25",
+      "vendored_sha256": "a00f9968497aa671e18332b3af7a8127c5c9edc4b04d75ddb3cce2e5f25930c6",
+      "changes": [
+        "Bound multipart nesting to 4, parts to 100, and declared header/data lengths to actual remaining input; reject malformed empty child bodies and skip unknown fields without untrusted allocations."
+      ]
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/PduPart.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/PduPart.java",
+      "upstream_sha256": "f85b8cbeab016f34d99eb74c943da725ea2b028bc54a543b1f871e53d51ea336",
+      "vendored_sha256": "f85b8cbeab016f34d99eb74c943da725ea2b028bc54a543b1f871e53d51ea336",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/QuotedPrintable.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/QuotedPrintable.java",
+      "upstream_sha256": "818554e7a49f1476eb476718deea85425f8514e9ff78bb2a14ddc790e4bcca73",
+      "vendored_sha256": "818554e7a49f1476eb476718deea85425f8514e9ff78bb2a14ddc790e4bcca73",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/ReadOrigInd.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/ReadOrigInd.java",
+      "upstream_sha256": "6eee94726ee3e4ab15303ebd6d6d04b892ac0de84f0bf82d8091693491f29f4b",
+      "vendored_sha256": "6eee94726ee3e4ab15303ebd6d6d04b892ac0de84f0bf82d8091693491f29f4b",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/ReadRecInd.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/ReadRecInd.java",
+      "upstream_sha256": "0d6a1862adb082c4afabd43c3acd385af2c48265de58532c227f9ffa09cb0cf8",
+      "vendored_sha256": "0d6a1862adb082c4afabd43c3acd385af2c48265de58532c227f9ffa09cb0cf8",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/RetrieveConf.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/RetrieveConf.java",
+      "upstream_sha256": "fb874065df7bf8e46f17f128e07444f3567a21b5eefe01f6255fe2a0ffc27977",
+      "vendored_sha256": "fb874065df7bf8e46f17f128e07444f3567a21b5eefe01f6255fe2a0ffc27977",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/SendConf.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/SendConf.java",
+      "upstream_sha256": "3d95026c374e57e79996ebfce7f39b51ef771d53fccdbeab8b27f28c6dd8a508",
+      "vendored_sha256": "3d95026c374e57e79996ebfce7f39b51ef771d53fccdbeab8b27f28c6dd8a508",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/mmslib/pdu/SendReq.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/mmslib/pdu/SendReq.java",
+      "upstream_sha256": "3f38faa2d1991b7aa8dd23370fc91e61fba88bda33ddfee13216fc15559acb73",
+      "vendored_sha256": "3f38faa2d1991b7aa8dd23370fc91e61fba88bda33ddfee13216fc15559acb73",
+      "changes": []
+    },
+    {
+      "path": "com/android/messaging/util/ContentType.java",
+      "source_url": "https://android.googlesource.com/platform/packages/apps/Messaging/+/de315b762312dd1a5d2bbd16e62ef2bd123f61e5/src/com/android/messaging/util/ContentType.java",
+      "upstream_sha256": "87d459e1e609df05ac73a6a9412e647fded3ebadffeefe6890e137e865050b09",
+      "vendored_sha256": "87d459e1e609df05ac73a6a9412e647fded3ebadffeefe6890e137e865050b09",
+      "changes": []
+    }
+  ]
+}

@@ -100,6 +100,32 @@ impl PhoneData {
             return Err("The Start screen contains too many tiles.".into());
         }
         for tile in self.all_tiles() {
+            tile.appearance.validate()?;
+            if let crate::TileBackground::Photo(id) = tile.appearance.background {
+                if !self.photos.iter().any(|photo| photo.id == id) {
+                    return Err("A tile background refers to a missing photo.".into());
+                }
+            }
+            if tile.notifications.len() > crate::MAX_TILE_NOTIFICATIONS
+                || (tile.is_folder() && !tile.notifications.is_empty())
+            {
+                return Err("An app tile can contain at most five notifications; folders use their child tiles.".into());
+            }
+            let mut tags = HashSet::new();
+            for card in &tile.notifications {
+                card.validate()?;
+                if !tags.insert(&card.tag) {
+                    return Err("Two tile notifications have the same tag.".into());
+                }
+                if card
+                    .template
+                    .photo_ids()
+                    .iter()
+                    .any(|id| !self.photos.iter().any(|photo| photo.id == *id))
+                {
+                    return Err("A tile notification refers to a missing photo.".into());
+                }
+            }
             if let Some(target) = tile.target {
                 if self.tile_target_label(target).is_none() {
                     return Err("A pinned tile refers to an item missing from the backup.".into());
@@ -125,6 +151,32 @@ impl PhoneData {
     /// Keep secondary labels current and discard shortcuts only when their
     /// underlying contact, note, bookmark, or installed app has been removed.
     pub fn clean_tile_targets(&mut self) {
+        let photos = self
+            .photos
+            .iter()
+            .map(|photo| photo.id)
+            .collect::<HashSet<_>>();
+        for tile in self.tiles.iter_mut().flat_map(|tile| {
+            std::iter::once((&mut tile.appearance, &mut tile.notifications)).chain(
+                tile.folder_tiles
+                    .iter_mut()
+                    .map(|child| (&mut child.appearance, &mut child.notifications)),
+            )
+        }) {
+            let (appearance, notifications) = tile;
+            if matches!(appearance.background, crate::TileBackground::Photo(id) if !photos.contains(&id))
+            {
+                appearance.background = crate::TileBackground::App;
+            }
+            notifications.retain_mut(|card| match &mut card.template {
+                crate::TileTemplate::Photo { photo, .. } => photos.contains(photo),
+                crate::TileTemplate::Cycle { photos: cycle, .. } => {
+                    cycle.retain(|photo| photos.contains(photo));
+                    !cycle.is_empty()
+                }
+                _ => true,
+            });
+        }
         let valid = self
             .all_tiles()
             .filter_map(|tile| {

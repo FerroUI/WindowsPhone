@@ -2,12 +2,16 @@
 use crate::session::SystemSessionExt;
 use phone_alarm_service as alarm;
 mod app_list;
+mod device_notifications;
+mod quick_settings;
 
 use phone_sdk::common;
 mod dialogs;
 mod gestures;
 mod hardware;
 use phone_sdk::images;
+#[cfg(test)]
+mod lifecycle_tests;
 mod lockscreen;
 mod navigation;
 mod notifications;
@@ -15,8 +19,6 @@ mod previews;
 pub(crate) mod session;
 mod shell;
 mod start;
-#[cfg(test)]
-mod lifecycle_tests;
 
 use ferroui_base::Ref;
 use ferroui_controls::Control;
@@ -35,13 +37,7 @@ ferroui_base::ferro_thread_local! {
 }
 
 pub fn create_view(vm: Rc<PhoneViewModel>, registry: Rc<phone_sdk::AppRegistry>) -> Ref<Control> {
-    vm.set_registered_apps(
-        registry
-            .manifests()
-            .into_iter()
-            .filter(|m| m.builtin.is_none())
-            .map(|m| m.id.to_string()),
-    );
+    registry.bind(&vm);
     ComponentHost::with_view(move || {
         let revision = signal(vm.revision());
         let ui = Rc::new(session::Session::new(vm.now(), registry.clone()));
@@ -261,15 +257,7 @@ pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
                 .state::<crate::hardware::HardwareState>()
                 .show(vm.now(), media),
             "volumeMute" => {
-                let mut settings = vm.data().settings.clone();
-                if media {
-                    settings.media_muted = !settings.media_muted;
-                } else {
-                    settings.sounds = !settings.sounds;
-                }
-                vm.set_settings(settings);
-                ui.state::<crate::hardware::HardwareState>()
-                    .show(vm.now(), media);
+                hardware::mute(vm, &ui.state::<crate::hardware::HardwareState>(), media);
             }
             "power" => {
                 let locked = ui.locked.get_untracked() || vm.route() == Route::Lock;
@@ -314,7 +302,8 @@ pub fn host_closing(vm: &Rc<PhoneViewModel>) {
         return;
     }
     if let Some(ui) = SESSION.with(|slot| slot.borrow().upgrade()) {
-        ui.state::<phone_alarm_service::AlarmState>().host_closing(vm);
+        ui.state::<phone_alarm_service::AlarmState>()
+            .host_closing(vm);
         phone_sdk::media::flush(vm, &ui);
         ui.registry().shutdown(vm, &ui);
         vm.request(phone_state::HostRequest::StopCamera);
@@ -350,6 +339,29 @@ pub fn host_visibility(visible: bool) {
 }
 pub use phone_sdk::{set_host_surface_factory, HostSurface};
 
+/// Resolve secondary app tiles through the registry, including builtin apps
+/// with typed launch payloads. The state layer still owns structural targets.
+pub fn open_tile(vm: &Rc<PhoneViewModel>, id: phone_domain::Id) {
+    let link = {
+        let data = vm.data();
+        data.tile(id).and_then(|tile| match tile.target {
+            Some(phone_domain::TileTarget::AppLink(link_id)) => data
+                .app_links
+                .iter()
+                .find(|link| link.id == link_id)
+                .cloned(),
+            _ => None,
+        })
+    };
+    if let Some(link) = link {
+        if !launch_app(vm, &link.app, &link.path) {
+            vm.set_status("This application or its pinned destination is unavailable.".into());
+        }
+    } else {
+        vm.open_tile(id);
+    }
+}
+
 /// Launch a registered app by stable SDK identity, preserving normal Back behavior.
 pub fn launch_app(vm: &Rc<PhoneViewModel>, id: &str, path: &str) -> bool {
     if path.len() > 2048 || path.chars().any(char::is_control) {
@@ -363,9 +375,10 @@ pub fn launch_app(vm: &Rc<PhoneViewModel>, id: &str, path: &str) -> bool {
         let Some(app) = registry.by_id(id) else {
             return false;
         };
-        if app.manifest.builtin.is_some() && !path.is_empty() {
-            return false;
-        }
+        let payload = match app.launch_payload(path) {
+            Ok(value) => value,
+            Err(_) => return false,
+        };
         if app.manifest.builtin.map_or_else(
             || !vm.extension_enabled(id),
             |app| !vm.data().installed.contains(&app),
@@ -374,6 +387,11 @@ pub fn launch_app(vm: &Rc<PhoneViewModel>, id: &str, path: &str) -> bool {
         }
         let route = app.manifest.route(path);
         ui.clear_overlays();
+        if let Some(payload) = payload {
+            if ui.queue_activation(id, payload).is_err() {
+                return false;
+            }
+        }
         vm.navigate(route.clone());
         vm.route() == route
     })

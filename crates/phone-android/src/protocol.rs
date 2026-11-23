@@ -1,6 +1,6 @@
 use phone_host::{
     platform::{
-        validate_applications, DeviceApplication, HostFeature, HostMode, HostRole,
+        validate_applications, DeviceApplication, DeviceResponse, HostFeature, HostMode, HostRole,
         PlatformResponse, PlatformState,
     },
     HostEnvironment, HostPermission, HostPlatform,
@@ -40,6 +40,13 @@ impl Observation {
             HostFeature::Haptics,
             HostFeature::Notifications,
             HostFeature::Location,
+            HostFeature::HardwareControls,
+            HostFeature::Telephony,
+            HostFeature::Messaging,
+            HostFeature::Contacts,
+            HostFeature::NotificationCenter,
+            HostFeature::Maps,
+            HostFeature::AppShortcuts,
         ];
         if launcher != HostRole::Unsupported {
             features.push(HostFeature::LauncherRole);
@@ -96,6 +103,9 @@ enum Reply {
         latitude: f64,
         longitude: f64,
     },
+    Device {
+        response: DeviceResponse,
+    },
     Error {
         message: String,
     },
@@ -116,6 +126,10 @@ pub(crate) fn response(text: &str) -> Result<Option<PlatformResponse>, String> {
         Reply::Applications { applications } => {
             validate_applications(&applications)?;
             PlatformResponse::Applications(applications)
+        }
+        Reply::Device { response } => {
+            response.validate()?;
+            PlatformResponse::Device(response)
         }
         Reply::Location {
             latitude,
@@ -191,6 +205,27 @@ mod tests {
             response(r#"{"kind":"location","latitude":50.09,"longitude":18.22}"#),
             Ok(Some(PlatformResponse::Location { .. }))
         ));
+    }
+
+    #[test]
+    fn native_device_completion_validates_picker_and_message_identities() {
+        let selected = r#"{"kind":"device","response":{"kind":"draftAttachments","value":{"client_id":"draft-1","attachments":[{"id":"draft-attachment:one","name":"photo.jpg","mime":"image/jpeg","bytes":3}],"error":null}}}"#;
+        assert!(matches!(
+            response(selected),
+            Ok(Some(PlatformResponse::Device(
+                DeviceResponse::DraftAttachments { .. }
+            )))
+        ));
+        let cancelled = r#"{"kind":"device","response":{"kind":"draftAttachments","value":{"client_id":"draft-1","attachments":null,"error":null}}}"#;
+        assert!(response(cancelled).is_ok());
+        assert!(
+            response(&selected.replace("draft-attachment:one", "content://arbitrary/file"))
+                .is_err()
+        );
+        let stale_thread = r#"{"kind":"device","response":{"kind":"messages","value":{"thread_id":"thread:1","messages":[{"id":"sms:1","thread_id":"thread:2"}]}}}"#;
+        assert!(response(stale_thread).is_err());
+        let malformed = selected.replace("image/jpeg", "image/*");
+        assert!(response(&malformed).is_err());
     }
 
     #[test]

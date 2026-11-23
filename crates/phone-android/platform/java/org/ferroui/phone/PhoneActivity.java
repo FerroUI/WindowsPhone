@@ -29,30 +29,25 @@ public class PhoneActivity extends FerroMainActivity {
         return intent == null ? null : intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }
 
-    private static Intent activation(Intent intent) {
-        if (intent != null && Intent.ACTION_MAIN.equals(intent.getAction())
-                && intent.hasCategory(Intent.CATEGORY_HOME)) {
-            // Internal activation only: no public deep-link filter claims this scheme.
-            intent.setData(Uri.parse("ferroui-phone://home"));
-        }
-        return intent;
-    }
-
     @Override protected void onCreate(Bundle saved) {
         current = new WeakReference<>(this);
-        setIntent(activation(getIntent()));
+        PhoneDevice.attach(this);
+        setIntent(PhoneIntents.activation(getIntent()));
         super.onCreate(saved);
     }
 
     @Override protected void onNewIntent(Intent intent) {
-        setIntent(activation(intent));
-        super.onNewIntent(intent);
+        Intent routed = PhoneIntents.activation(intent);
+        setIntent(routed);
+        super.onNewIntent(routed);
     }
 
     @Override protected void onResume() {
         current = new WeakReference<>(this);
         resumed = true;
         super.onResume();
+        PhoneDevice.resumed(this);
+        PhoneLauncherAppearance.apply(this);
     }
 
     @Override protected void onPause() {
@@ -63,11 +58,18 @@ public class PhoneActivity extends FerroMainActivity {
     @Override protected void onDestroy() {
         if (current.get() == this) current.clear();
         PhoneLocation.activityDestroyed(this);
+        PhoneMessagePicker.activityDestroyed(this);
         super.onDestroy();
+    }
+
+    @Override protected void onActivityResult(int request, int result, Intent data) {
+        super.onActivityResult(request, result, data);
+        if (request == PhoneMessagePicker.REQUEST) PhoneMessagePicker.result(this, result, data);
     }
 
     @Override public void onRequestPermissionsResult(int request, String[] permissions, int[] grants) {
         super.onRequestPermissionsResult(request, permissions, grants);
+        if (request == PhonePermissions.REQUEST) PhonePermissions.result(this, permissions, grants);
         if (request == PhoneLocation.PERMISSION_REQUEST) PhoneLocation.permissionResult(this);
         if (request == PhoneServices.NOTIFICATION_PERMISSION) PhoneServices.notificationResult(this, permissions, grants);
     }

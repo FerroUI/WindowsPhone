@@ -7,6 +7,7 @@ import { verifySystemRefinements } from "./ui-system-refinements.mjs";
 import { verifyOfficeRefinements } from "./ui-office-refinements.mjs";
 import { verifyBrowserRefinements } from "./ui-browser-refinements.mjs";
 import { verifyLiveTiles } from "./ui-live-tiles.mjs";
+import { verifyStartCustomization } from "./ui-start-customization.mjs";
 import { verifyLockscreenDraft } from "./ui-lockscreen.mjs";
 import { verifyLiveFolder } from "./ui-folders.mjs";
 import { verifyCalendarRefinements } from "./ui-calendar-refinements.mjs";
@@ -19,6 +20,7 @@ import { verifyOfficeExpansion } from "./ui-office-expanded.mjs";
 import { verifyMediaLibraries } from "./ui-media-libraries.mjs";
 import { verifyConnectedApps } from "./ui-connected-apps.mjs";
 import { verifyMapsExpansion } from "./ui-maps-expanded.mjs";
+import { installMapTileFixture } from "./ui-map-fixture.mjs";
 import { verifyPlatformRefinements } from "./ui-platform-refinements.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
@@ -361,7 +363,9 @@ async function touchSwipe(from, to) {
 }
 
 try {
-  page = await open(site, { query: "?nooffline=1", width: 1280, height: 936, network: true });
+  page = await open(site, { query: "?nooffline=1", width: 1280, height: 936, network: true, navigate:false });
+  await installMapTileFixture(page);
+  await page.navigate();
   await ready();
   const initial = await state();
   initial.settings.lock_timeout = 0;
@@ -625,7 +629,7 @@ try {
     verifyAlarmRefinements, verifyShellParity, verifySystemRefinements,
     verifyBrowserRefinements, verifyPimRefinements, verifyHostRefinements, verifySdkGames,
     verifyOfficeExpansion, verifyMediaLibraries, verifyConnectedApps, verifyMapsExpansion, verifyPlatformRefinements,
-    verifyLiveTiles, verifyLockscreenDraft, verifyLiveFolder]) {
+    verifyLiveTiles, verifyStartCustomization, verifyLockscreenDraft, verifyLiveFolder]) {
     try { await verify(refinementContext); }
     catch (error) {
       refinementFailures.push({ module: verify.name, error: error.stack || String(error) });
@@ -661,6 +665,7 @@ try {
     page = await open(site, {
       query: "?nooffline=1", width: 390, height: 844, scale: 2, network: true, navigate: false,
     });
+    await installMapTileFixture(page);
     await firstBrowser.close();
     page.errors.unshift(...firstBrowser.errors);
     page.log.unshift(...firstBrowser.log);

@@ -1,7 +1,7 @@
 use crate::{native, pending::Session};
 #[cfg(target_os = "ios")]
 use phone_host::HostPermission;
-use phone_host::{platform::*, HostEnvironment, HostPlatform};
+use phone_host::{HostEnvironment, HostPlatform, platform::*};
 use std::rc::Rc;
 
 pub struct IosPlatform {
@@ -18,6 +18,7 @@ impl Default for IosPlatform {
 impl IosPlatform {
     pub fn new() -> Self {
         native::monitor_power(true);
+        native::monitor_device(true);
         Self {
             session: Rc::new(Session::default()),
             mode: HostMode::App,
@@ -43,11 +44,21 @@ impl IosPlatform {
                 let task = native::permission(&self.session, true)?;
                 return Ok(Box::pin(async move { task.await?; Ok(PlatformResponse::State(state)) }));
             }
+            PlatformRequest::Device { request } => return crate::device::start(&self.session, request),
             PlatformRequest::OpenSettings { page } => native::settings(&self.session, match page {
-                SystemSettingsPage::Application => 0,
-                SystemSettingsPage::Network => 1,
+                SystemSettingsPage::Application | SystemSettingsPage::Permissions | SystemSettingsPage::Privacy => 0,
                 SystemSettingsPage::Notifications => 2,
                 SystemSettingsPage::DefaultApps => 3,
+                SystemSettingsPage::Sound | SystemSettingsPage::AudioOutput | SystemSettingsPage::Cast => {
+                    return crate::device::start(&self.session, device::DeviceRequest::OpenControl {
+                        control: match page {
+                            SystemSettingsPage::Sound => device::DeviceControl::MediaVolume,
+                            SystemSettingsPage::Cast => device::DeviceControl::Cast,
+                            _ => device::DeviceControl::AudioOutput,
+                        }
+                    });
+                }
+                _ => return Err("iOS does not publish a direct link to this system settings page. Open Settings to change it.".into()),
             })?,
             PlatformRequest::Haptic { kind } => {
                 let kind = match kind { HapticKind::Selection => 0, HapticKind::Light => 1, HapticKind::Medium => 2, HapticKind::Heavy => 3 };
@@ -96,6 +107,10 @@ impl IosPlatform {
 }
 
 impl PlatformPlugin for IosPlatform {
+    fn set_notification_policy(&self, policy: &DeviceNotificationPolicy) {
+        native::set_notification_policy(policy);
+    }
+
     fn id(&self) -> &'static str {
         "org.ferroui.platform.ios"
     }
@@ -108,7 +123,8 @@ impl PlatformPlugin for IosPlatform {
             shell: HostRole::Unsupported,
             features: if cfg!(target_os = "ios") {
                 vec![HostFeature::SystemSettings, HostFeature::NativeSharing, HostFeature::Haptics,
-                     HostFeature::Notifications, HostFeature::Location]
+                     HostFeature::Notifications, HostFeature::Location, HostFeature::HardwareControls,
+                     HostFeature::Contacts, HostFeature::Telephony, HostFeature::Messaging, HostFeature::Maps]
             } else { Vec::new() },
             detail: "UIKit application or embedded surface. iOS controls Home Screen, installed-app visibility and system-shell privileges.".into(),
         }
@@ -166,6 +182,7 @@ impl PlatformPlugin for IosPlatform {
         match event {
             HostLifecycle::Resumed => {
                 native::monitor_power(true);
+                native::monitor_device(true);
                 #[cfg(target_os = "ios")]
                 if let Ok(task) = native::permission(&self.session, false) {
                     // Returning from Settings observes the actual permission;
@@ -181,12 +198,26 @@ impl PlatformPlugin for IosPlatform {
             }
             HostLifecycle::Suspended => {
                 self.session.cancel_locations();
+                self.session.cancel_device_reads();
                 native::monitor_power(false);
+                native::monitor_device(false);
             }
             HostLifecycle::Closing => {
                 self.session.close();
                 native::monitor_power(false);
+                native::close_device();
             }
+        }
+    }
+
+    fn drain_events(&self) -> Vec<PlatformResponse> {
+        #[cfg(target_os = "ios")]
+        {
+            native::device_events()
+        }
+        #[cfg(not(target_os = "ios"))]
+        {
+            Vec::new()
         }
     }
 }

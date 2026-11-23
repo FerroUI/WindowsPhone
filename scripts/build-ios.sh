@@ -9,8 +9,9 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     --target) target="$2"; shift 2 ;;
     --profile) profile="$2"; shift 2 ;;
+    --features) build_args+=(--features "$2"); shift 2 ;;
     --no-build) build_args+=(--no-build); shift ;;
-    *) echo "Usage: scripts/build-ios.sh [--target aarch64-apple-ios-sim|aarch64-apple-ios|x86_64-apple-ios] [--profile dev|release] [--no-build]" >&2; exit 2 ;;
+    *) echo "Usage: scripts/build-ios.sh [--target aarch64-apple-ios-sim|aarch64-apple-ios|x86_64-apple-ios] [--profile dev|release] [--features ios26-telephony] [--no-build]" >&2; exit 2 ;;
   esac
 done
 if [ "$(uname -s)" != Darwin ]; then

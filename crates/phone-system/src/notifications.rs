@@ -19,39 +19,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         .into_iter()
         .filter(|item| visible && settings.notifications_allowed(item.app))
         .collect::<Vec<_>>();
-    let mut quick = grid()
-        .column_definitions("*,*,*,*")
-        .column_spacing(3.0)
-        .margin((12.0, 18.0, 12.0, 14.0));
-    for (index, key) in settings.quick_actions.iter().cloned().enumerate() {
-        let (kind, label, enabled) = match key.as_str() {
-            "bluetooth" => (Icon::Bluetooth, "Bluetooth", settings.bluetooth),
-            "airplane" => (Icon::Airplane, "flight mode", settings.airplane),
-            "rotation_lock" => (Icon::Rotation, "rotation lock", settings.rotation_lock),
-            "location" => (Icon::Location, "location", settings.location),
-            "brightness" => (Icon::Sun, "brightness", false),
-            "camera" => (Icon::Camera, "camera", false),
-            _ => (Icon::Wifi, "Wi-Fi", settings.wi_fi),
-        };
-        let action_vm = vm.clone();
-        let action_ui = ui.clone();
-        let action_name = if matches!(key.as_str(), "brightness" | "camera") {
-            format!("Open {label}")
-        } else {
-            format!("Toggle {label}")
-        };
-        quick=quick.child(rsx!{Button{Grid.column:index as i32,class:"phone-flat",height:96.0,horizontal_content_alignment:H::Stretch,automation_properties_name:action_name,
-            on_click:move |_|match key.as_str() {
-                "brightness" => {action_ui.locked.set(false);action_ui.notification_open.set(false);action_vm.navigate(Route::Setting("brightness".into()));},
-                "camera" => {action_ui.locked.set(false);action_ui.notification_open.set(false);action_vm.navigate(Route::App(AppId::Camera));},
-                _ => action_vm.toggle_setting(&key),
-            },
-            StackPanel{spacing:9.0,
-                Border{height:58.0,background:if enabled{settings.accent.as_str()}else{"#383838"},{icon(kind,26.0,"White")}},
-                TextBlock{text:label,font_size:12.0,foreground:"White",horizontal_alignment:H::Center}
-            }
-        }});
-    }
+    let quick = crate::quick_settings::view(vm.clone(), ui.clone(), peek);
     let mut list = stack_panel().spacing(20.0).margin((18.0, 14.0));
     let mut sorted = notifications;
     sorted.sort_by_key(|n| std::cmp::Reverse(n.timestamp));
@@ -63,7 +31,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             groups.push((item.app, vec![item]));
         }
     }
-    if groups.is_empty() {
+    let native_rows = crate::device_notifications::rows(vm.clone(), ui.clone(), visible);
+    if groups.is_empty() && native_rows.is_empty() {
         list = list.child(rsx! {TextBlock{
             text:if visible{"no new notifications"}else{"unlock to see notifications"},
             font_size:24.0,foreground:"#A0A0A0",margin:(0.0,24.0),text_wrapping:TextWrapping::Wrap
@@ -94,6 +63,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             Border{Grid.row:1,Grid.column_span:2,{rows}}
         }});
     }
+    for row in native_rows {
+        list = list.child(row);
+    }
     let clear = vm.clone();
     let all = vm.clone();
     let all_ui = ui.clone();
@@ -108,7 +80,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         TextBlock{text:format!("{}{battery}",common::clock(&vm)),font_size:13.0,foreground:"White",horizontal_alignment:H::Right,margin:(0.0,5.0,16.0,0.0)},
         Border{Grid.row:1,{quick}},
         if !peek {Grid{Grid.row:2,column_definitions:"*,*",margin:(18.0,0.0,18.0,14.0),
-            Button{class:"phone-flat",automation_properties_name:"Clear all notifications",on_click:move |_|clear.clear_notifications(),TextBlock{text:"clear all",font_size:17.0,foreground:"White"}},
+            Button{class:"phone-flat",automation_properties_name:"Clear all notifications",on_click:move |_|crate::device_notifications::clear(&clear),TextBlock{text:"clear all",font_size:17.0,foreground:"White"}},
             Button{Grid.column:1,class:"phone-flat",horizontal_alignment:H::Right,automation_properties_name:"All settings",on_click:move |_|{all_ui.locked.set(false);all_ui.notification_peek.set(false);all_ui.notification_open.set(false);all.navigate(Route::App(AppId::Settings));},TextBlock{text:"all settings",font_size:17.0,foreground:"White"}}
         }}
         if !peek {Border{Grid.row:3,{common::scroll(list.into())}}}

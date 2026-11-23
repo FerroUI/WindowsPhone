@@ -97,4 +97,15 @@ impl PhoneViewModel {
             *self.current_route.borrow_mut() = phone_domain::Route::Start;
         }
     }
+    /// Builtin identity bindings admit secondary tiles without turning builtins
+    /// into disableable extension applications or extension navigation routes.
+    pub fn set_registered_builtins(
+        &self,
+        apps: impl IntoIterator<Item = (String, phone_domain::AppId)>,
+    ) {
+        *self.registered_builtins.borrow_mut() = apps
+            .into_iter()
+            .filter(|(id, _)| validate_app_key(id).is_ok())
+            .collect();
+    }
 }

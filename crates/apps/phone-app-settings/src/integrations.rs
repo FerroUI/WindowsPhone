@@ -30,6 +30,12 @@ pub(super) fn browser(vm: Rc<PhoneViewModel>) -> Element {
 }
 
 pub(super) fn messaging(vm: Rc<PhoneViewModel>) -> Element {
+    if vm
+        .platform_state()
+        .supports(phone_sdk::host::platform::HostFeature::Messaging)
+    {
+        return super::device::communications(vm);
+    }
     let enabled = vm.data().settings.notifications;
     let model = vm.clone();
     let open = vm.clone();
@@ -45,8 +51,12 @@ pub(super) fn location(vm: Rc<PhoneViewModel>) -> Element {
     let model = vm.clone();
     let locate = vm.clone();
     rsx! {StackPanel{spacing:18.0,
-        {toggle("Location services",value,move |enabled|update(&model,|settings|settings.location=enabled))}
+        if vm.platform_state().supports(phone_sdk::host::platform::HostFeature::HardwareControls) {
+            {phone_sdk::device::control(vm.clone(),phone_sdk::host::platform::DeviceControl::Location)}
+            {phone_sdk::device::permission(vm.clone(),phone_sdk::host::platform::DevicePermission::Location,"location")}
+        }
+        {toggle("Use location in this app",value,move |enabled|update(&model,|settings|settings.location=enabled))}
         {action(Icon::Location,"find my location",move ||locate.request(HostRequest::Locate))}
-        {muted("Your browser asks for permission before sharing your location.",16.0)}
+        {muted("Your device asks for permission before sharing your location.",16.0)}
     }}
 }

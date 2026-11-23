@@ -168,6 +168,14 @@ impl Controller {
                     .collect::<Vec<_>>()
             })
             .unwrap_or_default();
+        // Embedded gesture surfaces own their complete pointer sequence, including
+        // a second contact. Do not capture/cancel their pinch or pan as shell swipes.
+        if ancestors
+            .iter()
+            .any(|control| control.classes().contains("phone-native-input"))
+        {
+            return;
+        }
         if ancestors
             .iter()
             .any(|control| control.has_name("PhoneVolumePanel"))
@@ -204,6 +212,7 @@ impl Controller {
                     .is_some_and(|name| name.starts_with("Hardware") && !back)
         });
         let native = editing
+            || crate::app_list::has_native_overlay(&ui)
             || ui
                 .state::<phone_alarm_service::AlarmState>()
                 .active

@@ -43,7 +43,7 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = [new File(ferroRoot, 'src/Android/FerroUI.Android/java'), file('java')]
+            java.srcDirs = [new File(ferroRoot, 'src/Android/FerroUI.Android/java'), file('java'), file('vendor/aosp-mms/src')]
             res.srcDirs = [file('res')]
             jniLibs.srcDirs = [new File(layout.buildDirectory.get().asFile, 'native')]
         }

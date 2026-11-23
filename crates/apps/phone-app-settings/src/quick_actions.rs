@@ -15,15 +15,12 @@ pub(super) fn notifications(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element 
     let settings = vm.data().settings.clone();
     if let Some(slot) = ui.selected.get().filter(|slot| *slot < 4) {
         let mut choices = stack_panel().spacing(6.0);
-        for key in [
-            "wi_fi",
-            "bluetooth",
-            "airplane",
-            "rotation_lock",
-            "location",
-            "brightness",
-            "camera",
-        ] {
+        let mut keys = phone_sdk::host::platform::DeviceControl::ALL
+            .into_iter()
+            .map(|v| v.key())
+            .collect::<Vec<_>>();
+        keys.push("camera");
+        for key in keys {
             let (label, kind) = quick_action(key);
             let model = vm.clone();
             let close = ui.selected;
@@ -100,10 +97,16 @@ pub(super) fn notifications(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element 
         {flat("clear all notifications",move ||clear.dispatch(phone_domain::Action::ClearNotifications))}
         {text("Manage notifications for each app",24.0)}{apps}
         {phone_app_support::host::notifications(vm.clone())}
+        if vm.platform_state().supports(phone_sdk::host::platform::HostFeature::NotificationCenter) {
+            {phone_sdk::device::role(vm.clone(),phone_sdk::host::platform::DeviceRole::NotificationListener)}
+        }
     }}
 }
 
 fn quick_action(key: &str) -> (&'static str, Icon) {
+    if let Some(control) = phone_sdk::host::platform::DeviceControl::from_key(key) {
+        return (control.label(), phone_sdk::device::icon(control));
+    }
     match key {
         "wi_fi" => ("Wi-Fi", Icon::Wifi),
         "bluetooth" => ("Bluetooth", Icon::Bluetooth),

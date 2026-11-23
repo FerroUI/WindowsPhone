@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Owns one ephemeral API 36 x86_64 AVD. Never reuses a device or selects a HOME app.
+# Owns one ephemeral API 36 x86_64 AVD. Carrier roles are changed only inside that AVD and restored. HOME is preserved.
 set -euo pipefail
 phone_repo="$(cd "$(dirname "$0")/.." && pwd)"
 phone_apks="${1:-$phone_repo/target/android/phone-x86_64-debug/outputs/apk}"
@@ -43,6 +43,7 @@ adb_do() {
     with_timeout "${ADB_TIMEOUT:-60}" "$ADB" -s "$FERROUI_SERIAL" "$@"
 }
 phone_package=""
+phone_carrier_roles=0
 phone_phase="Preparing the ephemeral emulator"
 phase() {
     phone_phase="$1"
@@ -77,6 +78,7 @@ cleanup() {
         ADB_TIMEOUT=20 adb_shell dumpsys activity activities > "$phone_out/activities.txt" 2>&1
         ADB_TIMEOUT=20 adb_shell dumpsys window > "$phone_out/windows.txt" 2>&1
     fi
+    if [ "$phone_carrier_roles" = 1 ]; then restore_carrier_roles; fi
     write_result "$result"
     emu_stop
     # This directory came from this invocation's mktemp, never from an existing AVD.
@@ -162,8 +164,11 @@ for phone_variant in app launcher; do
         phone_uri=ferroui-phone://home
         if [ "$phone_page" = wallet ]; then phone_uri=ferroui-phone://app/org.ferroui.wallet; fi
         phase "Activating $phone_variant / $phone_page through the real Android activity"
-        adb_shell am start -W -a android.intent.action.VIEW -d "$phone_uri" -n "$phone_component" \
-            > "$phone_out/$phone_variant-$phone_page-activation.txt" 2>&1
+        if [ "$phone_page" = home-restored ]; then
+            adb_shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME -n "$phone_component" > "$phone_out/$phone_variant-$phone_page-activation.txt" 2>&1
+        else
+            adb_shell am start -W -a android.intent.action.VIEW -d "$phone_uri" -n "$phone_component" > "$phone_out/$phone_variant-$phone_page-activation.txt" 2>&1
+        fi
         wait_for_view "$phone_nonce" "$phone_uri" "$phone_sequence"
         phase "Checking the focused native window for $phone_variant / $phone_page"
         # Android 36's windows-only section omits the per-display mCurrentFocus.
@@ -176,9 +181,21 @@ for phone_variant in app launcher; do
         fi
         cp "$phone_out/current.json" "$phone_out/$phone_variant-$phone_page.json"
         emu_screencap "$phone_out/$phone_variant-$phone_page.png"
+        if [ "$phone_page" = wallet ]; then
+            phase "Checking real Android Back from $phone_variant Wallet to Start"
+            adb_shell input keyevent KEYCODE_BACK
+            wait_for_view "$phone_nonce" "back:$phone_uri" "$phone_sequence"
+            cp "$phone_out/current.json" "$phone_out/$phone_variant-back.json"
+            emu_screencap "$phone_out/$phone_variant-back.png"
+            # Reopen Wallet so the next actual HOME intent must navigate back to Start.
+            adb_shell am start -W -a android.intent.action.VIEW -d "$phone_uri" -n "$phone_component" > "$phone_out/$phone_variant-wallet-reopen.txt" 2>&1
+            wait_for_view "$phone_nonce" "$phone_uri" "$phone_sequence"
+        fi
     done
     adb_shell am force-stop "$phone_package"
 done
+
+source "$phone_repo/scripts/smoke-android-device.sh"
 
 phase 'Verifying the current user and HOME role holder were preserved'
 adb_shell am get-current-user | tr -d '\r' > "$phone_out/user-after.txt"
@@ -186,4 +203,4 @@ adb_shell cmd role get-role-holders --user "$phone_user" android.app.role.HOME \
     | tr -d '\r' | sort > "$phone_out/home-after.txt"
 cmp "$phone_out/user-before.txt" "$phone_out/user-after.txt"
 cmp "$phone_out/home-before.txt" "$phone_out/home-after.txt"
-phase 'Both Android variants mounted inside system insets and navigated Start, Wallet and Home'
+phase 'Both variants passed native geometry, Back and HOME; isolated carrier roles, real incoming SMS, native call controls and bounded MMS codec passed'

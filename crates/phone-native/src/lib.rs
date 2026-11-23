@@ -7,6 +7,7 @@ mod documents;
 mod environment;
 mod file_picker;
 mod location;
+mod map_cache;
 mod media_files;
 mod native_media;
 mod network;
@@ -19,9 +20,10 @@ mod services;
 pub mod storage;
 
 use ferroui_base::{
+    interactivity::RoutedEventHandlerToken,
     reactive::IDisposable,
     threading::{DispatcherPriority, DispatcherTimer},
-    Ref,
+    Ref, WeakRef,
 };
 use ferroui_controls::{Control, TopLevel};
 use phone_host::{platform::*, HostRequest};
@@ -62,6 +64,7 @@ pub struct NativeHost {
     environment: Option<environment::NativeEnvironment>,
     timer: RefCell<Option<Rc<dyn IDisposable>>>,
     layout: RefCell<Option<Rc<dyn IDisposable>>>,
+    navigation: RefCell<Option<(WeakRef<TopLevel>, RoutedEventHandlerToken)>>,
     suspended: Cell<bool>,
     closed: Cell<bool>,
     closing: Cell<bool>,
@@ -157,6 +160,7 @@ impl NativeHost {
             environment,
             timer: RefCell::new(None),
             layout: RefCell::new(None),
+            navigation: RefCell::new(None),
             suspended: Cell::new(false),
             closed: Cell::new(false),
             closing: Cell::new(false),
@@ -171,6 +175,7 @@ impl NativeHost {
             host.view
                 .layout_updated(move || {
                     if let Some(host) = weak.upgrade() {
+                        host.attach_navigation();
                         let bounds = host.view.bounds();
                         if bounds.width > 0.0 && bounds.height > 0.0 {
                             host.vm().set_viewport(bounds.width, bounds.height);
@@ -207,6 +212,59 @@ impl NativeHost {
     }
     pub fn runtime(&self) -> Rc<PhoneRuntime> {
         self.runtime.clone()
+    }
+    fn attach_navigation(self: &Rc<Self>) {
+        if self.closed.get() {
+            return;
+        }
+        let top = TopLevel::get_top_level(Some(&self.view));
+        if self
+            .navigation
+            .borrow()
+            .as_ref()
+            .is_some_and(|(previous, _)| {
+                top.as_ref().is_some_and(|top| {
+                    previous
+                        .upgrade()
+                        .is_some_and(|previous| previous.ptr_eq(top))
+                })
+            })
+        {
+            return;
+        }
+        self.detach_navigation();
+        let Some(top) = top else {
+            return;
+        };
+        let weak = Rc::downgrade(self);
+        let token = top.back_requested(move |_, event| {
+            let Some(host) = weak
+                .upgrade()
+                .filter(|host| !host.closed.get() && !host.suspended.get())
+            else {
+                return;
+            };
+            if event.handled() {
+                return;
+            }
+            let vm = host.vm();
+            let role = host.runtime.platform().state();
+            if phone_ui::has_overlay() || vm.route() != phone_domain::Route::Start {
+                phone_ui::back(&vm);
+                event.set_handled(true);
+            } else if role.mode == HostMode::Launcher || role.launcher == HostRole::Active {
+                // An active HOME must remain reachable when Back reaches Start.
+                event.set_handled(true);
+            }
+        });
+        *self.navigation.borrow_mut() = Some((top.downgrade(), token));
+    }
+    fn detach_navigation(&self) {
+        if let Some((top, token)) = self.navigation.borrow_mut().take() {
+            if let Some(top) = top.upgrade() {
+                top.remove_handler(TopLevel::back_requested_event(), token);
+            }
+        }
     }
     pub fn validate_activation(uri: &str) -> Result<(), String> {
         phone_runtime::activation::parse(uri).map(|_| ())
@@ -258,6 +316,7 @@ impl NativeHost {
             }
             HostLifecycle::Closing => {
                 self.closed.set(true);
+                self.detach_navigation();
                 self.alarm_haptics.set(false);
                 self.last_haptic.set(None);
                 self.activations.borrow_mut().clear();
@@ -352,6 +411,15 @@ impl NativeHost {
                 max_bytes,
             } => {
                 network::start(request_id, url, max_bytes);
+                Ok(())
+            }
+            HostRequest::MapTile {
+                request_id,
+                zoom,
+                x,
+                y,
+            } => {
+                network::map_tile(request_id, zoom, x, y);
                 Ok(())
             }
             request @ (HostRequest::PlayMedia { .. }

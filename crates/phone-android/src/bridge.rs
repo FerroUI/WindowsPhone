@@ -4,7 +4,7 @@ use ferroui_base::{
     reactive::Subscription,
     threading::{DispatcherPriority, DispatcherTimer},
 };
-use phone_host::platform::{PlatformResponse, PlatformTask};
+use phone_host::platform::{DeviceRequest, DeviceResponse, PlatformResponse, PlatformTask};
 use std::{
     future::Future,
     path::PathBuf,
@@ -17,6 +17,19 @@ const BRIDGE: &str = "org/ferroui/phone/PhoneBridge";
 
 pub(crate) fn class() -> JavaClass {
     JavaClass::find(BRIDGE)
+}
+
+pub(crate) fn notification_policy(policy: &phone_host::platform::DeviceNotificationPolicy) {
+    let Ok(json) = serde_json::to_string(policy) else {
+        return;
+    };
+    let context = FerroAndroidApplication::context();
+    call_static_void(
+        &class(),
+        "notificationPolicy",
+        "(Landroid/content/Context;Ljava/lang/String;)V",
+        &[JavaValue::Object(Some(&context)), JavaValue::String(&json)],
+    );
 }
 
 pub(crate) fn close() {
@@ -89,12 +102,84 @@ pub(crate) fn location() -> PlatformTask {
     task(call_static_long(&class(), "locate", "()J", &[]))
 }
 
+pub(crate) fn device(request: DeviceRequest) -> PlatformTask {
+    let context = FerroAndroidApplication::context();
+    let timeout = if matches!(request, DeviceRequest::PickMessageAttachments { .. }) {
+        Duration::from_secs(185)
+    } else {
+        Duration::from_secs(35)
+    };
+    let json = match serde_json::to_string(&request) {
+        Ok(json) => json,
+        Err(error) => return phone_host::platform::ready(Err(error.to_string())),
+    };
+    // Java starts UI/consent operations synchronously here. Only their bounded
+    // completion crosses the future, which is cancelled if its owner disappears.
+    task_with_timeout(
+        call_static_long(
+            &class(),
+            "device",
+            "(Landroid/content/Context;Ljava/lang/String;)J",
+            &[JavaValue::Object(Some(&context)), JavaValue::String(&json)],
+        ),
+        timeout,
+    )
+}
+
+pub(crate) fn events() -> Vec<PlatformResponse> {
+    let context = FerroAndroidApplication::context();
+    let Some(value) = call_static_object(
+        &class(),
+        "events",
+        "(Landroid/content/Context;)Ljava/lang/String;",
+        &[JavaValue::Object(Some(&context))],
+    ) else {
+        return Vec::new();
+    };
+    let json = string_of(&value);
+    if json.len() > 1024 * 1024 {
+        return Vec::new();
+    }
+    let Ok(events) = serde_json::from_str::<Vec<DeviceResponse>>(&json) else {
+        return Vec::new();
+    };
+    if events.len() > 16 {
+        return Vec::new();
+    }
+    let mut results: Vec<_> = events
+        .into_iter()
+        .filter_map(|event| {
+            event
+                .validate()
+                .ok()
+                .map(|_| PlatformResponse::Device(event))
+        })
+        .collect();
+    if let Some(value) = call_static_object(&class(), "catalogEvents", "()Ljava/lang/String;", &[])
+    {
+        let encoded = string_of(&value);
+        if !encoded.is_empty() {
+            if let Ok(Some(response @ PlatformResponse::Applications(_))) =
+                protocol::response(&encoded)
+            {
+                results.push(response);
+            }
+        }
+    }
+    results
+}
+
 fn task(id: i64) -> PlatformTask {
+    task_with_timeout(id, Duration::from_secs(35))
+}
+
+fn task_with_timeout(id: i64, timeout: Duration) -> PlatformTask {
     Box::pin(AndroidTask {
         id,
         started: Instant::now(),
         timer: None,
         complete: false,
+        timeout,
     })
 }
 
@@ -103,13 +188,14 @@ struct AndroidTask {
     started: Instant,
     timer: Option<Subscription>,
     complete: bool,
+    timeout: Duration,
 }
 
 impl Future for AndroidTask {
     type Output = Result<PlatformResponse, String>;
     fn poll(mut self: Pin<&mut Self>, context: &mut Context<'_>) -> Poll<Self::Output> {
         self.timer.take();
-        if self.id <= 0 || self.started.elapsed() > Duration::from_secs(35) {
+        if self.id <= 0 || self.started.elapsed() > self.timeout {
             return Poll::Ready(Err(
                 "Android could not start or finish the bounded request.".into(),
             ));

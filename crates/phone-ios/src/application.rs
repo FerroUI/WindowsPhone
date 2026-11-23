@@ -17,6 +17,34 @@ thread_local! {
     static PENDING_LINKS: RefCell<VecDeque<String>> = const { RefCell::new(VecDeque::new()) };
 }
 
+/// Called only by the retained notification delegate, on the UIKit thread,
+/// after the user opens one of this provider's carrier notifications.
+#[unsafe(no_mangle)]
+unsafe extern "C" fn wp_ios_native_activation(uri: *const std::ffi::c_char) {
+    if uri.is_null() {
+        return;
+    }
+    // Objective-C owns this valid NUL-terminated UTF-8 view until we return.
+    let Ok(uri) = (unsafe { std::ffi::CStr::from_ptr(uri) }).to_str() else {
+        return;
+    };
+    if uri.len() > 4096 || !uri.starts_with("ferroui-phone://app/phone.messaging?path=thread/") {
+        return;
+    }
+    if let Some(host) = HOST.with(|slot| slot.borrow().clone()) {
+        if let Err(error) = host.activate_uri(uri) {
+            host.vm().set_status(error);
+        }
+    } else {
+        PENDING_LINKS.with(|links| {
+            let mut links = links.borrow_mut();
+            if links.len() < 16 {
+                links.push_back(uri.into());
+            }
+        });
+    }
+}
+
 #[repr(C)]
 struct PhoneApplication {
     base: Application,

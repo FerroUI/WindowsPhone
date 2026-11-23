@@ -27,6 +27,7 @@ impl SystemSessionExt for Session {
             self.switcher_open.set(false);
         } else if self.menu.get_untracked() {
             self.menu.set(false);
+        } else if crate::app_list::dismiss_native(self) {
         } else if self.registry().back(vm, self) {
         } else if self.alphabet.get_untracked() {
             self.alphabet.set(false);
@@ -77,6 +78,7 @@ impl SystemSessionExt for Session {
         *self.last_route.borrow_mut() = route.clone();
     }
     fn clear_overlays(self: &Rc<Self>) {
+        crate::app_list::dismiss_native(self);
         self.state::<HardwareState>().close();
         self.state::<AlarmState>().editor.close();
         self.registry().deactivate(&self.last_route.borrow(), self);
@@ -113,6 +115,7 @@ impl SystemSessionExt for Session {
         }
     }
     fn tick_live_tiles(&self, now: i64) {
+        crate::start::tick_notifications(self, now);
         if self.live_clock_enabled.get()
             && matches!(*self.last_route.borrow(), Route::Start | Route::Folder(_))
             && !self.preview_obscured(&Route::Start)
@@ -123,6 +126,7 @@ impl SystemSessionExt for Session {
     }
     fn preview_obscured(&self, route: &Route) -> bool {
         route.is_overlay()
+            || crate::app_list::has_native_overlay(self)
             || self.state::<AlarmState>().active.get_untracked().is_some()
             || self.state::<HardwareState>().is_open()
             || self.notification_open.get_untracked()

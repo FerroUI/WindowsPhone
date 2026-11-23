@@ -72,6 +72,7 @@ impl AppRegistry {
     /// entries; an app decides whether Closing should preserve or reset drafts.
     pub fn close(&self, vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, id: &str) {
         crate::tasks::cancel_for_app(ui, id);
+        crate::tile::invalidate_app(ui, id);
         let _ = ui.take_activation(id);
         if let Some(app) = self.by_id(id) {
             if let Some(callback) = app.lifecycle {
@@ -89,10 +90,12 @@ impl AppRegistry {
                 callback(app.context(vm, ui), AppLifecycle::Closing);
             }
         }
+        crate::tile::invalidate_session(ui, true);
     }
     /// Reset one app's transient state after its namespace has been cleared.
     pub fn reset_app(&self, vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, id: &str) {
         crate::tasks::cancel_for_app(ui, id);
+        crate::tile::invalidate_app(ui, id);
         let _ = ui.take_activation(id);
         if let Some(app) = self.by_id(id) {
             if let Some(callback) = app.reset {
@@ -105,6 +108,7 @@ impl AppRegistry {
     }
     pub fn reset(&self, vm: &Rc<PhoneViewModel>, ui: &Rc<Session>) {
         crate::tasks::cancel_for_session(ui);
+        crate::tile::invalidate_session(ui, false);
         ui.clear_activation();
         for app in &self.entries {
             if let Some(callback) = app.reset {

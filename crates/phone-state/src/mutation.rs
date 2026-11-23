@@ -13,13 +13,18 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
         | Action::Unpin(_)
         | Action::ResizeTile(_)
         | Action::SetTileSize(..)
+        | Action::SetTileAppearance { .. }
+        | Action::PublishTileNotification { .. }
+        | Action::ClearTileNotifications { .. }
+        | Action::DissolveFolder(_)
+        | Action::MoveIntoFolder { .. }
         | Action::MoveTile { .. }
         | Action::MoveTileRelative { .. }
         | Action::CreateFolder { .. }
         | Action::RenameFolder { .. }
         | Action::RemoveFromFolder { .. }
         | Action::ExtractFolderTile { .. }
-        | Action::MoveFolderTile { .. }) => crate::tiles::mutate_tiles(data, action),
+        | Action::MoveFolderTile { .. }) => crate::tiles::mutate_tiles(data, action, now),
         Action::SetSettings(settings) => {
             let mut validation = PhoneData {
                 settings,

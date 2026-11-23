@@ -69,6 +69,7 @@ jobs:
             phone-android-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
       - name: Verify portable Android completion and media contracts
         run: |
+          bash scripts/test-android-contracts.sh
           python3 scripts/verify_android_package_test.py
           cargo test --locked -p phone-android --lib
       - name: Build native application and HOME launcher APKs

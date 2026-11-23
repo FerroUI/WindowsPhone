@@ -11,6 +11,7 @@ pub type SessionHandler = fn(&Rc<Session>);
 pub type SwipeHandler = fn(&Rc<PhoneViewModel>, &Rc<Session>, f64) -> bool;
 pub type ActivationHandler =
     fn(&Rc<PhoneViewModel>, &Rc<Session>, serde_json::Value) -> Result<(), String>;
+pub type LaunchPathHandler = fn(&str) -> Result<serde_json::Value, String>;
 pub type TickHandler = fn(&Rc<PhoneViewModel>, &Rc<Session>, i64);
 pub type MediaEventHandler = fn(AppContext, &crate::media::PlaybackEvent);
 
@@ -41,6 +42,7 @@ pub struct AppRegistration {
     pub(crate) host_weather: Option<fn(&Session, String, f64, String)>,
     pub(crate) tick: Option<TickHandler>,
     pub(crate) activate: Option<ActivationHandler>,
+    pub(crate) launch_path: Option<LaunchPathHandler>,
     pub(crate) tile: Option<fn(crate::AppTileContext) -> Element>,
     pub(crate) lifecycle: Option<fn(AppContext, AppLifecycle)>,
     pub(crate) media_event: Option<MediaEventHandler>,
@@ -66,6 +68,7 @@ impl AppRegistration {
             lifecycle: None,
             media_event: None,
             activate: None,
+            launch_path: None,
             tile: None,
         }
     }
@@ -75,6 +78,29 @@ impl AppRegistration {
     pub fn with_activation(mut self, value: ActivationHandler) -> Self {
         self.activate = Some(value);
         self
+    }
+    /// Validate a built-in app's deep link before navigating, then deliver its
+    /// typed payload through the existing bounded data-activation boundary.
+    pub fn with_launch_path(mut self, value: LaunchPathHandler) -> Self {
+        self.launch_path = Some(value);
+        self
+    }
+    pub fn launch_payload(&self, path: &str) -> Result<Option<serde_json::Value>, String> {
+        phone_domain::validate_app_path(path)?;
+        if path.is_empty() || self.manifest.builtin.is_none() {
+            return Ok(None);
+        }
+        let value = self
+            .launch_path
+            .ok_or("This app does not support this launch path.")?(path)?;
+        phone_domain::validate_app_value(&value)?;
+        if serde_json::to_vec(&value).map_err(|e| e.to_string())?.len() > 65536 {
+            return Err("Launch data exceeds its limit.".into());
+        }
+        if self.activate.is_none() {
+            return Err("The app has no data activation handler.".into());
+        }
+        Ok(Some(value))
     }
     pub fn with_tile(mut self, value: fn(crate::AppTileContext) -> Element) -> Self {
         self.tile = Some(value);

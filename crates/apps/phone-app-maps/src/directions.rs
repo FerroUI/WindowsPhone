@@ -49,7 +49,7 @@ pub fn view(cx: AppContext, saved: &Saved) -> Element {
             {input("destination").name("MapDestination").text(state.destination.two_way())}
         }
         {shortcuts}{modes}
-        TextBlock{text:"Google Maps will open with these places and your travel mode.",font_size:17.0,text_wrapping:ferroui_base::media::TextWrapping::Wrap,horizontal_alignment:H::Stretch}
+        TextBlock{text:if cx.vm.platform_state().supports(phone_sdk::host::platform::HostFeature::Maps)&&state.origin.get().trim().is_empty(){"Your device's maps app will open with this destination and travel mode."}else{"Google Maps will open with these places and your travel mode."},font_size:17.0,text_wrapping:ferroui_base::media::TextWrapping::Wrap,horizontal_alignment:H::Stretch}
     }};
     let go = cx.clone();
     let cancel = cx.session.clone();

@@ -51,6 +51,9 @@ save_observations() {
   if [ -n "${ui_status:-}" ] && [ -f "$ui_status" ]; then
     cp "$ui_status" "$out/prompt-handler.json" || true
   fi
+  if [ -n "${device_status:-}" ] && [ -f "$device_status" ]; then
+    cp "$device_status" "$out/device-tests.json" || true
+  fi
 }
 cleanup() {
   local result=$?
@@ -88,12 +91,14 @@ xcrun simctl boot "$udid"
 xcrun simctl bootstatus "$udid" -b
 phase 'Installing and launching the UIKit application'
 xcrun simctl install "$udid" "$app"
-SIMCTL_CHILD_PHONE_IOS_SMOKE=1 SIMCTL_CHILD_RUST_BACKTRACE=1 \
+xcrun simctl privacy "$udid" grant contacts "$bundle_id"
+SIMCTL_CHILD_PHONE_IOS_SMOKE=1 SIMCTL_CHILD_PHONE_IOS_DEVICE_TEST=1 SIMCTL_CHILD_RUST_BACKTRACE=1 \
   xcrun simctl launch --console-pty --terminate-running-process "$udid" "$bundle_id" \
   > "$out/console.log" 2>&1 &
 launch=$!
 container="$(xcrun simctl get_app_container "$udid" "$bundle_id" data)"
 status="$container/Documents/phone-ios-smoke.json"
+device_status="$container/Documents/phone-ios-device-tests.json"
 wait_for_route() {
   local expected="$1"
   local after_sequence="${2:-0}"
@@ -121,6 +126,25 @@ phase 'Waiting for the Start route'
 wait_for_route home
 cp "$status" "$out/start.json"
 xcrun simctl io "$udid" screenshot "$out/start.png"
+phase 'Verifying the real Contacts and brightness provider roundtrips'
+deadline=$((SECONDS + 120))
+while [ "$SECONDS" -lt "$deadline" ]; do
+  save_observations
+  if python3 "$root/scripts/verify-ios-devices.py" "$device_status"; then break; fi
+  if python3 - "$device_status" <<'PY'
+import json,pathlib,sys
+try: failed=json.loads(pathlib.Path(sys.argv[1]).read_text()).get('status')=='failed'
+except (OSError,ValueError): failed=False
+raise SystemExit(0 if failed else 1)
+PY
+  then cat "$device_status" >&2; exit 1; fi
+  sleep 0.5
+done
+if [ "$SECONDS" -ge "$deadline" ]; then
+  echo 'The native Contacts/brightness roundtrip did not finish.' >&2
+  exit 1
+fi
+cp "$device_status" "$out/device-tests.json"
 phase 'Starting the specific UIKit confirmation handler'
 xcodebuild test-without-building -xctestrun "$test_run" \
   -destination "platform=iOS Simulator,id=$udid" -parallel-testing-enabled NO \
@@ -161,6 +185,19 @@ phase 'Waiting for the Wallet route'
 wait_for_route org.ferroui.wallet "$sequence" 'ferroui-phone://app/org.ferroui.wallet'
 cp "$status" "$out/wallet.json"
 xcrun simctl io "$udid" screenshot "$out/wallet.png"
+for spec in \
+  'phone|phone.phone|ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3' \
+  'people|phone.people|ferroui-phone://app/phone.people?path=device' \
+  'messages|phone.messaging|ferroui-phone://app/phone.messaging?path=compose' \
+  'settings|phone.settings|ferroui-phone://app/phone.settings?path=device'; do
+  IFS='|' read -r capture route uri <<< "$spec"
+  sequence="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sequence"])' "$status")"
+  phase "Delivering the $capture URL through UIKit"
+  xcrun simctl openurl "$udid" "$uri"
+  wait_for_route "$route" "$sequence" "$uri"
+  cp "$status" "$out/$capture.json"
+  xcrun simctl io "$udid" screenshot "$out/$capture.png"
+done
 sequence="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sequence"])' "$status")"
 phase 'Delivering the Home URL through UIKit'
 xcrun simctl openurl "$udid" 'ferroui-phone://home'
@@ -171,4 +208,4 @@ xcrun simctl io "$udid" screenshot "$out/home-restored.png"
 touch "$ui_done"
 if ! wait "$ui_test"; then cat "$out/xctest.log" >&2; exit 1; fi
 cp "$ui_status" "$out/prompt-handler.json"
-phase 'UIKit host mounted, app activation and return Home passed.'
+phase 'UIKit mounting, six native activations, Contacts CRUD and brightness restoration passed.'

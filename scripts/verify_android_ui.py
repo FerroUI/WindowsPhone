@@ -36,9 +36,10 @@ def verify(proof, nonce, uri, after_sequence):
     require(proof["ready"] is True and proof["closed"] is False, "Host is not mounted with valid layout")
     require(proof["host"]["mode"] == "app" and proof["host"]["launcher"] != "active"
             and proof["host"]["shell"] == "unsupported", "The smoke launch must not acquire a HOME or shell role")
-    require(proof["activation"]["uri"] == uri and proof["activation"]["outcome"] == "accepted",
+    activation_uri = uri.removeprefix("back:")
+    require(proof["activation"]["uri"] == activation_uri and proof["activation"]["outcome"] == "accepted",
             "The real activity did not accept the requested URI")
-    if uri == "ferroui-phone://home":
+    if uri == "ferroui-phone://home" or uri == "back:ferroui-phone://app/org.ferroui.wallet":
         require(proof["route"] == "Start", "The mounted route has not returned to Start")
         expected_control = "StartTiles"
     elif uri == "ferroui-phone://app/org.ferroui.wallet":

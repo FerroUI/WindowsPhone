@@ -12,12 +12,13 @@ if info.get("CFBundleIdentifier") != "org.ferroui.windowsphone":
     raise SystemExit("Refusing to modify a bundle with a different application identity.")
 info.update({
     "NSLocationWhenInUseUsageDescription": "Use your location for an explicit Maps or Weather request.",
+    "NSContactsUsageDescription": "Show the device contacts you choose in People and use their numbers for an explicit call or message.",
     "CFBundleURLTypes": [{
         "CFBundleURLName": "org.ferroui.windowsphone.activation",
         "CFBundleTypeRole": "Viewer",
         "CFBundleURLSchemes": ["ferroui-phone"],
     }],
-    "LSApplicationQueriesSchemes": ["tel", "sms", "mailto"],
+    "LSApplicationQueriesSchemes": ["tel", "sms", "mailto", "maps"],
     "CFBundleIcons": {"CFBundlePrimaryIcon": {"CFBundleIconFiles": ["AppIcon60x60"]}},
     "CFBundleIcons~ipad": {"CFBundlePrimaryIcon": {
         "CFBundleIconFiles": ["AppIcon60x60", "AppIcon76x76", "AppIcon83.5x83.5"],

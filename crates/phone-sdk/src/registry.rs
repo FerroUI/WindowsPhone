@@ -16,6 +16,22 @@ pub struct AppRegistry {
     builtins: BTreeMap<AppId, usize>,
 }
 impl AppRegistry {
+    /// Bind the immutable registry's identities to the view model. UI composition
+    /// calls this automatically; standalone SDK hosts can use the same boundary.
+    pub fn bind(&self, vm: &PhoneViewModel) {
+        vm.set_registered_builtins(self.entries.iter().filter_map(|entry| {
+            entry
+                .manifest
+                .builtin
+                .map(|app| (entry.manifest.id.to_owned(), app))
+        }));
+        vm.set_registered_apps(
+            self.entries
+                .iter()
+                .filter(|entry| entry.manifest.builtin.is_none())
+                .map(|entry| entry.manifest.id.to_owned()),
+        );
+    }
     pub fn new(entries: Vec<AppRegistration>) -> Result<Self, String> {
         if entries.len() > phone_domain::MAX_APP_NAMESPACES {
             return Err("Too many registered apps.".into());
@@ -85,6 +101,31 @@ impl AppRegistry {
         path: String,
         now: i64,
     ) -> Option<Element> {
+        self.tile_with_appearance(
+            id,
+            vm,
+            ui,
+            size,
+            width,
+            height,
+            path,
+            now,
+            &Default::default(),
+        )
+    }
+    /// Render an app surface with the owning Start tile's saved preferences.
+    pub fn tile_with_appearance(
+        &self,
+        id: &str,
+        vm: &Rc<PhoneViewModel>,
+        ui: &Rc<Session>,
+        size: phone_domain::TileSize,
+        width: f64,
+        height: f64,
+        path: String,
+        now: i64,
+        appearance: &phone_domain::TileAppearance,
+    ) -> Option<Element> {
         let app = self.by_id(id)?;
         app.tile.map(|render| {
             render(crate::AppTileContext {
@@ -94,10 +135,12 @@ impl AppRegistry {
                 height,
                 path,
                 now,
-                live: vm.live_tiles_enabled(),
-                animate: vm.live_tiles_enabled()
+                live: appearance.live && vm.live_tiles_enabled(),
+                animate: appearance.live
+                    && vm.live_tiles_enabled()
                     && vm.motion_enabled()
                     && ui.edit_tile.get().is_none(),
+                show_badge: appearance.show_badge,
             })
         })
     }

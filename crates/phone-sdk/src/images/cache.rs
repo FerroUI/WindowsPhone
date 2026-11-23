@@ -143,6 +143,27 @@ impl Cache {
         }
     }
 
+    /// Release an internally generated transient source after its owner has
+    /// revoked delivery. Unlike deleting a persistent photo, this must not add
+    /// a tombstone for every viewport image used during a long session.
+    pub fn release_transient(&mut self, source: &str) {
+        debug_assert!(source.starts_with(super::TRANSIENT_PREFIX));
+        self.pending.remove(source);
+        self.failed.remove(source);
+        self.forgotten.remove(source);
+        let mut removed_bytes = 0;
+        self.images.retain(|key, entry| {
+            if key.source == source {
+                removed_bytes += entry.bytes;
+                false
+            } else {
+                true
+            }
+        });
+        self.bytes -= removed_bytes;
+        self.leases.retain(|key, _| key.source != source);
+    }
+
     pub fn clear(&mut self) {
         self.images.clear();
         self.pending.clear();

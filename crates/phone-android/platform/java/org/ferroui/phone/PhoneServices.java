@@ -22,20 +22,7 @@ final class PhoneServices {
     private PhoneServices() {}
 
     static JSONObject settings(Activity activity, String page) {
-        Intent intent;
-        switch (page) {
-            case "network": intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS); break;
-            case "notifications":
-                intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                        .putExtra(Settings.EXTRA_APP_PACKAGE, activity.getPackageName()); break;
-            case "default_apps": intent = new Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS); break;
-            case "application":
-                intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.fromParts("package", activity.getPackageName(), null)); break;
-            default: return PhoneJson.error("Unknown Android settings page.");
-        }
-        activity.startActivity(intent);
-        return PhoneJson.accepted("Android settings opened.");
+        return PhoneSettings.open(activity, page);
     }
 
     static JSONObject haptic(Activity activity, String kind) {

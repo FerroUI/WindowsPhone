@@ -7,6 +7,16 @@ publish = false
 
 [dependencies]
 phone-host.workspace = true
+serde_json.workspace = true
+roxmltree = { workspace = true, optional = true }
+
+[features]
+# Compiles the real iOS 26 provider. Provisioning and user-selected default roles
+# are checked independently at runtime; this feature grants no entitlement.
+ios26-telephony = ["dep:roxmltree"]
+
+[dev-dependencies]
+roxmltree.workspace = true
 
 [target.'cfg(target_os = "ios")'.dependencies]
 phone-native.workspace = true
@@ -16,7 +26,6 @@ ferroui-base.workspace = true
 ferroui-controls.workspace = true
 ferroui-fonts-inter.workspace = true
 ferroui-ios = { workspace = true, features = ["skia"] }
-serde_json.workspace = true
 
 [build-dependencies]
 cc.workspace = true

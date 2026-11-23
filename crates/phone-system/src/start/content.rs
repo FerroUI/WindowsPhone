@@ -30,9 +30,17 @@ pub(super) fn view(
                     let registry = ui.registry();
                     if let Some(app) = registry.by_id(&link.app) {
                         let now = if cycling { ui.live_clock.get() } else { 0 };
-                        if let Some(surface) =
-                            registry.tile(&link.app, &vm, &ui, tile.size, w, h, link.path, now)
-                        {
+                        if let Some(surface) = registry.tile_with_appearance(
+                            &link.app,
+                            &vm,
+                            &ui,
+                            tile.size,
+                            w,
+                            h,
+                            link.path,
+                            now,
+                            &tile.appearance,
+                        ) {
                             return surface;
                         }
                         return icon(app.manifest.icon, if small { 31.0 } else { 56.0 }, "White");
@@ -103,7 +111,7 @@ pub(super) fn view(
         } else {
             vm.now()
         };
-        if let Some(surface) = ui.registry().tile(
+        if let Some(surface) = ui.registry().tile_with_appearance(
             app.manifest.id,
             &vm,
             &ui,
@@ -112,8 +120,54 @@ pub(super) fn view(
             h,
             String::new(),
             now,
+            &tile.appearance,
         ) {
             return surface;
+        }
+    }
+    if tile.app == AppId::Messaging && wide {
+        use phone_host::platform::{DevicePermission, DeviceRole, HostRole, PermissionState};
+        let device = vm.device_state();
+        if device.snapshot.permission(DevicePermission::ReadSms) == PermissionState::Granted
+            || device.snapshot.role(DeviceRole::Sms) == HostRole::Active
+        {
+            if let Some(thread) = device
+                .threads
+                .iter()
+                .filter(|thread| thread.unread > 0)
+                .max_by_key(|thread| thread.timestamp)
+            {
+                return preview(Icon::Message, &thread.title, &thread.snippet, 0);
+            }
+            return icon(Icon::Message, 56.0, "White");
+        }
+    }
+    if tile.app == AppId::Phone && !small {
+        use phone_host::platform::CallState;
+        let device = vm.device_state();
+        if let Some(call) = device
+            .calls
+            .iter()
+            .find(|call| call.state != CallState::Disconnected)
+        {
+            let title = if call.name.is_empty() {
+                call.number.as_str()
+            } else {
+                call.name.as_str()
+            };
+            let detail = match call.state {
+                CallState::Connecting => "connecting",
+                CallState::Dialing => "dialing",
+                CallState::Ringing => "incoming call",
+                CallState::Active => "call in progress",
+                CallState::Holding => "on hold",
+                CallState::Disconnected => "call ended",
+            };
+            return if wide {
+                preview(Icon::Phone, title, detail, 0)
+            } else {
+                rsx! {StackPanel{margin:(12.0,12.0,12.0,35.0),spacing:10.0,{icon(Icon::Phone,36.0,"White")},TextBlock{text:detail,font_size:19.0,foreground:"White",text_wrapping:TextWrapping::Wrap}}}
+            };
         }
     }
     match tile.app {
@@ -264,7 +318,7 @@ pub(super) fn view(
 }
 fn preview(kind: Icon, title: &str, body: &str, badge: usize) -> Element {
     rsx! {Grid{margin:(12.0,13.0,14.0,34.0),column_definitions:"52,*",
-        StackPanel{spacing:5.0,vertical_alignment:V::Top,{icon(kind,34.0,"White")},TextBlock{text:badge.to_string(),font_size:27.0,font_weight:FontWeight::Light,foreground:"White",horizontal_alignment:H::Center}},
+        StackPanel{spacing:5.0,vertical_alignment:V::Top,{icon(kind,34.0,"White")},if badge>0{TextBlock{text:phone_domain::TileBadge::count_text(badge.min(u32::MAX as usize) as u32),font_size:27.0,font_weight:FontWeight::Light,foreground:"White",horizontal_alignment:H::Center}}},
         StackPanel{Grid.column:1,spacing:6.0,margin:(10.0,0.0,0.0,0.0),TextBlock{text:title.to_owned(),font_size:23.0,foreground:"White"},TextBlock{text:body.to_owned(),font_size:18.0,foreground:"White",text_wrapping:TextWrapping::Wrap}}
     }}
 }

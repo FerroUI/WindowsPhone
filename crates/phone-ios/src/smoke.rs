@@ -3,7 +3,7 @@ use ferroui_base::{
     Point,
     threading::{DispatcherPriority, DispatcherTimer},
 };
-use ferroui_controls::{Control, TopLevel};
+use ferroui_controls::{Control, TextBox, TopLevel};
 use phone_native::NativeHost;
 use std::{
     cell::{Cell, RefCell},
@@ -54,11 +54,36 @@ fn write_status(host: &NativeHost) {
         .filter(|name| {
             matches!(
                 name.as_str(),
-                "PhoneScreen" | "PhonePage" | "StartTiles" | "StartScroll" | "WalletSearch"
+                "PhoneScreen"
+                    | "PhonePage"
+                    | "StartTiles"
+                    | "StartScroll"
+                    | "WalletSearch"
+                    | "DevicePhoneNumber"
+                    | "DevicePeopleSearch"
+                    | "PeopleRoot"
+                    | "NativeMessageSearch"
+                    | "DeviceMessageRecipients"
+                    | "DeviceMessageBody"
+                    | "DeviceMessageSubject"
+                    | "DeviceSettingsRoot"
+                    | "DeviceCommunicationsSettings"
             )
         })
         .take(16)
         .collect::<Vec<_>>();
+    let fields = view
+        .get_visual_descendants()
+        .filter_map(|visual| visual.cast::<TextBox>())
+        .filter_map(|control| {
+            let name = control.name()?;
+            matches!(
+                name.as_str(),
+                "DevicePhoneNumber" | "DeviceMessageRecipients" | "DeviceMessageBody"
+            )
+            .then(|| (name, control.text().unwrap_or_default()))
+        })
+        .collect::<std::collections::BTreeMap<_, _>>();
     let rectangle = |control: &Control| {
         let bounds = control.bounds();
         control.translate_point(Point::new(0.0, 0.0), &top).map(|point| {
@@ -95,6 +120,8 @@ fn write_status(host: &NativeHost) {
         "screen": screen.as_ref().and_then(|control| rectangle(control)),
         "viewport": {"width": viewport.0, "height": viewport.1},
         "mounted_controls": controls,
+        "device_fields": fields,
+        "device": host.vm().device_state().snapshot,
     });
     // HOME is supplied by iOS for its own sandbox; it is never reassigned.
     if let Some(directory) = std::env::var_os("HOME").map(std::path::PathBuf::from) {
@@ -112,6 +139,7 @@ pub fn install(host: &Rc<NativeHost>) {
     if !enabled() {
         return;
     }
+    crate::smoke_devices::install(host);
     let weak = Rc::downgrade(host);
     DispatcherTimer::run(
         move || {

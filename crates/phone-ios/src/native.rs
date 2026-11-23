@@ -4,7 +4,7 @@ use phone_host::HostPermission;
 use std::sync::atomic::{AtomicI32, Ordering};
 #[cfg(target_os = "ios")]
 use std::{
-    ffi::{c_char, CStr, CString},
+    ffi::{CStr, CString, c_char},
     rc::Rc,
 };
 
@@ -40,6 +40,11 @@ unsafe extern "C" {
         body: *const c_char,
     ) -> i32;
     fn wp_ios_locate(id: u64, completion: Callback) -> i32;
+    fn wp_ios_device(id: u64, completion: Callback, command: *const c_char) -> i32;
+    fn wp_ios_device_monitor(enabled: i32);
+    fn wp_ios_device_shutdown();
+    fn wp_ios_device_poll(buffer: *mut c_char, capacity: usize) -> usize;
+    fn wp_ios_set_notification_policy(policy: u32);
 }
 
 #[cfg(target_os = "ios")]
@@ -50,7 +55,19 @@ unsafe extern "C" fn completed(id: u64, code: i32, first: f64, second: f64, text
         String::new()
     } else {
         let bytes = unsafe { CStr::from_ptr(text) }.to_bytes();
-        String::from_utf8_lossy(&bytes[..bytes.len().min(4096)]).into_owned()
+        let maximum = if code == 4 {
+            crate::device::MAX_REPLY_BYTES
+        } else {
+            4096
+        };
+        if bytes.len() > maximum {
+            crate::pending::complete(
+                id,
+                Err("The iOS provider response exceeds its data limit.".into()),
+            );
+            return;
+        }
+        String::from_utf8_lossy(bytes).into_owned()
     };
     let result = if code == 0 {
         Err(message)
@@ -138,6 +155,74 @@ pub fn locate(session: &Rc<Session>) -> Result<Pending, String> {
     let task = session.start(Kind::Location)?;
     let result = unsafe { wp_ios_locate(task.id, completed) };
     Ok(started(task, result))
+}
+
+#[cfg(target_os = "ios")]
+pub fn device(session: &Rc<Session>, command: &str, observation: bool) -> Result<Pending, String> {
+    let command =
+        CString::new(command).map_err(|_| "The device command contains a NUL character.")?;
+    let task = session.start(if observation {
+        Kind::DeviceRead
+    } else {
+        Kind::Device
+    })?;
+    let result = unsafe { wp_ios_device(task.id, completed, command.as_ptr()) };
+    Ok(started(task, result))
+}
+
+pub fn monitor_device(enabled: bool) {
+    #[cfg(target_os = "ios")]
+    unsafe {
+        wp_ios_device_monitor(i32::from(enabled));
+    }
+    #[cfg(not(target_os = "ios"))]
+    let _ = enabled;
+}
+
+pub fn close_device() {
+    #[cfg(target_os = "ios")]
+    unsafe {
+        wp_ios_device_shutdown();
+    }
+}
+
+pub fn set_notification_policy(policy: &phone_host::platform::DeviceNotificationPolicy) {
+    #[cfg(target_os = "ios")]
+    unsafe {
+        wp_ios_set_notification_policy(
+            u32::from(policy.enabled)
+                | (u32::from(policy.message_center) << 1)
+                | (u32::from(policy.message_banners) << 2)
+                | (u32::from(policy.message_sound) << 3)
+                | (u32::from(policy.message_vibration) << 4)
+                | (u32::from(policy.lock_screen) << 5),
+        );
+    }
+    #[cfg(not(target_os = "ios"))]
+    let _ = policy;
+}
+
+#[cfg(target_os = "ios")]
+pub fn device_events() -> Vec<phone_host::platform::PlatformResponse> {
+    // A native event is consumed only after its entire bounded payload fits.
+    let mut events = Vec::new();
+    for _ in 0..16 {
+        let length = unsafe { wp_ios_device_poll(std::ptr::null_mut(), 0) };
+        if length == 0 || length > crate::device::MAX_REPLY_BYTES {
+            break;
+        }
+        let mut buffer = vec![0_u8; length + 1];
+        let copied = unsafe { wp_ios_device_poll(buffer.as_mut_ptr().cast(), buffer.len()) };
+        if copied == 0 || copied > length {
+            break;
+        }
+        if let Ok(text) = std::str::from_utf8(&buffer[..copied]) {
+            if let Ok(response) = crate::device::decode(text) {
+                events.push(response);
+            }
+        }
+    }
+    events
 }
 
 #[cfg(target_os = "ios")]

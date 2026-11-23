@@ -1,4 +1,6 @@
+mod native;
 mod sticky;
+pub(crate) use native::{dismiss as dismiss_native, has_overlay as has_native_overlay};
 
 pub(crate) use sticky::AppListState;
 
@@ -12,6 +14,12 @@ use phone_state::PhoneViewModel;
 use std::{collections::BTreeMap, rc::Rc};
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    if vm
+        .platform_state()
+        .supports(phone_host::platform::HostFeature::InstalledApps)
+    {
+        return native::view(vm, ui);
+    }
     let query = ui.query.get();
     let normalized = query.trim().to_lowercase();
     let installed = vm.data().installed.clone();

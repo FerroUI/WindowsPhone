@@ -78,6 +78,34 @@ pub fn get(context: &AppContext, url: &str, max_bytes: u32) -> HttpTask {
         Ok(url) => url,
         Err(error) => return HttpTask::error(error),
     };
+    start(context, max_bytes, move |request_id| HostRequest::HttpGet {
+        request_id,
+        url,
+        max_bytes,
+    })
+}
+/// Loads a visible map tile using the host's bounded persistent cache. This is
+/// intentionally separate from uncached feed/account-independent HTTPS reads.
+pub fn map_tile(context: &AppContext, zoom: u8, x: u32, y: u32) -> HttpTask {
+    if let Err(error) = phone_host::maps::validate(zoom, x, y) {
+        return HttpTask::error(error);
+    }
+    start(
+        context,
+        phone_host::maps::MAX_TILE_BYTES,
+        move |request_id| HostRequest::MapTile {
+            request_id,
+            zoom,
+            x,
+            y,
+        },
+    )
+}
+fn start(
+    context: &AppContext,
+    max_bytes: u32,
+    request: impl FnOnce(u32) -> HostRequest,
+) -> HttpTask {
     let pending = Pending {
         session: Rc::downgrade(&context.session),
         vm: Rc::downgrade(&context.vm),
@@ -108,11 +136,7 @@ pub fn get(context: &AppContext, url: &str, max_bytes: u32) -> HttpTask {
         Ok(id) => id,
         Err(error) => return HttpTask::error(error),
     };
-    if let Err(error) = context.request(HostRequest::HttpGet {
-        request_id: id,
-        url,
-        max_bytes,
-    }) {
+    if let Err(error) = context.request(request(id)) {
         complete_http(id, Err(error));
     }
     HttpTask {

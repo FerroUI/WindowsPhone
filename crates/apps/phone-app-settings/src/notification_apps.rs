@@ -1,4 +1,4 @@
-//! Action Center policy and saved preferences for future per-app alert delivery.
+//! Action Center and native message-announcement preferences.
 use super::update;
 use ferroui_view::prelude::*;
 use phone_controls::toggle;
@@ -20,7 +20,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, app: AppId) -> Element {
         {toggle("Show notification banners",prefs.banners,move |enabled|set(&banners,app,|p|p.banners=enabled))}
         {toggle("Play a sound",prefs.sound,move |enabled|set(&sound,app,|p|p.sound=enabled))}
         {toggle("Vibrate",prefs.vibrate,move |enabled|set(&vibrate,app,|p|p.vibrate=enabled))}
-        {muted("Calendar and alarm banners can also appear on your device when notification permission is allowed. Other apps keep these preferences for local notifications; your host controls device delivery.",16.0)}
+        {muted(if app==AppId::Messaging&&vm.platform_state().supports(phone_sdk::host::platform::HostFeature::Messaging){"Native message announcements follow these preferences where supported. Your device's notification permission, channels and Focus settings also apply."}else{"Calendar and alarm banners can also appear on your device when notification permission is allowed. Your host controls device delivery."},16.0)}
     }}
 }
 

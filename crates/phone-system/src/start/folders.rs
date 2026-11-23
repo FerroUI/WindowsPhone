@@ -1,4 +1,4 @@
-use super::{content, layout, tile, GAP};
+use super::{layout, tile, GAP};
 use crate::{common, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
@@ -31,7 +31,6 @@ pub(super) fn cover(
     let rows = layout::rows(&places).max(1);
     let available_h = (h - if small { 16.0 } else { 38.0 }).max(1.0);
     let slot = ((w - 16.0) / 4.0).min(available_h / rows as f64);
-    let data = vm.data();
     let mut surface = canvas()
         .width(slot * 4.0)
         .height(slot * rows as f64)
@@ -40,50 +39,26 @@ pub(super) fn cover(
         .margin((8.0, 8.0, 8.0, 0.0));
     for place in places {
         let child = preview.iter().find(|tile| tile.id == place.id).unwrap();
-        let registered = if let Some(phone_domain::TileTarget::AppLink(id)) = child.target {
-            data.app_links
-                .iter()
-                .find(|link| link.id == id)
-                .and_then(|link| ui.registry().by_id(&link.app).map(|app| app.manifest))
-        } else {
-            None
-        };
-        let branded = registered
-            .map(|app| app.accent)
-            .unwrap_or_else(|| child.app.color());
-        let color = if branded.is_empty() {
-            data.settings.accent.as_str()
-        } else {
-            branded
-        };
         let width = place.width as f64 * slot - 3.0;
         let height = place.height as f64 * slot - 3.0;
-        let badge = if child.target.is_none() {
-            data.badge(child.app)
-        } else {
-            0
-        };
         let reference_h = if child.size == TileSize::Small {
             86.0
         } else {
             180.0
         };
         let reference_w = reference_h * place.width as f64 / place.height as f64;
-        let inner = content::view(
+        let inner = tile::visual(
             vm.clone(),
             ui.clone(),
             child,
             reference_w,
             reference_h,
-            badge,
+            None,
         );
         // Viewbox is a Control, not a Decorator: mount its typed Child property
         // so the native container scales and retains the live miniature subtree.
         let glyph = rsx! {Viewbox{stretch:ferroui_base::media::Stretch::Uniform,
-            set(Viewbox::child_property(), rsx! {Grid{width:reference_w,height:reference_h,clip_to_bounds:true,
-                {inner}
-                if child.size!=TileSize::Small{TextBlock{text:child.label.clone(),font_size:14.0,foreground:"White",vertical_alignment:V::Bottom,margin:(9.0,0.0,5.0,7.0)}}
-            }})
+            set(Viewbox::child_property(), inner)
         }};
         surface = surface.child(
             border()
@@ -92,7 +67,6 @@ pub(super) fn cover(
                 .canvas_top(place.row as f64 * slot)
                 .width(width)
                 .height(height)
-                .background(color)
                 .clip_to_bounds(true)
                 .child(glyph),
         );

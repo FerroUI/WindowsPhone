@@ -207,13 +207,33 @@ impl PhoneViewModel {
                 id,
                 text: text.clone(),
             });
-            self.request(HostRequest::Sms { number, body: text });
+            if self
+                .platform_state()
+                .supports(phone_host::platform::HostFeature::Messaging)
+            {
+                self.request_device(phone_host::platform::DeviceRequest::ComposeMessage {
+                    recipients: vec![number],
+                    body: text,
+                });
+            } else {
+                self.request(HostRequest::Sms { number, body: text });
+            }
         }
     }
     /// Records the dial request; the device owns the actual cellular call.
     pub fn record_call(&self, name: String, number: String) {
-        if number.trim().is_empty() {
-            self.set_status("Enter a phone number.".into());
+        if !phone_host::platform::phone_number(&number) {
+            self.set_status("Enter a valid phone number.".into());
+            return;
+        }
+        if self
+            .platform_state()
+            .supports(phone_host::platform::HostFeature::Telephony)
+        {
+            self.request_device(phone_host::platform::DeviceRequest::Dial {
+                number,
+                account: None,
+            });
             return;
         }
         self.dispatch(Action::AddCall(CallRecord {

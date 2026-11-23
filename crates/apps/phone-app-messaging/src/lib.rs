@@ -1,6 +1,7 @@
 //! Local message threads and host SMS composition with explicit draft status.
 mod bubbles;
 mod contacts;
+mod device;
 mod list;
 mod state;
 mod thread;
@@ -12,6 +13,13 @@ pub use state::MessageState;
 use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    if vm
+        .platform_state()
+        .supports(phone_sdk::host::platform::HostFeature::Messaging)
+        && !matches!(vm.route(), Route::Conversation(_))
+    {
+        return device::view(vm, ui);
+    }
     if ui.state::<crate::MessageState>().contacts.get() {
         return contacts::view(vm, ui);
     }
@@ -34,6 +42,22 @@ pub(crate) fn compose_body(
     recipient: String,
     body: String,
 ) {
+    if vm
+        .platform_state()
+        .supports(phone_sdk::host::platform::HostFeature::Messaging)
+    {
+        device::compose(
+            &vm,
+            &ui,
+            if recipient.trim().is_empty() {
+                vec![]
+            } else {
+                vec![recipient]
+            },
+            body,
+        );
+        return;
+    }
     let error = ui.form_error;
     ui.form_with_action(
         "new message",

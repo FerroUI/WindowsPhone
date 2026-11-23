@@ -10,6 +10,7 @@ use phone_sdk::{
 };
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
+mod device;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if let Route::Contact(id) = vm.route() {
@@ -18,7 +19,13 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             return detail(vm, ui, contact);
         }
     }
-    let mode = ui.pivot.get().min(1);
+    let native = vm
+        .platform_state()
+        .supports(phone_sdk::host::platform::HostFeature::Contacts);
+    let mode = ui.pivot.get().min(if native { 2 } else { 1 });
+    if mode == 2 {
+        return device::view(vm, ui);
+    }
     let query = ui.query.get().to_lowercase();
     let mut contacts = vm
         .contacts
@@ -71,12 +78,14 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     }
     let all = ui.pivot;
     let favorites = ui.pivot;
+    let device = ui.pivot;
     let overlay = ui.alphabet.get();
     let body = rsx! {Grid{name:"PeopleRoot",row_definitions:"Auto,*",
         StackPanel{margin:(20.0,0.0,20.0,10.0),spacing:8.0,
             StackPanel{orientation:Orientation::Horizontal,
                 {pivot("all",mode==0,move ||all.set(0))}
                 {pivot("favorites",mode==1,move ||favorites.set(1))}
+                if native{{pivot("device",mode==2,move||device.set(2))}}
             }
             TextBox{class:"phone-input",text:ui.query.two_way(),placeholder_text:"search contacts",automation_properties_name:"Search contacts"}
         }

@@ -4,6 +4,7 @@
 //! session state. The SDK has no dependency on the shell or any application.
 pub mod common;
 mod context;
+pub mod device;
 pub mod images;
 mod manifest;
 pub mod media;

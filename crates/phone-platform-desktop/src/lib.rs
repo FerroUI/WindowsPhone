@@ -140,6 +140,19 @@ impl PlatformPlugin for DesktopPlatform {
             }
         }
         match request {
+            PlatformRequest::Device {
+                request: phone_host::platform::DeviceRequest::Snapshot,
+            } => {
+                use phone_host::platform::{
+                    DeviceResponse, DeviceSnapshot, SystemSettingsPage as P,
+                };
+                let state = self.state();
+                ready(Ok(PlatformResponse::Device(DeviceResponse::Snapshot(DeviceSnapshot{
+                    settings:if state.supports(HostFeature::SystemSettings){vec![P::Application,P::Network,P::Notifications,P::DefaultApps,P::Wifi,P::Bluetooth,P::Display,P::Brightness,P::Sound,P::AudioOutput,P::Battery,P::BatterySaver,P::Storage,P::Security,P::Accounts,P::Sync,P::DateTime,P::Language,P::Keyboard,P::Accessibility,P::Privacy,P::Location,P::Vpn,P::SystemUpdate,P::About]}else{vec![]},
+                    detail:"Desktop hardware changes use your operating system's settings application. The host does not claim unobserved radio or mixer values.".into(),
+                    ..Default::default()
+                }))))
+            }
             PlatformRequest::Refresh => {
                 let (mode, state, closed) = (self.mode, self.state.clone(), self.closed.clone());
                 Box::pin(async move {

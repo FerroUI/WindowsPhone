@@ -3,11 +3,19 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "camelCase")]
 pub enum HostRequest {
-    Platform { request: crate::platform::PlatformRequest },
+    Platform {
+        request: crate::platform::PlatformRequest,
+    },
     HttpGet {
         request_id: u32,
         url: String,
         max_bytes: u32,
+    },
+    MapTile {
+        request_id: u32,
+        zoom: u8,
+        x: u32,
+        y: u32,
     },
     ChooseFile {
         request_id: u32,

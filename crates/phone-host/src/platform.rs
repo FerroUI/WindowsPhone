@@ -1,7 +1,9 @@
 //! Replaceable OS integration contracts. Providers execute on their UI thread;
 //! the future carries completion, never permission to mutate a phone document.
+pub mod device;
 mod registry;
 mod validation;
+pub use device::*;
 pub use registry::{HostService, ServiceRegistry};
 pub use validation::{validate_applications, MAX_DEVICE_APPLICATIONS};
 
@@ -57,6 +59,13 @@ pub enum HostFeature {
     Haptics,
     Notifications,
     Location,
+    HardwareControls,
+    Telephony,
+    Messaging,
+    Contacts,
+    NotificationCenter,
+    Maps,
+    AppShortcuts,
 }
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(default)]
@@ -69,11 +78,26 @@ pub struct PlatformState {
     pub detail: String,
 }
 impl PlatformState {
+    pub fn supports_device_snapshot(&self) -> bool {
+        self.features.iter().any(|feature| {
+            matches!(
+                feature,
+                HostFeature::InstalledApps
+                    | HostFeature::HardwareControls
+                    | HostFeature::Telephony
+                    | HostFeature::Messaging
+                    | HostFeature::Contacts
+                    | HostFeature::NotificationCenter
+                    | HostFeature::Maps
+                    | HostFeature::AppShortcuts
+            )
+        })
+    }
     pub fn supports(&self, feature: HostFeature) -> bool {
         self.features.contains(&feature)
     }
     pub fn validate(&self) -> Result<(), String> {
-        if self.features.len() > 8
+        if self.features.len() > 15
             || self.detail.len() > 4096
             || self.detail.chars().any(|c| c.is_control() && c != '\n')
         {
@@ -115,13 +139,52 @@ pub struct DeviceApplication {
     pub id: String,
     pub title: String,
 }
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum SystemSettingsPage {
     Application,
     Network,
     Notifications,
     DefaultApps,
+    Wifi,
+    Bluetooth,
+    Cellular,
+    Airplane,
+    Hotspot,
+    Vpn,
+    Nfc,
+    Location,
+    Display,
+    Brightness,
+    Rotation,
+    ScreenTimeout,
+    Sound,
+    AudioOutput,
+    DoNotDisturb,
+    Battery,
+    BatterySaver,
+    Storage,
+    Security,
+    Biometrics,
+    Accounts,
+    Sync,
+    DateTime,
+    Language,
+    Keyboard,
+    Accessibility,
+    Privacy,
+    Permissions,
+    NotificationAccess,
+    WriteSettings,
+    Phone,
+    Messaging,
+    DataUsage,
+    DataSaver,
+    Cast,
+    NearbyShare,
+    NightLight,
+    SystemUpdate,
+    About,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -164,6 +227,9 @@ pub enum PlatformRequest {
         body: String,
     },
     Locate,
+    Device {
+        request: DeviceRequest,
+    },
 }
 impl PlatformRequest {
     pub fn feature(&self) -> Option<HostFeature> {
@@ -177,6 +243,7 @@ impl PlatformRequest {
             Self::ShareText { .. } => NativeSharing,
             Self::RequestNotifications | Self::Notify { .. } => Notifications,
             Self::Locate => Location,
+            Self::Device { request } => return request.feature(),
         })
     }
     pub fn validate(&self) -> Result<(), String> {
@@ -190,6 +257,7 @@ pub enum PlatformResponse {
     Applications(Vec<DeviceApplication>),
     Accepted { message: String },
     Location { latitude: f64, longitude: f64 },
+    Device(DeviceResponse),
 }
 pub type PlatformTask = Pin<Box<dyn Future<Output = Result<PlatformResponse, String>>>>;
 pub fn ready(result: Result<PlatformResponse, String>) -> PlatformTask {
@@ -198,6 +266,7 @@ pub fn ready(result: Result<PlatformResponse, String>) -> PlatformTask {
 pub trait PlatformPlugin {
     fn id(&self) -> &'static str;
     fn state(&self) -> PlatformState;
+    fn set_notification_policy(&self, _policy: &DeviceNotificationPolicy) {}
     fn environment(&self) -> crate::HostEnvironment {
         crate::HostEnvironment {
             platform: self.state().platform,
@@ -221,5 +290,11 @@ pub trait PlatformPlugin {
     /// Called synchronously during input dispatch. Start consent/share actions
     /// here when they require user activation; return their eventual result.
     fn dispatch(&self, request: PlatformRequest) -> PlatformTask;
+    /// Drain bounded, coalesced native observations on the owning UI thread.
+    /// Events carry observations, never commands or document-write authority.
+    /// A provider must stop listeners and clear queued events on Closing.
+    fn drain_events(&self) -> Vec<PlatformResponse> {
+        Vec::new()
+    }
     fn lifecycle(&self, _event: HostLifecycle) {}
 }

@@ -37,6 +37,14 @@ impl PlatformPlugin for AndroidPlatformPlugin {
         }
     }
 
+    fn set_notification_policy(&self, policy: &DeviceNotificationPolicy) {
+        bridge::notification_policy(policy);
+    }
+
+    fn drain_events(&self) -> Vec<PlatformResponse> {
+        bridge::events()
+    }
+
     fn media_backend(
         &self,
     ) -> Result<Option<Box<dyn phone_host::native::media_backend::MediaBackend>>, String> {
@@ -60,17 +68,14 @@ impl PlatformPlugin for AndroidPlatformPlugin {
             PlatformRequest::Refresh => return ready(Ok(PlatformResponse::State(self.state()))),
             PlatformRequest::ListApplications => return bridge::applications(),
             PlatformRequest::Locate => return bridge::location(),
+            PlatformRequest::Device { request } => return bridge::device(request),
             PlatformRequest::LaunchApplication { id } => {
                 bridge::command("launch", json!({"id":id}))
             }
             PlatformRequest::RequestLauncher => bridge::command("request_home", json!({})),
-            PlatformRequest::OpenSettings { page } => bridge::command(
-                "settings",
-                json!({"page": match page {
-                    SystemSettingsPage::Application=>"application", SystemSettingsPage::Network=>"network",
-                    SystemSettingsPage::Notifications=>"notifications", SystemSettingsPage::DefaultApps=>"default_apps",
-                }}),
-            ),
+            PlatformRequest::OpenSettings { page } => {
+                bridge::command("settings", json!({"page": page}))
+            }
             PlatformRequest::Haptic { kind } => bridge::command(
                 "haptic",
                 json!({"kind":match kind {

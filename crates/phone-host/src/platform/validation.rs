@@ -22,6 +22,7 @@ pub fn validate_applications(apps: &[DeviceApplication]) -> Result<(), String> {
 }
 pub(super) fn request(request: &PlatformRequest) -> Result<(), String> {
     match request {
+        PlatformRequest::Device { request } => request.validate(),
         PlatformRequest::LaunchApplication { id } if !text(id, 1024, false) => {
             Err("Invalid device application identity.".into())
         }

@@ -1,6 +1,9 @@
 use crate::{AppId, Id};
 use serde::{Deserialize, Serialize};
 
+mod presentation;
+pub use presentation::*;
+
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TileSize {
     Small,
@@ -37,6 +40,13 @@ pub struct Tile {
     pub folder_tiles: Vec<Tile>,
     #[serde(default)]
     pub target: Option<TileTarget>,
+    /// User choices are separate from the app's current title and notifications.
+    #[serde(default)]
+    pub appearance: TileAppearance,
+    /// At most five bounded cards, including scheduled cards. Expiry is evaluated
+    /// against the visible host clock; rendering never writes the phone document.
+    #[serde(default)]
+    pub notifications: Vec<TileNotification>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum TileTarget {
@@ -68,6 +78,8 @@ impl Tile {
             children: Vec::new(),
             folder_tiles: Vec::new(),
             target: None,
+            appearance: TileAppearance::default(),
+            notifications: Vec::new(),
         }
     }
     pub fn is_folder(&self) -> bool {
@@ -81,6 +93,30 @@ impl Tile {
     }
     pub fn sync_children(&mut self) {
         self.children = self.folder_tiles.iter().map(|tile| tile.app).collect();
+    }
+    pub fn display_label(&self) -> &str {
+        self.appearance.label.as_deref().unwrap_or(&self.label)
+    }
+    /// Newest eligible notification wins when rotation is paused. Future and
+    /// expired cards never become visible, including under reduced motion.
+    pub fn active_notification(&self, now: i64, rotate: bool) -> Option<&TileNotification> {
+        if !self.appearance.live || self.is_folder() {
+            return None;
+        }
+        let active = self
+            .notifications
+            .iter()
+            .rev()
+            .filter(|card| card.active_at(now))
+            .collect::<Vec<_>>();
+        let newest = *active.first()?;
+        let index = if rotate && self.appearance.queue {
+            (now.saturating_sub(newest.starts_at).max(0) as u64 / TILE_CARD_SECONDS)
+                % active.len() as u64
+        } else {
+            0
+        };
+        active.get(index as usize).copied()
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

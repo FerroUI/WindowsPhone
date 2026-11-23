@@ -2,7 +2,7 @@ use super::Position;
 use windows::{
     Devices::Geolocation::{GeolocationAccessStatus, Geolocator, PositionAccuracy},
     Foundation::TimeSpan,
-    Win32::System::WinRT::{RO_INIT_SINGLETHREADED, RoInitialize, RoUninitialize},
+    Win32::System::WinRT::{RoInitialize, RoUninitialize, RO_INIT_SINGLETHREADED},
 };
 
 struct Runtime(bool);

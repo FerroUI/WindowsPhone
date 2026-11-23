@@ -37,6 +37,15 @@ pub fn handle(
             crate::network::start(request_id, url, max_bytes);
             Ok(())
         }
+        HostRequest::MapTile {
+            request_id,
+            zoom,
+            x,
+            y,
+        } => {
+            crate::network::map_tile(request_id, zoom, x, y);
+            Ok(())
+        }
         HostRequest::ChooseFile {
             request_id,
             extensions,

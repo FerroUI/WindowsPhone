@@ -11,6 +11,58 @@ use std::{
 };
 
 const APP: &str = "tests.contract";
+
+#[test]
+fn builtin_secondary_paths_are_parsed_before_navigation_or_persistence() {
+    let registration = AppRegistration::builtin(phone_domain::AppId::Maps, |_, _| Element::Empty)
+        .with_launch_path(|path| {
+            let id = path
+                .strip_prefix("place/")
+                .ok_or("Unknown path")?
+                .parse::<u32>()
+                .map_err(|_| "Invalid place")?;
+            if id == 0 {
+                return Err("Invalid place".into());
+            }
+            Ok(serde_json::json!({"place":id}))
+        })
+        .with_activation(|_, _, _| Ok(()));
+    let saves = Rc::new(Cell::new(0));
+    let writes = saves.clone();
+    let vm = PhoneViewModel::new(
+        PhoneData::demo(),
+        Rc::new(move |_| writes.set(writes.get() + 1)),
+    );
+    let registry = Rc::new(AppRegistry::new(vec![registration]).unwrap());
+    registry.bind(&vm);
+    let session = Rc::new(Session::new(0, registry));
+    let cx = AppContext {
+        vm: vm.clone(),
+        session: session.clone(),
+        id: "phone.maps",
+    };
+    let before = vm.data().to_json().unwrap();
+    assert!(cx.pin("place/0", "Missing").is_err());
+    assert!(cx.pin("arbitrary/path", "Wrong").is_err());
+    cx.navigate("place/not-a-number");
+    assert_eq!(vm.route(), Route::Start);
+    assert!(session.take_activation("phone.maps").is_none());
+    assert_eq!(vm.data().to_json().unwrap(), before);
+    assert_eq!(saves.get(), 0);
+    cx.pin("place/42", "Saved place").unwrap();
+    assert!(vm
+        .data()
+        .app_links
+        .iter()
+        .any(|v| v.app == "phone.maps" && v.path == "place/42"));
+    cx.navigate("place/42");
+    assert_eq!(vm.route(), Route::App(phone_domain::AppId::Maps));
+    assert_eq!(
+        session.take_activation("phone.maps"),
+        Some(serde_json::json!({"place":42}))
+    );
+    assert_eq!(saves.get(), 1);
+}
 #[derive(Default)]
 struct Observed {
     activations: RefCell<Vec<serde_json::Value>>,

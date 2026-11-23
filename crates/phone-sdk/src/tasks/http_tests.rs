@@ -93,3 +93,34 @@ fn live_requests_have_a_strict_concurrency_limit() {
     drop(held);
     assert!(poll(&mut get(&cx, "https://example.org/feed", 32)).is_pending());
 }
+
+#[test]
+fn viewed_map_requests_share_network_admission_bounds_and_cancellation() {
+    let (denied, calls) = fixture(false);
+    assert!(matches!(
+        poll(&mut map_tile(&denied, 1, 0, 0)),
+        Poll::Ready(Err(_))
+    ));
+    assert!(calls.borrow().is_empty());
+    let (cx, calls) = fixture(true);
+    assert!(matches!(
+        poll(&mut map_tile(&cx, 255, 0, 0)),
+        Poll::Ready(Err(_))
+    ));
+    assert!(calls.borrow().is_empty());
+    let mut task = map_tile(&cx, 4, 7, 8);
+    let id = match calls.borrow().last().unwrap() {
+        HostRequest::MapTile {
+            request_id,
+            zoom: 4,
+            x: 7,
+            y: 8,
+        } => *request_id,
+        _ => panic!("Unexpected tile request"),
+    };
+    assert!(is_http_task_pending(id));
+    cancel(&cx.session, Some(cx.id));
+    assert!(!is_http_task_pending(id));
+    assert!(!complete_http(id, Ok(vec![1])));
+    assert!(matches!(poll(&mut task), Poll::Ready(Err(_))));
+}

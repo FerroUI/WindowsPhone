@@ -29,8 +29,21 @@ impl PhoneViewModel {
                 }
                 _ => {}
             }
-            if let Action::PinApp { app, .. } | Action::SetExtensionEnabled { app, .. } = &action {
-                if !self.registered_apps.borrow().contains(app) {
+            if let Action::PinApp { app, .. } = &action {
+                let builtin = self.registered_builtins.borrow().get(app).copied();
+                if !self.extension_enabled(app)
+                    && !builtin.is_some_and(|id| self.data().installed.contains(&id))
+                {
+                    self.set_status(
+                        "This application is not registered or enabled in this build.".into(),
+                    );
+                    continue;
+                }
+            }
+            if let Action::SetExtensionEnabled { app, .. } = &action {
+                if !self.registered_apps.borrow().contains(app)
+                    || self.registered_builtins.borrow().contains_key(app)
+                {
                     self.set_status("This application is not registered in this build.".into());
                     continue;
                 }

@@ -65,11 +65,19 @@ impl Observer {
             .filter(|name| {
                 matches!(
                     name.as_str(),
-                    "PhoneScreen" | "PhonePage" | "StartTiles" | "StartScroll" | "WalletSearch"
+                    "PhoneScreen"
+                        | "PhonePage"
+                        | "StartTiles"
+                        | "StartScroll"
+                        | "WalletSearch"
+                        | "NativeMessageSearch"
+                        | "DeviceMessageRecipients"
+                        | "DeviceMessageBody"
                 )
             })
             .take(16)
             .collect::<Vec<_>>();
+        let device = host.vm().device_state();
         let client = top.client_size();
         let viewport = host.vm().viewport();
         let sequence = self.sequence.get().saturating_add(1);
@@ -83,6 +91,9 @@ impl Observer {
                 && view.is_measure_valid() && view.is_arrange_valid(),
             "closed": host.runtime().is_closed(), "route": host.vm().route(),
             "status": host.vm().status(), "host": host.vm().platform_state(),
+            "device_snapshot": device.snapshot,
+            "device_message_thread": device.message_thread,
+            "device_message_ids": device.messages.iter().map(|message| &message.id).collect::<Vec<_>>(),
             "activation": self.activation.borrow().clone(),
             "client": {"width": client.width, "height": client.height},
             "render_scaling": top.render_scaling(),

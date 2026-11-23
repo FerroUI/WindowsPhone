@@ -33,7 +33,8 @@ pub fn battery_settings(vm: Rc<PhoneViewModel>) -> Element {
     let motion = vm.clone();
     rsx! {StackPanel{spacing:20.0,
         {muted("Remaining battery life",18.0)}{text(&percent,55.0)}{muted(charging,19.0)}
-        {toggle("Battery Saver",settings.battery_saver,move |enabled|update(&save,|s|s.battery_saver=enabled))}
+        if vm.platform_state().supports(phone_sdk::host::platform::HostFeature::HardwareControls) {{phone_sdk::device::control(vm.clone(),phone_sdk::host::platform::DeviceControl::BatterySaver)}}
+        {toggle("Pause live tiles to save power",settings.battery_saver,move |enabled|update(&save,|s|s.battery_saver=enabled))}
         if environment.power_saver==Some(true) {{muted("Your device is also saving power. Decorative motion and live tiles pause until that policy changes.",16.0)}}
         {muted("Pauses live-tile animation and decorative motion inside this app. Media playback and saved changes remain available.",17.0)}
         {flat("ease of access",move ||motion.navigate(Route::Setting("ease of access".into())))}

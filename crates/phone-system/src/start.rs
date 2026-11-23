@@ -1,6 +1,8 @@
 //! The Start canvas uses half-tile cells for both root tiles and live folders.
 //! Tile identity, size and secondary activation targets survive every move.
 mod cadence;
+mod cards;
+mod clock;
 mod content;
 mod folders;
 mod layout;
@@ -20,6 +22,8 @@ use std::rc::Rc;
 
 pub(super) const GAP: f64 = 8.0;
 pub(super) const PADDING: f64 = 14.0;
+
+pub(crate) use clock::tick as tick_notifications;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     // Isolate the cadence dependency from the shell and other mounted pages.
@@ -43,6 +47,7 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         });
     let folder = folder_id.and_then(|id| data.tile(id).filter(|tile| tile.is_folder()).cloned());
     drop(data);
+    clock::configure(&vm, &ui, &tiles);
     let cell = (width - PADDING * 2.0 - GAP * (columns as f64 - 1.0)) / columns as f64;
     let placements = pack_tiles(&tiles, columns);
     let folder_after = folder

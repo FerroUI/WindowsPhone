@@ -87,6 +87,25 @@ final class PhoneLauncher {
         return PhoneJson.put(PhoneJson.value("applications"), "applications", new JSONArray(rows));
     }
 
+    static JSONObject manage(Activity owner, String id, boolean uninstall) {
+        if (id == null || id.length() > 1024) return PhoneJson.error("Invalid Android application identity.");
+        ComponentName selected = ComponentName.unflattenFromString(id);
+        if (selected == null) return PhoneJson.error("Invalid Android application identity.");
+        Intent lookup = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setPackage(selected.getPackageName());
+        for (ResolveInfo resolved : owner.getPackageManager().queryIntentActivities(lookup, 0)) {
+            ActivityInfo activity = resolved.activityInfo;
+            if (admitted(owner, activity) && selected.equals(new ComponentName(activity.packageName, activity.name))) {
+                Intent request = new Intent(uninstall ? Intent.ACTION_DELETE : Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        android.net.Uri.fromParts("package", selected.getPackageName(), null));
+                if (!PhoneSettings.resolves(owner, request)) return PhoneJson.error("Android does not expose that application-management action.");
+                owner.startActivity(request);
+                return PhoneJson.deviceAccepted(uninstall ? "Android opened uninstall confirmation. No removal is assumed until the package catalog changes."
+                        : "Android opened the selected application's settings.");
+            }
+        }
+        return PhoneJson.error("That application is no longer launchable in this profile.");
+    }
+
     static JSONObject launch(Context context, String id) {
         if (id == null || id.length() > 512) return PhoneJson.error("Invalid Android application identity.");
         ComponentName selected = ComponentName.unflattenFromString(id);

@@ -2231,6 +2231,7 @@ dependencies = [
  "phone-fonts",
  "phone-host",
  "phone-native",
+ "roxmltree",
  "serde_json",
 ]
 
@@ -2342,6 +2343,7 @@ dependencies = [
 name = "phone-sdk"
 version = "0.1.0"
 dependencies = [
+ "base64 0.22.1",
  "chrono",
  "ferroui-base",
  "ferroui-build",

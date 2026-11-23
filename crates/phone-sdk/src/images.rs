@@ -7,13 +7,58 @@ use ferroui_base::media::{
     IImage, Stretch,
 };
 use ferroui_view::prelude::*;
-use std::{cell::RefCell, io::Cursor, rc::Rc};
+use std::{
+    cell::{Cell, RefCell},
+    io::Cursor,
+    rc::Rc,
+};
 
 const FULL_EDGE: u32 = 1200;
 const THUMBNAIL_EDGE: u32 = 320;
+const TRANSIENT_PREFIX: &str = "phone-transient-image:";
 
 ferroui_base::ferro_thread_local! {
     static CACHE: RefCell<Cache> = RefCell::new(Cache::default());
+    static NEXT_TRANSIENT: Cell<Option<u64>> = const { Cell::new(Some(1)) };
+}
+
+/// A decoded, session-owned image. Its identity is allocated here and cannot
+/// alias a persistent photo. Keeping the handle alive pins the decoded entry;
+/// dropping it releases that entry without leaving a permanent tombstone.
+/// Hosts never receive loader requests for this private image namespace.
+pub struct TransientImage {
+    source: String,
+    image: Rc<dyn IImage>,
+}
+impl TransientImage {
+    pub fn decode(bytes: &[u8]) -> Result<Self, String> {
+        // Decode before registration: malformed transient responses must not
+        // accumulate failure records under a succession of generated names.
+        let (bitmap, size) = decode(bytes, FULL_EDGE)?;
+        let source = NEXT_TRANSIENT.with(|next| {
+            let id = next.get().ok_or("Transient image identities exhausted.")?;
+            next.set(id.checked_add(1));
+            Ok::<_, String>(format!("{TRANSIENT_PREFIX}{id}"))
+        })?;
+        let image = Rc::new(bitmap) as Rc<dyn IImage>;
+        CACHE.with(|cache| {
+            let mut cache = cache.borrow_mut();
+            cache.insert(Key::new(&source, FULL_EDGE), image.clone(), size);
+            cache.trim();
+        });
+        Ok(Self { source, image })
+    }
+    pub fn fit(&self, name: impl Into<String>) -> Element {
+        // The retained native Image owns its drawing resource while a layout
+        // removes the old control. It never needs a source-string fallback.
+        let name = name.into();
+        rsx! {Image{name:name,source:Some(self.image.clone()),stretch:Stretch::Uniform,is_hit_test_visible:false}}
+    }
+}
+impl Drop for TransientImage {
+    fn drop(&mut self) {
+        CACHE.with(|cache| cache.borrow_mut().release_transient(&self.source));
+    }
 }
 
 pub fn initialize() {
@@ -182,8 +227,9 @@ fn view(source: &str, edge: u32, stretch: Stretch) -> Element {
                 ImageState::Ready(image) => Some(image.clone()),
                 _ => None,
             };
-            let blocked =
-                cache.failed.contains(&key.source) || cache.forgotten.contains(&key.source);
+            let blocked = cache.failed.contains(&key.source)
+                || cache.forgotten.contains(&key.source)
+                || key.source.starts_with(TRANSIENT_PREFIX);
             let loader = if source.is_none()
                 && !blocked
                 && cache.loader.is_some()
@@ -233,4 +279,59 @@ fn builtin(source: &str) -> Option<&'static [u8]> {
         }
         _ => return None,
     })
+}
+
+#[cfg(test)]
+mod transient_tests {
+    use super::*;
+    #[test]
+    fn malformed_transient_images_leave_no_cache_identity_or_failure_record() {
+        let before = CACHE.with(|cache| {
+            let cache = cache.borrow();
+            (
+                cache.images.len(),
+                cache.failed.len(),
+                cache.pending.len(),
+                cache.forgotten.len(),
+            )
+        });
+        let identity = NEXT_TRANSIENT.with(Cell::get);
+        for _ in 0..64 {
+            assert!(TransientImage::decode(b"not an image").is_err());
+        }
+        assert_eq!(NEXT_TRANSIENT.with(Cell::get), identity);
+        assert_eq!(
+            CACHE.with(|cache| {
+                let cache = cache.borrow();
+                (
+                    cache.images.len(),
+                    cache.failed.len(),
+                    cache.pending.len(),
+                    cache.forgotten.len(),
+                )
+            }),
+            before
+        );
+    }
+    #[test]
+    fn transient_release_clears_delivery_records_without_touching_photos_or_adding_tombstones() {
+        let mut cache = Cache::default();
+        let transient = format!("{TRANSIENT_PREFIX}owned");
+        for source in [transient.as_str(), "media:photo"] {
+            cache.pending.insert(source.into());
+            cache.fail(source);
+        }
+        cache.pending.insert(transient.clone());
+        cache.forgotten.insert("media:deleted".into());
+        cache.release_transient(&transient);
+        assert!(!cache.pending.contains(&transient));
+        assert!(!cache.failed.contains(&transient));
+        assert!(!cache.forgotten.contains(&transient));
+        assert!(cache.failed.contains("media:photo"));
+        assert!(cache.forgotten.contains("media:deleted"));
+        // Repeated cleanup remains safe after a document-wide cache reset.
+        cache.clear();
+        cache.release_transient(&transient);
+        assert_eq!(cache.bytes, 0);
+    }
 }

@@ -1,9 +1,13 @@
-//! Transient Windows Phone volume flyout; the physical host owns its own volume.
+//! Windows Phone volume flyout. Native streams use observed device controls;
+//! embedded/browser hosts retain the app's own audio preferences.
 use crate::session::Session;
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
 use phone_controls::{icon, Icon};
+use phone_sdk::host::platform::{
+    ControlAccess, ControlValue, DeviceControl, DeviceRequest, HostFeature,
+};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::{cell::Cell, rc::Rc};
 
@@ -13,6 +17,8 @@ pub struct HardwareState {
     pub media: Signal<bool>,
     deadline: Cell<i64>,
     held: Cell<bool>,
+    ringer_before_mute: Cell<f64>,
+    media_before_mute: Cell<f64>,
 }
 
 impl Default for HardwareState {
@@ -29,6 +35,8 @@ impl HardwareState {
             media: signal(false),
             deadline: Cell::new(0),
             held: Cell::new(false),
+            ringer_before_mute: Cell::new(0.5),
+            media_before_mute: Cell::new(0.5),
         }
     }
     pub fn show(&self, now: i64, media: bool) {
@@ -68,6 +76,33 @@ impl HardwareState {
 
 /// Hardware keys adjust the active channel and expose the same native flyout.
 pub fn adjust(vm: &PhoneViewModel, state: &HardwareState, delta: i8, media: bool) {
+    if vm.platform_state().supports(HostFeature::HardwareControls) {
+        let control = if media {
+            DeviceControl::MediaVolume
+        } else {
+            DeviceControl::RingerVolume
+        };
+        if let Some(observed) = vm.device_state().snapshot.control(control) {
+            match (&observed.access, &observed.value) {
+                (ControlAccess::Writable, ControlValue::Level(value)) => {
+                    vm.request_device(DeviceRequest::SetControl {
+                        control,
+                        value: ControlValue::Level(
+                            (value + f64::from(delta) * 0.05).clamp(0.0, 1.0),
+                        ),
+                    })
+                }
+                (ControlAccess::Panel | ControlAccess::Permission, _) => {
+                    vm.request_device(DeviceRequest::OpenControl { control })
+                }
+                _ => {
+                    vm.set_status("This device controls its volume through system settings.".into())
+                }
+            }
+        }
+        state.show(vm.now(), media);
+        return;
+    }
     let mut settings = vm.data().settings.clone();
     if media {
         settings.volume = (i16::from(settings.volume) + i16::from(delta)).clamp(0, 30) as u8;
@@ -84,9 +119,60 @@ pub fn adjust(vm: &PhoneViewModel, state: &HardwareState, delta: i8, media: bool
     vm.set_settings(settings);
     state.show(vm.now(), media);
 }
+pub fn mute(vm: &PhoneViewModel, state: &HardwareState, media: bool) {
+    if vm.platform_state().supports(HostFeature::HardwareControls) {
+        let control = if media {
+            DeviceControl::MediaVolume
+        } else {
+            DeviceControl::RingerVolume
+        };
+        let observed = vm.device_state().snapshot.control(control).cloned();
+        if let Some(observed) = observed {
+            match (observed.access, observed.value) {
+                (ControlAccess::Writable, ControlValue::Level(level)) => {
+                    let saved = if media {
+                        &state.media_before_mute
+                    } else {
+                        &state.ringer_before_mute
+                    };
+                    let value = if level > 0.001 {
+                        saved.set(level);
+                        0.0
+                    } else {
+                        saved.get()
+                    };
+                    vm.request_device(DeviceRequest::SetControl {
+                        control,
+                        value: ControlValue::Level(value),
+                    });
+                }
+                (ControlAccess::Panel | ControlAccess::Permission, _) => {
+                    vm.request_device(DeviceRequest::OpenControl { control })
+                }
+                _ => vm.set_status("This device controls mute through system settings.".into()),
+            }
+        }
+    } else {
+        let mut settings = vm.data().settings.clone();
+        if media {
+            settings.media_muted = !settings.media_muted;
+        } else {
+            settings.sounds = !settings.sounds;
+        }
+        vm.set_settings(settings);
+    }
+    state.show(vm.now(), media);
+}
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let settings = vm.data().settings.clone();
+    let native = vm.platform_state().supports(HostFeature::HardwareControls);
+    let mode = vm
+        .device_state()
+        .snapshot
+        .control(DeviceControl::RingerMode)
+        .map(|v| phone_sdk::device::value_label(&v.value))
+        .unwrap_or_else(|| "sound mode".into());
     let expanded = ui.state::<crate::hardware::HardwareState>().expanded.get();
     let media = ui.state::<crate::hardware::HardwareState>().media.get();
     let toggle = ui.clone();
@@ -139,9 +225,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }
             if expanded {
                 StackPanel {orientation:Orientation::Horizontal,spacing:18.0,
-                    Button {class:"phone-flat",content:if settings.vibration{"vibrate on"}else{"vibrate off"},foreground:"White",font_size:18.0,
-                        automation_properties_name:"Toggle vibration",
-                        on_click:move |_|{let mut s=vibration_vm.data().settings.clone();s.vibration=!s.vibration;vibration_vm.set_settings(s);vibration.state::<crate::hardware::HardwareState>().touch(vibration_vm.now());}}
+                    Button {class:"phone-flat",content:if native{mode}else{if settings.vibration{"vibrate on"}else{"vibrate off"}.into()},foreground:"White",font_size:18.0,
+                        automation_properties_name:if native{"Device sound mode"}else{"Toggle vibration"},
+                        on_click:move |_|{if native{vibration_vm.activate_device_control(DeviceControl::RingerMode);}else{let mut s=vibration_vm.data().settings.clone();s.vibration=!s.vibration;vibration_vm.set_settings(s);}vibration.state::<crate::hardware::HardwareState>().touch(vibration_vm.now());}}
                     Button {class:"phone-flat",content:"settings",foreground:"White",font_size:18.0,
                         automation_properties_name:"Open sound settings",on_click:move |_|{open_settings.state::<crate::hardware::HardwareState>().close();settings_vm.navigate(phone_domain::Route::Setting("ringtones+sounds".into()));}}
                 }
@@ -153,6 +239,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
 }
 
 fn channel(vm: Rc<PhoneViewModel>, ui: Rc<Session>, media: bool) -> Element {
+    if vm.platform_state().supports(HostFeature::HardwareControls) {
+        return native_channel(vm, ui, media);
+    }
     let settings = vm.data().settings.clone();
     let muted = if media {
         settings.media_muted
@@ -201,5 +290,59 @@ fn channel(vm: Rc<PhoneViewModel>, ui: Rc<Session>, media: bool) -> Element {
                 if media{s.volume=next;s.media_muted=false;}else{s.ringer_volume=next;s.sounds=next>0;}
                 slider_vm.set_settings(s);slider_ui.state::<crate::hardware::HardwareState>().touch(slider_vm.now());
             }}
+    }}
+}
+
+fn native_channel(vm: Rc<PhoneViewModel>, ui: Rc<Session>, media: bool) -> Element {
+    let control = if media {
+        DeviceControl::MediaVolume
+    } else {
+        DeviceControl::RingerVolume
+    };
+    let observed = vm.device_state().snapshot.control(control).cloned();
+    let level = observed.as_ref().and_then(|v| match v.value {
+        ControlValue::Level(value) => Some(value),
+        _ => None,
+    });
+    let writable = observed
+        .as_ref()
+        .is_some_and(|v| v.access == ControlAccess::Writable)
+        && level.is_some();
+    let panel = observed
+        .as_ref()
+        .is_some_and(|v| matches!(v.access, ControlAccess::Panel | ControlAccess::Permission));
+    let label = if media {
+        "media + apps"
+    } else {
+        "ringer + notifications"
+    };
+    let muted = level.is_some_and(|v| v <= 0.001);
+    if let Some(level) = level.filter(|value| *value > 0.001) {
+        let state = ui.state::<HardwareState>();
+        if media {
+            state.media_before_mute.set(level);
+        } else {
+            state.ringer_before_mute.set(level);
+        }
+    }
+    let mute_vm = vm.clone();
+    let mute_ui = ui.clone();
+    let slider_vm = vm.clone();
+    let slider_ui = ui.clone();
+    let open_vm = vm.clone();
+    let open_ui = ui.clone();
+    rsx! {StackPanel{spacing:1.0,
+        Grid{column_definitions:"44,*,Auto",column_spacing:8.0,
+            Button{class:"phone-flat",width:44.0,height:44.0,padding:0.0,is_enabled:writable,
+                automation_properties_name:format!("{} device {label}",if muted{"Unmute"}else{"Mute"}),
+                on_click:move |_|{let state=mute_ui.state::<HardwareState>();let restore=if media{state.media_before_mute.get()}else{state.ringer_before_mute.get()};mute_vm.request_device(DeviceRequest::SetControl{control,value:ControlValue::Level(if muted{restore}else{0.0})});state.touch(mute_vm.now());},
+                {icon(if muted{Icon::Mute}else{Icon::Volume},29.0,"White")}}
+            TextBlock{Grid.column:1,text:label,font_size:18.0,foreground:"White",vertical_alignment:V::Center,text_wrapping:TextWrapping::Wrap}
+            TextBlock{Grid.column:2,text:level.map(|v|format!("{}%",(v*100.0).round()as u8)).unwrap_or_else(||"—".into()),font_size:30.0,font_weight:FontWeight::Light,foreground:"White",vertical_alignment:V::Center}
+        }
+        if writable{Slider{class:"phone-slider",minimum:0.0,maximum:1.0,small_change:0.05,large_change:0.1,value:level.unwrap_or(0.0),margin:(48.0,0.0,0.0,0.0),height:38.0,
+            automation_properties_name:format!("Device {label} volume"),on_value_changed:move |event|{let value=event.new_value().clamp(0.0,1.0);if (value-level.unwrap_or(0.0)).abs()<0.01{return;}slider_vm.request_device(DeviceRequest::SetControl{control,value:ControlValue::Level(value)});slider_ui.state::<HardwareState>().touch(slider_vm.now());}}}
+        if panel{Button{class:"phone-flat",content:"open system volume",foreground:"White",font_size:18.0,
+            on_click:move |_|{open_vm.request_device(DeviceRequest::OpenControl{control});open_ui.state::<HardwareState>().touch(open_vm.now());}}}
     }}
 }

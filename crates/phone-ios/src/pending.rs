@@ -6,8 +6,8 @@ use std::{
     pin::Pin,
     rc::{Rc, Weak},
     sync::{
-        atomic::{AtomicU64, Ordering},
         Arc, Mutex, OnceLock,
+        atomic::{AtomicU64, Ordering},
     },
     task::{Context, Poll, Waker},
 };
@@ -19,6 +19,8 @@ pub enum Kind {
     Permission,
     Notify,
     Location,
+    Device,
+    DeviceRead,
 }
 
 #[derive(Debug)]
@@ -108,6 +110,10 @@ impl Session {
 
     pub fn cancel_locations(&self) {
         self.cancel_where(|kind| kind == Kind::Location);
+    }
+
+    pub fn cancel_device_reads(&self) {
+        self.cancel_where(|kind| kind == Kind::DeviceRead);
     }
 
     pub fn close(&self) {

@@ -153,6 +153,7 @@ pub(super) fn open_settings(page: SystemSettingsPage) -> PlatformTask {
         SystemSettingsPage::Network => "Network",
         SystemSettingsPage::Notifications => "Notifications",
         SystemSettingsPage::DefaultApps => "the relevant default-app setting",
+        _ => "the requested device category",
     };
     ready(if unsafe { phone_desktop_open_settings() } != 0 {
         Ok(PlatformResponse::Accepted { message: format!("Opened System Settings. Choose {section}; macOS does not expose a stable public deep link for this page.") })

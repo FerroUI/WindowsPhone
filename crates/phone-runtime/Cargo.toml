@@ -10,8 +10,6 @@ phone-state.workspace = true
 phone-domain.workspace = true
 phone-system.workspace = true
 ferroui-base.workspace = true
-url.workspace = true
-
-[dev-dependencies]
 ferroui-reactive.workspace = true
 ferroui-reactiveui.workspace = true
+url.workspace = true

@@ -9,8 +9,13 @@ pub struct Place {
 }
 impl Place {
     pub fn validate(&self) -> Result<(), String> {
-        if self.id == 0
-            || self.name.trim().is_empty()
+        if self.id == 0 {
+            return Err("Save this place before assigning a saved identifier.".into());
+        }
+        self.validate_content()
+    }
+    fn validate_content(&self) -> Result<(), String> {
+        if self.name.trim().is_empty()
             || self.name.trim() != self.name
             || self.name.chars().count() > 100
             || self.name.chars().any(char::is_control)
@@ -32,7 +37,9 @@ impl Place {
             .unwrap_or_else(|| self.address.clone())
     }
     pub fn map_url(&self) -> Result<String, String> {
-        self.validate()?;
+        // Search results and dropped map pins are useful before being saved.
+        // Only persistence/pinning requires a nonzero saved-place identifier.
+        self.validate_content()?;
         if let Some(coordinates) = self.coordinates {
             coordinates.osm_url()
         } else {
@@ -268,5 +275,11 @@ mod tests {
             .map_url()
             .unwrap()
             .starts_with("https://www.openstreetmap.org/?mlat="));
+        let unsaved = Place { id: 0, ..value };
+        assert!(unsaved.validate().is_err());
+        assert!(
+            unsaved.map_url().is_ok(),
+            "An unsaved dropped pin can still open/share its coordinates"
+        );
     }
 }

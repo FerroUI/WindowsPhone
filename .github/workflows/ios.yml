@@ -52,21 +52,30 @@ jobs:
         run: |
           python3 scripts/verify_ios_smoke_test.py
           cargo test --locked -p phone-ios --lib
-      - name: Build and bundle the UIKit application
+          cargo test --locked -p phone-ios --lib --features ios26-telephony
+      - name: Type check the optional carrier provider for physical iPhone
+        run: |
+          xcrun --sdk iphoneos swiftc -sdk "$(xcrun --sdk iphoneos --show-sdk-path)" \
+            -target arm64-apple-ios15.0 -swift-version 5 -parse-as-library -typecheck \
+            crates/phone-ios/native/telephony/*.swift
+      - name: Build and bundle the standard UIKit application
+        id: standard-bundle
+        run: bash scripts/build-ios.sh --target aarch64-apple-ios-sim
+      - name: Build and bundle the optional carrier provider
         id: bundle
         run: |
-          app="$(bash scripts/build-ios.sh --target aarch64-apple-ios-sim)"
+          app="$(bash scripts/build-ios.sh --target aarch64-apple-ios-sim --features ios26-telephony)"
           echo "app=$app" >> "$GITHUB_OUTPUT"
       - name: Cache the successfully built UIKit application
         uses: actions/cache/save@v4
-        if: always() && steps.bundle.outcome == 'success' && steps.native-cache.outputs.cache-hit != 'true'
+        if: always() && steps.standard-bundle.outcome == 'success' && steps.native-cache.outputs.cache-hit != 'true'
         with:
           path: |
             target
             ~/.cargo/registry
             ~/.cargo/git
           key: ${{ steps.native-cache.outputs.cache-primary-key }}
-      - name: Verify simulator mounting and native activation
+      - name: Verify native UI, device roundtrips and activation
         # A fresh iOS 26.5 runtime took over nine minutes to create and boot.
         # Per-route assertions retain their independent 90-second deadlines.
         timeout-minutes: 20

@@ -1,3 +1,4 @@
+mod device;
 mod state;
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
 use ferroui_view::prelude::*;
@@ -12,6 +13,14 @@ pub use state::PhoneSession;
 use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    if vm
+        .device_state()
+        .calls
+        .iter()
+        .any(|call| call.state != phone_sdk::host::platform::CallState::Disconnected)
+    {
+        return device::active(vm, ui);
+    }
     let mode = ui.pivot.get().min(2);
     let pivots = ["history", "speed dial"]
         .into_iter()
@@ -25,7 +34,13 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         dialpad(vm.clone(), ui.clone())
     } else {
         let mut content=stack_panel().child(rsx!{StackPanel{orientation:Orientation::Horizontal,margin:(20.0,0.0,0.0,14.0),for item in pivots {{item}}}});
-        if mode == 0 {
+        if mode == 0
+            && vm
+                .platform_state()
+                .supports(phone_sdk::host::platform::HostFeature::Telephony)
+        {
+            content = content.child(device::history(vm.clone()));
+        } else if mode == 0 {
             let calls = vm.data().call_history.clone();
             if calls.is_empty() {
                 content = content.child(empty(
@@ -104,7 +119,17 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         ],
         ui.menu.get(),
         vec![flat("settings", move || {
-            menu_vm.navigate(Route::Setting("ringtones+sounds".into()))
+            menu_vm.navigate(Route::Setting(
+                if menu_vm
+                    .platform_state()
+                    .supports(phone_sdk::host::platform::HostFeature::Telephony)
+                {
+                    "phone+messages"
+                } else {
+                    "ringtones+sounds"
+                }
+                .into(),
+            ))
         })],
     );
     page("phone", body, bar)
@@ -144,17 +169,19 @@ fn dialpad(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let back = ui.state::<crate::PhoneSession>().dial;
     let call = vm.clone();
     let dial = ui.state::<crate::PhoneSession>().dial;
+    let account = ui.state::<crate::PhoneSession>().account;
     let plus = ui.state::<crate::PhoneSession>().dial;
     let save = vm.clone();
     let save_ui = ui.clone();
     scroll(rsx! {StackPanel{margin:(18.0,12.0),spacing:12.0,
         Grid{column_definitions:"*,Auto",
-            TextBox{class:"phone-input",text:ui.state::<crate::PhoneSession>().dial.two_way(),font_size:30.0,placeholder_text:"phone number",automation_properties_name:"Phone number"}
+            TextBox{name:"DevicePhoneNumber",class:"phone-input",text:ui.state::<crate::PhoneSession>().dial.two_way(),font_size:30.0,placeholder_text:"phone number",automation_properties_name:"Phone number"}
             Border{Grid.column:1,{flat("⌫",move ||back.update(|number|{number.pop();}))}}
         }
         {pad}
         Button{class:"phone-button",content:"call",font_size:25.0,background:vm.data().settings.accent.as_str(),foreground:"White",min_height:54.0,
-            on_click:move |_|call.record_call(String::new(),dial.get_untracked())}
+            on_click:move |_|if call.platform_state().supports(phone_sdk::host::platform::HostFeature::Telephony){call.request_device(phone_sdk::host::platform::DeviceRequest::Dial{number:dial.get_untracked(),account:account.get_untracked()});}else{call.record_call(String::new(),dial.get_untracked())}}
+        {device::accounts(vm.clone(),ui.clone())}
         StackPanel{orientation:Orientation::Horizontal,spacing:24.0,
             {flat("+",move ||plus.update(|number|number.push('+')))}
             {flat("save",move ||{
@@ -166,7 +193,7 @@ fn dialpad(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 }));
             })}
         }
-        {muted("Calls open your device's phone app.",14.0)}
+        {muted(if vm.device_state().snapshot.role(phone_sdk::host::platform::DeviceRole::Dialer)==phone_sdk::host::platform::HostRole::Active{"Calls use the device's phone service."}else{"Calls open your device's phone app."},14.0)}
     }})
 }
 

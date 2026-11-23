@@ -9,7 +9,8 @@ mod validation;
 
 pub use file::{choose_file, FileTask};
 pub use http::{
-    complete_http, get, is_http_task_pending, HttpResult, HttpTask, MAX_PENDING_HTTP_TASKS,
+    complete_http, get, is_http_task_pending, map_tile, HttpResult, HttpTask,
+    MAX_PENDING_HTTP_TASKS,
 };
 pub use registry::{cancel_for_app, cancel_for_session, complete_file, is_file_task_pending};
 

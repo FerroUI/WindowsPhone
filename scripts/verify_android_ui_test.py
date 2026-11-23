@@ -37,6 +37,14 @@ class AndroidUiContract(unittest.TestCase):
                      mounted_controls=["PhoneScreen", "PhonePage", "WalletSearch"])
         self.assertEqual(verify(proof, NONCE, WALLET, 4), 5)
 
+    def test_back_requires_start_after_the_original_wallet_activation(self):
+        proof = mounted()
+        proof["activation"]["uri"] = WALLET
+        self.assertEqual(verify(proof, NONCE, "back:" + WALLET, 4), 5)
+        proof["route"] = {"Extension": {"app": "org.ferroui.wallet", "path": ""}}
+        with self.assertRaisesRegex(ValueError, "Start"):
+            verify(proof, NONCE, "back:" + WALLET, 4)
+
     def test_previous_outer_bounds_inset_bug_is_rejected(self):
         proof = mounted()
         proof["screen"]["height"] = 720

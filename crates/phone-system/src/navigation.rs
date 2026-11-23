@@ -10,9 +10,30 @@ use std::rc::Rc;
 
 pub fn status(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let data = vm.data();
-    let wifi = data.settings.wi_fi;
-    let flight = data.settings.airplane;
+    let mut wifi = data.settings.wi_fi;
+    let mut flight = data.settings.airplane;
     drop(data);
+    if vm
+        .platform_state()
+        .supports(phone_sdk::host::platform::HostFeature::HardwareControls)
+    {
+        use phone_sdk::host::platform::{ControlValue, DeviceControl};
+        let device = vm.device_state();
+        wifi = matches!(
+            device
+                .snapshot
+                .control(DeviceControl::Wifi)
+                .map(|v| &v.value),
+            Some(ControlValue::Toggle(true))
+        );
+        flight = matches!(
+            device
+                .snapshot
+                .control(DeviceControl::Airplane)
+                .map(|v| &v.value),
+            Some(ControlValue::Toggle(true))
+        );
+    }
     let color = common::fg(&vm);
     rsx! {Button{name:"StatusBar",class:"phone-flat",height:26.0,horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,
         automation_properties_name:"Open action center",on_click:move |_|{ui.notification_peek.set(false);ui.notification_open.set(true);},

@@ -8,8 +8,16 @@ struct Provider {
     battery: Cell<u8>,
     calls: Cell<usize>,
     closes: Cell<usize>,
+    events: RefCell<Vec<PlatformResponse>>,
+    policies: RefCell<Vec<DeviceNotificationPolicy>>,
 }
 impl PlatformPlugin for Provider {
+    fn drain_events(&self) -> Vec<PlatformResponse> {
+        std::mem::take(&mut *self.events.borrow_mut())
+    }
+    fn set_notification_policy(&self, policy: &DeviceNotificationPolicy) {
+        self.policies.borrow_mut().push(*policy);
+    }
     fn id(&self) -> &'static str {
         "test.runtime.observed-provider"
     }
@@ -54,12 +62,116 @@ fn fixture(services: ServiceRegistry) -> (Rc<PhoneRuntime>, Rc<Provider>) {
         battery: Cell::new(80),
         calls: Cell::new(0),
         closes: Cell::new(0),
+        events: RefCell::new(vec![]),
+        policies: RefCell::new(vec![]),
     });
     let vm = PhoneViewModel::new(PhoneData::demo(), Rc::new(|_| {}));
     (
         PhoneRuntime::attach(vm, provider.clone(), services).unwrap(),
         provider,
     )
+}
+
+#[test]
+fn notification_policy_follows_settings_and_restore_without_permission_requests() {
+    let (runtime, provider) = fixture(ServiceRegistry::default());
+    assert_eq!(provider.policies.borrow().len(), 1);
+    let mut settings = runtime.vm.data().settings.clone();
+    settings.notifications = false;
+    runtime.vm.set_settings(settings);
+    assert!(!provider.policies.borrow().last().unwrap().enabled);
+    assert_eq!(provider.calls.get(), 0);
+    runtime.vm.set_status("Unrelated UI status".into());
+    assert_eq!(provider.policies.borrow().len(), 2);
+    let mut restored = PhoneData::demo();
+    restored.settings.notifications = true;
+    restored
+        .settings
+        .app_notifications
+        .entry("Messaging".into())
+        .or_default()
+        .sound = false;
+    runtime
+        .vm
+        .replace_data_after_save(restored, |_| Ok(()))
+        .unwrap();
+    assert!(provider.policies.borrow().last().unwrap().enabled);
+    assert!(!provider.policies.borrow().last().unwrap().message_sound);
+    runtime.lifecycle(HostLifecycle::Closing);
+    let count = provider.policies.borrow().len();
+    let mut settings = runtime.vm.data().settings.clone();
+    settings.notifications = false;
+    runtime.vm.set_settings(settings);
+    assert_eq!(provider.policies.borrow().len(), count);
+}
+#[test]
+fn device_event_batches_stop_at_restore_and_reentrant_observation_is_bounded() {
+    let (runtime, provider) = fixture(ServiceRegistry::default());
+    provider.events.borrow_mut().extend([
+        PlatformResponse::Device(DeviceResponse::Snapshot(DeviceSnapshot::default())),
+        PlatformResponse::Device(DeviceResponse::ComposeDraft(NativeMessageDraft {
+            id: "stale-intent".into(),
+            recipients: vec!["123".into()],
+            body: "old scope".into(),
+        })),
+    ]);
+    let once = Rc::new(Cell::new(false));
+    let flag = once.clone();
+    let weak = Rc::downgrade(&runtime);
+    let subscription = runtime.vm.changed().subscribe_next(move |_| {
+        if !flag.replace(true) {
+            let runtime = weak.upgrade().unwrap();
+            runtime.observe();
+            runtime
+                .vm
+                .replace_data_after_save(PhoneData::demo(), |_| Ok(()))
+                .unwrap();
+        }
+    });
+    runtime.observe();
+    subscription.dispose();
+    assert!(once.get());
+    assert!(runtime.vm.device_state().compose_draft.is_none());
+    assert!(!runtime.observing.get());
+}
+#[test]
+fn admission_failures_complete_the_specific_send_or_attachment_selection() {
+    let (runtime, provider) = fixture(ServiceRegistry::default());
+    assert!(runtime
+        .request(HostRequest::Platform {
+            request: PlatformRequest::Device {
+                request: DeviceRequest::SendMessage {
+                    recipients: vec!["123".into()],
+                    body: "draft".into(),
+                    subscription: None,
+                    client_id: "send-1".into()
+                }
+            }
+        })
+        .is_err());
+    assert_eq!(
+        runtime
+            .vm
+            .device_state()
+            .send_results
+            .get("send-1")
+            .unwrap()
+            .1,
+        MessageDelivery::Failed
+    );
+    assert!(runtime
+        .request(HostRequest::Platform {
+            request: PlatformRequest::Device {
+                request: DeviceRequest::PickMessageAttachments {
+                    client_id: "picker-1".into()
+                }
+            }
+        })
+        .is_err());
+    let state = runtime.vm.device_state();
+    assert_eq!(state.draft_attachment_client.as_deref(), Some("picker-1"));
+    assert!(state.draft_attachment_cancelled);
+    assert_eq!(provider.calls.get(), 0);
 }
 fn catalog(title: &str) -> PlatformResponse {
     PlatformResponse::Applications(vec![DeviceApplication {

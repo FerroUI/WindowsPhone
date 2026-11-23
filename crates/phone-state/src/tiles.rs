@@ -1,6 +1,6 @@
 use phone_domain::*;
 
-pub(crate) fn mutate_tiles(data: &mut PhoneData, action: Action) -> Result<bool, String> {
+pub(crate) fn mutate_tiles(data: &mut PhoneData, action: Action, now: i64) -> Result<bool, String> {
     match action {
         Action::Pin(app) => {
             if data.is_pinned(app) {
@@ -69,6 +69,73 @@ pub(crate) fn mutate_tiles(data: &mut PhoneData, action: Action) -> Result<bool,
             tile.size = size;
             changed
         })),
+        Action::SetTileAppearance { id, appearance } => {
+            appearance.validate()?;
+            if let TileBackground::Photo(photo) = appearance.background {
+                if !data.photos.iter().any(|item| item.id == photo) {
+                    return Err("That tile photo is no longer available.".into());
+                }
+            }
+            let tile = find_mut(data, id).ok_or("This tile is no longer pinned.")?;
+            let changed = tile.appearance != appearance;
+            tile.appearance = appearance;
+            Ok(changed)
+        }
+        Action::PublishTileNotification { id, notification } => {
+            notification.validate_publication(now)?;
+            if notification
+                .template
+                .photo_ids()
+                .iter()
+                .any(|id| !data.photos.iter().any(|photo| photo.id == *id))
+            {
+                return Err("A tile notification photo is no longer available.".into());
+            }
+            let tile = find_mut(data, id).ok_or("This tile is no longer pinned.")?;
+            if tile.is_folder() {
+                return Err("Publish to an app tile inside the folder.".into());
+            }
+            let old = tile.notifications.clone();
+            tile.notifications.retain(|card| {
+                card.tag != notification.tag && card.expires_at.is_none_or(|expiry| expiry > now)
+            });
+            tile.notifications.push(notification);
+            if tile.notifications.len() > MAX_TILE_NOTIFICATIONS {
+                tile.notifications.remove(0);
+            }
+            Ok(old != tile.notifications)
+        }
+        Action::ClearTileNotifications { id, tag } => {
+            if let Some(tag) = &tag {
+                validate_tile_tag(tag)?;
+            }
+            let tile = find_mut(data, id).ok_or("This tile is no longer pinned.")?;
+            let before = tile.notifications.len();
+            tile.notifications
+                .retain(|card| tag.as_ref().is_some_and(|tag| card.tag != *tag));
+            Ok(before != tile.notifications.len())
+        }
+        Action::DissolveFolder(id) => {
+            let Some(index) = data
+                .tiles
+                .iter()
+                .position(|tile| tile.id == id && tile.is_folder())
+            else {
+                return Ok(false);
+            };
+            if data.tiles.len() - 1 + data.tiles[index].folder_tiles.len() > 256 {
+                return Err("There is not enough space on Start to unpack this folder.".into());
+            }
+            let folder = data.tiles.remove(index);
+            data.tiles.splice(index..index, folder.folder_tiles);
+            Ok(true)
+        }
+        Action::MoveIntoFolder { tile, folder } => {
+            if tile == folder || data.tile(folder).is_none_or(|tile| !tile.is_folder()) {
+                return Err("Choose a different existing folder.".into());
+            }
+            Ok(move_tile(data, tile, None, Some(Some(folder))))
+        }
         Action::MoveTile { id, before } => Ok(move_tile(data, id, before, None)),
         Action::MoveTileRelative { id, target, after } => {
             if target == id {
@@ -118,8 +185,9 @@ pub(crate) fn mutate_tiles(data: &mut PhoneData, action: Action) -> Result<bool,
                 .iter_mut()
                 .find(|tile| tile.id == id && tile.is_folder())
                 .is_some_and(|tile| {
-                    let changed = tile.label != name;
+                    let changed = tile.label != name || tile.appearance.label.is_some();
                     tile.label = name;
+                    tile.appearance.label = None;
                     changed
                 }))
         }

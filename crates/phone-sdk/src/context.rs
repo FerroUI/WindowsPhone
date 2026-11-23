@@ -20,8 +20,8 @@ impl AppContext {
                 .by_id(self.id)
                 .ok_or("Application is not registered.")?;
             require_available(&app.manifest, &self.vm)?;
-            if app.manifest.builtin.is_some() && !path.is_empty() {
-                return Err("This built-in app does not support a custom launch path.".into());
+            if let Some(payload) = app.launch_payload(path)? {
+                self.session.queue_activation(self.id, payload)?;
             }
             self.vm.navigate(app.manifest.route(path));
             Ok(())
@@ -39,7 +39,25 @@ impl AppContext {
         require_available(&entry.manifest, &self.vm)?;
         if let Some(app) = entry.manifest.builtin {
             if !path.is_empty() {
-                return Err("This built-in app does not support a custom launch path.".into());
+                // Builtin secondary tiles use the same persisted AppLink format,
+                // but must be admitted by the app's typed launch-path parser.
+                entry.launch_payload(path)?;
+                self.vm.dispatch(phone_domain::Action::PinApp {
+                    app: self.id.into(),
+                    path: path.into(),
+                    title: title.into(),
+                });
+                return if self
+                    .vm
+                    .data()
+                    .app_links
+                    .iter()
+                    .any(|link| link.app == self.id && link.path == path)
+                {
+                    Ok(())
+                } else {
+                    Err(self.vm.status())
+                };
             }
             self.vm.pin(app);
             if self.vm.data().is_pinned(app) {
@@ -116,8 +134,11 @@ fn capability(request: &HostRequest) -> Capability {
         | ExportDocument { .. }
         | RequestPersistentStorage
         | RefreshEnvironment => Capability::Files,
-        HttpGet { .. } | CheckForUpdates | OpenUrl { .. } | Browse { .. } | ClearBrowser => {
-            Capability::Network
-        }
+        HttpGet { .. }
+        | MapTile { .. }
+        | CheckForUpdates
+        | OpenUrl { .. }
+        | Browse { .. }
+        | ClearBrowser => Capability::Network,
     }
 }

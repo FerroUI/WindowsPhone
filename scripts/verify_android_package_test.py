@@ -20,7 +20,8 @@ def manifest(launcher=False):
     package = "org.ferroui.windowsphone" + (".launcher" if launcher else "")
     root.set("package", package)
     ET.SubElement(root, "uses-sdk", {A + "minSdkVersion": "26", A + "targetSdkVersion": "36"})
-    root.find("application/provider").set(A + "authorities", package + ".assets")
+    for provider in root.findall("application/provider"):
+        provider.set(A + "authorities", provider.get(A + "authorities").replace("${applicationId}", package))
     if launcher:
         overlay = ET.parse(platform / "launcher/AndroidManifest.xml").getroot()
         for item in overlay.findall("application/activity/intent-filter"):
@@ -38,6 +39,22 @@ class ManifestContract(unittest.TestCase):
                         root.find("application/activity").set(A + "launchMode", launch_mode)
                         root.find("application/service").set(A + "foregroundServiceType", service_type)
                         VERIFY.verify_manifest(root, launcher)
+
+    def test_carrier_services_and_receivers_require_their_system_permissions(self):
+        for name in ["PhoneInCallService", "PhoneNotificationListener", "PhoneRespondViaMessageService", "PhoneMessageJobService", "PhoneSmsReceiver", "PhoneMmsReceiver"]:
+            root = manifest()
+            component = next(value for value in root.find("application") if value.get(A + "name") == "org.ferroui.phone." + name)
+            component.attrib.pop(A + "permission")
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, "protected native component"):
+                VERIFY.verify_manifest(root, False)
+
+    def test_message_transfer_and_callback_components_cannot_be_exported(self):
+        for name in ["PhoneCallActivity", "PhoneCallActionReceiver", "PhoneSmsResultReceiver", "PhoneMmsResultReceiver", "PhoneMessageFileProvider"]:
+            root = manifest()
+            component = next(value for value in root.find("application") if value.get(A + "name") == "org.ferroui.phone." + name)
+            component.set(A + "exported", "true")
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                VERIFY.verify_manifest(root, False)
 
     def test_other_launch_modes_are_rejected(self):
         for value in ["0", "1", "3", "4", "singleTop", "singleInstance", "", "2|8"]:

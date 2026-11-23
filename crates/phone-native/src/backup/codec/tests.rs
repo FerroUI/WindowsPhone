@@ -46,18 +46,14 @@ fn native_export_preserves_bytes_and_both_wallpapers() {
     assert_eq!(missing, 0);
     let restored = decode(&bytes).unwrap();
     assert_eq!(restored.assets.len(), 2);
-    assert!(
-        restored
-            .assets
-            .iter()
-            .any(|asset| asset.key == start && asset.bytes == b"start pixels")
-    );
-    assert!(
-        restored
-            .assets
-            .iter()
-            .any(|asset| asset.key == lock && asset.bytes == b"lock pixels")
-    );
+    assert!(restored
+        .assets
+        .iter()
+        .any(|asset| asset.key == start && asset.bytes == b"start pixels"));
+    assert!(restored
+        .assets
+        .iter()
+        .any(|asset| asset.key == lock && asset.bytes == b"lock pixels"));
     std::fs::remove_dir_all(directory).unwrap();
 }
 
@@ -71,13 +67,11 @@ fn validates_every_asset_before_restore_can_mutate_state() {
     let mut phone = PhoneData::default();
     phone.settings.wallpaper = "media:photo".into();
     let item = serde_json::json!({"key":"media:photo","name":"a.jpg","mime":"image/jpeg","kind":"image","data":"cGhvdG8="});
-    assert!(
-        decode(&envelope(
-            &phone,
-            serde_json::json!([item.clone(), item.clone()])
-        ))
-        .is_err()
-    );
+    assert!(decode(&envelope(
+        &phone,
+        serde_json::json!([item.clone(), item.clone()])
+    ))
+    .is_err());
     for (field, value) in [
         ("key", "media:../../outside"),
         ("key", "media:unreferenced"),

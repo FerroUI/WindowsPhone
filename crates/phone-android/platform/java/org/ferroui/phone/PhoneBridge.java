@@ -10,6 +10,7 @@ public final class PhoneBridge {
 
     public static String state(Context context) {
         try {
+            PhoneLauncherAppearance.apply(PhoneActivity.foreground());
             JSONObject state = PhoneJson.value("state");
             PhoneJson.put(state, "launcher_package", BuildConfig.PHONE_LAUNCHER);
             PhoneJson.put(state, "home_available", PhoneLauncher.available(context));
@@ -62,11 +63,18 @@ public final class PhoneBridge {
         catch (RuntimeException error) { return 0; }
     }
 
+    public static void notificationPolicy(Context context, String json) { PhoneNotificationPolicy.save(context, json); }
+
+    public static long device(Context context, String json) { return PhoneDevice.begin(context, json); }
+    public static String events(Context context) { return PhoneDevice.events(context); }
+    public static String catalogEvents() { return PhoneDevice.catalogEvents(); }
+
     public static String poll(long id) { return PhoneTasks.poll(id); }
     public static void cancel(long id) { PhoneTasks.cancel(id); }
 
     public static void close(Context context) {
         // NativeHost calls this on its UI thread, including embedding teardown.
+        PhoneDevice.close(context);
         PhoneTasks.close();
         PhoneLocation.close();
         PhoneAssetProvider.close(context);

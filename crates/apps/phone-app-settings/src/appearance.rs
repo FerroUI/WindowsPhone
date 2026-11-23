@@ -56,6 +56,33 @@ pub(super) fn theme(vm: Rc<PhoneViewModel>) -> Element {
 }
 
 pub(super) fn sounds(vm: Rc<PhoneViewModel>, _ui: Rc<Session>) -> Element {
+    if vm
+        .platform_state()
+        .supports(phone_sdk::host::platform::HostFeature::HardwareControls)
+    {
+        use phone_sdk::host::platform::DeviceControl;
+        let mut body = stack_panel().spacing(22.0);
+        for control in [
+            DeviceControl::RingerMode,
+            DeviceControl::RingerVolume,
+            DeviceControl::MediaVolume,
+            DeviceControl::AlarmVolume,
+            DeviceControl::AudioOutput,
+        ] {
+            if vm.device_state().snapshot.control(control).is_some() {
+                body = body
+                    .child(text(control.label(), 24.0))
+                    .child(phone_sdk::device::control(vm.clone(), control));
+            }
+        }
+        let feedback = vm.clone();
+        let vibration = vm.data().settings.vibration;
+        return body
+            .child(toggle("App touch feedback", vibration, move |value| {
+                update(&feedback, |s| s.vibration = value)
+            }))
+            .into();
+    }
     let settings = vm.data().settings.clone();
     let sound = vm.clone();
     let vibration = vm.clone();

@@ -1,5 +1,6 @@
 //! Windows Phone Settings category navigation and shared mutation helpers.
 mod appearance;
+mod device;
 mod integrations;
 mod lock;
 mod notification_apps;
@@ -21,32 +22,42 @@ use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if let Route::Setting(name) = vm.route() {
-        let content = match name.as_str() {
-            "start+theme" => appearance::theme(vm.clone()),
-            "ringtones+sounds" | "music+videos" => appearance::sounds(vm.clone(), ui.clone()),
-            "notifications+actions" => quick_actions::notifications(vm.clone(), ui.clone()),
-            "lock screen" => lock::view(vm.clone(), ui.clone()),
-            "brightness" => appearance::display(vm.clone(), false),
-            "ease of access" => appearance::display(vm.clone(), true),
-            "date+time" => system::date_time(vm.clone()),
-            "region" => region::view(vm.clone()),
-            "storage sense" => phone_storage_support::storage(vm.clone()),
-            "battery saver" => phone_app_battery_saver::battery_settings(vm.clone()),
-            "backup" => system::backup(vm.clone()),
-            "about" => system::about(vm.clone(), ui.clone()),
-            "phone update" => system::phone_update(vm.clone()),
-            "photos+camera" => integrations::photos(vm.clone()),
-            "Internet Explorer" => integrations::browser(vm.clone()),
-            "messaging" => integrations::messaging(vm.clone()),
-            "maps" | "location" => integrations::location(vm.clone()),
-            value if value.starts_with("notification:") => {
-                let app = AppId::ALL
-                    .into_iter()
-                    .find(|app| Some(app.label()) == value.strip_prefix("notification:"))
-                    .unwrap_or(AppId::Messaging);
-                notification_apps::view(vm.clone(), app)
+        let native_control = device::control_for_page(&name).filter(|_| {
+            vm.platform_state()
+                .supports(phone_sdk::host::platform::HostFeature::HardwareControls)
+        });
+        let content = if let Some(control) = native_control {
+            phone_sdk::device::control(vm.clone(), control)
+        } else {
+            match name.as_str() {
+                "device services" => device::view(vm.clone()),
+                "phone+messages" => device::communications(vm.clone()),
+                "start+theme" => appearance::theme(vm.clone()),
+                "ringtones+sounds" | "music+videos" => appearance::sounds(vm.clone(), ui.clone()),
+                "notifications+actions" => quick_actions::notifications(vm.clone(), ui.clone()),
+                "lock screen" => lock::view(vm.clone(), ui.clone()),
+                "brightness" => appearance::display(vm.clone(), false),
+                "ease of access" => appearance::display(vm.clone(), true),
+                "date+time" => system::date_time(vm.clone()),
+                "region" => region::view(vm.clone()),
+                "storage sense" => phone_storage_support::storage(vm.clone()),
+                "battery saver" => phone_app_battery_saver::battery_settings(vm.clone()),
+                "backup" => system::backup(vm.clone()),
+                "about" => system::about(vm.clone(), ui.clone()),
+                "phone update" => system::phone_update(vm.clone()),
+                "photos+camera" => integrations::photos(vm.clone()),
+                "Internet Explorer" => integrations::browser(vm.clone()),
+                "messaging" => integrations::messaging(vm.clone()),
+                "maps" | "location" => integrations::location(vm.clone()),
+                value if value.starts_with("notification:") => {
+                    let app = AppId::ALL
+                        .into_iter()
+                        .find(|app| Some(app.label()) == value.strip_prefix("notification:"))
+                        .unwrap_or(AppId::Messaging);
+                    notification_apps::view(vm.clone(), app)
+                }
+                _ => system::radio(vm.clone(), &name),
             }
-            _ => system::radio(vm.clone(), &name),
         };
         let heading = if name.starts_with("notification:") {
             "notifications+actions"
@@ -65,7 +76,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let system = ui.pivot;
     let applications = ui.pivot;
     let settings = vm.data().settings.clone();
-    let items = if p == 0 {
+    let mut items = if p == 0 {
         vec![
             (
                 "start+theme",
@@ -143,6 +154,41 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             ("photos+camera", "photos and camera".into()),
         ]
     };
+    if p == 0
+        && vm
+            .platform_state()
+            .supports(phone_sdk::host::platform::HostFeature::HardwareControls)
+    {
+        for (name, description) in &mut items {
+            if let Some(control) = device::control_for_page(name) {
+                *description = phone_sdk::device::control_summary(&vm, control);
+            }
+        }
+        for control in phone_sdk::host::platform::DeviceControl::ALL {
+            let state = vm.device_state();
+            if state
+                .snapshot
+                .control(control)
+                .is_some_and(|v| v.access != phone_sdk::host::platform::ControlAccess::Unavailable)
+                && !items
+                    .iter()
+                    .any(|(name, _)| device::control_for_page(name) == Some(control))
+                && device::control_for_page(control.label()) == Some(control)
+            {
+                items.push((
+                    control.label(),
+                    phone_sdk::device::control_summary(&vm, control),
+                ));
+            }
+        }
+        items.push(("phone+messages", "calling, messaging and contacts".into()));
+    }
+    if p == 0 && vm.platform_state().supports_device_snapshot() {
+        items.push((
+            "device services",
+            "roles, permissions and system settings".into(),
+        ));
+    }
     let rows = items
         .into_iter()
         .map(|(name, description)| {

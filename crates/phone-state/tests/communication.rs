@@ -129,12 +129,11 @@ fn selected_mail_can_be_restored_and_second_delete_is_permanent() {
     });
     assert_eq!(writes.get(), 1);
     assert!(vm.data().mail.iter().all(|mail| mail.folder == "deleted"));
-    assert!(
-        vm.data()
-            .notifications
-            .iter()
-            .all(|notice| notice.app != AppId::Outlook)
-    );
+    assert!(vm
+        .data()
+        .notifications
+        .iter()
+        .all(|notice| notice.app != AppId::Outlook));
     vm.dispatch(Action::MailBatch {
         ids: vec![11],
         operation: MailOperation::Restore,
@@ -196,12 +195,11 @@ fn notification_groups_and_per_app_delivery_do_not_affect_other_apps() {
     vm.dismiss_notification_group(41);
     assert_eq!(writes.get(), 1);
     assert_eq!(vm.data().notifications.len(), 2);
-    assert!(
-        vm.data()
-            .notifications
-            .iter()
-            .all(|notice| notice.app == AppId::Messaging)
-    );
+    assert!(vm
+        .data()
+        .notifications
+        .iter()
+        .all(|notice| notice.app == AppId::Messaging));
     let mut settings = vm.data().settings.clone();
     settings.app_notifications.insert(
         AppId::Outlook.label().into(),

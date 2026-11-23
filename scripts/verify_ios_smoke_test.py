@@ -62,6 +62,36 @@ class UIKitProofTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             module.verify(data, "home", 0)
 
+    def test_builtin_phone_requires_its_native_dial_uri_and_populated_control(self):
+        data = observation()
+        uri = "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3"
+        data["route"] = {"App": "Phone"}
+        data["activation"] = {"uri": uri, "outcome": "accepted"}
+        data["mounted_controls"][-1] = "DevicePhoneNumber"
+        data["device_fields"] = {"DevicePhoneNumber": "+1 202 555 0147"}
+        module.verify(data, "phone.phone", 3, uri)
+        data["device_fields"]["DevicePhoneNumber"] = ""
+        with self.assertRaisesRegex(ValueError, "dial"):
+            module.verify(data, "phone.phone", 3, uri)
+
+    def test_provider_proof_requires_restoration_and_no_outgoing_communication(self):
+        spec = importlib.util.spec_from_file_location("ios_devices", pathlib.Path(__file__).with_name("verify-ios-devices.py"))
+        devices = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(devices)
+        data = {"schema": 1, "platform": "ios", "status": "passed", "simulator_only": True,
+                "error": None, "cleanup_errors": [], "sent_calls": 0, "sent_messages": 0,
+                "checks": [{"name": name, "passed": True} for name in (
+                    "observed_simulator_capabilities", "brightness_write", "contact_create_and_query",
+                    "contact_update_and_query", "contact_delete_and_query", "brightness_restore")]}
+        devices.verify(data)
+        data["sent_messages"] = 1
+        with self.assertRaises(ValueError):
+            devices.verify(data)
+        data["sent_messages"] = 0
+        data["checks"].pop()
+        with self.assertRaises(ValueError):
+            devices.verify(data)
+
 
 if __name__ == "__main__":
     unittest.main()

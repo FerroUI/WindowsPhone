@@ -36,7 +36,7 @@ final class PhonePromptTests: XCTestCase {
                 let open = alert.buttons["Open"]
                 XCTAssertTrue(open.waitForExistence(timeout: 5))
                 XCTAssertTrue(open.isHittable)
-                XCTAssertLessThan(accepted, 2, "Only the Wallet and Home confirmations are expected.")
+                XCTAssertLessThan(accepted, 6, "Only the six named app/Home URL transitions are expected.")
                 let capture = XCTAttachment(screenshot: springboard.screenshot())
                 capture.name = "Windows Phone URL confirmation \(accepted + 1)"
                 capture.lifetime = .keepAlways

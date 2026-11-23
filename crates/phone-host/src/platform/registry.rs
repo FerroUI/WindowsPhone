@@ -21,7 +21,7 @@ impl HostService {
     pub fn for_request(request: &HostRequest) -> Self {
         use HostRequest::*;
         match request {
-            HttpGet { .. } => Self::Network,
+            HttpGet { .. } | MapTile { .. } => Self::Network,
             ChooseFile { .. }
             | ImportContacts
             | ExportContacts { .. }

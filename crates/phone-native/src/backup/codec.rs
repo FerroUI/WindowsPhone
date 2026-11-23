@@ -1,6 +1,6 @@
 //! Portable backup envelope shared with the web edition; no filesystem effects.
 use super::encoding;
-use crate::asset_store::{AssetStore, Kind, key_suffix, validate_asset};
+use crate::asset_store::{key_suffix, validate_asset, AssetStore, Kind};
 use phone_domain::PhoneData;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};

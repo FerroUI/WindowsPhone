@@ -31,18 +31,34 @@ def verify(data, expected, after_sequence, uri=""):
                 or rect["y"] + rect["height"] > safe["y"] + safe["height"] + 1):
             raise ValueError(f"{name} exceeds the UIKit safe area by more than 1 point.")
     controls = set(data["mounted_controls"])
-    required = {"PhoneScreen", "PhonePage", "StartTiles" if expected == "home" else "WalletSearch"}
+    pages = {
+        "home": {"StartTiles"},
+        "org.ferroui.wallet": {"WalletSearch"},
+        "phone.phone": {"DevicePhoneNumber"},
+        "phone.people": {"DevicePeopleSearch"},
+        "phone.messaging": {"DeviceMessageRecipients", "DeviceMessageBody"},
+        "phone.settings": {"DeviceSettingsRoot"},
+    }
+    if expected not in pages:
+        raise ValueError("No mounted-control contract exists for this route.")
+    required = {"PhoneScreen", "PhonePage", *pages[expected]}
     if not required <= controls:
         raise ValueError(f"Expected visible mounted controls: {sorted(required)}.")
     route = data["route"]
     if expected == "home":
         matches = route == "Start"
+    elif expected == "phone.settings":
+        matches = route == {"Setting": "device services"}
+    elif expected in ("phone.phone", "phone.people", "phone.messaging"):
+        matches = route == {"App": expected.split(".")[1].capitalize()}
     else:
         matches = isinstance(route, dict) and route.get("Extension", {}).get("app") == expected
     if not matches:
         raise ValueError(f"The mounted route is not {expected}.")
     if uri and data.get("activation") != {"uri": uri, "outcome": "accepted"}:
         raise ValueError("The real UIKit delegate must accept the exact requested URI.")
+    if expected == "phone.phone" and data.get("device_fields", {}).get("DevicePhoneNumber") != "+1 202 555 0147":
+        raise ValueError("The native activation must populate the actual dialer field without placing a call.")
 
 
 if __name__ == "__main__":

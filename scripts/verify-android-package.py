@@ -67,6 +67,40 @@ def verify_manifest(root, launcher):
     require(provider is not None and provider.get(A + "exported") == "false"
             and provider.get(A + "grantUriPermissions") == "true"
             and provider.get(A + "authorities") == package + ".assets", "Invalid leased asset provider boundary")
+    def component(tag, name):
+        return next((value for value in app.findall(tag) if value.get(A + "name") == "org.ferroui.phone." + name), None)
+
+    def protected(tag, name, permission):
+        value = component(tag, name)
+        require(value is not None and value.get(A + "permission") == "android.permission." + permission,
+                f"Missing protected native component: {name}")
+        return value
+
+    call = protected("service", "PhoneInCallService", "BIND_INCALL_SERVICE")
+    require(call.get(A + "exported") == "true" and any(value.get(A + "name") == "android.telecom.IN_CALL_SERVICE_UI"
+            and value.get(A + "value") == "true" for value in call.findall("meta-data")), "The default dialer needs the real exported Telecom UI service")
+    require(not any(value.get(A + "name") == "android.telecom.IN_CALL_SERVICE_RINGING" for value in call.findall("meta-data")),
+            "Android Telecom must retain ringtone ownership")
+    protected("service", "PhoneNotificationListener", "BIND_NOTIFICATION_LISTENER_SERVICE")
+    protected("service", "PhoneRespondViaMessageService", "SEND_RESPOND_VIA_MESSAGE")
+    protected("service", "PhoneMessageJobService", "BIND_JOB_SERVICE")
+    protected("receiver", "PhoneSmsReceiver", "BROADCAST_SMS")
+    protected("receiver", "PhoneMmsReceiver", "BROADCAST_WAP_PUSH")
+    for tag, name in [("activity", "PhoneCallActivity"), ("receiver", "PhoneCallActionReceiver"),
+                      ("receiver", "PhoneSmsResultReceiver"), ("receiver", "PhoneMmsResultReceiver")]:
+        value = component(tag, name)
+        require(value is not None and value.get(A + "exported") == "false", f"Native callback must remain private: {name}")
+    transfer = component("provider", "PhoneMessageFileProvider")
+    require(transfer is not None and transfer.get(A + "exported") == "false"
+            and transfer.get(A + "grantUriPermissions") == "true"
+            and transfer.get(A + "authorities") == package + ".message-files", "Invalid native message lease provider")
+    filters = activity.findall("intent-filter")
+    dial = [value for value in filters if any(v.get(A + "name") == "android.intent.action.DIAL" for v in value.findall("action"))]
+    require(any(not v.findall("data") for v in dial) and any(any(d.get(A + "scheme") == "tel" for d in v.findall("data")) for v in dial),
+            "The native dialer must handle both empty and tel DIAL intents")
+    sendto = [value for value in filters if any(v.get(A + "name") == "android.intent.action.SENDTO" for v in value.findall("action"))]
+    require({"sms", "smsto", "mms", "mmsto"} <= {d.get(A + "scheme") for value in sendto for d in value.findall("data")},
+            "The default SMS application must handle all four standard composition schemes")
     return package
 
 

@@ -2,6 +2,7 @@ package org.ferroui.phone;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.CancellationSignal;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 /** Bounded native operations. Dropped Rust futures cancel delivery and provider resources. */
 final class PhoneTasks {
+    interface Query { JSONObject run(CancellationSignal cancellation) throws Exception; }
     static final Handler MAIN = new Handler(Looper.getMainLooper());
     private static final HashMap<Long, Task> tasks = new HashMap<>();
     private static final ThreadPoolExecutor worker = new ThreadPoolExecutor(1, 1, 0L,
@@ -31,16 +33,28 @@ final class PhoneTasks {
         Runnable expiry;
     }
 
+    static JSONObject onMain(Callable<JSONObject> operation) throws Exception {
+        if (Looper.myLooper() == Looper.getMainLooper()) return operation.call();
+        java.util.concurrent.FutureTask<JSONObject> task = new java.util.concurrent.FutureTask<>(operation);
+        MAIN.post(task);
+        try { return task.get(5, TimeUnit.SECONDS); }
+        finally { if (!task.isDone()) { task.cancel(false); MAIN.removeCallbacks(task); } }
+    }
+
     static synchronized long create() {
+        return create(30000);
+    }
+
+    static synchronized long create(long timeoutMillis) {
         if (tasks.size() >= 8 || next == Long.MAX_VALUE) return 0;
         long id = next++;
         Task task = new Task();
         tasks.put(id, task);
         task.timeout = () -> timeout(id);
         task.expiry = () -> cancel(id);
-        MAIN.postDelayed(task.timeout, 30000);
+        MAIN.postDelayed(task.timeout, Math.min(180000, Math.max(1000, timeoutMillis)));
         // A suspended UI may never consume its result. Bound its retention too.
-        MAIN.postDelayed(task.expiry, 60000);
+        MAIN.postDelayed(task.expiry, Math.min(180000, Math.max(1000, timeoutMillis)) + 30000);
         return id;
     }
 
@@ -49,7 +63,10 @@ final class PhoneTasks {
         if (id == 0) return 0;
         try {
             Future<?> future = worker.submit(() -> {
-                try { complete(id, operation.call()); }
+                try {
+                    synchronized (PhoneTasks.class) { Task current = tasks.get(id); if (current == null || current.result != null) return; }
+                    complete(id, operation.call());
+                }
                 catch (Exception error) { complete(id, PhoneJson.error("Android could not complete the operation.")); }
             });
             synchronized (PhoneTasks.class) {
@@ -59,6 +76,13 @@ final class PhoneTasks {
         } catch (RejectedExecutionException busy) {
             complete(id, PhoneJson.error("Android is already processing other application requests."));
         }
+        return id;
+    }
+
+    static long query(Query operation) {
+        CancellationSignal signal = new CancellationSignal();
+        long id = work(() -> operation.run(signal));
+        if (id != 0) cancellation(id, signal::cancel);
         return id;
     }
 
@@ -81,17 +105,18 @@ final class PhoneTasks {
         if (future != null) future.cancel(true);
     }
 
-    static void complete(long id, JSONObject result) {
+    static boolean complete(long id, JSONObject result) {
         Runnable cancel;
         synchronized (PhoneTasks.class) {
             Task task = tasks.get(id);
-            if (task == null || task.result != null) return;
+            if (task == null || task.result != null) return false;
             task.result = result.toString();
             MAIN.removeCallbacks(task.timeout);
             cancel = task.cancel;
             task.cancel = null;
         }
         if (cancel != null) MAIN.post(cancel);
+        return true;
     }
 
     static synchronized String poll(long id) {

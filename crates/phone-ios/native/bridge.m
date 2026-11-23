@@ -44,6 +44,18 @@ void wp_ios_cancel(uint64_t identifier) {
     else dispatch_async(dispatch_get_main_queue(), cancel);
 }
 
+void wp_ios_operation_complete(uint64_t identifier, int code, const char *message) {
+    NSAssert(NSThread.isMainThread, @"Operation delivery requires the UIKit thread");
+    WPIOSOperation *operation = operations[@(identifier)];
+    if (!operation || operation.finished) return;
+    NSString *text = message ? [NSString stringWithUTF8String:message] : @"";
+    [operation finish:code first:0 second:0 message:text];
+}
+
+WPIOSOperation *wp_ios_operation_lookup(uint64_t identifier) {
+    return NSThread.isMainThread ? operations[@(identifier)] : nil;
+}
+
 UIViewController *wp_ios_presenter(void) {
     if (!NSThread.isMainThread) return nil;
     for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {

@@ -5,6 +5,7 @@ mod calendar;
 mod commands;
 mod communication;
 mod convenience;
+mod device;
 mod documents;
 mod media_library;
 mod mutation;
@@ -18,6 +19,7 @@ mod services;
 mod tiles;
 mod validation;
 
+pub use device::DeviceStore;
 use ferroui_dynamic_data::SourceCache;
 use ferroui_reactive::{concurrency::ImmediateScheduler, ObservableExt};
 use ferroui_reactiveui::{reactive_object, IReactiveObjectExt, ReactiveCommand, ReactiveObject};
@@ -39,6 +41,7 @@ pub struct PhoneViewModel {
     schedule_revision: Cell<u64>,
     current_route: RefCell<Route>,
     registered_apps: RefCell<std::collections::BTreeSet<String>>,
+    registered_builtins: RefCell<std::collections::BTreeMap<String, AppId>>,
     history: RefCell<Vec<Route>>,
     recent: RefCell<Vec<(AppId, Route)>>,
     extension_recent: RefCell<Vec<(String, Route)>>,
@@ -52,6 +55,8 @@ pub struct PhoneViewModel {
     platform_state: RefCell<phone_host::platform::PlatformState>,
     device_applications: RefCell<Vec<phone_host::platform::DeviceApplication>>,
     device_applications_revision: Cell<u64>,
+    device_state: RefCell<DeviceStore>,
+    device_revision: Cell<u64>,
     save: SaveCallback,
     applying: Cell<bool>,
     pending: RefCell<VecDeque<Action>>,
@@ -78,6 +83,7 @@ impl PhoneViewModel {
                 schedule_revision: Cell::new(0),
                 current_route: RefCell::new(Route::Start),
                 registered_apps: RefCell::new(Default::default()),
+                registered_builtins: RefCell::new(Default::default()),
                 history: RefCell::new(Vec::new()),
                 recent: RefCell::new(Vec::new()),
                 extension_recent: RefCell::new(Vec::new()),
@@ -91,6 +97,8 @@ impl PhoneViewModel {
                 platform_state: RefCell::new(Default::default()),
                 device_applications: RefCell::new(Vec::new()),
                 device_applications_revision: Cell::new(0),
+                device_state: RefCell::new(DeviceStore::default()),
+                device_revision: Cell::new(0),
                 save,
                 applying: Cell::new(false),
                 pending: RefCell::new(VecDeque::new()),
@@ -233,6 +241,7 @@ impl PhoneViewModel {
         *self.document.borrow_mut() = data;
         self.document_epoch
             .set(self.document_epoch.get().wrapping_add(1));
+        *self.device_state.borrow_mut() = DeviceStore::default();
         self.history.borrow_mut().clear();
         self.recent.borrow_mut().clear();
         self.extension_recent.borrow_mut().clear();

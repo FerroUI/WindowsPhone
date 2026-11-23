@@ -253,6 +253,32 @@ fn settings_command(
         (Settings::Kde(program), SystemSettingsPage::DefaultApps) => {
             (program, &["kcm_componentchooser"])
         }
+        (Settings::Gnome(program), page) => (
+            program,
+            match page {
+                SystemSettingsPage::Wifi => &["wifi"],
+                SystemSettingsPage::Bluetooth => &["bluetooth"],
+                SystemSettingsPage::Display
+                | SystemSettingsPage::Brightness
+                | SystemSettingsPage::Rotation
+                | SystemSettingsPage::NightLight => &["display"],
+                SystemSettingsPage::Sound | SystemSettingsPage::AudioOutput => &["sound"],
+                SystemSettingsPage::Battery
+                | SystemSettingsPage::BatterySaver
+                | SystemSettingsPage::ScreenTimeout => &["power"],
+                SystemSettingsPage::Accounts | SystemSettingsPage::Sync => &["online-accounts"],
+                SystemSettingsPage::DateTime => &["datetime"],
+                SystemSettingsPage::Language => &["region"],
+                SystemSettingsPage::Keyboard => &["keyboard"],
+                SystemSettingsPage::Accessibility => &["universal-access"],
+                SystemSettingsPage::About => &["info-overview"],
+                SystemSettingsPage::Hotspot
+                | SystemSettingsPage::Vpn
+                | SystemSettingsPage::Cellular => &["network"],
+                _ => &[],
+            },
+        ),
+        (Settings::Kde(program), _) => (program, &[]),
     }
 }
 pub(super) fn open_settings(page: SystemSettingsPage) -> PlatformTask {

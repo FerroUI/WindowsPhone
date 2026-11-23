@@ -1,6 +1,6 @@
 use super::{Action, PlaybackState, Shared, Snapshot, Status};
 use std::{
-    ffi::{CStr, CString, c_char, c_int, c_void},
+    ffi::{c_char, c_int, c_void, CStr, CString},
     ptr::NonNull,
     sync::Arc,
 };

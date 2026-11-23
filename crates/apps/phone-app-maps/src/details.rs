@@ -25,7 +25,8 @@ pub fn view(cx: AppContext, place: Place, saved: &Saved) -> Element {
         if !shortcut.is_empty(){{muted(shortcut,18.0)}}
         if !place.address.is_empty(){{text(&place.address,23.0)}}
         if !coordinates.is_empty()&&place.name!=coordinates{{muted(&coordinates,18.0)}}
-        {muted("Open the map to explore this place, or get directions in your maps app.",18.0)}
+        if place.coordinates.is_some(){{crate::viewport::view(cx.clone(),saved.clone(),Some(place.clone()),Some(240.0))}}
+        {muted(if place.coordinates.is_some(){"Drag to explore. Tap the map to choose another place, or open directions in your maps app."}else{"Open the map to find this address, or add coordinates when editing to show it here."},18.0)}
     }};
     let open = cx.clone();
     let open_place = place.clone();
@@ -36,6 +37,11 @@ pub fn view(cx: AppContext, place: Place, saved: &Saved) -> Element {
     let more = cx.session.clone();
     let mut menu = Vec::new();
     if place.id != 0 {
+        let pin = cx.clone();
+        let pin_place = place.clone();
+        menu.push(flat("pin place to Start", move || {
+            commands::pin(&pin, &pin_place)
+        }));
         for (home, label) in [(true, "set as home"), (false, "set as work")] {
             let context = cx.clone();
             let id = place.id;
@@ -49,14 +55,9 @@ pub fn view(cx: AppContext, place: Place, saved: &Saved) -> Element {
             let action = context.clone();
             context.session.confirm(
                 "delete this saved place?",
-                Rc::new(move || {
-                    match commands::change(&action, |saved| {
-                        saved.remove(id);
-                        Ok(())
-                    }) {
-                        Ok(()) => action.session.state::<MapSession>().selection.set(None),
-                        Err(error) => action.vm.set_status(error),
-                    }
+                Rc::new(move || match commands::remove(&action, id) {
+                    Ok(()) => action.session.state::<MapSession>().selection.set(None),
+                    Err(error) => action.vm.set_status(error),
                 }),
             );
         }));
@@ -76,9 +77,8 @@ pub fn view(cx: AppContext, place: Place, saved: &Saved) -> Element {
         scroll(body),
         app_bar(
             vec![
-                action(Icon::Maps, "open map", move || match open_place.map_url() {
-                    Ok(url) => open.vm.request(HostRequest::OpenUrl { url }),
-                    Err(error) => open.vm.set_status(error),
+                action(Icon::Maps, "open map", move || {
+                    commands::open_map(&open, &open_place)
                 }),
                 action(Icon::Forward, "directions", move || {
                     commands::directions(&route, route_place.destination())
