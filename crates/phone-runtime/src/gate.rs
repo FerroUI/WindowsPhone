@@ -46,10 +46,31 @@ pub(crate) struct Reservation {
     gate: Weak<Gate>,
 }
 impl Reservation {
+    pub fn cancellation(&self) -> Cancellation {
+        Cancellation {
+            id: self.id,
+            gate: self.gate.clone(),
+        }
+    }
     pub fn bind(self, future: PlatformTask) -> Pending {
         Pending {
             future,
             reservation: self,
+        }
+    }
+}
+pub(crate) struct Cancellation {
+    id: u64,
+    gate: Weak<Gate>,
+}
+impl Cancellation {
+    pub fn cancel(self) {
+        if let Some(gate) = self.gate.upgrade() {
+            // Release the RefCell before waking: dispatchers may poll inline.
+            let pending = gate.pending.borrow_mut().remove(&self.id);
+            if let Some(Some(waker)) = pending {
+                waker.wake();
+            }
         }
     }
 }
@@ -67,12 +88,9 @@ pub(crate) struct Pending {
 impl Future for Pending {
     type Output = Result<PlatformResponse, String>;
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
-        let Some(gate) = self
-            .reservation
-            .gate
-            .upgrade()
-            .filter(|gate| !gate.closed.get())
-        else {
+        let Some(gate) = self.reservation.gate.upgrade().filter(|gate| {
+            !gate.closed.get() && gate.pending.borrow().contains_key(&self.reservation.id)
+        }) else {
             return Poll::Ready(Err("The platform operation was cancelled.".into()));
         };
         gate.pending

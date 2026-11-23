@@ -2,19 +2,30 @@
 pub mod activation;
 mod gate;
 #[cfg(test)]
+mod observation_tests;
+mod observations;
+#[cfg(test)]
 mod tests;
 use ferroui_base::{reactive::IDisposable, threading::Dispatcher};
 use ferroui_reactive::ObservableExt;
 use ferroui_reactiveui::IReactiveNotifyPropertyChanged;
-use phone_host::{platform::*, HostEnvironment, HostPermission, HostRequest};
+use phone_host::{HostEnvironment, HostPermission, HostRequest, platform::*};
 use phone_state::{HostServices, PhoneViewModel};
 use std::{
     cell::{Cell, RefCell},
     collections::BTreeMap,
-    rc::Rc,
+    rc::{Rc, Weak},
 };
 type Completion = Box<dyn FnOnce(&Rc<PhoneViewModel>, PlatformResponse) -> Result<(), String>>;
+struct ReadFlight {
+    serial: u64,
+    key: Option<observations::ReadKey>,
+    coalescible: bool,
+    automatic: bool,
+    cancellation: gate::Cancellation,
+}
 pub struct PhoneRuntime {
+    owner: Weak<Self>,
     vm: Rc<PhoneViewModel>,
     platform: Rc<dyn PlatformPlugin>,
     services: Rc<ServiceRegistry>,
@@ -22,8 +33,11 @@ pub struct PhoneRuntime {
     closed: Cell<bool>,
     closing: Cell<bool>,
     observing: Cell<bool>,
+    delivering: Cell<bool>,
     serial: Cell<u64>,
     channels: RefCell<BTreeMap<u8, u64>>,
+    reads: RefCell<BTreeMap<u8, ReadFlight>>,
+    observations: RefCell<observations::Observations>,
     notification_policy: RefCell<Option<DeviceNotificationPolicy>>,
     policy_subscription: RefCell<Option<Rc<dyn IDisposable>>>,
 }
@@ -36,7 +50,9 @@ impl PhoneRuntime {
         let state = platform.state();
         state.validate()?;
         vm.set_platform_state(state)?;
-        let runtime = Rc::new(Self {
+        let epoch = vm.document_epoch();
+        let runtime = Rc::new_cyclic(|owner| Self {
+            owner: owner.clone(),
             vm,
             platform,
             services: Rc::new(services),
@@ -44,8 +60,11 @@ impl PhoneRuntime {
             closed: Cell::new(false),
             closing: Cell::new(false),
             observing: Cell::new(false),
+            delivering: Cell::new(false),
             serial: Cell::new(0),
             channels: RefCell::default(),
+            reads: RefCell::default(),
+            observations: RefCell::new(observations::Observations::new(epoch)),
             notification_policy: RefCell::new(None),
             policy_subscription: RefCell::new(None),
         });
@@ -63,6 +82,7 @@ impl PhoneRuntime {
         *runtime.policy_subscription.borrow_mut() =
             Some(runtime.vm.changed().subscribe_next(move |_| {
                 if let Some(runtime) = weak.upgrade() {
+                    runtime.synchronize_observations();
                     runtime.refresh_notification_policy();
                 }
             }));
@@ -146,10 +166,24 @@ impl PhoneRuntime {
         request: PlatformRequest,
         complete: Option<Completion>,
     ) -> Result<(), String> {
+        self.dispatch_platform_owned(request, complete, false)
+    }
+    fn dispatch_platform_owned(
+        self: &Rc<Self>,
+        request: PlatformRequest,
+        complete: Option<Completion>,
+        automatic: bool,
+    ) -> Result<(), String> {
         if self.closed.get() {
             return Err("The phone host is closed.".into());
         }
         request.validate()?;
+        self.synchronize_observations();
+        if matches!(&request, PlatformRequest::Device { request } if request.observation_channel().is_some())
+            && !self.observations.borrow().foreground
+        {
+            return Err("The phone must be visible to refresh device observations.".into());
+        }
         {
             let data = self.vm.data();
             match &request {
@@ -173,13 +207,6 @@ impl PhoneRuntime {
         {
             return Err("This integration is unavailable on the current host.".into());
         }
-        let reservation = self.gate.reserve()?;
-        let serial = self
-            .serial
-            .get()
-            .checked_add(1)
-            .ok_or("Platform request identities exhausted.")?;
-        self.serial.set(serial);
         let channel = match &request {
             PlatformRequest::Refresh => Some(0),
             PlatformRequest::ListApplications => Some(1),
@@ -187,8 +214,47 @@ impl PhoneRuntime {
             PlatformRequest::Device { request } => request.observation_channel(),
             _ => None,
         };
+        let read_key = match &request {
+            PlatformRequest::Device { request } => observations::ReadKey::of(request),
+            _ => None,
+        };
+        if let (Some(channel), Some(key), None) = (channel, read_key, &complete) {
+            let mut reads = self.reads.borrow_mut();
+            if let Some(read) = reads
+                .get_mut(&channel)
+                .filter(|read| read.coalescible && read.key == Some(key))
+            {
+                // An explicit caller shares data delivery, but still owns the
+                // right to see failure. Callbacks are never coalesced away.
+                read.automatic &= automatic;
+                return Ok(());
+            }
+        }
+        let reservation = self.gate.reserve()?;
+        let serial = self
+            .serial
+            .get()
+            .checked_add(1)
+            .ok_or("Platform request identities exhausted.")?;
+        self.serial.set(serial);
         if let Some(channel) = channel {
             self.channels.borrow_mut().insert(channel, serial);
+            if matches!(&request, PlatformRequest::Device { request } if request.observation_channel().is_some())
+            {
+                let previous = self.reads.borrow_mut().insert(
+                    channel,
+                    ReadFlight {
+                        serial,
+                        key: read_key,
+                        coalescible: complete.is_none(),
+                        automatic,
+                        cancellation: reservation.cancellation(),
+                    },
+                );
+                if let Some(previous) = previous {
+                    previous.cancellation.cancel();
+                }
+            }
         }
         let epoch = self.vm.document_epoch();
         let send_client = match &request {
@@ -251,14 +317,52 @@ impl PhoneRuntime {
         if !self.current_completion(epoch, channel, serial) {
             return;
         }
-        let result = result.and_then(|response| match complete {
-            Some(complete) => complete(&self.vm, response),
-            None => self.accept(response),
-        });
-        if let Err(error) = result {
-            if self.current_completion(epoch, channel, serial) {
-                self.vm.set_status(error.chars().take(2048).collect());
+        let read = {
+            let mut reads = self.reads.borrow_mut();
+            channel.and_then(|channel| {
+                if reads
+                    .get(&channel)
+                    .is_some_and(|read| read.serial == serial)
+                {
+                    reads.remove(&channel)
+                } else {
+                    None
+                }
+            })
+        };
+        let automatic = read.as_ref().is_some_and(|read| read.automatic);
+        // A custom callback may consume a response without updating the store.
+        // Only normal VM acceptance can satisfy the shell's initial read.
+        let seed = read
+            .filter(|read| read.coalescible)
+            .and_then(|read| read.key)
+            .and_then(observations::ReadKey::seed);
+        let result = {
+            struct Restore<'a>(&'a Cell<bool>, bool);
+            impl Drop for Restore<'_> {
+                fn drop(&mut self) {
+                    self.0.set(self.1);
+                }
             }
+            let previous = self.delivering.replace(true);
+            let _restore = Restore(&self.delivering, previous);
+            result.and_then(|response| match complete {
+                Some(complete) => complete(&self.vm, response),
+                None => self.accept(response),
+            })
+        };
+        if self.current_completion(epoch, channel, serial) {
+            if let Some(seed) = seed {
+                self.observations
+                    .borrow_mut()
+                    .settled(seed, result.is_ok(), self.vm.now());
+            }
+            if let Err(error) = result {
+                if !automatic {
+                    self.vm.set_status(error.chars().take(2048).collect());
+                }
+            }
+            self.start_observations();
         }
     }
 
@@ -270,8 +374,24 @@ impl PhoneRuntime {
     }
     fn accept(&self, response: PlatformResponse) -> Result<(), String> {
         match response {
-            PlatformResponse::Device(response) => self.vm.set_device_response(response),
-            PlatformResponse::State(state) => self.vm.set_platform_state(state),
+            PlatformResponse::Device(mut response) => {
+                response.validate()?;
+                self.synchronize_observations();
+                let epoch = self.vm.document_epoch();
+                if let DeviceResponse::Snapshot(snapshot) = &mut response {
+                    observations::restrict_snapshot(snapshot, &self.vm.platform_state());
+                    let invalidated = self
+                        .observations
+                        .borrow_mut()
+                        .snapshot(snapshot, &self.vm.platform_state());
+                    self.cancel_reads(&invalidated);
+                }
+                if self.closed.get() || self.closing.get() || self.vm.document_epoch() != epoch {
+                    return Ok(());
+                }
+                self.vm.set_device_response(response)
+            }
+            PlatformResponse::State(state) => self.accept_platform_state(state),
             PlatformResponse::Applications(apps) => self.vm.set_device_applications(apps),
             PlatformResponse::Accepted { message } => {
                 if !message.is_empty() {
@@ -306,7 +426,11 @@ impl PhoneRuntime {
         }
     }
     pub fn observe(&self) {
-        if self.closed.get() || self.closing.get() || self.observing.replace(true) {
+        if self.closed.get()
+            || self.closing.get()
+            || self.delivering.get()
+            || self.observing.replace(true)
+        {
             return;
         }
         struct Reset<'a>(&'a Cell<bool>);
@@ -316,6 +440,10 @@ impl PhoneRuntime {
             }
         }
         let _reset = Reset(&self.observing);
+        self.synchronize_observations();
+        if !self.observations.borrow().foreground {
+            return;
+        }
         let epoch = self.vm.document_epoch();
         let observation = self.platform.environment();
         let mut current = self.vm.environment();
@@ -328,7 +456,7 @@ impl PhoneRuntime {
         if self.closed.get() || self.closing.get() || self.vm.document_epoch() != epoch {
             return;
         }
-        if let Err(error) = self.vm.set_platform_state(self.platform.state()) {
+        if let Err(error) = self.accept_platform_state(self.platform.state()) {
             self.vm.set_status(error);
         }
         if self.closed.get() || self.closing.get() || self.vm.document_epoch() != epoch {
@@ -344,11 +472,18 @@ impl PhoneRuntime {
             if self.closed.get() || self.closing.get() || self.vm.document_epoch() != epoch {
                 break;
             }
+            if matches!(&event, PlatformResponse::Device(response) if !self.observations.borrow().admits_event(response))
+            {
+                continue;
+            }
             if let Err(error) = self.accept(event) {
                 if !self.closed.get() && !self.closing.get() && self.vm.document_epoch() == epoch {
                     self.vm.set_status(error);
                 }
             }
+        }
+        if self.vm.document_epoch() == epoch {
+            self.start_observations();
         }
     }
     pub fn lifecycle(&self, event: HostLifecycle) {
@@ -358,6 +493,13 @@ impl PhoneRuntime {
         if event == HostLifecycle::Closing {
             self.close_with(|| phone_system::host_closing(&self.vm));
             return;
+        }
+        let changed = self
+            .observations
+            .borrow_mut()
+            .visibility(event == HostLifecycle::Resumed);
+        if changed {
+            self.cancel_reads(&(2..=10).collect::<Vec<_>>());
         }
         phone_system::host_visibility(event == HostLifecycle::Resumed);
         self.platform.lifecycle(event);
@@ -378,8 +520,114 @@ impl PhoneRuntime {
             subscription.dispose();
         }
         self.gate.close();
+        self.reads.borrow_mut().clear();
         self.channels.borrow_mut().clear();
         self.platform.lifecycle(HostLifecycle::Closing);
+    }
+
+    fn synchronize_observations(&self) {
+        let changed = self
+            .observations
+            .borrow_mut()
+            .synchronize_epoch(self.vm.document_epoch());
+        if changed {
+            self.cancel_reads(&(2..=10).collect::<Vec<_>>());
+        }
+    }
+    fn accept_platform_state(&self, state: PlatformState) -> Result<(), String> {
+        state.validate()?;
+        let previous = self.vm.platform_state();
+        let changed = [
+            HostFeature::InstalledApps,
+            HostFeature::HardwareControls,
+            HostFeature::Contacts,
+            HostFeature::Telephony,
+            HostFeature::Messaging,
+            HostFeature::NotificationCenter,
+            HostFeature::AppShortcuts,
+            HostFeature::Maps,
+        ]
+        .into_iter()
+        .any(|feature| previous.supports(feature) != state.supports(feature));
+        let epoch = self.vm.document_epoch();
+        if changed {
+            self.observations.borrow_mut().invalidate();
+            self.cancel_reads(&(2..=10).collect::<Vec<_>>());
+        }
+        self.vm.set_platform_state(state.clone())?;
+        if changed && !self.closed.get() && !self.closing.get() && self.vm.document_epoch() == epoch
+        {
+            let mut snapshot = self.vm.device_state().snapshot;
+            observations::restrict_snapshot(&mut snapshot, &state);
+            // A feature withdrawal cannot leave old private rows admitted by a
+            // snapshot from the former provider configuration. The next actual
+            // Snapshot read, not this projection, authorizes initialization.
+            self.vm
+                .set_device_response(DeviceResponse::Snapshot(snapshot))?;
+        }
+        Ok(())
+    }
+    fn cancel_reads(&self, channels: &[u8]) {
+        let mut cancelled = Vec::new();
+        {
+            let mut current = self.channels.borrow_mut();
+            let mut reads = self.reads.borrow_mut();
+            for channel in channels {
+                current.remove(channel);
+                if let Some(read) = reads.remove(channel) {
+                    cancelled.push(read.cancellation);
+                }
+            }
+        }
+        for cancellation in cancelled {
+            cancellation.cancel();
+        }
+    }
+    fn start_observations(&self) {
+        if self.closed.get() || self.closing.get() || self.delivering.get() {
+            return;
+        }
+        self.synchronize_observations();
+        let epoch = self.vm.document_epoch();
+        let due = self
+            .observations
+            .borrow_mut()
+            .due(&self.vm.platform_state(), self.vm.now());
+        let Some(owner) = self.owner.upgrade() else {
+            return;
+        };
+        for seed in due {
+            if self.closed.get() || self.closing.get() || self.vm.document_epoch() != epoch {
+                break;
+            }
+            if !self
+                .observations
+                .borrow_mut()
+                .due(&self.vm.platform_state(), self.vm.now())
+                .contains(&seed)
+            {
+                continue;
+            }
+            if self.reads.borrow().contains_key(&seed.channel()) {
+                continue;
+            }
+            if owner
+                .dispatch_platform_owned(
+                    PlatformRequest::Device {
+                        request: seed.request(),
+                    },
+                    None,
+                    true,
+                )
+                .is_err()
+                && self.vm.document_epoch() == epoch
+                && !self.closed.get()
+            {
+                self.observations
+                    .borrow_mut()
+                    .settled(seed, false, self.vm.now());
+            }
+        }
     }
     pub fn activate_uri(&self, uri: &str) -> Result<(), String> {
         if self.closed.get() {

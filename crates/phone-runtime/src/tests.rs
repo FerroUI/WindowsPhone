@@ -62,7 +62,9 @@ fn fixture(services: ServiceRegistry) -> (Rc<PhoneRuntime>, Rc<Provider>) {
         battery: Cell::new(80),
         calls: Cell::new(0),
         closes: Cell::new(0),
-        events: RefCell::new(vec![]),
+        events: RefCell::new(vec![PlatformResponse::Device(DeviceResponse::Snapshot(
+            DeviceSnapshot::default(),
+        ))]),
         policies: RefCell::new(vec![]),
     });
     let vm = PhoneViewModel::new(PhoneData::demo(), Rc::new(|_| {}));
@@ -137,18 +139,20 @@ fn device_event_batches_stop_at_restore_and_reentrant_observation_is_bounded() {
 #[test]
 fn admission_failures_complete_the_specific_send_or_attachment_selection() {
     let (runtime, provider) = fixture(ServiceRegistry::default());
-    assert!(runtime
-        .request(HostRequest::Platform {
-            request: PlatformRequest::Device {
-                request: DeviceRequest::SendMessage {
-                    recipients: vec!["123".into()],
-                    body: "draft".into(),
-                    subscription: None,
-                    client_id: "send-1".into()
+    assert!(
+        runtime
+            .request(HostRequest::Platform {
+                request: PlatformRequest::Device {
+                    request: DeviceRequest::SendMessage {
+                        recipients: vec!["123".into()],
+                        body: "draft".into(),
+                        subscription: None,
+                        client_id: "send-1".into()
+                    }
                 }
-            }
-        })
-        .is_err());
+            })
+            .is_err()
+    );
     assert_eq!(
         runtime
             .vm
@@ -159,15 +163,17 @@ fn admission_failures_complete_the_specific_send_or_attachment_selection() {
             .1,
         MessageDelivery::Failed
     );
-    assert!(runtime
-        .request(HostRequest::Platform {
-            request: PlatformRequest::Device {
-                request: DeviceRequest::PickMessageAttachments {
-                    client_id: "picker-1".into()
+    assert!(
+        runtime
+            .request(HostRequest::Platform {
+                request: PlatformRequest::Device {
+                    request: DeviceRequest::PickMessageAttachments {
+                        client_id: "picker-1".into()
+                    }
                 }
-            }
-        })
-        .is_err());
+            })
+            .is_err()
+    );
     let state = runtime.vm.device_state();
     assert_eq!(state.draft_attachment_client.as_deref(), Some("picker-1"));
     assert!(state.draft_attachment_cancelled);
@@ -367,10 +373,12 @@ fn closing_is_reentrant_once_and_still_allows_final_cleanup_requests() {
     assert_eq!(requests.get(), 1);
     assert_eq!(provider.closes.get(), 1);
     assert!(runtime.is_closed());
-    assert!(runtime
-        .request(HostRequest::CopyText {
-            text: "too late".into()
-        })
-        .is_err());
+    assert!(
+        runtime
+            .request(HostRequest::CopyText {
+                text: "too late".into()
+            })
+            .is_err()
+    );
     assert!(runtime.gate.reserve().is_err());
 }

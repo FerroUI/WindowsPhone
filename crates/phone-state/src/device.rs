@@ -1,6 +1,6 @@
 //! Transient OS data, deliberately excluded from PhoneData and its backups.
 use crate::PhoneViewModel;
-use phone_host::{platform::*, HostRequest};
+use phone_host::{HostRequest, platform::*};
 use std::collections::BTreeMap;
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -84,7 +84,14 @@ impl PhoneViewModel {
                 ) {
                     state.location = None;
                 }
-                if !snapshot.supports(DeviceOperation::ReadContacts)
+                // Limited access can replace the allowed subset while reads
+                // remain usable. Publish permission and retirement of the old
+                // rows together, before any subscriber can observe the change.
+                if snapshot.permission(DevicePermission::Contacts)
+                    != state.snapshot.permission(DevicePermission::Contacts)
+                    || snapshot.supports(DeviceOperation::ReadContacts)
+                        != state.snapshot.supports(DeviceOperation::ReadContacts)
+                    || !snapshot.supports(DeviceOperation::ReadContacts)
                     || !matches!(
                         snapshot.permission(DevicePermission::Contacts),
                         PermissionState::Granted | PermissionState::Limited
@@ -307,7 +314,48 @@ impl PhoneViewModel {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use ferroui_reactive::ObservableExt;
+    use ferroui_reactiveui::IReactiveNotifyPropertyChanged;
     use std::{cell::Cell, rc::Rc};
+    #[test]
+    fn changed_contact_subsets_are_retired_in_the_same_snapshot_publication() {
+        let vm = PhoneViewModel::new(phone_domain::PhoneData::demo(), Rc::new(|_| {}));
+        let snapshot = |status| DeviceSnapshot {
+            permissions: vec![DevicePermissionState {
+                permission: DevicePermission::Contacts,
+                status,
+            }],
+            operations: vec![DeviceOperation::ReadContacts],
+            ..Default::default()
+        };
+        vm.set_device_response(DeviceResponse::Snapshot(snapshot(PermissionState::Granted)))
+            .unwrap();
+        vm.set_device_response(DeviceResponse::Contacts(vec![DeviceContact {
+            id: "contact:private".into(),
+            name: "Former allowed subset".into(),
+            ..Default::default()
+        }]))
+        .unwrap();
+        let publications = Rc::new(Cell::new(0));
+        let count = publications.clone();
+        let weak = Rc::downgrade(&vm);
+        let subscription = vm.changed().subscribe_next(move |_| {
+            let state = weak.upgrade().unwrap().device_state();
+            assert_eq!(
+                state.snapshot.permission(DevicePermission::Contacts),
+                PermissionState::Limited
+            );
+            assert!(
+                state.contacts.is_empty(),
+                "the former full-access rows escaped in a notification"
+            );
+            count.set(count.get() + 1);
+        });
+        vm.set_device_response(DeviceResponse::Snapshot(snapshot(PermissionState::Limited)))
+            .unwrap();
+        subscription.dispose();
+        assert_eq!(publications.get(), 1);
+    }
     #[test]
     fn observed_personal_data_is_transient_atomic_and_cleared_on_revocation_or_restore() {
         let saves = Rc::new(Cell::new(0));
@@ -336,21 +384,23 @@ mod tests {
         vm.set_device_response(DeviceResponse::Contacts(vec![contact.clone()]))
             .unwrap();
         let revision = vm.device_revision();
-        assert!(vm
-            .set_device_response(DeviceResponse::Contacts(vec![contact.clone(), contact]))
-            .is_err());
+        assert!(
+            vm.set_device_response(DeviceResponse::Contacts(vec![contact.clone(), contact]))
+                .is_err()
+        );
         assert_eq!(vm.device_revision(), revision);
         assert_eq!(vm.data().to_json().unwrap(), original);
         assert_eq!(saves.get(), 0);
         vm.set_device_response(DeviceResponse::Snapshot(DeviceSnapshot::default()))
             .unwrap();
         assert!(vm.device_state().contacts.is_empty());
-        assert!(vm
-            .set_device_response(DeviceResponse::Contacts(vec![DeviceContact {
+        assert!(
+            vm.set_device_response(DeviceResponse::Contacts(vec![DeviceContact {
                 id: "late".into(),
                 ..Default::default()
             }]))
-            .is_err());
+            .is_err()
+        );
         vm.set_device_response(DeviceResponse::Snapshot(permitted))
             .unwrap();
         vm.set_device_response(DeviceResponse::Contacts(vec![DeviceContact {
