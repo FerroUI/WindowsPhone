@@ -104,8 +104,17 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
             Ok(upsert(&mut data.notes, note, |v| v.id))
         }
         Action::DeleteNote(id) => Ok(remove(&mut data.notes, id, |v| v.id)),
+        Action::Calendar(action) => crate::calendar::mutate(data, action),
         Action::SaveEvent(mut event) => {
             crate::validation::event(&event)?;
+            if event.id != 0 && !data.events.iter().any(|item| item.id == event.id) {
+                return Err("This appointment no longer exists.".into());
+            }
+            if event.id == 0 && data.events.len() >= MAX_CALENDAR_EVENTS {
+                return Err(
+                    "The phone calendar can hold up to 4,096 appointments and series.".into(),
+                );
+            }
             if event.id == 0 {
                 event.id = data.allocate_id();
             }
@@ -113,6 +122,18 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
         }
         Action::DeleteEvent(id) => Ok(remove(&mut data.events, id, |v| v.id)),
         Action::SaveAlarm(mut alarm) => {
+            if alarm.id != 0 && !data.alarms.iter().any(|item| item.id == alarm.id) {
+                return Err("This alarm no longer exists.".into());
+            }
+            if alarm.label.chars().count() > 256 {
+                return Err("Give your alarm a name of up to 256 characters.".into());
+            }
+            if !ALARM_SNOOZE_MINUTES.contains(&alarm.snooze_minutes) {
+                return Err("Choose a snooze time of 5, 10, 20, 30 or 60 minutes.".into());
+            }
+            if alarm.id == 0 && data.alarms.len() >= MAX_ALARMS {
+                return Err("The phone can hold up to 256 alarms.".into());
+            }
             if alarm.hour > 23 || alarm.minute > 59 {
                 return Err("Choose a valid alarm time.".into());
             }

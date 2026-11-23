@@ -62,6 +62,7 @@ pub enum Action {
     ToggleFavoriteContact(Id),
     SaveNote(Note),
     DeleteNote(Id),
+    Calendar(CalendarAction),
     SaveEvent(CalendarEvent),
     DeleteEvent(Id),
     SaveAlarm(Alarm),

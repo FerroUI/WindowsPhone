@@ -12,7 +12,13 @@ export async function verifyOfficeRefinements(ctx) {
   fixture.settings.reduced_motion=true;
   const names={word:"Native Office letter",excel:"Native Office budget",slides:"Native Office slides",folder:"Native Office folder"};
   const body="Created with native Word controls.\nThis text must survive a complete reload.";
-  let wordId,excelId,slidesId,folderId,copiedWordId;
+  let wordId,excelId,folderId,copiedWordId;
+  // The original phone opens existing presentations; its New picker creates
+  // only Word documents and Excel workbooks. Seed the existing deck before UI input.
+  const slidesId=fixture.next_id++;
+  const existingSecondSlide={title:"Existing second slide",body:"Preserved slide content.",notes:"Keep these notes."};
+  fixture.documents.push({id:slidesId,name:names.slides,folder:null,modified:1,
+    content:{PowerPoint:{slides:[{title:"Existing presentation",body:"Existing slide content.",notes:""},existingSecondSlide]}},import_notice:""});
   const load=async data=>{
     await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(data))})`);
     await isRoute("Start");
@@ -34,7 +40,8 @@ export async function verifyOfficeRefinements(ctx) {
   const create=async(kind,name)=>{
     await app("Office");await clickLabel("recent");
     await clickLabel("new");
-    await clickLabel({Word:"Word document.docx",Excel:"Excel workbook.xlsx",PowerPoint:"PowerPoint presentation.pptx"}[kind]);
+    assert(!(await snapshot()).elements.some(element=>button(element)&&element.automationName==="PowerPoint presentation.pptx"),"the original New picker must not offer PowerPoint creation");
+    await clickLabel({Word:"Word document.docx",Excel:"Excel workbook.xlsx"}[kind]);
     await edit("FormField0",name);await clickLabel("save");
     const id=await until(async()=>(await state()).documents.find(document=>document.name===name)?.id,`${kind} created through its native form`);
     await isRoute({Document:id});
@@ -86,8 +93,43 @@ export async function verifyOfficeRefinements(ctx) {
       await capture("office-excel-formula-and-worksheets");
     });
 
+    await check("native Excel range selection, AutoSum, sorting, find and clear preserve unrelated cells",async()=>{
+      const selectRange=async range=>{
+        await clickLabel("more");await clickLabel("select cells");
+        await edit("FormField0",range);await clickLabel("done");
+        await until(async()=>(await snapshot()).elements.some(element=>element.name==="ExcelSelection"&&element.text===range),"selected native Excel range");
+      };
+      await selectRange("A1:A2");
+      await clickLabel("more");await clickLabel("autosum");
+      await until(async()=>(await snapshot()).elements.some(element=>element.name==="FormField2"&&element.text==="A3"),"AutoSum defaults to the cell immediately after the selected column");
+      await field("FormField2","B2");await clickLabel("insert");
+      await until(async()=>(await state()).documents.find(document=>document.id===excelId)?.content.Excel.sheets[0].cells.B2==="=SUM(A1:A2)","AutoSum inserted into the empty destination");
+      const total=await control(element=>element.automationName==="Cell B2","AutoSum destination cell");
+      await until(async()=>(await snapshot()).elements.some(element=>/TextBlock$/.test(element.type)&&element.text==="20"&&element.x>=total.x&&element.y>=total.y&&element.x+element.width<=total.x+total.width&&element.y+element.height<=total.y+total.height),"native destination displays the calculated total");
+      await selectRange("A1:A2");
+      await clickLabel("more");await clickLabel("sort");await clickLabel("sort");
+      await until(async()=>{
+        const cells=(await state()).documents.find(document=>document.id===excelId)?.content.Excel.sheets[0].cells;
+        return cells?.A1==="8"&&cells.A2==="12"&&cells.B1==="=SUM(A1:A2)"&&cells.B2==="=SUM(A1:A2)";
+      },"sort changes only selected value rows");
+      await capture("office-excel-range-sort-and-autosum");
+      await clickLabel("more");await clickLabel("find");await edit("FormField0","=SUM(");await clickLabel("find");
+      await until(async()=>(await snapshot()).elements.some(element=>element.name==="ExcelSelection"&&element.text==="B1"),"find navigates to the next stored formula");
+      await capture("office-excel-find-selection");
+      await selectRange("B2");await clickLabel("more");await clickLabel("clear contents");await clickLabel("clear");
+      await until(async()=>{
+        const cells=(await state()).documents.find(document=>document.id===excelId)?.content.Excel.sheets[0].cells;
+        return cells&&!Object.hasOwn(cells,"B2")&&cells.B1==="=SUM(A1:A2)"&&cells.A1==="8"&&cells.A2==="12";
+      },"clear affects only the selected range");
+    });
+
     await check("native PowerPoint text and speaker notes remain in their slide",async()=>{
-      slidesId=await create("PowerPoint",names.slides);
+      await app("Office");await clickLabel("recent");await revealLabel(`${names.slides}.pptx`);
+      await isRoute({Document:slidesId});
+      assert(!(await snapshot()).elements.some(element=>button(element)&&element.automationName==="add slide"),"PowerPoint edits existing slides without on-phone slide creation");
+      await clickLabel("more");
+      assert(!(await snapshot()).elements.some(element=>button(element)&&element.automationName==="delete slide"),"PowerPoint must retain the existing slide structure");
+      await clickName("HardwareBack");await isRoute({Document:slidesId});
       await clickLabel("edit");await field("FormField0","Native slide title");
       await field("FormField1","First bullet\nSecond bullet");
       await field("FormField2","Speaker notes from the native editor.");
@@ -97,10 +139,16 @@ export async function verifyOfficeRefinements(ctx) {
         const slide=(await state()).documents.find(document=>document.id===slidesId)?.content.PowerPoint.slides[0];
         return slide?.title==="Native slide title"&&slide.body==="First bullet\nSecond bullet"&&slide.notes==="Speaker notes from the native editor.";
       },"PowerPoint title, body and notes saved");
-      await clickLabel("add slide");
-      await until(async()=>(await state()).documents.find(document=>document.id===slidesId)?.content.PowerPoint.slides.length===2,"second slide created");
+      const deck=(await state()).documents.find(document=>document.id===slidesId).content.PowerPoint;
+      assert.equal(deck.slides.length,2,"text editing preserves existing slide count");
+      assert.deepEqual(deck.slides[1],existingSecondSlide,"editing the first slide preserves the second slide and notes");
+      await clickLabel("›");await textPresent(existingSecondSlide.title,"existing second slide navigation");
       await clickLabel("‹");await textPresent("Native slide title","first slide restored");
       await capture("office-powerpoint-slide-and-notes");
+      await reload();
+      assert.deepEqual((await state()).documents.find(document=>document.id===slidesId).content.PowerPoint,deck,"slide edits and notes survive a complete reload");
+      await app("Office");await clickLabel("recent");await revealLabel(`${names.slides}.pptx`);
+      await isRoute({Document:slidesId});await textPresent("Native slide title","saved presentation reopened");
     });
 
     await check("native Files hierarchy, multi-copy, move and rename preserve document identity",async()=>{
@@ -108,14 +156,14 @@ export async function verifyOfficeRefinements(ctx) {
       await clickLabel("new folder");await edit("FormField0",names.folder);await clickLabel("save");
       folderId=await until(async()=>(await state()).document_folders.find(folder=>folder.name===names.folder)?.id,"native folder created");
       await clickLabel("select");await revealLabel(`${names.word}.docx`);await revealLabel(`${names.slides}.pptx`);
-      await clickLabel("copy");await revealLabel(names.folder);await isRoute({FileFolder:folderId});await clickLabel("paste here");
+      await clickLabel("copy");await revealLabel(names.folder);await isRoute({FileFolder:folderId});await clickLabel("copy here");
       await until(async()=>(await state()).documents.filter(document=>document.folder===folderId).length===2,"both selected files copied atomically");
       let data=await state();copiedWordId=data.documents.find(document=>document.folder===folderId&&document.name===names.word)?.id;
       assert(copiedWordId&&copiedWordId!==wordId);
       assert.equal(data.documents.find(document=>document.id===wordId).folder,null);
       await clickLabel("phone");await isRoute({FileFolder:null});
       await clickLabel("select");await revealLabel(`${names.excel}.xlsx`);await clickLabel("move");
-      await revealLabel(names.folder);await isRoute({FileFolder:folderId});await clickLabel("paste here");
+      await revealLabel(names.folder);await isRoute({FileFolder:folderId});await clickLabel("move here");
       await until(async()=>(await state()).documents.find(document=>document.id===excelId)?.folder===folderId,"move retained workbook identity");
       await clickLabel("select");await revealLabel(`${names.word}.docx`);await clickLabel("more");await clickLabel("rename");
       await edit("FormField0","Renamed native letter");await clickLabel("save");
@@ -126,6 +174,31 @@ export async function verifyOfficeRefinements(ctx) {
       data=await state();assert.equal(data.documents.find(document=>document.id===copiedWordId).content.Word.paragraphs[0].text,body);
       assert(data.tiles.some(tile=>tile.target?.Document===wordId),"copy/rename must preserve the original pinned target");
       await capture("files-copied-document-reopened");
+    });
+
+    await check("native Files properties report actual copies and close with Back without changing documents",async()=>{
+      const before=await state();
+      await app("Files");await clickLabel("phone");await isRoute({FileFolder:null});
+      const row=await reveal(element=>button(element)&&element.automationName===names.folder,
+        "folder properties target",scrollMatch,"Files scroll viewer");
+      const [x,y]=centre(row);await page.mouseMove(x,y);
+      await page.send("Input.dispatchMouseEvent",{type:"mousePressed",x,y,button:"right",buttons:2,clickCount:1,pointerType:"mouse"});
+      await page.send("Input.dispatchMouseEvent",{type:"mouseReleased",x,y,button:"right",buttons:0,clickCount:1,pointerType:"mouse"});
+      await clickLabel("properties");await textPresent("3 files, 0 folders","recursive folder contents");
+      await capture("files-native-folder-properties");
+      await clickName("HardwareBack");await isRoute({FileFolder:null});
+      await revealLabel(names.folder);await isRoute({FileFolder:folderId});
+      await clickLabel("select");await revealLabel("Renamed native letter.docx");await clickLabel("more");
+      await control(element=>button(element)&&element.automationName==="share","actual file-sharing command is available");
+      await clickLabel("properties");await textPresent("Word document (.docx)");
+      const bytes=await page.evaluate(`JSON.parse(phoneApp.exportOffice(${copiedWordId})).bytes.length`);
+      await until(async()=>(await snapshot()).elements.some(element=>/TextBlock$/.test(element.type)&&element.text?.endsWith(`(${bytes} bytes)`)),"exported package byte size");
+      await capture("files-native-file-properties");
+      await clickName("HardwareBack");await isRoute({FileFolder:folderId});
+      await textPresent("1 selected","Back restores the file selection");
+      const after=await state();assert.deepEqual(after.documents,before.documents);
+      assert.deepEqual(after.document_folders,before.document_folders);
+      assert.equal(after.next_id,before.next_id);
     });
 
     await check("Office binary host callbacks roundtrip real packages and reject damaged imports",async()=>{

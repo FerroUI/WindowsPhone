@@ -17,6 +17,8 @@ fn main() {
             "RadioButton",
             "ComboBox",
             "ComboBoxItem",
+            "DatePicker",
+            "TimePicker",
             "Slider",
             "ProgressBar",
             "ToolTip",

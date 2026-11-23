@@ -1,4 +1,5 @@
 use phone_domain::*;
+use std::collections::BTreeSet;
 
 impl crate::PhoneViewModel {
     /// Commit a freshly parsed document and return its durable identifier.
@@ -67,27 +68,35 @@ pub(crate) fn mutate(
                 *old = document;
             }
         }
-        DocumentAction::Delete(ids) => documents.retain(|document| !ids.contains(&document.id)),
+        DocumentAction::Delete(ids) => {
+            let selected = selection(&documents, &ids)?;
+            documents.retain(|document| !selected.contains(&document.id));
+        }
         DocumentAction::Rename { id, name } => {
             let document = documents
                 .iter_mut()
                 .find(|d| d.id == id)
                 .ok_or("This document no longer exists.")?;
-            document.name = name.trim().into();
+            let name = name.trim();
+            if document.name == name {
+                return Ok(false);
+            }
+            document.name = name.into();
             document.modified = now;
         }
         DocumentAction::Copy { id, folder } => {
+            destination(&folders, folder)?;
             copy(&mut documents, &mut allocate, &[id], folder, now)?
         }
         DocumentAction::CopyMany { ids, folder } => {
+            destination(&folders, folder)?;
             copy(&mut documents, &mut allocate, &ids, folder, now)?
         }
         DocumentAction::Move { ids, folder } => {
-            if ids.iter().any(|id| !documents.iter().any(|d| d.id == *id)) {
-                return Err("A selected document no longer exists.".into());
-            }
+            destination(&folders, folder)?;
+            let selected = selection(&documents, &ids)?;
             for document in &mut documents {
-                if ids.contains(&document.id) {
+                if selected.contains(&document.id) && document.folder != folder {
                     document.folder = folder;
                     document.modified = now;
                 }
@@ -131,10 +140,11 @@ fn copy(
     folder: Option<Id>,
     now: i64,
 ) -> Result<(), String> {
-    for id in ids {
+    let selected = selection(documents, ids)?;
+    for id in selected {
         let mut document = documents
             .iter()
-            .find(|d| d.id == *id)
+            .find(|d| d.id == id)
             .cloned()
             .ok_or("A selected document no longer exists.")?;
         document.id = allocate()?;
@@ -153,6 +163,23 @@ fn copy(
             );
         }
         documents.push(document);
+    }
+    Ok(())
+}
+
+fn selection(documents: &[OfficeDocument], ids: &[Id]) -> Result<BTreeSet<Id>, String> {
+    let selected = ids.iter().copied().collect::<BTreeSet<_>>();
+    if selected
+        .iter()
+        .any(|id| !documents.iter().any(|d| d.id == *id))
+    {
+        return Err("A selected document no longer exists.".into());
+    }
+    Ok(selected)
+}
+fn destination(folders: &[DocumentFolder], folder: Option<Id>) -> Result<(), String> {
+    if folder.is_some_and(|id| !folders.iter().any(|f| f.id == id)) {
+        return Err("The destination folder no longer exists.".into());
     }
     Ok(())
 }

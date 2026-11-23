@@ -1,4 +1,5 @@
 //! Retained, declarative Windows Phone views shared by the native and web hosts.
+mod alarm;
 mod app_list;
 mod apps;
 mod common;
@@ -65,6 +66,9 @@ pub fn set_preview_capture_enabled(enabled: bool) {
 pub fn back(vm: &Rc<PhoneViewModel>) {
     if !SESSION.with(|slot| {
         slot.borrow().upgrade().is_some_and(|ui| {
+            if ui.alarms.back(vm) {
+                return true;
+            }
             if ui.locked.get_untracked()
                 && !ui.hardware.is_open()
                 && !ui.notification_open.get_untracked()
@@ -130,6 +134,13 @@ pub fn browser_navigated(vm: &PhoneViewModel, url: String) {
     });
 }
 pub fn home(vm: &Rc<PhoneViewModel>) {
+    if SESSION.with(|slot| {
+        slot.borrow()
+            .upgrade()
+            .is_some_and(|ui| ui.alarms.active.get_untracked().is_some())
+    }) {
+        return;
+    }
     SESSION.with(|slot| {
         if let Some(ui) = slot.borrow().upgrade() {
             ui.clear_overlays();
@@ -141,7 +152,9 @@ pub fn home(vm: &Rc<PhoneViewModel>) {
 pub fn has_overlay() -> bool {
     SESSION.with(|slot| {
         slot.borrow().upgrade().is_some_and(|ui| {
-            ui.hardware.is_open()
+            ui.alarms.active.get_untracked().is_some()
+                || ui.alarms.editor.draft.get_untracked().is_some()
+                || ui.hardware.is_open()
                 || ui.locked.get_untracked()
                 || ui.notification_open.get_untracked()
                 || ui.switcher_open.get_untracked()
@@ -164,6 +177,23 @@ pub fn host_tick(now: i64) {
     });
 }
 
+/// Foreground services use the same validated Rust models on both hosts.
+pub fn alarm_tick(vm: &Rc<PhoneViewModel>) {
+    SESSION.with(|slot| {
+        if let Some(ui) = slot.borrow().upgrade() {
+            ui.reconcile_document(vm.document_epoch(), vm.now());
+            ui.alarms.tick(vm);
+        }
+    });
+}
+pub fn fire_alarm(vm: &Rc<PhoneViewModel>, id: phone_domain::Id) {
+    SESSION.with(|slot| {
+        if let Some(ui) = slot.borrow().upgrade() {
+            ui.alarms.fire_alarm(vm, id);
+        }
+    });
+}
+
 /// Shared hardware-key contract for a desktop frame and browser-delivered keys.
 pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
     use phone_domain::{AppId, Route};
@@ -171,8 +201,9 @@ pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
         let Some(ui) = slot.borrow().upgrade() else {
             return;
         };
-        let media = ui.media_playing.get_untracked()
-            || matches!(vm.route().app(), Some(AppId::Music | AppId::Video));
+        let media = ui.alarms.active.get_untracked().is_none()
+            && (ui.media_playing.get_untracked()
+                || matches!(vm.route().app(), Some(AppId::Music | AppId::Video)));
         match key {
             "volumeUp" => hardware::adjust(vm, &ui.hardware, 1, media),
             "volumeDown" => hardware::adjust(vm, &ui.hardware, -1, media),
@@ -199,6 +230,9 @@ pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
                 }
             }
             "camera" => {
+                if ui.alarms.active.get_untracked().is_some() {
+                    return;
+                }
                 ui.clear_overlays();
                 ui.locked.set(false);
                 vm.navigate(Route::App(AppId::Camera));

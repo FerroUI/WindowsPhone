@@ -1,5 +1,5 @@
 use ferroui_base::input::platform::ClipboardExtensions;
-use ferroui_base::{Ref, threading::Dispatcher};
+use ferroui_base::{threading::Dispatcher, Ref};
 use ferroui_controls::Window;
 use phone_state::{HostRequest, PhoneViewModel};
 use std::{process::Command, rc::Rc};
@@ -40,6 +40,8 @@ pub fn handle(
             crate::documents::start(vm.clone(), window.storage_provider(), request);
             Ok(())
         }
+        HostRequest::ShareDocuments { .. } => Err("Sharing document files is available in supported web browsers. Use export to save a desktop copy.".into()),
+        HostRequest::AlarmAlert { .. } => Ok(()),
         HostRequest::CopyText { text } => {
             let clipboard = window.clipboard().ok_or("Clipboard access is unavailable.")?;
             let vm = vm.clone();

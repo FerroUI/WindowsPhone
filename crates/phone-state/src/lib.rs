@@ -1,5 +1,6 @@
 //! Retained ReactiveUI view model with granular DynamicData collection projections.
 //! Navigation and clock updates never write persisted application data.
+mod calendar;
 mod commands;
 mod communication;
 mod convenience;
@@ -13,8 +14,8 @@ mod tiles;
 mod validation;
 
 use ferroui_dynamic_data::SourceCache;
-use ferroui_reactive::{ObservableExt, concurrency::ImmediateScheduler};
-use ferroui_reactiveui::{IReactiveObjectExt, ReactiveCommand, ReactiveObject, reactive_object};
+use ferroui_reactive::{concurrency::ImmediateScheduler, ObservableExt};
+use ferroui_reactiveui::{reactive_object, IReactiveObjectExt, ReactiveCommand, ReactiveObject};
 pub use phone_domain::Action;
 use phone_domain::*;
 pub use services::*;
@@ -29,6 +30,7 @@ pub struct PhoneViewModel {
     revision: RefCell<u64>,
     document: RefCell<PhoneData>,
     document_epoch: Cell<u64>,
+    schedule_revision: Cell<u64>,
     current_route: RefCell<Route>,
     history: RefCell<Vec<Route>>,
     recent: RefCell<Vec<(AppId, Route)>>,
@@ -61,6 +63,7 @@ impl PhoneViewModel {
                 revision: RefCell::new(0),
                 document: RefCell::new(data),
                 document_epoch: Cell::new(0),
+                schedule_revision: Cell::new(0),
                 current_route: RefCell::new(Route::Start),
                 history: RefCell::new(Vec::new()),
                 recent: RefCell::new(Vec::new()),
@@ -99,6 +102,11 @@ impl PhoneViewModel {
     /// Invalidate transient object references when an entire backup replaces data.
     pub fn document_epoch(&self) -> u64 {
         self.document_epoch.get()
+    }
+    /// Calendar/alarm mutations invalidate foreground schedules, independently
+    /// of navigation, clock ticks and unrelated document changes.
+    pub fn schedule_revision(&self) -> u64 {
+        self.schedule_revision.get()
     }
     pub fn route(&self) -> Route {
         self.current_route.borrow().clone()

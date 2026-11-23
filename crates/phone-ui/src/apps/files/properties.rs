@@ -1,0 +1,126 @@
+//! Properties are a bounded read-only snapshot, never a status toast or disk estimate.
+use super::*;
+use phone_domain::{DocumentContent, export_office};
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FileProperties {
+    pub name: String,
+    pub rows: Vec<(String, String)>,
+}
+
+pub(super) fn folder(vm: &PhoneViewModel, id: Id) -> Result<FileProperties, String> {
+    let data = vm.data();
+    let folder = data
+        .document_folders
+        .iter()
+        .find(|f| f.id == id)
+        .ok_or("This folder no longer exists.")?;
+    let mut descendants = BTreeSet::from([id]);
+    for _ in 0..phone_domain::MAX_FOLDERS {
+        let previous = descendants.len();
+        for folder in &data.document_folders {
+            if folder.parent.is_some_and(|p| descendants.contains(&p)) {
+                descendants.insert(folder.id);
+            }
+        }
+        if descendants.len() == previous {
+            break;
+        }
+    }
+    let documents = data
+        .documents
+        .iter()
+        .filter(|d| d.folder.is_some_and(|f| descendants.contains(&f)))
+        .collect::<Vec<_>>();
+    Ok(FileProperties {
+        name: folder.name.clone(),
+        rows: vec![
+            ("type".into(), "folder".into()),
+            ("location".into(), breadcrumb(vm, folder.parent)),
+            (
+                "contains".into(),
+                format!(
+                    "{} files, {} folders",
+                    documents.len(),
+                    descendants.len().saturating_sub(1)
+                ),
+            ),
+            (
+                "document text".into(),
+                size_text(documents.iter().map(|d| d.text_size()).sum()),
+            ),
+        ],
+    })
+}
+
+pub(super) fn document(vm: &PhoneViewModel, id: Id) -> Result<FileProperties, String> {
+    let data = vm.data();
+    let document = data.document(id).ok_or("This document no longer exists.")?;
+    let exported = export_office(document)?;
+    let details = match &document.content {
+        DocumentContent::Word(word) => format!("{} paragraphs", word.paragraphs.len()),
+        DocumentContent::Excel(book) => format!(
+            "{} worksheets, {} cells",
+            book.sheets.len(),
+            book.sheets.iter().map(|s| s.cells.len()).sum::<usize>()
+        ),
+        DocumentContent::PowerPoint(deck) => format!("{} slides", deck.slides.len()),
+    };
+    let mut rows = vec![
+        (
+            "type".into(),
+            format!(
+                "{} document (.{})",
+                document.kind().label(),
+                document.kind().extension()
+            ),
+        ),
+        ("location".into(), breadcrumb(vm, document.folder)),
+        (
+            "modified".into(),
+            super::super::office::date_text(document.modified),
+        ),
+        (
+            "size of saved copy".into(),
+            format!(
+                "{} ({} bytes)",
+                size_text(exported.bytes.len()),
+                exported.bytes.len()
+            ),
+        ),
+        ("contains".into(), details),
+    ];
+    if !document.import_notice.is_empty() {
+        rows.push(("saved copy".into(), exported.name));
+    }
+    Ok(FileProperties {
+        name: document.file_name(),
+        rows,
+    })
+}
+
+pub(super) fn view(ui: Rc<Session>, properties: FileProperties) -> Element {
+    let close = ui.clone();
+    let mut body = stack_panel()
+        .spacing(20.0)
+        .margin((20.0, 4.0, 20.0, 24.0))
+        .child(text("properties", 48.0))
+        .child(text(&properties.name, 28.0));
+    for (label, value) in properties.rows {
+        body = body.child(rsx! {StackPanel{spacing:4.0,
+            {muted(&label, 16.0)}
+            {text(&value, 23.0)}
+        }});
+    }
+    page(
+        "files",
+        scroll(body.into()),
+        app_bar(
+            vec![action(Icon::Check, "done", move || {
+                close.files.clear_properties()
+            })],
+            false,
+            vec![],
+        ),
+    )
+}

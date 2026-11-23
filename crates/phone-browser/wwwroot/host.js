@@ -3,8 +3,10 @@ import {webUrl,dialUrl,smsUrl,mailUrl}from'./urls.js';
 import {attachMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
 import {exportBackup,importBackup}from'./backup.js';
 import {importDocuments,exportDocument}from'./documents.js';
+import {shareDocuments}from'./document-share.js';
+import {attachAlarmAudio,setAlarmAlert}from'./alarm-alert.js';
 export {load,save,preserveRecovery,stopCamera};
-let runtime;let noticeTimer=0;let surfaceFrame=0;let lastAlarmMinute='';let imageGeneration=0;const alarmFired=new Set();
+let runtime;let noticeTimer=0;let surfaceFrame=0;let imageGeneration=0;
 const surfaces={};
 export const now=()=>Date.now()/1000;
 export const utcOffset=()=>-new Date().getTimezoneOffset()*60;
@@ -19,7 +21,7 @@ export function loadImage(key){
 }
 export const width=()=>document.getElementById('out').getBoundingClientRect().width;
 export const height=()=>document.getElementById('out').getBoundingClientRect().height;
-export function attachRuntime(api){runtime=api;attachMedia(api,notice);for(const kind of ['browser','camera','media']){
+export function attachRuntime(api){runtime=api;attachMedia(api,notice);attachAlarmAudio(notice);for(const kind of ['browser','camera','media']){
   const surface=document.createElement('div');surface.id=`${kind}-surface`;surface.className=`platform-surface ${kind}-surface`;surface.hidden=true;document.getElementById('platform-surfaces').append(surface);surfaces[kind]=surface;
 }}
 export function notice(message){const element=document.getElementById('host-notice');element.textContent=message;element.hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>element.hidden=true,5000);}
@@ -64,6 +66,8 @@ async function handle(op){
     case'importBackup':await importBackup(runtime);break;
     case'importDocuments':await importDocuments(runtime,op.folder,notice);break;
     case'exportDocument':exportDocument(runtime,op.id);break;
+    case'shareDocuments':await shareDocuments(runtime,op.ids);break;
+    case'alarmAlert':setAlarmAlert(op);break;
     case'copyText':if(!navigator.clipboard)throw new Error('Clipboard access is unavailable.');await navigator.clipboard.writeText(op.text);notice('Copied.');break;
     case'locate':{const p=await locate();const url=`https://www.openstreetmap.org/?mlat=${p.coords.latitude}&mlon=${p.coords.longitude}#map=16/${p.coords.latitude}/${p.coords.longitude}`;window.open(url,'_blank','noopener,noreferrer');break;}
     case'fetchWeather':await weather();break;
@@ -105,17 +109,7 @@ function applyAppearance(settings){
   document.getElementById('platform-surfaces').style.filter=filter;
 }
 export function serviceTick(){
-  if(!runtime)return;const data=JSON.parse(runtime.hostState());updateVolume(data.settings.media_muted?0:data.settings.volume);applyAppearance(data.settings);
-  const date=new Date();const minute=`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`;
-  if(minute===lastAlarmMinute)return;lastAlarmMinute=minute;
-  for(const alarm of data.alarms){
-    const weekday=(date.getDay()+6)%7;const key=`${alarm.id}:${minute}`;
-    if(alarm.enabled&&alarm.hour===date.getHours()&&alarm.minute===date.getMinutes()&&(!alarm.weekdays.length||alarm.weekdays.includes(weekday))&&!alarmFired.has(key)){
-      alarmFired.add(key);notice(`Alarm — ${alarm.label||'alarm'}`);
-      runtime.alarmFired(alarm.id);
-      if(data.settings.vibration)navigator.vibrate?.([200,100,200,100,400]);
-      if(data.settings.sounds)try{const context=new AudioContext();const oscillator=context.createOscillator();const gain=context.createGain();oscillator.frequency.value=880;gain.gain.value=.12;oscillator.connect(gain).connect(context.destination);oscillator.start();oscillator.stop(context.currentTime+1);oscillator.onended=()=>context.close();}catch{}
-    }
-  }
-  if(alarmFired.size>500)alarmFired.clear();
+  if(!runtime)return;
+  const data=JSON.parse(runtime.hostState());
+  updateVolume(data.settings.media_muted?0:data.settings.volume);applyAppearance(data.settings);
 }

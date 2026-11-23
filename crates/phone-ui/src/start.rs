@@ -7,13 +7,14 @@ mod layout;
 mod live;
 mod menu;
 mod tile;
+mod wallpaper;
 
 use crate::{common, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
-use phone_domain::{pack_tiles, Route};
+use phone_controls::{Icon, icon};
+use phone_domain::{Route, pack_tiles};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -30,6 +31,7 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let data = vm.data();
     let tiles = data.tiles.clone();
     let columns = data.settings.columns();
+    let wallpaper_motion = data.settings.motion_enabled();
     let folder_id = ui
         .edit_tile
         .get()
@@ -113,11 +115,15 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let remember = ui.clone();
     let restore = ui.clone();
     let scroll = rsx! {ScrollViewer{name:"StartScroll",key:"start-scroll",horizontal_scroll_bar_visibility:ScrollBarVisibility::Disabled,vertical_scroll_bar_visibility:ScrollBarVisibility::Hidden,
-        on_scroll_changed:move|event|if let Some(scroll)=event.source().and_then(|source|source.cast::<ScrollViewer>()){remember.scrolls.borrow_mut().insert("start".into(),scroll.offset().y);},
+        on_scroll_changed:move|event|if let Some(scroll)=event.source().and_then(|source|source.cast::<ScrollViewer>()){
+            remember.scrolls.borrow_mut().insert("start".into(),scroll.offset().y);
+            wallpaper::update(&remember,&scroll,wallpaper_motion);
+        },
         on_loaded:move|event|if let Some(scroll)=event.source().and_then(|source|source.cast::<ScrollViewer>()){
             let offset=restore.scrolls.borrow().get("start").copied().unwrap_or(0.0);scroll.set_offset(ferroui_base::Vector::new(0.0,offset));
+            wallpaper::update(&restore,&scroll,wallpaper_motion);
         },
-        StackPanel{margin:(PADDING,18.0,PADDING,24.0),spacing:18.0,
+        StackPanel{margin:(PADDING,wallpaper::TOP_INSET,PADDING,24.0),spacing:18.0,
             {surface}
             Button{name:"AllApps",class:"phone-flat",height:58.0,horizontal_alignment:H::Right,automation_properties_name:if editing{"Finish arranging tiles"}else{"All apps"},
                 on_click:move|_|{if editing{finish.edit_tile.set(None);finish.menu.set(false);}else{all.navigate(Route::Apps);}},

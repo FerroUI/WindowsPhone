@@ -6,6 +6,9 @@ mod formula;
 mod import;
 mod library;
 mod models;
+mod range;
+#[cfg(test)]
+mod range_tests;
 #[cfg(test)]
 mod tests;
 
@@ -15,6 +18,7 @@ pub use formula::{cell_address, cell_coordinates, display_cell};
 pub use import::import_office;
 pub use library::{validate_document, validate_library, validate_name};
 pub use models::*;
+pub use range::*;
 
 pub const MAX_DOCUMENT_TEXT: usize = 2 * 1024 * 1024;
 pub const MAX_LIBRARY_TEXT: usize = 8 * 1024 * 1024;

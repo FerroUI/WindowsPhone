@@ -1,7 +1,7 @@
 use super::*;
 use ferroui_base::{layout::Orientation, media::TextWrapping};
 use phone_controls::{action, app_bar, flat};
-use phone_domain::{DocumentContent, Id, Slide};
+use phone_domain::{DocumentContent, Id};
 
 pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -> Element {
     let DocumentContent::PowerPoint(deck) = &document.content else {
@@ -46,8 +46,6 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
     let id = document.id;
     let edit_vm = vm.clone();
     let edit_ui = ui.clone();
-    let add_vm = vm.clone();
-    let add_ui = ui.clone();
     let export_vm = vm.clone();
     let export_ui = ui.clone();
     let export_doc = document.clone();
@@ -55,17 +53,17 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
     let rename_vm = vm.clone();
     let rename_ui = ui.clone();
     let rename_doc = document.clone();
-    let delete_vm = vm.clone();
-    let delete_ui = ui.clone();
     let share_vm = vm.clone();
     let share_doc = document.clone();
     let pin = vm.clone();
+    let files_vm = vm.clone();
+    let files_ui = ui.clone();
     let menu = vec![
+        flat("share", move || {
+            super::commands::share_files(files_vm.clone(), files_ui.clone(), vec![id])
+        }),
         flat("rename presentation", move || {
             super::commands::rename(rename_vm.clone(), rename_ui.clone(), rename_doc.clone())
-        }),
-        flat("delete slide", move || {
-            delete_slide(delete_vm.clone(), delete_ui.clone(), id, index)
         }),
         flat("pin to start", move || {
             pin.pin_document(id);
@@ -83,7 +81,6 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
                 action(Icon::Edit, "edit", move || {
                     edit(edit_vm.clone(), edit_ui.clone(), id, index)
                 }),
-                action(Icon::Plus, "add slide", move || add(&add_vm, &add_ui, id)),
                 action(Icon::Save, "save a copy", move || {
                     super::commands::export(
                         export_vm.clone(),
@@ -127,44 +124,6 @@ fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id, index: usize) {
                     slide.body = values.get(1).cloned().unwrap_or_default();
                     slide.notes = values.get(2).cloned().unwrap_or_default();
                     super::commands::save(&vm, &state, document);
-                }
-            }
-        }),
-    );
-}
-fn add(vm: &PhoneViewModel, ui: &Session, id: Id) {
-    let document = vm.data().document(id).cloned();
-    let Some(mut document) = document else {
-        return;
-    };
-    if let DocumentContent::PowerPoint(deck) = &mut document.content {
-        if deck.slides.len() >= 200 {
-            vm.set_status("A presentation can contain up to 200 slides.".into());
-            return;
-        }
-        deck.slides.push(Slide::default());
-        ui.office.slide.set(deck.slides.len() - 1);
-        vm.save_document(document);
-    }
-}
-fn delete_slide(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id, index: usize) {
-    let state = ui.clone();
-    ui.confirm(
-        "delete this slide?",
-        Rc::new(move || {
-            let document = vm.data().document(id).cloned();
-            let Some(mut document) = document else {
-                return;
-            };
-            if let DocumentContent::PowerPoint(deck) = &mut document.content {
-                if index < deck.slides.len() {
-                    if deck.slides.len() > 1 {
-                        deck.slides.remove(index);
-                    } else {
-                        deck.slides[0] = Slide::default();
-                    }
-                    state.office.slide.set(index.saturating_sub(1));
-                    vm.save_document(document);
                 }
             }
         }),

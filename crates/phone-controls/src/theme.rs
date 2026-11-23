@@ -119,7 +119,11 @@ fn install_palette(styles: &Styles, p: &Palette) {
                 )
                 .set(
                     Visual::render_transform_property(),
-                    crate::motion::scale(if p.motion_enabled { 0.965 } else { 1.0 }),
+                    crate::motion::scale(if p.motion_enabled && selector != "Button.phone-tile" {
+                        0.965
+                    } else {
+                        1.0
+                    }),
                 )
                 .build(),
         );
@@ -188,6 +192,7 @@ fn install_palette(styles: &Styles, p: &Palette) {
     install_lists(styles);
     crate::inputs::install(styles, p);
     crate::sliders::install(styles, p);
+    crate::pickers::install(styles, p);
 }
 
 fn install_lists(styles: &Styles) {

@@ -22,6 +22,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     ui.reconcile_document(vm.document_epoch(), vm.now());
     let route = vm.route();
     let locked = ui.locked.get() || route == Route::Lock;
+    let alert = ui.alarms.active.get().is_some();
     let direction = if matches!(route, Route::Start) {
         -1.0
     } else {
@@ -56,9 +57,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             attach_ui.previews.attach(root);
             gestures::attach(root,attach_vm.clone(),attach_ui.clone());
         },
-        {navigation::status(vm.clone(),ui.clone())}
+        Border{is_enabled:!alert,{navigation::status(vm.clone(),ui.clone())}}
         Border{Grid.row:1,name:"PhonePage",key:format!("page-{route:?}"),clip_to_bounds:true,
-            is_visible:!ui.locked.get(),is_enabled:!ui.locked.get(),
+            is_visible:!ui.locked.get(),is_enabled:!ui.locked.get() && !alert,
             on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){
                 phone_controls::page_enter(&control,direction);
             },
@@ -80,13 +81,14 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){phone_controls::reveal(&control);},
             {notifications::view(vm.clone(),ui.clone())}
         }}
-        if !locked && ui.dialog.get().is_some(){Border{Grid.row_span:2,background:background.as_str(),{dialogs::view(vm.clone(),ui.clone())}}}
+        if !locked && !alert && ui.dialog.get().is_some(){Border{Grid.row_span:2,background:background.as_str(),{dialogs::view(vm.clone(),ui.clone())}}}
         if !locked && !vm.status().is_empty(){Border{Grid.row:1,vertical_alignment:V::Top,background:accent.as_str(),padding:(16.0,12.0),
             Grid{column_definitions:"*,36",column_spacing:8.0,
                 TextBlock{text:vm.status(),foreground:"White",font_size:15.0,text_wrapping:ferroui_base::media::TextWrapping::Wrap},
                 Border{Grid.column:1,{phone_controls::flat("×",move||dismiss_status.clear_status())}}
             }
         }}
+        if alert {Border{Grid.row_span:2,{crate::alarm::view(vm.clone(),ui.clone())}}}
         if ui.hardware.open.get(){Border{Grid.row_span:3,vertical_alignment:V::Top,
             on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){phone_controls::reveal(&control);},
             {crate::hardware::view(vm.clone(),ui.clone())}

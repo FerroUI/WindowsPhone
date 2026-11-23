@@ -94,29 +94,40 @@ pub(super) fn view(
         AppId::Calendar if !small => {
             let date = chrono::DateTime::from_timestamp(vm.local_now(), 0).unwrap_or_default();
             let today = date.format("%Y-%m-%d").to_string();
-            let next = data
-                .events
-                .iter()
-                .filter(|event| {
-                    chrono::NaiveDate::parse_from_str(&event.date, "%Y-%m-%d")
-                        .ok()
-                        .zip(chrono::NaiveTime::parse_from_str(&event.time, "%H:%M").ok())
-                        .is_some_and(|(day, time)| {
-                            let start = day.and_time(time);
-                            date.naive_utc()
-                                < start
-                                    + chrono::Duration::minutes(i64::from(event.duration_minutes))
+            let next = phone_domain::next_calendar_occurrence(&data.events, vm.local_now())
+                .and_then(|occurrence| {
+                    data.events
+                        .iter()
+                        .find(|event| event.id == occurrence.event_id)
+                        .map(|event| {
+                            let time = if event.all_day {
+                                "all day".into()
+                            } else {
+                                phone_domain::time_text(occurrence.start, data.settings.time_24h)
+                            };
+                            (
+                                event.title.clone(),
+                                format!(
+                                    "{}{}  {}",
+                                    if occurrence.date == today {
+                                        String::new()
+                                    } else {
+                                        format!("{}  ", occurrence.date)
+                                    },
+                                    time,
+                                    event.location
+                                ),
+                            )
                         })
-                })
-                .min_by_key(|event| (event.date.as_str(), event.time.as_str()));
+                });
             rsx! {Grid{
                 StackPanel{margin:(12.0,7.0),spacing:0.0,horizontal_alignment:H::Left,
                     TextBlock{text:date.format("%A").to_string(),font_size:16.0,foreground:"White"},
                     TextBlock{text:date.format("%-d").to_string(),font_size:70.0,font_weight:FontWeight::Light,foreground:"White"}
                 },
                 if wide{StackPanel{margin:(133.0,23.0,14.0,36.0),spacing:8.0,
-                    TextBlock{text:next.map(|event|event.title.clone()).unwrap_or_else(||"No more events".into()),font_size:22.0,foreground:"White",text_wrapping:TextWrapping::Wrap},
-                    TextBlock{text:next.map(|event|format!("{}{}  {}",if event.date==today{String::new()}else{format!("{}  ",event.date)},event.time,event.location)).unwrap_or_default(),font_size:16.0,foreground:"White",text_wrapping:TextWrapping::Wrap}
+                    TextBlock{text:next.as_ref().map(|(title,_)|title.clone()).unwrap_or_else(||"No more events".into()),font_size:22.0,foreground:"White",text_wrapping:TextWrapping::Wrap},
+                    TextBlock{text:next.as_ref().map(|(_,detail)|detail.clone()).unwrap_or_default(),font_size:16.0,foreground:"White",text_wrapping:TextWrapping::Wrap}
                 }}
             }}
         }

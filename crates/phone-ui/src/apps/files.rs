@@ -1,6 +1,7 @@
 //! Phone-local Files explorer. Its document operations share Office's persisted model.
 mod commands;
 mod listing;
+mod properties;
 
 use crate::{common::*, session::Session};
 use ferroui_view::prelude::*;
@@ -21,6 +22,7 @@ pub struct FilesSession {
     pub searching: Signal<bool>,
     pub transfer: Signal<Option<FileTransfer>>,
     pub folder_menu: Signal<Option<Id>>,
+    properties: Signal<Option<properties::FileProperties>>,
 }
 impl Default for FilesSession {
     fn default() -> Self {
@@ -31,11 +33,27 @@ impl Default for FilesSession {
             searching: signal(false),
             transfer: signal(None),
             folder_menu: signal(None),
+            properties: signal(None),
         }
+    }
+}
+impl FilesSession {
+    pub fn dismiss_properties(&self) -> bool {
+        let open = self.properties.get_untracked().is_some();
+        if open {
+            self.properties.set(None);
+        }
+        open
+    }
+    pub fn clear_properties(&self) {
+        self.properties.set(None);
     }
 }
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    if let Some(properties) = ui.files.properties.get() {
+        return properties::view(ui, properties);
+    }
     if let Route::FileFolder(folder) = vm.route() {
         return listing::view(vm, ui, folder);
     }

@@ -4,7 +4,7 @@ use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignm
 use ferroui_base::media::FontWeight;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{Icon, icon};
+use phone_controls::{icon, Icon};
 use phone_domain::Route;
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
@@ -53,17 +53,17 @@ pub fn bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let search = vm.clone();
     let hold = ui.clone();
     let context = ui.clone();
-    let go_home = ui.clone();
+    let alarm = ui.alarms.active.get().is_some();
     rsx! {Grid{background:"Black",column_definitions:"*,*,*",height:54.0,
         Button{name:"HardwareBack",class:"phone-flat",automation_properties_name:"Back",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Center,
             on_click:move |_|crate::back(&back),
-            on_holding:move |e|if e.holding_state()==HoldingState::Started{hold.switcher_open.set(true);e.set_handled(true);},
-            on_context_requested:move |e|{context.switcher_open.set(true);e.set_handled(true);},
+            on_holding:move |e|if e.holding_state()==HoldingState::Started && hold.alarms.active.get_untracked().is_none(){hold.switcher_open.set(true);e.set_handled(true);},
+            on_context_requested:move |e|{if context.alarms.active.get_untracked().is_none(){context.switcher_open.set(true);}e.set_handled(true);},
             {icon(Icon::Back,23.0,"White")}},
         Button{name:"HardwareStart",Grid.column:1,class:"phone-flat",automation_properties_name:"Start",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Center,
-            on_click:move |_|{go_home.clear_overlays();go_home.locked.set(false);home.home();},{icon(Icon::Windows,25.0,"White")}},
+            is_enabled:!alarm,on_click:move |_|crate::home(&home),{icon(Icon::Windows,25.0,"White")}},
         Button{name:"HardwareSearch",Grid.column:2,class:"phone-flat",automation_properties_name:"Search",horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Center,
-            on_click:move |_|search.navigate(Route::Search),{icon(Icon::Search,22.0,"White")}}
+            is_enabled:!alarm,on_click:move |_|search.navigate(Route::Search),{icon(Icon::Search,22.0,"White")}}
     }}
 }
 pub fn lock(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {

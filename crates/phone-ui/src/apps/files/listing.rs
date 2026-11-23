@@ -33,6 +33,10 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, folder: Option<Id>) 
     let mut body = stack_panel()
         .spacing(2.0)
         .child(path_links(vm.clone(), ui.clone(), folder));
+    if ui.files.selecting.get() {
+        body = body.child(rsx! {Border{margin:(20.0,4.0,20.0,8.0),
+        {text(&format!("{} selected",ui.files.selection.get().len()),24.0)}}});
+    }
     if let Some(transfer) = ui.files.transfer.get() {
         body=body.child(rsx!{Border{margin:(20.0,8.0),{muted(&format!("Choose where to {} {} document{}",if transfer.copy{"copy"}else{"move"},transfer.ids.len(),if transfer.ids.len()==1{""}else{"s"}),17.0)}}});
     }
@@ -150,7 +154,7 @@ fn bar(
     folder: Option<Id>,
     visible: BTreeSet<Id>,
 ) -> Element {
-    if ui.files.transfer.get().is_some() {
+    if let Some(transfer) = ui.files.transfer.get() {
         let paste_vm = vm.clone();
         let paste_ui = ui.clone();
         let cancel = ui.clone();
@@ -158,9 +162,15 @@ fn bar(
         let add_ui = ui.clone();
         return app_bar(
             vec![
-                action(Icon::Check, "paste here", move || {
-                    commands::paste(&paste_vm, &paste_ui, folder)
-                }),
+                action(
+                    Icon::Check,
+                    if transfer.copy {
+                        "copy here"
+                    } else {
+                        "move here"
+                    },
+                    move || commands::paste(&paste_vm, &paste_ui, folder),
+                ),
                 action(Icon::Close, "cancel", move || {
                     cancel.files.transfer.set(None)
                 }),
@@ -269,6 +279,11 @@ fn selection_bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>, visible: BTreeSet<Id>)
     let more = ui.clone();
     let mut menu = Vec::new();
     let selected = ui.files.selection.get();
+    let share_vm = vm.clone();
+    let share_ui = ui.clone();
+    menu.push(flat("share", move || {
+        commands::share(share_vm.clone(), share_ui.clone())
+    }));
     if selected.len() == 1 {
         let document = vm.data().document(*selected.first().unwrap()).cloned();
         if let Some(document) = document {
@@ -285,6 +300,12 @@ fn selection_bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>, visible: BTreeSet<Id>)
                 office::commands::export(export_vm.clone(), export_ui.clone(), export_doc.clone())
             }));
             let share_vm = vm.clone();
+            let property_vm = vm.clone();
+            let property_ui = ui.clone();
+            let id = document.id;
+            menu.push(flat("properties", move || {
+                commands::document_properties(property_vm.clone(), property_ui.clone(), id)
+            }));
             menu.push(flat("share text", move || {
                 office::commands::share(&share_vm, &document)
             }));

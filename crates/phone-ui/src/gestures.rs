@@ -7,9 +7,9 @@ mod motion;
 
 use crate::session::Session;
 use controller::Controller;
-use ferroui_base::Ref;
 use ferroui_base::input::{HoldingState, InputElement, Key, KeyModifiers};
 use ferroui_base::interactivity::RoutingStrategies;
+use ferroui_base::Ref;
 use ferroui_controls::{Control, Grid, TextBox};
 use ferroui_view::on_cleanup;
 use phone_domain::{AppId, Route};
@@ -106,6 +106,13 @@ pub(crate) fn attach(root: &Ref<Grid>, vm: Rc<PhoneViewModel>, ui: Rc<Session>) 
                 event.set_handled(true);
                 return;
             }
+            if keyboard_ui.alarms.active.get_untracked().is_some() {
+                if event.key == Key::Back {
+                    crate::back(&keyboard_vm);
+                    event.set_handled(true);
+                }
+                return;
+            }
             if editing {
                 return;
             }
@@ -115,9 +122,7 @@ pub(crate) fn attach(root: &Ref<Grid>, vm: Rc<PhoneViewModel>, ui: Rc<Session>) 
             match event.key {
                 Key::Home if !ctrl => {
                     keys.cancel();
-                    keyboard_ui.clear_overlays();
-                    keyboard_ui.locked.set(false);
-                    keyboard_vm.home();
+                    crate::home(&keyboard_vm);
                 }
                 Key::Back
                     if !ctrl

@@ -119,6 +119,43 @@ pub(crate) fn share(vm: &PhoneViewModel, document: &OfficeDocument) {
         url: String::new(),
     });
 }
+pub(crate) fn share_files(vm: Rc<PhoneViewModel>, ui: Rc<Session>, ids: Vec<Id>) {
+    if ids.is_empty() {
+        vm.set_status("Select files first.".into());
+        return;
+    }
+    let eligibility = {
+        let data = vm.data();
+        if ids.iter().any(|id| data.document(*id).is_none()) {
+            Err("A selected file no longer exists.")
+        } else {
+            Ok(ids.iter().any(|id| {
+                data.document(*id)
+                    .is_some_and(|d| !d.import_notice.is_empty())
+            }))
+        }
+    };
+    let imported = match eligibility {
+        Ok(value) => value,
+        Err(message) => {
+            vm.set_status(message.into());
+            return;
+        }
+    };
+    ui.menu.set(false);
+    if imported {
+        ui.form_with_action(
+            "share mobile copies?",
+            vec![],
+            "share",
+            Rc::new(move |_| {
+                vm.request(HostRequest::ShareDocuments { ids: ids.clone() });
+            }),
+        );
+    } else {
+        vm.request(HostRequest::ShareDocuments { ids });
+    }
+}
 pub(super) fn save(vm: &PhoneViewModel, ui: &Session, document: OfficeDocument) -> bool {
     if let Err(error) = validate_document(&document) {
         ui.form_error.set(error);

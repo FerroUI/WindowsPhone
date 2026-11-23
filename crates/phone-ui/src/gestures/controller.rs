@@ -201,6 +201,7 @@ impl Controller {
                     .is_some_and(|name| name.starts_with("Hardware") && !back)
         });
         let native = editing
+            || ui.alarms.active.get_untracked().is_some()
             || ui.hardware.is_open()
             || ui.menu.get_untracked()
             || ui.dialog.get_untracked().is_some()
@@ -571,13 +572,14 @@ fn pivot_count(route: &Route, ui: &Session) -> usize {
         Route::App(AppId::Phone) if ui.pivot.get_untracked() < 2 => 2,
         Route::App(AppId::People | AppId::Settings | AppId::Music | AppId::Video) => 2,
         Route::App(AppId::Office) if !ui.office.show_new.get_untracked() => 2,
-        Route::App(AppId::Calendar | AppId::Outlook) => 3,
+        Route::App(AppId::Outlook) => 3,
         Route::App(AppId::Photos) if ui.selected.get_untracked().is_none() => 3,
         _ => 0,
     }
 }
 fn can_swipe(route: &Route, ui: &Session) -> bool {
     matches!(route, Route::Start | Route::Folder(_) | Route::Apps)
+        || (*route == Route::App(AppId::Calendar) && crate::apps::calendar::can_swipe(ui))
         || pivot_count(route, ui) > 0
         || (*route == Route::App(AppId::Photos)
             && ui.selected.get_untracked().is_some()
@@ -591,6 +593,9 @@ fn complete_swipe(vm: &PhoneViewModel, ui: &Session, route: &Route, delta: f64) 
             vm.navigate(Route::Apps);
         }
         Route::Apps if delta > 0.0 => vm.home(),
+        Route::App(AppId::Calendar) if crate::apps::calendar::can_swipe(ui) => {
+            crate::apps::calendar::move_period(vm, ui, if delta < 0.0 { 1 } else { -1 })
+        }
         Route::App(AppId::Photos) if ui.selected.get_untracked().is_some() => {
             let data = vm.data();
             let photos = &data.photos;

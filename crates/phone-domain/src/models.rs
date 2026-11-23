@@ -67,6 +67,18 @@ pub struct CalendarEvent {
     pub duration_minutes: u32,
     pub location: String,
     pub details: String,
+    #[serde(default)]
+    pub all_day: bool,
+    #[serde(default)]
+    pub repeat: crate::CalendarRepeat,
+    #[serde(default)]
+    pub repeat_until: Option<String>,
+    #[serde(default)]
+    pub excluded_dates: Vec<String>,
+    #[serde(default)]
+    pub reminder_minutes: Option<u32>,
+    #[serde(default)]
+    pub status: crate::CalendarStatus,
 }
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Note {
@@ -75,7 +87,7 @@ pub struct Note {
     pub body: String,
     pub modified: i64,
 }
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Alarm {
     pub id: Id,
     pub label: String,
@@ -83,6 +95,21 @@ pub struct Alarm {
     pub minute: u8,
     pub enabled: bool,
     pub weekdays: Vec<u8>,
+    #[serde(default = "crate::default_alarm_snooze")]
+    pub snooze_minutes: u8,
+}
+impl Default for Alarm {
+    fn default() -> Self {
+        Self {
+            id: 0,
+            label: String::new(),
+            hour: 0,
+            minute: 0,
+            enabled: false,
+            weekdays: Vec::new(),
+            snooze_minutes: 5,
+        }
+    }
 }
 impl Alarm {
     pub fn time_text(&self) -> String {

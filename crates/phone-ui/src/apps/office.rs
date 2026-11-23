@@ -12,7 +12,7 @@ use ferroui_base::{
 };
 use ferroui_view::prelude::*;
 use phone_controls::{Icon, icon};
-use phone_domain::{OfficeDocument, Route};
+use phone_domain::{Id, OfficeDocument, Route};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -25,6 +25,7 @@ pub struct OfficeSession {
     pub show_new: Signal<bool>,
     pub show_find: Signal<bool>,
     pub formatting: Signal<bool>,
+    pub excel_selection: Signal<Option<(Id, usize, String)>>,
 }
 impl Default for OfficeSession {
     fn default() -> Self {
@@ -37,6 +38,7 @@ impl Default for OfficeSession {
             show_new: signal(false),
             show_find: signal(false),
             formatting: signal(false),
+            excel_selection: signal(None),
         }
     }
 }

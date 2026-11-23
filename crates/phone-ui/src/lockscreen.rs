@@ -81,11 +81,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
 
 fn quick_count(data: &PhoneData, app: AppId, today: &str) -> usize {
     match app {
-        AppId::Calendar => data
-            .events
-            .iter()
-            .filter(|event| event.date == today)
-            .count(),
+        AppId::Calendar => phone_domain::calendar_day(today)
+            .map(|day| phone_domain::event_occurrences(&data.events, day, day + 1).len())
+            .unwrap_or(0),
         AppId::Alarms => data.alarms.iter().filter(|alarm| alarm.enabled).count(),
         AppId::OneNote => data.notes.len(),
         _ => data.badge(app),
@@ -95,32 +93,33 @@ fn quick_count(data: &PhoneData, app: AppId, today: &str) -> usize {
 fn detail(data: &PhoneData, app: AppId, now: chrono::NaiveDateTime) -> Option<(String, String)> {
     let today = now.format("%Y-%m-%d").to_string();
     match app {
-        AppId::Calendar => data
-            .events
-            .iter()
-            .filter_map(|event| {
-                let start = chrono::NaiveDate::parse_from_str(&event.date, "%Y-%m-%d")
-                    .ok()?
-                    .and_time(chrono::NaiveTime::parse_from_str(&event.time, "%H:%M").ok()?);
-                (now < start + chrono::Duration::minutes(i64::from(event.duration_minutes)))
-                    .then_some((start, event))
-            })
-            .min_by_key(|(start, _)| *start)
-            .map(|(_, event)| {
-                let when = if event.date == today {
-                    event.time.clone()
-                } else {
-                    format!("{} {}", event.date, event.time)
-                };
-                (
-                    event.title.clone(),
-                    [when, event.location.clone()]
-                        .into_iter()
-                        .filter(|v| !v.is_empty())
-                        .collect::<Vec<_>>()
-                        .join(" · "),
-                )
-            }),
+        AppId::Calendar => {
+            phone_domain::next_calendar_occurrence(&data.events, now.and_utc().timestamp())
+                .and_then(|occurrence| {
+                    let event = data
+                        .events
+                        .iter()
+                        .find(|event| event.id == occurrence.event_id)?;
+                    let time = if event.all_day {
+                        "all day".into()
+                    } else {
+                        phone_domain::time_text(occurrence.start, data.settings.time_24h)
+                    };
+                    let when = if occurrence.date == today {
+                        time
+                    } else {
+                        format!("{} {time}", occurrence.date)
+                    };
+                    Some((
+                        event.title.clone(),
+                        [when, event.location.clone()]
+                            .into_iter()
+                            .filter(|value| !value.is_empty())
+                            .collect::<Vec<_>>()
+                            .join(" · "),
+                    ))
+                })
+        }
         AppId::Messaging => data
             .conversations
             .iter()
@@ -230,6 +229,7 @@ mod tests {
             minute: 0,
             enabled: true,
             weekdays: vec![0],
+            ..Default::default()
         };
         assert_eq!(
             next_alarm(&alarm, now)

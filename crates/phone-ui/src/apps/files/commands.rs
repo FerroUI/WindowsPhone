@@ -74,9 +74,12 @@ pub(super) fn delete(vm: Rc<PhoneViewModel>, ui: Rc<Session>) {
             if ids.len() == 1 { "" } else { "s" }
         ),
         Rc::new(move || {
+            vm.clear_status();
             vm.document_action(DocumentAction::Delete(ids.clone()));
-            state.files.selection.set(BTreeSet::new());
-            state.files.selecting.set(false);
+            if vm.status().is_empty() {
+                state.files.selection.set(BTreeSet::new());
+                state.files.selecting.set(false);
+            }
         }),
     );
 }
@@ -144,40 +147,24 @@ pub(super) fn delete_folder(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id) {
 }
 
 pub(super) fn properties(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id) {
-    let message = {
-        let data = vm.data();
-        let mut descendants = BTreeSet::from([id]);
-        loop {
-            let previous = descendants.len();
-            for folder in &data.document_folders {
-                if folder
-                    .parent
-                    .is_some_and(|parent| descendants.contains(&parent))
-                {
-                    descendants.insert(folder.id);
-                }
-            }
-            if descendants.len() == previous {
-                break;
-            }
-        }
-        let documents = data
-            .documents
-            .iter()
-            .filter(|document| {
-                document
-                    .folder
-                    .is_some_and(|folder| descendants.contains(&folder))
-            })
-            .collect::<Vec<_>>();
-        format!(
-            "{} · {} documents, {} subfolders · {} of document text",
-            breadcrumb(&vm, Some(id)),
-            documents.len(),
-            descendants.len().saturating_sub(1),
-            size_text(documents.iter().map(|d| d.text_size()).sum())
-        )
-    };
+    show_properties(&vm, &ui, super::properties::folder(&vm, id));
+}
+pub(super) fn document_properties(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id) {
+    show_properties(&vm, &ui, super::properties::document(&vm, id));
+}
+fn show_properties(
+    vm: &PhoneViewModel,
+    ui: &Session,
+    result: Result<super::properties::FileProperties, String>,
+) {
     ui.menu.set(false);
-    vm.set_status(message);
+    ui.files.folder_menu.set(None);
+    match result {
+        Ok(properties) => ui.files.properties.set(Some(properties)),
+        Err(message) => vm.set_status(message),
+    }
+}
+pub(super) fn share(vm: Rc<PhoneViewModel>, ui: Rc<Session>) {
+    let ids = ui.files.selection.get_untracked().into_iter().collect();
+    super::super::office::commands::share_files(vm, ui, ids);
 }

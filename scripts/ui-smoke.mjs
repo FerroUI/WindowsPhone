@@ -9,6 +9,9 @@ import { verifyBrowserRefinements } from "./ui-browser-refinements.mjs";
 import { verifyLiveTiles } from "./ui-live-tiles.mjs";
 import { verifyLockscreenDraft } from "./ui-lockscreen.mjs";
 import { verifyLiveFolder } from "./ui-folders.mjs";
+import { verifyCalendarRefinements } from "./ui-calendar-refinements.mjs";
+import { verifyAlarmRefinements } from "./ui-alarm-refinements.mjs";
+import { verifyShellParity } from "./ui-shell-parity.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -561,6 +564,9 @@ try {
   const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control,
     clickName, clickLabel, clickText, textPresent, reveal, edit, home, isRoute, reload };
   await verifyOfficeRefinements(refinementContext);
+  await verifyCalendarRefinements(refinementContext);
+  await verifyAlarmRefinements(refinementContext);
+  await verifyShellParity(refinementContext);
   await verifySystemRefinements(refinementContext);
   await verifyBrowserRefinements(refinementContext);
   await verifyLiveTiles(refinementContext);

@@ -1,3 +1,9 @@
+mod events;
+mod recurrence;
+
+pub use events::*;
+pub use recurrence::*;
+
 /// Calendar algorithms use a proleptic Gregorian calendar without timezone or OS dependencies.
 pub fn is_leap_year(year: i32) -> bool {
     year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)

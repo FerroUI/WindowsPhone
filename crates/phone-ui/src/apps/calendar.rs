@@ -1,291 +1,191 @@
-use crate::{
-    common::{accent, empty, muted, page, row, scroll, text},
-    session::Session,
+//! Windows Phone calendar views, native appointment editing and recurrence.
+mod commands;
+mod day;
+mod details;
+mod editor;
+mod month;
+mod pickers;
+mod session;
+mod week;
+
+use crate::session::Session;
+use ferroui_base::{
+    layout::{HorizontalAlignment as H, Orientation},
+    media::{FontWeight, TextWrapping},
 };
-use chrono::{Datelike, Duration, NaiveDate};
-use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
-use ferroui_base::media::FontWeight;
 use ferroui_view::prelude::*;
-use phone_controls::{Icon, action, app_bar, flat, pivot};
-use phone_domain::{
-    CalendarEvent, date_parts, date_string, days_from_date, days_in_month, first_weekday,
-    month_name,
-};
+use phone_controls::{Icon, action, app_bar, flat};
+use phone_domain::*;
 use phone_state::PhoneViewModel;
+use session::CalendarPicker;
+pub use session::{CalendarSession, CalendarView};
 use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let (current_year, current_month, current_day) = date_parts(vm.local_now());
-    let month_index = current_year * 12 + current_month as i32 - 1 + ui.calendar_month.get();
-    let (year, month) = (
-        month_index.div_euclid(12),
-        month_index.rem_euclid(12) as u32 + 1,
-    );
-    let today = date_string(current_year, current_month, current_day);
-    let selected = selected_date(&ui, year, month, &today);
-    let mut events = vm.data().events.clone();
-    events.sort_by(|a, b| (&a.date, &a.time, &a.title).cmp(&(&b.date, &b.time, &b.title)));
-    let mode = ui.pivot.get().min(2);
-    let previous = ui.clone();
-    let next = ui.clone();
-    let previous_date = selected.clone();
-    let next_date = selected.clone();
-    let heading = format!("{} {}", month_name(month).to_lowercase(), year);
-    let mut body=stack_panel().spacing(12.0).child(rsx! {Grid{column_definitions:"Auto,*,Auto",margin:(10.0,0.0),
-        {flat("‹",move ||move_period(&previous,&previous_date,mode,-1,current_year,current_month))}
-        TextBlock{Grid.column:1,text:heading,font_size:30.0,font_weight:FontWeight::Light,vertical_alignment:ferroui_base::layout::VerticalAlignment::Center}
-        Border{Grid.column:2,{flat("›",move ||move_period(&next,&next_date,mode,1,current_year,current_month))}}
-    }});
-    let choices = ["month", "week", "day"]
-        .into_iter()
-        .enumerate()
-        .map(|(index, label)| {
-            let value = ui.pivot;
-            pivot(label, mode == index, move || value.set(index))
-        })
-        .collect::<Vec<_>>();
-    body=body.child(rsx! {StackPanel{orientation:Orientation::Horizontal,margin:(18.0,0.0),for choice in choices {{choice}}}});
-    if mode == 0 {
-        body = body.child(month_grid(
-            &vm, &ui, year, month, &today, &selected, &events,
-        ));
+    if let Some(picker) = ui.calendar.picker.get() {
+        return pickers::view(ui, picker);
     }
-    if mode == 1 {
-        let date = NaiveDate::parse_from_str(&selected, "%Y-%m-%d").unwrap_or_else(|_| {
-            NaiveDate::from_ymd_opt(current_year, current_month, current_day).unwrap_or_default()
-        });
-        let day = days_from_date(date.year(), date.month(), date.day());
-        let monday = vm.data().settings.first_day_monday;
-        let start = day - (day + if monday { 3 } else { 4 }).rem_euclid(7);
-        for offset in 0..7 {
-            let timestamp = (start + offset) * 86400;
-            let (y, m, d) = date_parts(timestamp);
-            let date = date_string(y, m, d);
-            body=body.child(rsx! {Border{margin:(20.0,12.0,20.0,0.0),{text(&format!("{} {}",phone_domain::weekday_name(timestamp).to_lowercase(),d),26.0)}}});
-            body = body.child(event_list(vm.clone(), ui.clone(), &events, &date, false));
-        }
-    } else {
-        body = body
-            .child(rsx! {Border{margin:(20.0,12.0,20.0,0.0),{text(&display_date(&vm,&selected),24.0)}}})
-            .child(event_list(vm.clone(), ui.clone(), &events, &selected, true));
+    if ui.calendar.editor.get().is_some() {
+        return editor::view(vm, ui);
     }
-    let add_vm = vm.clone();
-    let add_ui = ui.clone();
-    let add_date = selected;
+    if let Some(selected) = ui.calendar.selected.get() {
+        return details::view(vm, ui, selected);
+    }
+    let day = selected_day(&vm, &ui);
+    let mode = ui.calendar.view.get();
+    let body = match mode {
+        CalendarView::Day => day::view(vm.clone(), ui.clone(), day),
+        CalendarView::Week => week::view(vm.clone(), ui.clone(), day),
+        CalendarView::Month => month::view(vm.clone(), ui.clone(), day),
+        CalendarView::Year => month::year(vm.clone(), ui.clone(), day),
+    };
+    let today_vm = vm.clone();
     let today_ui = ui.clone();
-    let now_date = today;
+    let new_ui = ui.clone();
+    let date = calendar_date(day);
+    let choose = ui.clone();
+    let menu = ui.menu;
+    let previous_vm = vm.clone();
+    let previous_ui = ui.clone();
+    let next_vm = vm.clone();
+    let next_ui = ui.clone();
+    let jump = ui.clone();
+    let jump_date = calendar_date(day);
     let bar = app_bar(
         vec![
-            action(Icon::Plus, "new", move || {
-                edit(
-                    add_vm.clone(),
-                    add_ui.clone(),
-                    CalendarEvent {
-                        date: add_date.clone(),
-                        time: "09:00".into(),
-                        duration_minutes: 60,
-                        ..CalendarEvent::default()
-                    },
-                )
-            }),
             action(Icon::Calendar, "today", move || {
-                today_ui.calendar_month.set(0);
-                today_ui.calendar_date.set(now_date.clone());
+                let date = calendar_date(today_vm.local_now().div_euclid(86_400));
+                today_ui.calendar.date.set(date);
+                today_ui.calendar.expanded_day.set(None);
+            }),
+            action(Icon::Plus, "new", move || {
+                commands::new_event(&new_ui, date.clone(), 9 * 60)
+            }),
+            action(Icon::List, "view", move || {
+                choose.calendar.picker.set(Some(CalendarPicker::View))
+            }),
+            action(Icon::More, "more", move || menu.set(!menu.get_untracked())),
+        ],
+        ui.menu.get(),
+        vec![
+            flat(&format!("previous {}", mode.label()), move || {
+                previous_ui.menu.set(false);
+                move_period(&previous_vm, &previous_ui, -1);
+            }),
+            flat(&format!("next {}", mode.label()), move || {
+                next_ui.menu.set(false);
+                move_period(&next_vm, &next_ui, 1);
+            }),
+            flat("jump to date", move || {
+                jump.menu.set(false);
+                jump.calendar
+                    .date_value
+                    .set(session::date_value(&jump_date));
+                jump.calendar.picker.set(Some(CalendarPicker::JumpDate));
             }),
         ],
-        false,
-        Vec::new(),
     );
-    page("calendar", scroll(body.into()), bar)
+    rsx! {Grid{name:"CalendarPage",row_definitions:"Auto,*,Auto",clip_to_bounds:true,
+        {heading(&vm,&ui,day,mode)}
+        Border{Grid.row:1,{body}}
+        Border{Grid.row:2,{bar}}
+    }}
 }
 
-fn selected_date(ui: &Session, year: i32, month: u32, today: &str) -> String {
-    let selected = ui.calendar_date.get();
-    let prefix = format!("{year:04}-{month:02}-");
-    if selected.starts_with(&prefix) && NaiveDate::parse_from_str(&selected, "%Y-%m-%d").is_ok() {
-        selected
-    } else if today.starts_with(&prefix) {
-        today.to_owned()
-    } else {
-        date_string(year, month, 1)
-    }
-}
-
-fn display_date(vm: &PhoneViewModel, value: &str) -> String {
-    NaiveDate::parse_from_str(value, "%Y-%m-%d")
-        .map(|date| {
-            vm.data()
-                .settings
-                .date_order
-                .format(date.year(), date.month(), date.day())
-        })
-        .unwrap_or_else(|_| value.to_owned())
-}
-
-fn move_period(
-    ui: &Session,
-    date: &str,
-    mode: usize,
-    direction: i32,
-    current_year: i32,
-    current_month: u32,
-) {
-    let Ok(date) = NaiveDate::parse_from_str(date, "%Y-%m-%d") else {
-        return;
-    };
-    let next = if mode == 0 {
-        let index = date.year() * 12 + date.month() as i32 - 1 + direction;
-        let year = index.div_euclid(12);
-        let month = index.rem_euclid(12) as u32 + 1;
-        if !(1..=9999).contains(&year) {
-            return;
-        }
-        NaiveDate::from_ymd_opt(year, month, date.day().min(days_in_month(year, month)))
-    } else {
-        date.checked_add_signed(Duration::days(
-            direction as i64 * if mode == 1 { 7 } else { 1 },
-        ))
-    };
-    if let Some(next) = next.filter(|date| (1..=9999).contains(&date.year())) {
-        ui.calendar_month
-            .set(next.year() * 12 + next.month() as i32 - current_year * 12 - current_month as i32);
-        ui.calendar_date.set(next.format("%Y-%m-%d").to_string());
-    }
-}
-
-fn month_grid(
-    vm: &PhoneViewModel,
-    ui: &Session,
-    year: i32,
-    month: u32,
-    today: &str,
-    selected: &str,
-    events: &[CalendarEvent],
-) -> Element {
-    let mut cells = grid()
-        .column_definitions("*,*,*,*,*,*,*")
-        .row_definitions("26,46,46,46,46,46,46")
-        .row_spacing(2.0)
-        .column_spacing(2.0)
-        .margin((16.0, 0.0));
-    let monday = vm.data().settings.first_day_monday;
-    let headings = if monday {
-        ["m", "t", "w", "t", "f", "s", "s"]
-    } else {
-        ["s", "m", "t", "w", "t", "f", "s"]
-    };
-    for (column, day) in headings.into_iter().enumerate() {
-        cells=cells.child(rsx!{TextBlock{Grid.column:column as i32,text:day,font_size:16.0,foreground:"#929292",horizontal_alignment:H::Center}});
-    }
-    let first = (first_weekday(year, month) + if monday { 0 } else { 1 }) % 7;
-    for day in 1..=days_in_month(year, month) {
-        let date = date_string(year, month, day);
-        let offset = first + day as usize - 1;
-        let active = date == selected;
-        let is_today = date == today;
-        let count = events.iter().filter(|event| event.date == date).count();
-        let chosen = ui.calendar_date;
-        let color = accent(vm);
-        cells=cells.child(rsx!{Button{Grid.row:(offset/7+1)as i32,Grid.column:(offset%7)as i32,class:"phone-flat",
-            background:if active{color.as_str()}else{"Transparent"},foreground:if active{"White"}else{vm.data().settings.foreground()},
-            border_brush:if is_today{color.as_str()}else{"Transparent"},border_thickness:if is_today{2.0}else{0.0},padding:2.0,
-            horizontal_alignment:H::Stretch,automation_properties_name:format!("{date}, {count} appointments"),
-            on_click:move |_|chosen.set(date.clone()),
-            StackPanel{spacing:0.0,horizontal_alignment:H::Center,
-                TextBlock{text:day.to_string(),font_size:22.0,horizontal_alignment:H::Center}
-                TextBlock{text:if count>0{"•"}else{""},font_size:11.0,line_height:11.0,horizontal_alignment:H::Center}
-            }
-        }});
-    }
-    cells.into()
-}
-
-fn event_list(
-    vm: Rc<PhoneViewModel>,
-    ui: Rc<Session>,
-    events: &[CalendarEvent],
-    date: &str,
-    large_empty: bool,
-) -> Element {
-    let matches = events
-        .iter()
-        .filter(|event| event.date == date)
-        .cloned()
-        .collect::<Vec<_>>();
-    if matches.is_empty() {
-        return if large_empty {
-            empty(
-                "No appointments",
-                "Your day is clear. Tap new to add an event.",
+fn heading(vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, day: i64, mode: CalendarView) -> Element {
+    let (year, month, date) = date_parts(day * 86_400);
+    let advance_vm = vm.clone();
+    let advance_ui = ui.clone();
+    let (title, subtitle, next) = match mode {
+        CalendarView::Day => (
+            weekday_name(day * 86_400).to_lowercase(),
+            format!("{date} {} {year}", month_name(month).to_lowercase()),
+            weekday_name((day + 1) * 86_400).to_lowercase(),
+        ),
+        CalendarView::Week => {
+            let monday = vm.data().settings.first_day_monday;
+            let start = day - (day + if monday { 3 } else { 4 }).rem_euclid(7);
+            let (_, first_month, first_day) = date_parts(start * 86_400);
+            let (_, last_month, last_day) = date_parts((start + 6) * 86_400);
+            (
+                month_name(month).to_lowercase(),
+                format!(
+                    "{first_day} {} – {last_day} {} {year}",
+                    month_name(first_month).to_lowercase(),
+                    month_name(last_month).to_lowercase()
+                ),
+                "next week".into(),
             )
-        } else {
-            rsx! {Border{margin:(20.0,4.0),{muted("No appointments",15.0)}}}
-        };
-    }
-    let rows=matches.into_iter().map(|event| {
-        let model=vm.clone();let state=ui.clone();let editable=event.clone();let remove=vm.clone();let confirm=ui.clone();let id=event.id;
-        let subtitle=format!("{} · {} min{}",event.time,event.duration_minutes,if event.location.is_empty(){String::new()}else{format!(" · {}",event.location)});
-        rsx!{Grid{column_definitions:"*,Auto",
-            {row(&event.title,&subtitle,move ||edit(model.clone(),state.clone(),editable.clone()))}
-            Border{Grid.column:1,{action(Icon::Delete,"delete",move ||{let model=remove.clone();confirm.confirm("delete this appointment?",Rc::new(move ||model.delete_event(id)));})}}
-        }}
-    }).collect::<Vec<_>>();
-    rsx! {StackPanel{for row in rows {{row}}}}
+        }
+        CalendarView::Month => (
+            month_name(month).to_lowercase(),
+            year.to_string(),
+            month_name(month % 12 + 1).to_lowercase(),
+        ),
+        CalendarView::Year => (year.to_string(), "calendar".into(), (year + 1).to_string()),
+    };
+    rsx! {StackPanel{margin:(14.0,8.0,0.0,12.0),spacing:3.0,clip_to_bounds:true,
+        TextBlock{text:subtitle,font_size:13.0}
+        StackPanel{orientation:Orientation::Horizontal,spacing:14.0,
+            TextBlock{name:"CalendarHeading",text:title,font_size:42.0,font_weight:FontWeight::Light,text_wrapping:TextWrapping::NoWrap}
+            Button{class:"phone-flat",padding:0.0,min_height:50.0,automation_properties_name:format!("Next {}",mode.label()),
+                horizontal_content_alignment:H::Left,on_click:move|_|move_period(&advance_vm,&advance_ui,1),
+                TextBlock{text:next,font_size:42.0,font_weight:FontWeight::Light,foreground:vm.data().settings.secondary(),text_wrapping:TextWrapping::NoWrap}}
+        }
+    }}
 }
 
-fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, event: CalendarEvent) {
-    let error = ui.form_error;
-    let id = event.id;
-    ui.form(
-        if id == 0 {
-            "new appointment"
-        } else {
-            "edit appointment"
-        },
-        vec![
-            ("subject", event.title),
-            ("date (YYYY-MM-DD)", event.date),
-            ("time (HH:MM)", event.time),
-            ("duration in minutes", event.duration_minutes.to_string()),
-            ("location", event.location),
-            ("details", event.details),
-        ],
-        Rc::new(move |values| {
-            let field = |index| values.get(index).cloned().unwrap_or_default();
-            let title = field(0).trim().to_owned();
-            let date = field(1).trim().to_owned();
-            let time = field(2).trim().to_owned();
-            if title.is_empty() {
-                error.set("Add a subject for your appointment.".into());
-                return;
-            }
-            if !NaiveDate::parse_from_str(&date, "%Y-%m-%d")
-                .is_ok_and(|date| (1..=9999).contains(&date.year()))
-            {
-                error.set("Enter a valid date as YYYY-MM-DD.".into());
-                return;
-            }
-            if chrono::NaiveTime::parse_from_str(&time, "%H:%M").is_err() {
-                error.set("Enter a valid time as HH:MM.".into());
-                return;
-            }
-            let Ok(duration_minutes) = field(3).trim().parse::<u32>() else {
-                error.set("Enter the duration in minutes.".into());
-                return;
+pub fn selected_day(vm: &PhoneViewModel, ui: &Session) -> i64 {
+    calendar_day(&ui.calendar.date.get()).unwrap_or_else(|| vm.local_now().div_euclid(86_400))
+}
+
+pub fn can_swipe(ui: &Session) -> bool {
+    ui.calendar.editor.get_untracked().is_none()
+        && ui.calendar.picker.get_untracked().is_none()
+        && ui.calendar.selected.get_untracked().is_none()
+        && ui.calendar.scope.get_untracked().is_none()
+}
+
+pub fn move_period(vm: &PhoneViewModel, ui: &Session, direction: i32) {
+    if !can_swipe(ui) {
+        return;
+    }
+    let day = calendar_day(&ui.calendar.date.get_untracked())
+        .unwrap_or_else(|| vm.local_now().div_euclid(86_400));
+    let (year, month, date) = date_parts(day * 86_400);
+    let next = match ui.calendar.view.get_untracked() {
+        CalendarView::Day => day.saturating_add(i64::from(direction)),
+        CalendarView::Week => day.saturating_add(i64::from(direction) * 7),
+        CalendarView::Month | CalendarView::Year => {
+            let step = if ui.calendar.view.get_untracked() == CalendarView::Year {
+                12
+            } else {
+                1
             };
-            if duration_minutes == 0 || duration_minutes > 10080 {
-                error.set("Duration must be between 1 minute and 7 days.".into());
+            let index = year * 12 + month as i32 - 1 + direction * step;
+            let year = index.div_euclid(12);
+            let month = index.rem_euclid(12) as u32 + 1;
+            if !(1..=9999).contains(&year) {
                 return;
             }
-            vm.save_event(CalendarEvent {
-                id,
-                title,
-                date,
-                time,
-                duration_minutes,
-                location: field(4),
-                details: field(5),
-            });
-        }),
-    );
+            days_from_date(year, month, date.min(days_in_month(year, month)))
+        }
+    };
+    if (days_from_date(1, 1, 1)..=days_from_date(9999, 12, 31)).contains(&next) {
+        ui.calendar.date.set(calendar_date(next));
+        ui.calendar.expanded_day.set(None);
+    }
+}
+
+pub fn long_date(value: &str) -> String {
+    calendar_day(value)
+        .map(|day| {
+            let (year, month, date) = date_parts(day * 86_400);
+            format!(
+                "{}, {date} {} {year}",
+                weekday_name(day * 86_400),
+                month_name(month)
+            )
+        })
+        .unwrap_or_else(|| value.to_owned())
 }

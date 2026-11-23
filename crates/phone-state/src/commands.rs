@@ -29,10 +29,23 @@ impl PhoneViewModel {
                 }
                 _ => {}
             }
+            let schedule_changed = matches!(
+                &action,
+                Action::Calendar(_)
+                    | Action::SaveEvent(_)
+                    | Action::DeleteEvent(_)
+                    | Action::SaveAlarm(_)
+                    | Action::DeleteAlarm(_)
+                    | Action::ToggleAlarm(_)
+            );
             let result =
                 crate::mutation::mutate(&mut self.document.borrow_mut(), action, self.now());
             match result {
                 Ok(true) => {
+                    if schedule_changed {
+                        self.schedule_revision
+                            .set(self.schedule_revision.get().wrapping_add(1));
+                    }
                     self.document.borrow_mut().clean_tile_targets();
                     self.repair_navigation();
                     self.synchronize();

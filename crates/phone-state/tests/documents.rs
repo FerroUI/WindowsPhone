@@ -160,3 +160,86 @@ fn import_returns_committed_identity_and_rejects_reentrant_insertion() {
     assert_eq!(saves.get(), 2);
     assert!(vm.status().is_empty());
 }
+
+#[test]
+fn file_batches_validate_all_ids_deduplicate_and_persist_once() {
+    let saves = Rc::new(Cell::new(0));
+    let saved = saves.clone();
+    let vm = PhoneViewModel::new(
+        PhoneData::default(),
+        Rc::new(move |_| saved.set(saved.get() + 1)),
+    );
+    vm.save_document(OfficeDocument::blank(
+        DocumentKind::Word,
+        "First".into(),
+        None,
+    ));
+    vm.save_document(OfficeDocument::blank(
+        DocumentKind::Word,
+        "Second".into(),
+        None,
+    ));
+    let a = vm.data().documents[0].id;
+    let b = vm.data().documents[1].id;
+    let before = vm.data().clone();
+    let count = saves.get();
+    for action in [
+        DocumentAction::Delete(vec![a, u64::MAX]),
+        DocumentAction::CopyMany {
+            ids: vec![a, u64::MAX],
+            folder: None,
+        },
+        DocumentAction::Move {
+            ids: vec![a, u64::MAX],
+            folder: None,
+        },
+        DocumentAction::Move {
+            ids: vec![a],
+            folder: Some(u64::MAX),
+        },
+    ] {
+        vm.clear_status();
+        vm.document_action(action);
+        assert!(!vm.status().is_empty());
+        assert_eq!(*vm.data(), before);
+        assert_eq!(saves.get(), count);
+    }
+    vm.clear_status();
+    vm.document_action(DocumentAction::CopyMany {
+        ids: vec![a, a, b, b],
+        folder: None,
+    });
+    assert_eq!(vm.data().documents.len(), 4);
+    assert_eq!(vm.data().next_id, before.next_id + 2);
+    assert_eq!(saves.get(), count + 1);
+    vm.document_action(DocumentAction::Delete(vec![a, a, b, b]));
+    assert_eq!(vm.data().documents.len(), 2);
+    assert_eq!(saves.get(), count + 2);
+}
+
+#[test]
+fn moving_to_the_same_folder_and_renaming_to_the_same_name_are_noops() {
+    let mut data = PhoneData::default();
+    let id = data.next_id;
+    data.next_id += 1;
+    data.documents.push(OfficeDocument {
+        id,
+        modified: 1,
+        name: "Unchanged".into(),
+        ..Default::default()
+    });
+    let original = data.clone();
+    let saves = Rc::new(Cell::new(0));
+    let saved = saves.clone();
+    let vm = PhoneViewModel::new(data, Rc::new(move |_| saved.set(saved.get() + 1)));
+    vm.document_action(DocumentAction::Move {
+        ids: vec![id, id],
+        folder: None,
+    });
+    vm.document_action(DocumentAction::Rename {
+        id,
+        name: " Unchanged ".into(),
+    });
+    assert_eq!(*vm.data(), original);
+    assert_eq!(saves.get(), 0);
+}

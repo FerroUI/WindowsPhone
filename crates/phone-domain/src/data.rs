@@ -171,6 +171,10 @@ impl PhoneData {
         }
         self.next_id = self.next_id.max(max_id + 1).max(1_000);
         crate::documents::validate_library(&self.documents, &self.document_folders)?;
+        crate::validate_calendar_events(&self.events)?;
+        if self.alarms.len() > crate::MAX_ALARMS {
+            return Err("The phone can hold up to 256 alarms.".into());
+        }
         self.settings.normalize();
         self.browser.normalize()?;
         self.settings.volume = self.settings.volume.min(30);
@@ -198,6 +202,9 @@ impl PhoneData {
             alarm.weekdays.retain(|day| *day < 7);
             alarm.weekdays.sort_unstable();
             alarm.weekdays.dedup();
+            if !crate::ALARM_SNOOZE_MINUTES.contains(&alarm.snooze_minutes) {
+                alarm.snooze_minutes = crate::default_alarm_snooze();
+            }
         }
         self.normalize_tiles()?;
         let fallback = Settings::default().quick_actions;

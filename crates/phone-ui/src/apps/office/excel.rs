@@ -3,6 +3,7 @@ use ferroui_base::layout::Orientation;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use phone_controls::{action, app_bar, flat};
 use phone_domain::{DocumentContent, Id, Worksheet, cell_address, cell_coordinates, display_cell};
+mod commands;
 
 pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -> Element {
     let DocumentContent::Excel(workbook) = &document.content else {
@@ -14,6 +15,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
     let row_start = ui.office.row_page.get().min(833) * page_rows;
     let col_start = ui.office.col_page.get().min(42) * 6;
     let id = document.id;
+    let selection = commands::selection(&ui, id, index);
     let mut grid = grid()
         .column_definitions("36,96,96,96,96,96,96")
         .row_definitions("32,42,42,42,42,42,42,42,42,42,42,42,42");
@@ -41,9 +43,10 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
             let model = vm.clone();
             let state = ui.clone();
             let target = address.clone();
+            let selected = selection.contains(col_start + col, row_start + row);
             grid=grid.child(rsx!{Button{Grid.row:(row+1)as i32,Grid.column:(col+1)as i32,class:"phone-flat",padding:(5.0,2.0),min_width:0.0,min_height:0.0,
                 horizontal_alignment:H::Stretch,vertical_alignment:V::Stretch,horizontal_content_alignment:H::Left,
-                automation_properties_name:format!("Cell {address}"),automation_properties_help_text:value.clone(),background:"White",border_brush:"#D4D4D4",border_thickness:(0.0,0.0,1.0,1.0),
+                automation_properties_name:format!("Cell {address}"),automation_properties_help_text:value.clone(),background:if selected{"#E2F0D9"}else{"White"},border_brush:if selected{"#107C41"}else{"#D4D4D4"},border_thickness:if selected{(1.0,1.0,1.0,1.0)}else{(0.0,0.0,1.0,1.0)},
                 on_click:move|_|edit_cell(model.clone(),state.clone(),id,index,target.clone()),
                 TextBlock{text:value,font_size:17.0,foreground:"#202020"}}});
         }
@@ -66,6 +69,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
     let body = rsx! {StackPanel{spacing:4.0,
         Border{margin:(20.0,4.0),{text(&document.name,28.0)}}
         {compatibility(&document)}
+        Border{margin:(20.0,0.0,20.0,6.0),TextBlock{name:"ExcelSelection",text:selection.label(),font_size:18.0,foreground:"#107C41"}}
         ScrollViewer{horizontal_scroll_bar_visibility:ScrollBarVisibility::Auto,vertical_scroll_bar_visibility:ScrollBarVisibility::Disabled,{tabs}}
         ScrollViewer{horizontal_scroll_bar_visibility:ScrollBarVisibility::Auto,vertical_scroll_bar_visibility:ScrollBarVisibility::Disabled,margin:(10.0,0.0),{grid}}
         StackPanel{orientation:Orientation::Horizontal,horizontal_alignment:H::Center,spacing:12.0,
@@ -90,7 +94,30 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
     let sheet_ui = ui.clone();
     let help = vm.clone();
     let pin = vm.clone();
-    let menu = vec![
+    let mut menu = Vec::new();
+    for (label, command) in [
+        ("find", 0),
+        ("select cells", 1),
+        ("autosum", 2),
+        ("sort", 3),
+        ("clear contents", 4),
+    ] {
+        let model = vm.clone();
+        let state = ui.clone();
+        menu.push(flat(label, move || match command {
+            0 => commands::find(model.clone(), state.clone(), id, index),
+            1 => commands::select(state.clone(), id, index),
+            2 => commands::autosum(model.clone(), state.clone(), id, index),
+            3 => commands::sort(model.clone(), state.clone(), id, index),
+            _ => commands::clear(model.clone(), state.clone(), id, index),
+        }));
+    }
+    let files_vm = vm.clone();
+    let files_ui = ui.clone();
+    menu.extend(vec![
+        flat("share", move || {
+            super::commands::share_files(files_vm.clone(), files_ui.clone(), vec![id])
+        }),
         flat("rename workbook", move || {
             super::commands::rename(rename_vm.clone(), rename_ui.clone(), rename_doc.clone())
         }),
@@ -104,7 +131,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
         flat("formula help", move || {
             help.set_status("Formulas: + − * / ^ %, cell references, SUM, AVERAGE, MIN, MAX, COUNT, ABS and ROUND. Example: =SUM(A1:A10).".into())
         }),
-    ];
+    ]);
     page(
         "excel",
         scroll(body),
@@ -134,6 +161,9 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
 }
 
 fn edit_cell(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id, sheet: usize, address: String) {
+    ui.office
+        .excel_selection
+        .set(Some((id, sheet, address.clone())));
     let value = vm
         .data()
         .document(id)
@@ -169,7 +199,7 @@ fn edit_cell(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id, sheet: usize, addr
         }),
     );
 }
-fn goto(vm: Rc<PhoneViewModel>, ui: Rc<Session>, _id: Id, _sheet: usize) {
+fn goto(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id, sheet: usize) {
     let state = ui.clone();
     ui.form(
         "go to cell",
@@ -184,6 +214,10 @@ fn goto(vm: Rc<PhoneViewModel>, ui: Rc<Session>, _id: Id, _sheet: usize) {
             if let Some((column, row)) = cell_coordinates(&address) {
                 state.office.row_page.set(row / 12);
                 state.office.col_page.set(column / 6);
+                state
+                    .office
+                    .excel_selection
+                    .set(Some((id, sheet, address.clone())));
                 vm.set_status(format!("{address}: tap its cell to edit."));
             } else {
                 state

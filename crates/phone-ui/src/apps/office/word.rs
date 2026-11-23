@@ -65,6 +65,11 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocu
             pin.pin_document(id);
             pin.home();
         }));
+        let files_vm = vm.clone();
+        let files_ui = ui.clone();
+        menu.push(flat("share", move || {
+            super::commands::share_files(files_vm.clone(), files_ui.clone(), vec![id])
+        }));
         let share_vm = vm.clone();
         let share_doc = document.clone();
         menu.push(flat("share text", move || {

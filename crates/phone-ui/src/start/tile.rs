@@ -1,5 +1,5 @@
-use super::{content, folders};
-use crate::{images, session::Session};
+use super::{content, folders, wallpaper};
+use crate::session::Session;
 use ferroui_base::input::HoldingState;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
@@ -41,23 +41,27 @@ pub(super) fn view(
     let launch = vm.clone();
     let edit = ui.clone();
     let context = ui.clone();
+    let tilt_ui = Rc::downgrade(&ui);
     let content = if is_folder {
         folders::cover(vm.clone(), ui.clone(), &tile, w, h)
     } else {
         content::view(vm.clone(), ui.clone(), &tile, w, h, badge)
     };
-    let mut visual = grid().clip_to_bounds(true).background(color.as_str());
+    let mut visual = grid()
+        .name(format!("TileVisual-{id}"))
+        .clip_to_bounds(true)
+        .background(color.as_str());
     if !wallpaper.is_empty() && (app.color().is_empty() || is_folder) && app != AppId::Photos {
-        visual = visual.child(
-            canvas().child(
-                border()
-                    .canvas_left(-x)
-                    .canvas_top(-y)
-                    .width(crate::shell::phone_size(&vm).0 - 28.0)
-                    .height(950.0)
-                    .child(images::photo(&wallpaper)),
-            ),
-        );
+        let (width, height, _) = crate::shell::phone_size(&vm);
+        visual = visual.child(wallpaper::view(
+            &ui,
+            id,
+            &wallpaper,
+            width - 28.0,
+            height - 80.0,
+            x,
+            y,
+        ));
         visual = visual.child(border().background("#33000000"));
     }
     visual = visual.child(content);
@@ -82,6 +86,7 @@ pub(super) fn view(
         );
     }
     let mut result=grid().child(rsx!{Button{key:format!("tile-{id}"),name:format!("Tile-{id}"),class:"phone-tile",width:w,height:h,padding:0.0,
+        with:move|button|{let ui=tilt_ui.clone();phone_controls::attach_press_tilt(button,move||ui.upgrade().is_some_and(|ui|ui.edit_tile.get_untracked().is_none()));},
         automation_properties_name:format!("{} tile",tile.label),horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
         automation_properties_help_text:if is_folder{format!("Folder, {} tiles. Hold to arrange.",tile.folder_tiles.len())}else{format!("{} tile{}. Hold to resize, move or unpin.",match tile.size{TileSize::Small=>"Small",TileSize::Medium=>"Medium",TileSize::Wide=>"Wide"},if badge>0{format!(", {badge} new items")}else{String::new()})},
         on_click:move|_|{

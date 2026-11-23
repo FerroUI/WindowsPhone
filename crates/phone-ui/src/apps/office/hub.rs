@@ -154,11 +154,6 @@ fn new_page(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     for (kind, name, detail) in [
         (DocumentKind::Word, "Word document", "A blank document"),
         (DocumentKind::Excel, "Excel workbook", "A blank workbook"),
-        (
-            DocumentKind::PowerPoint,
-            "PowerPoint presentation",
-            "A simple text presentation",
-        ),
     ] {
         let model = vm.clone();
         let state = ui.clone();

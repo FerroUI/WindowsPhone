@@ -8,11 +8,11 @@ The visual and interaction target is **Windows Phone 8.1 Update (2014)**, includ
 
 | Surface | Reference behavior | Implementation consequence |
 | --- | --- | --- |
-| Start | An optional image shows through supported system tiles. | Keep the selected dark/light background visible between tiles; align the image across transparent tile interiors. [1] |
+| Start | An optional image shows through supported transparent tiles. | Keep the dark/light background visible between tiles; align one image across tile interiors and preserve opaque branded tiles. [1][29] |
 | Live folders | Drag a tile over another, name the folder, then expand it to arrange and resize children. Children keep their live content. | Preserve child identity and data; expand folders inside Start rather than in a generic modal. [2] |
 | Pinned content | Folders can include apps, people, websites, maps, notes and other pinned items. | Model destinations separately from tile presentation. [3] |
-| Navigation | Start and the alphabetical Apps list are adjacent horizontal views; Apps offers search and letter jumps. Back traverses history; holding Back exposes recent apps. Start preserves the current app. | Keep a navigation journal and per-app state. [4] |
-| Tiles | Small, medium and wide; holding enables move, resize and unpin. | Use a stable packing model and persist layout changes. [4] |
+| Navigation | Start and the alphabetical Apps list are adjacent horizontal views; Apps offers search and letter jumps. Grouped lists retain a header until the following header pushes it away. Back traverses history; holding Back exposes recent apps. | Keep a navigation journal and per-app state; derive letter jumps and sticky push-off from measured native layout. [4][27] |
+| Tiles | Small, medium and wide; holding enables move, resize and unpin. Press/selection tilt supplies location-sensitive feedback. | Keep layout/input bounds stable while projecting content; validate motion against original-device traces. [4][26] |
 | Live tile content | Photos cycle through pictures, People tiles change individual contact images, and wide tiles expose app-specific information. | Use stable keyed content and bounded, staggered updates. Disable animation for reduced motion and Battery Saver; this does not recreate an OS background-agent service. [21] |
 | Lock | Drag upward to unlock; a photo background, five quick-status slots and one detailed-status provider are configurable. | Implement reversible drag and provider-driven status. A locked camera originally restricted gallery viewing/deletion until unlock; that behavior remains a fidelity gap. [4][19] |
 | Action Center | Pull down from the top; partial opening exposes quick actions. Notifications support app-group dismissal and a two-finger clear gesture. | Keep the drawer separate from navigation history, preserve deep links and distinguish per-app Action Center/banner/sound/vibration preferences. [5][19] |
@@ -23,8 +23,12 @@ The visual and interaction target is **Windows Phone 8.1 Update (2014)**, includ
 | Pivot and Panorama | In-app sections are reached horizontally, with strong typographic hierarchy. | Resolve horizontal section navigation separately from vertical scrolling. [6] |
 | Browser | IE11 offers unlimited tabs, frequent sites, favorites, history, Reading View and pinned sites. The address-bar button can be assigned to tabs, favorites or refresh. | Persist local tabs and app-initiated navigation journals; expose the address shortcut and external-open path. Explicitly document local bounds and the host's cross-origin navigation boundary. [7][22] |
 | Keyboard | Word Flow includes gesture trails, suggestions, contextual correction and contact names. | A host keyboard is a compatibility choice, not full Word Flow parity. [8] |
-| Files | Browse phone/SD content, search, create folders, copy/move files, rename/delete and share. Folder properties report storage use. | Use a real library and explicit storage scope; preserve selected-file actions and hierarchy. [15][16] |
-| Office | Recent/places views open Word, Excel and PowerPoint documents. Word supports editing, find, formatting and pinning; Excel switches worksheets; PowerPoint offers slides and speaker notes. | Provide native document workflows and actual interchange, while identifying unsupported document structures and cloud services. [17] |
+| Files | Browse phone/SD content, search, create folders, copy/move files, rename/delete and share. Folder properties report storage use; the guide explicitly excludes copying/moving folders. | Preserve selected-file actions and hierarchy. Label local document measurements accurately; folder copy/move is not an original parity requirement. [15][16][17] |
+| Calendar | Daily, weekly, monthly and yearly views; period swipes; month/day drill-down. More details includes duration, reminder, recurrence and availability. | Share occurrence queries between native views, Start and lock; preserve single-occurrence versus series edits. Account colors/sync, tasks and calendar weather remain separate gaps. [17][24][25] |
+| Alarms | Change snooze duration while an alert is visible; Back snoozes an alarm for two minutes. | Keep transient alert/snooze state separate from stored definitions, and preserve the interrupted draft. Foreground app timing cannot reproduce OS wake-up. [17] |
+| Pickers | Windows Phone date/time pickers have phone-specific presentation and interaction, distinct from desktop Windows. | Retain native selection and binding while tracking full-screen phone composition as unfinished; styling a WinUI popup is not visual parity. [28] |
+| Office | Recent/places views; New offers Word and Excel. PowerPoint opens existing presentations for text and note edits. | Preserve the original creation boundary; provide real package interchange and explicitly identify unsupported structures/cloud services. [17][31] |
+| Excel | Select a range and choose AutoSum sum/average/max/min/count; an aggregate result follows the selection. Formatting, charts and worksheet navigation also exist. | Implement validated native range commands and document remaining touch handles, formatting/chart and selection-gesture gaps. [17][30] |
 
 ## Visual implementation principles
 
@@ -45,7 +49,7 @@ The shell and local data workflows can be reproduced as an application. A browse
 | Camera | Actual capture uses browser media access; HTTPS and permission are required. Denial, missing hardware and an unanswered prompt are handled states. [12] |
 | Contacts | Local contact data is independent from the host address book. Browser Contact Picker support is limited and only shares entries selected by the user. [13] |
 | Web pages | A site may prohibit embedding using `X-Frame-Options` or CSP; opening externally remains available. [14] |
-| Alarms and lock | Foreground alarm checks and an in-app lock do not replace reliable OS background alarms or host-device authentication. |
+| Alarms and lock | Shared Rust foreground checks and an in-app lock do not replace OS background alarms or device authentication. Browser alerts use a synthetic ringer-scaled tone; the desktop audio adapter is absent. |
 | Notification preferences | Action Center filtering is active. Saved per-app banner, sound and vibration flags do not currently produce independent host alerts. |
 | Battery and storage | Optional host battery observations may be unavailable. Local JSON document sizes are not physical phone capacity, per-app power usage or carrier data usage. |
 
@@ -75,6 +79,12 @@ The shell and local data workflows can be reproduced as an application. A browse
 - Hide one app's Action Center items without deleting them, then show and dismiss that app's group.
 - Select several local mail items, delete them, restore one from deleted items and permanently delete another.
 - Search a thread by body text, forward a held message, cancel composition and delete only that message.
+- Pan day/week/month/year Calendar periods; inspect inline month appointments and separate overlapping day-view hit regions.
+- Edit one recurring occurrence without changing its neighbors; cancel native picker/editor changes; reload all-day/repeat/reminder preferences.
+- Interrupt a draft with an alarm, snooze using Back and the duration chooser, then restore the exact draft; open a recurring reminder on its actual date.
+- Scroll a long Start layout and compare shared wallpaper alignment; press different tile positions without changing input bounds, including reduced-motion/Battery Saver cases.
+- Select an Excel range, create an aggregate outside it, find across sheets, sort values with a retained header, and reject formula relocation atomically.
+- Inspect a generated document's actual package size; share a selected set without mutating its identifiers or silently including a stale selection.
 
 ## Primary references
 
@@ -95,7 +105,7 @@ The shell and local data workflows can be reproduced as an application. A browse
 
 15. [Microsoft: Introducing Files for Windows Phone 8.1, 30 May 2014](https://blogs.windows.com/windowsexperience/2014/05/30/introducing-files-a-file-management-app-for-windows-phone-8-1/)
 16. [Microsoft Devices: Files official file manager, 9 June 2014](https://blogs.windows.com/devices/2014/06/09/files-official-file-manager-windows-phone-8-1/)
-17. [Microsoft Mobile: Lumia with Windows Phone 8.1 Update user guide, 2015](https://www.bhphotovideo.com/lit_files/294642.pdf), printed pages 63 and 68–70 (contacts/messages), 74–76 (mail), 108–110 (Office) and 124–125 (Files). This is the Update guide, distinct from the Update 2 guide above.
+17. [Microsoft Mobile: Lumia with Windows Phone 8.1 Update user guide, 2015](https://www.bhphotovideo.com/lit_files/294642.pdf), printed pages 48–50 (alarms/calendar), 63 and 68–70 (contacts/messages), 74–76 (mail), 108–110 (Office) and 124 (Files). This is the Update guide, distinct from the Update 2 guide above.
 18. [Microsoft: 4 ways to personalize the sounds on your Windows Phone, 19 June 2014](https://blogs.windows.com/windowsexperience/2014/06/19/4-ways-to-personalize-the-sounds-on-your-windows-phone/)
 19. [Microsoft: 6 tips for using Lock screen and Action Center, 7 November 2014](https://blogs.windows.com/windowsexperience/2014/11/07/fast-not-furious-6-tips-for-using-lock-screen-and-action-center-on-the-go/)
 20. [Microsoft: Lumia 430 reviewer guide](https://news.microsoft.com/wp-content/uploads/prod/2016/04/Lumia_430-ReviewersGuide.pdf), PDF pages 8–11 (hardware buttons, Action Center, Battery Saver and SMS merge/forwarding).
@@ -104,4 +114,11 @@ The shell and local data workflows can be reproduced as an application. A browse
 
 23. [Microsoft Selawik source and known differences](https://github.com/microsoft/Selawik) and [release 1.01](https://github.com/microsoft/Selawik/releases/tag/1.01), the open Segoe UI replacement used as the portable font. Original Segoe WP metrics are a separate comparison target.
 
-Additional original overview: [Microsoft's Windows Phone 8.1 announcement, 2 April 2014](https://blogs.windows.com/windowsexperience/2014/04/02/cortana-yes-and-many-many-other-great-features-coming-in-windows-phone-8-1/).
+24. [Microsoft: Windows Phone 8.1 announcement, 2 April 2014](https://blogs.windows.com/windowsexperience/2014/04/02/cortana-yes-and-many-many-other-great-features-coming-in-windows-phone-8-1/), including the new week view and calendar period panning.
+25. [Microsoft Devices: Get more out of your Windows Phone 8.1 calendar for Lumia, 15 May 2015](https://blogs.windows.com/devices/2015/05/15/get-more-out-of-your-windows-phone-8-1-calendar-for-lumia/), original month/inline-day screenshots and account calendar colors/synchronization. These images inform the target; they do not certify the recreated layout.
+26. [Microsoft Visual Basic team: Windows Phone control tilt effect, 2 March 2011](https://devblogs.microsoft.com/vbteam/visual-basic-windows-phone-7-series-5-how-to-create-a-control-tilt-effect-application-for-windows-phone-7/), original platform interaction technique rather than a measured 8.1 device timing specification.
+27. [Microsoft: Windows Phone 8 XAML LongListSelector, 23 May 2013](https://blogs.windows.com/windowsdeveloper/2013/05/23/windows-phone-8-xaml-longlistselector/), sticky headers, push-off and inactive jump groups.
+28. [Microsoft: Tips and tricks for XAML controls in universal Windows apps, 22 July 2014](https://blogs.windows.com/windowsdeveloper/2014/07/22/tips-and-tricks-for-using-xaml-controls-in-your-universal-windows-apps/), Windows Phone jump-list and date/time picker behavior.
+29. [Microsoft: Make your tiles transparent for Windows Phone 8.1, 19 May 2014](https://blogs.windows.com/windowsdeveloper/2014/05/19/developers-make-your-tiles-transparent-for-windows-phone-8-1/), the transparency requirement for Start backgrounds.
+30. [Microsoft Devices: How and why — Excel Mobile on your Lumia, 4 June 2013](https://blogs.windows.com/devices/2013/06/04/how-and-why-excel-mobile-on-your-lumia/), range selection, five AutoSum choices, formatting and chart capabilities.
+31. [Microsoft Devices: PowerPoint Mobile on your Nokia Lumia, 8 July 2013](https://blogs.windows.com/devices/2013/07/08/powerpoint-mobile-on-your-nokia-lumia/), existing-presentation editing and the absence of phone-side presentation creation.

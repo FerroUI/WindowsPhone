@@ -147,6 +147,7 @@ pub fn demo() -> PhoneData {
             duration_minutes: 60,
             location: "The corner café".into(),
             details: "Bring the photos from our trip.".into(),
+            ..CalendarEvent::default()
         },
         CalendarEvent {
             id: 402,
@@ -156,6 +157,7 @@ pub fn demo() -> PhoneData {
             duration_minutes: 90,
             location: "Lakeside park".into(),
             details: String::new(),
+            ..CalendarEvent::default()
         },
     ];
     data.notes=vec![
@@ -169,6 +171,7 @@ pub fn demo() -> PhoneData {
         minute: 0,
         enabled: true,
         weekdays: vec![0, 1, 2, 3, 4],
+        ..Alarm::default()
     }];
     data.photos = ["mountains", "coast", "forest", "city"]
         .into_iter()

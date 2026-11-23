@@ -24,8 +24,8 @@ try{
   for(const type of ['pointerup','keyup'])document.addEventListener(type,()=>{requestAnimationFrame(refreshSurfaces);setTimeout(refreshSurfaces,80);},{capture:true,passive:true});
   const update=()=>{
     if(document.hidden)return;
-    runtime.tick(now());
     runtime.setUtcOffset(utcOffset());
+    runtime.tick(now());
     serviceTick();const settings=JSON.parse(runtime.hostState()).settings;
     if(settings.lock_timeout>0&&Date.now()-lastActivity>settings.lock_timeout*1000){runtime.lockPhone();lastActivity=Date.now();refreshSurfaces();}
   };

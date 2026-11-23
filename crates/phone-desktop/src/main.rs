@@ -42,8 +42,9 @@ fn main() {
                         if let Some(vm) = ticking.upgrade() {
                             let date = chrono::Local::now();
                             vm.set_clock(date.timestamp());
-                            phone_ui::host_tick(date.timestamp());
                             vm.set_utc_offset(date.offset().local_minus_utc());
+                            phone_ui::host_tick(date.timestamp());
+                            phone_ui::alarm_tick(&vm);
                         }
                     },
                 );

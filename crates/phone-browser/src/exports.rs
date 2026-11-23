@@ -11,6 +11,7 @@ pub fn tick(now: f64) {
     if let Some(vm) = crate::app::model() {
         vm.set_clock(now as i64);
         phone_ui::host_tick(now as i64);
+        phone_ui::alarm_tick(&vm);
     }
 }
 #[wasm_bindgen(js_name=setEnvironment)]
@@ -136,14 +137,9 @@ pub fn browser_navigated(url: String) {
 }
 #[wasm_bindgen(js_name=alarmFired)]
 pub fn alarm_fired(id: f64) {
-    if let Some(vm) = crate::app::model() {
-        let once = vm
-            .data()
-            .alarms
-            .iter()
-            .any(|alarm| alarm.id == id as u64 && alarm.enabled && alarm.weekdays.is_empty());
-        if once {
-            vm.toggle_alarm(id as u64);
+    if id.is_finite() && id > 0.0 && id.fract() == 0.0 {
+        if let Some(vm) = crate::app::model() {
+            phone_ui::fire_alarm(&vm, id as u64);
         }
     }
 }

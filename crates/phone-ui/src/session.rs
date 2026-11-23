@@ -19,6 +19,10 @@ pub struct Session {
     pub(crate) live_clock: Signal<i64>,
     pub(crate) live_clock_enabled: Cell<bool>,
     pub hardware: crate::hardware::HardwareState,
+    pub alarms: crate::alarm::AlarmState,
+    pub app_list: crate::app_list::AppListState,
+    pub calendar: crate::apps::calendar::CalendarSession,
+    pub start_wallpaper: ferroui_base::Ref<ferroui_base::media::TranslateTransform>,
     pub office: crate::apps::office::OfficeSession,
     pub files: crate::apps::files::FilesSession,
     pub browser: crate::apps::services::BrowserSession,
@@ -30,8 +34,6 @@ pub struct Session {
     pub query: Signal<String>,
     pub entry: Signal<String>,
     pub menu: Signal<bool>,
-    pub calendar_month: Signal<i32>,
-    pub calendar_date: Signal<String>,
     pub mail_folder: Signal<String>,
     pub message_drafts: Signal<BTreeMap<u64, String>>,
     pub edit_tile: Signal<Option<u64>>,
@@ -70,6 +72,10 @@ impl Session {
             live_clock: signal(now),
             live_clock_enabled: Cell::new(false),
             hardware: crate::hardware::HardwareState::new(),
+            alarms: crate::alarm::AlarmState::new(),
+            app_list: crate::app_list::AppListState::default(),
+            calendar: crate::apps::calendar::CalendarSession::default(),
+            start_wallpaper: ferroui_base::media::TranslateTransform::new(),
             office: crate::apps::office::OfficeSession::default(),
             files: crate::apps::files::FilesSession::default(),
             browser: crate::apps::services::BrowserSession::default(),
@@ -81,8 +87,6 @@ impl Session {
             query: signal(String::new()),
             entry: signal(String::new()),
             menu: signal(false),
-            calendar_month: signal(0),
-            calendar_date: signal(String::new()),
             mail_folder: signal("inbox".into()),
             message_drafts: signal(BTreeMap::new()),
             edit_tile: signal(None),
@@ -165,6 +169,7 @@ impl Session {
             self.switcher_open.set(false);
         } else if self.menu.get_untracked() {
             self.menu.set(false);
+        } else if self.calendar.dismiss() || self.alarms.editor.dismiss() {
         } else if self.mail.dismiss() || self.messages.dismiss() {
             self.query.set(String::new());
         } else if self.office.show_new.get_untracked() {
@@ -172,6 +177,7 @@ impl Session {
         } else if self.office.show_find.get_untracked() {
             self.office.show_find.set(false);
             self.query.set(String::new());
+        } else if self.files.dismiss_properties() {
         } else if self.files.folder_menu.get_untracked().is_some() {
             self.files.folder_menu.set(None);
         } else if self.files.selecting.get_untracked() {
@@ -204,6 +210,9 @@ impl Session {
         if matches!(route, Route::Start | Route::Folder(_)) {
             self.live_clock.set(now);
         }
+        self.calendar.reset_transient();
+        self.alarms.editor.close();
+        self.files.clear_properties();
         self.mail.reset();
         self.messages.reset();
         self.office.show_new.set(false);
@@ -259,6 +268,8 @@ impl Session {
 
     pub fn clear_overlays(&self) {
         self.hardware.close();
+        self.calendar.reset_transient();
+        self.alarms.editor.close();
         self.mail.reset();
         self.messages.reset();
         self.office.show_new.set(false);
@@ -276,6 +287,7 @@ impl Session {
     }
 
     fn clear_files(&self) {
+        self.files.clear_properties();
         self.files.folder_menu.set(None);
         self.files.selecting.set(false);
         self.files.selection.set(Default::default());
@@ -288,6 +300,9 @@ impl Session {
             return;
         }
         self.live_clock.set(now);
+        self.calendar.reset();
+        self.alarms.clear();
+        self.app_list.reset();
         crate::gestures::cancel();
         self.clear_overlays();
         self.previews.clear();
@@ -303,6 +318,7 @@ impl Session {
         self.mail_folder.set("inbox".into());
         self.office.paragraph.set(0);
         self.office.sheet.set(0);
+        self.office.excel_selection.set(None);
         self.office.row_page.set(0);
         self.office.col_page.set(0);
         self.office.slide.set(0);
@@ -316,6 +332,7 @@ impl Session {
     pub(crate) fn tick_live_tiles(&self, now: i64) {
         if self.live_clock_enabled.get()
             && matches!(*self.last_route.borrow(), Route::Start | Route::Folder(_))
+            && self.alarms.active.get_untracked().is_none()
             && !self.hardware.is_open()
             && !self.notification_open.get_untracked()
             && !self.switcher_open.get_untracked()
@@ -332,6 +349,7 @@ impl Session {
 
     pub(crate) fn preview_obscured(&self, route: &Route) -> bool {
         route.is_overlay()
+            || self.alarms.active.get_untracked().is_some()
             || self.hardware.is_open()
             || self.notification_open.get_untracked()
             || self.switcher_open.get_untracked()

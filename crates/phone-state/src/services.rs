@@ -59,6 +59,14 @@ pub enum HostRequest {
     ExportDocument {
         id: phone_domain::Id,
     },
+    ShareDocuments {
+        ids: Vec<phone_domain::Id>,
+    },
+    AlarmAlert {
+        active: bool,
+        volume: u8,
+        vibration: bool,
+    },
     CopyText {
         text: String,
     },

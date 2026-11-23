@@ -33,7 +33,7 @@ pub fn cell_coordinates(address: &str) -> Option<(usize, usize)> {
     }
     let row: usize = normalized[split..].parse().ok()?;
     (column > 0 && column <= MAX_COLUMNS && row > 0 && row <= MAX_ROWS)
-        .then_some((column - 1, row - 1))
+        .then(|| (column - 1, row - 1))
 }
 
 pub fn display_cell(sheet: &Worksheet, address: &str) -> String {
