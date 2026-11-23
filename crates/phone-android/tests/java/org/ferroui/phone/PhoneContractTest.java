@@ -5,6 +5,12 @@ public final class PhoneContractTest {
     private static int assertions;
     private static void check(boolean value, String message) { assertions++; if (!value) throw new AssertionError(message); }
     public static void main(String[] args) {
+        for (String read : new String[]{"snapshot", "contacts", "callHistory", "calls", "messageThreads", "messages", "messageAttachments", "notifications", "shortcuts"})
+            check(!PhoneDeviceAccess.requiresForeground(read), "Warm activation can start the permission-gated read: " + read);
+        for (String command : new String[]{"setControl", "openControl", "requestRole", "requestPermission", "saveContact", "deleteContact", "dial", "callAction", "composeMessage", "composeMultimediaMessage", "pickMessageAttachments", "discardMessageAttachments", "openMessageAttachment", "downloadMessage", "sendMessage", "sendMultimediaMessage", "markMessagesRead", "deleteMessages", "notificationAction", "dismissNotification", "dismissNotifications", "launchShortcut", "openApplicationSettings", "requestUninstallApplication", "openMap"})
+            check(PhoneDeviceAccess.requiresForeground(command), "Consent, UI and mutations retain foreground ownership: " + command);
+        check(PhoneDeviceAccess.requiresForeground("futureUnknownCommand"), "New commands default to requiring foreground ownership");
+        check(PhoneDeviceAccess.requiresForeground(null), "Missing commands cannot bypass foreground ownership");
         check(PhoneDeliveryStatus.normalize("3gpp2", 2 << 16, true) == 0, "CDMA delivery bits are 23..16");
         check(PhoneDeliveryStatus.normalize("3gpp2", 2 << 24 | 4 << 16, true) == 32, "CDMA temporary error class is bits25..24");
         check(PhoneDeliveryStatus.normalize("3gpp2", 3 << 24 | 4 << 16, true) == 64, "CDMA permanent error class");

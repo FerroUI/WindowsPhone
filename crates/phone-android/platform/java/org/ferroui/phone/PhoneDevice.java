@@ -102,7 +102,8 @@ final class PhoneDevice {
             JSONObject request = new JSONObject(json); String kind = request.optString("kind");
             Activity activity = PhoneActivity.foreground();
             if ("snapshot".equals(kind)) return completed(snapshot(context));
-            if (activity == null) return completed(PhoneJson.error("A foreground Android activity is required for this device request."));
+            if (activity == null && PhoneDeviceAccess.requiresForeground(kind))
+                return completed(PhoneJson.error("A foreground Android activity is required for this device request."));
             Context app = context.getApplicationContext();
             switch (kind) {
                 case "setControl": return completed(PhoneHardware.set(activity, request.optString("control"), request.optJSONObject("value")));
