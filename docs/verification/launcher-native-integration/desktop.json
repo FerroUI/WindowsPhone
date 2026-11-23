@@ -1,0 +1,412 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+  "run_id": 45282852497,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497",
+  "verified_at": "2026-11-23T23:05:29.072249+00:00",
+  "rust_toolchain": "1.99.0",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "result": "all three native jobs completed successfully",
+  "jobs": [
+    {
+      "platform": "linux",
+      "job_id": 138071505320,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/job/138071505320",
+      "status": "completed",
+      "conclusion": "success",
+      "tests": [
+        {
+          "crate": "phone-host",
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "result": "ok",
+          "passed": 33,
+          "failed": 0,
+          "ignored": 1,
+          "filtered_out": 0,
+          "duration_seconds": 0.01
+        },
+        {
+          "crate": "phone-platform-desktop",
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "result": "ok",
+          "passed": 9,
+          "failed": 0,
+          "ignored": 1,
+          "filtered_out": 0,
+          "duration_seconds": 0.02
+        },
+        {
+          "crate": "phone-host",
+          "command": "dbus-run-session -- env PHONE_MPRIS_TEST_SESSION=1 cargo test --locked -p phone-host private_bus_media_controls -- --ignored",
+          "result": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 33,
+          "duration_seconds": 0.03
+        },
+        {
+          "crate": "phone-native",
+          "command": "cargo test --locked -p phone-native --lib",
+          "result": "ok",
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.01
+        }
+      ],
+      "packaging": {
+        "total": 6,
+        "duration_seconds": 0.047,
+        "passed": 6,
+        "skipped": 0,
+        "failed": 0
+      },
+      "builds": [
+        {
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "completed_at": "2026-11-23T22:48:26.3987820Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "1m 12s"
+        },
+        {
+          "command": "dbus-run-session -- env PHONE_MPRIS_TEST_SESSION=1 cargo test --locked -p phone-host private_bus_media_controls -- --ignored",
+          "completed_at": "2026-11-23T22:48:27.2564162Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "0.11s"
+        },
+        {
+          "command": "cargo test --locked -p phone-native --lib",
+          "completed_at": "2026-11-23T22:56:04.1448635Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "7m 36s"
+        },
+        {
+          "command": "cargo build --locked -p phone-desktop",
+          "completed_at": "2026-11-23T23:03:48.8903079Z",
+          "profile": "dev",
+          "optimization": "unoptimized",
+          "cargo_duration": "7m 44s"
+        }
+      ],
+      "gates": [
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify shared native services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "conclusion": "success"
+        }
+      ],
+      "log": {
+        "file": "launcher-linux-138071505320.log",
+        "bytes": 234485,
+        "sha256": "041b7ebaf57826eff980f461266cf4c10531985794488c691e280b0a3b0a18c3",
+        "preservation": "Connector-delivered original UTF-8 retained, including BOM, ANSI sequences and line endings; parsing uses an in-memory copy."
+      },
+      "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "run_id": 45282852497,
+      "run_attempt": 1,
+      "started_at": "2026-11-23T22:46:37Z",
+      "completed_at": "2026-11-23T23:04:10Z",
+      "raw_job_metadata": {
+        "file": "launcher-job-138071505320-final.json",
+        "bytes": 3667,
+        "sha256": "20a612b343ffc7412d94b34df06b315a0636fed68fef84d72f8090d8d68f8b0c"
+      }
+    },
+    {
+      "platform": "windows",
+      "job_id": 138071505049,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/job/138071505049",
+      "status": "completed",
+      "conclusion": "success",
+      "tests": [
+        {
+          "crate": "phone-host",
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "result": "ok",
+          "passed": 30,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.04
+        },
+        {
+          "crate": "phone-platform-desktop",
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "result": "ok",
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.0
+        },
+        {
+          "crate": "phone-native",
+          "command": "cargo test --locked -p phone-native --lib",
+          "result": "ok",
+          "passed": 16,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.22
+        }
+      ],
+      "packaging": {
+        "total": 6,
+        "duration_seconds": 0.008,
+        "passed": 4,
+        "skipped": 2,
+        "failed": 0
+      },
+      "builds": [
+        {
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "completed_at": "2026-11-23T22:48:24.6477604Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "13.47s"
+        },
+        {
+          "command": "cargo test --locked -p phone-native --lib",
+          "completed_at": "2026-11-23T22:51:52.1730696Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "3m 25s"
+        },
+        {
+          "command": "cargo build --locked -p phone-desktop",
+          "completed_at": "2026-11-23T22:55:34.0657678Z",
+          "profile": "dev",
+          "optimization": "unoptimized",
+          "cargo_duration": "3m 41s"
+        }
+      ],
+      "gates": [
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify shared native services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "conclusion": "success"
+        }
+      ],
+      "log": {
+        "file": "launcher-windows-138071505049.log",
+        "bytes": 173839,
+        "sha256": "0abfaea075b4b0533abe43d87cb2fa50d9df146afddd431c0e850688d3e83745",
+        "preservation": "Connector-delivered original UTF-8 retained, including BOM, ANSI sequences and line endings; parsing uses an in-memory copy."
+      },
+      "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "run_id": 45282852497,
+      "run_attempt": 1,
+      "started_at": "2026-11-23T22:46:37Z",
+      "completed_at": "2026-11-23T22:55:38Z",
+      "raw_job_metadata": {
+        "file": "launcher-job-138071505049-final.json",
+        "bytes": 3665,
+        "sha256": "d0cc2bfd416d3a283642067113eccc920b8ec86d2d566c598ddff058c7cc06e3"
+      }
+    },
+    {
+      "platform": "macos",
+      "job_id": 138071505178,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/job/138071505178",
+      "status": "completed",
+      "conclusion": "success",
+      "tests": [
+        {
+          "crate": "phone-host",
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "result": "ok",
+          "passed": 29,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.03
+        },
+        {
+          "crate": "phone-platform-desktop",
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "result": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.0
+        },
+        {
+          "crate": "phone-native",
+          "command": "cargo test --locked -p phone-native --lib",
+          "result": "ok",
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0,
+          "duration_seconds": 0.07
+        }
+      ],
+      "packaging": {
+        "total": 6,
+        "duration_seconds": 0.163,
+        "passed": 6,
+        "skipped": 0,
+        "failed": 0
+      },
+      "builds": [
+        {
+          "command": "cargo test --locked -p phone-host -p phone-platform-desktop",
+          "completed_at": "2026-11-23T22:53:35.1535490Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "42.46s"
+        },
+        {
+          "command": "cargo test --locked -p phone-native --lib",
+          "completed_at": "2026-11-23T22:55:59.0706780Z",
+          "profile": "test",
+          "optimization": "unoptimized",
+          "cargo_duration": "2m 22s"
+        },
+        {
+          "command": "cargo build --locked -p phone-desktop",
+          "completed_at": "2026-11-23T23:00:16.5769150Z",
+          "profile": "dev",
+          "optimization": "unoptimized",
+          "cargo_duration": "4m 16s"
+        }
+      ],
+      "gates": [
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify shared native services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "conclusion": "success"
+        }
+      ],
+      "log": {
+        "file": "launcher-macos-138071505178.log",
+        "bytes": 153876,
+        "sha256": "ee8e1bd352b9a978feead39541d0ffaa6ac4c688cc4459c747e0656d8ce88d34",
+        "preservation": "Connector-delivered original UTF-8 retained, including BOM, ANSI sequences and line endings; parsing uses an in-memory copy."
+      },
+      "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "run_id": 45282852497,
+      "run_attempt": 1,
+      "started_at": "2026-11-23T22:51:38Z",
+      "completed_at": "2026-11-23T23:00:25Z",
+      "raw_job_metadata": {
+        "file": "launcher-job-138071505178-final.json",
+        "bytes": 3665,
+        "sha256": "48a23fdd7df962872b1e6b573a9e8fb6be15e3b5e892a99bfa8f91f23861dc82"
+      }
+    }
+  ],
+  "qualification": "Complete Windows, macOS and Linux executables linked with the configured native media providers, using matching Cargo caches where available. Protocol and packaging coverage does not establish rendered desktop interaction, physical hardware, native permission dialogs, shell installation or distribution signing. Repeated test executions are separate and must not be summed as unique cases.",
+  "workflow": "Build and publish",
+  "run_attempt": 1,
+  "selection": "All three actual native jobs from attempt 1 at the exact tested commit; no earlier source or retry job is substituted.",
+  "warnings": [
+    {
+      "platform": "macos",
+      "kind": "framework deprecation",
+      "detail": "CoreVideo CVBufferGetAttachment and Metal fastMathEnabled deprecation warnings appeared during the successful native build."
+    },
+    {
+      "platform": "macos",
+      "kind": "linker",
+      "detail": "The complete dev-profile link reported __eh_frame above the 16 MB compact-unwind encoding limit; linking succeeded, with a warning that exception-handling performance might be affected."
+    }
+  ],
+  "extraction": {
+    "parser": "record_launcher_desktop.py",
+    "parser_sha256": "725c8d77cbb55f865afde2183bc1a9057d6917c60fb9d7ec152dd9c84ae2c6e5",
+    "job_ids": [
+      138071505320,
+      138071505049,
+      138071505178
+    ]
+  }
+}

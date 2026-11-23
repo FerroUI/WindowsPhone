@@ -1,0 +1,164 @@
+{
+  "head_sha": "b798631d3291fb3cc8b1e951335dfe0e270ab730",
+  "repository": "FerroUI/WindowsPhone",
+  "workflow": "Build and publish",
+  "run_id": 45249508287,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45249508287",
+  "job": {
+    "id": 137955100049,
+    "name": "build",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45249508287/job/137955100049"
+  },
+  "wasm_build": {
+    "result": "success",
+    "cargo_profile": "browser",
+    "cargo_duration_seconds": 897,
+    "compile_reused": false
+  },
+  "rust_tests": {
+    "passed": 308,
+    "failed": 0,
+    "ignored": 1,
+    "groups": [
+      {
+        "command": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+        "passed": 155,
+        "failed": 0,
+        "ignored": 1
+      },
+      {
+        "command": "cargo test --locked -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-people -p phone-app-settings -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+        "passed": 153,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "ignored_reason": "phone_host native::media_session::linux::tests::private_bus_media_controls requires a dedicated dbus-run-session; native matrix covers this separately."
+  },
+  "javascript_tests": {
+    "passed": 55,
+    "failed": 0,
+    "elapsed_ms": 363.448706
+  },
+  "rendered_ui": {
+    "passed": true,
+    "checks": 71,
+    "captures": 132,
+    "elapsed_ms": 186701,
+    "viewport": [
+      1280,
+      936
+    ],
+    "errors": [],
+    "results_path": "/workspace/scratch/abc156bf144f/ui-b798631/results.json",
+    "focus_checks": [
+      {
+        "name": "native map tiles render with attribution and bounded visible images; pan and zoom preserve data",
+        "elapsedMs": 1024,
+        "passed": true
+      },
+      {
+        "name": "trusted map pinch, pointer cancellation and route cleanup stay within the map",
+        "elapsedMs": 1350,
+        "passed": true
+      },
+      {
+        "name": "native Maps saves coordinates, home shortcuts and directions preferences",
+        "elapsedMs": 5916,
+        "passed": true
+      },
+      {
+        "name": "native Maps coordinate search and recent history need no network lookup",
+        "elapsedMs": 1516,
+        "passed": true
+      },
+      {
+        "name": "six native live-card templates, capped badge and finite flip render",
+        "elapsedMs": 772,
+        "passed": true
+      },
+      {
+        "name": "queued cards rotate and scheduled expiry survives reduced motion without saving",
+        "elapsedMs": 429,
+        "passed": true
+      },
+      {
+        "name": "native tile customization, folder creation and dissolution preserve full records",
+        "elapsedMs": 4855,
+        "passed": true
+      },
+      {
+        "name": "native live-folder cover, expansion and child activation retain tile identity",
+        "elapsedMs": 1066,
+        "passed": true
+      }
+    ],
+    "visual_review": [
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/maps-native-tiles-pan-zoom.png",
+        "finding": "Fixture tiles fill the measured viewport; coordinates, zoom controls, scale and OSM attribution remain visible. No overlap with app bar or system navigation."
+      },
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/maps-pinch-cancel-and-remount.png",
+        "finding": "Remounted viewport is filled, its changed zoom is visible, and attribution/navigation remain intact."
+      },
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/maps-saved-place-start-activation.png",
+        "finding": "Pinned-place activation renders the saved title/address/coordinates and centered marker in the detail map with its native app bar."
+      },
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/start-live-templates.png",
+        "finding": "All six templates render: text, flip front, list, progress, photo and photo cycle. Count cap, separate badge, progress track and local images are visible without overflow."
+      },
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/start-customized-tiles.png",
+        "finding": "Custom color and hidden label/badge apply to one tile while the adjacent tile retains its label and badge."
+      },
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/start-customized-folder.png",
+        "finding": "Folder preserves two child tile previews, their independent backgrounds and content, and the custom folder title."
+      },
+      {
+        "file": "/workspace/scratch/abc156bf144f/ui-b798631/start-folder-expanded-children.png",
+        "finding": "Expanded folder renders both full child tiles beneath the live cover, with retained glyphs/badges and a visible close control."
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 14856084745,
+      "name": "compiled-app",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45249508287/artifacts/14856084745",
+      "sha256": "47b375ab22c36f1b19265a6d47e49b45c812a327271e8001403409f8d876aa96",
+      "sha256_verified": true,
+      "zip": "/workspace/scratch/abc156bf144f/compiled-app-b798631.zip",
+      "size_bytes": 9924533,
+      "extracted": "/workspace/scratch/abc156bf144f/site-b798631"
+    },
+    {
+      "id": 14857298421,
+      "name": "ui-verification",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45249508287/artifacts/14857298421",
+      "sha256": "98fbc392a0836e6387342f3114e2224b81d3f2f7b2993e6483998ffe1bd0a471",
+      "sha256_verified": true,
+      "zip": "/workspace/scratch/abc156bf144f/ui-verification-b798631.zip",
+      "size_bytes": 7163925,
+      "extracted": "/workspace/scratch/abc156bf144f/ui-b798631"
+    }
+  ],
+  "job_log": "/workspace/scratch/abc156bf144f/browser-job-137955100049.log",
+  "job_log_sha256": "fad4ff83da713a8471fbcd5cad5ffa93548dbc9ac0c1673c8da2c5f2110eba9d",
+  "warnings": [
+    "Build succeeds with existing FerroUI unused/deprecated API warnings and profile package-spec warnings.",
+    "Browser linker emits em++ WASM_BIGINT deprecation.",
+    "Browser tool installation reported yanked yoke-derive v0.8.3 and future-incompatible buf_redux/multipart; tool installation still succeeded."
+  ],
+  "qualification": [
+    "Rendered Maps uses a fixed PNG fixture; this gate does not claim public OSM network availability or download performance.",
+    "UI captures verify browser-hosted FerroUI controls and trusted desktop/touch interaction, not physical Android/iOS devices.",
+    "No source fixes were needed during this monitoring task. Parent owns desktop/mobile job evidence and public deployment verification."
+  ],
+  "recorded_at": "2026-11-23T20:02:11.886747+00:00"
+}

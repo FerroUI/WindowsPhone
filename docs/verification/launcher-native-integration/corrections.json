@@ -1,0 +1,301 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "scope": "Causal corrections made while qualifying the integrated release. Passing platform records remain separate and retain their exact revisions; this history does not convert a failed attempt into a pass.",
+  "source_corrections": [
+    {
+      "area": "iOS carrier history callback",
+      "fixed_in": "c7570ff340185c2546de3a27b4e7ab109d251af7",
+      "failing_run": 45249508380,
+      "cause": "The actual iPhone Swift SDK typecheck rejected callback access across the owning main actor.",
+      "change": "Hop to MainActor and revalidate weak ownership, generation and foreground state before publishing history.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/c7570ff340185c2546de3a27b4e7ab109d251af7",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45249508380"
+    },
+    {
+      "area": "iOS native C assertions",
+      "fixed_in": "dddbd2478defebf55b3e0f2036ff4740fe34ebf3",
+      "failing_run": 45250304966,
+      "cause": "NSAssert expands Objective-C method-only context inside free C bridge functions.",
+      "change": "Use NSCAssert and syntax-check all Objective-C bridge files with the optional carrier provider both disabled and enabled before full builds.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/dddbd2478defebf55b3e0f2036ff4740fe34ebf3",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45250304966"
+    },
+    {
+      "area": "Android SMS thread recipients",
+      "fixed_in": "dddbd2478defebf55b3e0f2036ff4740fe34ebf3",
+      "failing_run": 45249508838,
+      "cause": "The AOSP canonical-address provider returned its own column order, so positional decoding read the row identity as the telephone number.",
+      "change": "Resolve and read the named address column. The following emulator run observed the correct native provider recipients.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/dddbd2478defebf55b3e0f2036ff4740fe34ebf3",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45249508838"
+    },
+    {
+      "area": "Android warm activation reads",
+      "fixed_in": "1b6f16941cb9b76ef440527a4c43384983eeaae0",
+      "failing_run": 45251653476,
+      "cause": "A warm Messaging activation arrived in onNewIntent before onResume, when the foreground Activity accessor was intentionally unavailable.",
+      "change": "Permit an explicit allowlist of independently authorized read requests to use application Context. UI, consent, mutations and unknown requests continue to require the foreground Activity.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/1b6f16941cb9b76ef440527a4c43384983eeaae0",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45251653476"
+    },
+    {
+      "area": "iOS Simulator brightness capability",
+      "fixed_in": "22549bd309ef29878aa386b6279a28513222bcfc",
+      "failing_run": 45251653469,
+      "cause": "The simulator ignored a requested brightness write while the provider advertised writable physical hardware.",
+      "change": "Advertise ReadOnly and explicitly reject simulator writes without mutation. Supported physical main-screen brightness code remains implemented; hardware behavior requires device qualification.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/22549bd309ef29878aa386b6279a28513222bcfc",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45251653469"
+    },
+    {
+      "area": "Android physical Back dispatch",
+      "fixed_in": "7047342900bc2160de821126f35ef41fe211f936",
+      "failing_run": 45254042236,
+      "cause": "One physical key press could reach both the raw Escape path and the native Back callback. Wallet returned to Start, then the ordinary Activity exited.",
+      "change": "A matching uncancelled key pair dispatches the existing native Back callback exactly once. Repeated, canceled, stale and suspended pairs are covered by focused assertions; the emulator gate additionally requires real active HOME behavior and role restoration.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/7047342900bc2160de821126f35ef41fe211f936",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45254042236"
+    },
+    {
+      "area": "Android ongoing CallStyle foreground ownership",
+      "fixed_in": "83e0c006f4a557b118d6f80d6d5146423849e0bb",
+      "failing_run": 45257701148,
+      "failing_attempt": 3,
+      "cause": "Android API 36 rejected the ongoing CallStyle notification after Answer because it had no foreground-service ownership, causing an observed process crash.",
+      "change": "Give the same Telecom InCallService an explicit started lifetime and exact phoneCall foreground type for authorized live calls. Release foreground and started ownership on the last call, unbind and destruction. The emulator verifier now requires actual service type, foreground notification/CallStyle and final teardown.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/83e0c006f4a557b118d6f80d6d5146423849e0bb",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45257701148/job/137989080222"
+    },
+    {
+      "area": "iOS warm URL verification driver and process proof",
+      "kind": "verification_driver",
+      "fixed_in": "ee7d6a0f882d83b7a8ef25e621f140a6b45b71ee",
+      "failing_run": 45255505737,
+      "finding": "Native Contacts CRUD and simulator hardware checks passed. The external simctl handoff produced a dismissed Open confirmation but no native protocol receipt. Alert lookup delayed the tap to roughly 30 seconds after issuing the URL; timeout is a hypothesis, not a proven production-routing defect.",
+      "change": "Use public XCUIDevice.shared.system.open for the six fixed system URLs; retain independent exact native URI/route/control/inset assertions and require unchanged PID, launch UUID and bundle plus foreground app/scene. Add read-only native delegate diagnostics and stop idle prompt probing. Production routing remains unchanged.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/ee7d6a0f882d83b7a8ef25e621f140a6b45b71ee",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45255505737"
+    },
+    {
+      "area": "Launcher-owned initial observations and private read lifetime",
+      "fixed_in": "66763e1559c3bdecb37c3da88e3b4f1140259a9f",
+      "found_by": "Read-only integration audit after the 83e0c00 emulator gate passed; that earlier gate did not exercise cold-Start native unread state or native notification initialization.",
+      "cause": "MessageThreads was first requested only by the Messaging app, and no production Rust caller requested Notifications. Start and Action Center therefore lacked initial native data.",
+      "change": "The foreground runtime obtains the actual snapshot and seeds permitted bounded reads. Equivalent reads coalesce, transient failures back off, and private read leases follow observed authority, foreground lifetime and document identity. Contacts permission and subset retirement publish atomically.",
+      "local_validation": "21 runtime and 3 state library tests passed at this commit; later completion-order corrections and target evidence remain separately attributed.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/66763e1559c3bdecb37c3da88e3b4f1140259a9f"
+    },
+    {
+      "area": "Observation ordering and native private-read delivery",
+      "fixed_in": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+      "found_by": "Delayed-result regressions and independent native ownership review",
+      "cause": "A newer event arriving during initialization or refresh could be consumed before an older query result, leaving the collection stale. An older owned capability snapshot could also overwrite a newer snapshot. Native completed private results needed a delivery guard across rapid authority changes.",
+      "change": "Coalesce dirty collection events into one fresh read; ordinary settled events do not poll. A validated native snapshot retires older snapshot reads. Android invalidates old observation work and validates explicit private-read leases at completion and poll, including after authority IPC. Add a real cold-Start unread and Action Center listener admission/revocation emulator gate.",
+      "local_validation": "25 runtime and 3 state library tests; full 99-source Java SDK compilation; 111 JVM assertions; 24 AOSP source hashes; 11 bootstrap, 3 device, 8 UI and 8 package verifier tests; 7 Android Rust tests. Target CI is recorded separately.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d"
+    },
+    {
+      "area": "Android native notification test help inspection",
+      "kind": "verification_driver",
+      "fixed_in": "8129e76f7da8c9111f83e03e0b33bd0fa1bde1fa",
+      "failing_run": 45270527305,
+      "failing_job": 138028802645,
+      "cause": "Android 36 printed complete notification shell help with supported listener/post syntax but returned usage exit 255. The harness stopped under set-e before granting listener access.",
+      "change": "Record the exact help exit code, admit only 0 or 255 for that read-only usage operation, and continue strict help-content validation. Listener grant/post/revoke/restore commands still require success.",
+      "qualification": "The failed attempt passed both App/Launcher geometry, physical Back, separate actual HOME selection/reentry/restoration, and native cold-Start unread/visible Messaging badge. It did not execute listener admission/render/revocation or the later call gate.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/8129e76f7da8c9111f83e03e0b33bd0fa1bde1fa",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45270527305/job/138028802645"
+    },
+    {
+      "area": "Android native notification post-help grammar",
+      "kind": "verification_driver",
+      "fixed_in": "22487989b3ec2a2cb53b8f4a8d0f1789cf7f911f",
+      "failing_run": 45273540227,
+      "failing_job": 138039294053,
+      "cause": "Android 36 top-level help prints TAG TEXT, but post --help prints the valid lowercase <tag> <text> form. The verifier required uppercase operands and stopped before granting listener access.",
+      "change": "Validate both documented operand forms, exact scoped listener component/user syntax, and the title/help switches used by the harness. The regression uses the captured real Android help and rejects missing operands/options.",
+      "local_validation": "12 bootstrap verifier tests plus direct validation against both unmodified captured help files; Bash syntax and diff checks. No Java, Rust, manifest, runtime behavior assertion or test deadline change.",
+      "qualification": "The failed attempt again passed cold-Start native unread and visible Messaging badge. Listener admission/render/revocation and the subsequent call checks were not reached.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/22487989b3ec2a2cb53b8f4a8d0f1789cf7f911f",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45273540227/job/138039294053"
+    },
+    {
+      "area": "Android notification-listener settings convergence",
+      "kind": "verification_driver",
+      "fixed_in": "305ffcf460830416cc2469a6f6a927db390b5217",
+      "failing_run": 45275444506,
+      "failing_attempt": 2,
+      "failing_job": 138048176597,
+      "cause": "The scoped native listener grant succeeded and the exact service connected immediately; Android updated its readable settings mirror about 700 milliseconds later. The one-shot exact-set comparison ran before that asynchronous publication and stopped before posting the fixture. No unrelated component actually changed.",
+      "change": "Wait within a 30-second bound for the exact own-component grant/revoke/original-restoration set, retain each observation, and immediately reject any unrelated access difference. Regressions use the actual captured original two-component set.",
+      "local_validation": "14 bootstrap verifier tests, Bash syntax and diff checks passed. No Java/Rust, manifest, permissions, native UI assertions or call ownership change.",
+      "qualification": "The failed attempt proved actual listener service binding and repeated cold-Start unread/badge behavior. Fixture admission/rendering/revocation and subsequent calls were not executed.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/305ffcf460830416cc2469a6f6a927db390b5217",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45275444506/job/138048176597"
+    },
+    {
+      "area": "Typed launch result, reactive ordering and mounted ownership",
+      "fixed_in": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "failing_run": 45276432668,
+      "failing_job": 138049323498,
+      "cause": "The iOS native Settings URL mounted its expected device-services child in the same foreground process, but launch_app compared the redirected child with its base Settings route and reported unavailable. Local regressions also reproduced a queued same-app payload being overwritten by later base navigation, admission of a foreign model, and a route-state borrow panic during overlay-triggered document restoration.",
+      "change": "Batch queued payload and base navigation with existing FerroUI reactivity; accept only the requested registered app owner in the original mounted model/session and document epoch. Recheck app availability across callbacks. Clone the previous route before app deactivation. Apply the same batching to standalone SDK navigation, preserving restored-document state and status.",
+      "local_validation": "Six new shell tests plus one SDK activation regression; all 22 shell library tests and both SDK activation tests passed. Four shell regression failures and the separate SDK route overwrite were recorded before the fix.",
+      "validation_record": "activation-validation.json",
+      "failure_record": "history/ios-fd6c475-partial.json",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45276432668/job/138049323498"
+    },
+    {
+      "area": "Android notification viewport input ownership",
+      "kind": "verification_driver",
+      "fixed_in": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "failing_run": 45278542129,
+      "failing_job": 138056594430,
+      "cause": "The native notification reached the shared store. After the first strict rendered title/body check failed, the old harness swiped from Action Center bottom minus 65 DIP, inside the intentional close region beginning 76 DIP above the navigation strip; it dismissed the panel. The first failed pre-scroll observation was overwritten, so its original text visibility cause remains unqualified.",
+      "change": "Read the exact fixture title/body visual ancestry, shared ScrollViewer/presenter, viewport, extent, offset and bounds. Choose real native input inside that measured viewport and 16 DIP above the shell close threshold. Retain every failed pre-scroll JSON, error and original screenshot before input; fail on ambiguous ownership or unusable geometry. Exact fully visible text assertions remain required.",
+      "local_validation": "19 bootstrap tests, including five new causal geometry/ownership regressions; Android smoke observer metadata/API check with warnings denied, Bash syntax and diff checks.",
+      "failure_record": "history/android-ui-305ffcf-partial.json",
+      "qualification": "305 proved exact listener grant, native service connection, fixture admission and original listener/role restoration during failure cleanup. Rendered fixture, deliberate revocation phase and later calls were not completed in that attempt.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45278542129/job/138056594430",
+      "followup": {
+        "source_commit": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+        "run_id": 45282852605,
+        "job_id": 138071505851,
+        "conclusion": "success",
+        "record": "android-ui.json",
+        "result": "The retained first pre-scroll observation shows both fixture labels below the exact notification viewport. One measured native swipe reveals both complete labels while Action Center stays open. Strict revocation and original listener-set restoration, plus later incoming-call ownership/teardown, all passed."
+      }
+    }
+  ],
+  "infrastructure_retries": [
+    {
+      "run_id": 45257701148,
+      "attempt": 1,
+      "job_id": 137983761741,
+      "source_commit": "7047342900bc2160de821126f35ef41fe211f936",
+      "phase": "Install the pinned Android tools and API 36 x86_64 image",
+      "observed_error": "Android Emulator: Error on ZipFile unknown archive.",
+      "source_work_reached": false,
+      "action": "Rerun only the failed workflow job on the unchanged source revision.",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45257701148/job/137983761741"
+    },
+    {
+      "run_id": 45257701148,
+      "attempt": 2,
+      "job_id": 137985085846,
+      "source_commit": "7047342900bc2160de821126f35ef41fe211f936",
+      "phase": "Gradle/AGP dependency resolution while assembling x86_64 APKs",
+      "observed_error": "Maven Central returned HTTP 429 Too Many Requests for dependency JAR downloads.",
+      "source_work_reached": "Portable JVM/package/UI contract checks and actual x86_64 Rust native linking passed; Java APK assembly and runtime were not reached.",
+      "action": "Rerun only the failed workflow job on unchanged source; the next attempt passed dependency resolution and APK assembly.",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45257701148/job/137985085846"
+    },
+    {
+      "run_id": 45262880930,
+      "attempt": 1,
+      "job_id": 138002008618,
+      "source_commit": "ee7d6a0f882d83b7a8ef25e621f140a6b45b71ee",
+      "phase": "Hosted macOS runner allocation",
+      "observed_error": "The job was not acquired by Runner of type hosted even after multiple attempts. GitHub also reported macOS arm64 capacity constraints.",
+      "source_work_reached": false,
+      "executed_steps": 0,
+      "runner_id": 0,
+      "action": "Rerun only the failed iOS job once on the unchanged source revision. No source or verification gate was changed.",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45262880930/job/138002008618"
+    },
+    {
+      "run_id": 45262880930,
+      "attempt": 2,
+      "job_id": 138012289655,
+      "source_commit": "ee7d6a0f882d83b7a8ef25e621f140a6b45b71ee",
+      "phase": "Hosted macOS runner allocation",
+      "observed_error": "The job was not acquired by Runner of type hosted even after multiple attempts. Three macOS arm64 capacity-constraint notices accompanied it.",
+      "source_work_reached": false,
+      "executed_steps": 0,
+      "runner_id": 0,
+      "action": "No further retry of this source. Preserve the failure; qualify the subsequent shared-runtime source through its normal mobile gate. The same standard runner later allocated a desktop job successfully.",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45262880930/job/138012289655"
+    },
+    {
+      "run_id": 45270527131,
+      "attempt": 1,
+      "job_id": 138028985117,
+      "source_commit": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+      "phase": "Hosted macOS runner allocation",
+      "observed_error": "The job was not acquired by Runner of type hosted even after multiple attempts. Three macOS arm64 capacity-constraint notices accompanied it.",
+      "source_work_reached": false,
+      "executed_steps": 0,
+      "action": "The first retry request was refused while the containing workflow remained active. After browser/deploy/Linux/Windows finished successfully, retry only the cancelled macOS job on unchanged 99ffbfc source and the same runner/SDK gates.",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45270527131/job/138028985117",
+      "runner_id": 0,
+      "retry_result": {
+        "attempt": 2,
+        "job_id": 138052156649,
+        "conclusion": "success",
+        "record": "history/desktop-99ffbfc.json"
+      }
+    },
+    {
+      "run_id": 45275444506,
+      "attempt": 1,
+      "job_id": 138045914606,
+      "source_commit": "22487989b3ec2a2cb53b8f4a8d0f1789cf7f911f",
+      "phase": "Android SDK/NDK installation",
+      "observed_error": "NDK 28.2.13676358 download failed with Error on ZipFile unknown archive. The API 36 system image had downloaded successfully.",
+      "source_work_reached": false,
+      "action": "Rerun only the failed job once on unchanged source; real command-parser and emulator gates remain required.",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45275444506/job/138045914606"
+    }
+  ],
+  "diagnostic_followups": [
+    {
+      "area": "iOS initial mounted-view startup",
+      "introduced_in": "fd6c475545d5687f2cc7f98d0cbb34398c31f395",
+      "observed_run": 45270527018,
+      "observed_job": 138028801883,
+      "finding": "Actual Apple SDK checks, both native bundles and the public XCTest driver compiled. A fresh simulator boot took 9m36s; the application then failed to create its initial mounted-view observation within 90 seconds. The retained image is a white UIKit surface with system status bar only. No native provider or warm-URL runtime gate was reached.",
+      "comparison": "The same two pre-mount native snapshot reads occur in both 22549bd and 99ffbfc; tel query log spacing was about 0.36 seconds in 22549bd and 50.90 seconds in 99ffbfc. Relevant production iOS provider files were byte-identical. No extra initial observation read was introduced by the shared bootstrap. The retained evidence does not identify the stalled SDK call.",
+      "change": "Add opt-in static phase timing capped at 512 entries and bounded sampling of only the exact installed simulator app executable/PID after a failed gate. Retain SDK/runner, 90-second initial mount deadline, native provider operations and six same-process URL assertions.",
+      "local_validation": "2 collector ownership tests, 7 existing mounted-proof tests, Rust smoke metadata/API compilation, scoped formatting, Bash syntax and diff checks passed.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/fd6c475545d5687f2cc7f98d0cbb34398c31f395",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45270527018/job/138028801883",
+      "failure_record": "history/ios-99ffbfc-partial.json",
+      "followup": {
+        "source_commit": "fd6c475545d5687f2cc7f98d0cbb34398c31f395",
+        "run_id": 45276432668,
+        "job_id": 138049323498,
+        "initial_setup_seconds": 0.923,
+        "initial_native_snapshot_seconds": 0.74,
+        "result": "Initial mounted Start, all five provider roundtrips and same-process Wallet/Phone/People/Messaging URLs passed. Settings mounted its expected detail but native launch reported failure because shared launch_app compared the final child route with its base route.",
+        "qualification": "The earlier startup stall did not reproduce without a production iOS behavior change. The new measurements do not establish its cause or claim a startup fix. The bounded sampler refused to sample when exact bundle-container ownership could not be resolved within its timeout.",
+        "record": "history/ios-fd6c475-partial.json"
+      }
+    },
+    {
+      "area": "iOS process entry and pre-framework startup",
+      "introduced_in": "9a628e39af18b727555ad4f9a5184761d2519502",
+      "observed_run": 45282852583,
+      "observed_job": 138071505072,
+      "finding": "Actual Apple SDK checks, standard and optional UIKit bundles and XCTest compilation passed. The initial mounted Start gate timed out after a fresh simulator boot. The launch console contains only the app PID, with no existing application/framework/native phases; the retained failure image shows SpringBoard with the installed Windows Phone icon. No provider or warm-URL gate ran in this attempt.",
+      "comparison": "The earlier fd6c475 attempt reached main-view setup in 0.923 seconds and completed all five provider checks; this later attempt does not identify a capability-query stall. The first existing phase precedes platform construction and native capability queries, so missing earlier startup observations must be addressed before assigning a production cause.",
+      "change": "Add opt-in pure-Rust main entry and existing delegate/platform/application/font setup checkpoints. Resolve the exact installed executable before launch, then validate that cached simulator/bundle/path/inode/size identity and recheck the exact live PID before bounded sampling, without another CoreSimulator query. Retain only matching recent IPS crash reports with exact bundle/process/simulator/install path and launch-time ownership, accepting documented underscore and modern hyphen filename delimiters.",
+      "local_validation": "6 collector ownership/crash tests and 7 existing mounted-proof tests passed; Rust smoke metadata/API compilation, scoped formatting, Bash syntax and diff checks passed. Independent read-only review found no blocking ownership or production-flow regression.",
+      "qualification": "No production provider, framework pin, SDK, runner, route/provider assertion or existing deadline changed. Per-process commands and retained crash contents are bounded; filename discovery still enumerates matching directory entries. This is a diagnostic improvement, not a claim that the intermittent startup cause has been fixed.",
+      "commit_url": "https://github.com/FerroUI/WindowsPhone/commit/9a628e39af18b727555ad4f9a5184761d2519502",
+      "failure_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852583/job/138071505072",
+      "failure_record": "history/ios-77f0a0f-partial.json",
+      "followup": {
+        "source_commit": "9a628e39af18b727555ad4f9a5184761d2519502",
+        "run_id": 45287778966,
+        "job_id": 138088468821,
+        "conclusion": "success",
+        "record": "ios.json",
+        "result": "Both full UIKit variants and SDK checks, initial Start, all five native provider checks and all six same-process warm activations passed. All seven mounted observations retained PID30561, launch UUID27AD9371-71F8-44FE-98AB-94E2AC8DE490 and the active UIKit scene.",
+        "qualification": "Earlier initial-startup failure did not recur. Its root cause remains unconfirmed; no provider behavior or deadline was changed."
+      }
+    }
+  ]
+}

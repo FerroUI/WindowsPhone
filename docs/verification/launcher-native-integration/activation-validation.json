@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+  "result": "passed",
+  "rust_toolchain": "1.99.0",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "commands": [
+    "cargo test --locked -p phone-system --lib",
+    "cargo test --locked -p phone-sdk --test activation"
+  ],
+  "logs": [
+    {
+      "file": "activation-before-fix.log",
+      "scope": "shell baseline",
+      "bytes": 19969,
+      "sha256": "fc2d651181c8f5b990d33b74d253aeaddebb7e15bea008ed1f637ed390963e5a",
+      "summaries": [
+        {
+          "result": "FAILED",
+          "passed": 2,
+          "failed": 4,
+          "ignored": 0
+        }
+      ]
+    },
+    {
+      "file": "activation-77f0a0f-shell-tests.log",
+      "scope": "shell passing",
+      "bytes": 19722,
+      "sha256": "36c60db90fcb16806820e72b63a1f3ebd35fbcaf71fefa88582e71a350bd9c43",
+      "summaries": [
+        {
+          "result": "ok",
+          "passed": 22,
+          "failed": 0,
+          "ignored": 0
+        }
+      ]
+    },
+    {
+      "file": "sdk-context-activation-baseline.log",
+      "scope": "SDK baseline",
+      "bytes": 18202,
+      "sha256": "cc7e07236fafdba7a551f35b3df4b97ea74099ca50a953bb5da470b4fefe83fd",
+      "summaries": [
+        {
+          "result": "FAILED",
+          "passed": 0,
+          "failed": 1,
+          "ignored": 0
+        }
+      ]
+    },
+    {
+      "file": "activation-77f0a0f-sdk-tests.log",
+      "scope": "SDK passing",
+      "bytes": 17688,
+      "sha256": "0d99497877cee62b4180be0ae0999b9902de55b6c5b71a38e2145ce7111c8664",
+      "summaries": [
+        {
+          "result": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        }
+      ]
+    }
+  ],
+  "regressions": [
+    "Owned Settings detail incorrectly rejected by exact base-route comparison.",
+    "Already-active typed activation ran before its base navigation and was overwritten.",
+    "Another PhoneViewModel could be launched using the current mounted shell.",
+    "Overlay deactivation held a route RefCell borrow across reentrant document restoration."
+  ],
+  "coverage": "Real FerroUI reactive effects cover owned redirects, repeated typed paths, Back history, cross-app redirects, document replacement, shell closing/replacement, invalid targets, standalone SDK embedding and restored-document status.",
+  "qualification": "22 shell library tests and 2 SDK activation tests rerun against the final committed 77f0a0f source passed locally. Seven new cases are included in subsequent broader CI; overlapping executions must not be summed. No native runtime claim."
+}

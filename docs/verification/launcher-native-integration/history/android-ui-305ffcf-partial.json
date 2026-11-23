@@ -1,0 +1,619 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "305ffcf460830416cc2469a6f6a927db390b5217",
+  "native_application_source_sha": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+  "run_id": 45278542129,
+  "job_id": 138056594430,
+  "attempt": 1,
+  "conclusion": "failure",
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45278542129",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "target": {
+    "platform": "android",
+    "abi": "x86_64",
+    "api": 36,
+    "gpu": "software"
+  },
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Read framework tool pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5
+    },
+    {
+      "name": "Run android-actions/setup-android@v3",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6
+    },
+    {
+      "name": "Install the pinned Android tools and API 36 x86_64 image",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Enable KVM for this ephemeral runner",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Install pinned Rust and the Android emulator target",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11
+    },
+    {
+      "name": "Reset per-run observation artifacts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12
+    },
+    {
+      "name": "Verify package and mounted-layout contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13
+    },
+    {
+      "name": "Build x86_64 application and launcher APKs",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 14
+    },
+    {
+      "name": "Save successfully built native outputs before runtime verification",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 15
+    },
+    {
+      "name": "Verify the actual emulator packages",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 16
+    },
+    {
+      "name": "Verify native geometry, HOME, cold-Start unread badge, notification bootstrap/revocation and carrier call ownership",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 17
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 18
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 19
+    },
+    {
+      "name": "Post Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 36
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 37
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 38
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 39
+    }
+  ],
+  "failure": {
+    "phase": "Opening the mounted Action Center with a real native tap and checking the rendered fixture",
+    "exit_code": 1,
+    "first_assertion": "The fixture title and body are not visibly rendered in Action Center",
+    "following_assertion": "The real Action Center is not visible",
+    "terminal_error": "TypeError: 'NoneType' object is not subscriptable",
+    "cause": "The first rendered-label wait failed. The following harness swipe started at ActionCenter.bottom-65, inside the shared shell CloseNotifications region (PhoneScreen.bottom-54-76), so it closed the overlay. The next wait saw no ActionCenter and the unchecked geometry read raised TypeError.",
+    "limits": "The original first rendered-label failure was not preserved separately: repeated polls overwrote bootstrap-current.json and only the final post-swipe Start screenshot was captured. It cannot establish whether initial clipping, list position or a rendering defect caused that first wait to fail.",
+    "classification": "causal harness scroll/close gesture conflict; original rendered-label cause not yet qualified",
+    "proof_files": [
+      "device-notifications-admitted.json",
+      "bootstrap-current.json",
+      "failure.json",
+      "failure.png",
+      "result.json"
+    ],
+    "correction": "Observe exact fixture title/body shared ScrollViewer ancestry and measured viewport; choose native swipes inside that viewport above the deliberate close region; preserve every pre-scroll PNG/JSON/error; reject absent/ambiguous/no-safe geometry without relaxing visible-label assertions."
+  },
+  "tests": {
+    "jvm_contract_assertions": 111,
+    "pinned_aosp_hashes": 24,
+    "package_tests": 8,
+    "mounted_ui_tests": 8,
+    "device_tests": 3,
+    "bootstrap_tests": 14,
+    "rust_android_tests": 7
+  },
+  "build": {
+    "native_link": "passed (1m16s)",
+    "app_apk": "passed (52s)",
+    "launcher_apk": "passed (21s)",
+    "package_manifests_jni_elf_zip_alignment": "passed for both actual APKs",
+    "cache": "saved before runtime verification"
+  },
+  "runtime_passed": [
+    "ordinary App and Launcher Start/Wallet/physical Back/warm HOME",
+    "actual HOME role selection, implicit resolver, HOME key to Start, Back at Start focus, and original HOME restoration",
+    "qualified Dialer/SMS role selection and protected incoming modem SMS provider persistence",
+    "cold Start shared DeviceStore thread:1 unread1 and real canonical Messaging TileBadge-101 before first Messaging activation",
+    "exact listener grant-set convergence without unrelated component changes",
+    "actual unique shell notification posting and shared-store admission through connected native listener"
+  ],
+  "cold_start": {
+    "nonce": "7cec41a43a0d801a81fb4555c67d6066",
+    "sequence": 14,
+    "process_id": 4953,
+    "route": "Start",
+    "activation": {
+      "error": null,
+      "outcome": "accepted",
+      "uri": "ferroui-phone://home"
+    },
+    "device_message_thread": null,
+    "device_message_ids": [],
+    "device_threads": [
+      {
+        "id": "thread:1",
+        "unread": 1
+      }
+    ],
+    "device_message_unread": 1,
+    "messaging_tile_ids": [
+      101
+    ],
+    "messaging_badges": [
+      {
+        "bounds": {
+          "fully_visible": true,
+          "height": 32.5,
+          "width": 10.0,
+          "x": 322.0,
+          "y": 121.0
+        },
+        "name": "TileBadge-101",
+        "text": "1",
+        "tile_id": 101
+      }
+    ],
+    "client": {
+      "height": 720.0,
+      "width": 360.0
+    },
+    "safe_area": {
+      "bottom": 24.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 68.0
+    },
+    "inner": {
+      "height": 628.0,
+      "width": 360.0,
+      "x": 0.0,
+      "y": 68.0
+    },
+    "viewport": {
+      "height": 628.0,
+      "width": 360.0
+    },
+    "host": {
+      "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+      "features": [
+        "installedApps",
+        "systemSettings",
+        "nativeSharing",
+        "haptics",
+        "notifications",
+        "location",
+        "hardwareControls",
+        "telephony",
+        "messaging",
+        "contacts",
+        "notificationCenter",
+        "maps",
+        "appShortcuts",
+        "launcherRole"
+      ],
+      "launcher": "available",
+      "mode": "app",
+      "platform": "android",
+      "shell": "unsupported"
+    },
+    "package": "org.ferroui.windowsphone.launcher",
+    "native_roles": [
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "home",
+        "status": "available"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "dialer",
+        "status": "active"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "sms",
+        "status": "active"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "writeSettings",
+        "status": "available"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "doNotDisturb",
+        "status": "available"
+      }
+    ],
+    "role_context": "Cold Start in the launcher package with Dialer/SMS active and HOME already restored; App mode at this instant. Earlier separate checkpoints establish active HOME."
+  },
+  "notification_admission": {
+    "result": "passed",
+    "observation": "device-notifications-admitted.json",
+    "sequence": 19,
+    "notification_count": 3,
+    "fixture": [
+      {
+        "actions": [],
+        "application": "Shell",
+        "body": "Native-listener-7cec41a43a0d801a81fb4555c67d6066",
+        "clearable": true,
+        "key": "notification:648ce0f424fec8c170e8c82b5ff928d22d143f9aeffc6348721a2b48591b81fe",
+        "ongoing": false,
+        "package_id": "com.android.shell",
+        "timestamp": 1795472865364,
+        "title": "FerroUI-bootstrap-7cec41a43a0d801a81fb4555c67d6066"
+      }
+    ],
+    "component": "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneNotificationListener",
+    "before": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "granted": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService",
+      "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneNotificationListener"
+    ],
+    "grant_exact": true,
+    "grant_observations": "listener-grant-observations.jsonl",
+    "rendered_fixture_result": "not verified",
+    "revocation_shared_cleanup_result": "not executed"
+  },
+  "not_executed": [
+    "successful rendered ActionCenter fixture assertion",
+    "explicit revoke/shared/private rendered-row cleanup assertion",
+    "Messaging thread activation",
+    "native incoming call/Answer/active foreground ownership/remote hangup",
+    "final current-user assertion"
+  ],
+  "cleanup": {
+    "home": {
+      "original": [
+        "com.google.android.apps.nexuslauncher"
+      ],
+      "restored": [
+        "com.google.android.apps.nexuslauncher"
+      ]
+    },
+    "carrier_roles": {
+      "DIALER": {
+        "original": [
+          "com.google.android.dialer"
+        ],
+        "restored": [
+          "com.google.android.dialer"
+        ]
+      },
+      "SMS": {
+        "original": [
+          "com.google.android.apps.messaging"
+        ],
+        "restored": [
+          "com.google.android.apps.messaging"
+        ]
+      }
+    },
+    "listener_before": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "listener_after": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "listener_restored_exact": true,
+    "listener_restore_observations": "listener-restore-observations.jsonl",
+    "listener_post_restore_shared_snapshot_verified": false,
+    "crash_buffer_bytes": 0
+  },
+  "artifacts": [
+    {
+      "id": 14869420305,
+      "name": "phone-android-x86_64-ui",
+      "size_in_bytes": 5408245,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14869420305",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14869420305/zip",
+      "expired": false,
+      "created_at": "2026-11-23T22:28:20Z",
+      "expires_at": "2026-11-26T22:28:18Z",
+      "updated_at": "2026-11-23T22:28:20Z",
+      "digest": "sha256:cd8d316880e105812211d900bd45aa37899bd25d824968d9cc44c5dbb9ec2138",
+      "workflow_run": {
+        "id": 45278542129,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "305ffcf460830416cc2469a6f6a927db390b5217"
+      }
+    },
+    {
+      "id": 14866969823,
+      "name": "phone-android-x86_64-debug",
+      "size_in_bytes": 78278000,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14866969823",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14866969823/zip",
+      "expired": false,
+      "created_at": "2026-11-23T22:28:18Z",
+      "expires_at": "2026-11-26T22:28:11Z",
+      "updated_at": "2026-11-23T22:28:18Z",
+      "digest": "sha256:7782b55703607e9edce2433542fa6db73bd18904e596350e7e9fa71909c3dfd0",
+      "workflow_run": {
+        "id": 45278542129,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "305ffcf460830416cc2469a6f6a927db390b5217"
+      }
+    }
+  ],
+  "archive_sha256": {
+    "ui": "cd8d316880e105812211d900bd45aa37899bd25d824968d9cc44c5dbb9ec2138",
+    "packages": "7782b55703607e9edce2433542fa6db73bd18904e596350e7e9fa71909c3dfd0"
+  },
+  "package_verification": [
+    {
+      "apk": "WindowsPhoneAndroid-app-debug.apk",
+      "package": "org.ferroui.windowsphone",
+      "launcher": false,
+      "abi": "x86_64",
+      "native_bytes": 124142616,
+      "load_alignment": {
+        "lib/x86_64/libimage_processing_util_jni.so": [
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libphone_android.so": [
+          16384,
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libsurface_util_jni.so": [
+          16384,
+          16384
+        ]
+      },
+      "native_sha256": "c48b8d9cab8dc2efbe1618ab96a53e54ab053d5caea4a2c71f37d89068b713ac",
+      "apk_sha256": "7506529f0917adb9cb05dc35bd7a3f11d7de4b70c97fb076c6f7023641601a6d"
+    },
+    {
+      "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+      "package": "org.ferroui.windowsphone.launcher",
+      "launcher": true,
+      "abi": "x86_64",
+      "native_bytes": 124142616,
+      "load_alignment": {
+        "lib/x86_64/libimage_processing_util_jni.so": [
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libphone_android.so": [
+          16384,
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libsurface_util_jni.so": [
+          16384,
+          16384
+        ]
+      },
+      "native_sha256": "c48b8d9cab8dc2efbe1618ab96a53e54ab053d5caea4a2c71f37d89068b713ac",
+      "apk_sha256": "5dc82ce6db5771df576adbbae66b8acdf8097000e3fe95c1eec2e20012b02b11"
+    }
+  ],
+  "captures": [
+    {
+      "file": "app-back.png",
+      "sha256": "7edba5465531d75b1d16a90cd34815b732f36ca7882ca9ac6ec97b1fa0cb4084",
+      "bytes": 453030,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "app-home-restored.png",
+      "sha256": "084b2eb999f8553a53b5648908e3e1c1a984317f6d739def21485db0d6e7c33e",
+      "bytes": 453095,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "app-start.png",
+      "sha256": "a504a5af8dcb24d3d9657b833f8085e6dcb25d3b7891c647bd895530c838ee72",
+      "bytes": 427214,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "app-wallet.png",
+      "sha256": "e68c83e765f967d43b92f27b4031614ed72aaf5805cfda09e6fda0756068bed5",
+      "bytes": 94075,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "device-start-unread.png",
+      "sha256": "0a6862bf6d65c4eb7a93967cacea73a9453c7ed3b4eedb2e5ce07109671ad7b8",
+      "bytes": 427640,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "failure.png",
+      "sha256": "e0cfa8850ef62bd84169027d14b91a5787c91b7fa98348658f1ed094e4a931df",
+      "bytes": 511968,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-back-start.png",
+      "sha256": "8deee3792fbfd2345a9953f40b7a23504248f799e17da2f0c35c9eb5ee33ff19",
+      "bytes": 402896,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-returned.png",
+      "sha256": "6ba76a12cbbd3a7f43d40f8b63f48fba126da002b8f0433675bdb0591e542dea",
+      "bytes": 326256,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-start.png",
+      "sha256": "46655ac42a452044b5a478f1fb119449ba9ff4f50fdbb44365053dc0b5e380b0",
+      "bytes": 325094,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-wallet.png",
+      "sha256": "3182611419b052efb1a6610913170eb90a6a654e3ee03db94c6ba7d0267869d8",
+      "bytes": 93572,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-back.png",
+      "sha256": "fc8ac2bd389dfcbb6ed3aad656d533725cbf8229bfc47a9b8e296a316b0c9788",
+      "bytes": 509982,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-home-restored.png",
+      "sha256": "66e9bdfa4fe47240a62e9b0b07d354962d1ff5e81d929064c337861c9b660fac",
+      "bytes": 325911,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-start.png",
+      "sha256": "3533349d0ad310f5cb50e33bbc10390117a5e3ee4b6f2c9d59989c0ff16c229c",
+      "bytes": 510054,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-wallet.png",
+      "sha256": "a01a756b09b3b602f14b2aa32cac3f2e0b2aedd466777c93fc23f7973966b2f3",
+      "bytes": 93659,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    }
+  ],
+  "visual_review": {
+    "reviewed": [
+      "failure.png"
+    ],
+    "finding": "The original final failure capture shows Start with visible unread badge1 after the overlay-closing swipe; no ActionCenter is present. Initial pre-scroll overlay screenshot was not retained.",
+    "all_captures_reviewed": false
+  },
+  "evidence_files": {
+    "log": "android-ui-45278542129.log",
+    "metadata": "android-ui-45278542129-metadata.json",
+    "ui_directory": "android-ui-45278542129",
+    "apk_directory": "android-ui-apks-45278542129"
+  }
+}

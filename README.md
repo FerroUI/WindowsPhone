@@ -26,6 +26,8 @@ Start adds per-tile presentation, explicit arrangement/folder commands and six b
 
 ## Preview
 
+The verified browser revision [`77f0a0f`](https://github.com/FerroUI/WindowsPhone/commit/77f0a0f91a168e0f4c152cc59d762625a72f1382) provides reviewed captures of [six live-tile templates](docs/verification/launcher-native-integration/captures/start-live-templates.png), an [expanded live folder](docs/verification/launcher-native-integration/captures/start-folder-expanded-children.png), [embedded map pan/zoom](docs/verification/launcher-native-integration/captures/maps-native-tiles-pan-zoom.png) and [saved-place Start activation](docs/verification/launcher-native-integration/captures/maps-saved-place-start-activation.png). The [evidence index](docs/verification/launcher-native-integration/README.md) preserves their unmodified artifacts and exact fixture scope. Automated map captures use controlled tile imagery.
+
 The browser renders the shared FerroUI control tree through WebAssembly. These unmodified captures come from the passing full browser verification of runtime [`01c4d69`](https://github.com/FerroUI/WindowsPhone/commit/01c4d697c6b32049c8b919899fbb0416f5b61144), with isolated sample data and native pointer, keyboard and touch input.
 
 ![Windows Phone Start in the FerroUI browser app](docs/screenshots/platform-start-browser.png)
@@ -41,7 +43,7 @@ Earlier application workflow captures retain their own source attribution: [Exce
 ## Explore
 
 - **Start:** live content and notification counts, small/medium/wide tiles, pin/unpin, resize, reorder, folders that preserve their child tiles, secondary content tiles, accent colors, light/dark backgrounds, a shared scrolling photo behind transparent tile interiors, press-location tilt feedback, and the optional extra tile columns. Decorative motion respects reduced motion and Battery Saver.
-- **Phone navigation:** swipe between Start and the alphabetical Apps list; search, measured letter jumps and sticky group headings; Back/Start/Search buttons; recent-app cards; configurable lock wallpaper and status providers; grouped Action Center notifications and deep links.
+- **Phone navigation:** swipe between Start and the alphabetical Apps list; search and measured letter jumps, with sticky headings in the built-in-only list; Back/Start/Search buttons; recent-app cards; configurable lock wallpaper and status providers; grouped Action Center notifications and deep links.
 - **System controls:** separate ringer/notification and media/app volume, mute and vibration controls; a hardware-style volume panel; light/dark and high-contrast themes; reduced motion; live-tile preferences; date order and calendar week start. Battery information uses an actual host reading when available; storage views measure the saved phone document and separately show browser-origin storage estimates and persistence permission.
 - **Device apps:** discover, search, open and pin visible native applications on Android and supported desktop hosts. The page reports the current host mode and exposes supported system settings, Android HOME selection, haptics and notification consent. Browser and iOS show their available services.
 - **Messaging and Outlook:** search local threads and mail, select rows from the left edge or a held item, and apply bulk actions. Messaging includes contact selection, unknown-number contact creation, drafts, and copy/forward/delete commands on individual messages. Outlook includes folders, all/unread/flagged views, bulk read/flag changes, deleted items and restore. On supported mobile providers Messaging also exposes device threads, SMS/MMS transport, attachments, subscriptions and actual send states; the standard iOS path uses native composition. Email composition still opens the host mail app. Local drafts do not claim delivery.
@@ -172,7 +174,33 @@ With Chromium available, run the browser interaction and screenshot suite agains
 node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
 ```
 
-### Portable browser and desktop verification
+### Launcher and device integration verification
+
+The browser passed [run 45282852497](https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497) at [`77f0a0f`](https://github.com/FerroUI/WindowsPhone/commit/77f0a0f91a168e0f4c152cc59d762625a72f1382): **331 Rust tests**, **55 JavaScript tests** and **71 rendered interaction groups**, producing **132 captures** with **zero console/runtime errors**. The **215.695-second** duration measures the rendered suite. [Browser evidence](docs/verification/launcher-native-integration/browser.json) and [unmodified results](docs/verification/launcher-native-integration/results.json) retain exact source and artifact hashes.
+
+| Desktop target | Host / plugin / shared native tests | Additional gates | Full build/link |
+| --- | --- | --- | --- |
+| Linux | 33 / 9 / 17 passed | 6 packaging tests; separate private-D-Bus MPRIS test | Passed |
+| Windows | 30 / 6 / 16 passed | 4 packaging tests, 2 POSIX-only skips; PowerShell parser | Passed |
+| macOS | 29 / 5 / 17 passed | 6 packaging tests | Passed |
+
+[Desktop evidence](docs/verification/launcher-native-integration/desktop.json) records actual native media-provider compilation, protocol checks and complete executable links. It does not establish physical hardware, native permission dialogs, rendered desktop interaction or installation as the user's shell. The [local record](docs/verification/launcher-native-integration/local-validation.json) keeps overlapping ownership, contract, cache and lifecycle regressions separate.
+
+The browser was deployed successfully. [Direct HTTP checks](docs/verification/launcher-native-integration/publication-http.json) returned `200` and `77f0a0f` from both [the public app](https://ferroui.com/WindowsPhone/) and its scope-owned service worker. These checks establish the served revision; existing-profile upgrade behavior remains bounded by the service worker's waiting lifecycle.
+
+### Current Android native qualification
+
+At [`77f0a0f`](https://github.com/FerroUI/WindowsPhone/commit/77f0a0f91a168e0f4c152cc59d762625a72f1382), the [ARM64 package gate](https://github.com/FerroUI/WindowsPhone/actions/runs/45282852656) passed both actual App/HOME APKs, no-default-feature embedding, 111 JVM assertions, 24 AOSP source hashes, protected merged manifests, exported JNI and 16 KiB ELF/ZIP alignment. The independent [API 36 runtime gate](https://github.com/FerroUI/WindowsPhone/actions/runs/45282852605) passed both flavors, actual HOME selection/reentry/Back, native unread SMS and its cold Start badge, native notification grant/admission/rendering/revocation, and incoming-call Answer plus foreground ownership and remote-end teardown. Original roles and notification-listener state were restored in the disposable emulator.
+
+[Package evidence](docs/verification/launcher-native-integration/android-package.json), [runtime evidence](docs/verification/launcher-native-integration/android-ui.json), and [reviewed original captures](docs/verification/launcher-native-integration/README.md#android-launcher-and-communications-runtime) preserve the exact conditions. The call gate uses native Answer input and modem-simulated remote hangup; it does not establish End-call button input or physical carrier delivery. MMS codec tests make no RF requests. Native hardware, physical OEM policies, chooser consent/denial and carrier MMS remain device qualification work.
+
+### Current iOS native qualification
+
+At [`9a628e3`](https://github.com/FerroUI/WindowsPhone/commit/9a628e39af18b727555ad4f9a5184761d2519502), the [iOS gate](https://github.com/FerroUI/WindowsPhone/actions/runs/45287778966) passed both standard/optional UIKit builds, physical-iPhone Swift type checking, real Contacts create/query/update/query/delete/query, truthful simulator brightness observation/write refusal, and six system-delivered URLs covering Wallet, Phone, People, Messaging, Settings and Home. All seven mounted observations retain the same process, launch UUID and active scene with a **414 × 814-point** phone surface inside the observed safe area. Settings accepts its owned detail-route redirect.
+
+[The current iOS record](docs/verification/launcher-native-integration/ios.json) and [original native observations/captures](docs/verification/launcher-native-integration/README.md#ios-uikit-and-native-integration) retain the exact boundaries. The simulator does not qualify carrier service, physical brightness or distribution signing. An intermittent initial-startup failure in earlier attempts remains unexplained; opt-in early diagnostics were added, and the complete current run passed with unchanged runtime deadlines and provider assertions. [Target source fingerprints](docs/verification/launcher-native-integration/source-boundaries.json) bind each separate passing platform revision to unchanged applicable source at the final implementation head.
+
+### Earlier portable browser and desktop verification
 
 Browser runtime [`01c4d69`](https://github.com/FerroUI/WindowsPhone/commit/01c4d697c6b32049c8b919899fbb0416f5b61144) passed [run 45211399089](https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089) and deployed to [the public app](https://ferroui.com/WindowsPhone/). It passed **260 Rust tests**, **51 JavaScript tests**, linking of **25 local modules**, and **66 rendered interaction groups** with **125 captures** and **zero console/runtime errors**. The **189.052-second** duration measures the suite. New groups exercise Device apps against observed browser support and reject unsupported platform requests and invalid activation routes without changing phone data. [Results](docs/verification/01c4d69-results.json) and the [browser publication record](docs/verification/01c4d69-browser.json) retain the exact source and artifact hashes.
 
@@ -188,7 +216,7 @@ Native adapters at [`4ae5558`](https://github.com/FerroUI/WindowsPhone/commit/4a
 
 Public HTTP confirmed `01c4d69` in both the page and the scope-owned service-worker revision. Settings → phone update checks for a new build. A downloaded update becomes active after **all old app windows and tabs close**; an ordinary refresh can retain the prior worker while another old window remains open.
 
-### Native mobile verification
+### Earlier native mobile verification
 
 Android ARM64 revision [`6149938`](https://github.com/FerroUI/WindowsPhone/commit/6149938d9bf8eb8cf3cf5eeb620c3aee124132df) passed [run 45218700649](https://github.com/FerroUI/WindowsPhone/actions/runs/45218700649): both actual App/Launcher APKs, the library with its standalone entry disabled, merged package manifests, exported `JNI_OnLoad`, and **16 KiB ELF and APK ZIP alignment**. [The package record](docs/verification/6149938-android.json) retains the APK hashes and tool versions; [ARM64 debug packages](https://github.com/FerroUI/WindowsPhone/actions/runs/45218700649/artifacts/14839923081) are attached to that run.
 

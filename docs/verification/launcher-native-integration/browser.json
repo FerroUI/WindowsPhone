@@ -1,0 +1,662 @@
+{
+  "schema": 1,
+  "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+  "repository": "FerroUI/WindowsPhone",
+  "workflow": "Build and publish",
+  "run_id": 45282852497,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497",
+  "conclusion": "success",
+  "job": {
+    "id": 138071504718,
+    "run_id": 45282852497,
+    "workflow_name": "Build and publish",
+    "head_branch": "main",
+    "run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45282852497",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOV33P9M8AAAAgJbP3Tg",
+    "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+    "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/jobs/138071504718",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/job/138071504718",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-23T22:46:34Z",
+    "started_at": "2026-11-23T22:46:38Z",
+    "completed_at": "2026-11-23T23:28:39Z",
+    "name": "build",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-23T22:46:39Z",
+        "completed_at": "2026-11-23T22:46:41Z"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-23T22:46:41Z",
+        "completed_at": "2026-11-23T22:46:58Z"
+      },
+      {
+        "name": "Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-23T22:46:58Z",
+        "completed_at": "2026-11-23T22:47:01Z"
+      },
+      {
+        "name": "Validate compiled artifact reuse",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 4,
+        "started_at": "2026-11-23T22:47:01Z",
+        "completed_at": "2026-11-23T22:47:01Z"
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-23T22:47:01Z",
+        "completed_at": "2026-11-23T22:47:01Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-23T22:47:01Z",
+        "completed_at": "2026-11-23T22:47:01Z"
+      },
+      {
+        "name": "Install pinned browser tools",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-23T22:47:01Z",
+        "completed_at": "2026-11-23T22:51:23Z"
+      },
+      {
+        "name": "Run actions/cache/save@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-23T22:51:23Z",
+        "completed_at": "2026-11-23T22:51:31Z"
+      },
+      {
+        "name": "Normalize pinned framework timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-23T22:51:31Z",
+        "completed_at": "2026-11-23T22:51:31Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-23T22:51:31Z",
+        "completed_at": "2026-11-23T22:51:32Z"
+      },
+      {
+        "name": "Verify state",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-23T22:51:32Z",
+        "completed_at": "2026-11-23T22:53:15Z"
+      },
+      {
+        "name": "Verify SDK and game contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-23T22:53:15Z",
+        "completed_at": "2026-11-23T23:01:27Z"
+      },
+      {
+        "name": "Verify host boundaries",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-23T23:01:27Z",
+        "completed_at": "2026-11-23T23:01:28Z"
+      },
+      {
+        "name": "Build Windows Phone",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-23T23:01:28Z",
+        "completed_at": "2026-11-23T23:24:31Z"
+      },
+      {
+        "name": "Save compiled framework and app",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-23T23:24:31Z",
+        "completed_at": "2026-11-23T23:24:52Z"
+      },
+      {
+        "name": "Run actions/download-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-23T23:24:52Z",
+        "completed_at": "2026-11-23T23:24:52Z"
+      },
+      {
+        "name": "Verify reused module links",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-23T23:24:52Z",
+        "completed_at": "2026-11-23T23:24:52Z"
+      },
+      {
+        "name": "Verify first frame",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-23T23:24:52Z",
+        "completed_at": "2026-11-23T23:24:52Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-11-23T23:24:52Z",
+        "completed_at": "2026-11-23T23:24:55Z"
+      },
+      {
+        "name": "Verify rendered desktop and touch views",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-23T23:24:55Z",
+        "completed_at": "2026-11-23T23:28:31Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-23T23:28:31Z",
+        "completed_at": "2026-11-23T23:28:33Z"
+      },
+      {
+        "name": "Run actions/configure-pages@v5",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 22,
+        "started_at": "2026-11-23T23:28:33Z",
+        "completed_at": "2026-11-23T23:28:34Z"
+      },
+      {
+        "name": "Run actions/upload-pages-artifact@v3",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-23T23:28:34Z",
+        "completed_at": "2026-11-23T23:28:37Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 45,
+        "started_at": "2026-11-23T23:28:37Z",
+        "completed_at": "2026-11-23T23:28:37Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 46,
+        "started_at": "2026-11-23T23:28:37Z",
+        "completed_at": "2026-11-23T23:28:37Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 47,
+        "started_at": "2026-11-23T23:28:37Z",
+        "completed_at": "2026-11-23T23:28:37Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-runs/138071504718",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "runner_id": 1000002150,
+    "runner_name": "GitHub Actions 1000002150",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions",
+    "metadata_file": "/workspace/scratch/abc156bf144f/launcher-job-138071504718-final.json",
+    "metadata_sha256": "3dd9b4cc3a6310e5297ed4f27edae81be9de7c0f068744084e31915a98829630"
+  },
+  "wasm_build": {
+    "result": "success",
+    "cargo_profile": "browser",
+    "cargo_duration_seconds": 1370.0,
+    "compile_reused": false,
+    "linked_local_modules": 26
+  },
+  "rust_tests": {
+    "passed": 331,
+    "failed": 0,
+    "ignored": 1,
+    "groups": [
+      {
+        "command": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+        "passed": 156,
+        "failed": 0,
+        "ignored": 1
+      },
+      {
+        "command": "cargo test --locked -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-people -p phone-app-settings -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+        "passed": 175,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "ignored_reason": "The one private-bus MPRIS protocol test requires a separate dbus-run-session; this browser job intentionally leaves it ignored. The Linux native job records the separate protocol run."
+  },
+  "javascript_tests": {
+    "passed": 55,
+    "failed": 0,
+    "elapsed_ms": 590.093658
+  },
+  "rendered_ui": {
+    "passed": true,
+    "checks": 71,
+    "captures": 132,
+    "elapsed_ms": 215695,
+    "viewport": [
+      1280,
+      936
+    ],
+    "errors": [],
+    "results_path": "results.json",
+    "results_sha256": "cdd82e57863aab875baf03bcc2113dc5987ac40a288f8f0648fc71e87faa88ba",
+    "manifest_path": "browser-artifact-manifest.json",
+    "manifest_sha256": "1c0fe89ac6732ef647c14be9853d4a79974e9388bd940187ad6e4ad9370ca0ad",
+    "original_artifact_file_count": 268,
+    "focus_checks": [
+      {
+        "name": "native tile launch and Back",
+        "elapsedMs": 794,
+        "passed": true
+      },
+      {
+        "name": "native context menu resizes a tile",
+        "elapsedMs": 885,
+        "passed": true
+      },
+      {
+        "name": "native secondary note tile opens its note",
+        "elapsedMs": 1341,
+        "passed": true
+      },
+      {
+        "name": "native transparent tiles share a bounded wallpaper plane across tall Start layouts",
+        "elapsedMs": 1307,
+        "passed": true
+      },
+      {
+        "name": "native tile projection responds to press location while retaining Button bounds",
+        "elapsedMs": 1910,
+        "passed": true
+      },
+      {
+        "name": "native map tiles render with attribution and bounded visible images; pan and zoom preserve data",
+        "elapsedMs": 1147,
+        "passed": true
+      },
+      {
+        "name": "trusted map pinch, pointer cancellation and route cleanup stay within the map",
+        "elapsedMs": 1449,
+        "passed": true
+      },
+      {
+        "name": "native Maps saves coordinates, home shortcuts and directions preferences",
+        "elapsedMs": 6947,
+        "passed": true
+      },
+      {
+        "name": "native Maps coordinate search and recent history need no network lookup",
+        "elapsedMs": 1732,
+        "passed": true
+      },
+      {
+        "name": "mounted People live tile advances one cell without input or persistence",
+        "elapsedMs": 1308,
+        "passed": true
+      },
+      {
+        "name": "six native live-card templates, capped badge and finite flip render",
+        "elapsedMs": 844,
+        "passed": true
+      },
+      {
+        "name": "queued cards rotate and scheduled expiry survives reduced motion without saving",
+        "elapsedMs": 530,
+        "passed": true
+      },
+      {
+        "name": "native tile customization, folder creation and dissolution preserve full records",
+        "elapsedMs": 5001,
+        "passed": true
+      },
+      {
+        "name": "native live-folder cover, expansion and child activation retain tile identity",
+        "elapsedMs": 1203,
+        "passed": true
+      }
+    ],
+    "visual_review": [
+      {
+        "name": "maps-native-tiles-pan-zoom",
+        "file": "captures/maps-native-tiles-pan-zoom.png",
+        "observation": "captures/maps-native-tiles-pan-zoom.json",
+        "width": 1280,
+        "height": 936,
+        "png_sha256": "b132a7b16126da0acf1829121bcc72384902527aad5629ae828b062dac267222",
+        "json_sha256": "d26d606013e78a0d69368cc6e1b2e99a2f2c01d0a254aa6b585c2fee98af7bb1",
+        "finding": "Fixture tiles fill the measured viewport; coordinate/zoom display, zoom controls, scale and attribution remain visible above app/system navigation.",
+        "unmodified": true
+      },
+      {
+        "name": "maps-saved-place-start-activation",
+        "file": "captures/maps-saved-place-start-activation.png",
+        "observation": "captures/maps-saved-place-start-activation.json",
+        "width": 1280,
+        "height": 936,
+        "png_sha256": "da61f312bb41dce7b32f1f3a18bedb72ed4c9db1063d5feeaac576f66c233e19",
+        "json_sha256": "102c1ca541e4150b070a19fbc62bc836ad912b21a71324cf9f3f89b0ff0ab4fc",
+        "finding": "The pinned-place route renders the saved title, address, coordinates and centered marker; the bounded detail map, scale, attribution and app-bar glyphs remain clear.",
+        "unmodified": true
+      },
+      {
+        "name": "start-live-templates",
+        "file": "captures/start-live-templates.png",
+        "observation": "captures/start-live-templates.json",
+        "width": 1280,
+        "height": 936,
+        "png_sha256": "6e491a2cb3e13e0554991cb13a48e90176e9eba3a94038bccafee2c3cdbf59ee",
+        "json_sha256": "a3141c2f810f92800ef65409431ec221786adfa184a79378f78e06a504435939",
+        "finding": "All six live templates render with the capped 99+ count, independent badges, 65% progress track and local photos; labels, status and navigation remain visible.",
+        "unmodified": true
+      },
+      {
+        "name": "start-folder-expanded-children",
+        "file": "captures/start-folder-expanded-children.png",
+        "observation": "captures/start-folder-expanded-children.json",
+        "width": 1280,
+        "height": 936,
+        "png_sha256": "928f9dba10145b21dbf1f8018625a05d49b4dc18a4de59933bd4780f7e86c4a2",
+        "json_sha256": "316261caa71a861942ca6af429bbb0c96da8e22ad22446e3871688e2c1249706",
+        "finding": "The live folder cover and both expanded full child tiles preserve content, labels and badges, with the close control and system navigation visible.",
+        "unmodified": true
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 14873446090,
+      "name": "github-pages",
+      "size_in_bytes": 9925313,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14873446090",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14873446090/zip",
+      "expired": false,
+      "created_at": "2026-11-23T23:28:36Z",
+      "expires_at": "2026-11-24T23:28:34Z",
+      "updated_at": "2026-11-23T23:28:36Z",
+      "digest": "sha256:c6a3ea07aaea19703684a8dab3fd4c0839b0b5c67ed0f0ea203140a17a4e59aa",
+      "workflow_run": {
+        "id": 45282852497,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382"
+      },
+      "sha256": "c6a3ea07aaea19703684a8dab3fd4c0839b0b5c67ed0f0ea203140a17a4e59aa",
+      "sha256_verified": true,
+      "zip": "github-pages-77f0a0f.zip",
+      "size_bytes": 9925313,
+      "extracted": "pages-archive-77f0a0f",
+      "extracted_files_match_zip": true,
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/artifacts/14873446090",
+      "pages_directory": "/workspace/scratch/abc156bf144f/pages-77f0a0f",
+      "inner_tar_sha256": "0b586b0284144963668c8a8dc4757dc74be827cf6a872776c66e41306ab5ecaa"
+    },
+    {
+      "id": 14873355626,
+      "name": "compiled-app",
+      "size_in_bytes": 9930058,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14873355626",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14873355626/zip",
+      "expired": false,
+      "created_at": "2026-11-23T23:24:54Z",
+      "expires_at": "2026-11-26T23:24:52Z",
+      "updated_at": "2026-11-23T23:24:54Z",
+      "digest": "sha256:2d82752b11d4858cea63e76af420d240e7f7f9cda5d8c5bc1195d1ea85dc5de4",
+      "workflow_run": {
+        "id": 45282852497,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382"
+      },
+      "sha256": "2d82752b11d4858cea63e76af420d240e7f7f9cda5d8c5bc1195d1ea85dc5de4",
+      "sha256_verified": true,
+      "zip": "compiled-app-77f0a0f.zip",
+      "size_bytes": 9930058,
+      "extracted": "site-77f0a0f",
+      "extracted_files_match_zip": true,
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/artifacts/14873355626"
+    },
+    {
+      "id": 14872119728,
+      "name": "ui-verification",
+      "size_in_bytes": 7071783,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14872119728",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14872119728/zip",
+      "expired": false,
+      "created_at": "2026-11-23T23:28:33Z",
+      "expires_at": "2026-11-28T23:28:31Z",
+      "updated_at": "2026-11-23T23:28:33Z",
+      "digest": "sha256:e3d35196b40748fe467b08dec45ae54b2225f6faf5f45e2cd0798d16e10d0052",
+      "workflow_run": {
+        "id": 45282852497,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382"
+      },
+      "sha256": "e3d35196b40748fe467b08dec45ae54b2225f6faf5f45e2cd0798d16e10d0052",
+      "sha256_verified": true,
+      "zip": "ui-verification-77f0a0f.zip",
+      "size_bytes": 7071783,
+      "extracted": "ui-77f0a0f",
+      "extracted_files_match_zip": true,
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/artifacts/14872119728"
+    }
+  ],
+  "artifact_metadata_file": "/workspace/scratch/abc156bf144f/artifacts-77f0a0f-final.json",
+  "artifact_metadata_sha256": "58418db590eee1a5861651cf58dd2041143b3d53924f57a72d0a078f0d470588",
+  "job_log": "browser-job-138071504718.log",
+  "job_log_sha256": "170d2a40ffadecc06cb810b917e5df63738cd39535523c05c30033d526f70129",
+  "job_log_bytes": 295755,
+  "job_log_preservation": {
+    "utf8_bom_retained": true,
+    "replacement_characters": 0,
+    "line_endings_normalized": false,
+    "ansi_sequences_removed": false,
+    "source": "Complete GitHub connector log content, encoded to UTF-8 without textual modification; normalized only in memory for parsing."
+  },
+  "publication": {
+    "job": {
+      "id": 138093102654,
+      "run_id": 45282852497,
+      "workflow_name": "Build and publish",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45282852497",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOV33P9M8AAAAgJv2GPg",
+      "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/jobs/138093102654",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852497/job/138093102654",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-23T23:28:40Z",
+      "started_at": "2026-11-23T23:28:45Z",
+      "completed_at": "2026-11-23T23:28:54Z",
+      "name": "deploy",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-23T23:28:46Z",
+          "completed_at": "2026-11-23T23:28:46Z"
+        },
+        {
+          "name": "Run actions/deploy-pages@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-23T23:28:46Z",
+          "completed_at": "2026-11-23T23:28:53Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-23T23:28:53Z",
+          "completed_at": "2026-11-23T23:28:53Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-runs/138093102654",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000002154,
+      "runner_name": "GitHub Actions 1000002154",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions",
+      "metadata_file": "/workspace/scratch/abc156bf144f/launcher-job-138093102654-final.json",
+      "metadata_sha256": "4f2f5e9dfeb1179fe91549c9d7e7400edbff732175ed45bf316abf45516defd3"
+    },
+    "url": "https://ferroui.com/WindowsPhone/",
+    "http_record": "publication-http.json",
+    "http_record_sha256": "8c8be437053371140a7e48718be1c52bed974771dff5d1af01cadc15453c3f06",
+    "http_observations": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "effective_url": "https://ferroui.com/WindowsPhone/",
+        "status": 200,
+        "bytes": 1359,
+        "sha256": "08126f40a831d39295ba84a8ac8ec0a486bd0766bf6a52423676cc256f270c2c",
+        "contains_77f0a0f": true,
+        "matches_compiled_artifact_bytes": true,
+        "body_file": "/workspace/scratch/abc156bf144f/public-77f0a0f-index.html",
+        "headers": {
+          "server": "envoy",
+          "content-type": "text/html; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 23:28:49 GMT",
+          "access-control-allow-origin": "*",
+          "etag": "\"6b04cc31-54f\"",
+          "expires": "Mon, 23 Nov 2026 23:42:48 GMT",
+          "cache-control": "max-age=600",
+          "x-proxy-cache": "MISS",
+          "x-github-request-id": "7B10:1CF772:1383B9:195621:6B04CD20",
+          "x-github-edge-region": "iad",
+          "accept-ranges": "bytes",
+          "age": "0",
+          "date": "Mon, 23 Nov 2026 23:32:48 GMT",
+          "via": "1.1 varnish",
+          "x-served-by": "cache-chi-klot8100166-CHI",
+          "x-cache": "MISS",
+          "x-cache-hits": "0",
+          "x-timer": "S1795476768.269592,VS0,VE51",
+          "vary": "Accept-Encoding",
+          "x-fastly-request-id": "cda20ec9a98bc0d428af59c9c253e3aa2b4011f3",
+          "content-length": "1359",
+          "x-envoy-upstream-service-time": "121",
+          "connection": "close"
+        }
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "effective_url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "status": 200,
+        "bytes": 2604,
+        "sha256": "24c5bcef5f0cbf59094388db4151f51d8277d0e129f90943de2728584f3a6fd5",
+        "contains_77f0a0f": true,
+        "matches_compiled_artifact_bytes": true,
+        "body_file": "/workspace/scratch/abc156bf144f/public-77f0a0f-app-sw.js",
+        "headers": {
+          "server": "envoy",
+          "content-type": "application/javascript; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 23:28:49 GMT",
+          "access-control-allow-origin": "*",
+          "etag": "\"6b04cc31-a2c\"",
+          "expires": "Mon, 23 Nov 2026 23:42:48 GMT",
+          "cache-control": "max-age=600",
+          "x-proxy-cache": "MISS",
+          "x-github-request-id": "2BB6:1097BB:25753F:2A19F2:6B04CD1F",
+          "x-github-edge-region": "iad",
+          "accept-ranges": "bytes",
+          "age": "0",
+          "date": "Mon, 23 Nov 2026 23:32:48 GMT",
+          "via": "1.1 varnish",
+          "x-served-by": "cache-chi-klot8100160-CHI",
+          "x-cache": "MISS",
+          "x-cache-hits": "0",
+          "x-timer": "S1795476768.277986,VS0,VE62",
+          "vary": "Accept-Encoding",
+          "x-fastly-request-id": "9327ea9fea7149c23eee60a16166b68b07eb7ec9",
+          "content-length": "2604",
+          "x-envoy-upstream-service-time": "142",
+          "connection": "close"
+        }
+      }
+    ],
+    "pages_files_matching_compiled_artifact": 43,
+    "pages_only_files": [
+      ".nojekyll"
+    ]
+  },
+  "warnings": [
+    "Pinned framework code emits existing unused/deprecated API and unmatched profile package-spec warnings; the full browser link succeeds.",
+    "The browser linker emits the em++ WASM_BIGINT deprecation warning.",
+    "Pinned browser-tool installation reports yoke-derive 0.8.3 yanked and future Rust incompatibility warnings for buf_redux 0.8.4/multipart 0.18.0; installation completed successfully.",
+    "Pinned npm tooling emits dependency deprecation warnings. GitHub reports older action Node 20 runtimes forced onto Node 24."
+  ],
+  "qualification": [
+    "All source and artifact claims identify 77f0a0f91a168e0f4c152cc59d762625a72f1382. Later iOS-only follow-ups retain separate target attribution and require the final source-boundary proof.",
+    "Rendered Maps uses a fixed intercepted PNG fixture. This gate does not test public OSM network availability or download performance.",
+    "Browser interaction and captures exercise browser-hosted FerroUI controls. Physical Android/iOS hardware and protected native SMS/notification access require their separate mobile gates.",
+    "Direct HTTP checks establish the deployed document and worker bytes at the recorded time; existing-profile service-worker upgrades have separate boundary tests.",
+    "Historical b798631, cancelled 66763e1 and completed 99ffbfc records remain separate and unchanged. No source or helper changes were made during this 77f0a0f collection."
+  ],
+  "recorded_at": "2026-11-23T23:34:29.548092+00:00",
+  "source_record": {
+    "file": "browser-ci-77f0a0f.json",
+    "sha256": "74eeb76e90605412d7b38b28a2ce88dce28065e8dba2e3fd7ad6b4143324306f",
+    "bytes": 26180,
+    "normalization": "Only local file references are normalized to packaged relative names; source fields, results, counts, hashes and qualification are preserved."
+  }
+}

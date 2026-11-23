@@ -1,0 +1,2325 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "platform": "ios",
+  "head_sha": "9a628e39af18b727555ad4f9a5184761d2519502",
+  "source": {
+    "commit": "9a628e39af18b727555ad4f9a5184761d2519502",
+    "tree": "bf2370220ffbafff19ec49986fdec3742498f076",
+    "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+    "ios_integration_and_harness_files": [
+      {
+        "path": ".github/workflows/ios.yml",
+        "bytes": 5187,
+        "sha256": "e20f5c6768d3ca199900f7b96fd433732fe3c565925a8696c1fdf4d3ce8794c2"
+      },
+      {
+        "path": "crates/phone-ios/Cargo.toml",
+        "bytes": 833,
+        "sha256": "8d540de86f27ec9d0178320406cf1887a566e628ac1284b004b54800dadbbe32"
+      },
+      {
+        "path": "crates/phone-ios/README.md",
+        "bytes": 15700,
+        "sha256": "87b4191d696cc58c9c43813054a2e86f3802114273a9ddd95c67de533260347d"
+      },
+      {
+        "path": "crates/phone-ios/build.rs",
+        "bytes": 4964,
+        "sha256": "16c3a6e2161da47b31d9080c1f950c5248802aede304fa90f8cc6cb038116684"
+      },
+      {
+        "path": "crates/phone-ios/native/attachments.h",
+        "bytes": 751,
+        "sha256": "96ca98cae171c2bae220fe5a5ec3dbc1b57d4849e28f606f256d1fb60563c5fa"
+      },
+      {
+        "path": "crates/phone-ios/native/attachments.m",
+        "bytes": 13550,
+        "sha256": "48ab321a8aeb2df303fec6d382843e2b410a2815fd1512f20b4f3b170eb1299c"
+      },
+      {
+        "path": "crates/phone-ios/native/bridge.h",
+        "bytes": 1011,
+        "sha256": "b47583f45eca2812a052bd549a2ba6f0241488c59c62313608e59a7121424bd5"
+      },
+      {
+        "path": "crates/phone-ios/native/bridge.m",
+        "bytes": 9292,
+        "sha256": "2a2ff1d68d491e1ff0f8cefb3e3d5d95fcdd066b274b62b31cfd0ff23d7b588b"
+      },
+      {
+        "path": "crates/phone-ios/native/communication.m",
+        "bytes": 9067,
+        "sha256": "e088053ce63dc52e9460d239956e0b6978ac2d0686da79530837807056ea348c"
+      },
+      {
+        "path": "crates/phone-ios/native/contacts.m",
+        "bytes": 13466,
+        "sha256": "62ab576d018b9bb11f106d4b336637941a9cb6db0f1fc64de6612daca2d09a20"
+      },
+      {
+        "path": "crates/phone-ios/native/device.h",
+        "bytes": 2178,
+        "sha256": "278c639e6508b32fb138dbb853335a1b979ce23d1876d04bcafe8cddba0d2f9f"
+      },
+      {
+        "path": "crates/phone-ios/native/device.m",
+        "bytes": 16288,
+        "sha256": "25ba01563db1074ffab86e6beff341f5e45a00a959824f795d747db778a4f96f"
+      },
+      {
+        "path": "crates/phone-ios/native/hardware.m",
+        "bytes": 10273,
+        "sha256": "9abaef5a59f084d1ef9c879904b4654aaa2ecc239bc1aa74f52ae58969c33912"
+      },
+      {
+        "path": "crates/phone-ios/native/location.m",
+        "bytes": 4112,
+        "sha256": "224d6507acb0dd0b061879f1035a9f929d8d19d9b1820da9f3ca57dfb2991a8f"
+      },
+      {
+        "path": "crates/phone-ios/native/notification_policy.m",
+        "bytes": 2093,
+        "sha256": "98abea8468c78a7c06acd88d924bafe382c955d3a150ce200e3d429fcc3df0db"
+      },
+      {
+        "path": "crates/phone-ios/native/notifications.m",
+        "bytes": 6205,
+        "sha256": "957c574532073b6f862cb22b20350ac4ba59db87343a9df3c5b34dc448332dff"
+      },
+      {
+        "path": "crates/phone-ios/native/share.m",
+        "bytes": 5036,
+        "sha256": "1d60bde7475fd12c1e2ebf39131b6765c0cb5fdfc1ad363e91756c2531389ea7"
+      },
+      {
+        "path": "crates/phone-ios/native/telephony/Bridge.swift",
+        "bytes": 3956,
+        "sha256": "f1de90e682c4d2d7065af75694419cbf449fca8698435816202cac1e12a3a4a7"
+      },
+      {
+        "path": "crates/phone-ios/native/telephony/CarrierAttachments.swift",
+        "bytes": 7425,
+        "sha256": "1b8316b74c63e998f670cb625ab33798b2b66ee14de569038405cb5448b947d0"
+      },
+      {
+        "path": "crates/phone-ios/native/telephony/CarrierMessages.swift",
+        "bytes": 19958,
+        "sha256": "a78af9f391cd129f8ffa298b53b0797b00e0d5e2d3ce11474619706fd0cf231b"
+      },
+      {
+        "path": "crates/phone-ios/native/telephony/CarrierStore.swift",
+        "bytes": 13104,
+        "sha256": "32b97c7aeef02805fb7e3bb24fdbe851a2222a30628a916437b882b20cc1bf79"
+      },
+      {
+        "path": "crates/phone-ios/native/telephony/TelephonyProvider.swift",
+        "bytes": 11385,
+        "sha256": "4a9e6a231f49a0819fcb57905c31f1d28d4ce05227478e342df520da2bab0775"
+      },
+      {
+        "path": "crates/phone-ios/src/application.rs",
+        "bytes": 8437,
+        "sha256": "278199591057f5a1fed4ffce2ba4477fe8abb2a739c22e7bd1dd9d50931f6be7"
+      },
+      {
+        "path": "crates/phone-ios/src/device.rs",
+        "bytes": 4494,
+        "sha256": "15b63dc3b04aa10fc12a5d21854f263e9a85ca819944c1ca5423cd70a42e9f62"
+      },
+      {
+        "path": "crates/phone-ios/src/lib.rs",
+        "bytes": 554,
+        "sha256": "183da566f6f0863cf66f351dbec28ed59f3444ef9fae9cbffba5e536a99a321b"
+      },
+      {
+        "path": "crates/phone-ios/src/main.rs",
+        "bytes": 531,
+        "sha256": "68ea091c2f1c05faaa0d2ee8bf128c5276e47bad4cec4d9427578799ab0ef5dd"
+      },
+      {
+        "path": "crates/phone-ios/src/native.rs",
+        "bytes": 9386,
+        "sha256": "c1e76f1b52bc37d961e592dc37a24a4595f1cc6ccdf12b1dab9f81ed73e4a796"
+      },
+      {
+        "path": "crates/phone-ios/src/pending.rs",
+        "bytes": 7689,
+        "sha256": "e870b00426e79fb73b8e9dc5da044011117cae4390e0cd768668879217483616"
+      },
+      {
+        "path": "crates/phone-ios/src/platform.rs",
+        "bytes": 9154,
+        "sha256": "416b662e08c688cbf65f2d02319e6b975436cf925ee8c36665682a7b66f7a07b"
+      },
+      {
+        "path": "crates/phone-ios/src/signature.rs",
+        "bytes": 9648,
+        "sha256": "797c3c23c8a73b3fa8b2f292f45d56a1a18bffff3b7a30772f8c1d15a600c006"
+      },
+      {
+        "path": "crates/phone-ios/src/smoke.rs",
+        "bytes": 6908,
+        "sha256": "8389f63b7f8d09c3e56c0cbf78c9cdd5e820ec8b40fe9f211d6f72c58a932ca6"
+      },
+      {
+        "path": "crates/phone-ios/src/smoke_devices.rs",
+        "bytes": 8203,
+        "sha256": "766e103eb5cb41e24566c7db9cb3a5af813af6b588ff7646914d533b6fdf9ad1"
+      },
+      {
+        "path": "scripts/build-ios.sh",
+        "bytes": 1751,
+        "sha256": "6f31d36835a6a43b5f296222039c23f30b5ae2694bb55cd4d135130cd5d6a069"
+      },
+      {
+        "path": "scripts/collect-ios-failure.py",
+        "bytes": 11578,
+        "sha256": "5a9bcbedbbcb865b6f3cbea66a4d21a852be839b069f211d4bfa787d4ec914b9"
+      },
+      {
+        "path": "scripts/collect_ios_failure_test.py",
+        "bytes": 9793,
+        "sha256": "8c76bf1fccf201d2f9dfdd5f7a1969f070b67611c7b063e847f3b3dbb18c8432"
+      },
+      {
+        "path": "scripts/ios-bundle-metadata.py",
+        "bytes": 1430,
+        "sha256": "3827c7a2114da17ff3dafd1ce5a2ce740386e933f535965d51ce83f46c636da5"
+      },
+      {
+        "path": "scripts/ios-ui-tests/PhonePromptTests.swift",
+        "bytes": 5907,
+        "sha256": "83f509e2b4d7833ceda0df5ea1d651a23959104ec88795bcb53fc7996a55125a"
+      },
+      {
+        "path": "scripts/ios-ui-tests/PhonePromptTests.xcodeproj/project.pbxproj",
+        "bytes": 6735,
+        "sha256": "053dfed6d360f049b889cf3833d2094ad12987218f2c3822b7a9659d184c9338"
+      },
+      {
+        "path": "scripts/ios-ui-tests/PhonePromptTests.xcodeproj/xcshareddata/xcschemes/PhonePromptTests.xcscheme",
+        "bytes": 1904,
+        "sha256": "2a166a70c400d8adfeb6cb98c5b85f8ce8b725d3221d901d1337b165e1dce47b"
+      },
+      {
+        "path": "scripts/smoke-ios.sh",
+        "bytes": 10643,
+        "sha256": "ad54a15195c38aa006a5ebc599b22db4fab33e092d0a43a739727199d1a023da"
+      },
+      {
+        "path": "scripts/verify-ios-devices.py",
+        "bytes": 1397,
+        "sha256": "7aacae0fc2b3ade4517fc85066f26dfc6f5280c49997cc63aaf56233765bef31"
+      },
+      {
+        "path": "scripts/verify-ios-smoke.py",
+        "bytes": 5950,
+        "sha256": "9914ac06fcf06c7bc3bd6b8d36c5ea26d137b937602e7cd6126eb427646a7811"
+      },
+      {
+        "path": "scripts/verify_ios_smoke_test.py",
+        "bytes": 6405,
+        "sha256": "0c44e41fb185ec43c9e30d8640f84d630b90b64f8767e134929b373bfa08dc82"
+      }
+    ],
+    "scope_note": "Shared dependency and final release source equivalence are verified separately by the target-aware source-boundary record."
+  },
+  "conclusion": "success",
+  "result": "native_build_provider_and_six_same_process_routes_passed",
+  "workflow": "Verify iOS host",
+  "run_id": 45287778966,
+  "job_id": 138088468821,
+  "run_attempt": 1,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45287778966",
+  "job": {
+    "id": 138088468821,
+    "head_sha": "9a628e39af18b727555ad4f9a5184761d2519502",
+    "run_id": 45287778966,
+    "name": "ios",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45287778966/job/138088468821",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-23T23:19:22Z",
+    "started_at": "2026-11-23T23:19:34Z",
+    "completed_at": "2026-11-23T23:41:14Z"
+  },
+  "runner": {
+    "label": "macos-latest",
+    "architecture": "ARM64",
+    "id": 1000002153
+  },
+  "toolchain": {
+    "xcode": "26.6",
+    "xcode_build": "17F113",
+    "rust": "1.99.0",
+    "target": "aarch64-apple-ios-sim",
+    "swift_language_version": "5",
+    "physical_swift_typecheck_target": "arm64-apple-ios15.0",
+    "deployment_target": "15.0",
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-11"
+  },
+  "gates": {
+    "python_mounted_proof_tests": {
+      "passed": 7
+    },
+    "python_process_ownership_tests": {
+      "passed": 6
+    },
+    "rust_portable_default": {
+      "passed": 7
+    },
+    "rust_portable_ios26_telephony": {
+      "passed": 7
+    },
+    "standard_uikit_full_build_link_bundle": "passed",
+    "optional_carrier_full_build_link_bundle": "passed",
+    "physical_iphone_optional_swift_typecheck": "passed",
+    "simulator_objc_syntax_feature_0_and_1": "passed",
+    "xctest_system_url_driver_build": "passed"
+  },
+  "runtime": {
+    "initial_mounted_start": {
+      "passed": true,
+      "capture": "start",
+      "route": "Start",
+      "sequence": 2,
+      "observed_at_unix_ms": 1795477119511,
+      "uri": null,
+      "outcome": null,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+        "pid": 30561,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+          }
+        ]
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "device_fields": {},
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "observation_sha256": "3991be8ac13a8a2cf25af0af4c91d85c9c3317ba7cf3f5adbb0e0d774b88ee3c",
+      "capture_sha256": "c2e19a073204d1ae5f2a9fbab91f7c9e5225e204aee65bedb02745d63f487f69",
+      "deadline_seconds": 90
+    },
+    "provider_roundtrips": {
+      "passed": true,
+      "checks": [
+        {
+          "name": "observed_simulator_capabilities",
+          "passed": true,
+          "snapshot": {
+            "controls": [
+              {
+                "access": "readOnly",
+                "control": "brightness",
+                "detail": "The simulator reports a brightness value but has no writable physical backlight.",
+                "value": {
+                  "kind": "level",
+                  "value": 0.5
+                }
+              },
+              {
+                "access": "unavailable",
+                "control": "flashlight",
+                "detail": "This device has no rear torch.",
+                "value": {
+                  "kind": "unknown"
+                }
+              },
+              {
+                "access": "panel",
+                "control": "mediaVolume",
+                "detail": "Use the native volume panel. iOS does not provide a general writable system volume property.",
+                "value": {
+                  "kind": "level",
+                  "value": 0.6000000238418579
+                }
+              },
+              {
+                "access": "panel",
+                "control": "audioOutput",
+                "detail": "Choose an available output in the system route picker.",
+                "value": {
+                  "kind": "choice",
+                  "value": "Speaker"
+                }
+              },
+              {
+                "access": "panel",
+                "control": "cast",
+                "detail": "The native route picker chooses compatible audio/video destinations for the app; it does not enable system screen mirroring.",
+                "value": {
+                  "kind": "choice",
+                  "value": "Speaker"
+                }
+              },
+              {
+                "access": "readOnly",
+                "control": "batterySaver",
+                "detail": "Low Power Mode is observed from iOS. Change it in the system Settings app.",
+                "value": {
+                  "kind": "toggle",
+                  "value": false
+                }
+              }
+            ],
+            "detail": "Public UIKit device integrations. Contacts respect the selected access scope; message composition reports the actual system composer outcome. Device controls reflect observed hardware and permissions.",
+            "operations": [
+              "readContacts",
+              "writeContacts",
+              "maps"
+            ],
+            "permissions": [
+              {
+                "permission": "contacts",
+                "status": "granted"
+              },
+              {
+                "permission": "camera",
+                "status": "prompt"
+              },
+              {
+                "permission": "location",
+                "status": "prompt"
+              },
+              {
+                "permission": "notifications",
+                "status": "prompt"
+              },
+              {
+                "permission": "phone",
+                "status": "unsupported"
+              },
+              {
+                "permission": "callLog",
+                "status": "unsupported"
+              },
+              {
+                "permission": "readSms",
+                "status": "unsupported"
+              },
+              {
+                "permission": "sendSms",
+                "status": "unsupported"
+              }
+            ],
+            "phone_accounts": [],
+            "roles": [
+              {
+                "detail": "The running device/build does not have an eligible signed Default Dialer entitlement. The standard calling handoff remains available.",
+                "role": "dialer",
+                "status": "unsupported"
+              },
+              {
+                "detail": "Carrier messaging requires the signed entitlement, an eligible iPhone/region and selection as default. The normal message composer remains separate.",
+                "role": "sms",
+                "status": "unsupported"
+              }
+            ],
+            "settings": [
+              "application",
+              "permissions",
+              "privacy",
+              "notifications",
+              "sound",
+              "audioOutput",
+              "cast",
+              "defaultApps"
+            ],
+            "sms_subscriptions": []
+          }
+        },
+        {
+          "before": 0.5,
+          "name": "brightness_read_only",
+          "observed": 0.5,
+          "passed": true,
+          "refusal": "Screen brightness is read-only in iOS Simulator.",
+          "requested": 0.67
+        },
+        {
+          "name": "contact_create_and_query",
+          "passed": true,
+          "provider_id": "284D2B1F-C641-43EA-853F-55408610EE6F:ABPerson"
+        },
+        {
+          "name": "contact_update_and_query",
+          "passed": true,
+          "provider_id": "284D2B1F-C641-43EA-853F-55408610EE6F:ABPerson"
+        },
+        {
+          "name": "contact_delete_and_query",
+          "passed": true
+        }
+      ],
+      "proof_file": "device-tests.json",
+      "proof_sha256": "a9b662305b7d4bd853815c8d62e60dd48aa868e8f6c9a35bb178875c492908d1",
+      "cleanup_errors": [],
+      "sent_calls": 0,
+      "sent_messages": 0
+    },
+    "warm_activations": {
+      "passed": true,
+      "count": 6,
+      "driver": "XCUIDevice.shared.system.open",
+      "routes": [
+        {
+          "passed": true,
+          "capture": "wallet",
+          "route": {
+            "Extension": {
+              "app": "org.ferroui.wallet",
+              "path": ""
+            }
+          },
+          "sequence": 217,
+          "observed_at_unix_ms": 1795477227850,
+          "uri": "ferroui-phone://app/org.ferroui.wallet",
+          "outcome": "accepted",
+          "native": {
+            "application_delegate": "FerroAppDelegate",
+            "application_state": 0,
+            "bundle_id": "org.ferroui.windowsphone",
+            "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+            "pid": 30561,
+            "scenes": [
+              {
+                "activation_state": 0,
+                "delegate_class": "FerroSceneDelegate",
+                "scene_class": "UIWindowScene",
+                "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+              }
+            ]
+          },
+          "mounted_controls": [
+            "PhoneScreen",
+            "PhonePage",
+            "WalletSearch"
+          ],
+          "device_fields": {},
+          "client": {
+            "height": 896.0,
+            "width": 414.0
+          },
+          "safe_area": {
+            "bottom": 34.0,
+            "left": 0.0,
+            "right": 0.0,
+            "top": 48.0
+          },
+          "inner": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "screen": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "observation_sha256": "656775b852b842287cb5c8855d1c36a0d8610b393b5888affa9ced43ca7797d1",
+          "capture_sha256": "23e7ffb518cb528df1ec339022b1c325da08d04b24fc4dfc0fb7d5ce46fa4e02",
+          "request": {
+            "sequence": 1,
+            "uri": "ferroui-phone://app/org.ferroui.wallet",
+            "issued_at_unix_ms": 1795477225971,
+            "file": "request-1.json",
+            "sha256": "8dc355322fbef23d78e0d9b8b3ad1d95af41057d4fc25f81ce33561673a1fb8b"
+          },
+          "request_to_observation_ms": 1879
+        },
+        {
+          "passed": true,
+          "capture": "phone",
+          "route": {
+            "App": "Phone"
+          },
+          "sequence": 229,
+          "observed_at_unix_ms": 1795477232881,
+          "uri": "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+          "outcome": "accepted",
+          "native": {
+            "application_delegate": "FerroAppDelegate",
+            "application_state": 0,
+            "bundle_id": "org.ferroui.windowsphone",
+            "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+            "pid": 30561,
+            "scenes": [
+              {
+                "activation_state": 0,
+                "delegate_class": "FerroSceneDelegate",
+                "scene_class": "UIWindowScene",
+                "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+              }
+            ]
+          },
+          "mounted_controls": [
+            "PhoneScreen",
+            "PhonePage",
+            "DevicePhoneNumber"
+          ],
+          "device_fields": {
+            "DevicePhoneNumber": "+1 202 555 0147"
+          },
+          "client": {
+            "height": 896.0,
+            "width": 414.0
+          },
+          "safe_area": {
+            "bottom": 34.0,
+            "left": 0.0,
+            "right": 0.0,
+            "top": 48.0
+          },
+          "inner": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "screen": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "observation_sha256": "13051826ba4bdb155817970132a8a8009436b7a5b879ebe36980de02ac536676",
+          "capture_sha256": "1120c0487d170917933f0306aee5b484fe68cfdacf456d45beb638583f4e032d",
+          "request": {
+            "sequence": 2,
+            "uri": "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+            "issued_at_unix_ms": 1795477232437,
+            "file": "request-2.json",
+            "sha256": "4975bdca72d0b74786f7737fff3e2918c2a97923258044c84f15f4c81f558b82"
+          },
+          "request_to_observation_ms": 444
+        },
+        {
+          "passed": true,
+          "capture": "people",
+          "route": {
+            "App": "People"
+          },
+          "sequence": 235,
+          "observed_at_unix_ms": 1795477234896,
+          "uri": "ferroui-phone://app/phone.people?path=device",
+          "outcome": "accepted",
+          "native": {
+            "application_delegate": "FerroAppDelegate",
+            "application_state": 0,
+            "bundle_id": "org.ferroui.windowsphone",
+            "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+            "pid": 30561,
+            "scenes": [
+              {
+                "activation_state": 0,
+                "delegate_class": "FerroSceneDelegate",
+                "scene_class": "UIWindowScene",
+                "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+              }
+            ]
+          },
+          "mounted_controls": [
+            "PhoneScreen",
+            "PhonePage",
+            "DevicePeopleSearch"
+          ],
+          "device_fields": {},
+          "client": {
+            "height": 896.0,
+            "width": 414.0
+          },
+          "safe_area": {
+            "bottom": 34.0,
+            "left": 0.0,
+            "right": 0.0,
+            "top": 48.0
+          },
+          "inner": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "screen": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "observation_sha256": "ebc8f1d50a68673bbad7704bf89181fc0838019b90e750404669503ea3bf3d09",
+          "capture_sha256": "30598a734a0578c4998d7656c29df714a78a595890c1f3537c762a4c559e3129",
+          "request": {
+            "sequence": 3,
+            "uri": "ferroui-phone://app/phone.people?path=device",
+            "issued_at_unix_ms": 1795477234075,
+            "file": "request-3.json",
+            "sha256": "508c45ff2f13ce635d7bfd222ce3b08a3c08bd179df19408a0d31d82472a65ef"
+          },
+          "request_to_observation_ms": 821
+        },
+        {
+          "passed": true,
+          "capture": "messages",
+          "route": {
+            "App": "Messaging"
+          },
+          "sequence": 240,
+          "observed_at_unix_ms": 1795477236406,
+          "uri": "ferroui-phone://app/phone.messaging?path=compose",
+          "outcome": "accepted",
+          "native": {
+            "application_delegate": "FerroAppDelegate",
+            "application_state": 0,
+            "bundle_id": "org.ferroui.windowsphone",
+            "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+            "pid": 30561,
+            "scenes": [
+              {
+                "activation_state": 0,
+                "delegate_class": "FerroSceneDelegate",
+                "scene_class": "UIWindowScene",
+                "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+              }
+            ]
+          },
+          "mounted_controls": [
+            "PhoneScreen",
+            "PhonePage",
+            "DeviceMessageRecipients",
+            "DeviceMessageBody"
+          ],
+          "device_fields": {
+            "DeviceMessageBody": "",
+            "DeviceMessageRecipients": ""
+          },
+          "client": {
+            "height": 896.0,
+            "width": 414.0
+          },
+          "safe_area": {
+            "bottom": 34.0,
+            "left": 0.0,
+            "right": 0.0,
+            "top": 48.0
+          },
+          "inner": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "screen": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "observation_sha256": "7cab05f5e58dd7d59a7e858e06d724edbcd39f20f3f06d5ba2d4777b274cc0a4",
+          "capture_sha256": "d74844f1292d712db9cc266edf68d27f9a507259ee0d45ef1195fd13d7345647",
+          "request": {
+            "sequence": 4,
+            "uri": "ferroui-phone://app/phone.messaging?path=compose",
+            "issued_at_unix_ms": 1795477235669,
+            "file": "request-4.json",
+            "sha256": "2958a02cad04ba7b691726855eaa969a6819bd00d3e0f4e35411a650e7c1deb0"
+          },
+          "request_to_observation_ms": 737
+        },
+        {
+          "passed": true,
+          "capture": "settings",
+          "route": {
+            "Setting": "device services"
+          },
+          "sequence": 245,
+          "observed_at_unix_ms": 1795477237914,
+          "uri": "ferroui-phone://app/phone.settings?path=device",
+          "outcome": "accepted",
+          "native": {
+            "application_delegate": "FerroAppDelegate",
+            "application_state": 0,
+            "bundle_id": "org.ferroui.windowsphone",
+            "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+            "pid": 30561,
+            "scenes": [
+              {
+                "activation_state": 0,
+                "delegate_class": "FerroSceneDelegate",
+                "scene_class": "UIWindowScene",
+                "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+              }
+            ]
+          },
+          "mounted_controls": [
+            "PhoneScreen",
+            "PhonePage",
+            "DeviceSettingsRoot"
+          ],
+          "device_fields": {},
+          "client": {
+            "height": 896.0,
+            "width": 414.0
+          },
+          "safe_area": {
+            "bottom": 34.0,
+            "left": 0.0,
+            "right": 0.0,
+            "top": 48.0
+          },
+          "inner": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "screen": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "observation_sha256": "70ac40cf4f5ff74653c025b1a251491f75542ae5a5ec7903d31e0e3e640bb438",
+          "capture_sha256": "521030d3361c2df7815a639211b960fbd4a8c4606164075bd4c6b7df0236d108",
+          "request": {
+            "sequence": 5,
+            "uri": "ferroui-phone://app/phone.settings?path=device",
+            "issued_at_unix_ms": 1795477237056,
+            "file": "request-5.json",
+            "sha256": "5a4818e0ef69c3efaf828e7ce79781a05db1c562aa5ef3eba2385e767832eb4b"
+          },
+          "request_to_observation_ms": 858
+        },
+        {
+          "passed": true,
+          "capture": "home-restored",
+          "route": "Start",
+          "sequence": 249,
+          "observed_at_unix_ms": 1795477238919,
+          "uri": "ferroui-phone://home",
+          "outcome": "accepted",
+          "native": {
+            "application_delegate": "FerroAppDelegate",
+            "application_state": 0,
+            "bundle_id": "org.ferroui.windowsphone",
+            "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+            "pid": 30561,
+            "scenes": [
+              {
+                "activation_state": 0,
+                "delegate_class": "FerroSceneDelegate",
+                "scene_class": "UIWindowScene",
+                "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+              }
+            ]
+          },
+          "mounted_controls": [
+            "PhoneScreen",
+            "PhonePage",
+            "StartScroll",
+            "StartTiles"
+          ],
+          "device_fields": {},
+          "client": {
+            "height": 896.0,
+            "width": 414.0
+          },
+          "safe_area": {
+            "bottom": 34.0,
+            "left": 0.0,
+            "right": 0.0,
+            "top": 48.0
+          },
+          "inner": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "screen": {
+            "height": 814.0,
+            "width": 414.0,
+            "x": 0.0,
+            "y": 48.0
+          },
+          "observation_sha256": "524fb3237c30e92a5100d2384d847445755a7a52f4657079959ef5220a3f6108",
+          "capture_sha256": "e2ab5f955abe59600d14d3a15cb49577eb846f4853623e13ed214d3b768dd622",
+          "request": {
+            "sequence": 6,
+            "uri": "ferroui-phone://home",
+            "issued_at_unix_ms": 1795477238431,
+            "file": "request-6.json",
+            "sha256": "b8aa465c094a9b4a1ea98164024bd6654b924e233999e2135fc61af1b0d5674c"
+          },
+          "request_to_observation_ms": 488
+        }
+      ],
+      "native_route_injection": false,
+      "per_route_deadline_seconds": 90
+    },
+    "invariants": {
+      "same_process": true,
+      "foreground_active": true,
+      "exact_native_uris": true,
+      "mounted_controls": true,
+      "safe_area_containment": true
+    },
+    "native_identity": {
+      "application_delegate": "FerroAppDelegate",
+      "application_state": 0,
+      "bundle_id": "org.ferroui.windowsphone",
+      "launch_id": "27AD9371-71F8-44FE-98AB-94E2AC8DE490",
+      "pid": 30561,
+      "scenes": [
+        {
+          "activation_state": 0,
+          "delegate_class": "FerroSceneDelegate",
+          "scene_class": "UIWindowScene",
+          "session_id": "E2609788-74F8-4E28-BD31-4A40D79E5C91"
+        }
+      ]
+    },
+    "client": {
+      "height": 896.0,
+      "width": 414.0
+    },
+    "safe_area": {
+      "bottom": 34.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 48.0
+    },
+    "inner": {
+      "height": 814.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 48.0
+    },
+    "screen": {
+      "height": 814.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 48.0
+    },
+    "containment_tolerance_points": 1,
+    "independent_artifact_reverification": {
+      "passed": true,
+      "method": "Reapplied the actual verify-ios-smoke.py and verify-ios-devices.py contracts to the downloaded originals, also requiring each native observation to be later than its preserved URL request and the XCTest handler to report the same ordered six system opens."
+    },
+    "xctest": {
+      "passed": true,
+      "tests": 1,
+      "failures": 0,
+      "test_duration_seconds": 16.372,
+      "handler": {
+        "requested_uri": "ferroui-phone://home",
+        "accepted": 0,
+        "driver": "XCUIDevice.shared.system.open",
+        "observed_at_unix_ms": 1795477239713,
+        "phase": "complete",
+        "opened": [
+          "ferroui-phone://app/org.ferroui.wallet",
+          "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+          "ferroui-phone://app/phone.people?path=device",
+          "ferroui-phone://app/phone.messaging?path=compose",
+          "ferroui-phone://app/phone.settings?path=device",
+          "ferroui-phone://home"
+        ]
+      },
+      "handler_sha256": "98b618fbe0153ef4297b728007727473e58ddc14fafe649a614cc49eec53958e",
+      "log_file": "xctest.log",
+      "log_sha256": "3be93e43c0051d56ba7e70b167af7a9c335fcb60fe3a76bb1e648e2607d1db85",
+      "result_bundle": "prompt-ui.xcresult"
+    },
+    "observed_capability_limits": {
+      "simulator_only": true,
+      "phone_accounts": [],
+      "sms_subscriptions": [],
+      "dialer_role": "unsupported",
+      "carrier_sms_role": "unsupported",
+      "operations": [
+        "readContacts",
+        "writeContacts",
+        "maps"
+      ],
+      "brightness": "readOnly",
+      "brightness_before": 0.5,
+      "brightness_requested": 0.67,
+      "brightness_after": 0.5,
+      "flashlight": "unavailable",
+      "physical_brightness": "requires_device_qualification"
+    }
+  },
+  "startup_diagnostics": {
+    "main_entry_observed": true,
+    "phase_origin": "delegate.create_builder.begin, elapsed seconds within the same native process",
+    "console_file": "console.log",
+    "console_sha256": "c219d395b5d202ceecff67b08443d3f7801084bf895d022ad359abbfddcde7be",
+    "initial_phases": [
+      {
+        "pid": 30561,
+        "sequence": 1,
+        "elapsed_seconds": 0.0,
+        "phase": "delegate.create_builder.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 2,
+        "elapsed_seconds": 0.026894,
+        "phase": "delegate.create_builder.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 3,
+        "elapsed_seconds": 0.187648,
+        "phase": "builder.platform_services.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 4,
+        "elapsed_seconds": 0.236137,
+        "phase": "application.initialize.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 5,
+        "elapsed_seconds": 0.236184,
+        "phase": "application.initialize.theme"
+      },
+      {
+        "pid": 30561,
+        "sequence": 6,
+        "elapsed_seconds": 0.513456,
+        "phase": "application.initialize.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 7,
+        "elapsed_seconds": 0.513485,
+        "phase": "builder.application_setup.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 8,
+        "elapsed_seconds": 0.572948,
+        "phase": "builder.fonts_and_setup.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 9,
+        "elapsed_seconds": 0.57304,
+        "phase": "application.framework_init.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 10,
+        "elapsed_seconds": 0.578019,
+        "phase": "application.platform.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 11,
+        "elapsed_seconds": 0.589423,
+        "phase": "application.host.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 12,
+        "elapsed_seconds": 0.938479,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 13,
+        "elapsed_seconds": 0.938693,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 14,
+        "elapsed_seconds": 0.938717,
+        "phase": "snapshot.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 15,
+        "elapsed_seconds": 0.938722,
+        "phase": "snapshot.contacts"
+      },
+      {
+        "pid": 30561,
+        "sequence": 16,
+        "elapsed_seconds": 0.975807,
+        "phase": "snapshot.tel"
+      },
+      {
+        "pid": 30561,
+        "sequence": 17,
+        "elapsed_seconds": 0.988369,
+        "phase": "snapshot.compose_text"
+      },
+      {
+        "pid": 30561,
+        "sequence": 18,
+        "elapsed_seconds": 0.989195,
+        "phase": "snapshot.compose_attachments"
+      },
+      {
+        "pid": 30561,
+        "sequence": 19,
+        "elapsed_seconds": 0.994958,
+        "phase": "snapshot.maps"
+      },
+      {
+        "pid": 30561,
+        "sequence": 20,
+        "elapsed_seconds": 0.995733,
+        "phase": "snapshot.permissions"
+      },
+      {
+        "pid": 30561,
+        "sequence": 21,
+        "elapsed_seconds": 1.062698,
+        "phase": "snapshot.carrier"
+      },
+      {
+        "pid": 30561,
+        "sequence": 22,
+        "elapsed_seconds": 1.063405,
+        "phase": "snapshot.hardware"
+      },
+      {
+        "pid": 30561,
+        "sequence": 23,
+        "elapsed_seconds": 1.063432,
+        "phase": "hardware.torch_device"
+      },
+      {
+        "pid": 30561,
+        "sequence": 24,
+        "elapsed_seconds": 1.104596,
+        "phase": "hardware.torch_properties"
+      },
+      {
+        "pid": 30561,
+        "sequence": 25,
+        "elapsed_seconds": 1.104673,
+        "phase": "hardware.audio_route"
+      },
+      {
+        "pid": 30561,
+        "sequence": 26,
+        "elapsed_seconds": 1.112706,
+        "phase": "hardware.screen_volume_values"
+      },
+      {
+        "pid": 30561,
+        "sequence": 27,
+        "elapsed_seconds": 1.381163,
+        "phase": "hardware.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 28,
+        "elapsed_seconds": 1.381208,
+        "phase": "snapshot.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 29,
+        "elapsed_seconds": 1.381828,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 30,
+        "elapsed_seconds": 1.381843,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 31,
+        "elapsed_seconds": 1.38185,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 32,
+        "elapsed_seconds": 1.381853,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 33,
+        "elapsed_seconds": 1.409848,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 34,
+        "elapsed_seconds": 1.409874,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 35,
+        "elapsed_seconds": 1.409876,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 36,
+        "elapsed_seconds": 1.412714,
+        "phase": "application.host.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 37,
+        "elapsed_seconds": 1.412758,
+        "phase": "application.resumed.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 38,
+        "elapsed_seconds": 1.416845,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 39,
+        "elapsed_seconds": 1.41688,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 40,
+        "elapsed_seconds": 1.416884,
+        "phase": "snapshot.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 41,
+        "elapsed_seconds": 1.502525,
+        "phase": "snapshot.contacts"
+      },
+      {
+        "pid": 30561,
+        "sequence": 42,
+        "elapsed_seconds": 1.503208,
+        "phase": "snapshot.tel"
+      },
+      {
+        "pid": 30561,
+        "sequence": 43,
+        "elapsed_seconds": 1.505875,
+        "phase": "snapshot.compose_text"
+      },
+      {
+        "pid": 30561,
+        "sequence": 44,
+        "elapsed_seconds": 1.505884,
+        "phase": "snapshot.compose_attachments"
+      },
+      {
+        "pid": 30561,
+        "sequence": 45,
+        "elapsed_seconds": 1.505905,
+        "phase": "snapshot.maps"
+      },
+      {
+        "pid": 30561,
+        "sequence": 46,
+        "elapsed_seconds": 1.506214,
+        "phase": "snapshot.permissions"
+      },
+      {
+        "pid": 30561,
+        "sequence": 47,
+        "elapsed_seconds": 1.511893,
+        "phase": "snapshot.carrier"
+      },
+      {
+        "pid": 30561,
+        "sequence": 48,
+        "elapsed_seconds": 1.512122,
+        "phase": "snapshot.hardware"
+      },
+      {
+        "pid": 30561,
+        "sequence": 49,
+        "elapsed_seconds": 1.512132,
+        "phase": "hardware.torch_device"
+      },
+      {
+        "pid": 30561,
+        "sequence": 50,
+        "elapsed_seconds": 1.5122,
+        "phase": "hardware.torch_properties"
+      },
+      {
+        "pid": 30561,
+        "sequence": 51,
+        "elapsed_seconds": 1.512353,
+        "phase": "hardware.audio_route"
+      },
+      {
+        "pid": 30561,
+        "sequence": 52,
+        "elapsed_seconds": 1.512783,
+        "phase": "hardware.screen_volume_values"
+      },
+      {
+        "pid": 30561,
+        "sequence": 53,
+        "elapsed_seconds": 1.513006,
+        "phase": "hardware.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 54,
+        "elapsed_seconds": 1.513021,
+        "phase": "snapshot.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 55,
+        "elapsed_seconds": 1.513101,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 56,
+        "elapsed_seconds": 1.513185,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 57,
+        "elapsed_seconds": 1.513191,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 58,
+        "elapsed_seconds": 1.513193,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 59,
+        "elapsed_seconds": 1.517399,
+        "phase": "application.resumed.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 60,
+        "elapsed_seconds": 1.517437,
+        "phase": "observer.install"
+      },
+      {
+        "pid": 30561,
+        "sequence": 61,
+        "elapsed_seconds": 1.529973,
+        "phase": "application.main_view.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 62,
+        "elapsed_seconds": 1.529995,
+        "phase": "application.main_view.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 63,
+        "elapsed_seconds": 1.529999,
+        "phase": "application.framework_init.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 64,
+        "elapsed_seconds": 1.816636,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 65,
+        "elapsed_seconds": 1.816659,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 66,
+        "elapsed_seconds": 1.816662,
+        "phase": "snapshot.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 67,
+        "elapsed_seconds": 1.816664,
+        "phase": "snapshot.contacts"
+      },
+      {
+        "pid": 30561,
+        "sequence": 68,
+        "elapsed_seconds": 1.816736,
+        "phase": "snapshot.tel"
+      },
+      {
+        "pid": 30561,
+        "sequence": 69,
+        "elapsed_seconds": 1.818113,
+        "phase": "snapshot.compose_text"
+      },
+      {
+        "pid": 30561,
+        "sequence": 70,
+        "elapsed_seconds": 1.818122,
+        "phase": "snapshot.compose_attachments"
+      },
+      {
+        "pid": 30561,
+        "sequence": 71,
+        "elapsed_seconds": 1.818139,
+        "phase": "snapshot.maps"
+      },
+      {
+        "pid": 30561,
+        "sequence": 72,
+        "elapsed_seconds": 1.818366,
+        "phase": "snapshot.permissions"
+      },
+      {
+        "pid": 30561,
+        "sequence": 73,
+        "elapsed_seconds": 1.819918,
+        "phase": "snapshot.carrier"
+      },
+      {
+        "pid": 30561,
+        "sequence": 74,
+        "elapsed_seconds": 1.820027,
+        "phase": "snapshot.hardware"
+      },
+      {
+        "pid": 30561,
+        "sequence": 75,
+        "elapsed_seconds": 1.820031,
+        "phase": "hardware.torch_device"
+      },
+      {
+        "pid": 30561,
+        "sequence": 76,
+        "elapsed_seconds": 1.832159,
+        "phase": "hardware.torch_properties"
+      },
+      {
+        "pid": 30561,
+        "sequence": 77,
+        "elapsed_seconds": 1.832249,
+        "phase": "hardware.audio_route"
+      },
+      {
+        "pid": 30561,
+        "sequence": 78,
+        "elapsed_seconds": 1.832306,
+        "phase": "hardware.screen_volume_values"
+      },
+      {
+        "pid": 30561,
+        "sequence": 79,
+        "elapsed_seconds": 1.832526,
+        "phase": "hardware.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 80,
+        "elapsed_seconds": 1.832557,
+        "phase": "snapshot.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 81,
+        "elapsed_seconds": 1.832763,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 82,
+        "elapsed_seconds": 1.832926,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 83,
+        "elapsed_seconds": 1.832937,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 84,
+        "elapsed_seconds": 1.83294,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 85,
+        "elapsed_seconds": 4.342112,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 86,
+        "elapsed_seconds": 4.342161,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 87,
+        "elapsed_seconds": 4.342167,
+        "phase": "snapshot.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 88,
+        "elapsed_seconds": 4.342172,
+        "phase": "snapshot.contacts"
+      },
+      {
+        "pid": 30561,
+        "sequence": 89,
+        "elapsed_seconds": 4.342363,
+        "phase": "snapshot.tel"
+      },
+      {
+        "pid": 30561,
+        "sequence": 90,
+        "elapsed_seconds": 4.352884,
+        "phase": "snapshot.compose_text"
+      },
+      {
+        "pid": 30561,
+        "sequence": 91,
+        "elapsed_seconds": 4.352903,
+        "phase": "snapshot.compose_attachments"
+      },
+      {
+        "pid": 30561,
+        "sequence": 92,
+        "elapsed_seconds": 4.353334,
+        "phase": "snapshot.maps"
+      },
+      {
+        "pid": 30561,
+        "sequence": 93,
+        "elapsed_seconds": 4.353742,
+        "phase": "snapshot.permissions"
+      },
+      {
+        "pid": 30561,
+        "sequence": 94,
+        "elapsed_seconds": 4.3573,
+        "phase": "snapshot.carrier"
+      },
+      {
+        "pid": 30561,
+        "sequence": 95,
+        "elapsed_seconds": 4.358756,
+        "phase": "snapshot.hardware"
+      },
+      {
+        "pid": 30561,
+        "sequence": 96,
+        "elapsed_seconds": 4.358814,
+        "phase": "hardware.torch_device"
+      },
+      {
+        "pid": 30561,
+        "sequence": 97,
+        "elapsed_seconds": 4.490339,
+        "phase": "hardware.torch_properties"
+      },
+      {
+        "pid": 30561,
+        "sequence": 98,
+        "elapsed_seconds": 4.490459,
+        "phase": "hardware.audio_route"
+      },
+      {
+        "pid": 30561,
+        "sequence": 99,
+        "elapsed_seconds": 4.490551,
+        "phase": "hardware.screen_volume_values"
+      },
+      {
+        "pid": 30561,
+        "sequence": 100,
+        "elapsed_seconds": 4.490734,
+        "phase": "hardware.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 101,
+        "elapsed_seconds": 4.490746,
+        "phase": "snapshot.end"
+      },
+      {
+        "pid": 30561,
+        "sequence": 102,
+        "elapsed_seconds": 4.491693,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 103,
+        "elapsed_seconds": 4.491717,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 104,
+        "elapsed_seconds": 4.491726,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 105,
+        "elapsed_seconds": 4.491731,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 106,
+        "elapsed_seconds": 4.492536,
+        "phase": "device_poll.begin"
+      },
+      {
+        "pid": 30561,
+        "sequence": 107,
+        "elapsed_seconds": 4.49255,
+        "phase": "device_poll.pruned"
+      },
+      {
+        "pid": 30561,
+        "sequence": 108,
+        "elapsed_seconds": 4.492552,
+        "phase": "device_poll.encoded"
+      },
+      {
+        "pid": 30561,
+        "sequence": 109,
+        "elapsed_seconds": 4.507815,
+        "phase": "observer.first_attached_read"
+      }
+    ],
+    "first_snapshot_duration_seconds": 0.442491,
+    "framework_initialized_elapsed_seconds": 1.529999,
+    "first_attached_read_elapsed_seconds": 4.507815,
+    "owned_installation": {
+      "file": "owned-installation.json",
+      "sha256": "9a450d0782812a3190d2313eaf4986439dff8bf2c1615a945f36bad5321e1b3b",
+      "simulator": "EF1E4C4A-7589-4204-A6EB-3E2D4A28A0F2",
+      "bundle_id": "org.ferroui.windowsphone",
+      "executable": "phone-ios",
+      "bytes": 247057744,
+      "prepared_at_unix_ms": 1795477074652
+    },
+    "sample_required": false,
+    "interpretation": "The unchanged application/provider path completed normally in this run. Earlier startup failures remain preserved as failures; this successful run does not retroactively identify their blocking frame."
+  },
+  "timings": {
+    "simulator_step_started_at": "2026-11-23T23:26:53Z",
+    "simulator_boot_finished_at": "2026-11-23T23:35:54.532905Z",
+    "simulator_reported_boot_elapsed_seconds": 478,
+    "installation_launch_phase_started_at": "2026-11-23T23:35:59.151198Z",
+    "initial_mount_wait_started_at": "2026-11-23T23:37:56.523262Z",
+    "first_retained_start_observed_at_unix_ms": 1795477119511,
+    "provider_verification_phase_started_at": "2026-11-23T23:38:57.673993Z",
+    "warm_url_sequence_started_at": "2026-11-23T23:40:25.856933Z",
+    "all_runtime_checks_passed_at": "2026-11-23T23:40:41.118336Z",
+    "job_completed_at": "2026-11-23T23:41:14Z"
+  },
+  "visual_review": {
+    "all_seven_original_captures_reviewed": true,
+    "capture_names": [
+      "start",
+      "wallet",
+      "phone",
+      "people",
+      "messages",
+      "settings",
+      "home-restored"
+    ],
+    "summary": "Start and restored Start render live tiles; Wallet renders its empty-state controls; Phone contains the exact URL-provided number without calling; People renders simulator-native contacts; Messaging renders its draft fields; Settings renders the device-services child page. Each measured surface is contained within the native safe area.",
+    "navigation_strip_pixels": {
+      "rectangle_xyxy": [
+        0,
+        1620,
+        828,
+        1724
+      ],
+      "format": "raw RGBA",
+      "sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2",
+      "identical_across_all_seven": true
+    },
+    "captures_unmodified": true
+  },
+  "captures": [
+    {
+      "name": "start",
+      "observation_file": "start.json",
+      "observation_sha256": "3991be8ac13a8a2cf25af0af4c91d85c9c3317ba7cf3f5adbb0e0d774b88ee3c",
+      "capture_file": "start.png",
+      "capture_sha256": "c2e19a073204d1ae5f2a9fbab91f7c9e5225e204aee65bedb02745d63f487f69",
+      "capture_bytes": 488884,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    },
+    {
+      "name": "wallet",
+      "observation_file": "wallet.json",
+      "observation_sha256": "656775b852b842287cb5c8855d1c36a0d8610b393b5888affa9ced43ca7797d1",
+      "capture_file": "wallet.png",
+      "capture_sha256": "23e7ffb518cb528df1ec339022b1c325da08d04b24fc4dfc0fb7d5ce46fa4e02",
+      "capture_bytes": 110516,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    },
+    {
+      "name": "phone",
+      "observation_file": "phone.json",
+      "observation_sha256": "13051826ba4bdb155817970132a8a8009436b7a5b879ebe36980de02ac536676",
+      "capture_file": "phone.png",
+      "capture_sha256": "1120c0487d170917933f0306aee5b484fe68cfdacf456d45beb638583f4e032d",
+      "capture_bytes": 92840,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    },
+    {
+      "name": "people",
+      "observation_file": "people.json",
+      "observation_sha256": "ebc8f1d50a68673bbad7704bf89181fc0838019b90e750404669503ea3bf3d09",
+      "capture_file": "people.png",
+      "capture_sha256": "30598a734a0578c4998d7656c29df714a78a595890c1f3537c762a4c559e3129",
+      "capture_bytes": 128217,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    },
+    {
+      "name": "messages",
+      "observation_file": "messages.json",
+      "observation_sha256": "7cab05f5e58dd7d59a7e858e06d724edbcd39f20f3f06d5ba2d4777b274cc0a4",
+      "capture_file": "messages.png",
+      "capture_sha256": "d74844f1292d712db9cc266edf68d27f9a507259ee0d45ef1195fd13d7345647",
+      "capture_bytes": 93874,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    },
+    {
+      "name": "settings",
+      "observation_file": "settings.json",
+      "observation_sha256": "70ac40cf4f5ff74653c025b1a251491f75542ae5a5ec7903d31e0e3e640bb438",
+      "capture_file": "settings.png",
+      "capture_sha256": "521030d3361c2df7815a639211b960fbd4a8c4606164075bd4c6b7df0236d108",
+      "capture_bytes": 130909,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    },
+    {
+      "name": "home-restored",
+      "observation_file": "home-restored.json",
+      "observation_sha256": "524fb3237c30e92a5100d2384d847445755a7a52f4657079959ef5220a3f6108",
+      "capture_file": "home-restored.png",
+      "capture_sha256": "e2ab5f955abe59600d14d3a15cb49577eb846f4853623e13ed214d3b768dd622",
+      "capture_bytes": 707019,
+      "width": 828,
+      "height": 1792,
+      "visual_reviewed": true,
+      "navigation_strip_rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+    }
+  ],
+  "bundle": {
+    "configuration": "ios26-telephony feature enabled, with hardware and entitlement gates active",
+    "bundle_id": "org.ferroui.windowsphone",
+    "executable": {
+      "name": "phone-ios",
+      "bytes": 247057744,
+      "sha256": "777bbe060399adbb59994cfb3374a7ebf31dcf997ef874005c905b9eb8e9ee90"
+    },
+    "minimum_os_version": "15.0",
+    "supported_platforms": [
+      "iPhoneSimulator"
+    ],
+    "url_types": [
+      {
+        "CFBundleTypeRole": "Viewer",
+        "CFBundleURLName": "org.ferroui.windowsphone.activation",
+        "CFBundleURLSchemes": [
+          "ferroui-phone"
+        ]
+      }
+    ],
+    "scene_manifest": {
+      "UIApplicationSupportsMultipleScenes": false
+    }
+  },
+  "artifacts": [
+    {
+      "name": "ios-verification",
+      "id": 14873204474,
+      "bytes": 1670376,
+      "sha256": "8e11a4c7cbdf482e5aa7e0370914af79d514d9ba1fa23616a734d232721e970f",
+      "download_verified": true,
+      "created_at": "2026-11-23T23:40:50Z",
+      "expires_at": "2026-11-30T23:40:48Z",
+      "workflow_run": {
+        "id": 45287778966,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "9a628e39af18b727555ad4f9a5184761d2519502"
+      }
+    },
+    {
+      "name": "phone-ios-simulator",
+      "id": 14872314593,
+      "bytes": 49250680,
+      "sha256": "5b71712b3ee4481a150489f4f58794b23910eb58d0e3f89a020dc3ef03605c18",
+      "download_verified": true,
+      "created_at": "2026-11-23T23:40:59Z",
+      "expires_at": "2026-11-26T23:40:50Z",
+      "workflow_run": {
+        "id": 45287778966,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "9a628e39af18b727555ad4f9a5184761d2519502"
+      }
+    }
+  ],
+  "retained_files": [
+    {
+      "file": "artifacts-api.json",
+      "bytes": 1523,
+      "sha256": "fb1414243aa3937d414d4b52b28bfc0eace8a7de4bca8f5c9d7894b78de554b4"
+    },
+    {
+      "file": "console.log",
+      "bytes": 46707,
+      "sha256": "c219d395b5d202ceecff67b08443d3f7801084bf895d022ad359abbfddcde7be"
+    },
+    {
+      "file": "device-tests.json",
+      "bytes": 2939,
+      "sha256": "a9b662305b7d4bd853815c8d62e60dd48aa868e8f6c9a35bb178875c492908d1"
+    },
+    {
+      "file": "home-restored.json",
+      "bytes": 3243,
+      "sha256": "524fb3237c30e92a5100d2384d847445755a7a52f4657079959ef5220a3f6108"
+    },
+    {
+      "file": "home-restored.png",
+      "bytes": 707019,
+      "sha256": "e2ab5f955abe59600d14d3a15cb49577eb846f4853623e13ed214d3b768dd622"
+    },
+    {
+      "file": "job-api.json",
+      "bytes": 5321,
+      "sha256": "65793fea0036cc022179931a7a475dccddb13898c32b171e6532d65ba9902e24"
+    },
+    {
+      "file": "last-observation.json",
+      "bytes": 3243,
+      "sha256": "a7fd1157814e0d045ed545721fd5044ae46ca1ece0a91673f15b15c13bbbb525"
+    },
+    {
+      "file": "messages.json",
+      "bytes": 3353,
+      "sha256": "7cab05f5e58dd7d59a7e858e06d724edbcd39f20f3f06d5ba2d4777b274cc0a4"
+    },
+    {
+      "file": "messages.png",
+      "bytes": 93874,
+      "sha256": "d74844f1292d712db9cc266edf68d27f9a507259ee0d45ef1195fd13d7345647"
+    },
+    {
+      "file": "owned-installation.json",
+      "bytes": 404,
+      "sha256": "9a450d0782812a3190d2313eaf4986439dff8bf2c1615a945f36bad5321e1b3b"
+    },
+    {
+      "file": "people.json",
+      "bytes": 3270,
+      "sha256": "ebc8f1d50a68673bbad7704bf89181fc0838019b90e750404669503ea3bf3d09"
+    },
+    {
+      "file": "people.png",
+      "bytes": 128217,
+      "sha256": "30598a734a0578c4998d7656c29df714a78a595890c1f3537c762a4c559e3129"
+    },
+    {
+      "file": "phase.txt",
+      "bytes": 92,
+      "sha256": "fe27af6c53438c17ad9e3a81bba7dbd5d7f7728eb160a9e8807fbc0e08e543d2"
+    },
+    {
+      "file": "phone.json",
+      "bytes": 3323,
+      "sha256": "13051826ba4bdb155817970132a8a8009436b7a5b879ebe36980de02ac536676"
+    },
+    {
+      "file": "phone.png",
+      "bytes": 92840,
+      "sha256": "1120c0487d170917933f0306aee5b484fe68cfdacf456d45beb638583f4e032d"
+    },
+    {
+      "file": "prompt-handler.json",
+      "bytes": 456,
+      "sha256": "98b618fbe0153ef4297b728007727473e58ddc14fafe649a614cc49eec53958e"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~4VqMqsI5lOfxRppnud6-VDWcNsU8J7VgFCJfW2dXPwOcAkvU-I8Um5yp9n0Zv6nr3VmcxYggaVMDFfR0U_vjKw==",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~5wahmH0DMihyNkCWVu10EjRkbnAd6x8zV1o5Espa09FOkIXMKLCYH49If3Ba285q6xjhfdxCpaX1TrQXnAZDBA==",
+      "bytes": 116,
+      "sha256": "91ca5eb71a353abec1befd7a34d4c70817fb038a0c6d7a7bea0422233ae5381d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~7RvSf5c_5t7aLqD6988Ng0yTq82EsHKOLIzBqxGWDDPoCVSUgGncH16UavUATnZbov0p6dmGIEgbuAw0jqit5g==",
+      "bytes": 1592,
+      "sha256": "5549bd7e54fbc67869627f35625a8282ea6d64cf3d430e22e78eea4e1f445a57"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~DN8iQNFVeKuAbniRd7nthEjXtHm0sqqmowApwrBEa8_iYV6V6m_5ZEPhE3c9RweFLcfARcRejPNK1-4hIDrC5Q==",
+      "bytes": 2013,
+      "sha256": "153c944d5c0e3cb9a66902bdafed6e49dd1905dfc31987eb1c7b00140d87846f"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~FfeGfT9zW-K8_W3vsCMC4TSdqHYAATE49JlTtnAoKrzCWYviwKH1vU0z8v9qlp8t9vT2tv81wLNLwCCgXlzS6g==",
+      "bytes": 38,
+      "sha256": "0a3e38a7ee2f4a7971fb4853eb1fdbd6acbeae91d43fcf4a6e70f65e3371434d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~Fos1kOmH6q5W-i5JfGgtZZTUyTV8lxiXaZl_Xv2Q0gLDDldRS5RS6Pn68D4DG98xcb25At8xGMw6HPoXoqV6IA==",
+      "bytes": 3539,
+      "sha256": "9333c376d5ed300b7e01bac22a660f2c76c13a35d072d15010f98d8f17f579fc"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~OgN3tzh0YzuwCFC7sOMHz_UijfhlKNX76re1L8HOgj-8YoCHSkEQil6UPLnZ-sXLu6O8OP3izC--v65pgD0Fog==",
+      "bytes": 1045,
+      "sha256": "3463d9bc5dce4ad318d7d3fa5988655f7d4191bb5664901cc508e14515d751b8"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~VSveJ5A_Hi7khZmBO6PBBcw3xxjWa0viFDblJ8x0U5kkHy2npkTmChQE9YETH1s_FdAL8mWzHliVL1EVnynbRw==",
+      "bytes": 212,
+      "sha256": "438b21ee2d2b85caa0619aba4acd53334a65e0cccc8014a05cff96ea2ebbe73b"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~a2sQwbv2oawPW1x-77-DRzrdCNXDi_csUCKCndHL3jaU28Uh4k9NCef-7Z5YTmZJrJT8I4PvxcfhFLlpugdOww==",
+      "bytes": 110,
+      "sha256": "c3beacb8a24bc749cee3d73b97e9749d9d7be45b629ae17a669319a855afcc83"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~pYg1wd8F6yrhgtE-qVafAs5e8raSmxmt7jDvPUspGzafsH3jQGhSViVTaSN7C8UqJkBujOkHm7YcZczvX6nFwg==",
+      "bytes": 808,
+      "sha256": "2f0b4a453ec283f031bd7216afe2a107c2b8de1a4ea693c98c1c7708e5dfd751"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~sGBkMMFYKUrhNlyNkjhLiD9ZMMhuQ16uma9KclGYtsCkfHWo5NQfOo4qcsl1Rj2PkDZzIsTJRSrZxxUingvBJg==",
+      "bytes": 331,
+      "sha256": "ef816dcbd540a52d4b95f1d6ee15bac4dbbc53221f0aa39e0824e647d5aa2dd3"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~tXuG-JnNYYhDru9v1KFwHGh9Xpxa3ShsDFUt3rw8ZyY3zpoZtp8MUzo0XdpWw6Bds1ZoEdyTMPIjHjAJPPbJvA==",
+      "bytes": 304,
+      "sha256": "3c41d3115389e9b4aa23cc1f6801d3677c66afd0f8d5f55ccccea3cf5559c587"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~voHKTcfXaDLLvA2xgEKJl3qc7_7RILKN7VVYuwPRyP-fTg1terbCYBIWCYpyyG0vYh_xQbCPMy84QJ5_2rP6BQ==",
+      "bytes": 19644,
+      "sha256": "a038188490346e905d34dcb845ee801d5854a3287e22070599c374218569e150"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/data.0~yo5-YvbDUZHrCGLF1jTwEZcaCdgijq6j2OAkYxwK5rorIM4WOwevsgRAgDxo3ueTGyhPVej_5GFtJqxrjFG7oQ==",
+      "bytes": 838,
+      "sha256": "19011670ba472c9ec45f480f54bdfcdfac0aa685a7463f51e29ca4b61f33603e"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~4VqMqsI5lOfxRppnud6-VDWcNsU8J7VgFCJfW2dXPwOcAkvU-I8Um5yp9n0Zv6nr3VmcxYggaVMDFfR0U_vjKw==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~5wahmH0DMihyNkCWVu10EjRkbnAd6x8zV1o5Espa09FOkIXMKLCYH49If3Ba285q6xjhfdxCpaX1TrQXnAZDBA==",
+      "bytes": 133,
+      "sha256": "aab3105b6ac94fecb25cb17b6703ea0dde3a12518d6bb75ec315fde0d468aa98"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~7RvSf5c_5t7aLqD6988Ng0yTq82EsHKOLIzBqxGWDDPoCVSUgGncH16UavUATnZbov0p6dmGIEgbuAw0jqit5g==",
+      "bytes": 265,
+      "sha256": "2faa0221afc075b903c901f5d1d3192bca4a15e5e383fdf1a2deffae605e8dd3"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~DN8iQNFVeKuAbniRd7nthEjXtHm0sqqmowApwrBEa8_iYV6V6m_5ZEPhE3c9RweFLcfARcRejPNK1-4hIDrC5Q==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~FfeGfT9zW-K8_W3vsCMC4TSdqHYAATE49JlTtnAoKrzCWYviwKH1vU0z8v9qlp8t9vT2tv81wLNLwCCgXlzS6g==",
+      "bytes": 67,
+      "sha256": "0eb103db4ac28dcc83c3aa0fe624cd87a7619f15319bc673a8dc56df17ad0501"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~Fos1kOmH6q5W-i5JfGgtZZTUyTV8lxiXaZl_Xv2Q0gLDDldRS5RS6Pn68D4DG98xcb25At8xGMw6HPoXoqV6IA==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~OgN3tzh0YzuwCFC7sOMHz_UijfhlKNX76re1L8HOgj-8YoCHSkEQil6UPLnZ-sXLu6O8OP3izC--v65pgD0Fog==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~VSveJ5A_Hi7khZmBO6PBBcw3xxjWa0viFDblJ8x0U5kkHy2npkTmChQE9YETH1s_FdAL8mWzHliVL1EVnynbRw==",
+      "bytes": 199,
+      "sha256": "043025b6f3c3bc24829ddc5d202120c4b898d7b0c7ca46b0aa37c763aca6fe84"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~a2sQwbv2oawPW1x-77-DRzrdCNXDi_csUCKCndHL3jaU28Uh4k9NCef-7Z5YTmZJrJT8I4PvxcfhFLlpugdOww==",
+      "bytes": 133,
+      "sha256": "313d95fa48b0fc7af261c64772c99cdb891d73bc1f19c63ea4cb06be98ca35d4"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~pYg1wd8F6yrhgtE-qVafAs5e8raSmxmt7jDvPUspGzafsH3jQGhSViVTaSN7C8UqJkBujOkHm7YcZczvX6nFwg==",
+      "bytes": 67,
+      "sha256": "a104120dcc528be70ee904d0a129423a84715adf746423c809e4914b51326932"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~sGBkMMFYKUrhNlyNkjhLiD9ZMMhuQ16uma9KclGYtsCkfHWo5NQfOo4qcsl1Rj2PkDZzIsTJRSrZxxUingvBJg==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~tXuG-JnNYYhDru9v1KFwHGh9Xpxa3ShsDFUt3rw8ZyY3zpoZtp8MUzo0XdpWw6Bds1ZoEdyTMPIjHjAJPPbJvA==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~voHKTcfXaDLLvA2xgEKJl3qc7_7RILKN7VVYuwPRyP-fTg1terbCYBIWCYpyyG0vYh_xQbCPMy84QJ5_2rP6BQ==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Data/refs.0~yo5-YvbDUZHrCGLF1jTwEZcaCdgijq6j2OAkYxwK5rorIM4WOwevsgRAgDxo3ueTGyhPVej_5GFtJqxrjFG7oQ==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "file": "prompt-ui.xcresult/Info.plist",
+      "bytes": 715,
+      "sha256": "4a74d05c7d2369bae6b84df547d5a23ddf549a36b0885ffc723d1003f329d0a2"
+    },
+    {
+      "file": "request-1.json",
+      "bytes": 100,
+      "sha256": "8dc355322fbef23d78e0d9b8b3ad1d95af41057d4fc25f81ce33561673a1fb8b"
+    },
+    {
+      "file": "request-2.json",
+      "bytes": 124,
+      "sha256": "4975bdca72d0b74786f7737fff3e2918c2a97923258044c84f15f4c81f558b82"
+    },
+    {
+      "file": "request-3.json",
+      "bytes": 106,
+      "sha256": "508c45ff2f13ce635d7bfd222ce3b08a3c08bd179df19408a0d31d82472a65ef"
+    },
+    {
+      "file": "request-4.json",
+      "bytes": 110,
+      "sha256": "2958a02cad04ba7b691726855eaa969a6819bd00d3e0f4e35411a650e7c1deb0"
+    },
+    {
+      "file": "request-5.json",
+      "bytes": 108,
+      "sha256": "5a4818e0ef69c3efaf828e7ce79781a05db1c562aa5ef3eba2385e767832eb4b"
+    },
+    {
+      "file": "request-6.json",
+      "bytes": 82,
+      "sha256": "b8aa465c094a9b4a1ea98164024bd6654b924e233999e2135fc61af1b0d5674c"
+    },
+    {
+      "file": "settings.json",
+      "bytes": 3285,
+      "sha256": "70ac40cf4f5ff74653c025b1a251491f75542ae5a5ec7903d31e0e3e640bb438"
+    },
+    {
+      "file": "settings.png",
+      "bytes": 130909,
+      "sha256": "521030d3361c2df7815a639211b960fbd4a8c4606164075bd4c6b7df0236d108"
+    },
+    {
+      "file": "simulator.txt",
+      "bytes": 92,
+      "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281"
+    },
+    {
+      "file": "start.json",
+      "bytes": 3194,
+      "sha256": "3991be8ac13a8a2cf25af0af4c91d85c9c3317ba7cf3f5adbb0e0d774b88ee3c"
+    },
+    {
+      "file": "start.png",
+      "bytes": 488884,
+      "sha256": "c2e19a073204d1ae5f2a9fbab91f7c9e5225e204aee65bedb02745d63f487f69"
+    },
+    {
+      "file": "wallet.json",
+      "bytes": 3294,
+      "sha256": "656775b852b842287cb5c8855d1c36a0d8610b393b5888affa9ced43ca7797d1"
+    },
+    {
+      "file": "wallet.png",
+      "bytes": 110516,
+      "sha256": "23e7ffb518cb528df1ec339022b1c325da08d04b24fc4dfc0fb7d5ce46fa4e02"
+    },
+    {
+      "file": "xctest-build.log",
+      "bytes": 121189,
+      "sha256": "1c1ebc556eacc1a55d1750bafec97bf34da34cc1e4857bc67ebc31fad33fdbe4"
+    },
+    {
+      "file": "xctest.log",
+      "bytes": 5835,
+      "sha256": "3be93e43c0051d56ba7e70b167af7a9c335fcb60fe3a76bb1e648e2607d1db85"
+    }
+  ],
+  "job_log": {
+    "file": "ios-launcher-9a628e3-job.log",
+    "bytes": 336317,
+    "sha256": "8a109165cf0fa3a92fbd3546793eef24f1f56b9287de95e9054f56b5cb25bfb8"
+  },
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-11-23T23:19:36Z",
+      "completed_at": "2026-11-23T23:19:37Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-11-23T23:19:37Z",
+      "completed_at": "2026-11-23T23:20:20Z"
+    },
+    {
+      "name": "Read pinned toolchain",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-11-23T23:20:20Z",
+      "completed_at": "2026-11-23T23:20:20Z"
+    },
+    {
+      "name": "Install pinned Rust and iOS standard library",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-11-23T23:20:20Z",
+      "completed_at": "2026-11-23T23:20:30Z"
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-11-23T23:20:30Z",
+      "completed_at": "2026-11-23T23:20:34Z"
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6,
+      "started_at": "2026-11-23T23:20:34Z",
+      "completed_at": "2026-11-23T23:21:28Z"
+    },
+    {
+      "name": "Verify portable iOS completion contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7,
+      "started_at": "2026-11-23T23:21:28Z",
+      "completed_at": "2026-11-23T23:21:54Z"
+    },
+    {
+      "name": "Type check the optional carrier provider for physical iPhone",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-11-23T23:21:54Z",
+      "completed_at": "2026-11-23T23:22:12Z"
+    },
+    {
+      "name": "Check all native bridge files against the simulator SDK",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9,
+      "started_at": "2026-11-23T23:22:12Z",
+      "completed_at": "2026-11-23T23:22:34Z"
+    },
+    {
+      "name": "Build and bundle the standard UIKit application",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-11-23T23:22:34Z",
+      "completed_at": "2026-11-23T23:25:02Z"
+    },
+    {
+      "name": "Build and bundle the optional carrier provider",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11,
+      "started_at": "2026-11-23T23:25:02Z",
+      "completed_at": "2026-11-23T23:26:11Z"
+    },
+    {
+      "name": "Cache the successfully built UIKit application",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12,
+      "started_at": "2026-11-23T23:26:11Z",
+      "completed_at": "2026-11-23T23:26:53Z"
+    },
+    {
+      "name": "Verify native UI, device roundtrips and activation",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13,
+      "started_at": "2026-11-23T23:26:53Z",
+      "completed_at": "2026-11-23T23:40:47Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 14,
+      "started_at": "2026-11-23T23:40:47Z",
+      "completed_at": "2026-11-23T23:40:50Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 15,
+      "started_at": "2026-11-23T23:40:50Z",
+      "completed_at": "2026-11-23T23:40:59Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 30,
+      "started_at": "2026-11-23T23:40:59Z",
+      "completed_at": "2026-11-23T23:41:02Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 31,
+      "started_at": "2026-11-23T23:41:02Z",
+      "completed_at": "2026-11-23T23:41:12Z"
+    }
+  ],
+  "warnings": [
+    "Native compilation retained unused-parameter/deprecation warnings and upstream Rust warnings; both complete configurations linked and bundled successfully. Full diagnostics are retained in the job log.",
+    "The runtime emitted FerroUI keyless-list warnings; all independently checked mounted route and geometry assertions passed.",
+    "The simulator cannot open tel:0 and reported no carrier roles, phone accounts or messaging transport. This is preserved as unsupported observed capability.",
+    "XCTest logged an Apple simulator accessibility class duplication warning; its actual test completed with zero failures."
+  ],
+  "prior_causal_corrections": [
+    {
+      "source": "22549bd309ef29878aa386b6279a28513222bcfc",
+      "change": "Report simulator brightness as read-only and reject writes; retain physical-device writable support. Native Contacts CRUD stays required."
+    },
+    {
+      "source": "ee7d6a0f882d83b7a8ef25e621f140a6b45b71ee",
+      "change": "Use the public XCTest system URL API with exact ordered URI requests, independent native delegate outcomes, unchanged process identity and foreground-scene assertions."
+    },
+    {
+      "source": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+      "change": "Batch shared launch/activation delivery and accept the final route owned by the requested app, preserving Settings child redirects and session/epoch ownership."
+    },
+    {
+      "source": "9a628e39af18b727555ad4f9a5184761d2519502",
+      "change": "Add opt-in early Rust/UIKit setup phases and prelaunch installation identity for bounded owned-process/crash diagnostics; production providers and runtime assertions are unchanged."
+    }
+  ],
+  "limitations": [
+    "This qualifies an ARM64 iOS simulator build/runtime. Physical iPhone call, carrier SMS/MMS, entitled role selection, regional eligibility, and hardware brightness/torch behavior require separate device qualification.",
+    "The optional carrier provider was physically targeted Swift-typechecked and fully linked into the simulator bundle. No signed carrier entitlement, provisioning profile, role selection or live cellular service was installed or claimed.",
+    "The test placed no calls and sent no messages. Phone and Messaging captures establish actual native activation and mounted UI, not successful telephony or MessageUI transmission.",
+    "Simulator contacts shown in People are disposable simulator fixtures. Existing Start demo badges do not establish carrier inbox synchronization on iOS.",
+    "URL delivery, Contacts CRUD and measured safe-area behavior are runtime-qualified; every other native integration retains its documented device-specific qualification limits."
+  ]
+}

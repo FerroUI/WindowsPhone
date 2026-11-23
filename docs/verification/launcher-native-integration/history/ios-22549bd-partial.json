@@ -1,0 +1,403 @@
+{
+  "schema": 1,
+  "source": {
+    "repository": "FerroUI/WindowsPhone",
+    "commit": "22549bd309ef29878aa386b6279a28513222bcfc",
+    "framework": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "run": {
+    "id": 45255505737,
+    "job_id": 137976134902,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45255505737",
+    "conclusion": "failure",
+    "failed_step": "Verify native UI, device roundtrips and activation",
+    "failed_phase": "Waiting for the Wallet route"
+  },
+  "toolchain": {
+    "xcode": "26.6",
+    "xcode_build": "17F113",
+    "rust": "1.99.0",
+    "simulator_sdk": "26.5",
+    "deployment_target": "15.0"
+  },
+  "passed": {
+    "portable_rust_default": 7,
+    "portable_rust_telephony_feature": 7,
+    "python_verifier": 5,
+    "physical_iphone_swift_typecheck": true,
+    "all_objc_sdk_syntax_default_and_feature": true,
+    "standard_uikit_full_build_link_bundle": true,
+    "telephony_feature_full_build_link_bundle": true,
+    "mounted_start_layout": true,
+    "provider_checks": [
+      "observed_simulator_capabilities",
+      "brightness_read_only",
+      "contact_create_and_query",
+      "contact_update_and_query",
+      "contact_delete_and_query"
+    ],
+    "specific_springboard_confirmation_accepted": 1
+  },
+  "provider": {
+    "checks": [
+      {
+        "name": "observed_simulator_capabilities",
+        "passed": true,
+        "snapshot": {
+          "controls": [
+            {
+              "access": "readOnly",
+              "control": "brightness",
+              "detail": "The simulator reports a brightness value but has no writable physical backlight.",
+              "value": {
+                "kind": "level",
+                "value": 0.5
+              }
+            },
+            {
+              "access": "unavailable",
+              "control": "flashlight",
+              "detail": "This device has no rear torch.",
+              "value": {
+                "kind": "unknown"
+              }
+            },
+            {
+              "access": "panel",
+              "control": "mediaVolume",
+              "detail": "Use the native volume panel. iOS does not provide a general writable system volume property.",
+              "value": {
+                "kind": "level",
+                "value": 0.6000000238418579
+              }
+            },
+            {
+              "access": "panel",
+              "control": "audioOutput",
+              "detail": "Choose an available output in the system route picker.",
+              "value": {
+                "kind": "choice",
+                "value": "Speaker"
+              }
+            },
+            {
+              "access": "panel",
+              "control": "cast",
+              "detail": "The native route picker chooses compatible audio/video destinations for the app; it does not enable system screen mirroring.",
+              "value": {
+                "kind": "choice",
+                "value": "Speaker"
+              }
+            },
+            {
+              "access": "readOnly",
+              "control": "batterySaver",
+              "detail": "Low Power Mode is observed from iOS. Change it in the system Settings app.",
+              "value": {
+                "kind": "toggle",
+                "value": false
+              }
+            }
+          ],
+          "detail": "Public UIKit device integrations. Contacts respect the selected access scope; message composition reports the actual system composer outcome. Device controls reflect observed hardware and permissions.",
+          "operations": [
+            "readContacts",
+            "writeContacts",
+            "maps"
+          ],
+          "permissions": [
+            {
+              "permission": "contacts",
+              "status": "granted"
+            },
+            {
+              "permission": "camera",
+              "status": "prompt"
+            },
+            {
+              "permission": "location",
+              "status": "prompt"
+            },
+            {
+              "permission": "notifications",
+              "status": "prompt"
+            },
+            {
+              "permission": "phone",
+              "status": "unsupported"
+            },
+            {
+              "permission": "callLog",
+              "status": "unsupported"
+            },
+            {
+              "permission": "readSms",
+              "status": "unsupported"
+            },
+            {
+              "permission": "sendSms",
+              "status": "unsupported"
+            }
+          ],
+          "phone_accounts": [],
+          "roles": [
+            {
+              "detail": "The running device/build does not have an eligible signed Default Dialer entitlement. The standard calling handoff remains available.",
+              "role": "dialer",
+              "status": "unsupported"
+            },
+            {
+              "detail": "Carrier messaging requires the signed entitlement, an eligible iPhone/region and selection as default. The normal message composer remains separate.",
+              "role": "sms",
+              "status": "unsupported"
+            }
+          ],
+          "settings": [
+            "application",
+            "permissions",
+            "privacy",
+            "notifications",
+            "sound",
+            "audioOutput",
+            "cast",
+            "defaultApps"
+          ],
+          "sms_subscriptions": []
+        }
+      },
+      {
+        "before": 0.5,
+        "name": "brightness_read_only",
+        "observed": 0.5,
+        "passed": true,
+        "refusal": "Screen brightness is read-only in iOS Simulator.",
+        "requested": 0.67
+      },
+      {
+        "name": "contact_create_and_query",
+        "passed": true,
+        "provider_id": "C89E51FC-6E91-4DAC-A3BF-007E6A5BB936:ABPerson"
+      },
+      {
+        "name": "contact_update_and_query",
+        "passed": true,
+        "provider_id": "C89E51FC-6E91-4DAC-A3BF-007E6A5BB936:ABPerson"
+      },
+      {
+        "name": "contact_delete_and_query",
+        "passed": true
+      }
+    ],
+    "cleanup_errors": [],
+    "error": null,
+    "physical_brightness": "requires_device_qualification",
+    "platform": "ios",
+    "schema": 1,
+    "sent_calls": 0,
+    "sent_messages": 0,
+    "simulator_only": true,
+    "status": "passed"
+  },
+  "runtime": {
+    "simulator": "iPhone 11",
+    "os": "iOS 26.5",
+    "client": {
+      "height": 896.0,
+      "width": 414.0
+    },
+    "safe_area": {
+      "bottom": 34.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 48.0
+    },
+    "inner": {
+      "height": 814.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 48.0
+    },
+    "screen": {
+      "height": 814.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 48.0
+    },
+    "mounted_controls": [
+      "PhoneScreen",
+      "PhonePage",
+      "StartScroll",
+      "StartTiles"
+    ],
+    "initial_observation": {
+      "sequence": 7,
+      "observed_at_unix_ms": 1795465311441
+    },
+    "final_observation": {
+      "sequence": 327,
+      "observed_at_unix_ms": 1795465483025,
+      "route": "Start",
+      "activation": null
+    },
+    "console_pid": 26757,
+    "process_identity_limit": "This run did not yet record PID and launch UUID in each observation. Fresh timestamps and increasing sequence prove the observed process was still updating."
+  },
+  "failure": {
+    "requested_uri": "ferroui-phone://app/org.ferroui.wallet",
+    "wait_seconds": 90,
+    "boundary": "The exact SpringBoard Open prompt was accepted and dismissed, but the phone never recorded the protocol activation and remained on Start.",
+    "xctest_timing_seconds": {
+      "phone_activate": 1.82,
+      "alert_lookup_stall_begin": 6.9,
+      "alert_lookup_stall_end": 30.62,
+      "open_tap": 32.59
+    },
+    "cause_status": "The production routing defect is not established. The observed delay is at the detached simctl/SpringBoard handoff boundary.",
+    "correction_pending_verification": "Use the public XCTest system URL API for the same six fixed URLs, with independently observed native receipt/route/control/geometry checks, original PID/launch UUID invariants, and native delegate diagnostics."
+  },
+  "not_qualified": [
+    "Wallet warm activation",
+    "Phone warm activation",
+    "People warm activation",
+    "Messages warm activation",
+    "Settings warm activation",
+    "Home warm activation",
+    "physical brightness writes",
+    "physical carrier/default-role behavior"
+  ],
+  "bundle_identity": {
+    "CADisableMinimumFrameDurationOnPhone": true,
+    "CFBundleDevelopmentRegion": "en",
+    "CFBundleDisplayName": "Windows Phone",
+    "CFBundleExecutable": "phone-ios",
+    "CFBundleIcons": {
+      "CFBundlePrimaryIcon": {
+        "CFBundleIconFiles": [
+          "AppIcon60x60"
+        ]
+      }
+    },
+    "CFBundleIcons~ipad": {
+      "CFBundlePrimaryIcon": {
+        "CFBundleIconFiles": [
+          "AppIcon60x60",
+          "AppIcon76x76",
+          "AppIcon83.5x83.5"
+        ]
+      }
+    },
+    "CFBundleIdentifier": "org.ferroui.windowsphone",
+    "CFBundleInfoDictionaryVersion": "6.0",
+    "CFBundleName": "Windows Phone",
+    "CFBundlePackageType": "APPL",
+    "CFBundleShortVersionString": "1.0",
+    "CFBundleSupportedPlatforms": [
+      "iPhoneSimulator"
+    ],
+    "CFBundleURLTypes": [
+      {
+        "CFBundleTypeRole": "Viewer",
+        "CFBundleURLName": "org.ferroui.windowsphone.activation",
+        "CFBundleURLSchemes": [
+          "ferroui-phone"
+        ]
+      }
+    ],
+    "CFBundleVersion": "1",
+    "DTPlatformName": "iphonesimulator",
+    "DTPlatformVersion": "26.5",
+    "DTSDKBuild": "23F81a",
+    "DTSDKName": "iphonesimulator26.5",
+    "DTXcode": "26.6",
+    "DTXcodeBuild": "17F113",
+    "LSApplicationQueriesSchemes": [
+      "tel",
+      "sms",
+      "mailto",
+      "maps"
+    ],
+    "LSRequiresIPhoneOS": true,
+    "MinimumOSVersion": "15.0",
+    "NSCameraUsageDescription": "Take a photo and add it to your phone's local Camera Roll.",
+    "NSContactsUsageDescription": "Show the device contacts you choose in People and use their numbers for an explicit call or message.",
+    "NSLocationWhenInUseUsageDescription": "Use your location for an explicit Maps or Weather request.",
+    "UIApplicationSceneManifest": {
+      "UIApplicationSupportsMultipleScenes": false
+    },
+    "UIDeviceFamily": [
+      1,
+      2
+    ],
+    "UILaunchScreen": {},
+    "UIRequiredDeviceCapabilities": [
+      "arm64"
+    ],
+    "UISupportedInterfaceOrientations": [
+      "UIInterfaceOrientationPortrait",
+      "UIInterfaceOrientationPortraitUpsideDown",
+      "UIInterfaceOrientationLandscapeLeft",
+      "UIInterfaceOrientationLandscapeRight"
+    ],
+    "UISupportedInterfaceOrientations~ipad": [
+      "UIInterfaceOrientationPortrait",
+      "UIInterfaceOrientationPortraitUpsideDown",
+      "UIInterfaceOrientationLandscapeLeft",
+      "UIInterfaceOrientationLandscapeRight"
+    ]
+  },
+  "artifacts": [
+    {
+      "name": "ios-verification",
+      "id": 14858539529,
+      "bytes": 1797607,
+      "sha256": "c43b687f67c3a504c57e5132d881f5828cd2a99a54a60b2aed67af7c7857d732",
+      "download_verified": true
+    },
+    {
+      "name": "phone-ios-simulator",
+      "id": 14860265202,
+      "bytes": 49193737,
+      "sha256": "15dbaea45bc51e22783942e0128a051769dd16ad4a8571189628a61d4e2847bd",
+      "download_verified": true
+    }
+  ],
+  "evidence": {
+    "start.json": {
+      "bytes": 2863,
+      "sha256": "8e4d1a5d1511b4c5318c01a5c3dcac10d072cfce4cd477a58654265b6fd1bf70"
+    },
+    "start.png": {
+      "bytes": 629180,
+      "sha256": "4db75b50b34ca0422110496f788cb97cd7cd995ae4aa75e57cc4f70a62d845cf"
+    },
+    "failure.json": {
+      "bytes": 2865,
+      "sha256": "c908d24c013c0345c7c6d6bfd0872f2e4d0b8687989d6ab605f7424e24759103"
+    },
+    "failure.png": {
+      "bytes": 490828,
+      "sha256": "dda7b0cd7e87311d4784948204bfffffc97f823b7a03e3e557d6481c440c3a9e"
+    },
+    "device-tests.json": {
+      "bytes": 2939,
+      "sha256": "9aa1f5b5d7314fd95857d23d73ec11382dbbde36beabd7d65f3c99005d8129a4"
+    },
+    "prompt-handler.json": {
+      "bytes": 30,
+      "sha256": "797619d5462ce43592dbf25369ae1bcb68fd97966d7240d3a1b0a3da33b4add5"
+    },
+    "xctest.log": {
+      "bytes": 19287,
+      "sha256": "7ed62f4052cf697197b9d64affbc2c4e698f9bf8105c6c732cc168325386a8c4"
+    },
+    "console.log": {
+      "bytes": 2506,
+      "sha256": "2ffb176ad59e154995b7669ea49263ad2f1426d0c4a5fcec1706bf6543364fdd"
+    },
+    "bundled-info.plist": {
+      "bytes": 1892,
+      "sha256": "6972b28de4c550a10cbb233385501c163db021171fdbc20b93127790c8599b3c"
+    }
+  },
+  "job_log_sha256": "963a3ac69cca3bea1f662df97a25707b4d6a8429d4d07ba75601f7618815c0d9"
+}

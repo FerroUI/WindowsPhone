@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+  "result": "passed",
+  "command": "CARGO_TARGET_DIR=/workspace/scratch/a88f4da96eaa/WindowsPhone/target cargo test --locked -p phone-runtime -p phone-state --lib",
+  "toolchain": "1.99.0",
+  "results": [
+    {
+      "crate": "phone-runtime",
+      "passed": 25,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "crate": "phone-state",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    }
+  ],
+  "compile_duration_seconds": 3.24,
+  "log_sha256": "eed83977f7632b63bd5dd892e5c64e1d222c21ccabb9e3d3b7b7b72b1ac7c60e",
+  "reproduced_regressions": [
+    "Newer private events consumed during initialization failed to trigger a fresh read.",
+    "A delayed owned Snapshot overwrote newer revoked authority.",
+    "An explicit refresh could settle with older data after a newer event."
+  ],
+  "qualification": "Focused local library tests for foreground initialization, read coalescing/cancellation, observed authority, delayed completions, restore/reentrancy, bounded retry, atomic contact-subset publication and completion/event ordering. Counts overlap broader CI suites and must not be added to their totals. No native UI or hardware claim."
+}

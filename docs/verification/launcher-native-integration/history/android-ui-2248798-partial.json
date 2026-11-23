@@ -1,0 +1,602 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "22487989b3ec2a2cb53b8f4a8d0f1789cf7f911f",
+  "run_id": 45275444506,
+  "job_id": 138048176597,
+  "attempt": 2,
+  "conclusion": "failure",
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45275444506",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "failure": {
+    "phase": "Granting only the app listener and posting a unique native notification in the private emulator",
+    "exit_code": 1,
+    "assertion": "The command changed unrelated listener access",
+    "cause": "allow_listener correctly allowed/bound/connected the exact app service, but the immediate read-only Settings mirror still held the unchanged original two listeners. Logcat reports its settings-change notification about700ms after grant. The harness compared before asynchronous convergence and stopped before posting. No unrelated component changed in the captured sets.",
+    "classification": "harness asynchronous listener Settings-mirror observation",
+    "proof_files": [
+      "listener-before.txt",
+      "listener-granted.txt",
+      "listener-grant.txt",
+      "logcat.txt"
+    ],
+    "correction_commit": "305ffcf460830416cc2469a6f6a927db390b5217",
+    "correction": "Bound grant/revoke/restore convergence to30seconds; retain each exact observed set; fail immediately on any unrelated access change. Captured unchanged-set and exact transition regressions added."
+  },
+  "tests": {
+    "jvm_contract_assertions": 111,
+    "pinned_aosp_hashes": 24,
+    "package_tests": 8,
+    "mounted_ui_tests": 8,
+    "device_tests": 3,
+    "bootstrap_tests": 12,
+    "rust_android_tests": 7
+  },
+  "build": {
+    "native_link": "passed (1m22s)",
+    "app_apk": "passed (1m1s)",
+    "launcher_apk": "passed (21s)",
+    "package_manifests_jni_elf_zip_alignment": "passed for both actual APKs",
+    "cache": "saved before runtime verification"
+  },
+  "runtime_passed": [
+    "ordinary App and Launcher Start/Wallet/physical Back/warm HOME",
+    "actual HOME role selection, implicit resolver, HOME key to Start, Back at Start focus, and original HOME restoration",
+    "qualified Dialer/SMS role selection and native protected incoming SMS provider persistence",
+    "cold Start shared DeviceStore thread:1 unread1 and actual canonical Messaging TileBadge-101 displaying1 before Messaging opened"
+  ],
+  "cold_start": {
+    "nonce": "44efdf2792ddc5f268b0a3eabe85031a",
+    "sequence": 12,
+    "process_id": 4865,
+    "route": "Start",
+    "activation": {
+      "error": null,
+      "outcome": "accepted",
+      "uri": "ferroui-phone://home"
+    },
+    "device_message_thread": null,
+    "device_message_ids": [],
+    "device_threads": [
+      {
+        "id": "thread:1",
+        "unread": 1
+      }
+    ],
+    "device_message_unread": 1,
+    "messaging_tile_ids": [
+      101
+    ],
+    "messaging_badges": [
+      {
+        "bounds": {
+          "fully_visible": true,
+          "height": 32.5,
+          "width": 10.0,
+          "x": 322.0,
+          "y": 121.0
+        },
+        "name": "TileBadge-101",
+        "text": "1",
+        "tile_id": 101
+      }
+    ],
+    "client": {
+      "height": 720.0,
+      "width": 360.0
+    },
+    "safe_area": {
+      "bottom": 24.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 68.0
+    },
+    "inner": {
+      "height": 628.0,
+      "width": 360.0,
+      "x": 0.0,
+      "y": 68.0
+    },
+    "viewport": {
+      "height": 628.0,
+      "width": 360.0
+    },
+    "host": {
+      "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+      "features": [
+        "installedApps",
+        "systemSettings",
+        "nativeSharing",
+        "haptics",
+        "notifications",
+        "location",
+        "hardwareControls",
+        "telephony",
+        "messaging",
+        "contacts",
+        "notificationCenter",
+        "maps",
+        "appShortcuts",
+        "launcherRole"
+      ],
+      "launcher": "available",
+      "mode": "app",
+      "platform": "android",
+      "shell": "unsupported"
+    },
+    "package": "org.ferroui.windowsphone.launcher",
+    "native_roles": [
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "home",
+        "status": "available"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "dialer",
+        "status": "active"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "sms",
+        "status": "active"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "writeSettings",
+        "status": "available"
+      },
+      {
+        "detail": "Android owns role and special-access consent.",
+        "role": "doNotDisturb",
+        "status": "available"
+      }
+    ],
+    "role_context": "Cold Start in the launcher package with Dialer and SMS active. HOME had already been restored to the original holder; this capture correctly reports App mode. Separate earlier observations qualify actual active HOME."
+  },
+  "not_executed": [
+    "unique shell notification posting",
+    "shared-store notification fixture admission",
+    "rendered Action Center fixture and revocation cleanup assertions",
+    "Messaging thread activation",
+    "native incoming call/Answer/active foreground ownership/remote hangup",
+    "final current-user assertion"
+  ],
+  "cleanup": {
+    "home": {
+      "before": [
+        "com.google.android.apps.nexuslauncher"
+      ],
+      "restored_before_carrier_phase": [
+        "com.google.android.apps.nexuslauncher"
+      ]
+    },
+    "carrier_roles": {
+      "DIALER": {
+        "before": [
+          "com.google.android.dialer"
+        ],
+        "restored_in_failure_cleanup": [
+          "com.google.android.dialer"
+        ]
+      },
+      "SMS": {
+        "before": [
+          "com.google.android.apps.messaging"
+        ],
+        "restored_in_failure_cleanup": [
+          "com.google.android.apps.messaging"
+        ]
+      }
+    },
+    "listener_access_changed": true,
+    "crash_buffer_bytes": 0,
+    "listener_restore_command": "disallow_listener for the exact app component only",
+    "listener_before": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "listener_after_mirror": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "listener_mirror_restore_comparison": true,
+    "listener_post_restore_native_snapshot_verified": false
+  },
+  "artifacts": [
+    {
+      "id": 14867382598,
+      "name": "phone-android-x86_64-ui",
+      "size_in_bytes": 5355042,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14867382598",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14867382598/zip",
+      "expired": false,
+      "created_at": "2026-11-23T22:14:13Z",
+      "expires_at": "2026-11-26T22:14:09Z",
+      "updated_at": "2026-11-23T22:14:13Z",
+      "digest": "sha256:2c16e6a67c9ddff22b4aa2f8215674ac17c912db334fae6bd82c4b9863c48fa2",
+      "workflow_run": {
+        "id": 45275444506,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "22487989b3ec2a2cb53b8f4a8d0f1789cf7f911f"
+      }
+    },
+    {
+      "id": 14866763615,
+      "name": "phone-android-x86_64-debug",
+      "size_in_bytes": 78278000,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14866763615",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14866763615/zip",
+      "expired": false,
+      "created_at": "2026-11-23T22:14:09Z",
+      "expires_at": "2026-11-26T22:14:02Z",
+      "updated_at": "2026-11-23T22:14:09Z",
+      "digest": "sha256:853e521d2915adb7c5ef6df39a001f1122880bdd0cd5604c3698be694e59bd26",
+      "workflow_run": {
+        "id": 45275444506,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "22487989b3ec2a2cb53b8f4a8d0f1789cf7f911f"
+      }
+    }
+  ],
+  "archive_sha256": {
+    "ui": "2c16e6a67c9ddff22b4aa2f8215674ac17c912db334fae6bd82c4b9863c48fa2",
+    "packages": "853e521d2915adb7c5ef6df39a001f1122880bdd0cd5604c3698be694e59bd26"
+  },
+  "package_verification": [
+    {
+      "apk": "WindowsPhoneAndroid-app-debug.apk",
+      "package": "org.ferroui.windowsphone",
+      "launcher": false,
+      "abi": "x86_64",
+      "native_bytes": 124142616,
+      "load_alignment": {
+        "lib/x86_64/libimage_processing_util_jni.so": [
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libphone_android.so": [
+          16384,
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libsurface_util_jni.so": [
+          16384,
+          16384
+        ]
+      },
+      "native_sha256": "c48b8d9cab8dc2efbe1618ab96a53e54ab053d5caea4a2c71f37d89068b713ac",
+      "apk_sha256": "300024ff256396a7c089184b4aeb0f47652e43b59554652bcd5513cd56f18c8d"
+    },
+    {
+      "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+      "package": "org.ferroui.windowsphone.launcher",
+      "launcher": true,
+      "abi": "x86_64",
+      "native_bytes": 124142616,
+      "load_alignment": {
+        "lib/x86_64/libimage_processing_util_jni.so": [
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libphone_android.so": [
+          16384,
+          16384,
+          16384,
+          16384
+        ],
+        "lib/x86_64/libsurface_util_jni.so": [
+          16384,
+          16384
+        ]
+      },
+      "native_sha256": "c48b8d9cab8dc2efbe1618ab96a53e54ab053d5caea4a2c71f37d89068b713ac",
+      "apk_sha256": "9af8102a1b287b0c68544a9874fd271d495fab2680476064725b28e81389b4c4"
+    }
+  ],
+  "captures": [
+    {
+      "file": "app-back.png",
+      "sha256": "36f46ec2642aefd47a6c44a572b00774b8e88ebafd47c74d76c316b15f723ba8",
+      "bytes": 426606,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "app-home-restored.png",
+      "sha256": "70db578b7137bde1351b92a7bc7ef775e367de174e06d87eee8f1f35c3c649e2",
+      "bytes": 454607,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "app-start.png",
+      "sha256": "68cd57f9ec0678c9c3a52754526c010cc35b60af4b4f4e5e51c67820be352ea3",
+      "bytes": 427872,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "app-wallet.png",
+      "sha256": "da1beb69467a7ef843d9d0793fff682b78cd871e3ded7409be1075e74253475c",
+      "bytes": 93501,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "device-start-unread.png",
+      "sha256": "9160a874aaf005aae086325cd35f561f596e8734df1456b634897db298b48009",
+      "bytes": 427647,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "failure.png",
+      "sha256": "faa874fe5ba511aa98bd6297e11c20a4fc404dc5d524411971f8f8c87aa9994c",
+      "bytes": 427638,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-back-start.png",
+      "sha256": "037a00a9c6839f20c996ff28d03dde48318cf516284dfdeb16c66a94e2215b7f",
+      "bytes": 325364,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-returned.png",
+      "sha256": "037a00a9c6839f20c996ff28d03dde48318cf516284dfdeb16c66a94e2215b7f",
+      "bytes": 325364,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-start.png",
+      "sha256": "210ccc0b716106b274f938e891669e24fd4be7eee986d11cb28ea334a3f9a312",
+      "bytes": 326421,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "home-role-wallet.png",
+      "sha256": "7e4ebe13241ba8b053c9df314f0a35df8c799d01e3885ae00de617972cf5652c",
+      "bytes": 93673,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-back.png",
+      "sha256": "ceca9a339664b9aa6863770be71287c808fd6150409b3f61619cc0045e4e9265",
+      "bytes": 511212,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-home-restored.png",
+      "sha256": "54ef8d1f8a2b431b3cd595c91a9bcd34244aac68a4d64c06f0a6118ae77470a0",
+      "bytes": 510179,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-start.png",
+      "sha256": "ff3051f92c231bfd7706c9f5851ab1fb7fb231dcc08fb1022eac065a6544ef49",
+      "bytes": 512732,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    },
+    {
+      "file": "launcher-wallet.png",
+      "sha256": "6edfd5b470dccd9c90bc804c1c0345b277a6331af191950812c31388cac7b418",
+      "bytes": 93756,
+      "width": 720,
+      "height": 1440,
+      "modified": false
+    }
+  ],
+  "visual_review": {
+    "result": "No new all-capture visual review claimed for this failed retry. The actual cold-Start JSON passed exact native thread/unread/mounted badge assertions; original PNGs are retained.",
+    "all_capture_review_claimed": false
+  },
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Read framework tool pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5
+    },
+    {
+      "name": "Run android-actions/setup-android@v3",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6
+    },
+    {
+      "name": "Install the pinned Android tools and API 36 x86_64 image",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Enable KVM for this ephemeral runner",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Install pinned Rust and the Android emulator target",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11
+    },
+    {
+      "name": "Reset per-run observation artifacts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12
+    },
+    {
+      "name": "Verify package and mounted-layout contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13
+    },
+    {
+      "name": "Build x86_64 application and launcher APKs",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 14
+    },
+    {
+      "name": "Save successfully built native outputs before runtime verification",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 15
+    },
+    {
+      "name": "Verify the actual emulator packages",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 16
+    },
+    {
+      "name": "Verify native geometry, HOME, cold-Start unread badge, notification bootstrap/revocation and carrier call ownership",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 17
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 18
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 19
+    },
+    {
+      "name": "Post Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 36
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 37
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 38
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 39
+    }
+  ],
+  "prior_complete_runtime_record": "83e0c00-android-ui.json",
+  "limits": "This is a partial runtime record. It does not establish the new listener gate or repeat the call gate at this source; previous83e0c00 evidence remains preserved separately. No physical carrier delivery or MMS/RF interoperability is claimed.",
+  "evidence_files": [
+    "android-ui-45275444506-attempt2.log",
+    "android-ui-45275444506-attempt2-metadata.json",
+    "android-ui-45275444506-attempt2.zip",
+    "android-ui-apks-45275444506-attempt2.zip",
+    "android-ui-45275444506-attempt2/listener-before.txt",
+    "android-ui-45275444506-attempt2/listener-granted.txt",
+    "android-ui-45275444506-attempt2/listener-after.txt",
+    "android-ui-45275444506-attempt2/logcat.txt",
+    "android-ui-45275444506-attempt2/device-start-unread.json",
+    "android-ui-45275444506-attempt2/device-start-unread.png",
+    "android-ui-45275444506-attempt2/failure.png"
+  ],
+  "application_source_sha": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+  "previous_harness_failure_record": "8129e76-android-ui-failure.json",
+  "partial_listener_observation": {
+    "before": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "immediate_after_allow": [
+      "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+      "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+    ],
+    "grant_command_exit": 0,
+    "exact_service_allowed_at_device_time": "22:13:57.198",
+    "exact_service_connected_at_device_time": "22:13:57.209",
+    "settings_mirror_change_notification_at_device_time": "22:13:57.902",
+    "component": "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneNotificationListener",
+    "shared_admission_proven": false,
+    "rendering_proven": false
+  },
+  "infrastructure_attempt_record": "2248798-android-ui-infrastructure-attempt1.json"
+}

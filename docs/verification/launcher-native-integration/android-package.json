@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382",
+  "run_id": 45282852656,
+  "job_id": 138071504811,
+  "conclusion": "success",
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852656",
+  "artifact_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45282852656/artifacts/14870429345",
+  "target": "aarch64-linux-android",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "toolchain": {
+    "rust": "1.99.0",
+    "jdk": "17",
+    "gradle": "8.13",
+    "android_gradle_plugin": "8.13.0",
+    "sdk_platform": "android-36",
+    "build_tools": "36.0.0",
+    "ndk": "28.2.13676358"
+  },
+  "results": {
+    "jvm_contract_assertions": 111,
+    "aosp_source_hashes": 24,
+    "python_package_contract_tests": 8,
+    "rust_android_contract_tests": 7,
+    "native_link": {
+      "result": "passed",
+      "duration": "6m 26s"
+    },
+    "app_apk_assembly": {
+      "result": "passed",
+      "gradle_duration": "22s"
+    },
+    "launcher_apk_assembly": {
+      "result": "passed",
+      "gradle_duration": "19s"
+    },
+    "embedding_android_target_check": {
+      "result": "passed",
+      "duration": "1m 29s",
+      "default_features": false
+    },
+    "merged_manifests": "passed for both actual APKs, including protected dialer/SMS/MMS services, private callbacks, base foreground permission, exact phoneCall type and foreground-phone-call permission",
+    "jni_entry": "JNI_OnLoad verified for both APKs",
+    "native_16k_elf_alignment": "passed for all three native libraries in both APKs",
+    "apk_16k_zip_alignment": "passed for both APKs using zipalign -c -P 16 -v 4",
+    "native_cache_save": "passed before package verification",
+    "artifact_upload": "passed",
+    "download_integrity": "Archive SHA-256 matches GitHub digest; both APK and libphone_android.so hashes match CI verification JSON"
+  },
+  "artifacts": [
+    {
+      "id": 14870429345,
+      "name": "phone-android-arm64-debug",
+      "size_in_bytes": 71604852,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14870429345",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/14870429345/zip",
+      "expired": false,
+      "created_at": "2026-11-23T22:57:55Z",
+      "expires_at": "2026-11-26T22:57:49Z",
+      "updated_at": "2026-11-23T22:57:55Z",
+      "digest": "sha256:1745b0e6d0a4574bf33169d182b2cb289b0c4780fec099ddfcb6c4bdbe6e96b0",
+      "workflow_run": {
+        "id": 45282852656,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "77f0a0f91a168e0f4c152cc59d762625a72f1382"
+      }
+    }
+  ],
+  "artifact_verification": {
+    "archive_sha256": "1745b0e6d0a4574bf33169d182b2cb289b0c4780fec099ddfcb6c4bdbe6e96b0",
+    "packages": [
+      {
+        "apk": "WindowsPhoneAndroid-app-debug.apk",
+        "package": "org.ferroui.windowsphone",
+        "launcher": false,
+        "abi": "arm64-v8a",
+        "native_bytes": 108371200,
+        "load_alignment": {
+          "lib/arm64-v8a/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "f77c7f1e3440c39dca75c668bed76ac5f1a334431342a28059c8a76746d9aa0c",
+        "apk_sha256": "e785a14ae45b8be6f26d232360873ea7e91663391d608376b9abd51a4bfe7ac9"
+      },
+      {
+        "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+        "package": "org.ferroui.windowsphone.launcher",
+        "launcher": true,
+        "abi": "arm64-v8a",
+        "native_bytes": 108371200,
+        "load_alignment": {
+          "lib/arm64-v8a/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "f77c7f1e3440c39dca75c668bed76ac5f1a334431342a28059c8a76746d9aa0c",
+        "apk_sha256": "c28afa9e2a453845ea6d6aaa5db38afb204a96e41e98682a41fa28bd7e86e3f8"
+      }
+    ],
+    "call_service_manifests": [
+      {
+        "flavor": "app",
+        "phone_call_service_type": "0x4",
+        "protected_by": "android.permission.BIND_INCALL_SERVICE",
+        "foreground_phone_call_permission": true,
+        "manage_own_calls_permission": false
+      },
+      {
+        "flavor": "launcher",
+        "phone_call_service_type": "0x4",
+        "protected_by": "android.permission.BIND_INCALL_SERVICE",
+        "foreground_phone_call_permission": true,
+        "manage_own_calls_permission": false
+      }
+    ]
+  },
+  "warnings": [
+    "Pinned FerroUI emits existing unused/deprecated Rust API warnings.",
+    "Android Java uses deprecated public compatibility APIs; compilation succeeded.",
+    "Gradle reports features incompatible with Gradle9; the project remains pinned to8.13.",
+    "Pinned GitHub setup-java v4 and existing action Node dependencies emit deprecation notices; all gates completed successfully."
+  ],
+  "limitation": "This record proves actual ARM64 debug packaging and embedding compilation. Emulator UI and native carrier integration evidence is recorded separately. No physical carrier delivery, release signing or store qualification is claimed.",
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Read framework tool pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5
+    },
+    {
+      "name": "Run android-actions/setup-android@v3",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6
+    },
+    {
+      "name": "Install the pinned Android SDK and NDK",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Install pinned Rust and Android standard library",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10
+    },
+    {
+      "name": "Verify portable Android completion and media contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11
+    },
+    {
+      "name": "Build native application and HOME launcher APKs",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12
+    },
+    {
+      "name": "Check the Android embedding library",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13
+    },
+    {
+      "name": "Cache the successfully built native packages",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 14
+    },
+    {
+      "name": "Verify merged manifests, JNI entry and native alignment",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 15
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 16
+    },
+    {
+      "name": "Post Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 30
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 31
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 32
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 33
+    }
+  ],
+  "final_change": "Requalify final shared activation/SDK source and Android observation-only notification viewport correction. Private native read epochs, foreground bootstrap, role/permission boundaries and call foreground ownership remain integrated.",
+  "prior_success_record": "99ffbfc-android.json",
+  "evidence_files": [
+    "android-ci-45282852656.log",
+    "android-ci-45282852656-metadata.json",
+    "android-ci-45282852656.zip",
+    "77f0a0f-android-app-manifest.xml",
+    "77f0a0f-android-launcher-manifest.xml"
+  ],
+  "attempt": 1,
+  "workflow": "Verify Android hosts",
+  "log_sha256": "7042575ed5c2be4625df05b941b47b693939732c491011c4f7feaa81910d9317"
+}

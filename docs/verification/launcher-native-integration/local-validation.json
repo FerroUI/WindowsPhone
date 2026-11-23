@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "source_head": "b798631d3291fb3cc8b1e951335dfe0e270ab730",
+  "framework_head": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "scope": "Local source, protocol and ownership validation before actual native target and rendered CI. Overlapping executions are listed separately, never summed.",
+  "recorded_at": "2026-11-23T19:35:30.858747+00:00",
+  "groups": [
+    {
+      "name": "shared host/state/SDK/system/runtime/communication apps",
+      "passed": 167,
+      "failed": 0,
+      "ignored": 1,
+      "ignored_reason": "MPRIS requires a private D-Bus session; the Linux target CI runs that case explicitly."
+    },
+    {
+      "name": "Maps and SDK final libraries",
+      "passed": 41,
+      "failed": 0,
+      "detail": "13 Maps + 28 SDK; overlaps the larger shared run."
+    },
+    {
+      "name": "new download identity regression and dependent libraries",
+      "passed": 38,
+      "failed": 0,
+      "ignored": 1,
+      "detail": "3 Messaging + 33 host + 2 state; overlaps earlier groups."
+    },
+    {
+      "name": "native viewed-map cache and conditional revalidation",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "name": "browser host JavaScript contracts",
+      "passed": 55,
+      "failed": 0
+    },
+    {
+      "name": "shared native/runtime/mobile-adapter local check",
+      "result": "passed",
+      "targets": "Linux-hosted Rust metadata only; does not compile Android/iOS-specific FFI sources."
+    },
+    {
+      "name": "iOS portable contracts",
+      "passed": 7,
+      "failed": 0,
+      "detail": "Native Apple SDK and simulator evidence belongs to the separate CI record."
+    },
+    {
+      "name": "iOS Python verifier regressions",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "name": "Android source validation",
+      "java": {
+        "result": "passed",
+        "source_count": 96,
+        "platform": "official Android API 36 android.jar + core-for-system-modules.jar",
+        "compiler": "ECJ 3.41.0",
+        "source_target": 8,
+        "note": "Local API/type check. Actual Gradle/JDK17 Java11 packaging remains CI authoritative."
+      },
+      "rust": {
+        "command": "cargo test --locked -p phone-android --lib --quiet",
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0
+      },
+      "jvm": {
+        "command": "scripts/test-android-contracts.sh (official API36 jar, ECJ fallback)",
+        "assertions": 36,
+        "failed": 0
+      },
+      "vendor": {
+        "verified_sources": 24,
+        "result": "passed"
+      },
+      "python": {
+        "package_validator_tests": 6,
+        "ui_validator_tests": 6,
+        "failed": 0
+      }
+    }
+  ],
+  "log_sha256": {
+    "launcher-shared-tests.log": "b88e007c100ed4a11f591f0a696c10d6f836b7d6ccaab87524dd58742c892620",
+    "launcher-browser-tests.log": "fb30a568b38f9c52bb61e9d439021e8e64844f1de248468cb8344563d8727ce7",
+    "maps-sdk-final-tests.log": "1acf63daa12d9ce07d14fc106dd08bb35847bd407b6d20297c7031a792bf507d",
+    "launcher-map-cache-tests.log": "e8f945d00d9ab847d693cd36be43edae001a3996598f6608ba53cc19a3e1466a",
+    "launcher-download-tests.log": "558d1a105941558fcdcd88a86b76c3733f3e430b989033d9228da7680cd22f88",
+    "launcher-candidate-check.log": "a791092844be2234c14646ca6b0f1f657a7e3b52d9cc46f28439b7ab3ae905c3"
+  },
+  "limitations": [
+    "Local Linux media/camera dependencies were unavailable; only the actual target CI establishes native provider compilation.",
+    "No physical carrier delivery, MMS APNs, OS permission dialogs, Bluetooth/headset hardware or production signing is established by these checks."
+  ]
+}

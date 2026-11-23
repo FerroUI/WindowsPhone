@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "platform": "ios",
+  "source": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+  "framework": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "result": "failed_initial_mount",
+  "run_id": 45270527018,
+  "run_attempt": 1,
+  "job_id": 138028801883,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45270527018",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45270527018/job/138028801883",
+  "created_at": "2026-11-23T21:31:27Z",
+  "started_at": "2026-11-23T21:31:32Z",
+  "completed_at": "2026-11-23T21:55:54Z",
+  "runner": {
+    "label": "macos-latest",
+    "architecture": "ARM64",
+    "id": 1000002125
+  },
+  "toolchain": {
+    "xcode": "26.6",
+    "xcode_build": "17F113",
+    "rust": "1.99.0",
+    "rust_commit": "b940084d7",
+    "sdk": "iPhoneSimulator26.5",
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-11",
+    "target": "aarch64-apple-ios-sim",
+    "deployment_target": "15.0"
+  },
+  "gates": {
+    "python_mounted_proof_tests": {
+      "passed": 7
+    },
+    "rust_portable_default": {
+      "passed": 7
+    },
+    "rust_portable_ios26_telephony": {
+      "passed": 7
+    },
+    "physical_iphone_optional_swift_typecheck": "passed",
+    "simulator_objc_syntax_feature_0_and_1": "passed",
+    "standard_uikit_full_build_link_bundle": "passed",
+    "optional_carrier_full_build_link_bundle": "passed",
+    "xctest_system_url_driver_build": "passed",
+    "initial_mounted_start": "failed",
+    "contacts_crud_and_simulator_brightness": "not_reached",
+    "six_same_process_foreground_routes": "not_reached"
+  },
+  "failure": {
+    "phase": "Waiting for the Start route",
+    "message": "Timed out waiting for the mounted route home; Documents/phone-ios-smoke.json did not exist.",
+    "initial_route_deadline_seconds": 90,
+    "screenshot": "failure.png",
+    "visual_review": "The native capture contains the system status bar above a white UIKit surface; no mounted phone shell or error label is visible.",
+    "native_console_pid": 28919,
+    "native_console_thread": 82379,
+    "tel_queries_utc": [
+      "2026-11-23T21:53:50.916Z",
+      "2026-11-23T21:54:41.814Z"
+    ],
+    "tel_query_gap_seconds": 50.898,
+    "protocol_activation": "No URL request was sent; the failure precedes provider qualification and XCTest execution.",
+    "main_thread_stack": "Not collected in this attempt; subsequent diagnostic harness adds bounded exact-owned-executable sampling.",
+    "cause": "Unresolved synchronous startup delay. Logs do not identify a specific blocked SDK method."
+  },
+  "timing": {
+    "xctest_build_started": "2026-11-23T21:40:40.461279Z",
+    "xctest_build_completed_before": "2026-11-23T21:41:53.890667Z",
+    "simulator_boot_started": "2026-11-23T21:42:00.996532Z",
+    "bootstatus_finished": "2026-11-23T21:51:37.042768Z",
+    "install_launch_started": "2026-11-23T21:51:47.700512Z",
+    "start_wait_started": "2026-11-23T21:53:47.327631Z",
+    "start_wait_failed": "2026-11-23T21:55:17.686807Z"
+  },
+  "comparison": {
+    "prior_source": "22549bd309ef29878aa386b6279a28513222bcfc",
+    "prior_run_id": 45255505737,
+    "prior_initial_mount": "passed",
+    "prior_provider_checks": "all five passed",
+    "prior_tel_queries_utc": [
+      "2026-11-23T20:21:45.223Z",
+      "2026-11-23T20:21:45.583Z"
+    ],
+    "prior_tel_query_gap_seconds": 0.36,
+    "source_review": "The production iOS application, platform and device snapshot paths are unchanged between 22549bd and 99ffbfc. The added shared bootstrap receives the initial native snapshot during observe(), which completes its Snapshot seed before start_observations. Standard/simulator iOS does not expose ReadMessages or ReadNotifications. This does not introduce a predicted extra initial read.",
+    "inference": "The much slower existing SDK call sequence is consistent with the blank surface and missing observation, but does not yet distinguish a particular native service stall from simulator scheduling."
+  },
+  "constraints": {
+    "initial_route_timeout_retained": true,
+    "native_route_injection": false,
+    "permission_autoaccept": false,
+    "physical_carrier_calls_or_messages_sent": false,
+    "physical_entitled_services": "not_qualified"
+  },
+  "artifacts": [
+    {
+      "name": "phone-ios-simulator",
+      "id": 14866118932,
+      "bytes": 49239105,
+      "sha256": "db3976f55d46584e2b7b4eeb7fd047398fa9ddc27d4e2b13fccca79fa43ddc61",
+      "downloaded_and_hash_verified": true,
+      "expires_at": "2026-11-26T21:55:33Z"
+    },
+    {
+      "name": "ios-verification",
+      "id": 14864814210,
+      "bytes": 14945,
+      "sha256": "e5ce71a87f799ec4eafaedee37f7616dddc111305380d6269a4e256765126df2",
+      "downloaded_and_hash_verified": true,
+      "expires_at": "2026-11-30T21:55:31Z"
+    }
+  ],
+  "evidence_files": [
+    {
+      "name": "console.log",
+      "bytes": 900,
+      "sha256": "ba7971a02a4aad05d6caf722a542bef8ae4d7e56f5de5689a5460170f06ec217"
+    },
+    {
+      "name": "failure.png",
+      "bytes": 36960,
+      "sha256": "019ebe6cd0a288587ba87a6526800a5ea45e868960823c0b6db60635aea4f1d8"
+    },
+    {
+      "name": "phase.txt",
+      "bytes": 28,
+      "sha256": "2063f8ad2fbd9c5901607a0225e05aabbf0c2304396544ae916c9b0834acab1e"
+    },
+    {
+      "name": "simulator.txt",
+      "bytes": 92,
+      "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281"
+    },
+    {
+      "name": "verification.zip",
+      "bytes": 14945,
+      "sha256": "e5ce71a87f799ec4eafaedee37f7616dddc111305380d6269a4e256765126df2"
+    },
+    {
+      "name": "xctest-build.log",
+      "bytes": 121187,
+      "sha256": "3bb40ef4090c5e7e695de69f9f8bcbe9416e5b197d311e1133364be3e9c7c2ac"
+    },
+    {
+      "name": "bundle.zip",
+      "bytes": 49239105,
+      "sha256": "db3976f55d46584e2b7b4eeb7fd047398fa9ddc27d4e2b13fccca79fa43ddc61"
+    }
+  ],
+  "steps": [
+    {
+      "name": "Set up job",
+      "number": 1,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:31:35Z",
+      "completed_at": "2026-11-23T21:31:38Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "number": 2,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:31:38Z",
+      "completed_at": "2026-11-23T21:32:09Z"
+    },
+    {
+      "name": "Read pinned toolchain",
+      "number": 3,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:32:09Z",
+      "completed_at": "2026-11-23T21:32:09Z"
+    },
+    {
+      "name": "Install pinned Rust and iOS standard library",
+      "number": 4,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:32:09Z",
+      "completed_at": "2026-11-23T21:32:24Z"
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "number": 5,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:32:24Z",
+      "completed_at": "2026-11-23T21:32:28Z"
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "number": 6,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:32:28Z",
+      "completed_at": "2026-11-23T21:33:29Z"
+    },
+    {
+      "name": "Verify portable iOS completion contracts",
+      "number": 7,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:33:29Z",
+      "completed_at": "2026-11-23T21:34:09Z"
+    },
+    {
+      "name": "Type check the optional carrier provider for physical iPhone",
+      "number": 8,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:34:09Z",
+      "completed_at": "2026-11-23T21:34:28Z"
+    },
+    {
+      "name": "Check all native bridge files against the simulator SDK",
+      "number": 9,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:34:28Z",
+      "completed_at": "2026-11-23T21:34:56Z"
+    },
+    {
+      "name": "Build and bundle the standard UIKit application",
+      "number": 10,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:34:56Z",
+      "completed_at": "2026-11-23T21:38:19Z"
+    },
+    {
+      "name": "Build and bundle the optional carrier provider",
+      "number": 11,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:38:19Z",
+      "completed_at": "2026-11-23T21:39:44Z"
+    },
+    {
+      "name": "Cache the successfully built UIKit application",
+      "number": 12,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:39:44Z",
+      "completed_at": "2026-11-23T21:40:40Z"
+    },
+    {
+      "name": "Verify native UI, device roundtrips and activation",
+      "number": 13,
+      "conclusion": "failure",
+      "started_at": "2026-11-23T21:40:40Z",
+      "completed_at": "2026-11-23T21:55:30Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "number": 14,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:55:30Z",
+      "completed_at": "2026-11-23T21:55:33Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "number": 15,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:55:33Z",
+      "completed_at": "2026-11-23T21:55:42Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "number": 30,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:55:42Z",
+      "completed_at": "2026-11-23T21:55:44Z"
+    },
+    {
+      "name": "Complete job",
+      "number": 31,
+      "conclusion": "success",
+      "started_at": "2026-11-23T21:55:44Z",
+      "completed_at": "2026-11-23T21:55:51Z"
+    }
+  ]
+}
