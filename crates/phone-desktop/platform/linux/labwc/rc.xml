@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<labwc_config>
+  <keyboard>
+    <default />
+    <!-- Raise the existing home surface; never start a second phone process. -->
+    <keybind key="W-space">
+      <action name="ForEach">
+        <query identifier="com.ferroui.WindowsPhone" />
+        <then>
+          <action name="Focus" />
+          <action name="Raise" />
+        </then>
+      </action>
+    </keybind>
+    <keybind key="W-S-Escape"><action name="Exit" /></keybind>
+  </keyboard>
+  <mouse><default /></mouse>
+</labwc_config>

@@ -1,0 +1,91 @@
+name: Verify Android hosts
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: windows-phone-android
+  cancel-in-progress: true
+jobs:
+  android:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      CARGO_BUILD_JOBS: 1
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+      CARGO_PROFILE_TEST_DEBUG: 0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Read framework tool pins
+        id: pins
+        run: |
+          echo "rust=$(sed -n 's/^RUST_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/browser/setup.sh)" >> "$GITHUB_OUTPUT"
+          echo "ndk=$(sed -n 's/^FERROUI_ANDROID_NDK_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/android/env.sh)" >> "$GITHUB_OUTPUT"
+          echo "platform=$(sed -n 's/^FERROUI_ANDROID_PLATFORM="\(.*\)"$/\1/p' FerroUI/scripts/android/env.sh)" >> "$GITHUB_OUTPUT"
+          echo "build_tools=$(sed -n 's/^FERROUI_ANDROID_BUILD_TOOLS_VERSION="\(.*\)"$/\1/p' FerroUI/scripts/android/env.sh)" >> "$GITHUB_OUTPUT"
+          echo "framework=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          git rev-parse HEAD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - uses: android-actions/setup-android@v3
+      - name: Install the pinned Android SDK and NDK
+        run: |
+          sdkmanager "platforms;${{ steps.pins.outputs.platform }}" "build-tools;${{ steps.pins.outputs.build_tools }}" "ndk;${{ steps.pins.outputs.ndk }}"
+          java -version
+          gradle --version
+      - name: Install pinned Rust and Android standard library
+        run: |
+          rustup toolchain install '${{ steps.pins.outputs.rust }}' --profile minimal --target aarch64-linux-android
+          echo 'RUSTUP_TOOLCHAIN=${{ steps.pins.outputs.rust }}' >> "$GITHUB_ENV"
+      - name: Normalize framework source timestamps
+        run: python3 scripts/ci-framework-mtimes.py
+      - uses: actions/cache@v4
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: phone-android-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'scripts/build-android.sh') }}-${{ github.sha }}
+          restore-keys: |
+            phone-android-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'scripts/build-android.sh') }}-
+            phone-android-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
+      - name: Verify portable Android completion and media contracts
+        run: cargo test --locked -p phone-android --lib
+      - name: Build native application and HOME launcher APKs
+        run: |
+          bash scripts/build-android.sh
+          bash scripts/build-android.sh --launcher --no-cargo
+      - name: Check the Android embedding library
+        run: |
+          source FerroUI/scripts/android/env.sh
+          cargo check --locked -p phone-android --no-default-features --target aarch64-linux-android
+      - name: Verify merged manifests, JNI entry and native alignment
+        run: |
+          phone_outputs=target/android/phone-arm64-v8a-debug/outputs/apk
+          mkdir -p target/android/verification
+          python3 scripts/verify-android-package.py "$phone_outputs/app/debug" > target/android/verification/app.json
+          python3 scripts/verify-android-package.py "$phone_outputs/launcher/debug" --launcher > target/android/verification/launcher.json
+          for phone_apk in "$phone_outputs"/*/debug/*.apk; do
+            "$ANDROID_HOME/build-tools/${{ steps.pins.outputs.build_tools }}/zipalign" -c -P 16 -v 4 "$phone_apk"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phone-android-arm64-debug
+          path: |
+            target/android/phone-arm64-v8a-debug/outputs/apk/**/*.apk
+            target/android/verification/*.json
+          if-no-files-found: error
+          retention-days: 3

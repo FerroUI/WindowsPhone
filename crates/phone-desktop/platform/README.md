@@ -1,5 +1,13 @@
 # Native host services
 
+Desktop app discovery, launcher mode and session policy now live in the
+independent [desktop platform plugin](../../phone-platform-desktop/README.md).
+The [Linux session package](linux/README.md) and
+[Windows Shell Launcher configuration](windows/README.md) are explicit,
+reviewable deployment artifacts. They do not replace an active desktop or
+change a default launcher when generated. macOS supports an ordinary app or
+launcher window and does not advertise a replacement shell.
+
 The desktop application uses the same app crates and SDK as the browser host.
 Applications request services through `HostRequest`; this host owns consent,
 native resources, file I/O, and observed service results. Native preview controls

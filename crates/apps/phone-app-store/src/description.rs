@@ -72,5 +72,6 @@ pub(crate) fn device_feature(capability: &phone_sdk::Capability) -> &'static str
         Email => "email",
         Files => "files",
         Backup => "phone backups",
+        Platform => "device applications and system integrations",
     }
 }

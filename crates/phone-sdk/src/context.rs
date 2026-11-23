@@ -91,6 +91,7 @@ fn require_available(app: &crate::AppManifest, vm: &PhoneViewModel) -> Result<()
 fn capability(request: &HostRequest) -> Capability {
     use HostRequest::*;
     match request {
+        Platform { .. } => Capability::Platform,
         StartCamera | CapturePhoto | StopCamera => Capability::Camera,
         Locate | FetchWeather => Capability::Location,
         Notify { .. } | RequestNotificationPermission | AlarmAlert { .. } => {

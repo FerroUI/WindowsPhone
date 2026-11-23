@@ -1,0 +1,79 @@
+plugins { id 'com.android.application' version '8.13.0' }
+
+def ferroRoot = file(providers.gradleProperty('ferroUiRoot').get())
+def abi = providers.gradleProperty('phoneAbi').getOrElse('arm64-v8a')
+def target = ['arm64-v8a': 'aarch64-linux-android', 'x86_64': 'x86_64-linux-android'][abi]
+if (target == null) throw new GradleException("Unsupported phone ABI: ${abi}")
+def rustTargetDir = file(providers.gradleProperty('phoneRustTargetDir').get())
+def rustProfile = providers.gradleProperty('phoneRustProfile').getOrElse('debug')
+if (!(rustProfile in ['debug', 'release'])) throw new GradleException('phoneRustProfile must be debug or release')
+def rustBinary = new File(rustTargetDir, "${target}/${rustProfile}/libphone_android.so")
+layout.buildDirectory = new File(rustTargetDir, "android/phone-${abi}-${rustProfile}")
+
+android {
+    namespace 'org.ferroui.phone'
+    // These pins match FerroUI/scripts/android/env.sh and its mobile media sample.
+    compileSdk 36
+    buildToolsVersion '36.0.0'
+    ndkVersion '28.2.13676358'
+    defaultConfig {
+        applicationId 'org.ferroui.windowsphone'
+        minSdk 26
+        targetSdk 36
+        versionCode 1
+        versionName '0.1'
+        ndk { abiFilters abi }
+    }
+    flavorDimensions += 'hosting'
+    productFlavors {
+        app {
+            dimension 'hosting'
+            buildConfigField 'boolean', 'PHONE_LAUNCHER', 'false'
+            resValue 'string', 'app_name', 'Windows Phone'
+        }
+        launcher {
+            dimension 'hosting'
+            applicationIdSuffix '.launcher'
+            buildConfigField 'boolean', 'PHONE_LAUNCHER', 'true'
+            resValue 'string', 'app_name', 'Windows Phone Home'
+        }
+    }
+    buildFeatures { buildConfig = true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_11; targetCompatibility JavaVersion.VERSION_11 }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = [new File(ferroRoot, 'src/Android/FerroUI.Android/java'), file('java')]
+            res.srcDirs = [file('res')]
+            jniLibs.srcDirs = [new File(layout.buildDirectory.get().asFile, 'native')]
+        }
+        launcher { manifest.srcFile 'launcher/AndroidManifest.xml' }
+    }
+    packaging { jniLibs { useLegacyPackaging = false } }
+}
+
+apply from: new File(ferroRoot, 'src/FerroUI.Media.Android/packaging.gradle')
+apply from: new File(ferroRoot, 'src/FerroUI.Media.Video.Android/packaging.gradle')
+apply from: new File(ferroRoot, 'src/FerroUI.Media.Camera.Android/packaging.gradle')
+
+dependencies { implementation 'androidx.core:core:1.16.0' }
+
+tasks.register('verifyRustLibrary') {
+    doLast {
+        if (!rustBinary.isFile()) throw new GradleException("Build phone-android for ${target} first: ${rustBinary}")
+        byte[] header = new byte[20]
+        rustBinary.withInputStream { stream ->
+            if (stream.read(header) != header.length) throw new GradleException('Truncated Android native library')
+        }
+        if (header[0] != 0x7f || header[1] != 0x45 || header[2] != 0x4c || header[3] != 0x46 || header[4] != 2)
+            throw new GradleException('The Android host must be a 64-bit ELF shared library')
+        int machine = (header[18] & 0xff) | ((header[19] & 0xff) << 8)
+        if (machine != (abi == 'arm64-v8a' ? 183 : 62)) throw new GradleException('Android native library ABI mismatch')
+    }
+}
+tasks.register('copyRustLibrary', Copy) {
+    dependsOn 'verifyRustLibrary'
+    from rustBinary
+    into new File(layout.buildDirectory.get().asFile, "native/${abi}")
+}
+tasks.named('preBuild').configure { dependsOn 'copyRustLibrary' }

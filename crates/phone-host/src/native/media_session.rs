@@ -7,13 +7,13 @@ use std::{
 
 #[cfg(target_os = "linux")]
 mod linux;
-#[cfg(target_os = "macos")]
+#[cfg(any(target_os = "macos", target_os = "ios"))]
 mod macos;
 #[cfg(target_os = "windows")]
 mod windows;
 #[cfg(target_os = "linux")]
 use linux as platform;
-#[cfg(target_os = "macos")]
+#[cfg(any(target_os = "macos", target_os = "ios"))]
 use macos as platform;
 #[cfg(target_os = "windows")]
 use windows as platform;
@@ -174,14 +174,24 @@ pub struct MediaSession {
     // WinRT apartment teardown and Cocoa command-center ownership must stay on
     // the thread that created the session, including Drop.
     _ui_thread: std::marker::PhantomData<std::rc::Rc<()>>,
-    #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+    #[cfg(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "windows"
+    ))]
     platform: platform::Session,
 }
 
 impl MediaSession {
     pub fn new(window: Option<isize>) -> Result<Self, String> {
         let shared = Arc::new(Shared::default());
-        #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+        #[cfg(any(
+            target_os = "linux",
+            target_os = "macos",
+            target_os = "ios",
+            target_os = "windows"
+        ))]
         {
             let platform = platform::Session::new(window, shared.clone())?;
             Ok(Self {
@@ -190,7 +200,12 @@ impl MediaSession {
                 _ui_thread: std::marker::PhantomData,
             })
         }
-        #[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
+        #[cfg(not(any(
+            target_os = "linux",
+            target_os = "macos",
+            target_os = "ios",
+            target_os = "windows"
+        )))]
         {
             let _ = (window, shared);
             Err("This platform does not provide native media sessions.".into())
@@ -218,7 +233,12 @@ impl MediaSession {
             }
             state.snapshot = snapshot.clone();
         }
-        #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+        #[cfg(any(
+            target_os = "linux",
+            target_os = "macos",
+            target_os = "ios",
+            target_os = "windows"
+        ))]
         if let Err(error) = self.platform.publish(&snapshot) {
             self.shared.status(Status::Unavailable(error.clone()));
             return Err(error);
@@ -227,7 +247,7 @@ impl MediaSession {
     }
 
     pub fn take_commands(&self) -> Vec<Command> {
-        #[cfg(target_os = "macos")]
+        #[cfg(any(target_os = "macos", target_os = "ios"))]
         self.platform.drain(&self.shared);
         self.shared
             .state

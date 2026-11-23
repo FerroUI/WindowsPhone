@@ -11,6 +11,7 @@ mod mutation;
 mod navigation;
 mod note_storage;
 mod pim;
+mod platform;
 mod projection;
 mod secondary_tiles;
 mod services;
@@ -48,6 +49,9 @@ pub struct PhoneViewModel {
     status_text: RefCell<String>,
     services: RefCell<HostServices>,
     environment: RefCell<HostEnvironment>,
+    platform_state: RefCell<phone_host::platform::PlatformState>,
+    device_applications: RefCell<Vec<phone_host::platform::DeviceApplication>>,
+    device_applications_revision: Cell<u64>,
     save: SaveCallback,
     applying: Cell<bool>,
     pending: RefCell<VecDeque<Action>>,
@@ -84,6 +88,9 @@ impl PhoneViewModel {
                 status_text: RefCell::new(error.unwrap_or_default()),
                 services: RefCell::new(HostServices::default()),
                 environment: RefCell::new(HostEnvironment::default()),
+                platform_state: RefCell::new(Default::default()),
+                device_applications: RefCell::new(Vec::new()),
+                device_applications_revision: Cell::new(0),
                 save,
                 applying: Cell::new(false),
                 pending: RefCell::new(VecDeque::new()),

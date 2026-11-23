@@ -2,12 +2,14 @@ use phone_domain::{AppId, PhoneData, Route};
 use wasm_bindgen::prelude::*;
 #[wasm_bindgen(js_name=resize)]
 pub fn resize(width: f64, height: f64) {
+    crate::app::drain_activations();
     if let Some(vm) = crate::app::model() {
         vm.set_viewport(width, height);
     }
 }
 #[wasm_bindgen(js_name=tick)]
 pub fn tick(now: f64) {
+    crate::app::drain_activations();
     if let Some(vm) = crate::app::model() {
         vm.set_clock(now as i64);
         phone_ui::host_tick(now as i64);
@@ -165,7 +167,7 @@ pub fn host_state() -> String {
     crate::app::model()
         .map(|vm| {
             let data = vm.data();
-            serde_json::json!({"settings":data.settings,"alarms":data.alarms,"environment":vm.environment()}).to_string()
+            serde_json::json!({"settings":data.settings,"alarms":data.alarms,"environment":vm.environment(),"platform":vm.platform_state()}).to_string()
         })
         .unwrap_or_else(|| "{}".into())
 }
@@ -176,5 +178,47 @@ pub fn launch_app(id: &str, path: &str) -> bool {
 }
 #[wasm_bindgen(js_name=hostVisibility)]
 pub fn host_visibility(visible: bool) {
-    phone_ui::host_visibility(visible);
+    if let Some(runtime) = crate::app::runtime() {
+        runtime.lifecycle(if visible {
+            phone_host::platform::HostLifecycle::Resumed
+        } else {
+            phone_host::platform::HostLifecycle::Suspended
+        });
+    }
+    if visible {
+        crate::app::drain_activations();
+    }
+}
+
+#[wasm_bindgen(js_name=closeHost)]
+pub fn close_host() {
+    crate::app::close_runtime();
+}
+
+#[wasm_bindgen(js_name=activateUri)]
+pub fn activate_uri(uri: &str) -> Result<(), JsValue> {
+    crate::app::activate(uri).map_err(|error| JsValue::from_str(&error))
+}
+
+#[wasm_bindgen(js_name=requestPlatform)]
+pub fn request_platform(json: &str) -> Result<(), JsValue> {
+    if json.len() > 512 * 1024 {
+        return Err(JsValue::from_str(
+            "The platform request exceeds its encoding limit.",
+        ));
+    }
+    let request = serde_json::from_str(json)
+        .map_err(|error| JsValue::from_str(&format!("Invalid platform request: {error}")))?;
+    let runtime = crate::app::runtime()
+        .ok_or_else(|| JsValue::from_str("The browser host is not running."))?;
+    runtime
+        .dispatch_platform(request, None)
+        .map_err(|error| JsValue::from_str(&error))
+}
+
+#[wasm_bindgen(js_name=platformState)]
+pub fn platform_state() -> String {
+    crate::app::model()
+        .and_then(|vm| serde_json::to_string(&vm.platform_state()).ok())
+        .unwrap_or_else(|| "null".into())
 }

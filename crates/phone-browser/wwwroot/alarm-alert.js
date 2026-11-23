@@ -10,6 +10,7 @@ let warned = false;
 let attached = false;
 let foreground = true;
 const voices = new Set();
+const removals = [];
 
 function vibrate(pattern) {
   try { navigator.vibrate?.(pattern); } catch {}
@@ -66,19 +67,29 @@ export function attachAlarmAudio(notice) {
   report=notice;
   if(attached)return;
   attached=true;
+  foreground=true;
+  const listen=(target,type,handler,options)=>{target.addEventListener(type,handler,options);removals.push(()=>target.removeEventListener?.(type,handler,options));};
   const resume=()=>{
     const current=context;
     if(active&&foreground&&volume&&current?.state==='suspended'){
       void current.resume().then(()=>{if(context===current)pulse();}).catch(()=>{});
     }
   };
-  document.addEventListener('pointerdown',resume,{capture:true,passive:true});
-  document.addEventListener('keydown',resume,{capture:true,passive:true});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)silence();else pulse();});
-  window.addEventListener('pagehide',()=>{
+  listen(document,'pointerdown',resume,{capture:true,passive:true});
+  listen(document,'keydown',resume,{capture:true,passive:true});
+  listen(document,'visibilitychange',()=>{if(document.hidden)silence();else pulse();});
+  listen(window,'pagehide',()=>{
     foreground=false;clearInterval(timer);timer=undefined;silence();
     const previous=context;context=undefined;
     try { void previous?.close().catch(()=>{}); } catch {}
   });
-  window.addEventListener('pageshow',()=>{foreground=true;if(active&&!timer){pulse();timer=setInterval(pulse,2500);}});
+  listen(window,'pageshow',()=>{foreground=true;if(active&&!timer){pulse();timer=setInterval(pulse,2500);}});
+}
+
+export function disposeAlarmAudio(){
+  active=false;foreground=false;clearInterval(timer);timer=undefined;silence();
+  volume=0;vibration=false;attached=false;warned=false;report=()=>{};
+  for(const remove of removals.splice(0))remove();
+  const previous=context;context=undefined;
+  try{void previous?.close().catch(()=>{});}catch{}
 }

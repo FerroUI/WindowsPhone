@@ -5,6 +5,7 @@ pub mod http;
 mod launch;
 pub mod location;
 pub mod media_session;
+pub mod media_backend;
 pub mod notifications;
 mod paths;
 mod power;

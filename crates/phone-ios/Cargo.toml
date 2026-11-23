@@ -1,0 +1,22 @@
+[package]
+name = "phone-ios"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+phone-host.workspace = true
+
+[target.'cfg(target_os = "ios")'.dependencies]
+phone-native.workspace = true
+phone-fonts.workspace = true
+phone-controls.workspace = true
+ferroui-base.workspace = true
+ferroui-controls.workspace = true
+ferroui-fonts-inter.workspace = true
+ferroui-ios = { workspace = true, features = ["skia"] }
+serde_json.workspace = true
+
+[build-dependencies]
+cc.workspace = true

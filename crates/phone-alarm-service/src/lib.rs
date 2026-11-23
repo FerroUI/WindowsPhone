@@ -1,7 +1,10 @@
 //! Shared native alarm/reminder presentation; hosts supply only sound/vibration.
 pub mod editor;
+mod lifecycle;
 mod notifications;
 mod pickers;
+#[cfg(test)]
+mod lifecycle_tests;
 use editor::AlarmEditor;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
@@ -53,6 +56,8 @@ pub struct AlarmState {
     reminders: RefCell<ReminderSchedule>,
     last_audio: Cell<Option<(bool, u8, bool)>>,
     schedule_revision: Cell<Option<u64>>,
+    host_visible: Cell<bool>,
+    closed: Cell<bool>,
 }
 impl AlarmState {
     pub fn new() -> Self {
@@ -66,6 +71,8 @@ impl AlarmState {
             reminders: RefCell::new(ReminderSchedule::default()),
             last_audio: Cell::new(None),
             schedule_revision: Cell::new(None),
+            host_visible: Cell::new(true),
+            closed: Cell::new(false),
         }
     }
 
@@ -105,7 +112,7 @@ impl AlarmState {
         queue.push_back(item);
     }
     fn next(&self, vm: &PhoneViewModel) {
-        if self.active.get_untracked().is_some() {
+        if !self.can_deliver() || self.active.get_untracked().is_some() {
             return;
         }
         let item = self.queue.borrow_mut().pop_front();
@@ -122,6 +129,9 @@ impl AlarmState {
         }
     }
     fn audio(&self, vm: &PhoneViewModel) {
+        if !self.can_deliver() {
+            return;
+        }
         let active = self.active.get_untracked().is_some();
         let settings = &vm.data().settings;
         let next = (
@@ -142,6 +152,9 @@ impl AlarmState {
         }
     }
     pub fn fire_alarm(&self, vm: &PhoneViewModel, id: Id) {
+        if !self.can_deliver() {
+            return;
+        }
         let alarm = vm
             .data()
             .alarms
@@ -165,6 +178,9 @@ impl AlarmState {
         }
     }
     pub fn tick(&self, vm: &PhoneViewModel) {
+        if !self.can_deliver() {
+            return;
+        }
         if self.schedule_revision.replace(Some(vm.schedule_revision()))
             != Some(vm.schedule_revision())
         {

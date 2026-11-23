@@ -8,6 +8,7 @@ build = "build.rs"
 
 [dependencies]
 phone-domain.workspace = true
+phone-host.workspace = true
 phone-state.workspace = true
 phone-controls.workspace = true
 ferroui-base.workspace = true

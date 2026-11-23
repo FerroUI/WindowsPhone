@@ -52,6 +52,10 @@ test('media requests cannot revive superseded playback or corrupt controls after
     await assert.rejects(media.playMedia('https://example.org/missing.mp3',surface),/no longer in your library/);
     await media.mediaControl('pause');assert.equal(states.at(-1).source,stream);assert.equal(states.at(-1).playing,false);
     await media.restoreAssets(runtime);assert.deepEqual(states.at(-1),{title:'',source:'',playing:false});
+    hold='media:a';const closing=media.playMedia('media:a',surface);await new Promise(resolve=>setImmediate(resolve));
+    const completedBeforeClose=states.length;media.disposeMedia();delayed.get('media:a')();await closing;
+    assert.equal(states.length,completedBeforeClose,'a closed host cannot publish a late media load');
+    assert(players.every(player=>player.paused&&!player.src),'closing releases active media sources');
   }finally{
     for(const [key,descriptor]of originals){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else delete globalThis[key];}
   }

@@ -60,6 +60,12 @@ checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 
 [[package]]
 name = "base64"
+version = "0.22.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
+
+[[package]]
+name = "base64"
 version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac07cdecf99051d9a5238b80f35af32cdeba5b336e55d957b318b50137e18da5"
@@ -89,6 +95,15 @@ name = "bitflags"
 version = "2.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06"
+
+[[package]]
+name = "block2"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cdeb9d870516001442e364c5220d3574d2da8dc765554b4a617230d33fa58ef5"
+dependencies = [
+ "objc2",
+]
 
 [[package]]
 name = "bumpalo"
@@ -174,6 +189,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7cd812cc2bc1d69d4764bd80df88b4317eaef9e773c75226407d9bc0876b211c"
 
 [[package]]
+name = "dispatch2"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1e0e367e4e7da84520dedcac1901e4da967309406d1e51017ae1abfb97adbd38"
+dependencies = [
+ "bitflags",
+ "objc2",
+]
+
+[[package]]
 name = "displaydoc"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -183,6 +208,21 @@ dependencies = [
  "quote",
  "syn 3.0.6",
 ]
+
+[[package]]
+name = "dlib"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab8ecd87370524b461f8557c119c405552c396ed91fc0a8eec68679eab26f94a"
+dependencies = [
+ "libloading",
+]
+
+[[package]]
+name = "downcast-rs"
+version = "1.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "75b325c5dbd37f80359721ad39aca5a29fb04c89279657cffdda8736d0c0b9d2"
 
 [[package]]
 name = "either"
@@ -217,6 +257,22 @@ name = "fastrand"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223"
+
+[[package]]
+name = "ferroui-android"
+version = "0.6.0-preview.1"
+dependencies = [
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-harfbuzz",
+ "ferroui-opengl",
+ "ferroui-skia",
+ "ferroui-system",
+ "ferroui-vulkan",
+ "jni-sys",
+ "libc",
+ "url",
+]
 
 [[package]]
 name = "ferroui-base"
@@ -354,6 +410,31 @@ name = "ferroui-ident-macros"
 version = "0.6.0-preview.1"
 
 [[package]]
+name = "ferroui-ios"
+version = "0.6.0-preview.1"
+dependencies = [
+ "bitflags",
+ "block2",
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-harfbuzz",
+ "ferroui-metal",
+ "ferroui-opengl",
+ "ferroui-skia",
+ "ferroui-system",
+ "libc",
+ "objc2",
+ "objc2-core-foundation",
+ "objc2-foundation",
+ "objc2-io-surface",
+ "objc2-metal",
+ "objc2-open-gl-es",
+ "objc2-quartz-core",
+ "objc2-ui-kit",
+ "url",
+]
+
+[[package]]
 name = "ferroui-markup"
 version = "0.6.0-preview.1"
 dependencies = [
@@ -394,6 +475,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "ferroui-media-android"
+version = "0.6.0-preview.1"
+dependencies = [
+ "ferroui-android",
+ "ferroui-base",
+ "ferroui-media",
+ "ferroui-media-opengl",
+ "ferroui-opengl",
+]
+
+[[package]]
 name = "ferroui-media-apple"
 version = "0.6.0-preview.1"
 dependencies = [
@@ -410,6 +502,17 @@ name = "ferroui-media-camera"
 version = "0.6.0-preview.1"
 dependencies = [
  "ferroui-media",
+]
+
+[[package]]
+name = "ferroui-media-camera-android"
+version = "0.6.0-preview.1"
+dependencies = [
+ "ferroui-android",
+ "ferroui-media",
+ "ferroui-media-android",
+ "ferroui-media-camera",
+ "serde_json",
 ]
 
 [[package]]
@@ -497,6 +600,17 @@ name = "ferroui-media-video"
 version = "0.6.0-preview.1"
 dependencies = [
  "ferroui-media",
+]
+
+[[package]]
+name = "ferroui-media-video-android"
+version = "0.6.0-preview.1"
+dependencies = [
+ "ferroui-android",
+ "ferroui-media",
+ "ferroui-media-android",
+ "ferroui-media-video",
+ "serde_json",
 ]
 
 [[package]]
@@ -685,6 +799,26 @@ version = "0.6.0-preview.1"
 dependencies = [
  "ash",
  "ferroui-base",
+]
+
+[[package]]
+name = "ferroui-wayland"
+version = "0.6.0-preview.1"
+dependencies = [
+ "bitflags",
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-dialogs",
+ "ferroui-freedesktop",
+ "ferroui-opengl",
+ "ferroui-x11",
+ "libc",
+ "wayland-backend",
+ "wayland-client",
+ "wayland-cursor",
+ "wayland-egl",
+ "wayland-protocols",
+ "xkbcommon-dl",
 ]
 
 [[package]]
@@ -1024,6 +1158,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
 
 [[package]]
+name = "jni-sys"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c6377a88cb3910bee9b0fa88d4f42e1d2da8e79915598f65fb0c7ee14c878af2"
+dependencies = [
+ "jni-sys-macros",
+]
+
+[[package]]
+name = "jni-sys-macros"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38c0b942f458fe50cdac086d2f946512305e5631e720728f2a61aabcd47a6264"
+dependencies = [
+ "quote",
+ "syn 2.0.119",
+]
+
+[[package]]
 name = "jobserver"
 version = "0.1.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1187,12 +1340,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "objc2"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08849bbd4767dfae9457696856ae1c84fe4e0281bbe4a7abff2d0e06fb7981f8"
+dependencies = [
+ "objc2-encode",
+]
+
+[[package]]
 name = "objc2-core-foundation"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a180dd8642fa45cdb7dd721cd4c11b1cadd4929ce112ebd8b9f5803cc79d536"
 dependencies = [
  "bitflags",
+ "dispatch2",
+ "objc2",
+]
+
+[[package]]
+name = "objc2-encode"
+version = "4.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef25abbcd74fb2609453eb695bd2f860d389e457f67dc17cafc8b8cbc89d0c33"
+
+[[package]]
+name = "objc2-foundation"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3e0adef53c21f888deb4fa59fc59f7eb17404926ee8a6f59f5df0fd7f9f3272"
+dependencies = [
+ "bitflags",
+ "block2",
+ "objc2",
+ "objc2-core-foundation",
 ]
 
 [[package]]
@@ -1203,6 +1385,66 @@ checksum = "33fafba39597d6dc1fb709123dfa8289d39406734be322956a69f0931c73bb15"
 dependencies = [
  "libc",
  "objc2-core-foundation",
+]
+
+[[package]]
+name = "objc2-io-surface"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "180788110936d59bab6bd83b6060ffdfffb3b922ba1396b312ae795e1de9d81d"
+dependencies = [
+ "bitflags",
+ "objc2",
+ "objc2-core-foundation",
+]
+
+[[package]]
+name = "objc2-metal"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a0125f776a10d00af4152d74616409f0d4a2053a6f57fa5b7d6aa2854ac04794"
+dependencies = [
+ "bitflags",
+ "objc2",
+ "objc2-foundation",
+ "objc2-io-surface",
+]
+
+[[package]]
+name = "objc2-open-gl-es"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f676d6a2ae9958cb5d4dabc9b0e1d0e97a1d92b315be2fa35ab4bd49b14b526"
+dependencies = [
+ "objc2",
+ "objc2-foundation",
+]
+
+[[package]]
+name = "objc2-quartz-core"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "96c1358452b371bf9f104e21ec536d37a650eb10f7ee379fff67d2e08d537f1f"
+dependencies = [
+ "bitflags",
+ "objc2",
+ "objc2-core-foundation",
+ "objc2-foundation",
+ "objc2-metal",
+]
+
+[[package]]
+name = "objc2-ui-kit"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d87d638e33c06f577498cbcc50491496a3ed4246998a7fbba7ccb98b1e7eab22"
+dependencies = [
+ "bitflags",
+ "block2",
+ "objc2",
+ "objc2-core-foundation",
+ "objc2-foundation",
+ "objc2-quartz-core",
 ]
 
 [[package]]
@@ -1243,6 +1485,22 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde_json",
+]
+
+[[package]]
+name = "phone-android"
+version = "0.1.0"
+dependencies = [
+ "ferroui-android",
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-fonts-inter",
+ "phone-controls",
+ "phone-fonts",
+ "phone-host",
+ "phone-native",
+ "serde",
  "serde_json",
 ]
 
@@ -1403,6 +1661,22 @@ dependencies = [
  "phone-state",
  "phone-storage-support",
  "serde_json",
+]
+
+[[package]]
+name = "phone-app-device"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "ferroui-base",
+ "ferroui-build",
+ "ferroui-controls",
+ "ferroui-view",
+ "phone-controls",
+ "phone-domain",
+ "phone-host",
+ "phone-sdk",
+ "phone-state",
 ]
 
 [[package]]
@@ -1872,6 +2146,8 @@ dependencies = [
  "phone-controls",
  "phone-domain",
  "phone-fonts",
+ "phone-host",
+ "phone-runtime",
  "phone-state",
  "phone-ui",
  "serde_json",
@@ -1894,38 +2170,18 @@ dependencies = [
 name = "phone-desktop"
 version = "0.1.0"
 dependencies = [
- "chrono",
  "ferroui-base",
  "ferroui-controls",
  "ferroui-desktop",
  "ferroui-fonts-inter",
- "ferroui-media",
- "ferroui-media-apple",
- "ferroui-media-camera",
- "ferroui-media-camera-apple",
- "ferroui-media-camera-linux",
- "ferroui-media-camera-windows",
- "ferroui-media-controls",
- "ferroui-media-linux",
- "ferroui-media-opengl",
- "ferroui-media-video",
- "ferroui-media-video-apple",
- "ferroui-media-video-linux",
- "ferroui-media-video-windows",
- "ferroui-media-windows",
  "ferroui-opengl",
+ "ferroui-wayland",
  "ferroui-x11",
- "jpeg-encoder",
  "phone-controls",
- "phone-domain",
  "phone-fonts",
  "phone-host",
- "phone-state",
- "phone-ui",
- "serde",
- "serde_json",
- "zune-core",
- "zune-jpeg",
+ "phone-native",
+ "phone-platform-desktop",
 ]
 
 [[package]]
@@ -1963,6 +2219,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "phone-ios"
+version = "0.1.0"
+dependencies = [
+ "cc",
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-fonts-inter",
+ "ferroui-ios",
+ "phone-controls",
+ "phone-fonts",
+ "phone-host",
+ "phone-native",
+ "serde_json",
+]
+
+[[package]]
 name = "phone-media-support"
 version = "0.1.0"
 dependencies = [
@@ -1983,6 +2255,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "phone-native"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-fonts-inter",
+ "ferroui-media",
+ "ferroui-media-android",
+ "ferroui-media-apple",
+ "ferroui-media-camera",
+ "ferroui-media-camera-android",
+ "ferroui-media-camera-apple",
+ "ferroui-media-camera-linux",
+ "ferroui-media-camera-windows",
+ "ferroui-media-controls",
+ "ferroui-media-linux",
+ "ferroui-media-opengl",
+ "ferroui-media-video",
+ "ferroui-media-video-android",
+ "ferroui-media-video-apple",
+ "ferroui-media-video-linux",
+ "ferroui-media-video-windows",
+ "ferroui-media-windows",
+ "jpeg-encoder",
+ "phone-controls",
+ "phone-domain",
+ "phone-fonts",
+ "phone-host",
+ "phone-runtime",
+ "phone-state",
+ "phone-ui",
+ "serde",
+ "serde_json",
+ "url",
+ "zune-core",
+ "zune-jpeg",
+]
+
+[[package]]
 name = "phone-office-support"
 version = "0.1.0"
 dependencies = [
@@ -1999,6 +2311,31 @@ dependencies = [
  "phone-sdk",
  "phone-state",
  "serde_json",
+]
+
+[[package]]
+name = "phone-platform-desktop"
+version = "0.1.0"
+dependencies = [
+ "cc",
+ "libloading",
+ "phone-host",
+ "serde_json",
+ "windows",
+]
+
+[[package]]
+name = "phone-runtime"
+version = "0.1.0"
+dependencies = [
+ "ferroui-base",
+ "ferroui-reactive",
+ "ferroui-reactiveui",
+ "phone-domain",
+ "phone-host",
+ "phone-state",
+ "phone-system",
+ "url",
 ]
 
 [[package]]
@@ -2069,6 +2406,7 @@ dependencies = [
  "phone-alarm-service",
  "phone-controls",
  "phone-domain",
+ "phone-host",
  "phone-sdk",
  "phone-state",
  "serde_json",
@@ -2088,6 +2426,7 @@ dependencies = [
  "phone-app-camera",
  "phone-app-cortana",
  "phone-app-data-sense",
+ "phone-app-device",
  "phone-app-files",
  "phone-app-games",
  "phone-app-maps",
@@ -2156,6 +2495,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "quick-xml"
+version = "0.41.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e660451e55124f798a69a5af3f49ccfbefbd41910eefd25caf2393e1f3473ec1"
+dependencies = [
+ "memchr",
 ]
 
 [[package]]
@@ -2300,6 +2648,12 @@ checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
 ]
+
+[[package]]
+name = "scoped-tls"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e1cf6437eb19a8f4a6cc0f7dca544973b0b78843adbfeb3683d1a94a0024a294"
 
 [[package]]
 name = "serde"
@@ -2664,7 +3018,7 @@ version = "3.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ac5cecf619ca81f66a96482db09687c9f7465af65f4300a8c30cca05bd5a59d"
 dependencies = [
- "base64",
+ "base64 0.23.1",
  "log",
  "percent-encoding",
  "rustls",
@@ -2680,7 +3034,7 @@ version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "622dce33c252115466d83f63e9744a18f12b4406aae51a01c15ad8fcf1185eb3"
 dependencies = [
- "base64",
+ "base64 0.23.1",
  "http",
  "httparse",
  "log",
@@ -2787,6 +3141,88 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23f0c9c52aa7cd7d77769a4cfe2a9adb1b331f489a41d912ce14513d5ab995c6"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "wayland-backend"
+version = "0.3.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38a91b4eaddff87b1cd1074985e3713da4af2c49742d1b356b2c01670a67a078"
+dependencies = [
+ "cc",
+ "downcast-rs",
+ "rustix",
+ "scoped-tls",
+ "smallvec",
+ "wayland-sys",
+]
+
+[[package]]
+name = "wayland-client"
+version = "0.31.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3c36a0f861ad76d0901f2800b46321410d9f73f2ea88aac0650d86c32688073"
+dependencies = [
+ "bitflags",
+ "rustix",
+ "wayland-backend",
+ "wayland-scanner",
+]
+
+[[package]]
+name = "wayland-cursor"
+version = "0.31.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4a52d18780be9b1314328a3de5f930b73d2200112e3849ca6cb11822793fb34d"
+dependencies = [
+ "rustix",
+ "wayland-client",
+ "xcursor",
+]
+
+[[package]]
+name = "wayland-egl"
+version = "0.32.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9b97bdb7c49e5bd9b7562f38ff84f0dad47079fdc9e926f691a787f6dbc05451"
+dependencies = [
+ "wayland-backend",
+ "wayland-sys",
+]
+
+[[package]]
+name = "wayland-protocols"
+version = "0.32.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23d0c813de3daa2ed6520af85a3bd49b0e722a3078506899aa9686fea58dc4b6"
+dependencies = [
+ "bitflags",
+ "wayland-backend",
+ "wayland-client",
+ "wayland-scanner",
+]
+
+[[package]]
+name = "wayland-scanner"
+version = "0.31.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "338e30461b3a2b67d70eb30a6d89f8e0c93a833e07d2ae89085cd070c4a00ac0"
+dependencies = [
+ "proc-macro2",
+ "quick-xml",
+ "quote",
+]
+
+[[package]]
+name = "wayland-sys"
+version = "0.31.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d8eab23fefc9e41f8e841df4a9c707e8a8c4ed26e944ef69297184de2785e3be"
+dependencies = [
+ "dlib",
+ "log",
+ "once_cell",
+ "pkg-config",
 ]
 
 [[package]]
@@ -3079,6 +3515,31 @@ dependencies = [
  "libc",
  "rustix",
 ]
+
+[[package]]
+name = "xcursor"
+version = "0.3.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "163b33ed8786455e2fa5d72f554057ce3f3182425434f756cd39c99839d88e23"
+
+[[package]]
+name = "xkbcommon-dl"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d039de8032a9a8856a6be89cea3e5d12fdd82306ab7c94d74e6deab2460651c5"
+dependencies = [
+ "bitflags",
+ "dlib",
+ "log",
+ "once_cell",
+ "xkeysym",
+]
+
+[[package]]
+name = "xkeysym"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9cc00251562a284751c9973bace760d86c0276c471b4be569fe6b068ee97a56"
 
 [[package]]
 name = "xml-rs"

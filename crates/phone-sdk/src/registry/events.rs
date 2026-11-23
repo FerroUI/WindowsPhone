@@ -79,6 +79,17 @@ impl AppRegistry {
             }
         }
     }
+    /// Close all app resources when the embedding host goes away. Drafts remain
+    /// persistent; SDK tasks and pending activations cannot outlive the host.
+    pub fn shutdown(&self, vm: &Rc<PhoneViewModel>, ui: &Rc<Session>) {
+        crate::tasks::cancel_for_session(ui);
+        ui.clear_activation();
+        for app in &self.entries {
+            if let Some(callback) = app.lifecycle {
+                callback(app.context(vm, ui), AppLifecycle::Closing);
+            }
+        }
+    }
     /// Reset one app's transient state after its namespace has been cleared.
     pub fn reset_app(&self, vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, id: &str) {
         crate::tasks::cancel_for_app(ui, id);

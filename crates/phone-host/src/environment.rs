@@ -7,6 +7,8 @@ pub enum HostPlatform {
     Windows,
     Macos,
     Linux,
+    Android,
+    Ios,
     #[default]
     Unknown,
 }
@@ -18,6 +20,8 @@ impl HostPlatform {
             Self::Windows => "Windows",
             Self::Macos => "macOS",
             Self::Linux => "Linux",
+            Self::Android => "Android",
+            Self::Ios => "iOS",
             Self::Unknown => "this device",
         }
     }

@@ -11,7 +11,13 @@ use std::rc::Rc;
 
 pub fn phone_size(vm: &PhoneViewModel) -> (f64, f64, bool) {
     let (w, h) = vm.viewport();
-    let desktop = w > 600.0;
+    let host = vm.platform_state();
+    let desktop = w > 600.0
+        && host.mode == phone_host::platform::HostMode::App
+        && !matches!(
+            host.platform,
+            phone_host::HostPlatform::Android | phone_host::HostPlatform::Ios
+        );
     if desktop {
         (400.0, (h - 86.0).clamp(540.0, 820.0), true)
     } else {

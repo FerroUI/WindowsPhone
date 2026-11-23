@@ -19,6 +19,7 @@ import { verifyOfficeExpansion } from "./ui-office-expanded.mjs";
 import { verifyMediaLibraries } from "./ui-media-libraries.mjs";
 import { verifyConnectedApps } from "./ui-connected-apps.mjs";
 import { verifyMapsExpansion } from "./ui-maps-expanded.mjs";
+import { verifyPlatformRefinements } from "./ui-platform-refinements.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -623,7 +624,7 @@ try {
   for (const verify of [verifyOfficeRefinements, verifyCalendarRefinements,
     verifyAlarmRefinements, verifyShellParity, verifySystemRefinements,
     verifyBrowserRefinements, verifyPimRefinements, verifyHostRefinements, verifySdkGames,
-    verifyOfficeExpansion, verifyMediaLibraries, verifyConnectedApps, verifyMapsExpansion,
+    verifyOfficeExpansion, verifyMediaLibraries, verifyConnectedApps, verifyMapsExpansion, verifyPlatformRefinements,
     verifyLiveTiles, verifyLockscreenDraft, verifyLiveFolder]) {
     try { await verify(refinementContext); }
     catch (error) {

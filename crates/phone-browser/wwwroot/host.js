@@ -3,17 +3,17 @@ import {httpGet} from './http-tasks.js';
 import {checkForUpdates} from './updates.js';
 import {load,save,preserveRecovery,getAsset}from'./phone-storage.js';
 import {webUrl,dialUrl,smsUrl,mailUrl}from'./urls.js';
-import {attachMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
+import {attachMedia,disposeMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
 import {exportBackup,importBackup}from'./backup.js';
 import {importDocuments,exportDocument}from'./documents.js';
 import {shareDocuments}from'./document-share.js';
-import {attachAlarmAudio,setAlarmAlert}from'./alarm-alert.js';
+import {attachAlarmAudio,disposeAlarmAudio,setAlarmAlert}from'./alarm-alert.js';
 import {requestNotificationPermission,showSystemNotification} from './system-notifications.js';
 import {requestPersistentStorage} from './storage-environment.js';
 import {refreshEnvironment} from './environment.js';
 import {importContacts,exportContacts,shareContacts,importCalendar,exportCalendar,shareCalendar} from './pim.js';
 export {load,save,preserveRecovery,stopCamera};
-let runtime;let noticeTimer=0;let surfaceFrame=0;let imageGeneration=0;
+let runtime;let noticeTimer=0;let surfaceFrame=0;let imageGeneration=0;let hostGeneration=0;
 const surfaces={};
 export const now=()=>Date.now()/1000;
 export const utcOffset=()=>-new Date().getTimezoneOffset()*60;
@@ -28,9 +28,15 @@ export function loadImage(key){
 }
 export const width=()=>document.getElementById('out').getBoundingClientRect().width;
 export const height=()=>document.getElementById('out').getBoundingClientRect().height;
-export function attachRuntime(api){runtime=api;attachMedia(api,notice);attachAlarmAudio(notice);for(const kind of ['browser','camera','media']){
+export function attachRuntime(api){hostGeneration++;runtime=api;attachMedia(api,notice);attachAlarmAudio(notice);for(const kind of ['browser','camera','media']){
   const surface=document.createElement('div');surface.id=`${kind}-surface`;surface.className=`platform-surface ${kind}-surface`;surface.hidden=true;document.getElementById('platform-surfaces').append(surface);surfaces[kind]=surface;
 }}
+export function disposeHost(){
+  hostGeneration++;imageGeneration++;cancelAnimationFrame(surfaceFrame);clearTimeout(noticeTimer);
+  disposeMedia();disposeAlarmAudio();runtime=undefined;
+  for(const key of Object.keys(surfaces)){surfaces[key].remove();delete surfaces[key];}
+  const notice=document.getElementById('host-notice');if(notice)notice.hidden=true;
+}
 export function notice(message){const element=document.getElementById('host-notice');element.textContent=message;element.hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>element.hidden=true,5000);}
 export function storageError(message){notice(`Changes could not be saved. Export a backup. ${message}`);}
 export function refreshSurfaces(){
@@ -49,8 +55,10 @@ export function refreshSurfaces(){
   });
 }
 export function request(json){
+  if(!runtime)return;
   let operation;try{operation=JSON.parse(json);}catch{return;}
-  void handle(operation).catch(error=>{notice(error.message||String(error));}).finally(()=>{refreshSurfaces();refreshEnvironment();});
+  const generation=hostGeneration;
+  void handle(operation).catch(error=>{if(runtime&&generation===hostGeneration)notice(error.message||String(error));}).finally(()=>{if(runtime&&generation===hostGeneration){refreshSurfaces();refreshEnvironment();}});
 }
 async function handle(op){
   switch(op.kind){

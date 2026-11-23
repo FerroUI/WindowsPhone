@@ -23,7 +23,7 @@ export function normalizeCanvasResizeEntry(entry, root, pixelRatio) {
 export function installCanvasSizing(root) {
   const NativeResizeObserver = globalThis.ResizeObserver;
   if (!root || typeof NativeResizeObserver !== 'function') return;
-  globalThis.ResizeObserver = class extends NativeResizeObserver {
+  const WrappedResizeObserver = class extends NativeResizeObserver {
     constructor(callback) {
       super(function (entries, observer) {
         const normalized = entries.map(entry =>
@@ -33,4 +33,6 @@ export function installCanvasSizing(root) {
       });
     }
   };
+  globalThis.ResizeObserver = WrappedResizeObserver;
+  return () => { if (globalThis.ResizeObserver === WrappedResizeObserver) globalThis.ResizeObserver = NativeResizeObserver; };
 }

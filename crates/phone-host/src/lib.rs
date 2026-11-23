@@ -4,6 +4,7 @@ mod environment;
 pub mod file_names;
 pub mod file_picker;
 pub mod http;
+pub mod platform;
 mod request;
 pub mod urls;
 

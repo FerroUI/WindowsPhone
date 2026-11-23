@@ -30,6 +30,7 @@ pub enum Capability {
     Email,
     Files,
     Backup,
+    Platform,
 }
 
 #[derive(Clone, Copy)]

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Windows Phone
+Comment=Windows Phone launcher session with labwc window management
+Exec=/usr/local/libexec/windowsphone/windowsphone-session
+TryExec=/usr/bin/labwc
+Type=Application
+DesktopNames=WindowsPhone;labwc;

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Opt-in display-manager session. Never run inside somebody's existing desktop.
+set -eu
+if [ -n "${DISPLAY-}" ] || [ -n "${WAYLAND_DISPLAY-}" ]; then
+    printf '%s\n' 'Select Windows Phone at the login screen; this entry point does not replace a running desktop.' >&2
+    exit 1
+fi
+if [ ! -x /usr/bin/labwc ]; then
+    printf '%s\n' 'This session requires labwc at /usr/bin/labwc.' >&2
+    exit 1
+fi
+export XDG_CURRENT_DESKTOP=WindowsPhone:labwc
+export XDG_SESSION_TYPE=wayland
+export DESKTOP_SESSION=windowsphone
+export PHONE_DESKTOP_SESSION=labwc-v1
+if [ -z "${DBUS_SESSION_BUS_ADDRESS-}" ]; then
+    if [ ! -x /usr/bin/dbus-run-session ]; then
+        printf '%s\n' 'This session requires an existing user session bus or /usr/bin/dbus-run-session.' >&2
+        exit 1
+    fi
+    exec /usr/bin/dbus-run-session -- /usr/bin/labwc \
+        -C /usr/local/share/windowsphone/labwc \
+        -S /usr/local/libexec/windowsphone/windowsphone-session-client
+fi
+exec /usr/bin/labwc -C /usr/local/share/windowsphone/labwc \
+    -S /usr/local/libexec/windowsphone/windowsphone-session-client

@@ -15,6 +15,8 @@ mod previews;
 pub(crate) mod session;
 mod shell;
 mod start;
+#[cfg(test)]
+mod lifecycle_tests;
 
 use ferroui_base::Ref;
 use ferroui_controls::Control;
@@ -298,11 +300,37 @@ pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
     });
 }
 
+/// The root component must be mounted before an external app activation runs.
+pub fn host_ready(vm: &Rc<PhoneViewModel>) -> bool {
+    MODEL.with(|slot| {
+        slot.borrow()
+            .upgrade()
+            .is_some_and(|current| Rc::ptr_eq(&current, vm))
+    }) && SESSION.with(|slot| slot.borrow().upgrade().is_some())
+}
+/// Release the mounted shell's transient resources before its service broker closes.
+pub fn host_closing(vm: &Rc<PhoneViewModel>) {
+    if !host_ready(vm) {
+        return;
+    }
+    if let Some(ui) = SESSION.with(|slot| slot.borrow().upgrade()) {
+        ui.state::<phone_alarm_service::AlarmState>().host_closing(vm);
+        phone_sdk::media::flush(vm, &ui);
+        ui.registry().shutdown(vm, &ui);
+        vm.request(phone_state::HostRequest::StopCamera);
+        ui.state::<previews::PreviewCache>().clear();
+    }
+    SESSION.with(|slot| *slot.borrow_mut() = Weak::new());
+    MODEL.with(|slot| *slot.borrow_mut() = Weak::new());
+}
+
 /// Registered app lifecycle notification from host focus/visibility changes.
 pub fn host_visibility(visible: bool) {
     let ui = SESSION.with(|slot| slot.borrow().upgrade());
     let vm = MODEL.with(|slot| slot.borrow().upgrade());
     if let (Some(ui), Some(vm)) = (ui, vm) {
+        ui.state::<phone_alarm_service::AlarmState>()
+            .host_visibility(&vm, visible);
         if !visible {
             phone_sdk::media::flush(&vm, &ui);
         }

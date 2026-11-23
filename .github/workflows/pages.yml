@@ -110,7 +110,7 @@ jobs:
         run: cargo test --locked -p phone-host -p phone-domain -p phone-state
       - name: Verify SDK and game contracts
         if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
-        run: cargo test --locked -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example
+        run: cargo test --locked -p phone-runtime -p phone-app-device -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example
       - name: Verify host boundaries
         run: node --test scripts/*.test.mjs
       - name: Build Windows Phone
@@ -231,9 +231,21 @@ jobs:
           restore-keys: |
             phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-${{ runner.os == 'Windows' && format('{0}-', matrix.os) || '' }}
       - name: Verify portable host boundaries
-        run: cargo test --locked -p phone-host
+        run: cargo test --locked -p phone-host -p phone-platform-desktop
+      - name: Verify session packaging boundaries
+        run: python -B -m unittest discover -s crates/phone-desktop/platform/tests -v
+      - name: Parse Windows shell configuration helper
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $errors = $null
+          $tokens = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path 'crates/phone-desktop/platform/windows/ShellLauncher.ps1'), [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) { throw ($errors | Out-String) }
       - name: Verify Linux media-session protocol
         if: runner.os == 'Linux'
         run: dbus-run-session -- env PHONE_MPRIS_TEST_SESSION=1 cargo test --locked -p phone-host private_bus_media_controls -- --ignored
+      - name: Verify shared native services
+        run: cargo test --locked -p phone-native --lib
       - name: Build and link the complete native host
         run: cargo build --locked -p phone-desktop

@@ -5,6 +5,7 @@ mod exports;
 mod host;
 mod inspection;
 mod pim;
+mod platform;
 mod sdk_tasks;
 use ferroui_base::media::FontManagerOptions;
 use ferroui_browser::{BrowserAccessibilityMode, BrowserAppBuilder, BrowserPlatformOptions};
@@ -14,8 +15,21 @@ use phone_fonts::PhoneFontBuilderExt;
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 
+ferroui_base::ferro_thread_local! {
+    static STARTED: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+
 #[wasm_bindgen(js_name = runMain)]
-pub fn run_main() {
+pub fn run_main() -> Result<(), JsValue> {
+    if STARTED.with(|started| started.get()) {
+        return Err(JsValue::from_str(
+            "This browser module has already started. Reload the document to create another host.",
+        ));
+    }
+    app::prepare_platform(Rc::new(
+        platform::BrowserPlatform::new().map_err(|error| JsValue::from_str(&error))?,
+    ));
+    STARTED.with(|started| started.set(true));
     AppBuilder::configure::<app::App>()
         .with_inter_font()
         .with_phone_font()
@@ -33,6 +47,7 @@ pub fn run_main() {
                 ..Default::default()
             }),
         );
+    app::startup_result().map_err(|error| JsValue::from_str(&error))
 }
 #[cfg(not(target_os = "emscripten"))]
 fn main() {

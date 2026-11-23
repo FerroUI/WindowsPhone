@@ -1,6 +1,6 @@
 use super::{Action, PlaybackState, Shared, Snapshot, Status};
 use std::{
-    ffi::{c_char, c_int, c_void, CStr, CString},
+    ffi::{CStr, CString, c_char, c_int, c_void},
     ptr::NonNull,
     sync::Arc,
 };
@@ -29,7 +29,12 @@ struct NativeCommand {
 
 unsafe extern "C" {
     fn wp_media_create(error: *mut c_char, length: usize) -> *mut c_void;
-    fn wp_media_publish(session: *mut c_void, snapshot: *const NativeSnapshot);
+    fn wp_media_publish(
+        session: *mut c_void,
+        snapshot: *const NativeSnapshot,
+        error: *mut c_char,
+        length: usize,
+    ) -> c_int;
     fn wp_media_pop(session: *mut c_void, command: *mut NativeCommand) -> c_int;
     fn wp_media_close(session: *mut c_void);
 }
@@ -70,8 +75,13 @@ impl Session {
         };
         // The bridge copies each string before returning; no Rust stack address
         // is retained by a native command callback.
-        unsafe {
-            wp_media_publish(self.0.as_ptr(), &snapshot);
+        let mut error = [0; 512];
+        if unsafe { wp_media_publish(self.0.as_ptr(), &snapshot, error.as_mut_ptr(), error.len()) }
+            != 1
+        {
+            return Err(unsafe { CStr::from_ptr(error.as_ptr()) }
+                .to_string_lossy()
+                .into_owned());
         }
         Ok(())
     }

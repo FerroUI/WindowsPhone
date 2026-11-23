@@ -2,13 +2,19 @@
 
 A Windows Phone 8.1 Update experience built with **FerroUI, Rust and declarative `rsx!` views**. The Start screen, apps, controls, navigation and data model run in FerroUI; portable host adapters supply storage, files, power observations and platform integrations.
 
-[Open the app](https://ferroui.com/WindowsPhone/) · [App SDK](docs/sdk.md) · [Original references](docs/reference.md) · [Architecture](docs/architecture.md) · [Host integration](docs/host-integration.md) · [Feature and fidelity status](docs/parity.md)
+[Open the app](https://ferroui.com/WindowsPhone/) · [App SDK](docs/sdk.md) · [Original references](docs/reference.md) · [Architecture](docs/architecture.md) · [Host integration](docs/host-integration.md) · [Platform and shell architecture](docs/platform-architecture.md) · [Feature and fidelity status](docs/parity.md)
 
 The reference release is **Windows Phone 8.1 Update (2014)**, including live folders and the original `system` / `applications` Settings pivots. This is a working app recreation, not an operating system or an emulator for XAP/APPX applications. **Complete visual and feature parity has not been established.** The [parity document](docs/parity.md) records the implemented workflows and the remaining differences.
 
 ## App and platform expansion
 
-The default build now composes **27 registered apps in 46 workspace packages**, including new Podcasts and Wallet apps. The existing app crates add Office undo/redo and typed formulas, OneNote notebooks and checklists, playlists and photo albums, saved-place directions and multi-city forecasts. The [feature matrix](docs/parity.md#app-and-platform-expansion) distinguishes implemented workflows, verification and remaining platform/service limits.
+The default build now composes **28 registered apps in 52 workspace packages**, including new Podcasts and Wallet apps. The existing app crates add Office undo/redo and typed formulas, OneNote notebooks and checklists, playlists and photo albums, saved-place directions and multi-city forecasts. The [feature matrix](docs/parity.md#app-and-platform-expansion) distinguishes implemented workflows, verification and remaining platform/service limits.
+
+## Portable application, launcher and shell hosts
+
+The new [platform architecture](docs/platform-architecture.md) separates `phone-runtime`, shared `phone-native` services and replaceable OS providers. Android and iOS now have native FerroUI entry points and package workflows, alongside browser, Windows, macOS and Linux. **Device apps** adds native-app discovery, search, launch and Start pinning on supported hosts. Android has separate App/HOME APK flavors; Linux has an opt-in labwc login session; supported Windows editions have reviewable Shell Launcher configuration. iOS and browser accurately retain their application/embedded role.
+
+Native files, networking, persistence, media and camera reuse FerroUI and the shared host. Platform plugins supply actual role state, settings, sharing, haptics, permissions and OS media controls. `NativeHost::compose` accepts SDK apps and explicit service replacements for embedding. See the [mode matrix and composition example](docs/platform-architecture.md#hosting-modes-and-actual-authority).
 
 ## Preview
 
@@ -189,7 +195,12 @@ The successful deployment run is the source of truth for publication; a source c
 | `crates/apps/phone-app-*` | Separate built-in apps, Word/Excel/PowerPoint editors, shared app support, independent games and SDK example. |
 | `phone-ui` | Default app composition and compatible host-facing facade; no embedded app implementations. |
 | `phone-browser` | FerroUI browser startup, WebAssembly exports, browser services and static/PWA assets. |
-| `phone-desktop` | Native startup, atomic persistence/recovery, pickers and document copies, embedded media/camera surfaces, foreground audio, location/weather, notifications and power observations. |
+| `phone-runtime` | Explicit providers, platform capabilities, bounded request/lifecycle ownership and activation. |
+| `phone-native` | Shared native persistence/recovery, pickers, documents, networking, media/camera and embedding composition. |
+| `phone-platform-desktop` | Windows/macOS/Linux app catalogs, activation, settings and observed shell-session policy. |
+| `phone-desktop` | Window/renderer/lifetime composition and app/launcher/shell modes. |
+| `phone-android` | Native application and HOME flavors, Android OS/services/media and embeddable bootstrap. |
+| `phone-ios` | UIKit/Metal application, iOS OS/services/media and simulator bundle. |
 
 Read [architecture](docs/architecture.md) for the state, rendering and service boundaries, and [parity](docs/parity.md) before assuming original phone capabilities are available.
 

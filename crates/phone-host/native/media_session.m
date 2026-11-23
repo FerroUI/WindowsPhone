@@ -1,5 +1,9 @@
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <TargetConditionals.h>
+#if TARGET_OS_IPHONE
+#import <AVFoundation/AVFoundation.h>
+#endif
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
@@ -24,6 +28,11 @@ typedef struct { uint64_t generation; int kind; double value; } WPMediaCommand;
 @property double duration;
 @property(nonatomic, strong) NSMutableArray<NSArray *> *events;
 @property(nonatomic, strong) NSMutableArray<NSArray *> *registrations;
+#if TARGET_OS_IPHONE
+@property BOOL audioActive;
+@property BOOL interrupted;
+@property(nonatomic, strong) NSMutableArray *observers;
+#endif
 @end
 @implementation WPPhoneMediaSession
 @end
@@ -58,11 +67,78 @@ static void register_command(WPPhoneMediaSession *session, MPRemoteCommand *comm
     command.enabled = NO;
 }
 
+#if TARGET_OS_IPHONE
+static void system_pause(WPPhoneMediaSession *session) {
+    if (!session) return;
+    @synchronized (session) {
+        if (!session.active || session.closed) return;
+        // A pending remote Play must not undo an interruption or expose audio
+        // on the loudspeaker immediately after headphones are disconnected.
+        [session.events removeAllObjects];
+        [session.events addObject:@[@(session.generation), @2, @0]];
+    }
+}
+
+static void observe_audio_session(WPPhoneMediaSession *session) {
+    session.observers = [NSMutableArray new];
+    __weak WPPhoneMediaSession *weak = session;
+    NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
+    id interruption = [center addObserverForName:AVAudioSessionInterruptionNotification
+        object:AVAudioSession.sharedInstance queue:NSOperationQueue.mainQueue
+        usingBlock:^(NSNotification *notification) {
+            WPPhoneMediaSession *owner = weak;
+            if (!owner || owner.closed) return;
+            BOOL began = [notification.userInfo[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue]
+                == AVAudioSessionInterruptionTypeBegan;
+            owner.interrupted = began;
+            owner.audioActive = NO;
+            if (began) system_pause(owner);
+            // Ending an interruption never starts playback without user intent.
+        }];
+    id route = [center addObserverForName:AVAudioSessionRouteChangeNotification
+        object:AVAudioSession.sharedInstance queue:NSOperationQueue.mainQueue
+        usingBlock:^(NSNotification *notification) {
+            if ([notification.userInfo[AVAudioSessionRouteChangeReasonKey] unsignedIntegerValue]
+                == AVAudioSessionRouteChangeReasonOldDeviceUnavailable) system_pause(weak);
+        }];
+    id reset = [center addObserverForName:AVAudioSessionMediaServicesWereResetNotification
+        object:AVAudioSession.sharedInstance queue:NSOperationQueue.mainQueue
+        usingBlock:^(NSNotification *notification) {
+            WPPhoneMediaSession *owner = weak;
+            if (!owner || owner.closed) return;
+            owner.audioActive = NO;
+            owner.interrupted = NO;
+            system_pause(owner);
+        }];
+    for (id token in @[interruption, route, reset]) [session.observers addObject:token];
+}
+
+static BOOL update_audio_session(WPPhoneMediaSession *session, BOOL playing, char *error, size_t length) {
+    if (session.interrupted) return YES;
+    if (playing == session.audioActive) return YES;
+    AVAudioSession *audio = AVAudioSession.sharedInstance;
+    NSError *failure = nil;
+    BOOL succeeded;
+    if (playing) {
+        // Defer activation until playback starts so merely opening the app
+        // does not interrupt another app's audio. No background mode is added.
+        succeeded = [audio setCategory:AVAudioSessionCategoryPlayback mode:AVAudioSessionModeDefault
+            options:0 error:&failure] && [audio setActive:YES error:&failure];
+    } else {
+        succeeded = [audio setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation
+            error:&failure];
+    }
+    if (succeeded) session.audioActive = playing;
+    else if (length) snprintf(error, length, "%s", (failure.localizedDescription ?: @"iOS could not update the playback audio session.").UTF8String);
+    return succeeded;
+}
+#endif
+
 void *wp_media_create(char *error, size_t length) {
     @autoreleasepool {
         if (length) error[0] = 0;
         if (!NSThread.isMainThread || NSBundle.mainBundle.bundleIdentifier.length == 0) {
-            if (length) snprintf(error, length, "%s", "Run the packaged Windows Phone application to use macOS media controls.");
+            if (length) snprintf(error, length, "%s", "Run the packaged Windows Phone application on its UI thread to use Apple media controls.");
             return NULL;
         }
         WPPhoneMediaSession *session = [WPPhoneMediaSession new];
@@ -78,19 +154,29 @@ void *wp_media_create(char *error, size_t length) {
         register_command(session, center.changePlaybackPositionCommand, 7);
         if (session.registrations.count != 7) {
             for (NSArray *entry in session.registrations) [(MPRemoteCommand *)entry[0] removeTarget:entry[1]];
-            if (length) snprintf(error, length, "%s", "macOS did not register all media command handlers.");
+            if (length) snprintf(error, length, "%s", "Apple MediaPlayer did not register all media command handlers.");
             return NULL;
         }
+#if TARGET_OS_IPHONE
+        observe_audio_session(session);
+#endif
         return (__bridge_retained void *)session;
     }
 }
 
-void wp_media_publish(void *handle, const WPMediaSnapshot *snapshot) {
+int wp_media_publish(void *handle, const WPMediaSnapshot *snapshot, char *error, size_t length) {
     @autoreleasepool {
+        if (length) error[0] = 0;
         WPPhoneMediaSession *session = (__bridge WPPhoneMediaSession *)handle;
-        if (!session || !snapshot) return;
+        if (!session || !snapshot || !NSThread.isMainThread) {
+            if (length) snprintf(error, length, "%s", "The media session is unavailable or not on the UI thread.");
+            return 0;
+        }
         @synchronized (session) {
-            if (session.closed) return;
+            if (session.closed) {
+                if (length) snprintf(error, length, "%s", "The media session is closed.");
+                return 0;
+            }
             if (session.generation != snapshot->generation || !snapshot->active) [session.events removeAllObjects];
             session.active = snapshot->active != 0;
             session.generation = snapshot->generation;
@@ -99,6 +185,9 @@ void wp_media_publish(void *handle, const WPMediaSnapshot *snapshot) {
             session.canPrevious = snapshot->can_previous != 0;
             session.duration = snapshot->duration;
         }
+#if TARGET_OS_IPHONE
+        if (!update_audio_session(session, snapshot->active && snapshot->state == 2, error, length)) return 0;
+#endif
         MPRemoteCommandCenter *center = MPRemoteCommandCenter.sharedCommandCenter;
         center.playCommand.enabled = session.active;
         center.pauseCommand.enabled = session.active;
@@ -110,8 +199,10 @@ void wp_media_publish(void *handle, const WPMediaSnapshot *snapshot) {
         MPNowPlayingInfoCenter *info = MPNowPlayingInfoCenter.defaultCenter;
         if (!snapshot->active) {
             info.nowPlayingInfo = nil;
+#if !TARGET_OS_IPHONE
             info.playbackState = MPNowPlayingPlaybackStateStopped;
-            return;
+#endif
+            return 1;
         }
         NSMutableDictionary *metadata = [NSMutableDictionary dictionaryWithDictionary:@{
             MPMediaItemPropertyTitle: [NSString stringWithUTF8String:snapshot->title],
@@ -122,9 +213,15 @@ void wp_media_publish(void *handle, const WPMediaSnapshot *snapshot) {
             MPNowPlayingInfoPropertyPlaybackRate: @(snapshot->state == 2 ? 1.0 : 0.0)
         }];
         if (snapshot->duration >= 0) metadata[MPMediaItemPropertyPlaybackDuration] = @(snapshot->duration);
+#if TARGET_OS_IPHONE
+        if (session.interrupted) metadata[MPNowPlayingInfoPropertyPlaybackRate] = @0.0;
+#endif
         info.nowPlayingInfo = metadata;
+#if !TARGET_OS_IPHONE
         info.playbackState = snapshot->state == 2 ? MPNowPlayingPlaybackStatePlaying :
             snapshot->state == 1 ? MPNowPlayingPlaybackStatePaused : MPNowPlayingPlaybackStateStopped;
+#endif
+        return 1;
     }
 }
 
@@ -157,7 +254,15 @@ void wp_media_close(void *handle) {
             command.enabled = NO;
         }
         [session.registrations removeAllObjects];
+#if TARGET_OS_IPHONE
+        for (id token in session.observers) [NSNotificationCenter.defaultCenter removeObserver:token];
+        [session.observers removeAllObjects];
+        if (session.audioActive) [AVAudioSession.sharedInstance setActive:NO
+            withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+#endif
         MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo = nil;
+#if !TARGET_OS_IPHONE
         MPNowPlayingInfoCenter.defaultCenter.playbackState = MPNowPlayingPlaybackStateStopped;
+#endif
     }
 }

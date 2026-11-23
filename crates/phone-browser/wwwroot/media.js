@@ -8,6 +8,15 @@ let audio=new Audio();let mediaSource='',mediaTitle='';let video=null;let active
 let playbackGeneration=0,playerGeneration=0,mediaArtist='',session;
 const urls=new Map();
 export function attachMedia(api,notice){runtime=api;report=notice;session?.dispose();session=createMediaSession({session:navigator.mediaSession,Metadata:globalThis.MediaMetadata,control:mediaControl,report:notice});}
+export function disposeMedia(){
+  playbackGeneration++;playerGeneration++;stopCamera();session?.dispose();session=undefined;
+  for(const player of [audio,video].filter(Boolean)){
+    player.onended=player.onerror=player.onplay=player.onpause=player.ontimeupdate=player.ondurationchange=null;
+    player.pause();player.removeAttribute('src');player.load();
+  }
+  for(const url of urls.values())URL.revokeObjectURL(url);urls.clear();
+  mediaSource='';mediaTitle='';mediaArtist='';runtime=undefined;report=()=>{};
+}
 export async function restoreAssets(api){
   // A restored phone must not keep the previous document's camera, playback,
   // object URLs or OS lock-screen metadata alive.

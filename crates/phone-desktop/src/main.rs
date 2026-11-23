@@ -1,130 +1,108 @@
-mod asset_store;
-use phone_host::native::background;
-mod backup;
-mod documents;
-mod environment;
-mod file_picker;
-mod location;
-mod media_files;
-mod native_media;
-mod network;
-mod notifications;
-mod picker_io;
-mod pim;
+//! Desktop composition root. The phone and OS providers are reusable libraries.
 mod platform;
-mod services;
-mod storage;
-use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
-use ferroui_controls::{AppBuilder, Application, Control, Window};
-use ferroui_desktop::AppBuilderDesktopExtensions;
+use ferroui_controls::{AppBuilder, Application, Control, Window, WindowState};
 use ferroui_fonts_inter::AppBuilderExtension;
 use phone_fonts::PhoneFontBuilderExt;
-use phone_state::{HostServices, PhoneViewModel};
+use phone_host::platform::{HostLifecycle, HostMode};
+use phone_native::NativeHost;
+use phone_platform_desktop::DesktopPlatform;
 use std::rc::Rc;
 
-fn main() {
-    let builder = AppBuilder::configure::<Application>().use_platform_detect();
-    platform::configure(builder)
-        .with_inter_font()
-        .with_phone_font()
-        .start(
-            |app, _| {
-                phone_controls::install_theme(app);
-                phone_ui::set_preview_capture_enabled(true);
-                let path = storage::data_path();
-                let (data, warning, save_path) = storage::load(&path);
-                storage::set_active_data_path(save_path.clone());
-                let vm = PhoneViewModel::new(
-                    data,
-                    Rc::new(move |data| {
-                        if let Err(error) = storage::save(&save_path, data) {
-                            eprintln!("Could not save Windows Phone data: {error}");
-                        }
-                    }),
-                );
-                let date = chrono::Local::now();
-                vm.set_clock(date.timestamp());
-                vm.set_utc_offset(date.offset().local_minus_utc());
-                if let Some(warning) = warning {
-                    vm.set_status(warning);
+#[derive(Default)]
+struct Options {
+    mode: HostMode,
+    backend: platform::Backend,
+    activation: Option<String>,
+}
+impl Options {
+    fn parse(args: impl IntoIterator<Item = String>) -> Result<Option<Self>, String> {
+        let mut args = args.into_iter();
+        let mut options = Self::default();
+        while let Some(argument) = args.next() {
+            match argument.as_str() {
+                "--help" | "-h" => return Ok(None),
+                "--mode" => {
+                    options.mode = HostMode::parse(&args.next().ok_or("--mode requires a value.")?)?
                 }
-                let native_environment = environment::NativeEnvironment::new(&vm);
-                let ticking = Rc::downgrade(&vm);
-                let timer = DispatcherTimer::with_callback(
-                    std::time::Duration::from_secs(1),
-                    DispatcherPriority::BACKGROUND,
-                    move |_| {
-                        if let Some(vm) = ticking.upgrade() {
-                            native_environment.tick(&vm);
-                            let date = chrono::Local::now();
-                            vm.set_clock(date.timestamp());
-                            vm.set_utc_offset(date.offset().local_minus_utc());
-                            phone_ui::host_tick(date.timestamp());
-                            phone_ui::alarm_tick(&vm);
-                        }
-                    },
-                );
-                let window = Window::new();
-                let activated_vm = Rc::downgrade(&vm);
-                window
-                    .activated(move || {
-                        if let Some(vm) = activated_vm.upgrade() {
-                            notifications::refresh(&vm, false);
-                        }
-                    })
-                    .detach();
-                let native_media = native_media::NativeMedia::install(&vm, &window);
-                let closing_media = Rc::downgrade(&native_media);
-                let closing_window = window.downgrade();
-                window
-                    .closing(move |_| {
-                        if let Some(media) = closing_media.upgrade() {
-                            media.stop_all();
-                        }
-                        if let Some(window) = closing_window.upgrade() {
-                            phone_host::native::notifications::close(notifications::window_handle(
-                                &window,
-                            ));
-                        }
-                    })
-                    .detach();
-                let host_vm = Rc::downgrade(&vm);
-                let host_window = window.downgrade();
-                vm.set_services(HostServices {
-                    request: Rc::new(move |request| {
-                        if let (Some(vm), Some(window)) = (host_vm.upgrade(), host_window.upgrade())
-                        {
-                            if let Err(error) = services::handle(&vm, &window, request) {
-                                vm.set_status(error);
-                            }
-                        }
-                    }),
-                });
-                window.set_title(Some("Windows Phone".into()));
-                window.set_width(430.0);
-                window.set_height(860.0);
-                window.set_min_width(320.0);
-                window.set_min_height(560.0);
-                vm.set_viewport(430.0, 860.0);
-                media_files::install_image_loader();
-                window.set_content(Some(Control::boxed(&phone_ui::create_view(vm.clone()))));
-                let visibility = platform::follow_visibility(&window);
-                let weak_window = window.downgrade();
-                let weak_vm = Rc::downgrade(&vm);
-                window
-                    .layout_updated(move || {
-                        if let (Some(window), Some(vm)) = (weak_window.upgrade(), weak_vm.upgrade())
-                        {
-                            let size = window.client_size();
-                            vm.set_viewport(size.width, size.height);
-                        }
-                    })
-                    .detach();
-                app.run_window(window);
-                visibility.dispose();
-                native_media.stop_all();
-                timer.stop();
-            },
-            &std::env::args().collect::<Vec<_>>(),
-        );
+                "--backend" => {
+                    options.backend = platform::Backend::parse(
+                        &args.next().ok_or("--backend requires a value.")?,
+                    )?
+                }
+                "--activate" => {
+                    let uri = args
+                        .next()
+                        .ok_or("--activate requires a ferroui-phone URI.")?;
+                    NativeHost::validate_activation(&uri)?;
+                    options.activation = Some(uri);
+                }
+                _ => return Err(format!("Unknown option: {argument}. Use --help.")),
+            }
+        }
+        Ok(Some(options))
+    }
+}
+fn main() {
+    if let Err(error) = run() {
+        eprintln!("Windows Phone: {error}");
+        std::process::exit(2);
+    }
+}
+fn run() -> Result<(), String> {
+    let Some(options) = Options::parse(std::env::args().skip(1))? else {
+        println!("Windows Phone\n  --mode app|launcher|shell|embedded\n  --backend auto|x11|wayland (Linux)\n  --activate ferroui-phone://app/APP_ID?path=PATH\n\nShell mode requires an already configured supported OS session.\nEmbedding applications should use phone_native::NativeHost directly.");
+        return Ok(());
+    };
+    let platform = Rc::new(DesktopPlatform::new(options.mode)?);
+    let builder = platform::configure(AppBuilder::configure::<Application>(), options.backend)?;
+    builder.with_inter_font().with_phone_font().start(
+        move |app, _| {
+            phone_controls::install_theme(app);
+            let host = match NativeHost::new(phone_native::storage::data_path(), platform.clone()) {
+                Ok(host) => host,
+                Err(error) => {
+                    eprintln!("Could not start Windows Phone: {error}");
+                    return;
+                }
+            };
+            let window = Window::new();
+            window.set_title(Some("Windows Phone".into()));
+            window.set_width(430.0);
+            window.set_height(860.0);
+            window.set_min_width(320.0);
+            window.set_min_height(560.0);
+            host.vm().set_viewport(430.0, 860.0);
+            if matches!(options.mode, HostMode::Launcher | HostMode::Shell) {
+                window.set_window_state(WindowState::FullScreen);
+            }
+            window.set_content(Some(Control::boxed(&host.view())));
+            let activated = Rc::downgrade(&host);
+            window
+                .activated(move || {
+                    if let Some(host) = activated.upgrade() {
+                        host.lifecycle(HostLifecycle::Resumed);
+                    }
+                })
+                .detach();
+            let closing = Rc::downgrade(&host);
+            window
+                .closing(move |_| {
+                    if let Some(host) = closing.upgrade() {
+                        host.lifecycle(HostLifecycle::Closing);
+                    }
+                })
+                .detach();
+            let visibility = platform::follow_visibility(&window, Rc::downgrade(&host));
+            if let Some(uri) = &options.activation {
+                if let Err(error) = host.activate_uri(uri) {
+                    host.vm().set_status(error);
+                }
+            }
+            app.run_window(window);
+            visibility.dispose();
+            host.lifecycle(HostLifecycle::Closing);
+        },
+        &std::env::args().collect::<Vec<_>>(),
+    );
+    Ok(())
 }

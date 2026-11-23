@@ -16,7 +16,8 @@ export async function requestNotificationPermission(platform = globalThis) {
   return notificationPermission(platform);
 }
 
-export async function showSystemNotification(title, body, platform = globalThis) {
+export async function showSystemNotification(title, body, platform = globalThis, isCurrent = () => true) {
+  if (!isCurrent()) return false;
   if (notificationPermission(platform) !== 'granted') return false;
   const options = {
     body: String(body).slice(0, 4096),
@@ -32,6 +33,7 @@ export async function showSystemNotification(title, body, platform = globalThis)
   // app's registration once and use its active worker when available instead.
   const registration = workers?.getRegistration
     ? await workers.getRegistration(new URL('./', import.meta.url).href) : undefined;
+  if (!isCurrent()) return false;
   if (registration?.active && registration.showNotification) {
     await registration.showNotification(caption, options);
     return true;

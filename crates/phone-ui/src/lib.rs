@@ -16,6 +16,7 @@ pub fn built_in_apps() -> Vec<AppRegistration> {
         phone_app_camera::registration(),
         phone_app_cortana::registration(),
         phone_app_data_sense::registration(),
+        phone_app_device::registration(),
         phone_app_files::registration(),
         phone_app_games::registration(),
         phone_app_maps::registration(),

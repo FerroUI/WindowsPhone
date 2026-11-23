@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/phone-fonts", "crates/phone-host", "crates/phone-domain", "crates/phone-state", "crates/phone-controls", "crates/phone-ui", "crates/phone-sdk", "crates/phone-system", "crates/phone-alarm-service", "crates/apps/*", "crates/phone-browser", "crates/phone-desktop"]
+members = ["crates/phone-fonts", "crates/phone-host", "crates/phone-domain", "crates/phone-state", "crates/phone-controls", "crates/phone-ui", "crates/phone-sdk", "crates/phone-system", "crates/phone-alarm-service", "crates/apps/*", "crates/phone-browser", "crates/phone-desktop", "crates/phone-runtime", "crates/phone-native", "crates/phone-platform-desktop", "crates/phone-android", "crates/phone-ios"]
 default-members = ["crates/phone-domain", "crates/phone-state", "crates/phone-desktop"]
 exclude = ["FerroUI"]
 
@@ -12,6 +12,15 @@ license = "MIT"
 repository = "https://github.com/FerroUI/WindowsPhone"
 
 [workspace.dependencies]
+# Pluggable host composition and native service reuse.
+phone-runtime = { path = "crates/phone-runtime" }
+phone-native = { path = "crates/phone-native" }
+phone-platform-desktop = { path = "crates/phone-platform-desktop" }
+phone-android = { path = "crates/phone-android" }
+phone-ios = { path = "crates/phone-ios" }
+phone-app-device = { path = "crates/apps/phone-app-device" }
+base64 = "0.22"
+
 # >>> FerroUI workspace dependencies (written by FerroUI/scripts/apps/sync-workspace.py from FerroUI/Cargo.toml; do not edit)
 ferroui-media-camera-windows = { version = "=0.6.0-preview.1", path = "FerroUI/src/FerroUI.Media.Camera.Windows" }
 ferroui-media-video-windows = { version = "=0.6.0-preview.1", path = "FerroUI/src/FerroUI.Media.Video.Windows" }

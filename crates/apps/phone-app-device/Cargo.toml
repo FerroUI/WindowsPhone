@@ -1,0 +1,19 @@
+[package]
+name = "phone-app-device"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+build = "build.rs"
+[dependencies]
+phone-sdk.workspace = true
+phone-host.workspace = true
+phone-domain.workspace = true
+phone-state.workspace = true
+phone-controls.workspace = true
+ferroui-base.workspace = true
+ferroui-controls.workspace = true
+ferroui-view.workspace = true
+base64.workspace = true
+[build-dependencies]
+ferroui-build.workspace = true

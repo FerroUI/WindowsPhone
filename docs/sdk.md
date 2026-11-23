@@ -371,3 +371,9 @@ People retains an explicit dependency on Messaging's composition entry point for
 The crate split preserves the existing native control IDs and app workflows so the rendered interaction suite can exercise the migrated implementation. Compile-time dependency checks establish the direction of reuse; Rust and JavaScript boundary tests establish selected state/host behavior; browser screenshots establish the rendered states they capture. None of those alone certifies original-device pixel parity, real OS permission dialogs, complete cloud-account services, dynamic third-party package loading or every physical platform.
 
 See [host integration](host-integration.md), [interchange formats](pim-interchange.md), [architecture](architecture.md), and the revision-specific [verification record](parity.md) for implemented behavior and measured coverage.
+
+## Pluggable platform hosts
+
+App requests still go through the capability-checked `AppContext`. `Capability::Platform` admits typed `HostRequest::Platform` requests for observed device apps, OS settings and supported device services. Apps discover availability through `PhoneViewModel::platform_state`; they do not infer privilege from fullscreen presentation. Device apps is a standalone example of catalog discovery and stable opaque-ID pins.
+
+Hosts compose `PhoneRuntime` with one `PlatformPlugin` and an explicit `ServiceRegistry`. Native application owners can add SDK registrations and replace service families through `NativeHost::compose` without forking app code or OS entry points. See the complete [embedding example and lifetime contract](platform-architecture.md#replaceable-services-and-application-composition). Native file handoff is a host-only plugin hook; it does not expose arbitrary filesystem paths through the app-facing PlatformRequest contract.

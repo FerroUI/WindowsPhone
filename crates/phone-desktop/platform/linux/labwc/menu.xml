@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<openbox_menu>
+  <menu id="root-menu" label="Windows Phone session">
+    <item label="Switch application"><action name="NextWindow" /></item>
+    <separator />
+    <item label="End this login session"><action name="Exit" /></item>
+  </menu>
+</openbox_menu>

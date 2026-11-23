@@ -1,5 +1,5 @@
 //! Binary vCard/iCalendar bridge. JavaScript never parses personal records.
-use phone_domain::{Id, interchange::InterchangeFile};
+use phone_domain::{interchange::InterchangeFile, Id};
 use wasm_bindgen::prelude::*;
 
 fn model() -> Result<std::rc::Rc<phone_state::PhoneViewModel>, JsValue> {
