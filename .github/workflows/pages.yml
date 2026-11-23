@@ -182,7 +182,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        # The pinned ANGLE/bindgen dependency needs a compatible MSVC/LLVM pair.
+        os: [windows-2022, macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
     env:
@@ -195,6 +196,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Verify Windows compiler and standard library compatibility
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $env:LIBCLANG_PATH = 'C:\Program Files\LLVM\bin'
+          if (!(Test-Path "$env:LIBCLANG_PATH\libclang.dll")) {
+            throw 'The pinned Windows runner must provide LLVM/libclang.'
+          }
+          & "$env:LIBCLANG_PATH\clang.exe" --version
+          '#include <string>' | & "$env:LIBCLANG_PATH\clang.exe" --target=x86_64-pc-windows-msvc -x c++ -std=c++17 -fsyntax-only -
+          if ($LASTEXITCODE -ne 0) { throw 'MSVC headers and LLVM are incompatible.' }
+          "LIBCLANG_PATH=$env:LIBCLANG_PATH" >> $env:GITHUB_ENV
       - name: Install the pinned Rust toolchain
         run: |
           PHONE_NATIVE_RUST=$(sed -n 's/^channel = "\(.*\)"/\1/p' rust-toolchain.toml)
@@ -214,9 +227,9 @@ jobs:
             target
             ~/.cargo/registry
             ~/.cargo/git
-          key: phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'rust-toolchain.toml') }}
+          key: phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-${{ runner.os == 'Windows' && format('{0}-', matrix.os) || '' }}${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'rust-toolchain.toml') }}
           restore-keys: |
-            phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-
+            phone-native-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUSTUP_TOOLCHAIN }}-${{ env.PHONE_NATIVE_FRAMEWORK }}-${{ runner.os == 'Windows' && format('{0}-', matrix.os) || '' }}
       - name: Verify portable host boundaries
         run: cargo test --locked -p phone-host
       - name: Build and link the complete native host
