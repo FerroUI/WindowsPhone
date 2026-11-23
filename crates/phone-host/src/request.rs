@@ -3,6 +3,11 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "camelCase")]
 pub enum HostRequest {
+    HttpGet {
+        request_id: u32,
+        url: String,
+        max_bytes: u32,
+    },
     ChooseFile {
         request_id: u32,
         extensions: Vec<String>,
@@ -30,6 +35,7 @@ pub enum HostRequest {
     RequestNotificationPermission,
     RequestPersistentStorage,
     RefreshEnvironment,
+    CheckForUpdates,
     ImportContacts,
     ExportContacts {
         ids: Vec<u64>,

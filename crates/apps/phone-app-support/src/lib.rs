@@ -1,3 +1,4 @@
+pub mod geography;
 pub mod host;
 pub mod pim;
 pub mod pivots;

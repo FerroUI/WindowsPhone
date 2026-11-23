@@ -1,8 +1,10 @@
 //! Native primitives. Platform UI hosts own prompting and dispatcher scheduling.
 pub mod background;
 mod files;
+pub mod http;
 mod launch;
 pub mod location;
+pub mod media_session;
 pub mod notifications;
 mod paths;
 mod power;

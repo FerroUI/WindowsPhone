@@ -76,6 +76,16 @@ pub(super) fn about(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     }}
 }
 
+pub(super) fn phone_update(vm: Rc<PhoneViewModel>) -> Element {
+    let browser = vm.environment().platform == phone_state::HostPlatform::Browser;
+    let check = vm.clone();
+    rsx! {StackPanel{spacing:18.0,
+        {text("keep your phone up to date",30.0)}
+        {muted(if browser{"Updates download while you are online. To install a downloaded update, close all Windows Phone windows and reopen the app. Saved data is kept."}else{"Install a newer desktop package to update the app. Your saved phone data is kept in its separate application data folder."},18.0)}
+        if browser{{flat("check for updates",move||check.request(HostRequest::CheckForUpdates))}}
+    }}
+}
+
 pub(super) fn radio(vm: Rc<PhoneViewModel>, name: &str) -> Element {
     let settings = vm.data().settings.clone();
     let (label, value, field): (&str, bool, fn(&mut Settings, bool)) = match name {

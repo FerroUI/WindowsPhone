@@ -1,10 +1,10 @@
-const CACHE='windows-phone-__BUILD_VERSION__';
+const CACHE_PREFIX=`ferroui-phone:${self.registration.scope}:`;
+const CACHE=CACHE_PREFIX+'__BUILD_VERSION__';
 const FILES=__PRECACHE__;
 const INDEX=new URL('index.html',self.registration.scope).href;
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE)
-  .then(cache=>cache.addAll(FILES.map(file=>new Request(new URL(file,self.registration.scope),{cache:'reload'}))))
-  .then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('windows-phone-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
+  .then(cache=>cache.addAll(FILES.map(file=>new Request(new URL(file,self.registration.scope),{cache:'reload'}))))));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
   const url=new URL(event.request.url);
   if(event.request.method!=='GET'||url.origin!==self.location.origin)return;

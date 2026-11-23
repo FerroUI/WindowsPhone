@@ -71,6 +71,21 @@ ferroui_base::ferro_thread_local! {
     pub(crate) static PALETTE: RefCell<Palette> = RefCell::new(Palette::default());
     static TEXT_SCALE: Cell<f64> = const {Cell::new(1.0)};
     static HIGH_CONTRAST: Cell<bool> = const {Cell::new(false)};
+    static VIEWPORT_HEIGHT: Cell<f64> = const {Cell::new(720.0)};
+}
+
+/// The shell supplies its phone-surface height; standalone controls retain a
+/// conservative default. Long command menus preserve native keyboard/touch scrolling.
+pub fn set_phone_viewport_height(height: f64) {
+    if height.is_finite() {
+        VIEWPORT_HEIGHT.with(|value| value.set(height.max(280.0)));
+    }
+}
+pub(crate) fn app_menu_height() -> f64 {
+    VIEWPORT_HEIGHT.with(|height| {
+        (height.get() - STATUS_HEIGHT - NAVIGATION_HEIGHT - APP_BAR_HEIGHT - 100.0)
+            .clamp(80.0, 480.0)
+    })
 }
 
 pub fn set_high_contrast(enabled: bool) {

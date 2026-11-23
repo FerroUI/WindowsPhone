@@ -1,6 +1,39 @@
 use super::*;
 
 impl AppRegistry {
+    /// Deliver host observations independently of the foreground route. Each
+    /// callback is checked again: a previous subscriber can disable an app,
+    /// replace the document, or synchronously switch the active player.
+    pub fn media_event(
+        &self,
+        vm: &Rc<PhoneViewModel>,
+        ui: &Rc<Session>,
+        event: &crate::media::PlaybackEvent,
+    ) {
+        for app in &self.entries {
+            let Some(callback) = app.media_event else {
+                continue;
+            };
+            if !app
+                .manifest
+                .capabilities
+                .contains(&crate::Capability::Media)
+                && !app.manifest.capabilities.contains(&crate::Capability::All)
+            {
+                continue;
+            }
+            if app.manifest.builtin.map_or_else(
+                || !vm.extension_enabled(app.manifest.id),
+                |id| !vm.data().installed.contains(&id),
+            ) {
+                continue;
+            }
+            if !event.snapshot().is_current(vm, ui) {
+                break;
+            }
+            callback(app.context(vm, ui), event);
+        }
+    }
     pub fn route_changed(
         &self,
         vm: &Rc<PhoneViewModel>,

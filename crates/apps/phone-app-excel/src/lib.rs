@@ -108,7 +108,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -
     let sheet_ui = ui.clone();
     let help = vm.clone();
     let pin = vm.clone();
-    let mut menu = Vec::new();
+    let mut menu = phone_office_support::commands::history_menu(&vm, &ui, &document);
     for (label, command) in [
         ("find", 0),
         ("select cells", 1),
@@ -143,7 +143,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -
             pin.home();
         }),
         flat("formula help", move || {
-            help.set_status("Formulas: + − * / ^ %, cell references, SUM, AVERAGE, MIN, MAX, COUNT, ABS and ROUND. Example: =SUM(A1:A10).".into())
+            help.set_status("Formulas support arithmetic, comparisons and text joining (&), cell ranges, SUM/AVERAGE/MIN/MAX/COUNT, IF/IFERROR, AND/OR/NOT, rounding, statistics and text functions. Example: =IF(SUM(A1:A10)>100,\"over\",\"ok\").".into())
         }),
     ]);
     page(
@@ -278,7 +278,7 @@ fn add_sheet(vm: &PhoneViewModel, ui: &Session, id: Id) {
         ui.state::<phone_office_support::OfficeSession>()
             .col_page
             .set(0);
-        vm.save_document(document);
+        phone_office_support::commands::save(vm, ui, document);
     }
 }
 fn rename_sheet(vm: Rc<PhoneViewModel>, ui: Rc<Session>, id: Id, index: usize) {

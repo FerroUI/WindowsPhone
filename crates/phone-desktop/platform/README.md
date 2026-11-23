@@ -11,6 +11,7 @@ Camera or Video app.
 | Service | Windows | macOS | Linux |
 | --- | --- | --- | --- |
 | Embedded audio/video | FerroUI Media Foundation provider | FerroUI AVFoundation provider | FerroUI GStreamer provider |
+| OS media keys and now playing | Per-window System Media Transport Controls | MediaPlayer remote commands and now-playing center | MPRIS 2 player on the session bus |
 | Camera preview and JPEG capture | FerroUI Media Foundation camera | FerroUI AVFoundation camera | FerroUI camera portal and PipeWire |
 | Frame presentation | Shared OpenGL textures | IOSurface texture importer | Shared OpenGL textures |
 | Device notification | Win32 notification-area banner | UserNotifications | Freedesktop Notifications on the session bus |
@@ -18,11 +19,34 @@ Camera or Video app.
 | Current weather | Bounded HTTPS request to Open-Meteo after explicit location acquisition | Same | Same |
 | Files and document/media copies | FerroUI storage provider | FerroUI storage provider | FerroUI storage provider |
 
-The media player supports imported local audio/video, play, pause, stop,
-native duration/position retention within a session, and the app's media volume
-and mute settings. Native state drives the visible playing indicator. The More
+The media player supports imported local audio/video and explicitly selected
+HTTPS streams, play, pause, stop, seek, ten-second forward skips, repeat restart,
+and the shared SDK queue. Native duration/position and the app's media volume
+and mute settings drive the visible state. The More
 menu also exposes an explicit handoff to the device's external media app; that
 handoff reports an accepted launch request, not observed external playback.
+Stream URLs pass the shared public HTTPS admission rules; codec, network access,
+buffering and redirects belong to the native media provider. Streaming does not
+use the bounded SDK HTTP-response downloader and does not download an offline copy.
+
+Native OS controls publish the current title, artist, observed playback state,
+position/duration and queue capabilities. They route play, pause, stop,
+next/previous and seek commands back to the same player. Linux additionally
+accepts volume and Raise. Next/previous from the OS preserve paused playback.
+End-of-track advancement and repeat use the SDK queue, including app playlists
+and Podcasts. Windows uses the real application HWND; macOS requires the supplied
+application bundle identity; Linux requires a working session bus and a desktop
+that exposes MPRIS players. Capability remains unknown until registration and
+becomes unavailable if the OS rejects it or the connection fails.
+
+The reusable `phone-host::native::media_session` layer contains no UI or decoder
+references. Native callbacks enqueue at most 32 commands with a source-generation
+stamp. Stale positions, commands for a replaced document/source, nonfinite
+positions and invalid volume requests are discarded. Source paths and network
+URLs are never published as OS metadata. Closing or externally handing off
+playback releases native handlers and now-playing state. A private-bus protocol
+test checks real MPRIS discovery, properties, controls, stale-track rejection and
+service teardown without operating the person's desktop session.
 
 Camera requests start only after the app's command. Leaving Camera, locking the
 phone, replacing the phone document, or closing the window stops the session and
@@ -39,7 +63,7 @@ permission dialogs can take focus while their request is in progress.
 Foreground alarms use a separate looping native player and a generated PCM
 alert, respecting ringer volume and stop/snooze commands. Notifications are
 silent to avoid playing the alert twice. This is not the original Windows Phone
-ringtone catalog. Desktop haptics, OS media-key sessions, and wake-from-sleep
+ringtone catalog. Desktop haptics and wake-from-sleep
 alarm scheduling are not implemented by these adapters.
 
 File and image work uses one bounded worker; blocking OS consent, notification,
@@ -144,6 +168,16 @@ isolation, native camera orientation for all eight EXIF transformations, and
 PCM alert structure. They do not request permissions, capture a camera, send a
 notification, play sound, or contact a location/weather service.
 
+The MPRIS protocol integration test is opt-in and must use a fresh test bus:
+
+```sh
+dbus-run-session -- env PHONE_MPRIS_TEST_SESSION=1 cargo test -p phone-host private_bus_media_controls -- --ignored
+```
+
+These tests verify the transport boundary, not hardware media keys or codec
+playback. macOS command-center eligibility and Windows shell visibility still
+need OS/device testing with the packaged application.
+
 Windows and macOS provider behavior requires running the packaged application
 on those operating systems. Linux media also needs the development/runtime
 dependencies described above. Hardware-specific controls, background execution,
@@ -157,8 +191,13 @@ behavior.
 - [Microsoft notification-area API](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-notifyicondataw)
 - [Microsoft notification state](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shqueryusernotificationstate)
 - [Microsoft desktop location guidance](https://learn.microsoft.com/en-us/windows/apps/develop/maps-and-location/get-location)
+- [Microsoft per-window media transport controls](https://learn.microsoft.com/en-us/windows/win32/api/systemmediatransportcontrolsinterop/nf-systemmediatransportcontrolsinterop-isystemmediatransportcontrolsinterop-getforwindow)
+- [Microsoft media transport state and timeline](https://learn.microsoft.com/en-us/windows/apps/develop/media-playback/system-media-transport-controls)
 - [Apple UserNotifications](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter)
 - [Apple location authorization](https://developer.apple.com/documentation/corelocation/requesting-authorization-to-use-location-services)
+- [Apple remote media commands](https://developer.apple.com/documentation/mediaplayer/mpremotecommandcenter)
+- [Apple now-playing information](https://developer.apple.com/documentation/mediaplayer/mpnowplayinginfocenter)
+- [MPRIS 2 player specification](https://specifications.freedesktop.org/mpris/latest/Player_Interface.html)
 - [Freedesktop Notifications specification](https://specifications.freedesktop.org/notification/latest-single/)
 - [GeoClue2 Client API](https://www.freedesktop.org/software/geoclue/docs/gdbus-org.freedesktop.GeoClue2.Client.html)
 - [Open-Meteo forecast API](https://open-meteo.com/en/docs)

@@ -163,6 +163,7 @@ Application data survives a normal reload and participates in phone backup/resto
 | `with_activation` | Accept validated JSON after destination navigation and lifecycle reset. Return a descriptive error for an unsupported payload. |
 | `with_tile` | Render a retained tile surface from the registered app context, saved launch path, size and system cadence. |
 | `with_tick` | Receive foreground clock ticks for the active app. Keep work bounded; no background wake-up guarantee follows from this hook. |
+| `with_media_event` | Observe the current library player's source-bound progress, pause/checkpoint and completion while any app is visible. Requires an enabled registration declaring `Media` or `All`. |
 | `with_host_navigation` | Receive the browser host's acknowledgement of app-requested navigation. |
 | `with_host_weather` | Receive a host weather result. This is observed external data, not generated weather. |
 
@@ -172,7 +173,7 @@ A callback must not retain a borrowed view-model document across a mutation, awa
 
 Registered, listed apps appear in All apps and in Store without modifying an `AppId` enum or adding a shell match arm. The Games hub selects registrations whose category is `AppCategory::Game`. Disabled extensions stay in Store so they can be enabled again; they are omitted from All apps and Games and cannot be navigated to. Removing a registration makes its routes unavailable without deleting its stored namespace.
 
-Store uses the included app registry; it is not a network package marketplace. Enabling an extension makes already linked code available. Disabling an extension removes its Start launch links and recent/back entries while preserving saved app data. Resetting that namespace is a separate, confirmed action. The shell delivers `Closing` when an app is closed from recents or disabled, and `Reset` after an explicit app-data reset. Closing does not implicitly invoke reset hooks or discard unsaved app drafts; an app can handle `Closing` if it needs to release resources or persist/clear its own transient state. Pending SDK file tasks are cancelled on close, reset and session replacement.
+Store uses the included app registry; it is not a network package marketplace. Enabling an extension makes already linked code available. Disabling an extension removes its Start launch links and recent/back entries while preserving saved app data. Resetting that namespace is a separate, confirmed action. The shell delivers `Closing` when an app is closed from recents or disabled, and `Reset` after an explicit app-data reset. Closing does not implicitly invoke reset hooks or discard unsaved app drafts; an app can handle `Closing` if it needs to release resources or persist/clear its own transient state. Pending SDK file and HTTPS tasks are cancelled on close, reset and session replacement.
 
 The recent-app journal interleaves built-ins and extensions, resumes an extension's last valid path and drops that path on close. Built-in cards use captured previews where available. Extension cards currently use their registered icon/title/accent; they do not claim to contain a captured application screenshot.
 
@@ -251,6 +252,32 @@ drop(ferroui_base::threading::Dispatcher::current_dispatcher().spawn_local(async
 
 The task is cancelled when its future is dropped, the app closes or resets, or the session ends. Stale completions after a phone restore cannot mutate the replacement document. OneNote's text/Markdown import is an end-to-end consumer of this API and rejects non-UTF-8/binary content before creating a note. The chooser is for one bounded file, not arbitrary filesystem access.
 
+### Bounded HTTPS reads
+
+`AppContext::get(url, max_bytes)` returns `phone_sdk::tasks::HttpTask`, a future yielding `Result<Vec<u8>, String>`. Declare `Capability::Network`. The SDK creates a request identifier, records the app/session and current `PhoneViewModel::document_epoch()`, then requests `HostRequest::HttpGet`. Hosts complete it through `complete_http`; they can use `is_http_task_pending` to avoid work or abort an obsolete request. Weather and Podcasts consume this contract without depending on browser JavaScript or native networking libraries.
+
+```rust
+let epoch = cx.vm.document_epoch();
+let response = cx.get("https://example.org/feed.xml", 512 * 1024);
+let completion = cx.clone();
+drop(ferroui_base::threading::Dispatcher::current_dispatcher().spawn_local(async move {
+    let result = response.await;
+    if completion.vm.document_epoch() != epoch { return; }
+    match result {
+        Ok(bytes) => { /* Decode and validate the app's bounded data format. */ }
+        Err(error) => completion.vm.set_status(error),
+    }
+}));
+```
+
+Admission permits public HTTPS domain names on port 443, without URL credentials, IP literals, local/reserved host suffixes or control characters. URLs are limited to 4,096 bytes and fragments are removed. Each request selects a response limit from one byte through 2 MiB; the SDK rechecks the returned byte count. At most eight HTTP task entries may be pending on a dispatcher, and each host request has a 15-second timeout. Responses contain bytes; they are not proof that JSON, XML, timestamps or application records are valid.
+
+Requests use GET without application credentials, cookies, redirects or proxy configuration supplied by an app. Browser requests use CORS with omitted credentials, so a server must explicitly permit the browser origin. Native reads run on the system worker; the resolver rejects non-public addresses before connecting and pins the connection to its checked resolution. Both hosts report HTTP, size and transport failures instead of substituting example data. Use a feed's final HTTPS address when a server redirects.
+
+Dropping the future cancels delivery. Closing/resetting/disabling an app, replacing the phone document, or destroying the session invalidates pending and completed-but-unconsumed results. Completion and future polling both revalidate app availability and document epoch; a late response cannot be applied to a restored phone even if its app ID is unchanged. The browser aborts obsolete fetches. A native blocking request already running can finish within its timeout, but its result is discarded after cancellation. Applications should additionally use an app-owned request generation when a newer search or refresh supersedes an older operation within the same document. This API supplies explicit bounded reads; it does not provide account synchronization, automatic polling, retries or OS background scheduling.
+
+Normal navigation does not cancel a task. A completion may save its result while another screen is active, but should only navigate or replace a detail selection if its originating route and selection are still current. Podcasts applies this guard to feed subscription, refresh and file import.
+
 Capabilities are an application contract for trusted code. `AppContext` exposes the existing view model, and statically linked Rust can access other public APIs; declarations are not a security sandbox. File selection, sharing, notification permission and location acquisition should remain explicit user actions. Do not request permissions just to populate a Settings page.
 
 Camera and video app views place `host_surface(HostSurface::Camera)` or `host_surface(HostSurface::Video)` in their retained preview containers. A native host can install a control factory with `set_host_surface_factory`. An unavailable surface produces an empty element, preserving the normal view and browser overlay geometry. Host adapters own their native device/player lifecycle; the app owns layout and commands.
@@ -258,6 +285,41 @@ Camera and video app views place `host_surface(HostSurface::Camera)` or `host_su
 For the browser host, name the surrounding retained container `CameraViewport` or `MediaViewport` respectively, give it a background so the native inspection hit test identifies its bounds, and keep it inside the app's normal content area. The browser positions its permitted media element over that control. The built-in Camera and shared media views are concrete examples of this contract; using only `host_surface` without that container does not create a browser overlay. Host surfaces are foreground UI and do not grant background capture or playback scheduling.
 
 Shared image helpers admit and cache application media for app lists, Photos, lock backgrounds and tiles. Use the existing host/SDK service rather than decoding arbitrary files independently in every app.
+
+## Shared media queue and observations
+
+`phone_sdk::media` owns the shell's transient library queue and observed playback position. Music, Video, Podcasts, browser Media Session keys and native system transports use this shared queue. Media bytes remain in host asset storage, while a playable `MediaTrack.source` identifies either a local `media:` asset or a validated HTTPS stream admitted by the host.
+
+`media::start(vm, session, sources, selected, repeat, shuffle)` validates a nonempty queue of at most 10,000 distinct, existing library sources and requests actual host playback. It returns an error for an unavailable source, duplicate source or absent selection. The queue is a snapshot of the chosen collection; editing a playlist does not silently replace a running queue. A playback request does not set `Session::media_playing` optimistically: the host reports success, pause and failure.
+
+`MediaQueue` keeps library order separately from shuffled order. Enabling shuffle preserves the current source; disabling it restores the original order without moving to a different source. `RepeatMode::One` repeats an ended item, while a manual Next still advances; `All` wraps at the queue boundaries and `Off` finishes at the last item. Previous at the first item restarts it, or wraps when repeat-all is selected. Removed library references are pruned before transport advancement. Music/Video playlists and Photos albums persist stable track/photo IDs in their owning app namespace, so asset-key remapping during backup restore does not break membership. Active queues are transient and never resume sources from a replaced phone document.
+
+| SDK/host entry | Contract |
+| --- | --- |
+| `media::control(&Rc<PhoneViewModel>, &Rc<Session>, action)` | Handles `next`, `previous` and `ended`; returns `false` for controls owned by the host. Publishes completion/checkpoints before queue mutation. |
+| `media::capabilities(vm, session)` | Returns `(can_next, can_previous)` for surviving library sources and the current repeat mode. |
+| `PlaybackSession` | Typed session state with the queue plus finite, nonnegative observed position/duration signals in seconds. Unknown duration is zero. |
+| `phone_ui::show_media(title, source, playing)` | Binds an actual host source and state. Source replacement or clearing flushes the previous source's last observation before resetting it. |
+| `phone_ui::media_progress(position, duration)` | Records and publishes progress for the bound host source; it cannot create a new source binding. |
+| `phone_ui::media_command(action)` | Routes browser/native transports through the same SDK control path. |
+
+The SDK equivalents of the host state/progress bridges are `media::publish_state` and `media::publish_progress`. A host must publish a source before its progress, report its final position before `ended`, and keep its own asynchronous player-generation checks. Unrelated host callbacks must not be relabeled as the current source. The SDK keeps the host's last observation separately from queue UI resets, preserving the old source's checkpoint while a requested successor loads.
+
+### Playback subscriptions
+
+Register an opt-in handler with `.with_media_event(fn(AppContext, &PlaybackEvent))`; the types are in `phone_sdk::media`. `PlaybackEvent` has three variants carrying a `PlaybackSnapshot`:
+
+| Event | Meaning |
+| --- | --- |
+| `Progress` | The active host's latest observed source, position and duration. Consumers should throttle persistent writes. |
+| `Paused` | A checkpoint before a host pause, source replacement/clear, transport change or host suspension. It does not itself command the player to pause. |
+| `Ended` | An actual host completion, delivered once before queue advancement and position reset. |
+
+`PlaybackSnapshot` exposes `source`, `position`, `duration`, `document_epoch()` and `is_current(vm, session)`. Its private observation identity prevents an older sample from being delivered after a reentrant source or progress change. `AppRegistry::media_event` delivers independently of the active route, but only to installed built-ins or enabled extensions declaring `Capability::Media` or `Capability::All`. Before **every** subscriber it rechecks availability, the current library source, document epoch and observation identity. No document or event-state borrow is held across app callbacks. Restoring a document, deleting the source, disabling a subscriber or synchronously changing playback stops the corresponding stale delivery. Completion also checks whether a subscriber replaced the queue before issuing the next host request.
+
+Podcasts is the reference consumer: it saves useful progress at a bounded cadence even while Start or another app is open, flushes exact positions on checkpoints, and marks matching episodes played only on `Ended`. Duplicate observations do not generate repeated document writes. Pending resume seeks wait for real host metadata so a temporary zero position does not overwrite the saved checkpoint.
+
+Closing an app's recent card does not unregister its enabled, statically linked media observer; disabling the app stops delivery. Reset hooks still clear app-owned transient state, and a phone restore invalidates all old observations. These subscriptions run inside the existing live shell. They do not launch an app, keep a suspended browser alive, establish an OS background agent or grant media access to untrusted packages. Capability declarations remain a trusted-code contract, as with the rest of the SDK.
 
 ## Built-in migration map
 
@@ -275,6 +337,8 @@ Each listed application has an independent Cargo package and exports `registrati
 | Internet Explorer | `phone-app-browser` |
 | Music | `phone-app-music` |
 | Video | `phone-app-video` |
+| Podcasts | `phone-app-podcasts` (`org.ferroui.podcasts`) |
+| Wallet | `phone-app-wallet` (`org.ferroui.wallet`) |
 | Games | `phone-app-games` |
 | Store | `phone-app-store` |
 | Settings | `phone-app-settings` |
@@ -291,11 +355,13 @@ Each listed application has an independent Cargo package and exports `registrati
 
 Word, Excel and PowerPoint editor implementations live in `phone-app-word`, `phone-app-excel` and `phone-app-powerpoint`; the Office registration owns their document routes and delegates to the matching editor. They are independent editor packages, not additional built-in app-list identities.
 
+Podcasts and Wallet are included apps registered through stable extension IDs. They use namespaced storage and the normal Store enable/reset controls without adding legacy `AppId` enum cases. Podcasts owns feeds, subscription metadata and episode progress; Wallet owns local pass records and barcode rendering, without a payment credential service.
+
 | Reusable support package | Shared responsibility |
 | --- | --- |
 | `phone-app-support` | PIM file commands, host permission/storage controls, URI preparation and small app helpers. |
 | `phone-office-support` | Document commands, editor session state, compatibility notices and document/folder rows. Files depends on these services, not the Office app. |
-| `phone-media-support` | Shared retained collection/player controls used by the independently registered Music and Video apps. |
+| `phone-media-support` | Music/Video collection and player controls, metadata/playlist state, and bounded ordered collection primitives reused by Photos albums. Playback transport and observations remain in `phone-sdk::media`. |
 | `phone-storage-support` | Actual phone-document size measurement and storage UI shared by Data Sense and Settings. |
 
 People retains an explicit dependency on Messaging's composition entry point for its text action. This is a visible app-to-app dependency and does not create an SDK/system cycle. The independently registered games demonstrate extension IDs and namespaced persistent state without adding built-in enum cases.

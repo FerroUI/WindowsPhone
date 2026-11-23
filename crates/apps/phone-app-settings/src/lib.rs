@@ -34,6 +34,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             "battery saver" => phone_app_battery_saver::battery_settings(vm.clone()),
             "backup" => system::backup(vm.clone()),
             "about" => system::about(vm.clone(), ui.clone()),
+            "phone update" => system::phone_update(vm.clone()),
             "photos+camera" => integrations::photos(vm.clone()),
             "Internet Explorer" => integrations::browser(vm.clone()),
             "messaging" => integrations::messaging(vm.clone()),
@@ -131,6 +132,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             ("region", settings.region.clone()),
             ("backup", "apps, settings and local content".into()),
             ("about", settings.phone_name.clone()),
+            ("phone update", "check for app updates".into()),
         ]
     } else {
         vec![

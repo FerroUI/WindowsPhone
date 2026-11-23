@@ -12,6 +12,7 @@ pub type SwipeHandler = fn(&Rc<PhoneViewModel>, &Rc<Session>, f64) -> bool;
 pub type ActivationHandler =
     fn(&Rc<PhoneViewModel>, &Rc<Session>, serde_json::Value) -> Result<(), String>;
 pub type TickHandler = fn(&Rc<PhoneViewModel>, &Rc<Session>, i64);
+pub type MediaEventHandler = fn(AppContext, &crate::media::PlaybackEvent);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AppLifecycle {
@@ -42,6 +43,7 @@ pub struct AppRegistration {
     pub(crate) activate: Option<ActivationHandler>,
     pub(crate) tile: Option<fn(crate::AppTileContext) -> Element>,
     pub(crate) lifecycle: Option<fn(AppContext, AppLifecycle)>,
+    pub(crate) media_event: Option<MediaEventHandler>,
 }
 
 impl AppRegistration {
@@ -62,6 +64,7 @@ impl AppRegistration {
             host_weather: None,
             tick: None,
             lifecycle: None,
+            media_event: None,
             activate: None,
             tile: None,
         }
@@ -129,6 +132,13 @@ impl AppRegistration {
     }
     pub fn with_lifecycle(mut self, value: fn(AppContext, AppLifecycle)) -> Self {
         self.lifecycle = Some(value);
+        self
+    }
+    /// Observe the current library player's progress while any app is visible.
+    /// Delivery requires an enabled app declaring Media (or All), and remains
+    /// scoped to this running shell and the current phone document.
+    pub fn with_media_event(mut self, value: MediaEventHandler) -> Self {
+        self.media_event = Some(value);
         self
     }
     pub(crate) fn context(&self, vm: &Rc<PhoneViewModel>, session: &Rc<Session>) -> AppContext {

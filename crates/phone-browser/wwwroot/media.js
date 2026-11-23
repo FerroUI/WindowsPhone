@@ -1,6 +1,7 @@
 import {getAsset,putAssets,deleteAsset}from'./phone-storage.js';
 import {createMediaSession} from './media-session.js';
 import {chooseFiles} from './file-picker.js';
+import {publicHttpsUrl} from './http-tasks.js';
 export {chooseFiles} from './file-picker.js';
 let runtime,report;
 let audio=new Audio();let mediaSource='',mediaTitle='';let video=null;let activePlayer=audio;let stream=null;let cameraGeneration=0;
@@ -56,9 +57,11 @@ export async function removeMedia(key){
 function bindPlaybackEvents(player){
   const generation=++playerGeneration;
   const publish=playing=>{if(generation===playerGeneration)runtime.mediaChanged(mediaTitle,mediaSource,playing);};
-  player.onended=()=>publish(false);
+  player.onended=()=>{if(generation!==playerGeneration)return;runtime.mediaProgress?.(Number.isFinite(player.currentTime)?player.currentTime:0,Number.isFinite(player.duration)?player.duration:0);runtime.mediaCommand?.('ended');publish(false);};
   player.onerror=()=>{if(generation===playerGeneration){publish(false);report('This browser cannot decode that media format.');}};
   player.onplay=()=>publish(true);player.onpause=()=>publish(false);
+  player.ontimeupdate=()=>{if(generation===playerGeneration)runtime.mediaProgress?.(Number.isFinite(player.currentTime)?player.currentTime:0,Number.isFinite(player.duration)?player.duration:0);};
+  player.ondurationchange=player.ontimeupdate;
   return publish;
 }
 export async function playMedia(source,surface){
@@ -70,10 +73,15 @@ export async function playMedia(source,surface){
   }
   let asset,url;
   try{
-    asset=await getAsset(source);
+    if(/^https:/i.test(source)){
+      url=publicHttpsUrl(source);
+      const track=JSON.parse(runtime.exportData()).tracks.find(track=>track.source===source);
+      if(!track)throw new Error('This streaming item is no longer in your library.');
+      asset={kind:track.media_kind==='video'?'video':'audio',name:track.title};
+    }else asset=await getAsset(source);
     if(generation!==playbackGeneration)return;
     if(!asset||!['audio','video'].includes(asset.kind))throw new Error('Import this media file again before playing.');
-    url=await objectUrl(source);
+    if(!url)url=await objectUrl(source);
   }catch(error){if(generation===playbackGeneration)throw error;return;}
   if(generation!==playbackGeneration)return;
   playerGeneration++;session?.clear();audio.pause();video?.pause();
@@ -95,12 +103,16 @@ export async function mediaControl(action){
   else if(action==='play'){if(mediaSource)await playMedia(mediaSource,document.getElementById('media-surface'));}
   else if(action==='stop'){playbackGeneration++;playerGeneration++;audio.pause();audio.currentTime=0;if(video){video.pause();video.currentTime=0;}session?.clear();runtime.mediaChanged(mediaTitle,mediaSource,false);}
   else if(action==='next'||action==='previous'){
+    if(runtime.mediaCommand?.(action))return;
     const kind=activePlayer===video?'video':'audio';
     const tracks=JSON.parse(runtime.exportData()).tracks.filter(track=>(track.media_kind||'audio')===kind);
     const index=tracks.findIndex(track=>track.source===mediaSource);
     const next=index<0?(action==='next'?tracks[0]:tracks.at(-1)):tracks[(index+(action==='next'?1:tracks.length-1))%tracks.length];
     if(next)await playMedia(next.source,document.getElementById('media-surface'));
   }
+  else if(action==='restart'){player.currentTime=0;if(mediaSource)await playMedia(mediaSource,document.getElementById('media-surface'));}
+  else if(action.startsWith('seek:')){const seconds=Number(action.slice(5));if(!Number.isFinite(seconds)||seconds<0||seconds>31536000)throw new Error('Invalid playback position.');player.currentTime=Number.isFinite(player.duration)?Math.min(seconds,player.duration):seconds;}
+  else if(action==='forward')player.currentTime=Math.max(0,Math.min(Number.isFinite(player.duration)?player.duration:Infinity,player.currentTime+10));
   else if(action==='rewind')player.currentTime=Math.max(0,player.currentTime-10);
 }
 export async function startCamera(surface){

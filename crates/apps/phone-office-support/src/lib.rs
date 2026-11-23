@@ -12,6 +12,7 @@ pub use phone_state::PhoneViewModel;
 pub use std::rc::Rc;
 
 pub struct OfficeSession {
+    pub history: std::cell::RefCell<phone_domain::EditHistory>,
     pub paragraph: Signal<usize>,
     pub sheet: Signal<usize>,
     pub row_page: Signal<usize>,
@@ -25,6 +26,7 @@ pub struct OfficeSession {
 impl Default for OfficeSession {
     fn default() -> Self {
         Self {
+            history: Default::default(),
             paragraph: signal(0),
             sheet: signal(0),
             row_page: signal(0),

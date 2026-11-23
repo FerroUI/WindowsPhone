@@ -146,6 +146,7 @@ pub fn is_file_task_pending(id: u32) -> bool {
 }
 
 pub fn cancel_for_app(session: &Session, app: &str) {
+    super::http::cancel(session, Some(app));
     cancel(
         session,
         Some(app),
@@ -153,6 +154,7 @@ pub fn cancel_for_app(session: &Session, app: &str) {
     );
 }
 pub fn cancel_for_session(session: &Session) {
+    super::http::cancel(session, None);
     cancel(
         session,
         None,

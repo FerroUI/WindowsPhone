@@ -67,7 +67,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -
     let pin = vm.clone();
     let files_vm = vm.clone();
     let files_ui = ui.clone();
-    let menu = vec![
+    let mut menu = phone_office_support::commands::history_menu(&vm, &ui, &document);
+    menu.extend(vec![
         flat("share", move || {
             phone_office_support::commands::share_files(
                 files_vm.clone(),
@@ -89,7 +90,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -
         flat("share text", move || {
             phone_office_support::commands::share(&share_vm, &share_doc)
         }),
-    ];
+    ]);
     page(
         "powerpoint",
         scroll(body),

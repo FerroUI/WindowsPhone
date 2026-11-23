@@ -14,7 +14,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     for (index, label) in dialog.labels.iter().enumerate() {
         let multiline = matches!(
             label.to_ascii_lowercase().as_str(),
-            "note" | "body" | "details" | "message" | "description"
+            "note" | "notes" | "body" | "details" | "message" | "description"
         );
         fields=fields.child(rsx!{StackPanel{spacing:7.0,{common::muted(label,16.0)}
             TextBox{name:format!("FormField{index}"),class:"phone-input",text:ui.fields[index].two_way(),

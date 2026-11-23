@@ -152,6 +152,10 @@ pub fn share_files(vm: Rc<PhoneViewModel>, ui: Rc<Session>, ids: Vec<Id>) {
     }
 }
 pub fn save(vm: &PhoneViewModel, ui: &Session, document: OfficeDocument) -> bool {
+    save_inner(vm, ui, document, true)
+}
+
+fn save_inner(vm: &PhoneViewModel, ui: &Session, document: OfficeDocument, record: bool) -> bool {
     if let Err(error) = validate_document(&document) {
         ui.form_error.set(error);
         return false;
@@ -170,6 +174,89 @@ pub fn save(vm: &PhoneViewModel, ui: &Session, document: OfficeDocument) -> bool
         ui.form_error.set(error);
         return false;
     }
+    let before = vm.data().document(document.id).map(|d| d.content.clone());
+    let id = document.id;
+    let after = document.content.clone();
+    vm.clear_status();
     vm.save_document(document);
+    if vm.data().document(id).is_none_or(|d| d.content != after) {
+        ui.form_error.set(if vm.status().is_empty() {
+            "The document could not be saved.".into()
+        } else {
+            vm.status()
+        });
+        return false;
+    }
+    if record {
+        if let Some(before) = before {
+            ui.state::<crate::OfficeSession>()
+                .history
+                .borrow_mut()
+                .record(vm.document_epoch(), id, &before, &after);
+        }
+    }
     true
+}
+
+pub fn history_menu(
+    vm: &Rc<PhoneViewModel>,
+    ui: &Rc<Session>,
+    document: &OfficeDocument,
+) -> Vec<Element> {
+    use phone_domain::EditDirection;
+    [("undo", EditDirection::Undo), ("redo", EditDirection::Redo)]
+        .into_iter()
+        .map(|(label, direction)| {
+            let available = ui
+                .state::<crate::OfficeSession>()
+                .history
+                .borrow()
+                .candidate(
+                    vm.document_epoch(),
+                    document.id,
+                    &document.content,
+                    direction,
+                )
+                .is_some();
+            let model = vm.clone();
+            let state = ui.clone();
+            let id = document.id;
+            rsx! {Button{class:"phone-flat",min_height:44.0,is_enabled:available,
+            horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Left,
+            automation_properties_name:label,padding:(20.0,10.0),
+            on_click:move |_|apply_history(&model,&state,id,direction),
+            TextBlock{text:label,font_size:22.0*phone_controls::text_scale()}}}
+        })
+        .collect()
+}
+
+fn apply_history(
+    vm: &PhoneViewModel,
+    ui: &Session,
+    id: Id,
+    direction: phone_domain::EditDirection,
+) {
+    let Some(mut document) = vm.data().document(id).cloned() else {
+        return;
+    };
+    let next = ui
+        .state::<crate::OfficeSession>()
+        .history
+        .borrow()
+        .candidate(vm.document_epoch(), id, &document.content, direction)
+        .cloned();
+    let Some(next) = next else {
+        vm.set_status("There are no more edits to restore.".into());
+        return;
+    };
+    document.content = next.clone();
+    if save_inner(vm, ui, document, false) {
+        ui.state::<crate::OfficeSession>()
+            .history
+            .borrow_mut()
+            .accept(direction, &next);
+        ui.menu.set(false);
+    } else {
+        vm.set_status(ui.form_error.get_untracked());
+    }
 }

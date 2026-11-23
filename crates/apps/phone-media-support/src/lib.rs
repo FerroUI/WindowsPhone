@@ -1,12 +1,31 @@
-use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
+//! Retained Music and Video libraries over shared playlist and playback services.
+pub mod collections;
+mod commands;
+mod listing;
+mod model;
+mod player;
+mod state;
+
+use ferroui_base::layout::Orientation;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, icon, pivot, Icon};
-use phone_domain::{Action, AppId, MediaTrack};
-use phone_sdk::{common::*, session::Session};
+use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_domain::AppId;
+use phone_sdk::{common::*, media, session::Session};
 use phone_state::{HostRequest, PhoneViewModel};
+use state::{LibraryPage, LibrarySession};
 use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppId) -> Element {
+    let library = match model::read(&vm, app) {
+        Ok(value) => value,
+        Err(error) => {
+            return page(
+                app.label(),
+                scroll(empty("can't read this library", &error)),
+                Element::Empty,
+            )
+        }
+    };
     let video = app == AppId::Video;
     let tracks = vm
         .data()
@@ -15,78 +34,87 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppId) -> Element {
         .filter(|t| (t.media_kind == "video") == video)
         .cloned()
         .collect::<Vec<_>>();
-    let current = ui.media_source.get();
-    let selected = tracks.iter().find(|t| t.source == current).cloned();
-    let mut body = stack_panel();
     let selected_pivot = ui.pivot.get().min(1);
     let mut tabs = stack_panel()
         .orientation(Orientation::Horizontal)
         .margin((20.0, 0.0));
-    for (i, label) in ["collection", "now playing"].iter().enumerate() {
-        let switch = ui.clone();
-        tabs = tabs.child(pivot(label, i == selected_pivot, move || {
-            switch.pivot.set(i)
+    for (index, label) in ["collection", "now playing"].iter().enumerate() {
+        let state = ui.clone();
+        tabs = tabs.child(pivot(label, index == selected_pivot, move || {
+            state.pivot.set(index)
         }));
     }
-    body = body.child(tabs);
-    if selected_pivot == 1 {
-        if let Some(track) = selected.clone() {
-            body = body.child(now_playing(vm.clone(), ui.clone(), &track, video));
-        } else {
-            body = body.child(empty(
-                "nothing playing",
-                "Choose something from your collection.",
-            ));
-        }
-    } else if tracks.is_empty() {
-        body = body.child(empty(
-            if video { "your videos" } else { "your music" },
-            if video {
-                "Add a video from your device to watch it here."
-            } else {
-                "Add songs from your device to build your collection."
-            },
-        ));
-        let import = vm.clone();
-        body = body.child(border().margin(20.0).child(phone_controls::command(
-            if video { "add videos" } else { "add music" },
-            move || {
-                import.request(if video {
-                    HostRequest::ImportVideo
-                } else {
-                    HostRequest::ImportMusic
-                })
-            },
-        )));
+    let tabs =
+        phone_controls::pivot_header(tabs.into(), ["collection", "now playing"][selected_pivot]);
+    let content = if selected_pivot == 1 {
+        player::view(vm.clone(), ui.clone(), app, &library)
     } else {
-        for track in &tracks {
-            let vm = vm.clone();
-            let ui = ui.clone();
-            let chosen = track.clone();
-            body = body.child(row(
-                &track.title,
-                if track.artist.is_empty() {
-                    "unknown artist"
+        listing::view(vm.clone(), ui.clone(), app, &library, tracks.clone())
+    };
+    let selecting = matches!(
+        ui.state::<LibrarySession>().page(app).get(),
+        LibraryPage::Select(_)
+    );
+    let (prev_vm, prev_ui, next_vm, next_ui, play_vm, play_ui, more) = (
+        vm.clone(),
+        ui.clone(),
+        vm.clone(),
+        ui.clone(),
+        vm.clone(),
+        ui.clone(),
+        ui.clone(),
+    );
+    let actions = if selecting && selected_pivot == 0 {
+        let save_vm = vm.clone();
+        let save_ui = ui.clone();
+        let cancel = ui.clone();
+        vec![
+            action(Icon::Check, "done", move || {
+                commands::save_selection(&save_vm, &save_ui, app)
+            }),
+            action(Icon::Close, "cancel", move || {
+                back_selection(&cancel, app);
+            }),
+        ]
+    } else {
+        vec![
+            action(Icon::Previous, "previous", move || {
+                media::control(&prev_vm, &prev_ui, "previous");
+            }),
+            action(
+                if ui.media_playing.get() {
+                    Icon::Pause
                 } else {
-                    &track.artist
+                    Icon::Play
                 },
-                move || play(&vm, &ui, &chosen),
-            ));
-        }
-    }
+                if ui.media_playing.get() {
+                    "pause"
+                } else {
+                    "play"
+                },
+                move || {
+                    if play_ui.media_playing.get_untracked() {
+                        play_vm.request(HostRequest::MediaControl {
+                            action: "pause".into(),
+                        });
+                    } else if !play_ui.media_source.get_untracked().is_empty() {
+                        play_vm.request(HostRequest::MediaControl {
+                            action: "play".into(),
+                        });
+                    } else if let Some(track) = tracks.first() {
+                        commands::play(&play_vm, &play_ui, app, track.id);
+                    }
+                },
+            ),
+            action(Icon::Next, "next", move || {
+                media::control(&next_vm, &next_ui, "next");
+            }),
+            action(Icon::More, "more", move || more.menu.update(|v| *v = !*v)),
+        ]
+    };
     let import = vm.clone();
-    let prev_vm = vm.clone();
-    let next_vm = vm.clone();
-    let play_vm = vm.clone();
-    let prev_ui = ui.clone();
-    let next_ui = ui.clone();
-    let play_ui = ui.clone();
-    let prev_tracks = tracks.clone();
-    let next_tracks = tracks.clone();
-    let play_tracks = tracks.clone();
-    let menu = ui.clone();
-    let remove_vm = vm.clone();
-    let remove_ui = ui.clone();
+    let create_vm = vm.clone();
+    let create_ui = ui.clone();
     let mut secondary = vec![
         flat(if video { "add videos" } else { "add music" }, move || {
             import.request(if video {
@@ -95,145 +123,79 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, app: AppId) -> Element {
                 HostRequest::ImportMusic
             })
         }),
-        flat("remove current item", move || {
-            let source = remove_ui.media_source.get_untracked();
-            let track = remove_vm
-                .data()
-                .tracks
-                .iter()
-                .find(|t| t.source == source)
-                .cloned();
-            if let Some(track) = track {
-                remove_vm.request(HostRequest::MediaControl {
-                    action: "stop".into(),
-                });
-                remove_vm.dispatch(Action::DeleteTrack(track.id));
-                remove_vm.request(HostRequest::DeleteMedia {
-                    source: track.source,
-                });
-                remove_ui.media_source.set(String::new());
-                remove_ui.media_playing.set(false);
-            }
+        flat("new playlist", move || {
+            commands::create_playlist(&create_vm, &create_ui, app)
         }),
     ];
-    if vm.environment().platform != phone_sdk::host::HostPlatform::Browser && !current.is_empty() {
-        let external = vm.clone();
-        let close = ui.clone();
-        secondary.push(flat("open in device media app", move || {
-            close.menu.set(false);
-            external.request(HostRequest::MediaControl {
-                action: "external".into(),
-            });
+    let current = ui.media_source.get();
+    if let Some(track) = vm
+        .data()
+        .tracks
+        .iter()
+        .find(|track| track.source == current && (track.media_kind == "video") == video)
+        .cloned()
+    {
+        let (edit_vm, edit_ui, id) = (vm.clone(), ui.clone(), track.id);
+        secondary.push(flat("edit title and artist", move || {
+            commands::edit_track(&edit_vm, &edit_ui, id)
         }));
+        if !video {
+            let (album_vm, album_ui) = (vm.clone(), ui.clone());
+            secondary.push(flat("set album", move || {
+                commands::edit_album(&album_vm, &album_ui, app, id)
+            }));
+        }
+        let (remove_vm, remove_ui) = (vm.clone(), ui.clone());
+        secondary.push(flat("remove current item", move || {
+            commands::remove(&remove_vm, &remove_ui, app, id)
+        }));
+        if vm.environment().platform != phone_sdk::host::HostPlatform::Browser {
+            let external = vm.clone();
+            secondary.push(flat("open in device media app", move || {
+                external.request(HostRequest::MediaControl {
+                    action: "external".into(),
+                })
+            }));
+        }
     }
     page(
         if video { "video" } else { "music" },
-        scroll(body.into()),
-        app_bar(
-            vec![
-                action(Icon::Previous, "previous", move || {
-                    step(&prev_vm, &prev_ui, &prev_tracks, -1)
-                }),
-                action(
-                    if ui.media_playing.get() {
-                        Icon::Pause
-                    } else {
-                        Icon::Play
-                    },
-                    if ui.media_playing.get() {
-                        "pause"
-                    } else {
-                        "play"
-                    },
-                    move || {
-                        if play_ui.media_playing.get_untracked() {
-                            play_vm.request(HostRequest::MediaControl {
-                                action: "pause".into(),
-                            });
-                            play_ui.media_playing.set(false);
-                        } else if let Some(track) = play_tracks
-                            .iter()
-                            .find(|t| t.source == play_ui.media_source.get_untracked())
-                            .or(play_tracks.first())
-                        {
-                            play(&play_vm, &play_ui, track);
-                        }
-                    },
-                ),
-                action(Icon::Next, "next", move || {
-                    step(&next_vm, &next_ui, &next_tracks, 1)
-                }),
-                action(Icon::More, "more", move || menu.menu.update(|v| *v = !*v)),
-            ],
-            ui.menu.get(),
-            secondary,
-        ),
+        rsx! {Grid{row_definitions:"Auto,*",{tabs}Border{Grid.row:1,{content}}}},
+        app_bar(actions, ui.menu.get() && !selecting, secondary),
     )
 }
 
-fn now_playing(
-    vm: Rc<PhoneViewModel>,
-    ui: Rc<Session>,
-    track: &MediaTrack,
-    video: bool,
-) -> Element {
-    let accent = accent(&vm);
-    let graphic = if video {
-        rsx! {Border{name:"MediaViewport",height:230.0,background:"Black",Grid{{icon(Icon::Video,60.0,"#666666")}{phone_sdk::host_surface(phone_sdk::HostSurface::Video)}}}}
-    } else {
-        rsx! {Border{height:240.0,background:"#F15A24",{icon(Icon::Music,105.0,"White")}}}
+fn back_selection(ui: &Session, app: AppId) {
+    let state = ui.state::<LibrarySession>();
+    if let LibraryPage::Select(id) = state.page(app).get_untracked() {
+        state.page(app).set(LibraryPage::Playlist(id));
+    }
+    state.selection.set(Default::default());
+}
+pub fn back(_vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, app: AppId) -> bool {
+    let state = ui.state::<LibrarySession>();
+    if state.queue_open.get_untracked() {
+        state.queue_open.set(false);
+        return true;
+    }
+    if ui.pivot.get_untracked() != 0 {
+        return false;
+    }
+    let parent = match state.page(app).get_untracked() {
+        LibraryPage::Songs => return false,
+        LibraryPage::Artist(_) => LibraryPage::Artists,
+        LibraryPage::Album(_) => LibraryPage::Albums,
+        LibraryPage::Playlist(_) => LibraryPage::Playlists,
+        LibraryPage::Select(id) => LibraryPage::Playlist(id),
+        _ => LibraryPage::Songs,
     };
-    let mut player = stack_panel()
-        .margin(20.0)
-        .spacing(15.0)
-        .child(graphic)
-        .child(text(&track.title, 30.0))
-        .child(muted(
-            if track.artist.is_empty() {
-                "unknown artist"
-            } else {
-                &track.artist
-            },
-            20.0,
-        ));
-    player = player.child(rsx! {Border{height:3.0,background:accent.as_str()}});
-    if track.duration_seconds > 0.0 {
-        player = player.child(muted(
-            &format!(
-                "{}:{:02}",
-                (track.duration_seconds as u64) / 60,
-                (track.duration_seconds as u64) % 60
-            ),
-            14.0,
-        ));
-    }
-    let pause = vm.clone();
-    let state = ui.clone();
-    player=player.child(rsx!{Button{class:"phone-flat",min_height:44.0,horizontal_alignment:H::Center,vertical_alignment:V::Center,
-        on_click:move |_|{pause.request(HostRequest::MediaControl{action:"stop".into()});state.media_playing.set(false);},
-        {muted("stop",16.0)}
-    }});
-    player.into()
+    state.page(app).set(parent);
+    ui.query.set(String::new());
+    true
 }
-
-fn play(vm: &PhoneViewModel, ui: &Session, track: &MediaTrack) {
-    ui.media_title.set(track.title.clone());
-    ui.media_source.set(track.source.clone());
-    ui.media_playing.set(true);
-    ui.pivot.set(1);
-    vm.request(HostRequest::PlayMedia {
-        source: track.source.clone(),
-    });
-}
-fn step(vm: &PhoneViewModel, ui: &Session, tracks: &[MediaTrack], direction: isize) {
-    if tracks.is_empty() {
-        return;
-    }
-    let current = ui.media_source.get_untracked();
-    let index = tracks
-        .iter()
-        .position(|t| t.source == current)
-        .map(|i| (i as isize + direction).rem_euclid(tracks.len() as isize) as usize)
-        .unwrap_or(0);
-    play(vm, ui, &tracks[index]);
+pub fn reset(ui: &Rc<Session>, app: AppId) {
+    let state = ui.state::<LibrarySession>();
+    state.page(app).set(LibraryPage::Songs);
+    state.selection.set(Default::default());
+    state.queue_open.set(false);
 }

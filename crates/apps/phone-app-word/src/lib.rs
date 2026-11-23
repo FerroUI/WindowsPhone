@@ -30,7 +30,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -
     let export_vm = vm.clone();
     let export_ui = ui.clone();
     let export_doc = document.clone();
-    let mut menu = Vec::new();
+    let mut menu = phone_office_support::commands::history_menu(&vm, &ui, &document);
     let operations = if ui
         .state::<phone_office_support::OfficeSession>()
         .formatting
@@ -208,7 +208,7 @@ fn transform(vm: &PhoneViewModel, ui: &Session, id: Id, operation: usize) {
             }
             _ => {}
         }
-        vm.save_document(document);
+        phone_office_support::commands::save(vm, ui, document);
         ui.menu.set(false);
     }
 }

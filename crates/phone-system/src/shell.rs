@@ -52,6 +52,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         }
     }
     let (width, height, desktop) = phone_size(&vm);
+    phone_controls::set_phone_viewport_height(height);
     let data = vm.data();
     let accent = data.settings.accent.clone();
     let dark = data.settings.dark || data.settings.high_contrast;

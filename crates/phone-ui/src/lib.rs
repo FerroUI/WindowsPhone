@@ -28,11 +28,13 @@ pub fn built_in_apps() -> Vec<AppRegistration> {
         phone_app_people::registration(),
         phone_app_phone::registration(),
         phone_app_photos::registration(),
+        phone_app_podcasts::registration(),
         phone_app_settings::registration(),
         phone_app_store::registration(),
         phone_app_tic_tac_toe::registration(),
         phone_app_video::registration(),
         phone_app_weather::registration(),
+        phone_app_wallet::registration(),
     ]
 }
 pub fn create_view(vm: Rc<PhoneViewModel>) -> Ref<Control> {

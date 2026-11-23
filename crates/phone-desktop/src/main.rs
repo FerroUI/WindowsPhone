@@ -7,6 +7,7 @@ mod file_picker;
 mod location;
 mod media_files;
 mod native_media;
+mod network;
 mod notifications;
 mod picker_io;
 mod pim;

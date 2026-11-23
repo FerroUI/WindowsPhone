@@ -1476,6 +1476,7 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde",
  "serde_json",
 ]
 
@@ -1572,6 +1573,7 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde",
  "serde_json",
 ]
 
@@ -1648,8 +1650,29 @@ dependencies = [
  "ferroui-view",
  "phone-controls",
  "phone-domain",
+ "phone-media-support",
  "phone-sdk",
  "phone-state",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "phone-app-podcasts"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "ferroui-base",
+ "ferroui-build",
+ "ferroui-controls",
+ "ferroui-view",
+ "phone-controls",
+ "phone-domain",
+ "phone-host",
+ "phone-sdk",
+ "phone-state",
+ "roxmltree",
+ "serde",
  "serde_json",
 ]
 
@@ -1742,6 +1765,7 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde",
  "serde_json",
 ]
 
@@ -1780,6 +1804,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "phone-app-wallet"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "ferroui-base",
+ "ferroui-build",
+ "ferroui-controls",
+ "ferroui-view",
+ "phone-controls",
+ "phone-domain",
+ "phone-sdk",
+ "phone-state",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "phone-app-weather"
 version = "0.1.0"
 dependencies = [
@@ -1796,6 +1837,7 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde",
  "serde_json",
 ]
 
@@ -1936,6 +1978,7 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde",
  "serde_json",
 ]
 
@@ -2057,10 +2100,12 @@ dependencies = [
  "phone-app-people",
  "phone-app-phone",
  "phone-app-photos",
+ "phone-app-podcasts",
  "phone-app-settings",
  "phone-app-store",
  "phone-app-tic-tac-toe",
  "phone-app-video",
+ "phone-app-wallet",
  "phone-app-weather",
  "phone-sdk",
  "phone-state",

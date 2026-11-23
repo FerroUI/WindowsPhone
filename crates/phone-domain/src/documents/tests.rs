@@ -112,13 +112,11 @@ fn csv_handles_quotes_newlines_and_sparse_cells() {
 #[test]
 fn archive_rejects_traversal_corruption_and_truncation() {
     assert!(archive::read(&archive::write(vec![("../escape.xml".into(), "x".into())])).is_err());
-    assert!(
-        archive::read(&archive::write(vec![
-            ("same".into(), "x".into()),
-            ("same".into(), "y".into())
-        ]))
-        .is_err()
-    );
+    assert!(archive::read(&archive::write(vec![
+        ("same".into(), "x".into()),
+        ("same".into(), "y".into())
+    ]))
+    .is_err());
     let valid = archive::write(vec![("test.xml".into(), "<root>hello</root>".into())]);
     for length in 0..valid.len() {
         assert!(archive::read(&valid[..length]).is_err());
@@ -200,4 +198,36 @@ fn workbook_interchange_preserves_literal_formula_text_and_booleans() {
     };
     assert_eq!(display_cell(&book.sheets[0], "A1"), "=SUM(B1:B2)");
     assert_eq!(display_cell(&book.sheets[0], "B1"), "001");
+}
+
+#[test]
+fn workbook_caches_keep_formula_text_boolean_and_errors_typed() {
+    let document = OfficeDocument {
+        content: DocumentContent::Excel(Workbook {
+            sheets: vec![Worksheet {
+                name: "Typed".into(),
+                cells: [
+                    ("A1".into(), "=\"12\"".into()),
+                    ("A2".into(), "=1>0".into()),
+                    ("A3".into(), "=1/0".into()),
+                    ("A4".into(), "=IF(TRUE,1,missing_name)".into()),
+                ]
+                .into(),
+            }],
+        }),
+        ..Default::default()
+    };
+    let exported = export_office(&document).unwrap();
+    let package = archive::read(&exported.bytes).unwrap();
+    let xml = String::from_utf8(package["xl/worksheets/sheet1.xml"].clone()).unwrap();
+    assert!(xml.contains("<c r=\"A1\" t=\"str\"><f>&quot;12&quot;</f><v>12</v></c>"));
+    assert!(xml.contains("<c r=\"A2\" t=\"b\"><f>1&gt;0</f><v>1</v></c>"));
+    assert!(xml.contains("<c r=\"A3\" t=\"e\"><f>1/0</f><v>#DIV/0!</v></c>"));
+    assert!(xml.contains("<v>1</v>"));
+    assert_eq!(
+        import_office(&exported.name, &exported.bytes)
+            .unwrap()
+            .content,
+        document.content
+    );
 }

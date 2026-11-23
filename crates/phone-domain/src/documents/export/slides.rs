@@ -1,5 +1,5 @@
-use super::{Parts, REL, REL_NS, RN, XML, override_type};
-use crate::documents::{Presentation, archive::escape};
+use super::{override_type, Parts, REL, REL_NS, RN, XML};
+use crate::documents::{archive::escape, Presentation};
 const P: &str = "http://schemas.openxmlformats.org/presentationml/2006/main";
 const A: &str = "http://schemas.openxmlformats.org/drawingml/2006/main";
 const GROUP: &str = "<p:nvGrpSpPr><p:cNvPr id=\"1\" name=\"\"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></p:grpSpPr>";

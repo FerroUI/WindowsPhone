@@ -19,6 +19,8 @@ ferroui-reactiveui.workspace = true
 ferroui-dynamic-data.workspace = true
 chrono.workspace = true
 serde_json.workspace = true
+serde.workspace = true
+phone-media-support.workspace = true
 
 [build-dependencies]
 ferroui-build.workspace = true

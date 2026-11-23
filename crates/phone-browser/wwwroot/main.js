@@ -3,6 +3,7 @@ import {loadModule} from './ferroui-loader.js';
 import {attachRuntime,now,utcOffset,notice,refreshSurfaces,stopCamera,serviceTick} from './host.js';
 import {installCanvasSizing} from './canvas-sizing.js';
 import {observeEnvironment} from './environment.js';
+import {installUpdates} from './updates.js';
 
 try{
   installCanvasSizing(document.getElementById('out'));
@@ -38,7 +39,7 @@ try{
   history.replaceState({phone:true},'',location.href);history.pushState({phone:true},'',location.href);
   addEventListener('popstate',()=>{if(!runtime.canGoBack()){history.back();return;}runtime.goBack();history.pushState({phone:true},'',location.href);refreshSurfaces();},{signal:controller.signal});
   if('serviceWorker'in navigator&&!new URLSearchParams(location.search).has('nooffline')){
-    navigator.serviceWorker.register(new URL('./app-sw.js',import.meta.url),{scope:'./'}).catch(error=>console.info('Offline installation:',error.message));
+    installUpdates(notice).catch(error=>console.info('Offline installation:',error.message));
   }
 }catch(error){
   const status=document.getElementById('loading-status');if(status)status.textContent=`Could not start. ${error.message||error}`;

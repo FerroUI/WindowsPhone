@@ -6,6 +6,7 @@ pub mod common;
 mod context;
 pub mod images;
 mod manifest;
+pub mod media;
 mod registration;
 mod registry;
 pub mod session;

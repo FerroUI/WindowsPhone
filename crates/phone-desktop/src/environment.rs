@@ -27,7 +27,8 @@ impl NativeEnvironment {
             notification_permission: HostPermission::Unknown,
             storage_persisted: Some(true),
             persistent_storage_supported: Some(false),
-            media_session_supported: Some(false),
+            // Native registration is observed when a player first opens.
+            media_session_supported: None,
             ..Default::default()
         });
         crate::notifications::refresh(vm, false);

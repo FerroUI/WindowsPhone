@@ -15,6 +15,14 @@ pub fn handle(
     request: HostRequest,
 ) -> Result<(), String> {
     match request {
+        HostRequest::HttpGet {
+            request_id,
+            url,
+            max_bytes,
+        } => {
+            crate::network::start(request_id, url, max_bytes);
+            Ok(())
+        }
         HostRequest::ChooseFile {
             request_id,
             extensions,
@@ -55,6 +63,14 @@ pub fn handle(
         | HostRequest::CapturePhoto
         | HostRequest::AlarmAlert { .. }) => crate::native_media::handle(request),
         HostRequest::DeleteMedia { source } => {
+            if !source.starts_with("media:") {
+                // A streamed item owns a library reference, never the remote
+                // server's bytes. Removal must not become an HTTP operation.
+                phone_host::http::validate_url(&source)?;
+                crate::native_media::forget_source(&source);
+                return Ok(());
+            }
+            crate::native_media::forget_source(&source);
             let model = vm.clone();
             drop(Dispatcher::current_dispatcher().spawn_local(async move {
                 if let Err(error) =
@@ -76,6 +92,10 @@ pub fn handle(
         HostRequest::RefreshEnvironment => {
             crate::notifications::refresh(vm, false);
             vm.set_status("Device information refreshed. Power updates automatically.".into());
+            Ok(())
+        }
+        HostRequest::CheckForUpdates => {
+            vm.set_status("Install a newer desktop package to update this app. Your phone data is kept separately.".into());
             Ok(())
         }
         request @ (HostRequest::ImportDocuments { .. }

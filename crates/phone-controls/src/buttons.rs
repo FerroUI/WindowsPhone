@@ -1,4 +1,4 @@
-use crate::{Icon, icon, palette, text};
+use crate::{icon, palette, text, Icon};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
@@ -43,6 +43,27 @@ pub fn pivot(label: &str, selected: bool, on_click: impl Fn() + 'static) -> Elem
         TextBlock {text:label,font_size:36.0,font_weight:FontWeight::Light,
             foreground:if selected{p.foreground}else{p.secondary},vertical_alignment:V::Center}
     } }
+}
+
+/// Native scrolling keeps large pivot labels reachable on narrow phone surfaces.
+/// Recreate only the strip on selection so its newly selected label is revealed;
+/// the app's content and its own scroll position retain their separate identity.
+pub fn pivot_header(content: Element, selected_label: &str) -> Element {
+    let selected = selected_label.to_owned();
+    rsx! {ScrollViewer{
+        key:format!("pivot-header-{selected_label}"),name:"PivotHeaderScroll",
+        horizontal_scroll_bar_visibility:ferroui_controls::primitives::ScrollBarVisibility::Hidden,
+        vertical_scroll_bar_visibility:ferroui_controls::primitives::ScrollBarVisibility::Disabled,
+        on_loaded:move |event|{
+            if let Some(root)=event.source().and_then(|source|source.cast::<Control>()) {
+                if let Some(target)=root.find_descendant_of_type_where::<Button>(false,|button|
+                    ferroui_controls::automation::AutomationProperties::get_name(button).as_deref()==Some(selected.as_str())) {
+                    target.bring_into_view();
+                }
+            }
+        },
+        {content}
+    }}
 }
 
 pub fn input(label: &str) -> El<TextBox> {
@@ -96,7 +117,11 @@ pub fn app_bar(actions: Vec<Element>, expanded: bool, secondary: Vec<Element>) -
         for action in secondary {
             menu = menu.child(action);
         }
-        body = body.child(menu);
+        body = body.child(rsx! {ScrollViewer{name:"AppBarMenuScroll",
+            max_height:crate::tokens::app_menu_height(),
+            horizontal_scroll_bar_visibility:ferroui_controls::primitives::ScrollBarVisibility::Disabled,
+            vertical_scroll_bar_visibility:ferroui_controls::primitives::ScrollBarVisibility::Auto,
+            {menu}}});
     }
     border()
         .class("phone-app-bar")

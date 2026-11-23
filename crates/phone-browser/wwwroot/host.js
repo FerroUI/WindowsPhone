@@ -1,4 +1,6 @@
 import {chooseFile} from './sdk-tasks.js';
+import {httpGet} from './http-tasks.js';
+import {checkForUpdates} from './updates.js';
 import {load,save,preserveRecovery,getAsset}from'./phone-storage.js';
 import {webUrl,dialUrl,smsUrl,mailUrl}from'./urls.js';
 import {attachMedia,importPhotos,importMedia,playMedia,mediaControl,startCamera,capturePhoto,stopCamera,removeMedia,updateVolume}from'./media.js';
@@ -52,6 +54,8 @@ export function request(json){
 }
 async function handle(op){
   switch(op.kind){
+    case 'checkForUpdates': await checkForUpdates(notice);break;
+    case 'httpGet': await httpGet(runtime,op);break;
       case 'chooseFile': await chooseFile(runtime,op);break;
     case'openUrl':{const link=document.createElement('a');link.href=webUrl(op.url);link.target='_blank';link.rel='noopener noreferrer';link.click();break;}
     case'browse':browse(op.url);break;

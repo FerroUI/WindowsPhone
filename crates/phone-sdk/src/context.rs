@@ -54,6 +54,9 @@ impl AppContext {
     pub fn choose_file(&self, options: crate::FilePickerOptions) -> crate::FileTask {
         crate::tasks::choose_file(self, options)
     }
+    pub fn get(&self, url: &str, max_bytes: u32) -> crate::tasks::HttpTask {
+        crate::tasks::get(self, url, max_bytes)
+    }
     pub fn request(&self, request: HostRequest) -> Result<(), String> {
         let registry = self.session.registry();
         let app = registry
@@ -112,6 +115,8 @@ fn capability(request: &HostRequest) -> Capability {
         | ExportDocument { .. }
         | RequestPersistentStorage
         | RefreshEnvironment => Capability::Files,
-        OpenUrl { .. } | Browse { .. } | ClearBrowser => Capability::Network,
+        HttpGet { .. } | CheckForUpdates | OpenUrl { .. } | Browse { .. } | ClearBrowser => {
+            Capability::Network
+        }
     }
 }

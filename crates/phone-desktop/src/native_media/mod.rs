@@ -5,6 +5,7 @@ mod photo;
 mod playback;
 mod providers;
 mod surfaces;
+mod system_media;
 
 use ferroui_base::{
     reactive::Subscription,
@@ -20,7 +21,7 @@ use phone_state::{HostRequest, PhoneViewModel};
 use std::{
     cell::{Cell, RefCell},
     rc::{Rc, Weak},
-    time::Duration,
+    time::{Duration, Instant},
 };
 
 thread_local! { static CURRENT: RefCell<Weak<NativeMedia>> = const { RefCell::new(Weak::new()) }; }
@@ -44,6 +45,17 @@ pub struct NativeMedia {
     source: RefCell<String>,
     title: RefCell<String>,
     playing: Cell<bool>,
+    desired_playing: Cell<bool>,
+    media_stopped: Cell<bool>,
+    pending_play_intent: Cell<Option<bool>>,
+    media_ended: Cell<bool>,
+    media_seek_generation: Cell<u64>,
+    media_last_progress: Cell<Instant>,
+    os_session: RefCell<Option<phone_host::native::media_session::MediaSession>>,
+    os_attempted: Cell<bool>,
+    os_generation: Cell<u64>,
+    os_seek_serial: Cell<u64>,
+    os_last_sync: Cell<Instant>,
     audio_options: Cell<Option<(u8, bool)>>,
     timer: RefCell<Option<Subscription>>,
 }
@@ -69,6 +81,17 @@ impl NativeMedia {
             source: RefCell::new(String::new()),
             title: RefCell::new(String::new()),
             playing: Cell::new(false),
+            desired_playing: Cell::new(false),
+            media_stopped: Cell::new(true),
+            pending_play_intent: Cell::new(None),
+            media_ended: Cell::new(false),
+            media_seek_generation: Cell::new(0),
+            media_last_progress: Cell::new(Instant::now()),
+            os_session: RefCell::new(None),
+            os_attempted: Cell::new(false),
+            os_generation: Cell::new(1),
+            os_seek_serial: Cell::new(0),
+            os_last_sync: Cell::new(Instant::now()),
             audio_options: Cell::new(None),
             timer: RefCell::new(None),
         });
@@ -124,6 +147,7 @@ impl NativeMedia {
             self.stop_camera();
         }
         self.poll_playback(&vm);
+        self.poll_system_media(&vm);
         self.poll_camera();
         self.poll_alarm();
     }
@@ -141,6 +165,12 @@ impl NativeMedia {
             player.clear_source();
         }
         self.set_playing(false);
+        self.desired_playing.set(false);
+        self.media_stopped.set(true);
+        self.source.borrow_mut().clear();
+        self.title.borrow_mut().clear();
+        phone_ui::show_media(String::new(), String::new(), false);
+        self.clear_system_media();
         self.refresh_video_surfaces();
     }
 }
@@ -180,4 +210,28 @@ pub fn handle(request: HostRequest) -> Result<(), String> {
         }
         _ => Err("This is not a native media request.".into()),
     }
+}
+
+/// Stop a removed library item before deleting its owned file, without stopping
+/// an independent alarm or camera session. Remote sources own no local asset.
+pub fn forget_source(source: &str) {
+    let state = CURRENT.with(|current| current.borrow().upgrade());
+    let Some(state) = state.filter(|state| state.source.borrow().as_str() == source) else {
+        return;
+    };
+    state
+        .media_generation
+        .set(state.media_generation.get().wrapping_add(1));
+    if let Some(player) = state.player.borrow_mut().take() {
+        player.clear_source();
+    }
+    state.source.borrow_mut().clear();
+    state.title.borrow_mut().clear();
+    state.playing.set(false);
+    state.desired_playing.set(false);
+    state.media_stopped.set(true);
+    phone_ui::show_media(String::new(), String::new(), false);
+    phone_ui::media_progress(0.0, 0.0);
+    state.clear_system_media();
+    state.refresh_video_surfaces();
 }

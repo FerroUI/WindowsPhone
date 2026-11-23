@@ -313,6 +313,7 @@ phone-app-outlook = { path = "crates/apps/phone-app-outlook" }
 phone-app-people = { path = "crates/apps/phone-app-people" }
 phone-app-phone = { path = "crates/apps/phone-app-phone" }
 phone-app-photos = { path = "crates/apps/phone-app-photos" }
+phone-app-podcasts = { path = "crates/apps/phone-app-podcasts" }
 phone-app-powerpoint = { path = "crates/apps/phone-app-powerpoint" }
 phone-app-settings = { path = "crates/apps/phone-app-settings" }
 phone-app-store = { path = "crates/apps/phone-app-store" }
@@ -320,6 +321,7 @@ phone-app-support = { path = "crates/apps/phone-app-support" }
 phone-app-tic-tac-toe = { path = "crates/apps/phone-app-tic-tac-toe" }
 phone-app-video = { path = "crates/apps/phone-app-video" }
 phone-app-weather = { path = "crates/apps/phone-app-weather" }
+phone-app-wallet = { path = "crates/apps/phone-app-wallet" }
 phone-app-word = { path = "crates/apps/phone-app-word" }
 phone-media-support = { path = "crates/apps/phone-media-support" }
 phone-office-support = { path = "crates/apps/phone-office-support" }

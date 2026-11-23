@@ -121,13 +121,11 @@ pub fn host_cancel_input() {
 }
 
 pub fn show_media(title: String, source: String, playing: bool) {
-    SESSION.with(|slot| {
-        if let Some(ui) = slot.borrow().upgrade() {
-            ui.media_title.set(title);
-            ui.media_source.set(source);
-            ui.media_playing.set(playing);
-        }
-    });
+    let ui = SESSION.with(|slot| slot.borrow().upgrade());
+    let vm = MODEL.with(|slot| slot.borrow().upgrade());
+    if let (Some(ui), Some(vm)) = (ui, vm) {
+        phone_sdk::media::publish_state(&vm, &ui, title, source, playing);
+    }
 }
 pub fn set_weather(place: String, temperature: f64, condition: String) {
     SESSION.with(|slot| {
@@ -302,26 +300,25 @@ pub fn hardware_key(vm: &Rc<PhoneViewModel>, key: &str) {
 
 /// Registered app lifecycle notification from host focus/visibility changes.
 pub fn host_visibility(visible: bool) {
-    SESSION.with(|slot| {
-        if let Some(ui) = slot.borrow().upgrade() {
-            MODEL.with(|model| {
-                if let Some(vm) = model.borrow().upgrade() {
-                    ui.registry().lifecycle(
-                        &vm,
-                        &ui,
-                        if visible {
-                            phone_sdk::AppLifecycle::Resumed
-                        } else {
-                            phone_sdk::AppLifecycle::Suspended
-                        },
-                    );
-                    if !visible {
-                        vm.request(phone_state::HostRequest::StopCamera);
-                    }
-                }
-            });
+    let ui = SESSION.with(|slot| slot.borrow().upgrade());
+    let vm = MODEL.with(|slot| slot.borrow().upgrade());
+    if let (Some(ui), Some(vm)) = (ui, vm) {
+        if !visible {
+            phone_sdk::media::flush(&vm, &ui);
         }
-    });
+        ui.registry().lifecycle(
+            &vm,
+            &ui,
+            if visible {
+                phone_sdk::AppLifecycle::Resumed
+            } else {
+                phone_sdk::AppLifecycle::Suspended
+            },
+        );
+        if !visible {
+            vm.request(phone_state::HostRequest::StopCamera);
+        }
+    }
 }
 pub use phone_sdk::{set_host_surface_factory, HostSurface};
 
@@ -354,4 +351,33 @@ pub fn launch_app(vm: &Rc<PhoneViewModel>, id: &str, path: &str) -> bool {
     })
 }
 
+pub use phone_sdk::tasks::{complete_http, is_http_task_pending};
 pub use phone_sdk::{complete_file, is_file_task_pending, PickedFile};
+
+/// A single transport queue is shared by app buttons, browser sessions and native keys.
+pub fn media_command(action: &str) -> bool {
+    let ui = SESSION.with(|slot| slot.borrow().upgrade());
+    let vm = MODEL.with(|slot| slot.borrow().upgrade());
+    match (ui, vm) {
+        (Some(ui), Some(vm)) => phone_sdk::media::control(&vm, &ui, action),
+        _ => false,
+    }
+}
+pub fn media_progress(position: f64, duration: f64) {
+    let ui = SESSION.with(|slot| slot.borrow().upgrade());
+    let vm = MODEL.with(|slot| slot.borrow().upgrade());
+    if let (Some(ui), Some(vm)) = (ui, vm) {
+        phone_sdk::media::publish_progress(&vm, &ui, position, duration);
+    }
+}
+pub fn media_capabilities() -> (bool, bool) {
+    SESSION.with(|slot| {
+        slot.borrow().upgrade().map_or((false, false), |ui| {
+            MODEL.with(|model| {
+                model.borrow().upgrade().map_or((false, false), |vm| {
+                    phone_sdk::media::capabilities(&vm, &ui)
+                })
+            })
+        })
+    })
+}

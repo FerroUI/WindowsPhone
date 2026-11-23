@@ -129,14 +129,17 @@ fn workbook_parts(book: &Workbook) -> Parts {
             data.push_str(&format!("<row r=\"{}\">", row + 1));
             for (_, address, value) in cells {
                 let content = if let Some(formula) = value.strip_prefix('=') {
-                    let result = display_cell(sheet, address);
-                    let cached = result
-                        .parse::<f64>()
-                        .ok()
-                        .filter(|n| n.is_finite())
-                        .map(|n| format!("<v>{n}</v>"))
-                        .unwrap_or_default();
-                    format!("<c r=\"{address}\"><f>{}</f>{cached}</c>", escape(formula))
+                    let (kind, cached) = super::formula::cached_formula(sheet, address);
+                    let kind = if kind.is_empty() {
+                        String::new()
+                    } else {
+                        format!(" t=\"{kind}\"")
+                    };
+                    format!(
+                        "<c r=\"{address}\"{kind}><f>{}</f><v>{}</v></c>",
+                        escape(formula),
+                        escape(&cached)
+                    )
                 } else if matches!(value, "TRUE" | "FALSE") {
                     format!(
                         "<c r=\"{address}\" t=\"b\"><v>{}</v></c>",

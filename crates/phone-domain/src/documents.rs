@@ -3,6 +3,7 @@ mod archive;
 mod csv;
 mod export;
 mod formula;
+mod history;
 mod import;
 mod library;
 mod models;
@@ -13,8 +14,9 @@ mod range_tests;
 mod tests;
 
 pub use csv::*;
-pub use export::{ExportedDocument, export_office};
+pub use export::{export_office, ExportedDocument};
 pub use formula::{cell_address, cell_coordinates, display_cell};
+pub use history::{EditDirection, EditHistory};
 pub use import::import_office;
 pub use library::{validate_document, validate_library, validate_name};
 pub use models::*;
