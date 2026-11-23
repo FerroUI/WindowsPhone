@@ -95,6 +95,9 @@ xcrun simctl bootstatus "$udid" -b
 phase 'Installing and launching the UIKit application'
 xcrun simctl install "$udid" "$app"
 xcrun simctl privacy "$udid" grant contacts "$bundle_id"
+# Retain exact installation identity before launch: CoreSimulator may stop
+# answering IPC precisely when the later timeout diagnostic needs a stack.
+python3 "$root/scripts/collect-ios-failure.py" --prepare "$udid" "$bundle_id" "$out"
 SIMCTL_CHILD_PHONE_IOS_SMOKE=1 SIMCTL_CHILD_PHONE_IOS_DEVICE_TEST=1 SIMCTL_CHILD_RUST_BACKTRACE=1 \
   xcrun simctl launch --console-pty --terminate-running-process "$udid" "$bundle_id" \
   > "$out/console.log" 2>&1 &

@@ -62,8 +62,11 @@ impl NewApplication for PhoneApplication {
 
 impl ApplicationImpl for PhoneApplication {
     fn initialize(this: &Self) {
+        crate::smoke::phase("application.initialize.begin");
         Self::parent_initialize(this);
+        crate::smoke::phase("application.initialize.theme");
         phone_controls::install_theme(&this.base);
+        crate::smoke::phase("application.initialize.end");
     }
 
     fn on_framework_initialization_completed(this: &Self) {
@@ -126,6 +129,7 @@ pub struct AppDelegate {
 
 impl FerroApplicationDelegate for AppDelegate {
     fn create_app_builder(&self, delegate: Rc<dyn IFerroAppDelegate>) -> AppBuilder {
+        crate::smoke::phase("delegate.create_builder.begin");
         self.subscriptions
             .borrow_mut()
             .push(delegate.activated(Rc::new(|args| {
@@ -168,10 +172,21 @@ impl FerroApplicationDelegate for AppDelegate {
                     host.lifecycle(HostLifecycle::Suspended);
                 }
             })));
-        AppBuilder::configure::<PhoneApplication>()
+        let builder = AppBuilder::configure::<PhoneApplication>()
             .use_ios_with_delegate(delegate)
             .with_inter_font()
-            .with_phone_font()
+            .with_phone_font();
+        crate::smoke::phase("delegate.create_builder.end");
+        if std::env::var("PHONE_IOS_SMOKE").as_deref() == Ok("1") {
+            builder
+                .after_platform_services_setup(|_| {
+                    crate::smoke::phase("builder.platform_services.end")
+                })
+                .after_application_setup(|_| crate::smoke::phase("builder.application_setup.end"))
+                .after_setup(|_| crate::smoke::phase("builder.fonts_and_setup.end"))
+        } else {
+            builder
+        }
     }
 }
 
