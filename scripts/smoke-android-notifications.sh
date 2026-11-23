@@ -31,7 +31,12 @@ restore_notification_access() {
 }
 
 phase 'Checking real Android notification shell syntax and original listener access'
-adb_shell cmd notification help > "$phone_out/notification-help.txt" 2>&1
+phone_notification_help_status=0
+adb_shell cmd notification help > "$phone_out/notification-help.txt" 2>&1 || phone_notification_help_status=$?
+printf '%s\n' "$phone_notification_help_status" > "$phone_out/notification-help-exit.txt"
+# Android 36 prints complete ShellCommand help with exit 255. Validate its actual
+# supported commands below; a usage exit is not a failed listener operation.
+case "$phone_notification_help_status" in 0|255) ;; *) exit "$phone_notification_help_status" ;; esac
 adb_shell cmd notification post --help > "$phone_out/notification-post-help.txt" 2>&1 || true
 python3 - "$phone_repo/scripts" "$phone_out" <<'PY'
 import pathlib,sys
