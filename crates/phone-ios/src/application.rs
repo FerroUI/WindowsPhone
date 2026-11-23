@@ -3,7 +3,7 @@ use ferroui_base::{
 };
 use ferroui_controls::{
     AppBuilder, Application, ApplicationImpl, ApplicationImplExt, Control, NewApplication,
-    TextBlock, TopLevel,
+    TextBlock, TopLevel, UserControl,
 };
 use ferroui_fonts_inter::AppBuilderExtension;
 use ferroui_ios::{FerroApplicationDelegate, IFerroAppDelegate, IosApplicationExtensions};
@@ -66,8 +66,13 @@ impl ApplicationImpl for PhoneApplication {
                         label.upcast::<Control>()
                     }
                 };
-                TopLevel::set_auto_safe_area_padding(&view, true);
-                lifetime.set_main_view(Some(view));
+                // The native host measures its own bounds for the phone's
+                // viewport. Apply UIKit insets outside that measured view.
+                let safe_host = UserControl::new();
+                TopLevel::set_auto_safe_area_padding(&view, false);
+                safe_host.set_content(Some(Control::boxed(view)));
+                TopLevel::set_auto_safe_area_padding(&safe_host, true);
+                lifetime.set_main_view(Some(safe_host.upcast()));
             }
         }
         Self::parent_on_framework_initialization_completed(this);
@@ -85,13 +90,25 @@ impl FerroApplicationDelegate for AppDelegate {
             .borrow_mut()
             .push(delegate.activated(Rc::new(|args| {
                 let host = HOST.with(|slot| slot.borrow().clone());
+                if let Some(protocol) = args.as_protocol_activated() {
+                    crate::smoke::activation(host.as_ref(), protocol.uri().as_str(), "received");
+                }
                 if let Some(host) = &host {
                     host.lifecycle(HostLifecycle::Resumed);
                 }
                 if let Some(protocol) = args.as_protocol_activated() {
                     let uri = protocol.uri().as_str();
                     if let Some(host) = host {
-                        if let Err(error) = host.activate_uri(uri) {
+                        let result = host.activate_uri(uri);
+                        crate::smoke::activation(
+                            Some(&host),
+                            uri,
+                            result
+                                .as_ref()
+                                .map(|_| "accepted")
+                                .unwrap_or_else(|error| error.as_str()),
+                        );
+                        if let Err(error) = result {
                             host.vm().set_status(error);
                         }
                     } else if uri.len() <= 4096 {

@@ -37,7 +37,8 @@ jobs:
           echo 'RUSTUP_TOOLCHAIN=${{ steps.pins.outputs.rust }}' >> "$GITHUB_ENV"
       - name: Normalize framework source timestamps
         run: python3 scripts/ci-framework-mtimes.py
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: native-cache
         with:
           path: |
             target
@@ -54,6 +55,15 @@ jobs:
         run: |
           app="$(bash scripts/build-ios.sh --target aarch64-apple-ios-sim)"
           echo "app=$app" >> "$GITHUB_OUTPUT"
+      - name: Cache the successfully built UIKit application
+        uses: actions/cache/save@v4
+        if: always() && steps.bundle.outcome == 'success' && steps.native-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ steps.native-cache.outputs.cache-primary-key }}
       - name: Verify simulator mounting and native activation
         timeout-minutes: 8
         run: bash scripts/smoke-ios.sh '${{ steps.bundle.outputs.app }}' "$RUNNER_TEMP/phone-ios-ui"
@@ -65,6 +75,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
       - uses: actions/upload-artifact@v4
+        if: always() && steps.bundle.outcome == 'success'
         with:
           name: phone-ios-simulator
           path: ${{ steps.bundle.outputs.app }}
