@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import java.lang.ref.WeakReference;
 import org.ferroui.android.FerroMainActivity;
 
@@ -11,6 +12,7 @@ import org.ferroui.android.FerroMainActivity;
 public class PhoneActivity extends FerroMainActivity {
     private static WeakReference<PhoneActivity> current = new WeakReference<>(null);
     private boolean resumed;
+    private final PhoneBackKey backKey = new PhoneBackKey();
 
     public static PhoneActivity current() {
         PhoneActivity activity = current.get();
@@ -52,7 +54,25 @@ public class PhoneActivity extends FerroMainActivity {
 
     @Override protected void onPause() {
         resumed = false;
+        backKey.cancel();
         super.onPause();
+    }
+
+    @Override @SuppressWarnings("deprecation")
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() != KeyEvent.KEYCODE_BACK) return super.dispatchKeyEvent(event);
+        // The pinned Android keyboard adapter also maps BACK to Escape. Keep a
+        // physical pair out of that path, then let FerroActivity raise the normal
+        // BackRequested callback once. Its shared App/HOME policy stays authoritative.
+        // IME handling precedes this Activity callback; predictive gestures keep
+        // using FerroActivity's existing window OnBackInvokedDispatcher callback.
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            backKey.down(event.getDeviceId(), event.getDownTime(), event.getRepeatCount());
+        } else if (event.getAction() == KeyEvent.ACTION_UP
+                && backKey.up(event.getDeviceId(), event.getDownTime(), event.isCanceled())) {
+            super.onBackPressed();
+        }
+        return true;
     }
 
     @Override protected void onDestroy() {

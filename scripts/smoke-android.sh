@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Owns one ephemeral API 36 x86_64 AVD. Carrier roles are changed only inside that AVD and restored. HOME is preserved.
+# Owns one ephemeral API 36 x86_64 AVD. Temporary HOME/carrier roles exist only inside that AVD and are restored.
 set -euo pipefail
 phone_repo="$(cd "$(dirname "$0")/.." && pwd)"
 phone_apks="${1:-$phone_repo/target/android/phone-x86_64-debug/outputs/apk}"
@@ -44,10 +44,22 @@ adb_do() {
 }
 phone_package=""
 phone_carrier_roles=0
+phone_home_role=0
 phone_phase="Preparing the ephemeral emulator"
 phase() {
     phone_phase="$1"
     printf '%s\n' "$phone_phase" | tee "$phone_out/phase.txt"
+}
+restore_home_role() {
+    local holder
+    adb_shell cmd role remove-role-holder --user "$phone_user" android.app.role.HOME org.ferroui.windowsphone.launcher > "$phone_out/home-restore-remove.txt" 2>&1 || true
+    while IFS= read -r holder; do
+        [[ "$holder" =~ ^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)+$ ]] || continue
+        adb_shell cmd role add-role-holder --user "$phone_user" android.app.role.HOME "$holder" >> "$phone_out/home-restore-add.txt" 2>&1 || return 1
+    done < "$phone_out/home-before.txt"
+    adb_shell cmd role get-role-holders --user "$phone_user" android.app.role.HOME | tr -d '\r' | sort > "$phone_out/home-restored.txt"
+    cmp "$phone_out/home-before.txt" "$phone_out/home-restored.txt" || return 1
+    phone_home_role=0
 }
 write_result() {
     python3 - "$phone_out" "$1" "$phone_phase" <<'PY'
@@ -78,12 +90,14 @@ cleanup() {
         ADB_TIMEOUT=20 adb_shell dumpsys activity activities > "$phone_out/activities.txt" 2>&1
         ADB_TIMEOUT=20 adb_shell dumpsys window > "$phone_out/windows.txt" 2>&1
     fi
-    if [ "$phone_carrier_roles" = 1 ]; then restore_carrier_roles; fi
+    if [ "$phone_carrier_roles" = 1 ]; then ADB_TIMEOUT=10 restore_carrier_roles || result=1; fi
+    if [ "$phone_home_role" = 1 ]; then ADB_TIMEOUT=10 restore_home_role || result=1; fi
     write_result "$result"
     emu_stop
     # This directory came from this invocation's mktemp, never from an existing AVD.
     rm -rf -- "$phone_avd_home"
-    return "$result"
+    trap - EXIT
+    exit "$result"
 }
 trap cleanup EXIT
 trap 'exit 130' INT
@@ -127,12 +141,14 @@ adb_do logcat -c
 
 wait_for_view() {
     local nonce="$1" uri="$2" after="$3" candidate=0 current=0
+    local -a role_args=()
+    if [ "${4:-app}" = home ]; then role_args=(--expect-home-active); fi
     local deadline=$((SECONDS + 100))
     while [ "$SECONDS" -lt "$deadline" ]; do
         emu_read_file "$phone_package" windows-phone/phone-android-smoke.json > "$phone_out/current.tmp"
         mv "$phone_out/current.tmp" "$phone_out/current.json"
         if current="$(python3 "$phone_repo/scripts/verify_android_ui.py" "$phone_out/current.json" \
-            "$nonce" "$uri" "$after" 2> "$phone_out/last-observation-error.txt")"; then
+            "$nonce" "$uri" "$after" "${role_args[@]}" 2> "$phone_out/last-observation-error.txt")"; then
             # Two distinct valid observations rule out a frozen or transient layout.
             if [ "$candidate" -gt 0 ] && [ "$current" -gt "$candidate" ]; then
                 phone_sequence="$current"
@@ -195,12 +211,13 @@ for phone_variant in app launcher; do
     adb_shell am force-stop "$phone_package"
 done
 
+source "$phone_repo/scripts/smoke-android-home.sh"
 source "$phone_repo/scripts/smoke-android-device.sh"
 
-phase 'Verifying the current user and HOME role holder were preserved'
+phase 'Verifying the current user is unchanged and the original HOME role holder is restored'
 adb_shell am get-current-user | tr -d '\r' > "$phone_out/user-after.txt"
 adb_shell cmd role get-role-holders --user "$phone_user" android.app.role.HOME \
     | tr -d '\r' | sort > "$phone_out/home-after.txt"
 cmp "$phone_out/user-before.txt" "$phone_out/user-after.txt"
 cmp "$phone_out/home-before.txt" "$phone_out/home-after.txt"
-phase 'Both variants passed native geometry, Back and HOME; isolated carrier roles, real incoming SMS, native call controls and bounded MMS codec passed'
+phase 'Both variants passed native geometry and Back; active HOME, restored roles, real incoming SMS, native call controls and bounded MMS codec passed'

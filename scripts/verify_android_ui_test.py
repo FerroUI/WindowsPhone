@@ -29,6 +29,28 @@ def mounted():
 
 
 class AndroidUiContract(unittest.TestCase):
+    def test_selected_home_requires_both_actual_role_observations(self):
+        proof = mounted()
+        with self.assertRaises(ValueError):
+            verify(proof, NONCE, HOME, 4, home_active=True)
+        proof["host"].update(mode="launcher", launcher="active")
+        proof["device_snapshot"] = {"roles": [{"role": "home", "status": "available"}]}
+        with self.assertRaisesRegex(ValueError, "independently"):
+            verify(proof, NONCE, HOME, 4, home_active=True)
+        proof["device_snapshot"]["roles"][0]["status"] = "active"
+        self.assertEqual(verify(proof, NONCE, HOME, 4, home_active=True), 5)
+        with self.assertRaises(ValueError):
+            verify(proof, NONCE, HOME, 4)
+
+    def test_active_home_back_at_start_keeps_real_start_controls(self):
+        proof = mounted()
+        proof["host"].update(mode="launcher", launcher="active")
+        proof["device_snapshot"] = {"roles": [{"role": "home", "status": "active"}]}
+        self.assertEqual(verify(proof, NONCE, "back:" + HOME, 4, home_active=True), 5)
+        proof["route"] = {"Extension": {"app": "org.ferroui.wallet", "path": ""}}
+        with self.assertRaisesRegex(ValueError, "Start"):
+            verify(proof, NONCE, "back:" + HOME, 4, home_active=True)
+
     def test_real_home_and_wallet_controls_with_safe_geometry_pass(self):
         proof = mounted()
         self.assertEqual(verify(proof, NONCE, HOME, 4), 5)

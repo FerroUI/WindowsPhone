@@ -5,6 +5,30 @@ public final class PhoneContractTest {
     private static int assertions;
     private static void check(boolean value, String message) { assertions++; if (!value) throw new AssertionError(message); }
     public static void main(String[] args) {
+        PhoneBackKey back = new PhoneBackKey();
+        check(!back.up(1, 10, false), "An orphan Back release cannot navigate");
+        back.down(1, 10, 0);
+        check(back.up(1, 10, false), "One physical Back pair dispatches the shared callback");
+        check(!back.up(1, 10, false), "A duplicate release cannot dispatch Back twice");
+        back.down(1, 20, 1);
+        check(!back.up(1, 20, false), "An orphan repeat cannot create a Back press");
+        back.down(1, 30, 0); back.down(1, 30, 1); back.down(1, 30, 2);
+        check(back.up(1, 30, false), "Repeats retain exactly one release callback");
+        check(!back.up(1, 30, false), "Repeated press still has only one callback");
+        back.down(1, 40, 0);
+        check(!back.up(1, 40, true), "Canceled Back does not navigate");
+        check(!back.up(1, 40, false), "Cancellation releases the owned key pair");
+        back.down(1, 50, 0); back.cancel();
+        check(!back.up(1, 50, false), "Activity suspension cancels an unfinished pair");
+        back.down(1, 60, 0);
+        check(!back.up(2, 60, false), "A different input device cannot release the pair");
+        check(!back.up(1, 61, false), "A different down-time cannot release the pair");
+        check(back.up(1, 60, false), "The actual matching release still owns its callback");
+        back.down(1, 70, 0); back.down(1, 71, 0);
+        check(!back.up(1, 70, false), "An old release cannot finish a newer Back press");
+        check(back.up(1, 71, false), "The replacement press has exactly one callback");
+        back.down(1, 72, 0);
+        check(back.up(1, 72, false), "A distinct next press reaches App exit or HOME handling normally");
         for (String read : new String[]{"snapshot", "contacts", "callHistory", "calls", "messageThreads", "messages", "messageAttachments", "notifications", "shortcuts"})
             check(!PhoneDeviceAccess.requiresForeground(read), "Warm activation can start the permission-gated read: " + read);
         for (String command : new String[]{"setControl", "openControl", "requestRole", "requestPermission", "saveContact", "deleteContact", "dial", "callAction", "composeMessage", "composeMultimediaMessage", "pickMessageAttachments", "discardMessageAttachments", "openMessageAttachment", "downloadMessage", "sendMessage", "sendMultimediaMessage", "markMessagesRead", "deleteMessages", "notificationAction", "dismissNotification", "dismissNotifications", "launchShortcut", "openApplicationSettings", "requestUninstallApplication", "openMap"})

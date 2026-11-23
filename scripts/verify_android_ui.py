@@ -27,19 +27,27 @@ def near(actual, expected, message):
     require(len(actual) == len(expected) and all(abs(a-b) <= 1.0 for a, b in zip(actual, expected)), message)
 
 
-def verify(proof, nonce, uri, after_sequence):
+def verify(proof, nonce, uri, after_sequence, home_active=False):
     require(proof["schema"] == 1 and proof["platform"] == "android", "Wrong observation schema/platform")
     require(proof["nonce"] == nonce and len(nonce) == 32, "Observation belongs to another smoke run")
     require(type(proof["sequence"]) is int and proof["sequence"] > after_sequence, "Observation is stale")
     require(type(proof["process_id"]) is int and proof["process_id"] > 0, "Missing application process")
     require(proof["observed_at_unix_ms"] > 0, "Missing observation timestamp")
     require(proof["ready"] is True and proof["closed"] is False, "Host is not mounted with valid layout")
-    require(proof["host"]["mode"] == "app" and proof["host"]["launcher"] != "active"
-            and proof["host"]["shell"] == "unsupported", "The smoke launch must not acquire a HOME or shell role")
+    require(proof["host"]["shell"] == "unsupported", "Android HOME must not claim a system-shell role")
+    if home_active:
+        require(proof["host"]["mode"] == "launcher" and proof["host"]["launcher"] == "active",
+                "The explicitly selected HOME must report active launcher mode and role")
+        require(any(role.get("role") == "home" and role.get("status") == "active"
+                    for role in proof.get("device_snapshot", {}).get("roles", [])),
+                "The native device snapshot must independently observe the active HOME role")
+    else:
+        require(proof["host"]["mode"] == "app" and proof["host"]["launcher"] != "active",
+                "The ordinary smoke launch must not acquire a HOME role")
     activation_uri = uri.removeprefix("back:")
     require(proof["activation"]["uri"] == activation_uri and proof["activation"]["outcome"] == "accepted",
             "The real activity did not accept the requested URI")
-    if uri == "ferroui-phone://home" or uri == "back:ferroui-phone://app/org.ferroui.wallet":
+    if uri in ("ferroui-phone://home", "back:ferroui-phone://home", "back:ferroui-phone://app/org.ferroui.wallet"):
         require(proof["route"] == "Start", "The mounted route has not returned to Start")
         expected_control = "StartTiles"
     elif uri == "ferroui-phone://app/org.ferroui.wallet":
@@ -72,10 +80,11 @@ def main():
     parser.add_argument("nonce")
     parser.add_argument("uri")
     parser.add_argument("after_sequence", type=int)
+    parser.add_argument("--expect-home-active", action="store_true")
     args = parser.parse_args()
     try:
         proof = json.loads(args.observation.read_text(encoding="utf-8"))
-        print(verify(proof, args.nonce, args.uri, args.after_sequence))
+        print(verify(proof, args.nonce, args.uri, args.after_sequence, args.expect_home_active))
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(str(error), file=sys.stderr)
         return 1

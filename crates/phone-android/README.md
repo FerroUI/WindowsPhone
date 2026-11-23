@@ -235,8 +235,17 @@ route and normal activity activation outcome; it cannot inject an activation.
 explicit-component `ACTION_VIEW` intents for **Start → Wallet**, a real Android Back event to Start, and an actual `MAIN/HOME` intent back to Start. It requires
 fresh nonce/sequence observations, actual named page controls, nonzero native
 system insets, an inner viewport matching the inset content slot, and a
-`PhoneScreen` contained in that slot. It also verifies that the current Android
-user and HOME role holder are unchanged. It never changes the default launcher. A second private debug marker (`phone-device-smoke.enabled`) enables only native
+`PhoneScreen` contained in that slot. A further phase temporarily selects the
+Launcher package as HOME only inside that same private AVD. It verifies Android's
+actual role holder, independently observed active launcher mode and device role,
+implicit HOME resolution, a real HOME key returning Wallet to Start, and Back at
+Start remaining focused. The original HOME holder is restored and compared in
+normal completion and failure cleanup; the current Android user must remain
+unchanged. No existing device or user launcher configuration is reused or changed.
+This proves role qualification through the emulator's role manager; user-visible
+HOME chooser consent and denial still require separate device qualification.
+
+A second private debug marker (`phone-device-smoke.enabled`) enables only native
 observations and local codec fixtures. The gate records pre-role permissions,
 selects the qualified dialer/SMS roles **only in that newly created AVD**, injects
 an emulator modem SMS, verifies the provider and shared Messaging UI, rings an
@@ -264,8 +273,8 @@ and the workflow conclusion; the presence of an artifact alone does not prove th
 UI gate passed. Cached observation files are removed before each run.
 
 Successful packaging proves native/Java compilation and the package boundary.
-Device qualification still needs actual activity recreation, HOME consent and
-reentry, denied/revoked runtime permissions, approximate location, camera and
+Device qualification still needs actual activity recreation, user-visible HOME
+chooser consent/denial, denied/revoked runtime permissions, approximate location, camera and
 Storage Access Framework flows, lock-screen transports, foreground-service policy,
 and external-player handoff on supported Android/OEM versions.
 

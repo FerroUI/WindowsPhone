@@ -81,7 +81,7 @@ jobs:
           git rev-parse HEAD > target/android-ui/head.txt
       - name: Verify package and mounted-layout contracts
         run: |
-          bash -n scripts/smoke-android.sh scripts/smoke-android-device.sh
+          bash -n scripts/smoke-android.sh scripts/smoke-android-home.sh scripts/smoke-android-device.sh
           bash scripts/test-android-contracts.sh
           python3 scripts/verify_android_package_test.py
           python3 scripts/verify_android_ui_test.py
@@ -109,7 +109,7 @@ jobs:
           for phone_apk in "$phone_outputs"/*/debug/*.apk; do
             "$ANDROID_HOME/build-tools/${{ steps.pins.outputs.build_tools }}/zipalign" -c -P 16 -v 4 "$phone_apk"
           done
-      - name: Verify native geometry, Back, HOME, carrier roles, incoming SMS and call controls
+      - name: Verify native geometry, physical Back, active HOME, carrier roles, incoming SMS and call controls
         timeout-minutes: 17
         run: |
           timeout --signal=TERM --kill-after=30s 900 bash scripts/smoke-android.sh target/android/phone-x86_64-debug/outputs/apk target/android-ui
