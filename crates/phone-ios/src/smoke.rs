@@ -20,6 +20,19 @@ fn enabled() -> bool {
     std::env::var("PHONE_IOS_SMOKE").as_deref() == Ok("1")
 }
 
+/// Bounded, opt-in timing of static initialization/SDK phases only.
+pub fn phase(stage: &'static str) {
+    if !enabled() {
+        return;
+    }
+    unsafe extern "C" {
+        fn wp_ios_smoke_phase(stage: *const std::ffi::c_char);
+    }
+    if let Ok(stage) = std::ffi::CString::new(stage) {
+        unsafe { wp_ios_smoke_phase(stage.as_ptr()) };
+    }
+}
+
 fn native_metadata() -> Option<serde_json::Value> {
     unsafe extern "C" {
         fn wp_ios_smoke_metadata(buffer: *mut std::ffi::c_char, capacity: usize) -> usize;
@@ -110,6 +123,9 @@ fn write_status(host: &NativeHost) {
         value.set(next);
         next
     });
+    if sequence == 1 {
+        phase("observer.first_attached_read");
+    }
     let proof = serde_json::json!({
         "schema": 1,
         "ready": view.is_attached_to_visual_tree() && view.is_measure_valid() && view.is_arrange_valid()
@@ -152,6 +168,7 @@ pub fn install(host: &Rc<NativeHost>) {
     if !enabled() {
         return;
     }
+    phase("observer.install");
     crate::smoke_devices::install(host);
     let weak = Rc::downgrade(host);
     DispatcherTimer::run(

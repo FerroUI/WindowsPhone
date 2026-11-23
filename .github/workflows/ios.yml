@@ -51,6 +51,7 @@ jobs:
       - name: Verify portable iOS completion contracts
         run: |
           python3 scripts/verify_ios_smoke_test.py
+          python3 scripts/collect_ios_failure_test.py
           cargo test --locked -p phone-ios --lib
           cargo test --locked -p phone-ios --lib --features ios26-telephony
       - name: Type check the optional carrier provider for physical iPhone

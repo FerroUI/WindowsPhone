@@ -31,16 +31,20 @@ static NSDictionary *control(NSString *name, NSString *access, NSString *kind, i
 }
 
 NSArray *wp_ios_hardware_controls(void) {
+    wp_ios_smoke_phase("hardware.torch_device");
     AVCaptureDevice *torch = torchDevice();
+    wp_ios_smoke_phase("hardware.torch_properties");
     BOOL permitted = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] == AVAuthorizationStatusAuthorized;
     BOOL supported = torch && torch.hasTorch;
     NSString *torchAccess = !supported ? @"unavailable" : !permitted ? @"permission" :
         torch.isTorchAvailable ? @"writable" : @"readOnly";
+    wp_ios_smoke_phase("hardware.audio_route");
     NSMutableArray *names = [NSMutableArray new];
     for (AVAudioSessionPortDescription *port in AVAudioSession.sharedInstance.currentRoute.outputs)
         [names addObject:port.portName];
     NSString *route = wp_ios_text([names componentsJoinedByString:@", "], 512);
-    return @[
+    wp_ios_smoke_phase("hardware.screen_volume_values");
+    NSArray *controls = @[
         control(@"brightness", brightnessWritable() ? @"writable" : @"readOnly", @"level", @(activeScreen().brightness),
             TARGET_OS_SIMULATOR ? @"The simulator reports a brightness value but has no writable physical backlight." :
             brightnessWritable() ? @"Main-screen brightness is controlled by UIKit and remains effective until the device locks." :
@@ -57,6 +61,8 @@ NSArray *wp_ios_hardware_controls(void) {
         control(@"batterySaver", @"readOnly", @"toggle", @(NSProcessInfo.processInfo.lowPowerModeEnabled),
             @"Low Power Mode is observed from iOS. Change it in the system Settings app.")
     ];
+    wp_ios_smoke_phase("hardware.end");
+    return controls;
 }
 
 void wp_ios_hardware_set(WPIOSOperation *operation, NSDictionary *request) {

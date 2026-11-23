@@ -60,6 +60,9 @@ cleanup() {
   save_observations
   if [ "$result" != 0 ]; then
     printf 'iOS verification failed during: %s\n' "$(cat "$out/phase.txt")" >&2
+    # Diagnostic work begins only after failure. Each subprocess is bounded,
+    # and the native process must match this simulator's installed executable.
+    python3 "$root/scripts/collect-ios-failure.py" "$udid" "$bundle_id" "$out" || true
     if [ -n "${status:-}" ] && [ -f "$status" ]; then
       cp "$status" "$out/failure.json" || true
       cat "$out/failure.json" >&2 || true

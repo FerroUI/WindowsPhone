@@ -1,8 +1,29 @@
 #import "bridge.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static NSMutableDictionary<NSNumber *, WPIOSOperation *> *operations;
+
+// Static phase names only: opt-in diagnostics never log contact/message data.
+// No observers, timers or SDK probes are installed by normal launches.
+void wp_ios_smoke_phase(const char *phase) {
+    static dispatch_once_t once;
+    static BOOL enabled;
+    dispatch_once(&once, ^{
+        const char *value = getenv("PHONE_IOS_SMOKE");
+        enabled = value && strcmp(value, "1") == 0;
+    });
+    if (!enabled || !phase || strnlen(phase, 97) > 96 || !NSThread.isMainThread) return;
+    static NSUInteger sequence;
+    static NSTimeInterval began;
+    if (sequence >= 512) return;
+    NSTimeInterval now = NSProcessInfo.processInfo.systemUptime;
+    if (!sequence) began = now;
+    fprintf(stderr, "[ios-smoke-phase] pid=%d sequence=%lu elapsed=%.6f %s\n",
+        NSProcessInfo.processInfo.processIdentifier, (unsigned long)++sequence, now - began, phase);
+    fflush(stderr);
+}
 
 @implementation WPIOSOperation
 - (void)finish:(int)code first:(double)first second:(double)second message:(NSString *)message {

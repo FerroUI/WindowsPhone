@@ -67,15 +67,24 @@ impl ApplicationImpl for PhoneApplication {
     }
 
     fn on_framework_initialization_completed(this: &Self) {
+        crate::smoke::phase("application.framework_init.begin");
         if let Some(lifetime) = this.application_lifetime() {
             if let Some(lifetime) = lifetime.as_single_view_application_lifetime() {
-                let result = crate::data_path()
-                    .and_then(|path| NativeHost::new(path, Rc::new(crate::IosPlatform::new())));
+                let result = crate::data_path().and_then(|path| {
+                    crate::smoke::phase("application.platform.begin");
+                    let platform = Rc::new(crate::IosPlatform::new());
+                    crate::smoke::phase("application.host.begin");
+                    let result = NativeHost::new(path, platform);
+                    crate::smoke::phase("application.host.end");
+                    result
+                });
                 let view = match result {
                     Ok(host) => {
                         let view = host.view();
                         HOST.with(|slot| *slot.borrow_mut() = Some(host.clone()));
+                        crate::smoke::phase("application.resumed.begin");
                         host.lifecycle(HostLifecycle::Resumed);
+                        crate::smoke::phase("application.resumed.end");
                         crate::smoke::install(&host);
                         let links =
                             PENDING_LINKS.with(|links| std::mem::take(&mut *links.borrow_mut()));
@@ -100,10 +109,13 @@ impl ApplicationImpl for PhoneApplication {
                 TopLevel::set_auto_safe_area_padding(&view, false);
                 safe_host.set_content(Some(Control::boxed(view)));
                 TopLevel::set_auto_safe_area_padding(&safe_host, true);
+                crate::smoke::phase("application.main_view.begin");
                 lifetime.set_main_view(Some(safe_host.upcast()));
+                crate::smoke::phase("application.main_view.end");
             }
         }
         Self::parent_on_framework_initialization_completed(this);
+        crate::smoke::phase("application.framework_init.end");
     }
 }
 

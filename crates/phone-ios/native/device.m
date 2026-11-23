@@ -92,23 +92,31 @@ static NSString *locationPermission(void) {
 }
 
 NSDictionary *wp_ios_device_snapshot(void) {
+    wp_ios_smoke_phase("snapshot.begin");
     NSMutableArray *roles = [NSMutableArray new];
     NSMutableArray *accounts = [NSMutableArray new];
     NSMutableArray *subscriptions = [NSMutableArray new];
     NSMutableArray *supported = [NSMutableArray new];
+    wp_ios_smoke_phase("snapshot.contacts");
     NSString *contactAccess = wp_ios_contacts_permission();
     if ([contactAccess isEqualToString:@"granted"] || [contactAccess isEqualToString:@"limited"])
         [supported addObjectsFromArray:@[@"readContacts", @"writeContacts"]];
+    wp_ios_smoke_phase("snapshot.tel");
     if ([UIApplication.sharedApplication canOpenURL:[NSURL URLWithString:@"tel:0"]]) [supported addObject:@"dial"];
+    wp_ios_smoke_phase("snapshot.compose_text");
     if ([MFMessageComposeViewController canSendText]) [supported addObject:@"composeMessage"];
+    wp_ios_smoke_phase("snapshot.compose_attachments");
     if ([MFMessageComposeViewController canSendAttachments]) [supported addObject:@"pickMessageAttachments"];
+    wp_ios_smoke_phase("snapshot.maps");
     if ([UIApplication.sharedApplication canOpenURL:[NSURL URLWithString:@"maps://"]]) [supported addObject:@"maps"];
+    wp_ios_smoke_phase("snapshot.permissions");
     NSMutableArray *permissions = [NSMutableArray arrayWithArray:@[
         @{@"permission":@"contacts", @"status":wp_ios_contacts_permission()},
         @{@"permission":@"camera", @"status":cameraPermission()},
         @{@"permission":@"location", @"status":locationPermission()},
         @{@"permission":@"notifications", @"status":wp_ios_notifications_permission()}]];
 #if WP_IOS_TELEPHONY
+    wp_ios_smoke_phase("snapshot.carrier");
     char *payload = wp_ios_telephony_snapshot();
     if (payload) {
         NSData *data = [NSData dataWithBytes:payload length:strlen(payload)];
@@ -132,9 +140,12 @@ NSDictionary *wp_ios_device_snapshot(void) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 180300
     if (@available(iOS 18.3, *)) [settings addObject:@"defaultApps"];
 #endif
-    return @{@"controls":wp_ios_hardware_controls(), @"roles":roles, @"settings":settings,
+    wp_ios_smoke_phase("snapshot.hardware");
+    NSDictionary *snapshot = @{@"controls":wp_ios_hardware_controls(), @"roles":roles, @"settings":settings,
         @"permissions":permissions, @"phone_accounts":accounts, @"sms_subscriptions":subscriptions, @"operations":supported,
         @"detail":@"Public UIKit device integrations. Contacts respect the selected access scope; message composition reports the actual system composer outcome. Device controls reflect observed hardware and permissions."};
+    wp_ios_smoke_phase("snapshot.end");
+    return snapshot;
 }
 
 void wp_ios_device_open_url(WPIOSOperation *operation, NSURL *url, NSString *success) {
@@ -252,8 +263,11 @@ void wp_ios_device_monitor(int enabled) {
 
 size_t wp_ios_device_poll(char *buffer, size_t capacity) {
     if (!NSThread.isMainThread) return 0;
+    wp_ios_smoke_phase("device_poll.begin");
     wp_ios_attachments_prune();
+    wp_ios_smoke_phase("device_poll.pruned");
     if (dirty) { dirty = NO; wp_ios_device_emit(@"snapshot", wp_ios_device_snapshot()); }
+    wp_ios_smoke_phase("device_poll.encoded");
     NSData *data = queuedSnapshot ?: events.firstObject;
     if (!data) return 0;
     if (!buffer || capacity <= data.length) return data.length;
