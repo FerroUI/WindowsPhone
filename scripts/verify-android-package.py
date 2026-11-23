@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import struct
 import subprocess
@@ -18,6 +19,15 @@ A = "{http://schemas.android.com/apk/res/android}"
 def require(condition, message):
     if not condition:
         raise ValueError(message)
+
+
+def android_enum(value, symbol, number):
+    """APK XML printers may preserve enum names or render their encoded integers."""
+    if value == symbol:
+        return True
+    if value is None or re.fullmatch(r"(?:0[xX][0-9a-fA-F]+|[0-9]+)", value) is None:
+        return False
+    return int(value, 16 if value.lower().startswith("0x") else 10) == number
 
 
 def verify_manifest(root, launcher):
@@ -38,14 +48,20 @@ def verify_manifest(root, launcher):
                 for v in app.findall("meta-data")), "The FerroUI native library metadata is missing")
     activity = next((v for v in app.findall("activity")
                      if v.get(A + "name") == "org.ferroui.phone.PhoneActivity"), None)
-    require(activity is not None and activity.get(A + "launchMode") == "singleTask", "Missing single-task activity")
+    launch_mode = activity.get(A + "launchMode") if activity is not None else None
+    # ActivityInfo.LAUNCH_SINGLE_TASK == 2. Reject the other launch modes.
+    require(activity is not None and android_enum(launch_mode, "singleTask", 2),
+            f"Missing single-task activity (launchMode={launch_mode!r})")
     categories = {c.get(A + "name") for f in activity.findall("intent-filter") for c in f.findall("category")}
     require("android.intent.category.LAUNCHER" in categories, "The package needs an application entry")
     require(("android.intent.category.HOME" in categories) == launcher, "HOME role leaked across package flavors")
     service = next((v for v in app.findall("service")
                     if v.get(A + "name") == "org.ferroui.phone.PhoneMediaService"), None)
+    service_type = service.get(A + "foregroundServiceType") if service is not None else None
+    # ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK == 2, with no added type bits.
     require(service is not None and service.get(A + "exported") == "false"
-            and service.get(A + "foregroundServiceType") == "mediaPlayback", "Invalid media service boundary")
+            and android_enum(service_type, "mediaPlayback", 2),
+            f"Invalid media service boundary (foregroundServiceType={service_type!r})")
     provider = next((v for v in app.findall("provider")
                      if v.get(A + "name") == "org.ferroui.phone.PhoneAssetProvider"), None)
     require(provider is not None and provider.get(A + "exported") == "false"
@@ -77,6 +93,7 @@ def main():
     parser.add_argument("apk", type=Path)
     parser.add_argument("--launcher", action="store_true")
     parser.add_argument("--abi", choices=["arm64-v8a", "x86_64"], default="arm64-v8a")
+    parser.add_argument("--manifest-out", type=Path, help="Save the decoded APK manifest before validation")
     args = parser.parse_args()
     if args.apk.is_dir():
         candidates = list(args.apk.glob("*.apk"))
@@ -86,6 +103,9 @@ def main():
     analyzer = shutil.which("apkanalyzer") or str(sdk / "cmdline-tools/latest/bin/apkanalyzer")
     manifest = subprocess.run([analyzer, "manifest", "print", str(args.apk)],
                               capture_output=True, text=True, check=True, timeout=60).stdout
+    if args.manifest_out:
+        args.manifest_out.parent.mkdir(parents=True, exist_ok=True)
+        args.manifest_out.write_text(manifest, encoding="utf-8")
     package = verify_manifest(ET.fromstring(manifest), args.launcher)
     with zipfile.ZipFile(args.apk) as archive:
         libraries = [name for name in archive.namelist() if name.startswith("lib/") and name.endswith(".so")]

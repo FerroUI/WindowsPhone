@@ -7,11 +7,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: windows-phone-ios
+  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-ios]')) && 'windows-phone-ios' || format('windows-phone-ios-skipped-{0}', github.run_id) }}
   cancel-in-progress: true
 jobs:
   ios:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]')
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-ios]')
     runs-on: macos-latest
     timeout-minutes: 75
     env:

@@ -86,7 +86,7 @@ installation requires the developer's own signing identity and provisioning
 profile. The script does not change accounts, certificates or entitlements.
 
 `.github/workflows/ios.yml` uses the pinned Rust/FerroUI revisions and runs on
-manual dispatch or a main commit containing `[verify-mobile]`. It compiles the
+manual dispatch or a main commit containing `[verify-mobile]` or `[verify-ios]`. It compiles the
 actual simulator executable and Objective-C bridges, installs on a newly
 created simulator, verifies that UIKit mounted a nonzero phone view, opens
 Wallet through `simctl openurl`, returns Home, and uploads JSON/screenshot

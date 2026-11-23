@@ -152,11 +152,15 @@ role/mode separation, full-width media generations, metadata and command validat
 require Android hardware.
 
 `.github/workflows/android.yml` runs on manual dispatch or a main commit containing
-`[verify-mobile]`. It builds the complete arm64 Rust library and both Gradle APK
+`[verify-mobile]` or `[verify-android]`. Skipped runs cannot cancel an active Android
+verification. It builds the complete arm64 Rust library and both Gradle APK
 flavors, then checks their **merged APK manifests**, native ABI, exported JNI entry
 and 16 KiB ELF/ZIP alignment. It also checks the Android library with the standalone
 entry disabled. `scripts/verify-android-package.py` performs the
-artifact checks. The workflow uploads both debug APKs and verification metadata;
+artifact checks. Successful native build outputs are cached before package
+validation. The workflow retains both debug APKs and decoded manifests even when
+a later verification fails, so the workflow conclusion and verification JSON must
+be checked before calling an artifact verified. On success it uploads the APKs and verification metadata;
 it does not install them on a device or select a HOME app.
 
 Successful packaging proves native/Java compilation and the package boundary.

@@ -7,11 +7,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: windows-phone-android
+  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-android]')) && 'windows-phone-android' || format('windows-phone-android-skip-{0}', github.run_id) }}
   cancel-in-progress: true
 jobs:
   android:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]')
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-android]')
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     env:
@@ -56,7 +56,8 @@ jobs:
           echo 'RUSTUP_TOOLCHAIN=${{ steps.pins.outputs.rust }}' >> "$GITHUB_ENV"
       - name: Normalize framework source timestamps
         run: python3 scripts/ci-framework-mtimes.py
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: native-cache
         with:
           path: |
             target
@@ -67,8 +68,11 @@ jobs:
             phone-android-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'crates/**/Cargo.toml', 'scripts/build-android.sh') }}-
             phone-android-v1-${{ runner.os }}-${{ steps.pins.outputs.rust }}-${{ steps.pins.outputs.framework }}-
       - name: Verify portable Android completion and media contracts
-        run: cargo test --locked -p phone-android --lib
+        run: |
+          python3 scripts/verify_android_package_test.py
+          cargo test --locked -p phone-android --lib
       - name: Build native application and HOME launcher APKs
+        id: packages
         run: |
           bash scripts/build-android.sh
           bash scripts/build-android.sh --launcher --no-cargo
@@ -76,20 +80,32 @@ jobs:
         run: |
           source FerroUI/scripts/android/env.sh
           cargo check --locked -p phone-android --no-default-features --target aarch64-linux-android
+      - name: Cache the successfully built native packages
+        uses: actions/cache/save@v4
+        if: always() && steps.packages.outcome == 'success' && steps.native-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ steps.native-cache.outputs.cache-primary-key }}
       - name: Verify merged manifests, JNI entry and native alignment
         run: |
           phone_outputs=target/android/phone-arm64-v8a-debug/outputs/apk
           mkdir -p target/android/verification
-          python3 scripts/verify-android-package.py "$phone_outputs/app/debug" > target/android/verification/app.json
-          python3 scripts/verify-android-package.py "$phone_outputs/launcher/debug" --launcher > target/android/verification/launcher.json
+          python3 scripts/verify-android-package.py "$phone_outputs/app/debug" --manifest-out target/android/verification/app-manifest.xml > target/android/verification/app.json
+          python3 scripts/verify-android-package.py "$phone_outputs/launcher/debug" --launcher --manifest-out target/android/verification/launcher-manifest.xml > target/android/verification/launcher.json
           for phone_apk in "$phone_outputs"/*/debug/*.apk; do
             "$ANDROID_HOME/build-tools/${{ steps.pins.outputs.build_tools }}/zipalign" -c -P 16 -v 4 "$phone_apk"
           done
       - uses: actions/upload-artifact@v4
+        # Preserve real build outputs and decoded manifests when a later check fails.
+        if: always() && steps.packages.outcome == 'success'
         with:
           name: phone-android-arm64-debug
           path: |
             target/android/phone-arm64-v8a-debug/outputs/apk/**/*.apk
             target/android/verification/*.json
+            target/android/verification/*-manifest.xml
           if-no-files-found: error
           retention-days: 3

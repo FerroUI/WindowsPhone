@@ -26,7 +26,7 @@ export function describeBrowser(mode = 'app', platform = globalThis) {
   if (secure && typeof navigator.geolocation?.watchPosition === 'function' &&
       typeof navigator.geolocation?.clearWatch === 'function' && policyAllows(platform, 'geolocation')) features.push('location');
   return {platform: 'browser', mode, launcher: 'unsupported', shell: 'unsupported', features,
-    detail: 'Browser app and embedded surfaces use the same phone runtime. Services depend on browser APIs, site permissions and device support. This host cannot enumerate installed device applications or replace the OS launcher or shell.'};
+    detail: 'Available services depend on your browser, site permissions and device support. Installed apps and the device Home screen are unavailable here.'};
 }
 
 export function browserEnvironment(platform = globalThis) {

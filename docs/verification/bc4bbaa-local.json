@@ -1,0 +1,52 @@
+{
+  "source_commit": "bc4bbaa84f068f3f31abeeea6074b3a475e63d51",
+  "source_tree": "3c129d29f2e10e59b33a3f396a5f24de2c66feb0",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "workspace": {
+    "packages": 52,
+    "registered_apps": 28
+  },
+  "focused_rust_libraries": {
+    "command": "cargo test --offline -p phone-host -p phone-runtime -p phone-app-device -p phone-native -p phone-android -p phone-ios -p phone-platform-desktop -p phone-alarm-service -p phone-system -p phone-state --lib",
+    "passed": 86,
+    "failed": 0,
+    "packages": {
+      "phone-alarm-service": 5,
+      "phone-android": 6,
+      "phone-app-device": 1,
+      "phone-host": 26,
+      "phone-ios": 2,
+      "phone-native": 16,
+      "phone-platform-desktop": 9,
+      "phone-runtime": 7,
+      "phone-state": 1,
+      "phone-system": 13
+    },
+    "scope": "Focused Linux-host library tests, including runtime cancellation and reentrant completion, host/document leases, closed media ownership, catalog revision/pin identity and foreground alarm lifecycle. The isolated GIO test is invoked by its parent test; the opt-in MPRIS test belongs to a separate protocol gate. Mobile tests here exercise portable contracts, not target compilation."
+  },
+  "javascript": {
+    "command": "node --test scripts/*.test.mjs",
+    "passed": 51,
+    "failed": 0,
+    "scope": "Controlled host/browser and service-worker boundaries, including activation encoding, bounded platform tasks, suspension, cancellation and closure. These are not rendered browser or OS permission tests."
+  },
+  "packaging": {
+    "command": "python -B -m unittest discover -s crates/phone-desktop/platform/tests -v",
+    "source_commit": "4ae5558e20902eec7244b6edd2238b80e42334e2",
+    "passed": 6,
+    "failed": 0,
+    "scope": "Linux session staging and Windows per-account shell configuration generation, including the Python 3.15 reserved-path API compatibility regression. No machine session or policy was changed."
+  },
+  "compile": {
+    "desktop_linux_host_check": "passed",
+    "browser_linux_host_typecheck": "passed",
+    "android_without_standalone_feature": "6 portable tests passed",
+    "scope": "Shared composition and native Wayland/X11 entry points type-checked locally. Local Linux media/camera development libraries were absent, so unavailable-provider bridges were used. The browser host type-check is not a WebAssembly build. Full desktop links, browser WebAssembly, APKs and UIKit Simulator execution are recorded separately from GitHub Actions."
+  },
+  "limits": [
+    "Local checks do not establish physical camera/audio playback, permission dialogs, notification delivery, location accuracy or installed-launcher behavior.",
+    "Linux compositor login and Windows Shell Launcher configuration were generated and validated but not installed into a running session.",
+    "Background alarm wake-up, carrier services, original cloud accounts and XAP/APPX execution are outside this implementation.",
+    "These checks do not establish original-device pixel or motion parity."
+  ]
+}

@@ -9,6 +9,7 @@ use phone_host::native::{
 pub(crate) struct AndroidMediaSession {
     java: JavaObject,
 }
+#[cfg(feature = "standalone")]
 pub(crate) fn prepare() {
     let _ = JavaClass::find("org/ferroui/phone/PhoneMediaSession");
 }
