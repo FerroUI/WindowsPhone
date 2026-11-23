@@ -2,9 +2,30 @@
 
 The images in this directory are application captures. They are not original Windows Phone reference screenshots and do not establish pixel equality with original hardware.
 
+## Current app expansion (7bc4107)
+
+These eight unmodified PNGs come from the [UI artifact of run 45181127412](https://github.com/FerroUI/WindowsPhone/actions/runs/45181127412/artifacts/14822143207), built from [`7bc41077ae1dd8762071cf8af2f1602ea9390ff7`](https://github.com/FerroUI/WindowsPhone/commit/7bc41077ae1dd8762071cf8af2f1602ea9390ff7). Chromium rendered the packaged FerroUI app with isolated local fixtures and native input. Standard desktop captures are **1280 × 936 pixels**, containing a **400 × 820** phone surface. The narrow Wallet capture is **320 × 740 pixels**. Each file's original dimensions, byte length and SHA-256 are retained in the [publication record](../verification/7bc4107-publication.json).
+
+| Repository image | Artifact source | Captured state |
+| --- | --- | --- |
+| [Start](expansion-start.png) | `01-start-desktop.png` | The retained desktop Start layout and fictional local tiles. |
+| [Excel](expansion-excel.png) | `office-excel-typed-formulas-and-history.png` | Typed formula editing and undo/redo in the native worksheet. |
+| [OneNote](expansion-onenote.png) | `onenote-restored-section-and-checklist.png` | Restored section membership and checked/unchecked tasks. |
+| [Music](expansion-music.png) | `music-persisted-playlist.png` | A persisted playlist with the playlists category selected. |
+| [Weather](expansion-weather.png) | `weather-daily-forecast.png` | The daily forecast and Fahrenheit display from a controlled response fixture. |
+| [Podcasts](expansion-podcasts.png) | `podcasts-episode-detail.png` | Imported feed episode details and native playback actions. |
+| [Wallet](expansion-wallet.png) | `wallet-narrow-barcode.png` | The longest supported Code 39 payload and native commands at a 320-pixel width. |
+| [Maps](expansion-maps.png) | `maps-saved-place-directions.png` | Swapped origin/destination with persistent from/to labels and walking selected. |
+
+The full suite passed **64 groups**, produced **124 captures**, and recorded **zero console/runtime errors** in **213.079 seconds**. The [retained results](../verification/7bc4107-results.json) have SHA-256 `636170f4f276fa5ad1890c3a043319100085646b5eae2b5bff1046d83413670c`; the artifact ZIP has SHA-256 `a2a34b5430be84f4497e390c668deab10cdd5b28c47bc0a247d7b9b8f470cd05`. The duration is verification time, not startup or rendering performance.
+
+All eight selected images were visually reviewed. Wallet's longest Code 39 payload and bottom commands fit the 320-pixel screen. Music retains its selected playlists category on the detail page. Maps has persistent from/to labels, clear swapped values and visible travel/actions after the temporary status banner is dismissed through its native control. Excel and OneNote retain readable editing/checklist layouts. Start's partial lower row belongs to its scrolling viewport.
+
+Weather's forecast is controlled fixture data, and Podcasts' local feed fixture does not prove network streaming or audible playback. The Maps fixture prepares but does not launch external directions. These isolated application captures do not establish original-device pixel/motion equality, hardware or OS consent behavior, authenticated services, or an existing public profile's worker upgrade. The public build is confirmed separately by direct HTTP observations. Earlier captures below retain their own revision attribution.
+
 <!-- BEGIN SDK SCREENSHOT EVIDENCE CEC2D1D -->
 
-## Current SDK app verification (cec2d1d)
+## Earlier SDK app verification (cec2d1d)
 
 These six unmodified PNGs come from the [verification artifact of run 45163782836](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836/artifacts/14812709655), built from [`cec2d1d214310e33ef4908949fd3d6fe647630a9`](https://github.com/FerroUI/WindowsPhone/commit/cec2d1d214310e33ef4908949fd3d6fe647630a9). Chromium rendered the packaged FerroUI application with isolated local fixtures and native input. Desktop images are **1280 × 936 pixels**; mobile Start uses a **390 × 844 CSS viewport**, captured at **780 × 1688 pixels with DPR2**.
 
@@ -102,7 +123,7 @@ During that earlier check, the existing cloud-browser profile continued to displ
 
 [Published Start](start-published-desktop.jpg) and [published All apps arrow](all-apps-published-desktop.jpg) were captured from the public [GitHub Pages app](https://ferroui.com/WindowsPhone/) after [run 45081854486](https://github.com/FerroUI/WindowsPhone/actions/runs/45081854486) deployed runtime [`528c982686ee765476bb2f8cbeaf6c9d857819b4`](https://github.com/FerroUI/WindowsPhone/commit/528c982686ee765476bb2f8cbeaf6c9d857819b4). The page's `data-phone-build` attribute confirmed `528c982`; the corrected arrow rendered and one native All apps click opened the app list, followed by Start returning to the tile screen. These unmodified JPEGs are 1363 × 936 pixels and preserve the browser session's phone profile.
 
-`start-published-mobile.jpg`, `start-desktop.png` and `phone-history.png` are older application captures retained for the existing documentation. The current `cec2d1d` captures and historical `73dc39f` SDK captures are listed above; the `b4c63a3` and `6a7cf14` mobile images retain their earlier revision attribution.
+`start-published-mobile.jpg`, `start-desktop.png` and `phone-history.png` are older application captures retained for the existing documentation. The earlier `cec2d1d` captures and historical `73dc39f` SDK captures are listed above; the `b4c63a3` and `6a7cf14` mobile images retain their earlier revision attribution.
 
 ## Earlier full refinement verification
 

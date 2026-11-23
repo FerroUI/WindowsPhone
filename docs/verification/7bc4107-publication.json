@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "target": "Windows Phone 8.1 Update (2014)",
+  "runtime_commit": "7bc41077ae1dd8762071cf8af2f1602ea9390ff7",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "run_id": 45181127412,
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45181127412",
+  "conclusion": "success",
+  "completed_at_utc": "2026-11-23T13:25:37Z",
+  "browser_verification": {
+    "rust_tests": {
+      "rust": 230,
+      "failed": 0,
+      "ignored": 1
+    },
+    "javascript_tests": 40,
+    "linked_local_modules": 23,
+    "evidence_lines": [
+      "2026-11-23T13:12:02.7982091Z \u2139 tests 40",
+      "2026-11-23T13:12:02.7983988Z \u2139 pass 40",
+      "2026-11-23T13:21:22.0159732Z Linked 23 local modules from main.js, host.js, phone-browser.js; no code executed."
+    ],
+    "build_job_id": 137714904229,
+    "conclusion": "success",
+    "browser_groups": 64,
+    "captures": 124,
+    "elapsed_ms": 213079,
+    "console_runtime_errors": [],
+    "results_file": "7bc4107-results.json",
+    "results_sha256": "636170f4f276fa5ad1890c3a043319100085646b5eae2b5bff1046d83413670c",
+    "selected_captures": [
+      {
+        "path": "docs/screenshots/expansion-start.png",
+        "source": "01-start-desktop.png",
+        "title": "Start",
+        "description": "The retained desktop Start layout and fictional local tiles.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "1f4513a6fdadf6dac357fab03cb0e995157606b49ced935edcb81f50ef46871c",
+        "bytes": 179651
+      },
+      {
+        "path": "docs/screenshots/expansion-excel.png",
+        "source": "office-excel-typed-formulas-and-history.png",
+        "title": "Excel",
+        "description": "Typed formula editing and undo/redo in the native worksheet.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "ca646bd36a807c0f071b1b2c618d787c767c51803cff4d730d41e5d1ad5b9abc",
+        "bytes": 24101
+      },
+      {
+        "path": "docs/screenshots/expansion-onenote.png",
+        "source": "onenote-restored-section-and-checklist.png",
+        "title": "OneNote",
+        "description": "Restored section membership and checked/unchecked tasks.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "3358ddd7f5e9cd49556171395a86a9b08640636b1d465e0ed654bf3faa4b2188",
+        "bytes": 29407
+      },
+      {
+        "path": "docs/screenshots/expansion-music.png",
+        "source": "music-persisted-playlist.png",
+        "title": "Music",
+        "description": "A persisted playlist with the playlists category selected.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "697a4b24b2e16cb21ebfe0e5dad4c927de94b898a9e64fbb902796c061b47641",
+        "bytes": 38725
+      },
+      {
+        "path": "docs/screenshots/expansion-weather.png",
+        "source": "weather-daily-forecast.png",
+        "title": "Weather",
+        "description": "The daily forecast and Fahrenheit display from a controlled response fixture.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "7eea4b3c3689b2c90ce0544f2cdd264c6477bb1f30db873e6575300c92849c91",
+        "bytes": 45924
+      },
+      {
+        "path": "docs/screenshots/expansion-podcasts.png",
+        "source": "podcasts-episode-detail.png",
+        "title": "Podcasts",
+        "description": "Imported feed episode details and native playback actions.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "a71da928ea0d89d100d86510c9296b74c264e33ddfdaca3fda8616debc0e3f57",
+        "bytes": 28642
+      },
+      {
+        "path": "docs/screenshots/expansion-wallet.png",
+        "source": "wallet-narrow-barcode.png",
+        "title": "Wallet",
+        "description": "The longest supported Code 39 payload and native commands at a 320-pixel width.",
+        "width": 320,
+        "height": 740,
+        "sha256": "8c7463eb279b35b329431063f044ac8b9aacc31993ce3bc6ff99eaaed075af7a",
+        "bytes": 20951
+      },
+      {
+        "path": "docs/screenshots/expansion-maps.png",
+        "source": "maps-saved-place-directions.png",
+        "title": "Maps",
+        "description": "Swapped origin/destination with persistent from/to labels and walking selected.",
+        "width": 1280,
+        "height": 936,
+        "sha256": "0ba61c281516dff763a591541b5482ed406fc7e96d17e3391e18f406c288cfe9",
+        "bytes": 33925
+      }
+    ],
+    "selected_captures_visually_reviewed": 8,
+    "visual_review_notes": [
+      "Start, Weather and Wallet reviewed at final source; 320-pixel Wallet retains its full Code 39 display and bottom commands.",
+      "Maps retains visible from/to labels and swapped values, with its temporary banner dismissed through native input before capture.",
+      "Excel and OneNote retain clear worksheet and checklist layouts.",
+      "Music retains the selected playlists category; Podcasts content and actions fit their captured viewport."
+    ]
+  },
+  "native_verification": {
+    "runtime_commit": "651896026f7511eccf0362f3c91a156413c4e2e6",
+    "record": "6518960-native.json",
+    "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45178205829",
+    "conclusion": "success",
+    "source_boundary": "The final follow-up changes only Maps directions.rs and its existing UI verification; all native adapters are identical to the native-tested revision.",
+    "hardware_or_permission_dialog_tests": false
+  },
+  "artifacts": [
+    {
+      "id": 14822361779,
+      "name": "compiled-app",
+      "size_in_bytes": 9536240,
+      "digest": "sha256:c5bd2e849bbccacece90c219d023910076ac3fe8ef2df6b61d069cb0d1ef877b"
+    },
+    {
+      "id": 14822143207,
+      "name": "ui-verification",
+      "size_in_bytes": 6780707,
+      "digest": "sha256:a2a34b5430be84f4497e390c668deab10cdd5b28c47bc0a247d7b9b8f470cd05"
+    },
+    {
+      "id": 14821589141,
+      "name": "github-pages",
+      "size_in_bytes": 9526905,
+      "digest": "sha256:b0e9504e412543d00d3da9131f7f6d5377c04f38ff67054adc449340085c7e04"
+    }
+  ],
+  "publication": {
+    "deploy_job_id": 137723921802,
+    "conclusion": "success",
+    "url": "https://ferroui.com/WindowsPhone/",
+    "http_observations": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at": "2026-11-23T13:26:22.824933+00:00",
+        "status": 200,
+        "final_url": "https://ferroui.com/WindowsPhone/",
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 13:25:32 GMT",
+          "etag": "\"6b043ecc-54f\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        },
+        "sha256": "7f37af0711a45eebdf67751c7be2fa87046788c696d66e7caa4afd3fb759cb23",
+        "bytes": 1359,
+        "build_markers": [
+          "data-phone-build=\"7bc4107\""
+        ],
+        "cache_prefix_lines": []
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at": "2026-11-23T13:26:28.893633+00:00",
+        "status": 200,
+        "final_url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "headers": {
+          "content-type": "application/javascript; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 13:25:32 GMT",
+          "etag": "\"6b043ecc-9eb\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        },
+        "sha256": "2137096073cf515d83e12150c69670eb08c7a927fcea44e3bb750da160870eb1",
+        "bytes": 2539,
+        "build_markers": [],
+        "cache_prefix_lines": [
+          "const CACHE_PREFIX=`ferroui-phone:${encodeURIComponent(self.registration.scope)}:`;",
+          "const CACHE=CACHE_PREFIX+'7bc4107';",
+          "self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));"
+        ]
+      }
+    ]
+  },
+  "local_record": "app-expansion-local.json",
+  "architecture": {
+    "workspace_packages": 46,
+    "app_editor_support_example_crates": 35,
+    "registered_apps": 27
+  },
+  "limits": [
+    "Local and CI counts overlap and belong to their named source revisions; they are not summed.",
+    "Browser interactions use isolated fixtures; public HTTP confirms served source but does not exercise an existing browser profile upgrade.",
+    "Native tests and links do not establish physical media keys, camera/audio codecs, permission dialogs, signed packaging or background wake behavior.",
+    "The rendered Maps test prepares directions but does not launch the external provider. Weather uses a controlled response fixture.",
+    "No original-device pixel or motion parity certification or retired Microsoft cloud-service integration is claimed."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "source_commit": "a7524170b2930cf2b69d3fb0386cbba55ef774e2",
+  "source_tree": "bc48531253564df24b8c3ee789050e673a203b0a",
+  "workspace": {
+    "packages": 46,
+    "app_editor_support_example_packages": 35,
+    "registered_apps": 27
+  },
+  "rust_workspace": {
+    "command": "cargo test --offline --locked --workspace --exclude phone-browser --exclude phone-desktop --lib --tests",
+    "passed": 242,
+    "failed": 0,
+    "ignored": 1,
+    "nonempty_groups": 39,
+    "scope": "All non-host-launcher workspace library and integration tests. The ignored Linux MPRIS test was run separately on an isolated bus."
+  },
+  "final_podcast_command_tests": {
+    "command": "cargo test -p phone-app-podcasts --offline commands::tests",
+    "passed": 6,
+    "failed": 0,
+    "scope": "Final async navigation guard adds two cases after the broad run; four cases overlap the broad run. Totals are not added."
+  },
+  "javascript": {
+    "command": "node --test scripts/*.test.mjs",
+    "passed": 40,
+    "failed": 0,
+    "scope": "Simulated browser/host and service-worker boundaries; no device permissions, external messages or audio playback."
+  },
+  "compile": {
+    "command": "cargo check --offline --locked -p phone-desktop -p phone-browser -p phone-app-sdk-example",
+    "result": "passed",
+    "scope": "Host-target checking. Browser WebAssembly compilation and full native OS links belong to GitHub Actions."
+  },
+  "isolated_mpris": {
+    "result": "passed",
+    "scope": "Real private TCP D-Bus discovery/properties/controls/seek/volume/teardown, no desktop session or physical media keys."
+  },
+  "windows_adapter": {
+    "result": "passed",
+    "scope": "Exact media-session adapter source type-checked with pinned Windows bindings in a minimal x86_64-pc-windows-gnu harness; not a complete Windows executable build."
+  },
+  "limits": [
+    "The local Linux camera portal/provider is unavailable in this environment.",
+    "No physical camera/audio/codec or OS consent/notification behavior is certified by these checks.",
+    "No original-device pixel or motion parity claim follows from these tests."
+  ]
+}

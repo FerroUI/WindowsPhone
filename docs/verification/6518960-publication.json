@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "target": "Windows Phone 8.1 Update (2014)",
+  "runtime_commit": "651896026f7511eccf0362f3c91a156413c4e2e6",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "run_id": 45178205829,
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45178205829",
+  "conclusion": "success",
+  "completed_at_utc": "2026-11-23T13:03:21Z",
+  "browser_verification": {
+    "build_job_id": 137704869869,
+    "conclusion": "success",
+    "rust_tests": {
+      "rust": 230,
+      "failed": 0,
+      "ignored": 1
+    },
+    "javascript_tests": 40,
+    "local_modules_linked": 23,
+    "browser_groups": 64,
+    "captures": 124,
+    "elapsed_ms": 175383,
+    "console_runtime_errors": [],
+    "results_file": "6518960-results.json",
+    "results_sha256": "96019dccf2e72e64dc3d9f9361f4cb132938b989e1f81b5958dab3ac49c87ce5",
+    "evidence_lines": [
+      "2026-11-23T12:52:39.5533586Z test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "2026-11-23T12:52:39.5560193Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5622608Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5663125Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5682303Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5710157Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5837542Z test result: ok. 23 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "2026-11-23T12:52:39.5855613Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5875777Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.5965537Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "2026-11-23T12:52:39.5994303Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6025145Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6055710Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6094360Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6122862Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6144502Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6171011Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6198085Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6236063Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.6897793Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s",
+      "2026-11-23T12:52:39.8737980Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:39.9819607Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:52:40.0224117Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3120727Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3138171Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3387798Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+      "2026-11-23T12:53:30.3408524Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3430567Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3556845Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3572691Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.3576199Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4489921Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s",
+      "2026-11-23T12:53:30.4547476Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4564606Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4578814Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4603575Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4614681Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4667271Z test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4690961Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4721415Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4749059Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4769965Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.4836270Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "2026-11-23T12:53:30.5117724Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.5530782Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.5980392Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.6453710Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.6874865Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.7294075Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.7578145Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.7921412Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.8288727Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.8706350Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.9184916Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:30.9601860Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:31.0087949Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:31.0403446Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:31.0928594Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-23T12:53:31.3721894Z \u2139 tests 40",
+      "2026-11-23T12:53:31.3722262Z \u2139 pass 40",
+      "2026-11-23T12:59:49.5845514Z Linked 23 local modules from main.js, host.js, phone-browser.js; no code executed."
+    ]
+  },
+  "native_verification": {
+    "runtime_commit": "651896026f7511eccf0362f3c91a156413c4e2e6",
+    "record": "6518960-native.json",
+    "conclusion": "success",
+    "hardware_or_permission_dialog_tests": false
+  },
+  "artifacts": [
+    {
+      "id": 14821510376,
+      "name": "github-pages",
+      "size_in_bytes": 9526902,
+      "digest": "sha256:93ff6b0e31ff0a30190e4fdcc9ecfe617a9c581c3326d489a4e80be465cb0e94"
+    },
+    {
+      "id": 14820771100,
+      "name": "compiled-app",
+      "size_in_bytes": 9536240,
+      "digest": "sha256:a779206b4601e77dddbac1064974f81aebed6fdd28b311762ee9d55802ee71bc"
+    },
+    {
+      "id": 14820473910,
+      "name": "ui-verification",
+      "size_in_bytes": 6521645,
+      "digest": "sha256:b0477f3831e0ffc9ef78bf91a607d73d97cf950b4d907247506b6d7e629212be"
+    }
+  ],
+  "publication": {
+    "deploy_job_id": 137711291236,
+    "conclusion": "success",
+    "url": "https://ferroui.com/WindowsPhone/",
+    "http_observations": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at": "2026-11-23T13:06:33.260193+00:00",
+        "status": 200,
+        "final_url": "https://ferroui.com/WindowsPhone/",
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 13:03:15 GMT",
+          "etag": "\"6b043993-54f\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        },
+        "sha256": "25781c13719fe2dfa50ca20e88b189a34fce66504f07c18aae61365647d39422",
+        "bytes": 1359,
+        "build_markers": [
+          "data-phone-build=\"6518960\""
+        ],
+        "cache_prefix_lines": []
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at": "2026-11-23T13:06:40.695014+00:00",
+        "status": 200,
+        "final_url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "headers": {
+          "content-type": "application/javascript; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 13:03:15 GMT",
+          "etag": "\"6b043993-9eb\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        },
+        "sha256": "9d19a2dfd8201b935aeaf947cbc803fa74c3d0c347166699b92e5da375cbeac0",
+        "bytes": 2539,
+        "build_markers": [],
+        "cache_prefix_lines": [
+          "const CACHE_PREFIX=`ferroui-phone:${encodeURIComponent(self.registration.scope)}:`;",
+          "const CACHE=CACHE_PREFIX+'6518960';",
+          "self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));"
+        ]
+      }
+    ]
+  },
+  "local_record": "app-expansion-local.json",
+  "architecture": {
+    "workspace_packages": 46,
+    "app_editor_support_example_crates": 35,
+    "registered_apps": 27
+  },
+  "limits": [
+    "Counts belong to their named runs and overlap; do not add local and CI totals.",
+    "Browser interactions use isolated fixtures; public HTTP confirms served source but does not exercise an existing browser profile upgrade.",
+    "Native tests and links do not establish physical media keys, camera/audio codecs, permissions, signed packaging or background wake behavior.",
+    "No original-device pixel or motion parity certification or retired Microsoft cloud-service integration is claimed."
+  ]
+}

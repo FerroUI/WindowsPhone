@@ -1,0 +1,127 @@
+{
+  "commit": "a7524170b2930cf2b69d3fb0386cbba55ef774e2",
+  "run": {
+    "id": 45175272041,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45175272041"
+  },
+  "jobs": {
+    "linux": {
+      "id": 137694762420,
+      "name": "native (ubuntu-latest)",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45175272041/job/137694762420",
+      "conclusion": "success",
+      "host_tests": {
+        "passed": 23,
+        "failed": 0,
+        "ignored": 1,
+        "doc_tests": 0
+      },
+      "mpris": {
+        "test": "native::media_session::linux::tests::private_bus_media_controls",
+        "passed": 1,
+        "failed": 0,
+        "duration_seconds": 0.03,
+        "isolated_bus": true
+      },
+      "full_link": {
+        "command": "cargo build --locked -p phone-desktop",
+        "duration": "1m 21s",
+        "finished_at": "2026-11-23T12:35:01.6539969Z"
+      },
+      "providers": {
+        "gstreamer_development_version": "1.28.2",
+        "media_unavailable_fallback_warning": false,
+        "camera_portal_unavailable_warning": false,
+        "scope": "Development packages installed and native host linked; no hardware playback/camera exercised"
+      },
+      "evidence_lines": [
+        "2026-11-23T12:33:40.2598345Z     Finished `test` profile [unoptimized] target(s) in 6.75s",
+        "2026-11-23T12:33:40.2758132Z test result: ok. 23 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "2026-11-23T12:33:40.3939330Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-23T12:33:40.5418834Z     Finished `test` profile [unoptimized] target(s) in 0.10s",
+        "2026-11-23T12:33:40.5737336Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 23 filtered out; finished in 0.03s",
+        "2026-11-23T12:35:01.6539969Z     Finished `dev` profile [unoptimized] target(s) in 1m 21s"
+      ]
+    },
+    "windows": {
+      "id": 137694762464,
+      "name": "native (windows-2022)",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45175272041/job/137694762464",
+      "conclusion": "success",
+      "host_tests": {
+        "passed": 20,
+        "failed": 0,
+        "ignored": 0,
+        "doc_tests": 0
+      },
+      "mpris": {
+        "applicable": false
+      },
+      "full_link": {
+        "command": "cargo build --locked -p phone-desktop",
+        "duration": "3m 34s",
+        "finished_at": "2026-11-23T12:37:55.4095694Z"
+      },
+      "providers": {
+        "llvm_version": "20.1.8",
+        "target": "x86_64-pc-windows-msvc",
+        "compiler_header_compatibility": "passed",
+        "media_unavailable_fallback_warning": false,
+        "scope": "Pinned Windows native host and SMTC linked on Windows 2022; no hardware playback/camera or shell visibility exercised",
+        "linker_warnings": [
+          "Upstream ANGLE LNK4217 import warnings; native link completed successfully."
+        ]
+      },
+      "evidence_lines": [
+        "2026-11-23T12:32:56.3445212Z clang version 20.1.8",
+        "2026-11-23T12:34:20.3477372Z     Finished `test` profile [unoptimized] target(s) in 17.36s",
+        "2026-11-23T12:34:20.4100602Z test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s",
+        "2026-11-23T12:34:20.5572671Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-23T12:37:55.4095694Z     Finished `dev` profile [unoptimized] target(s) in 3m 34s"
+      ]
+    },
+    "macos": {
+      "id": 137694762723,
+      "name": "native (macos-latest)",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45175272041/job/137694762723",
+      "conclusion": "success",
+      "host_tests": {
+        "passed": 19,
+        "failed": 0,
+        "ignored": 0,
+        "doc_tests": 0
+      },
+      "mpris": {
+        "applicable": false
+      },
+      "full_link": {
+        "command": "cargo build --locked -p phone-desktop",
+        "duration": "3m 36s",
+        "finished_at": "2026-11-23T12:43:09.5408090Z"
+      },
+      "providers": {
+        "target": "aarch64-apple-darwin",
+        "media_unavailable_fallback_warning": false,
+        "scope": "Objective-C MediaPlayer bridge and complete desktop host compiled/linked on actual macOS runner; no hardware playback/camera, packaged command-center eligibility or shell UI exercised",
+        "warnings": [
+          "Shared::snapshot and Shared::enqueue are unused in the macOS non-test build, which drains native commands through enqueue_for; nonfatal dead-code warnings."
+        ]
+      },
+      "evidence_lines": [
+        "2026-11-23T12:39:32.9698210Z     Finished `test` profile [unoptimized] target(s) in 22.36s",
+        "2026-11-23T12:39:33.0367150Z test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+        "2026-11-23T12:39:33.1897500Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-23T12:43:09.5408090Z     Finished `dev` profile [unoptimized] target(s) in 3m 36s"
+      ]
+    }
+  },
+  "observed_at": "2026-11-23 12:44:33 UTC",
+  "native_sources_changed_during_monitoring": false,
+  "summary": {
+    "native_jobs_passed": 3,
+    "native_jobs_failed": 0,
+    "host_unit_tests_passed": 62,
+    "mpris_integration_tests_passed": 1,
+    "hardware_or_permission_dialog_tests": false
+  }
+}

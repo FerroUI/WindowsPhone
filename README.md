@@ -12,13 +12,13 @@ The default build now composes **27 registered apps in 46 workspace packages**, 
 
 ## Preview
 
-The browser renders the retained FerroUI control tree through WebAssembly. These captures come from the passing full browser verification of runtime `cec2d1d`, using isolated sample data and native pointer, keyboard and touch input. They include the corrected Minesweeper counter labels and vector game symbols. Historical captures retain separate revision attribution in the capture record.
+The browser renders the retained FerroUI control tree through WebAssembly. These unmodified captures come from the passing full browser verification of runtime [`7bc4107`](https://github.com/FerroUI/WindowsPhone/commit/7bc41077ae1dd8762071cf8af2f1602ea9390ff7), using isolated sample data and native pointer, keyboard and touch input.
 
-![Windows Phone Start in the FerroUI browser app](docs/screenshots/sdk-start-desktop.png)
+![Windows Phone Start in the FerroUI browser app](docs/screenshots/expansion-start.png)
 
-[Mobile Start](docs/screenshots/sdk-start-mobile.png) · [Tic tac toe](docs/screenshots/sdk-tic-tac-toe.png) · [Minesweeper](docs/screenshots/sdk-minesweeper-playing.png) · [Restored minefield](docs/screenshots/sdk-minesweeper-restored.png) · [Store app management](docs/screenshots/sdk-store-disabled.png)
+[Excel formulas/history](docs/screenshots/expansion-excel.png) · [OneNote checklist](docs/screenshots/expansion-onenote.png) · [Music playlist](docs/screenshots/expansion-music.png) · [Weather forecast](docs/screenshots/expansion-weather.png) · [Podcasts](docs/screenshots/expansion-podcasts.png) · [320-pixel Wallet](docs/screenshots/expansion-wallet.png) · [Maps directions](docs/screenshots/expansion-maps.png)
 
-[Capture provenance](docs/screenshots/README.md) records the exact build, artifact and unmodified image sources. It also retains the earlier Calendar, Office, Files, host-integration and published-app captures. These are application captures, not original Windows Phone screenshots or a certification of pixel parity.
+[Capture provenance](docs/screenshots/README.md) records the exact build, artifact and unmodified image sources, and retains earlier games, Calendar, Office, Files and host-integration captures. These are application captures; original-device pixel and motion parity has not been established.
 
 ## Explore
 
@@ -132,9 +132,21 @@ With Chromium available, run the browser interaction and screenshot suite agains
 node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
 ```
 
+### Current expansion release
+
+Runtime [`7bc4107`](https://github.com/FerroUI/WindowsPhone/commit/7bc41077ae1dd8762071cf8af2f1602ea9390ff7) passed [run 45181127412](https://github.com/FerroUI/WindowsPhone/actions/runs/45181127412) and deployed to [the public app](https://ferroui.com/WindowsPhone/). The browser gate passed **230 Rust tests**, **40 JavaScript tests** and **23 linked local modules**. Full rendered verification passed **64 interaction groups**, produced **124 captures**, and recorded **zero console/runtime errors** in **213.079 seconds**. This duration measures the suite, not startup latency or frame rate.
+
+The expanded flows cover typed Excel formulas and Office history, OneNote section/checklist persistence, media playlists and photo albums, Podcasts feed/episode actions, Weather forecasts and units, narrow Wallet barcodes/pivots, saved-place Maps directions, and the existing shell, touch, density and offline reload checks. [Retained results](docs/verification/7bc4107-results.json), [eight reviewed captures](docs/screenshots/README.md#current-app-expansion-7bc4107) and the [publication record](docs/verification/7bc4107-publication.json) retain their exact source attribution.
+
+The preceding [integrated run 45178205829](https://github.com/FerroUI/WindowsPhone/actions/runs/45178205829) on `6518960` passed the full browser suite and all three native jobs: **23 Linux**, **20 Windows** and **19 macOS host tests**, complete desktop build/link on each platform, and a separate real isolated Linux MPRIS protocol test. The final `7bc4107` follow-up adds persistent Maps field labels and improves that existing UI capture; native adapter code is identical. [Native evidence](docs/verification/6518960-native.json) distinguishes compile/protocol coverage from physical hardware and OS permission testing.
+
+Public HTTP confirmed `7bc4107` in the served page and scope-owned service-worker cache revision. Settings → phone update checks for a new build. A downloaded update waits until **all old app windows and tabs close**; reopening then allows the new worker to take over. An ordinary refresh can keep the previous worker while another app window remains open.
+
+### Earlier SDK release
+
 The earlier [complete verification run 45163782836](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836) for [`cec2d1d`](https://github.com/FerroUI/WindowsPhone/commit/cec2d1d214310e33ef4908949fd3d6fe647630a9) passed **161 Rust tests**, **25 JavaScript tests**, linking of **21 packaged local modules**, and the native mobile first-frame check. Its full browser suite passed **53 interaction groups**, produced **104 captures**, and recorded **zero console/runtime error entries**. The suite's **165.364-second** duration measures verification time, not startup latency or frame rate.
 
-The checks drive native input through Cortana discovery and local app-opening commands, reject disabled game discovery, verify exact saved boards and scores, reload and restore data, and exercise Start pinning and Store disable/re-enable. Cell-pixel assertions require visible flags before and after reload and full-color completed X/O marks. Existing Office, Files, Calendar, foreground alarms, live tiles, host byte callbacks, touch, density and offline checks remain in the suite. The [artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836/artifacts/14812709655), [retained results](docs/verification/cec2d1d-results.json) and [six reviewed captures](docs/screenshots/README.md#current-sdk-app-verification-cec2d1d) identify the evidence.
+The checks drive native input through Cortana discovery and local app-opening commands, reject disabled game discovery, verify exact saved boards and scores, reload and restore data, and exercise Start pinning and Store disable/re-enable. Cell-pixel assertions require visible flags before and after reload and full-color completed X/O marks. Existing Office, Files, Calendar, foreground alarms, live tiles, host byte callbacks, touch, density and offline checks remain in the suite. The [artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836/artifacts/14812709655), [retained results](docs/verification/cec2d1d-results.json) and [six reviewed captures](docs/screenshots/README.md#earlier-sdk-app-verification-cec2d1d) identify the evidence.
 
 <!-- BEGIN SDK LATEST RELEASE STATUS -->
 The same run's [browser build](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836/job/137655455056), [Pages deployment](https://github.com/FerroUI/WindowsPhone/actions/runs/45163782836/job/137662122359) and all three native jobs succeeded. Native verification passed **16 Linux**, **14 macOS** and **15 Windows host tests**, then built and linked the complete desktop executable on each platform with real media/camera providers. Public HTTP confirmed `cec2d1d` in the index and `windows-phone-cec2d1d` in the service worker. The [publication record](docs/verification/cec2d1d-publication.json) keeps the browser, native, local and HTTP evidence distinct.
