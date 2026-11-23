@@ -5,6 +5,8 @@ use phone_state::PhoneViewModel;
 use std::{collections::BTreeMap, rc::Rc};
 
 mod events;
+mod search;
+pub use search::LocalSearchResult;
 
 /// Immutable, validated composition. Lookup is logarithmic and registration
 /// order cannot silently replace another application's identity or built-in.

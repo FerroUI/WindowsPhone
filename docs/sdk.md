@@ -35,7 +35,7 @@ python scripts/new-phone-app.py phone-app-counter \
   --title Counter --id example.counter
 ```
 
-`--dry-run` writes nothing. The script refuses existing output paths, validates the Cargo name and app ID, and reserves `phone.*` for built-in identities. `--output` selects another new directory. Generated manifests inherit the phone workspace's pinned FerroUI dependencies; place the generated crate inside this workspace before building it.
+`--dry-run` writes nothing. The script refuses existing output paths, validates the Cargo name and app ID, and reserves `phone.*` for built-in identities. `--output` selects another new directory. The default `crates/apps/*` location is already a workspace member through the root manifest's glob. A different output location must be added to the workspace members explicitly, or to another workspace supplying the inherited package fields and dependencies, before building it; placement elsewhere inside this repository alone does not establish membership.
 
 The script intentionally leaves composition explicit. Add the generated crate as a dependency of the composing host/facade, then add its `registration()` to the vector passed to `phone_ui::create_view_with_apps`. The default `phone_ui::create_view` uses the supplied built-in composition. No dynamic library loader or online installation channel is involved.
 
@@ -82,6 +82,8 @@ pub fn registration() -> AppRegistration {
 ```
 
 `AppManifest` carries the stable ID, title, version, icon, accent, category, listed state and declared capabilities. Its `route(path)` produces a built-in app route or an extension route as appropriate. `AppRegistry::new` validates identities and rejects duplicate application IDs and duplicate built-in ownership; registration order cannot silently replace another application.
+
+`AppRegistry::search_apps(vm, query)` discovers listed, installed/enabled applications by case-insensitive title substring or exact ID, with stable relevance ordering. `resolve_app` selects a unique case-insensitive ID match, a unique exact title or a unique substring match; ambiguous titles and IDs differing only by case are never silently opened. `search_local` combines the same registry catalog with existing contact, note and Office results, filtering unavailable route owners and returning at most 100 rows. Cortana uses these APIs for local results and `open` commands, so additional SDK apps need no search-specific shell changes. Disabling an app in Store removes it from local discovery immediately. Unknown or ambiguous local commands remain on the search page; only explicit web-search actions leave the phone.
 
 The SDK prelude exposes the same `rsx!` API and reusable phone primitives used by the built-ins. Native control templates, accessibility names, keyboard behavior and retained reconciliation remain FerroUI responsibilities. Do not implement a second HTML UI for an app hosted by the browser edition.
 

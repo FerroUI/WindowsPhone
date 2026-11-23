@@ -2,10 +2,12 @@ use ferroui_base::input::Key;
 use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_view::prelude::*;
 use phone_controls::{action, app_bar, icon, input, Icon};
-use phone_domain::{AppId, Route};
 use phone_sdk::{common::*, session::Session};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
+
+mod commands;
+use commands::{find_query, run};
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let query = ui.query.get();
@@ -38,7 +40,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         }
     } else {
         let search = find_query(&query);
-        for result in vm.search(search) {
+        for result in ui.registry().search_local(&vm, search) {
             let model = vm.clone();
             let route = result.route;
             body = body.child(row(&result.title, &result.subtitle, move || {
@@ -69,83 +71,6 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             vec![],
         ),
     )
-}
-
-fn run(vm: &PhoneViewModel, ui: &Session) {
-    let value = ui.query.get_untracked();
-    let value = value.trim();
-    let lower = value.to_lowercase();
-    if let Some(name) = lower.strip_prefix("open ") {
-        let found = AppId::ALL
-            .iter()
-            .copied()
-            .find(|app| app.label().eq_ignore_ascii_case(name))
-            .or(match name {
-                "contacts" => Some(AppId::People),
-                "browser" => Some(AppId::InternetExplorer),
-                "messages" => Some(AppId::Messaging),
-                "mail" => Some(AppId::Outlook),
-                "notes" => Some(AppId::OneNote),
-                _ => None,
-            })
-            .or_else(|| AppId::search(name).first().copied());
-        if let Some(app) = found {
-            vm.navigate(Route::App(app));
-            return;
-        }
-    }
-    if let Some(name) = lower.strip_prefix("call ") {
-        let contacts = vm
-            .data()
-            .contacts
-            .iter()
-            .filter(|person| person.name.to_lowercase().contains(name))
-            .cloned()
-            .collect::<Vec<_>>();
-        if contacts.len() == 1 {
-            let person = &contacts[0];
-            vm.record_call(person.name.clone(), person.phone.clone());
-            return;
-        } else if contacts.len() > 1 {
-            ui.query.set(name.into());
-            vm.set_status("Choose the person you want to call.".into());
-            return;
-        }
-    }
-    if let Some(value) = lower.strip_prefix("search ") {
-        vm.request(HostRequest::OpenUrl {
-            url: format!(
-                "https://www.bing.com/search?q={}",
-                phone_app_support::urls::encode(value)
-            ),
-        });
-        return;
-    }
-    if lower == "what time is it" || lower == "what time is it?" || lower == "time" {
-        vm.set_status(format!("It's {}.", clock(vm)));
-        return;
-    }
-    let search = find_query(value);
-    let results = vm.search(search);
-    if results.len() == 1 {
-        vm.navigate(results[0].route.clone());
-    } else if !value.is_empty() {
-        vm.set_status(format!(
-            "{} matches on your phone. Choose a result, or search the web.",
-            results.len()
-        ));
-    }
-}
-
-fn find_query(value: &str) -> &str {
-    if value
-        .get(..5)
-        .is_some_and(|prefix| prefix.eq_ignore_ascii_case("find "))
-    {
-        &value[5..]
-    } else {
-        value
-    }
 }
 
 mod registration;

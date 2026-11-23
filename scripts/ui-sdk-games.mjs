@@ -38,6 +38,11 @@ export async function verifySdkGames(ctx) {
     await isRoute({Extension: {app: id, path: ''}});
   };
   const saved = async id => (await state()).app_data?.[id];
+  const localSearch = async query => {
+    await clickName('HardwareSearch');
+    await isRoute('Search');
+    await edit('CortanaInput', query);
+  };
   const cellColor = async (image, name, rgb, label) => {
     const view = await snapshot();
     const cell = view.elements.find(element => element.name === name);
@@ -69,8 +74,16 @@ export async function verifySdkGames(ctx) {
       assert.deepEqual(await state(), before);
     });
 
-    await check('registered Tic tac toe supports native play, exact score persistence and turn undo', async () => {
+    await check('registered Tic tac toe supports local search, native play, exact score persistence and turn undo', async () => {
       await launch(tic);
+      const beforeSearch = await state();
+      await localSearch('find Tic tac toe');
+      await clickLabel('Tic tac toe');
+      await isRoute({Extension: {app: tic, path: ''}});
+      await localSearch('open Tic tac toe');
+      await clickLabel('search');
+      await isRoute({Extension: {app: tic, path: ''}});
+      assert.deepEqual(await state(), beforeSearch, 'local discovery and open commands do not change app data');
       await clickLabel('more'); await clickLabel('two players');
       await until(async () => (await saved(tic))?.game.mode === 'TwoPlayers', 'two-player mode saved');
       for (const index of [0, 3, 1, 4, 2]) await clickName(`TicTacToeCell${index}`);
@@ -128,7 +141,7 @@ export async function verifySdkGames(ctx) {
       assert.deepEqual(await saved(mines), data, 'phone restore retains isolated app data');
     });
 
-    await check('SDK app Start links and Store disable/enable preserve game progress', async () => {
+    await check('SDK app Start links, local search, and Store disable/enable preserve game progress', async () => {
       await launch(tic);
       const progress = await saved(tic);
       await clickLabel('more'); await clickLabel('pin to start');
@@ -167,6 +180,21 @@ export async function verifySdkGames(ctx) {
       assert.deepEqual(await state(), disabled, 'unavailable activation cannot mutate data');
       await page.wheel(...centre(await control(scroll, 'Store detail scroll viewer')), 0, -100000);
       await capture('sdk-game-store-disabled');
+
+      await localSearch('find Tic tac toe');
+      await control(element => button(element) && element.automationName === 'search the web', 'local search results rendered');
+      assert(!(await snapshot()).elements.some(element => button(element) && element.automationName === 'Tic tac toe'),
+        'disabled game is absent from local search results');
+      await edit('CortanaInput', 'open Tic tac toe');
+      await clickLabel('search');
+      await textPresent('0 matches on your phone. Choose a result, or search the web.');
+      await isRoute('Search');
+      assert(!(await snapshot()).elements.some(element => button(element) && element.automationName === 'Tic tac toe'),
+        'disabled local open cannot reveal an app result');
+      assert.deepEqual(await state(), disabled, 'disabled local discovery and open cannot mutate the phone');
+
+      await page.evaluate('phoneApp.openApp("Store")');
+      await isRoute({App: 'Store'});
       await clickLabel('enable');
       await until(async () => !(await state()).disabled_extensions.includes(tic), 'game re-enabled through Store');
       assert.deepEqual(await saved(tic), progress, 'enable restores access to the same progress');

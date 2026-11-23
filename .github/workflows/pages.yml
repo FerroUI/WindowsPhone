@@ -110,7 +110,7 @@ jobs:
         run: cargo test --locked -p phone-host -p phone-domain -p phone-state
       - name: Verify SDK and game contracts
         if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
-        run: cargo test --locked -p phone-sdk -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-sdk-example
+        run: cargo test --locked -p phone-sdk -p phone-app-cortana -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-sdk-example
       - name: Verify host boundaries
         run: node --test scripts/*.test.mjs
       - name: Build Windows Phone
