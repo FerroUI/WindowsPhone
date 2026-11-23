@@ -126,7 +126,7 @@ phase 'Waiting for the Start route'
 wait_for_route home
 cp "$status" "$out/start.json"
 xcrun simctl io "$udid" screenshot "$out/start.png"
-phase 'Verifying the real Contacts and brightness provider roundtrips'
+phase 'Verifying real Contacts CRUD and simulator hardware limits'
 deadline=$((SECONDS + 120))
 while [ "$SECONDS" -lt "$deadline" ]; do
   save_observations
@@ -141,7 +141,7 @@ PY
   sleep 0.5
 done
 if [ "$SECONDS" -ge "$deadline" ]; then
-  echo 'The native Contacts/brightness roundtrip did not finish.' >&2
+  echo 'The native Contacts/hardware qualification did not finish.' >&2
   exit 1
 fi
 cp "$device_status" "$out/device-tests.json"
@@ -208,4 +208,4 @@ xcrun simctl io "$udid" screenshot "$out/home-restored.png"
 touch "$ui_done"
 if ! wait "$ui_test"; then cat "$out/xctest.log" >&2; exit 1; fi
 cp "$ui_status" "$out/prompt-handler.json"
-phase 'UIKit mounting, six native activations, Contacts CRUD and brightness restoration passed.'
+phase 'UIKit mounting, six native activations, Contacts CRUD and simulator hardware limits passed.'

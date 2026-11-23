@@ -14,8 +14,8 @@ def verify(data):
     if data.get("sent_calls") != 0 or data.get("sent_messages") != 0:
         raise ValueError("Provider qualification must never place calls or send messages.")
     checks = data.get("checks", [])
-    expected = {"observed_simulator_capabilities", "brightness_write", "contact_create_and_query",
-                "contact_update_and_query", "contact_delete_and_query", "brightness_restore"}
+    expected = {"observed_simulator_capabilities", "brightness_read_only", "contact_create_and_query",
+                "contact_update_and_query", "contact_delete_and_query"}
     if len(checks) != len(expected) or {check.get("name") for check in checks} != expected:
         raise ValueError("The native provider evidence is incomplete.")
     if not all(check.get("passed") is True for check in checks):

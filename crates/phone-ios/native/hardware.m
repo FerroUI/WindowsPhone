@@ -2,6 +2,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <TargetConditionals.h>
 #include <math.h>
 
 static BOOL ownsTorch;
@@ -14,6 +15,13 @@ static AVCaptureDevice *torchDevice(void) {
 static UIScreen *activeScreen(void) {
     UIViewController *presenter = wp_ios_presenter();
     return presenter.view.window.screen ?: UIScreen.mainScreen;
+}
+
+static BOOL brightnessWritable(void) {
+    // The simulator has no physical backlight. UIKit also restricts this
+    // property to the main display, not an external scene or iOS-on-Mac host.
+    return !TARGET_OS_SIMULATOR && !NSProcessInfo.processInfo.isiOSAppOnMac &&
+        activeScreen() == UIScreen.mainScreen;
 }
 
 static NSDictionary *control(NSString *name, NSString *access, NSString *kind, id value, NSString *detail) {
@@ -33,8 +41,10 @@ NSArray *wp_ios_hardware_controls(void) {
         [names addObject:port.portName];
     NSString *route = wp_ios_text([names componentsJoinedByString:@", "], 512);
     return @[
-        control(@"brightness", @"writable", @"level", @(activeScreen().brightness),
-            @"Screen brightness is controlled by UIKit and remains effective until the device locks."),
+        control(@"brightness", brightnessWritable() ? @"writable" : @"readOnly", @"level", @(activeScreen().brightness),
+            TARGET_OS_SIMULATOR ? @"The simulator reports a brightness value but has no writable physical backlight." :
+            brightnessWritable() ? @"Main-screen brightness is controlled by UIKit and remains effective until the device locks." :
+            @"The active scene does not expose a supported main-screen brightness control."),
         control(@"flashlight", torchAccess, supported ? @"toggle" : @"unknown", supported ? @(torch.isTorchActive) : nil,
             !supported ? @"This device has no rear torch." : !permitted ? @"Camera permission is required to use the torch." :
             @"The torch is released when the app suspends. Camera use or thermal conditions can make it unavailable."),
@@ -56,6 +66,12 @@ void wp_ios_hardware_set(WPIOSOperation *operation, NSDictionary *request) {
     NSString *name = request[@"control"];
     NSDictionary *value = request[@"value"];
     if ([name isEqualToString:@"brightness"] && [value[@"kind"] isEqualToString:@"level"]) {
+        if (!brightnessWritable()) {
+            [operation finish:0 first:0 second:0 message:TARGET_OS_SIMULATOR ?
+                @"Screen brightness is read-only in iOS Simulator." :
+                @"This scene does not have a writable physical main-screen brightness control."];
+            return;
+        }
         double level = [value[@"value"] doubleValue];
         if (!isfinite(level) || level < 0 || level > 1) {
             [operation finish:0 first:0 second:0 message:@"Brightness must be between zero and one."]; return;

@@ -21,7 +21,7 @@ sandbox location and replaceable `IosPlatform` OS adapter.
 | Device contacts | Explicit Contacts permission, full/limited selection observation, bounded native queries, create/update/delete through `CNContactStore`. Updates preserve unrelated fields and existing labels; an unchanged display name preserves structured name components. System Favorites are unavailable through this API. |
 | Messages | The public MessageUI composer reports its actual Sent/Cancelled/Failed result. Sent means composer handoff, not carrier delivery. The native file picker returns expiring opaque attachment leases; multimedia composition copies the selected bytes into the system composer. |
 | Maps | Cancellable `MKLocalSearch` and `MKMapItem` handoff to native Maps, with supported walking/driving/cycling/transit directions. This provider does not claim the default navigation role. |
-| Hardware controls | UIKit brightness read/write, authorized rear-camera torch ownership, actual audio route and volume observation, native volume/output controls, and read-only Low Power Mode. Unsupported private Settings URLs and hidden volume-slider writes are not used. |
+| Hardware controls | Main-screen UIKit brightness read/write on physical iOS devices, authorized rear-camera torch ownership, actual audio route and volume observation, native volume/output controls, and read-only Low Power Mode. Simulator brightness is read-only and writes explicitly fail; external scenes and iOS-on-Mac do not claim physical main-screen control. Unsupported private Settings URLs and hidden volume-slider writes are not used. |
 | Power and haptics | Observed battery/charging/Low Power Mode, unknown values preserved, and selection/light/medium/heavy UIKit feedback requests. |
 | Now Playing | Shared Apple MediaPlayer metadata and bounded generation-stamped remote commands, foreground playback audio-session ownership, interruption/headphone-disconnect pause, and observer teardown. |
 | Media/camera | Shared FerroUI Apple video provider and texture import; the bundle declares camera usage. |
@@ -167,9 +167,11 @@ The simulator is removed afterward. A production launch has no smoke
 timer; the harness explicitly supplies `PHONE_IOS_SMOKE=1`. A separate
 `PHONE_IOS_DEVICE_TEST=1` opt-in additionally requires a simulator build. It
 creates, reads, updates and deletes one uniquely named contact in that disposable
-simulator; writes and restores brightness; and checks that unprovisioned carrier
+simulator; verifies that its read-only brightness rejects writes without changing
+the observed value; and checks that unprovisioned carrier
 roles and unavailable hardware remain unavailable. It places no calls and sends
-no messages. Contacts permission is granted only on that newly created test
+no messages. Physical brightness changes require device qualification. Contacts
+permission is granted only on that newly created test
 simulator, and all changes are removed with the simulator afterward.
 
 Portable tests (`cargo test -p phone-ios --lib`) exercise completion ownership,

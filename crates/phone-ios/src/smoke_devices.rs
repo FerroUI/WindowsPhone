@@ -65,8 +65,8 @@ fn brightness(snapshot: &DeviceSnapshot) -> Result<f64, String> {
     let control = snapshot
         .control(DeviceControl::Brightness)
         .ok_or("No observed brightness control.")?;
-    if control.access != ControlAccess::Writable {
-        return Err("The simulator did not expose writable UIKit brightness.".into());
+    if control.access != ControlAccess::ReadOnly {
+        return Err("The simulator must not advertise a writable physical backlight.".into());
     }
     match control.value {
         ControlValue::Level(value) if value.is_finite() => Ok(value),
@@ -82,7 +82,6 @@ async fn roundtrip(platform: Rc<dyn PlatformPlugin>) -> Value {
         .unwrap_or_default();
     let name = format!("FerroUISimulatorCheck{unique}");
     let mut created_id = None::<String>;
-    let mut original_brightness = None;
     let result = async {
         let initial = snapshot(&platform).await?;
         if initial.permission(DevicePermission::Contacts) != PermissionState::Granted {
@@ -97,12 +96,13 @@ async fn roundtrip(platform: Rc<dyn PlatformPlugin>) -> Value {
         }
         checks.push(json!({"name":"observed_simulator_capabilities","passed":true,"snapshot":initial}));
         let original = brightness(&initial)?;
-        original_brightness = Some(original);
         let changed = if (original - 0.43).abs() < 0.1 { 0.67 } else { 0.43 };
-        request(&platform, DeviceRequest::SetControl { control: DeviceControl::Brightness, value: ControlValue::Level(changed) }).await?;
+        let refusal = request(&platform, DeviceRequest::SetControl { control: DeviceControl::Brightness, value: ControlValue::Level(changed) })
+            .await.err().ok_or("The simulator incorrectly accepted a physical brightness write.")?;
+        if !refusal.contains("read-only in iOS Simulator") { return Err(format!("The brightness request failed for an unexpected reason: {refusal}")); }
         let observed = brightness(&snapshot(&platform).await?)?;
-        if (observed - changed).abs() > 0.02 { return Err(format!("UIKit brightness readback was {observed}, expected {changed}.")); }
-        checks.push(json!({"name":"brightness_write","passed":true,"before":original,"requested":changed,"observed":observed}));
+        if (observed - original).abs() > 0.001 { return Err("A refused simulator brightness write changed its observed value.".into()); }
+        checks.push(json!({"name":"brightness_read_only","passed":true,"before":original,"requested":changed,"observed":observed,"refusal":refusal}));
 
         let contact = DeviceContact { id: String::new(), name: name.clone(), phones: vec!["+1 202 555 0147".into()], emails: vec!["ios-smoke@example.invalid".into()], favorite: false };
         request(&platform, DeviceRequest::SaveContact { contact }).await?;
@@ -129,41 +129,17 @@ async fn roundtrip(platform: Rc<dyn PlatformPlugin>) -> Value {
         Ok::<(), String>(())
     }.await;
 
-    // Restore every changed setting even when a preceding assertion fails.
+    // Remove the test contact even when a preceding assertion fails.
     let mut cleanup = Vec::<String>::new();
     if let Some(id) = created_id {
         if let Err(error) = request(&platform, DeviceRequest::DeleteContact { id }).await {
             cleanup.push(error);
         }
     }
-    if let Some(original) = original_brightness {
-        let restored = async {
-            request(
-                &platform,
-                DeviceRequest::SetControl {
-                    control: DeviceControl::Brightness,
-                    value: ControlValue::Level(original),
-                },
-            )
-            .await?;
-            let observed = brightness(&snapshot(&platform).await?)?;
-            if (observed - original).abs() > 0.02 {
-                return Err("UIKit brightness did not restore its original level.".into());
-            }
-            Ok::<f64, String>(observed)
-        }
-        .await;
-        match restored {
-            Ok(observed) => {
-                checks.push(json!({"name":"brightness_restore","passed":true,"observed":observed}))
-            }
-            Err(error) => cleanup.push(error),
-        }
-    }
     json!({"schema":1,"platform":"ios","simulator_only":true,
         "status":if result.is_ok() && cleanup.is_empty() {"passed"} else {"failed"},
         "checks":checks,"error":result.err(),"cleanup_errors":cleanup,
-        "sent_calls":0,"sent_messages":0})
+        "sent_calls":0,"sent_messages":0,"physical_brightness":"requires_device_qualification"})
 }
 
 pub fn install(host: &Rc<NativeHost>) {
