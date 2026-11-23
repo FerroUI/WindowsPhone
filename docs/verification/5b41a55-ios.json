@@ -1,0 +1,368 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "source_commit": "5b41a557c83c59ea864c878199065f4dba07f5c9",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "workflow": {
+    "run_id": 45223785634,
+    "job_id": 137864736849,
+    "name": "Verify iOS host",
+    "conclusion": "success",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634/job/137864736849",
+    "job_log_sha256": "d3d67c84c3675ee3a4a5b31383a533566cabb3d43b8ebb0e6a286d0a29baeae2"
+  },
+  "toolchain": {
+    "rust": "1.99.0",
+    "target": "aarch64-apple-ios-sim",
+    "profile": "dev",
+    "runner": "macos-26-arm64",
+    "xcode": "26.6",
+    "xcode_build": "17F113",
+    "sdk": "iphonesimulator26.5",
+    "sdk_build": "23F81a",
+    "deployment_target": "15.0"
+  },
+  "runtime": {
+    "simulator": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-11",
+    "bundle_identifier": "org.ferroui.windowsphone",
+    "render_scaling": 2.0
+  },
+  "build": {
+    "result": "passed",
+    "command": "bash scripts/build-ios.sh --target aarch64-apple-ios-sim",
+    "cargo_command": "cargo build --locked -p phone-ios --target aarch64-apple-ios-sim --profile dev --bin phone-ios",
+    "duration_seconds": 91,
+    "native_link": "passed",
+    "objective_c_bridges": "compiled and linked",
+    "bundle_metadata_and_ad_hoc_simulator_signing": "passed",
+    "pre_smoke_native_cache_save": "passed"
+  },
+  "tests": [
+    {
+      "command": "cargo test --locked -p phone-ios --lib",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "command": "python3 scripts/verify_ios_smoke_test.py",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "target": "PhonePromptTests/PhonePromptTests/testAcceptWindowsPhoneURLConfirmation",
+      "framework": "public XCTest/XCUIAutomation",
+      "passed": 1,
+      "failed": 0,
+      "duration_seconds": 32.291,
+      "exact_alert": "Open in “Windows Phone”?",
+      "button": "Open",
+      "accepted_confirmations": 1,
+      "phase": "complete",
+      "xctest_log_sha256": "3be83ec8b87119dff6435168f4c93b185887eec866e9e9985676eb93441a1e09"
+    }
+  ],
+  "qualified_behavior": [
+    "UIKit native application installs and mounts.",
+    "Initial Start, Wallet after real simctl URL, and return Start after real Home URL pass independent mounted-state checks.",
+    "Both warm URI requests are observed and accepted by the real UIKit delegate; no route injection.",
+    "Visible named controls include PhoneScreen/PhonePage and StartTiles or WalletSearch, with valid measure/arrangement.",
+    "Phone inner view and PhoneScreen lie inside reported UIKit safe area within one logical point at all three checkpoints.",
+    "Original screenshots visually show phone status/navigation chrome after both activations; retained chrome pixel regions match the initial rendered Start capture exactly."
+  ],
+  "observations": {
+    "start": {
+      "observation_file": "start.json",
+      "observation_sha256": "066a2f43b40497205e358d567d2663d6ed3224c28c136a8597d3f48c90491f0c",
+      "capture_file": "start.png",
+      "capture_sha256": "7edbe498912975193a41b534e646d0de08b04347cd1eb8b2b759ec43937d5a3d",
+      "capture_pixels": {
+        "width": 828,
+        "height": 1792
+      },
+      "capture_written_at": "2026-11-23T17:18:27.124570Z",
+      "proof": {
+        "activation": null,
+        "client": {
+          "height": 896.0,
+          "width": 414.0
+        },
+        "closed": false,
+        "height": 814.0,
+        "inner": {
+          "height": 814.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 48.0
+        },
+        "mounted_controls": [
+          "PhoneScreen",
+          "PhonePage",
+          "StartScroll",
+          "StartTiles"
+        ],
+        "observed_at_unix_ms": 1795454301948,
+        "platform": "ios",
+        "ready": true,
+        "render_scaling": 2.0,
+        "route": "Start",
+        "safe_area": {
+          "bottom": 34.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 48.0
+        },
+        "schema": 1,
+        "screen": {
+          "height": 814.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 48.0
+        },
+        "sequence": 2,
+        "status": "",
+        "viewport": {
+          "height": 814.0,
+          "width": 414.0
+        },
+        "width": 414.0,
+        "wrapper": {
+          "height": 896.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    "wallet": {
+      "observation_file": "wallet.json",
+      "observation_sha256": "1e96c4c65a6aad7d4b1f7030dc7423cfcf1fff4d8bcca59edd886ad5026ec190",
+      "capture_file": "wallet.png",
+      "capture_sha256": "5b9b800f6f828e30f1d5d1601a18adba9b93837e8f43426b4b14c03657190f25",
+      "capture_pixels": {
+        "width": 828,
+        "height": 1792
+      },
+      "capture_written_at": "2026-11-23T17:19:29.753724Z",
+      "proof": {
+        "activation": {
+          "outcome": "accepted",
+          "uri": "ferroui-phone://app/org.ferroui.wallet"
+        },
+        "client": {
+          "height": 896.0,
+          "width": 414.0
+        },
+        "closed": false,
+        "height": 814.0,
+        "inner": {
+          "height": 814.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 48.0
+        },
+        "mounted_controls": [
+          "PhoneScreen",
+          "PhonePage",
+          "WalletSearch"
+        ],
+        "observed_at_unix_ms": 1795454366808,
+        "platform": "ios",
+        "ready": true,
+        "render_scaling": 2.0,
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "safe_area": {
+          "bottom": 34.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 48.0
+        },
+        "schema": 1,
+        "screen": {
+          "height": 814.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 48.0
+        },
+        "sequence": 131,
+        "status": "",
+        "viewport": {
+          "height": 814.0,
+          "width": 414.0
+        },
+        "width": 414.0,
+        "wrapper": {
+          "height": 896.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    },
+    "home-restored": {
+      "observation_file": "home-restored.json",
+      "observation_sha256": "5ee7118627072a9e268e1f507d21c4f68ef4f5f78d986bc46bc29ddb6bdbf52c",
+      "capture_file": "home-restored.png",
+      "capture_sha256": "ccef6ad39d16d04654616f8e6a9b4addc7e8d4027ddf33aeed55be4eb141ab90",
+      "capture_pixels": {
+        "width": 828,
+        "height": 1792
+      },
+      "capture_written_at": "2026-11-23T17:19:31.219590Z",
+      "proof": {
+        "activation": {
+          "outcome": "accepted",
+          "uri": "ferroui-phone://home"
+        },
+        "client": {
+          "height": 896.0,
+          "width": 414.0
+        },
+        "closed": false,
+        "height": 814.0,
+        "inner": {
+          "height": 814.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 48.0
+        },
+        "mounted_controls": [
+          "PhoneScreen",
+          "PhonePage",
+          "StartScroll",
+          "StartTiles"
+        ],
+        "observed_at_unix_ms": 1795454370339,
+        "platform": "ios",
+        "ready": true,
+        "render_scaling": 2.0,
+        "route": "Start",
+        "safe_area": {
+          "bottom": 34.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 48.0
+        },
+        "schema": 1,
+        "screen": {
+          "height": 814.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 48.0
+        },
+        "sequence": 140,
+        "status": "",
+        "viewport": {
+          "height": 814.0,
+          "width": 414.0
+        },
+        "width": 414.0,
+        "wrapper": {
+          "height": 896.0,
+          "width": 414.0,
+          "x": 0.0,
+          "y": 0.0
+        }
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "id": 14845270139,
+      "name": "ios-verification",
+      "bytes": 1892809,
+      "sha256": "f5c5218acba898a162f5bbe540fb971411967a13692abcc792f5ea70e463d6bd",
+      "download_hash_verified": true,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634/artifacts/14845270139"
+    },
+    {
+      "id": 14845035654,
+      "name": "phone-ios-simulator",
+      "bytes": 47346592,
+      "sha256": "0a9297649689e85c51e0664367303b774f1c6c81c69affaef2242f1898741b05",
+      "download_hash_verified": true,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634/artifacts/14845035654"
+    }
+  ],
+  "prior_causal_fixes": [
+    {
+      "commit": "8af9023e5b8eb3510c9dfac30df6962d6b91e046",
+      "problem": "Native host measured outer padded bounds and sized PhoneScreen across UIKit insets.",
+      "fix": "UserControl wrapper applies safe-area padding outside the measured NativeHost view."
+    },
+    {
+      "commit": "9e212e3e6ec908a32d834bd29d94f2880e71235e",
+      "problem": "iOS scheme confirmation blocked URL delivery.",
+      "fix": "Standalone public XCTest runner accepts only the exact Windows Phone Open confirmation; route verifier remains independent."
+    },
+    {
+      "commit": "5b41a557c83c59ea864c878199065f4dba07f5c9",
+      "problem": "Cold simulator creation/boot and install consumed nearly eleven minutes of the former twelve-minute outer step.",
+      "fix": "Twenty-minute outer startup budget, unchanged ninety-second route checks, continuous observation copies and INT/TERM cleanup."
+    }
+  ],
+  "visual_review": {
+    "status": "passed",
+    "reviewed": [
+      "start.png",
+      "wallet.png",
+      "home-restored.png"
+    ],
+    "start": "Rendered Start tiles, separated native/phone status rows, and Back/Start/Search glyphs are visible.",
+    "wallet": "Rendered Wallet header, pivots, search, empty state, app bar and Back/Start/Search glyphs are visible.",
+    "home_restored": "Rendered Start tiles, status indicators and Back/Start/Search glyphs are present after the real Home activation.",
+    "retained_chrome_pixel_comparison": {
+      "method": "SHA-256 of decoded RGBA bytes from the same pixel rectangles in all three original PNGs; all hashes match.",
+      "navigation": {
+        "rectangle_pixels": [
+          0,
+          1620,
+          828,
+          1724
+        ],
+        "rgba_sha256": "4069650043f192d4da5581e1c1b455ca519272a9783128d1485c92cb5dbf51b2"
+      },
+      "left_phone_status": {
+        "rectangle_pixels": [
+          0,
+          96,
+          200,
+          150
+        ],
+        "rgba_sha256": "109702d3b5b7ba23e0c4b4ab943215af8258c5bcbcc16868693e985b6dd4885a"
+      },
+      "finding": "Retained status/navigation pixels are unchanged across Start, Wallet and restored Start. Original-image reinspection disproved an apparent missing-glyph issue in a combined preview; no renderer change was made."
+    }
+  },
+  "limitations": [
+    "Simulator evidence only; no physical-device camera, haptics, permissions, or media interruption behavior is claimed.",
+    "Installed application/launcher/full-shell roles remain unsupported by the stock iOS host."
+  ],
+  "selected_repository_captures": [
+    {
+      "path": "docs/screenshots/platform-start-ios.png",
+      "source": "start.png",
+      "title": "iOS Start",
+      "width": 828,
+      "height": 1792,
+      "bytes": 663550,
+      "sha256": "7edbe498912975193a41b534e646d0de08b04347cd1eb8b2b759ec43937d5a3d",
+      "visually_reviewed": true
+    },
+    {
+      "path": "docs/screenshots/platform-wallet-ios.png",
+      "source": "wallet.png",
+      "title": "iOS Wallet",
+      "width": 828,
+      "height": 1792,
+      "bytes": 110596,
+      "sha256": "5b9b800f6f828e30f1d5d1601a18adba9b93837e8f43426b4b14c03657190f25",
+      "visually_reviewed": true
+    }
+  ]
+}

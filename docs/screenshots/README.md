@@ -2,6 +2,46 @@
 
 The images in this directory are application captures. They are not original Windows Phone reference screenshots and do not establish pixel equality with original hardware.
 
+## Native iOS (5b41a55)
+
+These unmodified captures come from successful [iOS run 45223785634](https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634) at [`5b41a557c83c59ea864c878199065f4dba07f5c9`](https://github.com/FerroUI/WindowsPhone/commit/5b41a557c83c59ea864c878199065f4dba07f5c9). The [UI artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634/artifacts/14845270139) has ZIP SHA-256 `f5c5218acba898a162f5bbe540fb971411967a13692abcc792f5ea70e463d6bd`. The [iOS record](../verification/5b41a55-ios.json) retains all three original observations, image hashes, actual URL acceptance and XCTest results.
+
+| Repository image | Artifact source | Pixels | Captured state |
+| --- | --- | --- | --- |
+| [iOS Start](platform-start-ios.png) | `start.png` | 828 × 1792 | Native UIKit/Metal application after mounting its shared FerroUI controls. |
+| [iOS Wallet](platform-wallet-ios.png) | `wallet.png` | 828 × 1792 | Wallet root after the real UIKit URL callback accepted its activation. |
+
+At scale 2, the native client measured **414 × 896 points**, with **48 top / 34 bottom** safe-area insets and a **414 × 814** inner host, PhoneScreen and view-model viewport. The private simulator mounted Start, opened Wallet through `simctl openurl` and returned Home. A public XCTest helper accepted the exact system URL confirmation; it did not inject app state. Fresh observations had the expected visible controls and accepted URIs.
+
+All three source images were reviewed. Wallet's search, empty-state text and commands fit the native surface. The status icons and Back/Start/Search strip remain present: their raw pixel regions are identical in Start, Wallet and restored Home, as recorded with region hashes. The original files remain fully opaque and unmodified. These images qualify the stated simulator states, not physical hardware, notification/location consent, tactile output, codec playback, distribution signing or original Windows Phone pixel fidelity.
+
+## Native Android (895b47e)
+
+These unmodified images come from successful [Android UI run 45222094681](https://github.com/FerroUI/WindowsPhone/actions/runs/45222094681) at [`895b47e2cb969fd7069fd056f180a6b1366d9e93`](https://github.com/FerroUI/WindowsPhone/commit/895b47e2cb969fd7069fd056f180a6b1366d9e93). The [UI artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45222094681/artifacts/14842370879) has ZIP SHA-256 `58b51142f0530168d8a62413401103066b6e486dcda411b688b3755de173f7d8`. The [runtime record](../verification/895b47e-android-ui.json) retains all six App/Launcher route observations, capture hashes and visual findings.
+
+| Repository image | Artifact source | Pixels | Captured state |
+| --- | --- | --- | --- |
+| [Android Start](platform-start-android.png) | `app-start.png` | 720 × 1440 | Ordinary Android application after real Home URI activation, with fictional first-run tiles. |
+| [Android Wallet](platform-wallet-android.png) | `app-wallet.png` | 720 × 1440 | Actual Wallet root, empty local wallet, search and add/import/more commands. |
+
+An isolated Android 36 x86_64 emulator rendered the native FerroUI tree. At scale 2, the client measured **360 × 720**, system insets **68 top / 24 bottom**, and the inner host, PhoneScreen and view-model viewport **360 × 628**. Both App and Launcher packages completed Start → Wallet → Home with fresh mounted-control observations and exact-component foreground checks. The original current user and HOME holder were preserved; neither package acquired HOME authority in this gate.
+
+All six captures were visually reviewed. The native content and phone navigation remain separate from Android's status/gesture areas. Wallet's controls and empty-state text fit; its partially visible next pivot and Start's partial lower tile row belong to their scrolling surfaces. These are native emulator captures, distinct from the browser screenshots below. They establish the named runtime states, not physical/OEM behavior, HOME consent, hardware permissions, media playback or original-device pixel fidelity.
+
+## Portable platform browser (01c4d69)
+
+These three unmodified captures come from [run 45211399089](https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089) at [`01c4d697c6b32049c8b919899fbb0416f5b61144`](https://github.com/FerroUI/WindowsPhone/commit/01c4d697c6b32049c8b919899fbb0416f5b61144). The [UI artifact](https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089/artifacts/14837427101) contains the packaged browser interaction evidence; its ZIP SHA-256 is `a94d201ce82a19f9dab8b9b9e7e061626a40598fe387c7ad8e65da17a87722b3`.
+
+| Repository image | Artifact source | Pixels | Captured state |
+| --- | --- | --- | --- |
+| [Device apps](platform-device-browser.png) | `platform-browser-device-services.png` | 1280 × 936 | Observed browser services and unsupported Home/shell roles, with user-facing availability text. |
+| [Desktop browser Start](platform-start-browser.png) | `01-start-desktop.png` | 1280 × 936 | Shared phone Start in the ordinary desktop browser frame. |
+| [Mobile browser Start](platform-start-mobile-browser.png) | `13-start-mobile-dpr2.png` | 780 × 1688 | Shared phone Start at a 390-by-844 CSS viewport and device pixel ratio 2. |
+
+All three selected captures were visually reviewed. Device apps shows supported browser actions and the unavailable Home/shell roles, without offering an installed-app catalog. Its paragraph and buttons are readable, and refresh/navigation remain visible. Desktop Start uses the phone frame; mobile Start fills its viewport at 2× pixel density. Partly visible lower tiles belong to the scrolling viewport.
+
+The suite passed **66 groups**, produced **125 captures**, and recorded **zero console/runtime errors** in **189.052 seconds**. [Unmodified results](../verification/01c4d69-results.json) and the [publication record](../verification/01c4d69-browser.json) retain per-image hashes, byte sizes and direct HTTP observations. The duration is verification time, not a rendering-performance result. Browser permission prompts, physical vibration, share delivery, native app launching and original-device visual equality are outside this capture set.
+
 ## Current app expansion (7bc4107)
 
 These eight unmodified PNGs come from the [UI artifact of run 45181127412](https://github.com/FerroUI/WindowsPhone/actions/runs/45181127412/artifacts/14822143207), built from [`7bc41077ae1dd8762071cf8af2f1602ea9390ff7`](https://github.com/FerroUI/WindowsPhone/commit/7bc41077ae1dd8762071cf8af2f1602ea9390ff7). Chromium rendered the packaged FerroUI app with isolated local fixtures and native input. Standard desktop captures are **1280 × 936 pixels**, containing a **400 × 820** phone surface. The narrow Wallet capture is **320 × 740 pixels**. Each file's original dimensions, byte length and SHA-256 are retained in the [publication record](../verification/7bc4107-publication.json).

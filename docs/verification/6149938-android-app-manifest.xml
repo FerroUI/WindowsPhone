@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1"
+    android:versionName="0.1"
+    android:compileSdkVersion="36"
+    android:compileSdkVersionCodename="16"
+    package="org.ferroui.windowsphone"
+    platformBuildVersionCode="36"
+    platformBuildVersionName="16">
+
+    <uses-sdk
+        android:minSdkVersion="26"
+        android:targetSdkVersion="36" />
+
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission
+        android:name="android.permission.CAMERA" />
+
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+
+    <queries>
+
+        <intent>
+
+            <action
+                android:name="android.intent.action.MAIN" />
+
+            <category
+                android:name="android.intent.category.LAUNCHER" />
+        </intent>
+
+        <intent>
+
+            <action
+                android:name="android.intent.action.MAIN" />
+
+            <category
+                android:name="android.intent.category.HOME" />
+        </intent>
+    </queries>
+
+    <permission
+        android:name="org.ferroui.windowsphone.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="0x2" />
+
+    <uses-permission
+        android:name="org.ferroui.windowsphone.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+
+    <application
+        android:label="@ref/0x7f090001"
+        android:icon="@ref/0x7f080000"
+        android:name="org.ferroui.android.FerroApplication"
+        android:debuggable="true"
+        android:allowBackup="false"
+        android:extractNativeLibs="false"
+        android:usesCleartextTraffic="false"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+
+        <meta-data
+            android:name="org.ferroui.android.library"
+            android:value="phone_android" />
+
+        <provider
+            android:name="org.ferroui.phone.PhoneAssetProvider"
+            android:exported="false"
+            android:authorities="org.ferroui.windowsphone.assets"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@ref/0x7f0c0000" />
+        </provider>
+
+        <service
+            android:name="org.ferroui.phone.PhoneMediaService"
+            android:exported="false"
+            android:foregroundServiceType="0x2" />
+
+        <activity
+            android:theme="@ref/0x1030129"
+            android:name="org.ferroui.phone.PhoneActivity"
+            android:exported="true"
+            android:launchMode="2"
+            android:configChanges="0x680"
+            android:resizeableActivity="true"
+            android:enableOnBackInvokedCallback="true">
+
+            <intent-filter>
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="androidx.camera.core.impl.MetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+
+            <meta-data
+                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+        </service>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="org.ferroui.windowsphone.androidx-startup">
+
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+
+            <intent-filter>
+
+                <action
+                    android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+
+            <intent-filter>
+
+                <action
+                    android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+
+            <intent-filter>
+
+                <action
+                    android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+
+            <intent-filter>
+
+                <action
+                    android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

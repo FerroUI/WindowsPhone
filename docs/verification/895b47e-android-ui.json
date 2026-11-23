@@ -1,0 +1,764 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "895b47e2cb969fd7069fd056f180a6b1366d9e93",
+  "run_id": 45222094681,
+  "job_id": 137858763964,
+  "conclusion": "success",
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45222094681",
+  "workflow_file": ".github/workflows/android-ui.yml",
+  "trigger_marker": "[verify-android-ui]",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "android_native_source_head_sha": "6149938d9bf8eb8cf3cf5eeb620c3aee124132df",
+  "final_change": "Harness-only correction: read Android 36 current focus from the complete dumpsys window output. The final commit changes only scripts/smoke-android.sh; Android native source and geometry, route and mounted-control assertions are unchanged.",
+  "related_arm64_package_record": {
+    "file": "6149938-android.json",
+    "run_id": 45218700649,
+    "artifact_id": 14839923081,
+    "head_sha": "6149938d9bf8eb8cf3cf5eeb620c3aee124132df"
+  },
+  "target": {
+    "rust": "x86_64-linux-android",
+    "platform": "android",
+    "android_release": "16",
+    "api": 36,
+    "abi": "x86_64",
+    "system_image": "system-images;android-36;google_apis;x86_64",
+    "emulator_version": "37.3.10.0",
+    "emulator_build_id": "16970787",
+    "emulator_version_evidence": "emulator.log",
+    "device_profile": "pixel_7",
+    "display_pixels": {
+      "width": 720,
+      "height": 1440
+    },
+    "density_dpi": 320,
+    "render_scaling": 2.0,
+    "acceleration": "KVM version 12 installed and usable",
+    "gpu": "software",
+    "renderer": "ANGLE OpenGL ES Translator with SwiftShader; lavapipe selected for Vulkan",
+    "isolation": "New private AVD and selected console port; adb commands verify the exact AVD name. No existing device or user launcher configuration is reused."
+  },
+  "toolchain": {
+    "rust": "1.99.0",
+    "jdk": "17",
+    "gradle": "8.13",
+    "android_gradle_plugin": "8.13.0",
+    "sdk_platform": "android-36",
+    "build_tools": "36.0.0",
+    "ndk": "28.2.13676358"
+  },
+  "results": {
+    "python_package_contract_tests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "python_mounted_ui_validator_tests": {
+      "passed": 5,
+      "failed": 0
+    },
+    "rust_android_contract_tests": {
+      "passed": 6,
+      "failed": 0
+    },
+    "native_link": {
+      "result": "passed",
+      "duration": "1m 37s"
+    },
+    "app_apk_assembly": {
+      "result": "passed",
+      "gradle_duration": "31s"
+    },
+    "launcher_apk_assembly": {
+      "result": "passed",
+      "gradle_duration": "24s"
+    },
+    "package_manifest": {
+      "app": "passed",
+      "launcher": "passed"
+    },
+    "jni_entry": "JNI_OnLoad verified in both APKs",
+    "native_16k_elf_alignment": "Passed for all three native libraries in both APKs",
+    "apk_16k_zip_alignment": "Passed for both APKs using zipalign -c -P 16 -v 4",
+    "native_cache": "Restored the 6149938 x86_64 cache and saved successful 895b47e native outputs before package/runtime verification, using the dedicated phone-android-ui-x86-v1 key prefix.",
+    "emulator_boot_and_apk_installation": "passed for both variants",
+    "real_activity_navigation": {
+      "app": [
+        "Start",
+        "org.ferroui.wallet",
+        "Start"
+      ],
+      "launcher": [
+        "Start",
+        "org.ferroui.wallet",
+        "Start"
+      ],
+      "result": "passed",
+      "mechanism": "Explicit-component android.intent.action.VIEW delivered through the actual Activity. The observation channel does not inject routes."
+    },
+    "real_mounted_geometry": "All six observations match the native client minus nonzero safe-area insets, including inner view, PhoneScreen and VM viewport.",
+    "focused_activity": "Exact application component found in complete dumpsys window output at all six phases.",
+    "observation_freshness": "Opt-in private nonce, increasing sequence, same process within each variant, and two fresh valid samples per phase verified.",
+    "artifact_upload": "passed for APK and UI archives",
+    "downloaded_evidence": "Both archive digests and APK digests verified; all six downloaded UI observations revalidated with the unchanged validator.",
+    "crash_buffer_bytes": 0
+  },
+  "user_and_home_preservation": {
+    "current_user_before": "0",
+    "current_user_after": "0",
+    "current_user_equal": true,
+    "home_holder_before": "com.google.android.apps.nexuslauncher",
+    "home_holder_after": "com.google.android.apps.nexuslauncher",
+    "home_holder_equal": true,
+    "evidence": [
+      {
+        "path": "user-before.txt",
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      {
+        "path": "user-after.txt",
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      {
+        "path": "home-before.txt",
+        "bytes": 38,
+        "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+      },
+      {
+        "path": "home-after.txt",
+        "bytes": 38,
+        "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+      }
+    ],
+    "observed_modes": {
+      "app": {
+        "mode": "app",
+        "launcher": "unsupported",
+        "shell": "unsupported"
+      },
+      "launcher": {
+        "mode": "app",
+        "launcher": "available",
+        "shell": "unsupported"
+      }
+    },
+    "role_changes_requested": false
+  },
+  "observations": [
+    {
+      "variant": "app",
+      "stage": "start",
+      "file": "app-start.json",
+      "sequence": 3,
+      "route": "Start",
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "host_mode": "app",
+      "launcher_role": "unsupported",
+      "uri": "ferroui-phone://home",
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "observation_sha256": "c0f10536b0c912f300c4cd7f6203eed5c5c3ecfc00376b27eb844a76252c56bb",
+      "activation_outcome": "accepted",
+      "ready": true,
+      "closed": false,
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "render_scaling": 2.0,
+      "shell_role": "unsupported",
+      "focused_component": "org.ferroui.windowsphone/org.ferroui.phone.PhoneActivity",
+      "window_dump_sha256": "ea06fa14bbf7eaea8f2e02cca770fbdbf63224f1290f467e002638dc73098528",
+      "screenshot": {
+        "path": "app-start.png",
+        "bytes": 325847,
+        "sha256": "a856cd4bb4401305de6dec7fb76995bb89812d2a2de164b29aea90cfbbf62405",
+        "pixels": [
+          720,
+          1440
+        ],
+        "visually_reviewed": true,
+        "visual_finding": "Correct Start page with Phone, Messaging, People, Outlook and Photos tiles; text and icons are readable. The scrollable next tile row ends above the phone navigation bar. Android status and gesture areas remain outside the phone content."
+      }
+    },
+    {
+      "variant": "app",
+      "stage": "wallet",
+      "file": "app-wallet.json",
+      "sequence": 10,
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "host_mode": "app",
+      "launcher_role": "unsupported",
+      "uri": "ferroui-phone://app/org.ferroui.wallet",
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "WalletSearch"
+      ],
+      "observation_sha256": "671a5fa3d3e45e6993a5448c0a8cb170207fd2f2650e242e3c8abda22469c270",
+      "activation_outcome": "accepted",
+      "ready": true,
+      "closed": false,
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "render_scaling": 2.0,
+      "shell_role": "unsupported",
+      "focused_component": "org.ferroui.windowsphone/org.ferroui.phone.PhoneActivity",
+      "window_dump_sha256": "741de5613633875ef23d02afb56c9648653d23bdb920b408a4a1abfc8561965e",
+      "screenshot": {
+        "path": "app-wallet.png",
+        "bytes": 93957,
+        "sha256": "fc7b3d64504cfca0e577c4e5725490d84012649b26b94a33815113865eb0afbc",
+        "pixels": [
+          720,
+          1440
+        ],
+        "visually_reviewed": true,
+        "visual_finding": "Correct Wallet page with all/favorites pivot headings, Search cards, the empty-wallet explanation, storage/payment limitation text, and add/import/more commands. All actionable content is readable and contained above phone navigation. The next pivot heading is partly visible within the horizontal pivot surface."
+      }
+    },
+    {
+      "variant": "app",
+      "stage": "home-restored",
+      "file": "app-home-restored.json",
+      "sequence": 16,
+      "route": "Start",
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "host_mode": "app",
+      "launcher_role": "unsupported",
+      "uri": "ferroui-phone://home",
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "observation_sha256": "e6eef3d3600727d1cc91d373ece42e48591f12644b3d7ab55cb3183958baaedd",
+      "activation_outcome": "accepted",
+      "ready": true,
+      "closed": false,
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "render_scaling": 2.0,
+      "shell_role": "unsupported",
+      "focused_component": "org.ferroui.windowsphone/org.ferroui.phone.PhoneActivity",
+      "window_dump_sha256": "b01022685920eb918c5ff56e27b7d22eb78344684d1c36650ec4fbbed275ad10",
+      "screenshot": {
+        "path": "app-home-restored.png",
+        "bytes": 427165,
+        "sha256": "703e7fafc07c9fa77ae95b8a7d7131d7be965a14296f6c16ef524792eb0fb4dd",
+        "pixels": [
+          720,
+          1440
+        ],
+        "visually_reviewed": true,
+        "visual_finding": "Start tiles are restored after Wallet, with the same contained layout and visible navigation. People and Photos tile imagery has advanced; the restored route is confirmed independently by the mounted-control observation."
+      }
+    },
+    {
+      "variant": "launcher",
+      "stage": "start",
+      "file": "launcher-start.json",
+      "sequence": 3,
+      "route": "Start",
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "host_mode": "app",
+      "launcher_role": "available",
+      "uri": "ferroui-phone://home",
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "observation_sha256": "59c847fbca16e24e3b94faa326485d03380d6566c433f8f6d5cd53162f1907b5",
+      "activation_outcome": "accepted",
+      "ready": true,
+      "closed": false,
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "render_scaling": 2.0,
+      "shell_role": "unsupported",
+      "focused_component": "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneActivity",
+      "window_dump_sha256": "26c7f9a1e881a79fd4254566f432bfeca8b1dd7a97048ed9da87e18e569a1f48",
+      "screenshot": {
+        "path": "launcher-start.png",
+        "bytes": 453434,
+        "sha256": "6f06995b35387d41abf1583721f4e18432e382879b1bbb2a810aeed60255934b",
+        "pixels": [
+          720,
+          1440
+        ],
+        "visually_reviewed": true,
+        "visual_finding": "The launcher package displays the same correct, readable Start tile layout with the phone navigation and Android system areas separated. No default-HOME chooser or permission prompt covers the page."
+      }
+    },
+    {
+      "variant": "launcher",
+      "stage": "wallet",
+      "file": "launcher-wallet.json",
+      "sequence": 8,
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "host_mode": "app",
+      "launcher_role": "available",
+      "uri": "ferroui-phone://app/org.ferroui.wallet",
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "WalletSearch"
+      ],
+      "observation_sha256": "da47f6f417b293aa4cd9ab6607f738b23b85466c1b112a5fd62bc345b7ea0e6a",
+      "activation_outcome": "accepted",
+      "ready": true,
+      "closed": false,
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "render_scaling": 2.0,
+      "shell_role": "unsupported",
+      "focused_component": "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneActivity",
+      "window_dump_sha256": "e7e5a970ae97e7eac910ff4224cfa05e80f3ef7310c78f83afe74718fee843f5",
+      "screenshot": {
+        "path": "launcher-wallet.png",
+        "bytes": 94154,
+        "sha256": "887f75134a36e39a1b84e79a5529a3167125fa3f27c201d4ef6940f1573f0720",
+        "pixels": [
+          720,
+          1440
+        ],
+        "visually_reviewed": true,
+        "visual_finding": "The launcher package displays the correct Wallet heading, search, empty state, explanatory text and three commands. The horizontal pivot clipping is confined to its scrolling surface; the page does not overflow the bottom system inset."
+      }
+    },
+    {
+      "variant": "launcher",
+      "stage": "home-restored",
+      "file": "launcher-home-restored.json",
+      "sequence": 12,
+      "route": "Start",
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "host_mode": "app",
+      "launcher_role": "available",
+      "uri": "ferroui-phone://home",
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "observation_sha256": "0654c8bbcb266ce75be79e66869d0b8a2d0d0f76d163e9b3abd89da272ca30f2",
+      "activation_outcome": "accepted",
+      "ready": true,
+      "closed": false,
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "render_scaling": 2.0,
+      "shell_role": "unsupported",
+      "focused_component": "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneActivity",
+      "window_dump_sha256": "26d014f86712e1726795d7ac530c4d20ce4c3716baf353d1deb596675d6e78e3",
+      "screenshot": {
+        "path": "launcher-home-restored.png",
+        "bytes": 453487,
+        "sha256": "20c2e1e6b6527cb3edbb5689bd7a76c899f531908ef53e598f6a521cb87e0d0c",
+        "pixels": [
+          720,
+          1440
+        ],
+        "visually_reviewed": true,
+        "visual_finding": "The launcher package returns to the Start tile layout with all three phone navigation controls visible above the Android gesture area. Live tile contents have advanced without disturbing the measured content bounds."
+      }
+    }
+  ],
+  "visual_review": {
+    "reviewed_all_six": true,
+    "method": "Direct visual inspection of all six unmodified emulator PNGs, with measured geometry and mounted routes reviewed alongside them.",
+    "result": "Correct Start, Wallet and restored Start pages in both packages. Text, icons and commands are readable. Phone navigation is separated from Android gesture navigation and all content remains inside the native safe-area bounds.",
+    "scroll_surface_detail": "The next Wallet pivot heading and the next lower Start tile row are partly visible at their scrolling viewport edges. This does not indicate the outer-content safe-area overflow that the regression gate checks.",
+    "selected_repository_captures": [
+      {
+        "path": "docs/screenshots/platform-start-android.png",
+        "source": "app-start.png",
+        "title": "Android App Start",
+        "width": 720,
+        "height": 1440,
+        "bytes": 325847,
+        "sha256": "a856cd4bb4401305de6dec7fb76995bb89812d2a2de164b29aea90cfbbf62405",
+        "visually_reviewed": true
+      },
+      {
+        "path": "docs/screenshots/platform-wallet-android.png",
+        "source": "app-wallet.png",
+        "title": "Android Wallet",
+        "width": 720,
+        "height": 1440,
+        "bytes": 93957,
+        "sha256": "fc7b3d64504cfca0e577c4e5725490d84012649b26b94a33815113865eb0afbc",
+        "visually_reviewed": true
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 14842370879,
+      "name": "phone-android-x86_64-ui",
+      "size_in_bytes": 2239743,
+      "digest": "sha256:58b51142f0530168d8a62413401103066b6e486dcda411b688b3755de173f7d8",
+      "created_at": "2026-11-23T17:04:04Z",
+      "expires_at": "2026-11-26T17:04:02Z",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45222094681/artifacts/14842370879",
+      "download_integrity": "Downloaded ZIP SHA-256 matches GitHub artifact digest."
+    },
+    {
+      "id": 14841033550,
+      "name": "phone-android-x86_64-debug",
+      "size_in_bytes": 75464467,
+      "digest": "sha256:bbf451e47460fe2c4dea424d17f0127b693d61d80e0bbb15e26da4da9293a74b",
+      "created_at": "2026-11-23T17:04:02Z",
+      "expires_at": "2026-11-26T17:03:54Z",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45222094681/artifacts/14841033550",
+      "download_integrity": "Downloaded ZIP SHA-256 matches GitHub artifact digest; both contained APK hashes match CI verification JSON."
+    }
+  ],
+  "package_verification": {
+    "archive_sha256": "bbf451e47460fe2c4dea424d17f0127b693d61d80e0bbb15e26da4da9293a74b",
+    "files": [
+      {
+        "path": "phone-x86_64-debug/outputs/apk/app/debug/WindowsPhoneAndroid-app-debug.apk",
+        "bytes": 124908854,
+        "sha256": "167852f4d866402220ffc6016d1ab7e111ffd8b4a952c2b396f7ac4bc18e49df"
+      },
+      {
+        "path": "phone-x86_64-debug/outputs/apk/launcher/debug/WindowsPhoneAndroid-launcher-debug.apk",
+        "bytes": 124908930,
+        "sha256": "9cd570e1fe929a2f2a1144511ce16eb4b6277f96e0122667e0943f2724bf30fa"
+      },
+      {
+        "path": "verification-ui/app-manifest.xml",
+        "bytes": 5512,
+        "sha256": "f8d06de91bb51f10196ac8e9adbba6e7864f86b7c3026d627802a9fdd79ad24b"
+      },
+      {
+        "path": "verification-ui/app.json",
+        "bytes": 626,
+        "sha256": "7dfce468cda6ee00868e98d50f49fbdad78cc1a936e89525d7f73afaa00d5fe7"
+      },
+      {
+        "path": "verification-ui/launcher-manifest.xml",
+        "bytes": 5942,
+        "sha256": "ec3da254590b35644c4674c335e418bcfc02be7490f6fda4e6bfb4edcb23970d"
+      },
+      {
+        "path": "verification-ui/launcher.json",
+        "bytes": 639,
+        "sha256": "b48dd4adbaacd8410889e38fcef15baa7438a44931c0d6b907c400e41e01919b"
+      }
+    ],
+    "packages": [
+      {
+        "apk": "WindowsPhoneAndroid-app-debug.apk",
+        "package": "org.ferroui.windowsphone",
+        "launcher": false,
+        "abi": "x86_64",
+        "native_bytes": 118936808,
+        "load_alignment": {
+          "lib/x86_64/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/x86_64/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/x86_64/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "976bf1cc9ebd33ef9269daf7c0bb623638451e5484cc8893444528adb93b0019",
+        "apk_sha256": "167852f4d866402220ffc6016d1ab7e111ffd8b4a952c2b396f7ac4bc18e49df"
+      },
+      {
+        "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+        "package": "org.ferroui.windowsphone.launcher",
+        "launcher": true,
+        "abi": "x86_64",
+        "native_bytes": 118936808,
+        "load_alignment": {
+          "lib/x86_64/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/x86_64/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/x86_64/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "976bf1cc9ebd33ef9269daf7c0bb623638451e5484cc8893444528adb93b0019",
+        "apk_sha256": "9cd570e1fe929a2f2a1144511ce16eb4b6277f96e0122667e0943f2724bf30fa"
+      }
+    ]
+  },
+  "diagnostic_evidence": [
+    {
+      "path": "result.json",
+      "bytes": 752,
+      "sha256": "d8f117363a174ef337ea20526b10251e9c8a3928e37e95127d902be844bd9d57"
+    },
+    {
+      "path": "device.json",
+      "bytes": 66,
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82"
+    },
+    {
+      "path": "acceleration.txt",
+      "bytes": 57,
+      "sha256": "4484bdd6d5e16c817d4dfc5cda05334055c86428c861c1d22e8cf67ce42fee49"
+    },
+    {
+      "path": "emulator.log",
+      "bytes": 10147,
+      "sha256": "293566774790d5fc5cb9b45424a559914a9c723717300cee711cc7ecf3d76a38"
+    },
+    {
+      "path": "crash.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logcat.txt",
+      "bytes": 2171896,
+      "sha256": "aea3b6613e190517fcab6129f32c553cfc234eeab84c9087cf47d1f7657a9df4"
+    }
+  ],
+  "previous_attempt": {
+    "head_sha": "6149938d9bf8eb8cf3cf5eeb620c3aee124132df",
+    "run_id": 45218701230,
+    "job_id": 137846746896,
+    "conclusion": "failure",
+    "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45218701230",
+    "cause": "The harness queried dumpsys window windows. Android 36 omitted mCurrentFocus from that restricted section, causing the exact-component focus assertion to fail after the valid App Start observation.",
+    "actual_prior_evidence": "App Start was mounted, accepted the real Home URI, had correct 360x628 inset geometry and a resumed Activity. The independently captured full activity diagnostic contained the expected current focus. Its crash buffer was empty.",
+    "not_reached": [
+      "App Wallet",
+      "App restored Home",
+      "Launcher navigation",
+      "Final user and HOME comparisons"
+    ],
+    "correction": "Use the complete dumpsys window output, matching the pinned FerroUI helper pattern; retain the exact-component focus assertion and unchanged geometry/control/URI validators.",
+    "failed_artifact": {
+      "id": 14841611257,
+      "name": "phone-android-x86_64-ui",
+      "sha256": "5d65f8d1bbf621d9d43b15cc8a18a9edf96cf6bbe0af7d165baea92dea37ac25",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45218701230/artifacts/14841611257"
+    }
+  },
+  "warnings": [
+    "Pinned FerroUI emits existing unused/deprecated Rust API warnings; Java and Gradle report deprecation warnings without build failure.",
+    "The standalone emulator --version diagnostic reports a missing libpulse.so.0 before the framework launch environment is applied. The actual emulator launch succeeds; emulator.log records version 37.3.10.0 and build 16970787.",
+    "The software-rendered emulator logs nonfatal graphics/quickboot and cleanup warnings. The runtime gate completed successfully and the Android crash buffer remained empty."
+  ],
+  "limitations": [
+    "This is a focused Android 16 x86_64 emulator qualification of real mounting, safe-area geometry and Start/Wallet/Home activation in the App and unselected Launcher packages.",
+    "No physical-device or OEM qualification, default-HOME consent/role acquisition, Activity recreation, camera/location/media/file-sharing exercise, release signing or store qualification is claimed.",
+    "Wallet is the existing local membership/ticket/offer application; payment and NFC support is unavailable, as shown in the rendered page."
+  ]
+}

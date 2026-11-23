@@ -18,19 +18,24 @@ Native files, networking, persistence, media and camera reuse FerroUI and the sh
 
 ## Preview
 
-The browser renders the retained FerroUI control tree through WebAssembly. These unmodified captures come from the passing full browser verification of runtime [`7bc4107`](https://github.com/FerroUI/WindowsPhone/commit/7bc41077ae1dd8762071cf8af2f1602ea9390ff7), using isolated sample data and native pointer, keyboard and touch input.
+The browser renders the shared FerroUI control tree through WebAssembly. These unmodified captures come from the passing full browser verification of runtime [`01c4d69`](https://github.com/FerroUI/WindowsPhone/commit/01c4d697c6b32049c8b919899fbb0416f5b61144), with isolated sample data and native pointer, keyboard and touch input.
 
-![Windows Phone Start in the FerroUI browser app](docs/screenshots/expansion-start.png)
+![Windows Phone Start in the FerroUI browser app](docs/screenshots/platform-start-browser.png)
 
-[Excel formulas/history](docs/screenshots/expansion-excel.png) · [OneNote checklist](docs/screenshots/expansion-onenote.png) · [Music playlist](docs/screenshots/expansion-music.png) · [Weather forecast](docs/screenshots/expansion-weather.png) · [Podcasts](docs/screenshots/expansion-podcasts.png) · [320-pixel Wallet](docs/screenshots/expansion-wallet.png) · [Maps directions](docs/screenshots/expansion-maps.png)
+[Device apps and browser services](docs/screenshots/platform-device-browser.png) · [Mobile browser Start at 2× density](docs/screenshots/platform-start-mobile-browser.png)
 
-[Capture provenance](docs/screenshots/README.md) records the exact build, artifact and unmodified image sources, and retains earlier games, Calendar, Office, Files and host-integration captures. These are application captures; original-device pixel and motion parity has not been established.
+Native host captures are also retained: [Android Start](docs/screenshots/platform-start-android.png), [Android Wallet](docs/screenshots/platform-wallet-android.png), [iOS Start](docs/screenshots/platform-start-ios.png) and [iOS Wallet](docs/screenshots/platform-wallet-ios.png). Their simulator/emulator source revisions and actual activation checks are recorded below.
+
+Earlier application workflow captures retain their own source attribution: [Excel formulas/history](docs/screenshots/expansion-excel.png), [OneNote checklist](docs/screenshots/expansion-onenote.png), [Music playlist](docs/screenshots/expansion-music.png), [Weather forecast](docs/screenshots/expansion-weather.png), [Podcasts](docs/screenshots/expansion-podcasts.png), [320-pixel Wallet](docs/screenshots/expansion-wallet.png) and [Maps directions](docs/screenshots/expansion-maps.png).
+
+[Capture provenance](docs/screenshots/README.md) identifies each build, artifact and unmodified image. The captures demonstrate the application; original-device pixel and motion parity has not been established.
 
 ## Explore
 
 - **Start:** live content and notification counts, small/medium/wide tiles, pin/unpin, resize, reorder, folders that preserve their child tiles, secondary content tiles, accent colors, light/dark backgrounds, a shared scrolling photo behind transparent tile interiors, press-location tilt feedback, and the optional extra tile columns. Decorative motion respects reduced motion and Battery Saver.
 - **Phone navigation:** swipe between Start and the alphabetical Apps list; search, measured letter jumps and sticky group headings; Back/Start/Search buttons; recent-app cards; configurable lock wallpaper and status providers; grouped Action Center notifications and deep links.
 - **System controls:** separate ringer/notification and media/app volume, mute and vibration controls; a hardware-style volume panel; light/dark and high-contrast themes; reduced motion; live-tile preferences; date order and calendar week start. Battery information uses an actual host reading when available; storage views measure the saved phone document and separately show browser-origin storage estimates and persistence permission.
+- **Device apps:** discover, search, open and pin visible native applications on Android and supported desktop hosts. The page reports the current host mode and exposes supported system settings, Android HOME selection, haptics and notification consent. Browser and iOS show their available services.
 - **Messaging and Outlook:** search local threads and mail, select rows from the left edge or a held item, and apply bulk actions. Messaging includes contact selection, unknown-number contact creation, drafts, and copy/forward/delete commands on individual messages. Outlook includes folders, all/unread/flagged views, bulk read/flag changes, deleted items and restore. Compose actions explicitly open the host's messaging or email app; local drafts do not claim delivery.
 - **Calendar:** day, week, month and year navigation; inline month appointments and an hourly day view with separate columns for overlapping appointments; native date/time controls; all-day appointments, duration, reminders, status and notes; daily/weekday/weekly/biweekly/monthly/yearly repeats with an end date and individual-occurrence editing or deletion. Start and lock details use the same occurrence engine. Import/export supported local-time iCalendar files and share a saved appointment or series.
 - **Alarms and reminders:** native time/name/repeat/snooze editing, one-time and weekday alarms, foreground alert screens, configurable snooze and dismissal, and the original two-minute alarm snooze on Back. A Calendar reminder opens its occurrence. The browser plays a synthetic tone using the saved ringer level when browser audio is available; permitted foreground alert banners can also appear through device notifications. Delivery requires the app to remain running.
@@ -66,7 +71,7 @@ The first run contains fictional example contacts, messages, mail, notes and pho
 | See more commands | Use the application bar's ellipsis. |
 | Import contacts or appointments | Open People or Calendar, then more → import contacts or import appointments. |
 | Share a contact or appointment | Open its details, then more → share contact, share appointment or share series. The desktop host saves an attachment copy. |
-| Allow device banners | Open Settings → notifications+actions → Device notifications → allow device notifications. The browser owns the permission decision. |
+| Allow device banners | Open Settings → notifications+actions → Device notifications → allow device notifications. The host operating system or browser owns the permission decision. |
 | Keep browser data | Open Settings → storage sense → Device app storage → keep app data on this device, where the browser supports persistence requests. |
 | Import other personal content | Use the relevant app's add command; file selection stays under your control. |
 
@@ -110,6 +115,27 @@ The desktop host uses the same shell, app crates, state and theme. Native FerroU
 
 See [native prerequisites and macOS packaging](crates/phone-desktop/platform/README.md), including Linux GStreamer/EGL/PipeWire requirements and the macOS `.app` bundle needed for consent. Native OS media sessions are implemented; desktop haptics and background alarm wake-up remain outstanding. The [platform matrix](docs/host-integration.md) separates implemented adapters from device verification.
 
+### Android and iOS
+
+The native mobile hosts use the same apps and `phone-native` composition as desktop. Follow the [Android prerequisites](crates/phone-android/README.md) for the pinned JDK, Gradle, Android SDK/NDK and Rust target, then build the ordinary application and separate HOME flavor:
+
+```bash
+bash scripts/build-android.sh
+bash scripts/build-android.sh --launcher --no-cargo
+```
+
+Both ARM64 APKs are written beneath `target/android/phone-arm64-v8a-debug/outputs/apk`. The ordinary application has no HOME intent category. Installing the Launcher APK makes it an eligible launcher; becoming the selected HOME app still uses Android's own role chooser.
+
+On macOS with Xcode and an installed simulator runtime:
+
+```bash
+rustup target add aarch64-apple-ios-sim
+bash scripts/build-ios.sh --target aarch64-apple-ios-sim
+bash scripts/smoke-ios.sh target/ios-bundles/phone-ios.app
+```
+
+The [iOS host guide](crates/phone-ios/README.md) also covers device builds and embedding. The simulator bundle is signed ad hoc; a physical-device bundle requires your signing identity and provisioning profile. iOS uses an ordinary UIKit application with its public platform integrations.
+
 ### Build an SDK app
 
 ```bash
@@ -138,7 +164,35 @@ With Chromium available, run the browser interaction and screenshot suite agains
 node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
 ```
 
-### Current expansion release
+### Portable browser and desktop verification
+
+Browser runtime [`01c4d69`](https://github.com/FerroUI/WindowsPhone/commit/01c4d697c6b32049c8b919899fbb0416f5b61144) passed [run 45211399089](https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089) and deployed to [the public app](https://ferroui.com/WindowsPhone/). It passed **260 Rust tests**, **51 JavaScript tests**, linking of **25 local modules**, and **66 rendered interaction groups** with **125 captures** and **zero console/runtime errors**. The **189.052-second** duration measures the suite. New groups exercise Device apps against observed browser support and reject unsupported platform requests and invalid activation routes without changing phone data. [Results](docs/verification/01c4d69-results.json) and the [browser publication record](docs/verification/01c4d69-browser.json) retain the exact source and artifact hashes.
+
+Native adapters at [`4ae5558`](https://github.com/FerroUI/WindowsPhone/commit/4ae5558e20902eec7244b6edd2238b80e42334e2) passed [run 45208195282](https://github.com/FerroUI/WindowsPhone/actions/runs/45208195282), including complete desktop executable links with actual platform media providers:
+
+| Platform | Host / desktop plugin / shared native tests | Additional checks | Full build/link |
+| --- | --- | --- | --- |
+| Linux | 26 / 9 / 16 passed | 6 packaging tests; separate private-bus MPRIS test | Passed |
+| Windows | 23 / 6 / 15 passed | 4 packaging tests, 2 POSIX-only skips; PowerShell parser | Passed |
+| macOS | 22 / 5 / 16 passed | 6 packaging tests, including Python 3.15 compatibility | Passed |
+
+[Native evidence](docs/verification/4ae5558-native.json) separates compile/protocol checks from physical devices, OS permission prompts and actually installing a login/shell session. The [local checkpoint](docs/verification/bc4bbaa-local.json) adds focused runtime, cancellation, ownership and foreground-alarm regressions; overlapping counts are kept separate.
+
+Public HTTP confirmed `01c4d69` in both the page and the scope-owned service-worker revision. Settings → phone update checks for a new build. A downloaded update becomes active after **all old app windows and tabs close**; an ordinary refresh can retain the prior worker while another old window remains open.
+
+### Native mobile verification
+
+Android ARM64 revision [`6149938`](https://github.com/FerroUI/WindowsPhone/commit/6149938d9bf8eb8cf3cf5eeb620c3aee124132df) passed [run 45218700649](https://github.com/FerroUI/WindowsPhone/actions/runs/45218700649): both actual App/Launcher APKs, the library with its standalone entry disabled, merged package manifests, exported `JNI_OnLoad`, and **16 KiB ELF and APK ZIP alignment**. [The package record](docs/verification/6149938-android.json) retains the APK hashes and tool versions; [ARM64 debug packages](https://github.com/FerroUI/WindowsPhone/actions/runs/45218700649/artifacts/14839923081) are attached to that run.
+
+The separate Android 36 x86_64 emulator gate passed [run 45222094681](https://github.com/FerroUI/WindowsPhone/actions/runs/45222094681) at [`895b47e`](https://github.com/FerroUI/WindowsPhone/commit/895b47e2cb969fd7069fd056f180a6b1366d9e93). Both variants completed **Start → Wallet → Home** through real activity intents, with visible mounted controls, fresh observations and the exact activity focused. All six captures measured a **360 × 720** client with **68 dp top / 24 dp bottom insets** and a **360 × 628** phone surface. The current user and selected HOME app remained unchanged. The Launcher package accurately stayed in app mode while its HOME role was only available. [The runtime record](docs/verification/895b47e-android-ui.json) contains all six reviewed captures' hashes, geometry, package verification and the corrected diagnostic-query history; selected [native Start](docs/screenshots/platform-start-android.png) and [Wallet](docs/screenshots/platform-wallet-android.png) images are retained in the repository.
+
+This Android runtime gate verifies mounted layout and real activation on the stated emulator. Physical/OEM devices, HOME-role consent, Activity recreation and native hardware/permission interactions remain separate qualification work. The [Android guide](crates/phone-android/README.md) provides both package and emulator commands.
+
+iOS revision [`5b41a55`](https://github.com/FerroUI/WindowsPhone/commit/5b41a557c83c59ea864c878199065f4dba07f5c9) passed [run 45223785634](https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634), including the actual `aarch64-apple-ios-sim` executable and Objective-C bridges, portable completion tests, observation-boundary tests and public XCTest automation. UIKit completed **Start → Wallet → Home** with exact accepted URLs, fresh observations and the expected visible page controls. The **414 × 896-point** client reported **48 top / 34 bottom** safe-area insets; the inner host, PhoneScreen and view-model viewport measured **414 × 814**. All three unmodified captures were reviewed, including identical status/navigation glyph pixels across the transitions. [The iOS record](docs/verification/5b41a55-ios.json) retains the proofs, hashes and earlier safe-area/confirmation/startup-budget corrections. The [simulator bundle](https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634/artifacts/14845035654) and [UI evidence](https://github.com/FerroUI/WindowsPhone/actions/runs/45223785634/artifacts/14845270139) are attached to the run. This is simulator qualification; physical-device permissions, media/camera/haptics and distribution signing require their own device/deployment checks.
+
+The [source comparison record](docs/verification/platform-source-boundaries.json) verifies that each target's compiled source and relevant configuration remain identical to its named passing revision at the final implementation head. Later mobile-only commits do not expand the earlier browser/desktop claims or change their verified source.
+
+### Earlier app expansion release
 
 Runtime [`7bc4107`](https://github.com/FerroUI/WindowsPhone/commit/7bc41077ae1dd8762071cf8af2f1602ea9390ff7) passed [run 45181127412](https://github.com/FerroUI/WindowsPhone/actions/runs/45181127412) and deployed to [the public app](https://ferroui.com/WindowsPhone/). The browser gate passed **230 Rust tests**, **40 JavaScript tests** and **23 linked local modules**. Full rendered verification passed **64 interaction groups**, produced **124 captures**, and recorded **zero console/runtime errors** in **213.079 seconds**. This duration measures the suite, not startup latency or frame rate.
 

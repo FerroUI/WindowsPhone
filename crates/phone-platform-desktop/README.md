@@ -50,9 +50,10 @@ advertised by this plugin.
 
 ## Hosting primitives already in pinned FerroUI
 
-The desktop entry point uses native Win32 and macOS backends; on Linux,
-`use_platform_detect` selects X11. The separate Wayland crate supplies
-`use_wayland` and `use_wayland_with_fallback` plus application-ID, GL-profile,
+The desktop entry point uses native Win32 and macOS backends. On Linux its
+`auto` backend uses `use_wayland_with_fallback`, selecting Wayland when available
+and falling back to X11. `--backend wayland` and `--backend x11` select an explicit
+backend. The framework's Wayland crate also supplies application-ID, GL-profile,
 existing-display-FD and external-loop configuration. Both X11 and Wayland
 backends host client windows; they do not implement a desktop compositor or
 window manager.

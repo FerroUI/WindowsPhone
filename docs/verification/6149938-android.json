@@ -1,0 +1,256 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "6149938d9bf8eb8cf3cf5eeb620c3aee124132df",
+  "run_id": 45218700649,
+  "job_id": 137846744336,
+  "conclusion": "success",
+  "workflow_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45218700649",
+  "artifact_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45218700649/artifacts/14839923081",
+  "target": "aarch64-linux-android",
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "final_change": "Add an explicitly enabled, standalone-debug-only Android observer for the separate emulator gate; release and embedding configurations exclude it.",
+  "toolchain": {
+    "rust": "1.99.0",
+    "jdk": "17",
+    "gradle": "8.13",
+    "android_gradle_plugin": "8.13.0",
+    "sdk_platform": "android-36",
+    "build_tools": "36.0.0",
+    "ndk": "28.2.13676358"
+  },
+  "results": {
+    "sdk_setup": "passed",
+    "python_package_contract_tests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "rust_android_contract_tests": {
+      "passed": 6,
+      "failed": 0
+    },
+    "native_link": {
+      "result": "passed",
+      "duration": "1m 22s"
+    },
+    "app_apk_assembly": {
+      "result": "passed",
+      "gradle_duration": "27s"
+    },
+    "launcher_apk_assembly": {
+      "result": "passed",
+      "gradle_duration": "19s"
+    },
+    "embedding_android_target_check": {
+      "result": "passed",
+      "duration": "9.23s",
+      "default_features": false
+    },
+    "package_manifest": {
+      "app": "passed",
+      "launcher": "passed"
+    },
+    "jni_export": "JNI_OnLoad verified for both APKs",
+    "native_16k_elf_alignment": "passed for all 3 native libraries in both APKs",
+    "apk_16k_zip_alignment": "passed for both APKs using zipalign -c -P 16 -v 4",
+    "native_cache_restore": "phone-android-v1-Linux-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-0a22ef1710b65eb2507d1738a36cf9d5ddb6fcefb0565bccae3a70df704495c9-51224cebea3c276db5eebf426c953fcd5d79a036",
+    "native_cache_save": "passed before verification for 6149938d9bf8eb8cf3cf5eeb620c3aee124132df",
+    "artifact_upload": "passed",
+    "artifact_download_integrity": "ZIP SHA-256 matches GitHub artifact digest; both APK SHA-256 values match CI verification JSON"
+  },
+  "artifacts": [
+    {
+      "id": 14839923081,
+      "name": "phone-android-arm64-debug",
+      "size_in_bytes": 69133970,
+      "digest": "sha256:4696d88c4e15c070cb2addfaacdca7bacef2bbee5b3905294a182bacb890a179",
+      "created_at": "2026-11-23T16:43:05Z",
+      "expires_at": "2026-11-26T16:43:00Z",
+      "head_sha": "6149938d9bf8eb8cf3cf5eeb620c3aee124132df"
+    }
+  ],
+  "artifact_verification": {
+    "archive_sha256": "4696d88c4e15c070cb2addfaacdca7bacef2bbee5b3905294a182bacb890a179",
+    "files": [
+      {
+        "path": "phone-arm64-v8a-debug/outputs/apk/app/debug/WindowsPhoneAndroid-app-debug.apk",
+        "bytes": 109999407
+      },
+      {
+        "path": "phone-arm64-v8a-debug/outputs/apk/launcher/debug/WindowsPhoneAndroid-launcher-debug.apk",
+        "bytes": 109999483
+      },
+      {
+        "path": "verification/app-manifest.xml",
+        "bytes": 5512
+      },
+      {
+        "path": "verification/app.json",
+        "bytes": 638
+      },
+      {
+        "path": "verification/launcher-manifest.xml",
+        "bytes": 5942
+      },
+      {
+        "path": "verification/launcher.json",
+        "bytes": 651
+      }
+    ],
+    "packages": [
+      {
+        "apk": "WindowsPhoneAndroid-app-debug.apk",
+        "package": "org.ferroui.windowsphone",
+        "launcher": false,
+        "abi": "arm64-v8a",
+        "native_bytes": 104062552,
+        "load_alignment": {
+          "lib/arm64-v8a/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "a36ba21e5db2c247dfedb1dd44bb175e957117525b9b4be6f4435ecdcc22bee5",
+        "apk_sha256": "a90e190300614822793c4bd42c411834a29b1d39dec2b0c5a18785ef4da1d8ae"
+      },
+      {
+        "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+        "package": "org.ferroui.windowsphone.launcher",
+        "launcher": true,
+        "abi": "arm64-v8a",
+        "native_bytes": 104062552,
+        "load_alignment": {
+          "lib/arm64-v8a/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "a36ba21e5db2c247dfedb1dd44bb175e957117525b9b4be6f4435ecdcc22bee5",
+        "apk_sha256": "0cc2968da47bd5230777c62a3a09ca7c26e537a7cda5f619091fd742c598bac8"
+      }
+    ]
+  },
+  "warnings": [
+    "Pinned FerroUI emits existing unused/deprecated Rust API warnings.",
+    "Android Java compilation reports deprecated API use; builds succeeded.",
+    "Gradle reports deprecated features incompatible with Gradle 9; the build remains pinned to 8.13.",
+    "setup-java@v4 reports deprecation.",
+    "Node20-based actions report migration to Node24."
+  ],
+  "limitation": "This record proves ARM64 debug compilation, embedding compilation and package boundaries. Android emulator UI evidence for the same source is recorded separately. No physical-device, HOME-consent, release-signing or store qualification is claimed.",
+  "steps": [
+    {
+      "name": "Set up job",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Read framework tool pins",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run gradle/actions/setup-gradle@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run android-actions/setup-android@v3",
+      "conclusion": "success"
+    },
+    {
+      "name": "Install the pinned Android SDK and NDK",
+      "conclusion": "success"
+    },
+    {
+      "name": "Install pinned Rust and Android standard library",
+      "conclusion": "success"
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify portable Android completion and media contracts",
+      "conclusion": "success"
+    },
+    {
+      "name": "Build native application and HOME launcher APKs",
+      "conclusion": "success"
+    },
+    {
+      "name": "Check the Android embedding library",
+      "conclusion": "success"
+    },
+    {
+      "name": "Cache the successfully built native packages",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify merged manifests, JNI entry and native alignment",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run gradle/actions/setup-gradle@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "conclusion": "success"
+    }
+  ],
+  "log_sha256": "f469e9cbcb2ca07d164f5b522378f81a49d4800786924f2aa0f810503e74c9e8",
+  "verification_manifests": [
+    {
+      "file": "6149938-android-app-manifest.xml",
+      "sha256": "f8d06de91bb51f10196ac8e9adbba6e7864f86b7c3026d627802a9fdd79ad24b"
+    },
+    {
+      "file": "6149938-android-launcher-manifest.xml",
+      "sha256": "ec3da254590b35644c4674c335e418bcfc02be7490f6fda4e6bfb4edcb23970d"
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "runtime_commit": "01c4d697c6b32049c8b919899fbb0416f5b61144",
+  "run_id": 45211399089,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089",
+  "conclusion": "success",
+  "completed_at": "2026-11-23T16:14:04Z",
+  "build_job_id": 137820900513,
+  "deploy_job_id": 137830503357,
+  "artifacts": [
+    {
+      "id": 14837427101,
+      "name": "ui-verification",
+      "size_bytes": 6776263,
+      "digest": "sha256:a94d201ce82a19f9dab8b9b9e7e061626a40598fe387c7ad8e65da17a87722b3",
+      "expires_at": "2026-11-28T16:13:41Z",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089/artifacts/14837427101"
+    },
+    {
+      "id": 14837297956,
+      "name": "github-pages",
+      "size_bytes": 9605112,
+      "digest": "sha256:b09ccd815d0b8b949b239dd77e3fe27c5ea9d478592488749dfc9c23925808df",
+      "expires_at": "2026-11-24T16:13:44Z",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089/artifacts/14837297956"
+    },
+    {
+      "id": 14836822966,
+      "name": "compiled-app",
+      "size_bytes": 9615976,
+      "digest": "sha256:ededaead35b7ce75f22cd109c73b1fec182b07d48bd5fa0d6230c7db53508b8a",
+      "expires_at": "2026-11-26T16:10:29Z",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45211399089/artifacts/14836822966"
+    }
+  ],
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "browser_verification": {
+    "rust_tests": 260,
+    "rust_failures": 0,
+    "javascript_tests": 51,
+    "javascript_failures": 0,
+    "linked_local_modules": 25,
+    "interaction_groups": 66,
+    "captures": 125,
+    "console_runtime_errors": [],
+    "elapsed_ms": 189052,
+    "results_file": "01c4d69-results.json",
+    "results_sha256": "0066133d821767a92036c93303c84e30f13b81b2099b5cac6160c5b2b9838b90",
+    "log_sha256": "9d80113c242bc06e68d01ecdd1a471c69f3484b8c4320cc19f47435ecd605d97",
+    "ui_archive_sha256": "a94d201ce82a19f9dab8b9b9e7e061626a40598fe387c7ad8e65da17a87722b3",
+    "selected_captures": [
+      {
+        "path": "docs/screenshots/platform-device-browser.png",
+        "source": "platform-browser-device-services.png",
+        "title": "Device apps",
+        "description": "Observed browser services and unsupported Home/shell roles, with user-facing availability text.",
+        "width": 1280,
+        "height": 936,
+        "bytes": 41766,
+        "sha256": "3bac951e841e6160baf61570eccaabd2be9d5e620be3f10eba197943b799b26e",
+        "visually_reviewed": true
+      },
+      {
+        "path": "docs/screenshots/platform-start-browser.png",
+        "source": "01-start-desktop.png",
+        "title": "Desktop browser Start",
+        "description": "Shared phone Start in the ordinary desktop browser frame.",
+        "width": 1280,
+        "height": 936,
+        "bytes": 169010,
+        "sha256": "ea8085d346005a47e950b9d6d6d7c21a2e73e50414eb485ba1dc4c0eda0b247d",
+        "visually_reviewed": true
+      },
+      {
+        "path": "docs/screenshots/platform-start-mobile-browser.png",
+        "source": "13-start-mobile-dpr2.png",
+        "title": "Mobile browser Start",
+        "description": "Shared phone Start at a 390-by-844 CSS viewport and device pixel ratio 2.",
+        "width": 780,
+        "height": 1688,
+        "bytes": 450013,
+        "sha256": "8f010a5da4e409eabef768567b1c365d69fd7f1df7e488d8d88dd833753d60bf",
+        "visually_reviewed": true
+      }
+    ],
+    "review": "Device services match the browser capability report. Unsupported installed-app and HOME/shell actions are absent. Notification and haptic buttons, refresh and phone navigation remain visible. Desktop and 2x mobile Start retain readable tiles; lower rows continue in the scrolling viewport."
+  },
+  "publication": {
+    "url": "https://ferroui.com/WindowsPhone/",
+    "conclusion": "success",
+    "http_observations": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at": "2026-11-23T16:17:15.197116+00:00",
+        "status": 200,
+        "final_url": "https://ferroui.com/WindowsPhone/",
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 16:13:58 GMT",
+          "etag": "\"6b046646-54f\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        },
+        "sha256": "ea6787b29d889da79099dbcec8d2eeadee1079f8693961811c18c13601a1f7e9",
+        "bytes": 1359,
+        "build_markers": [
+          "data-phone-build=\"01c4d69\""
+        ],
+        "cache_prefix_lines": []
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at": "2026-11-23T16:17:15.221750+00:00",
+        "status": 200,
+        "final_url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "headers": {
+          "content-type": "application/javascript; charset=utf-8",
+          "last-modified": "Mon, 23 Nov 2026 16:13:58 GMT",
+          "etag": "\"6b046646-a1b\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        },
+        "sha256": "f163e30d0e4557e36aae79fa549df4840df386a7fd9cded864d4b7b62f650760",
+        "bytes": 2587,
+        "build_markers": [],
+        "cache_prefix_lines": [
+          "const CACHE_PREFIX=`ferroui-phone:${encodeURIComponent(self.registration.scope)}:`;",
+          "const CACHE=CACHE_PREFIX+'01c4d69';",
+          "self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));"
+        ]
+      }
+    ],
+    "final_http_check": [
+      {
+        "url": "https://ferroui.com/WindowsPhone/",
+        "observed_at": "2026-11-23T17:19:11.903684+00:00",
+        "status": 200,
+        "bytes": 1359,
+        "sha256": "ea6787b29d889da79099dbcec8d2eeadee1079f8693961811c18c13601a1f7e9",
+        "build": "01c4d69",
+        "headers": {
+          "last-modified": "Mon, 23 Nov 2026 16:13:58 GMT",
+          "etag": "\"6b046646-54f\"",
+          "cache-control": "max-age=600"
+        }
+      },
+      {
+        "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+        "observed_at": "2026-11-23T17:19:11.902736+00:00",
+        "status": 200,
+        "bytes": 2587,
+        "sha256": "f163e30d0e4557e36aae79fa549df4840df386a7fd9cded864d4b7b62f650760",
+        "build": "01c4d69",
+        "headers": {
+          "last-modified": "Mon, 23 Nov 2026 16:13:58 GMT",
+          "etag": "\"6b046646-a1b\"",
+          "cache-control": "max-age=600"
+        }
+      }
+    ]
+  },
+  "architecture": {
+    "workspace_packages": 52,
+    "registered_apps": 28
+  },
+  "native_verification_record": "4ae5558-native.json",
+  "local_verification_record": "bc4bbaa-local.json",
+  "limits": [
+    "The duration measures the browser suite, not application startup or rendering performance.",
+    "Unit and integration test counts overlap other records and are not added across runs or platforms.",
+    "The browser suite uses isolated data and controlled external-service fixtures. It does not exercise actual permission prompts, physical hardware, share recipients or OS launcher replacement.",
+    "HTTP observations establish the served build and worker revision; they do not certify every existing browser profile upgrade.",
+    "Android APK and iOS Simulator evidence have separate target-specific records and source commits.",
+    "No original-device pixel or motion parity claim follows from these captures."
+  ]
+}

@@ -356,10 +356,20 @@
     "run_id": 45207216805,
     "result": "Linux and Windows succeeded; macOS packaging failed on removed PureWindowsPath.is_reserved before full host link.",
     "correction": "Use ntpath.isreserved where available, with pathlib fallback only on older Python; regression verifies removed-method compatibility and reserved names.",
-    "log_paths": [
-      "/workspace/scratch/abc156bf144f/native-ci-bc4bbaa-macos.log",
-      "/workspace/scratch/abc156bf144f/native-ci-bc4bbaa-linux.log",
-      "/workspace/scratch/abc156bf144f/native-ci-bc4bbaa-windows.log"
+    "log_source": "https://github.com/FerroUI/WindowsPhone/actions/runs/45207216805",
+    "logs": [
+      {
+        "platform": "macos",
+        "sha256": "0bfc0dbe10931213ffbfb549554f9d670c3809b32dd03093a2d37059858564ed"
+      },
+      {
+        "platform": "linux",
+        "sha256": "4d85375cf3b89787fe6786d0c1da9f3b664ae186b3404b2e0424efb6c7111c3c"
+      },
+      {
+        "platform": "windows",
+        "sha256": "ad8ace507b920bfc9ae9d027853d5c90a6aa2fa7e55c8833b1a0cb235cea27eb"
+      }
     ]
   }
 }

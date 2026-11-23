@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "implementation_head": "5b41a557c83c59ea864c878199065f4dba07f5c9",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "recorded_at": "2026-11-23T17:25:31.082604+00:00",
+  "method": "Compare sorted git ls-tree records (path, mode, type, blob/gitlink identity) for the documented target source/configuration scopes. SHA-256 covers their compact JSON representation. Documentation and workflow scheduling are outside this source comparison; each referenced workflow record retains the actual executed gates.",
+  "targets": [
+    {
+      "target": "browser",
+      "tested_commit": "01c4d697c6b32049c8b919899fbb0416f5b61144",
+      "verification_records": [
+        "01c4d69-browser.json"
+      ],
+      "included_paths": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".cargo",
+        "FerroUI",
+        "crates",
+        "package.json",
+        "scripts/build-browser.sh",
+        "scripts/ci-framework-mtimes.py"
+      ],
+      "excluded_crate_roots": [
+        "crates/phone-android",
+        "crates/phone-ios",
+        "crates/phone-desktop",
+        "crates/phone-platform-desktop",
+        "crates/phone-native"
+      ],
+      "excluded_file_suffixes": [
+        ".md"
+      ],
+      "tracked_entries": 512,
+      "source_configuration_sha256": "c457ca0ee859a5cd93b2411e263acb4da72fe779c4aad89d804d48daf45dee08",
+      "identical_to_implementation_head": true
+    },
+    {
+      "target": "desktop",
+      "tested_commit": "4ae5558e20902eec7244b6edd2238b80e42334e2",
+      "verification_records": [
+        "4ae5558-native.json"
+      ],
+      "included_paths": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".cargo",
+        "FerroUI",
+        "crates"
+      ],
+      "excluded_crate_roots": [
+        "crates/phone-android",
+        "crates/phone-ios",
+        "crates/phone-browser"
+      ],
+      "excluded_file_suffixes": [
+        ".md"
+      ],
+      "tracked_entries": 520,
+      "source_configuration_sha256": "9958954f74f5ed1a28095f7eac90c526b53dbae26d720e5f68c22f132fc0d03e",
+      "identical_to_implementation_head": true
+    },
+    {
+      "target": "android_arm64_package",
+      "tested_commit": "6149938d9bf8eb8cf3cf5eeb620c3aee124132df",
+      "verification_records": [
+        "6149938-android.json"
+      ],
+      "included_paths": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".cargo",
+        "FerroUI",
+        "crates",
+        "scripts/build-android.sh",
+        "scripts/verify-android-package.py",
+        ".github/workflows/android.yml"
+      ],
+      "excluded_crate_roots": [
+        "crates/phone-ios",
+        "crates/phone-browser",
+        "crates/phone-desktop",
+        "crates/phone-platform-desktop"
+      ],
+      "excluded_file_suffixes": [
+        ".md"
+      ],
+      "tracked_entries": 531,
+      "source_configuration_sha256": "b8c59b1bda70fd76f7f4721419c57b9857f58a4371b9e9ac5c5d8eeffa94dda5",
+      "identical_to_implementation_head": true
+    },
+    {
+      "target": "android_x86_64_ui",
+      "tested_commit": "895b47e2cb969fd7069fd056f180a6b1366d9e93",
+      "verification_records": [
+        "895b47e-android-ui.json"
+      ],
+      "included_paths": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".cargo",
+        "FerroUI",
+        "crates",
+        "scripts/build-android.sh",
+        "scripts/smoke-android.sh",
+        "scripts/verify-android-package.py",
+        "scripts/verify_android_ui.py",
+        ".github/workflows/android-ui.yml"
+      ],
+      "excluded_crate_roots": [
+        "crates/phone-ios",
+        "crates/phone-browser",
+        "crates/phone-desktop",
+        "crates/phone-platform-desktop"
+      ],
+      "excluded_file_suffixes": [
+        ".md"
+      ],
+      "tracked_entries": 533,
+      "source_configuration_sha256": "d18e06d606344cf201797a73e8d6f5a9d96b1536cc6726ac4ae29e4944c514c6",
+      "identical_to_implementation_head": true
+    },
+    {
+      "target": "ios",
+      "tested_commit": "5b41a557c83c59ea864c878199065f4dba07f5c9",
+      "verification_records": [
+        "5b41a55-ios.json"
+      ],
+      "included_paths": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".cargo",
+        "FerroUI",
+        "crates",
+        "scripts/build-ios.sh",
+        "scripts/ios-bundle-metadata.py",
+        "scripts/smoke-ios.sh",
+        "scripts/verify-ios-smoke.py",
+        "scripts/ios-ui-tests",
+        ".github/workflows/ios.yml"
+      ],
+      "excluded_crate_roots": [
+        "crates/phone-android",
+        "crates/phone-browser",
+        "crates/phone-desktop",
+        "crates/phone-platform-desktop"
+      ],
+      "excluded_file_suffixes": [
+        ".md"
+      ],
+      "tracked_entries": 521,
+      "source_configuration_sha256": "74b1d3cc0384a16310f873128d0ac9c2851b20df1991ca4b4e3da5fd14ff0a3f",
+      "identical_to_implementation_head": true
+    }
+  ],
+  "limits": "Source equality carries the exact recorded compile/package/runtime evidence to this implementation head. It does not expand that evidence to untested hardware, permissions, native session installation, release signing or original Windows Phone fidelity."
+}
