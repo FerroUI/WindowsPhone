@@ -19,7 +19,6 @@ use std::{
 ferroui_base::ferro_thread_local! {
     static ENABLED: Cell<bool> = const { Cell::new(true) };
     static PRESS: OnceCell<Transitions> = const { OnceCell::new() };
-    static SWITCH: OnceCell<[Rc<dyn ITransform>;2]> = const { OnceCell::new() };
 }
 
 pub fn set_motion_enabled(enabled: bool) {
@@ -57,20 +56,6 @@ pub(crate) fn scale(value: f64) -> Option<Rc<dyn ITransform>> {
     let mut transform = TransformOperations::create_builder(1);
     transform.append_scale(value, value);
     Some(transform.build())
-}
-
-pub(crate) fn switch_position(on: bool) -> Option<Rc<dyn ITransform>> {
-    Some(SWITCH.with(|slot| {
-        slot.get_or_init(|| {
-            std::array::from_fn(|index| {
-                let mut transform = TransformOperations::create_builder(1);
-                transform.append_translate(if index == 0 { 0.0 } else { 35.0 }, 0.0);
-                let transform: Rc<dyn ITransform> = transform.build();
-                transform
-            })
-        })[usize::from(on)]
-        .clone()
-    }))
 }
 
 /// A page's finite entrance. Positive direction enters from the right;

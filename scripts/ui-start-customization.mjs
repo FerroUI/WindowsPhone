@@ -35,7 +35,7 @@ export async function verifyStartCustomization(ctx) {
   const text=async(name,value)=>until(async()=>{const found=await named(name);return found.length===1&&found[0].text===value;},`${name}: ${value}`);
   const menuClick=async match=>{
     const item=await until(async()=>{
-      const view=await snapshot();const candidates=view.elements.filter(element=>/Button$/.test(element.type)&&match(element));
+      const view=await snapshot();const candidates=view.elements.filter(element=>/(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type)&&match(element));
       const visible=candidates.filter(element=>element.hit);assert(visible.length<=1,"Tile command must be unique");if(visible[0])return visible[0];
       const menu=view.elements.find(element=>element.name==="TileMenuSurface");
       if(menu){const target=candidates[0];await page.wheel(menu.x+menu.width/2,menu.y+menu.height/2,0,target&&target.y<menu.y?-240:240);await settled();}

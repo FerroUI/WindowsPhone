@@ -10,7 +10,7 @@ use ferroui_base::input::{
 use ferroui_base::reactive::Subscription;
 use ferroui_base::threading::{DispatcherPriority, DispatcherTimer};
 use ferroui_base::{Ref, WeakRef};
-use ferroui_controls::{Control, Grid, TextBox};
+use ferroui_controls::{Control, Grid, Slider, TextBox, ToggleSwitch};
 use phone_domain::{Id, Route};
 use phone_state::PhoneViewModel;
 use std::{
@@ -168,20 +168,23 @@ impl Controller {
                     .collect::<Vec<_>>()
             })
             .unwrap_or_default();
-        // Embedded gesture surfaces own their complete pointer sequence, including
-        // a second contact. Do not capture/cancel their pinch or pan as shell swipes.
-        if ancestors
-            .iter()
-            .any(|control| control.classes().contains("phone-native-input"))
-        {
-            return;
-        }
         if ancestors
             .iter()
             .any(|control| control.has_name("PhoneVolumePanel"))
         {
             ui.state::<crate::hardware::HardwareState>()
                 .begin_interaction(vm.now());
+        }
+        // Embedded gesture surfaces and native range/toggle controls own their
+        // complete pointer sequence, including a second contact. Their thumb
+        // movement must never become a shell page swipe. Volume interaction is
+        // registered first so its panel remains open throughout a native drag.
+        if ancestors.iter().any(|control| {
+            control.classes().contains("phone-native-input")
+                || control.cast::<Slider>().is_some()
+                || control.cast::<ToggleSwitch>().is_some()
+        }) {
+            return;
         }
         let tile = ancestors.iter().find_map(|control| {
             control
@@ -495,10 +498,9 @@ impl Controller {
                 .is_some_and(|pointer| pointer.id() != event.pointer().id())
         });
         let Some(contact) = contact else {
-            if event.pointer().type_() != PointerType::Mouse {
-                event.set_handled(true);
-                event.pointer().capture(None);
-            }
+            // Native surfaces were intentionally excluded at press time. Their
+            // map, picker, slider or Pivot owns the complete sequence, including
+            // release and its capture. An unrelated shell must not swallow it.
             return;
         };
         feedback::clear(self, true);
@@ -562,7 +564,13 @@ impl Controller {
                     vm.clear_notifications();
                 }
             }
-            Mode::Swipe if contact.motion.swipe(Axis::Horizontal) => {
+            Mode::Swipe
+                if if matches!(contact.route, Route::Start | Route::Folder(_) | Route::Apps) {
+                    contact.motion.page_swipe(crate::shell::phone_size(&vm).0)
+                } else {
+                    contact.motion.swipe(Axis::Horizontal)
+                } =>
+            {
                 complete_swipe(&vm, &ui, &contact.route, contact.motion.delta().0)
             }
             _ => {}
@@ -594,11 +602,23 @@ fn can_swipe(route: &Route, ui: &Session) -> bool {
 fn complete_swipe(vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, route: &Route, delta: f64) {
     match route {
         Route::Start | Route::Folder(_) if delta < 0.0 => {
+            ui.state::<crate::page_motion::NavigationMotion>().swiped(
+                route,
+                delta,
+                crate::shell::phone_size(vm).0,
+            );
             ui.edit_tile.set(None);
             ui.folder.set(None);
             vm.navigate(Route::Apps);
         }
-        Route::Apps if delta > 0.0 => vm.home(),
+        Route::Apps if delta > 0.0 => {
+            ui.state::<crate::page_motion::NavigationMotion>().swiped(
+                route,
+                delta,
+                crate::shell::phone_size(vm).0,
+            );
+            vm.home();
+        }
         _ => {
             if ui.registry().swipe(vm, ui, delta) {
                 return;
@@ -615,3 +635,7 @@ fn complete_swipe(vm: &Rc<PhoneViewModel>, ui: &Rc<Session>, route: &Route, delt
         }
     }
 }
+
+#[cfg(test)]
+#[path = "controller_tests.rs"]
+mod tests;

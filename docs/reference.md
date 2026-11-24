@@ -4,6 +4,8 @@
 
 The visual and interaction target is **Windows Phone 8.1 Update (2014)**, including live folders. The original `system` / `applications` Settings pivots are retained. Update 2 and Windows 10 Mobile introduced later designs, and are not the target. This document describes requirements and reference evidence; it does **not** certify complete visual or feature parity.
 
+The [Metro design evidence](metro-design.md) adds exact primary-source metrics, a 480→400 coordinate conversion, animation constants and an acceptance matrix. The [original emulator guide](original-emulator.md) records the current environment probe and a Windows/Hyper-V capture procedure. No original Windows Phone emulator was run in this session; current rendered implementation verification is tracked separately in [parity.md](parity.md#metro-and-outlook-refinement).
+
 ## Original behavior
 
 | Surface | Reference behavior | Implementation consequence |
@@ -19,8 +21,8 @@ The visual and interaction target is **Windows Phone 8.1 Update (2014)**, includ
 | Volume | Hardware keys open volume controls; an arrow expands them. Ringer/notifications and media/apps have independent channels, icon-based mute and a vibration toggle. | Retain independent stored levels while muted and map only supported application audio behavior to the host. [18] |
 | Messaging | Conversations support contact selection, held-message forwarding/deletion and thread selection. Unfinished messages can be revisited. | Preserve recipient identity and draft state; separate local thread operations from host SMS handoff and delivery. [17][20] |
 | Mail | Unread messages use a distinct color; tapping the left side of rows exposes selection checkboxes. Details offer reply/forward/delete. | Share reusable selection behavior while keeping mail mutations atomic. Account synchronization is a separate service boundary. [17] |
-| Application bar | Primary actions sit at the bottom. Ellipsis exposes labels and additional text commands. | Provide a reusable Metro app bar that expands upward. [6] |
-| Pivot and Panorama | In-app sections are reached horizontally, with strong typographic hierarchy. | Resolve horizontal section navigation separately from vertical scrolling. [6] |
+| Application bar | One to four primary icon actions sit at the bottom; a separate ellipsis exposes labels and text commands. Default and Mini extents are 72 and 30 reference units. | Keep command slots separate from ellipsis, overlay expansion without activating content below, and close it through shared Back handling. [6][41] |
+| Pivot and Panorama | In-app sections are reached horizontally, with strong typographic hierarchy. Pivot is cyclic; Panorama uses independently moving title/background/content layers. | Give native pivot panes separate finite vertical scrollers, avoid competing horizontal recognizers, and preserve layered Panorama composition as a distinct requirement. [6][42] |
 | Browser | IE11 offers unlimited tabs, frequent sites, favorites, history, Reading View and pinned sites. The address-bar button can be assigned to tabs, favorites or refresh. | Persist local tabs and app-initiated navigation journals; expose the address shortcut and external-open path. Explicitly document local bounds and the host's cross-origin navigation boundary. [7][22] |
 | Keyboard | Word Flow includes gesture trails, suggestions, contextual correction and contact names. | A host keyboard is a compatibility choice, not full Word Flow parity. [8] |
 | Files | Browse phone/SD content, search, create folders, copy/move files, rename/delete and share. Folder properties report storage use; the guide explicitly excludes copying/moving folders. | Preserve selected-file actions and hierarchy. Label local document measurements accurately; folder copy/move is not an original parity requirement. [15][16][17] |
@@ -35,6 +37,14 @@ The visual and interaction target is **Windows Phone 8.1 Update (2014)**, includ
 Microsoft's Metro guidance emphasizes content, typography, negative space and consistent navigation. The original design templates include Segoe WP. [6][9] The app uses a dedicated Metro theme over FerroUI's WinUI control infrastructure. Square surfaces, monochrome icon geometry, large lightweight headings, neighboring pivot labels and bottom application commands should remain consistent across apps.
 
 Exact pixel parity requires comparison at the same logical resolution, font availability and scaling as original hardware. Screenshots, original device captures and measured interaction traces should be used before describing any surface as pixel-identical. The cited material establishes behavior; it does not establish an exhaustive metric table for every model and release.
+
+### Measured source baseline and current adaptation
+
+The Microsoft Windows Phone Toolkit source examined is the August 2013 release at commit `4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df`. It supplies authentic WP7/WP8 control/motion evidence, not the private WP8.1 shell implementation. [39] The current adaptation uses its position-dependent tilt formula, 25-reference-unit maximum depression and default 200 ms delay/100 ms linear return. Plain incoming turnstiles use a left-edge rotation center, a centered camera, forward −80°/backward +50° and 350 ms exponential-out factor 6. Silverlight's camera is 1000 units from the element plane independently of the rotation center. [43]
+
+Theme resources establish Segoe WP variants, reference font sizes, margin/overhang values and 3-unit borders. [40] At the recreation's 400-unit design width, the explicit conversion is 5/6; durations and rotation angles do not scale. The exact default CheckBox/RadioButton templates and TextBox ARGB state values have not been recovered here. Native control semantics and measured Toolkit switch geometry improve the implementation but do not establish those missing visual details.
+
+Only incoming page turnstiles are implemented in this pass. Outgoing-page retention/choreography and complete Panorama remain open. The native cyclic Pivot integrations in Battery Saver, Data Sense and Games, shared application-bar overlays and native selection bindings are undergoing current build/rendered verification. Outlook's explicit local draft save/reopen/delete flow is a useful `AppStorage` feature; it is not evidence of original Exchange, IMAP or Microsoft account behavior. Historical test totals continue to apply to their cited revisions.
 
 ## Browser and service boundaries
 
@@ -78,6 +88,8 @@ The shell and local data workflows can be reproduced as an application. A browse
 - Change a lock status provider, close the settings page and verify the selected content on the lock screen.
 - Hide one app's Action Center items without deleting them, then show and dismiss that app's group.
 - Select several local mail items, delete them, restore one from deleted items and permanently delete another.
+- Compose a multiline Outlook draft, explicitly save, edit/cancel/discard, switch apps and reload; verify the saved copy and imported mailbox folders remain intact. Opening the host mail app must not create a sent-mail entry or delete the local draft.
+- Compare center/edge/corner tilt, incoming forward/backward turnstiles, native checkbox/radio/switch keyboard and drag behavior, and cyclic pivot wrap with vertical scrolling. Keep Toolkit-constant checks separate from original WP8.1 device comparison.
 - Search a thread by body text, forward a held message, cancel composition and delete only that message.
 - Pan day/week/month/year Calendar periods; inspect inline month appointments and separate overlapping day-view hit regions.
 - Edit one recurring occurrence without changing its neighbors; cancel native picker/editor changes; reload all-day/repeat/reminder preferences.
@@ -145,3 +157,10 @@ The original Microsoft Minesweeper was distributed as a downloadable Xbox game, 
 36. [Microsoft: PhoneApplicationService](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff707299(v=vs.105)), Phone Silverlight lifetime/state APIs; this is not the separate Windows Runtime application ABI.
 37. [Microsoft: What's new for gamers in Windows Phone 8, 12 December 2012](https://blogs.windows.com/windowsexperience/2012/12/12/whats-new-for-gamers-in-windows-phone-8/), Games Hub collection, Xbox pane, avatars, achievements, friends and notifications.
 38. [Microsoft: Gaming classics arrive on Windows Phone, 27 December 2013](https://blogs.windows.com/windowsexperience/2013/12/27/microsoft-gaming-classics-solitaire-mahjong-and-minesweeper-arrive-on-windows-phone/), downloadable Minesweeper, Solitaire and Mahjong, including their original connected Xbox features.
+39. [Microsoft Windows Phone Toolkit, pinned August 2013 source](https://github.com/microsoftarchive/WindowsPhoneToolkit/tree/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df), control templates, tilt and transition storyboards. This predates the WP8.1 Update target.
+40. [Microsoft: Theme resources for Windows Phone](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff769552(v=vs.105)), typography, thickness, brush identities and text styles.
+41. [Microsoft: Application bar guidelines](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff431813(v=vs.105)), command/menu behavior; [DefaultSize](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh312738(v=vs.105)) and [MiniSize](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh312716(v=vs.105)) give original extents.
+42. [Microsoft: Pivot guidelines](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh202919(v=vs.105)) and [Panorama guidelines](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh202912(v=vs.105)), cyclic sections, gesture constraints and independent panorama layers.
+43. [Microsoft MSDN Magazine: Projection Transforms Sans Math, April 2010](https://learn.microsoft.com/en-us/archive/msdn-magazine/2010/april/ui-frontiers-projection-transforms-sans-math), Silverlight rotation order, separate rotation center and centered 1000-unit camera.
+44. [Microsoft: Windows SDK archive](https://learn.microsoft.com/en-us/windows/apps/windows-sdk/downloads-archive), original phone SDK/emulator package listings and prerequisite references. Listing availability does not establish that every installer payload still works or that an image has booted.
+45. [Microsoft BUILD2011: Windows Phone user experience design](https://learn.microsoft.com/en-us/shows/build-build2011/app-832t), original design rationale. Selected caption ranges and one actual video frame were inspected; see the precise [inspection record](metro-design.md#video-inspection-record).

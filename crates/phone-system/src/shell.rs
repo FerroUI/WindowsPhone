@@ -38,11 +38,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         .active
         .get()
         .is_some();
-    let direction = if matches!(route, Route::Start) {
-        -1.0
-    } else {
-        1.0
-    };
+    let (width, height, desktop) = phone_size(&vm);
+    let page_motion = ui.state::<crate::page_motion::NavigationMotion>();
+    let visit = page_motion.observe(&route, width);
     ui.state::<crate::previews::PreviewCache>().before_render(
         &route,
         ui.switcher_open.get_untracked() || route == Route::Switcher,
@@ -57,7 +55,6 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }
         }
     }
-    let (width, height, desktop) = phone_size(&vm);
     phone_controls::set_phone_viewport_height(height);
     let data = vm.data();
     let accent = data.settings.accent.clone();
@@ -84,7 +81,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         Border{Grid.row:1,name:"PhonePage",key:format!("page-{route:?}"),clip_to_bounds:true,
             is_visible:!ui.locked.get(),is_enabled:!ui.locked.get() && !alert,
             on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){
-                phone_controls::page_enter(&control,direction);
+                let entrance=page_motion.take_for_load(visit,control.bounds().width);
+                crate::page_motion::enter(&control,entrance);
             },
             {match &route {
                 Route::Start|Route::Folder(_)=>start::view(vm.clone(),ui.clone()),

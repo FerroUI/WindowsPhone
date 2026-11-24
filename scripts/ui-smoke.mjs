@@ -22,6 +22,8 @@ import { verifyConnectedApps } from "./ui-connected-apps.mjs";
 import { verifyMapsExpansion } from "./ui-maps-expanded.mjs";
 import { installMapTileFixture } from "./ui-map-fixture.mjs";
 import { verifyPlatformRefinements } from "./ui-platform-refinements.mjs";
+import { verifyMetroControls } from "./ui-metro-controls.mjs";
+import { verifyOutlookDrafts } from "./ui-outlook-drafts.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -51,7 +53,7 @@ const healthy = () => {
   assert(Date.now() < deadline, "UI verification exceeded the 4½-minute budget");
   assert.equal(page.errors.length, 0, page.errors.join("\n"));
 };
-const button = element => /Button$/.test(element.type);
+const button = element => /(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type);
 const visibleText = element => /(?:TextBlock|AccessText)$/.test(element.type);
 const centre = element => [element.x + element.width / 2, element.y + element.height / 2];
 const centreInside = (element, viewport) => {
@@ -165,6 +167,14 @@ async function ready() {
 }
 
 async function capture(name, {picker} = {}) {
+  // A reference capture represents the settled page. Navigation motion has a
+  // separate per-frame regression; do not accidentally archive a mid-turnstile
+  // pose merely because a control became hittable before its entrance ended.
+  await until(async () => {
+    const view = await snapshot();
+    const page = view?.elements.find(element => element.name === "PhonePage");
+    return !page || page.projection === null;
+  }, `${name}: page entrance completed`);
   await sleep(150);
   healthy();
   const view = await snapshot();
@@ -626,7 +636,7 @@ try {
   // failures in one opt-in run, while keeping every assertion a publication gate.
   const refinementFailures = [];
   for (const verify of [verifyOfficeRefinements, verifyCalendarRefinements,
-    verifyAlarmRefinements, verifyShellParity, verifySystemRefinements,
+    verifyAlarmRefinements, verifyMetroControls, verifyOutlookDrafts, verifyShellParity, verifySystemRefinements,
     verifyBrowserRefinements, verifyPimRefinements, verifyHostRefinements, verifySdkGames,
     verifyOfficeExpansion, verifyMediaLibraries, verifyConnectedApps, verifyMapsExpansion, verifyPlatformRefinements,
     verifyLiveTiles, verifyStartCustomization, verifyLockscreenDraft, verifyLiveFolder]) {

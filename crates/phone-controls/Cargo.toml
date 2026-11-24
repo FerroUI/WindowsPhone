@@ -15,3 +15,6 @@ ferroui-markup-xaml.workspace = true
 
 [build-dependencies]
 ferroui-build.workspace = true
+
+[dev-dependencies]
+ferroui-headless = { workspace = true, features = ["testing"] }

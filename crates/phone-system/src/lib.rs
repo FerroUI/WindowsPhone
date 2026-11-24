@@ -17,6 +17,7 @@ mod lifecycle_tests;
 mod lockscreen;
 mod navigation;
 mod notifications;
+mod page_motion;
 mod previews;
 pub(crate) mod session;
 mod shell;
@@ -81,21 +82,30 @@ pub fn set_preview_capture_enabled(enabled: bool) {
 }
 
 pub fn back(vm: &Rc<PhoneViewModel>) {
-    if !SESSION.with(|slot| {
-        slot.borrow().upgrade().is_some_and(|ui| {
-            if ui.state::<phone_alarm_service::AlarmState>().back(vm) {
-                return true;
-            }
-            if ui.locked.get_untracked()
-                && !ui.state::<crate::hardware::HardwareState>().is_open()
-                && !ui.notification_open.get_untracked()
-            {
-                return true;
-            }
-            ui.dismiss(vm)
-        })
+    let ui = SESSION.with(|slot| slot.borrow().upgrade());
+    let from = vm.route();
+    let motion = ui
+        .as_ref()
+        .map(|ui| ui.state::<page_motion::NavigationMotion>());
+    if let Some(motion) = &motion {
+        motion.begin_back(&from);
+    }
+    if !ui.is_some_and(|ui| {
+        if ui.state::<phone_alarm_service::AlarmState>().back(vm) {
+            return true;
+        }
+        if ui.locked.get_untracked()
+            && !ui.state::<crate::hardware::HardwareState>().is_open()
+            && !ui.notification_open.get_untracked()
+        {
+            return true;
+        }
+        ui.dismiss(vm)
     }) {
         vm.back();
+    }
+    if let Some(motion) = motion {
+        motion.finish_back(&from, &vm.route());
     }
 }
 

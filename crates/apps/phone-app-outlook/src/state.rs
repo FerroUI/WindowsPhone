@@ -8,6 +8,7 @@ pub struct MailState {
     pub selecting: Signal<bool>,
     pub searching: Signal<bool>,
     pub folders: Signal<bool>,
+    pub saved_drafts: Signal<bool>,
 }
 impl MailState {
     pub fn new() -> Self {
@@ -17,6 +18,7 @@ impl MailState {
             selecting: signal(false),
             searching: signal(false),
             folders: signal(false),
+            saved_drafts: signal(false),
         }
     }
     pub fn begin(&self, id: Option<Id>) {
@@ -45,6 +47,8 @@ impl MailState {
             self.selected.set(BTreeSet::new());
         } else if self.searching.get_untracked() {
             self.searching.set(false);
+        } else if self.saved_drafts.get_untracked() {
+            self.saved_drafts.set(false);
         } else {
             return false;
         }

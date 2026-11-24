@@ -35,7 +35,7 @@ pub mod prelude {
         AppCategory, AppContext, AppManifest, AppRegistration, AppStorage, Capability,
     };
     pub use ferroui_view::prelude::*;
-    pub use phone_controls::{action, app_bar, flat, input, pivot, Icon};
+    pub use phone_controls::{action, app_bar, flat, input, pivot, pivot_pages, Icon, PivotPage};
     pub use phone_domain::{AppId, Route};
     pub use phone_state::PhoneViewModel;
     pub use std::rc::Rc;

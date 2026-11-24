@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-11-24T09:04:20.521327+00:00",
+  "read_only": true,
+  "platform": {
+    "system": "Linux",
+    "release": "6.18.57",
+    "machine": "x86_64"
+  },
+  "cpu_virtualization_flags": [],
+  "kvm_device_present": false,
+  "tools": {
+    "qemu-system-x86_64": null,
+    "wine": null,
+    "powershell.exe": null,
+    "pwsh": null
+  },
+  "windows": {
+    "status": "not_applicable"
+  },
+  "installations": {
+    "searched_roots": [],
+    "xde": [],
+    "images": [],
+    "sdk_roots": [],
+    "errors": []
+  },
+  "assessment": "unsupported_host_os",
+  "next_steps": [
+    "The original Windows Phone 8/8.1 XDE requires a compatible x64 Windows host with Hyper-V and SLAT.",
+    "Use docs/original-emulator.md to prepare an original Windows emulator or hardware reference."
+  ]
+}

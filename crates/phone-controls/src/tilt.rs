@@ -1,6 +1,6 @@
 //! Location-sensitive press feedback on the content of a native Button.
 //! The Button retains its input rectangle, capture and command semantics.
-use ferroui_base::animation::easings::CubicEaseOut;
+use ferroui_base::animation::easings::LinearEasing;
 use ferroui_base::animation::{DoubleTransition, ITransition, SignedDuration, Transitions};
 use ferroui_base::input::{HoldingState, InputElement};
 use ferroui_base::interactivity::RoutingStrategies;
@@ -10,12 +10,24 @@ use ferroui_controls::{Button, Control};
 use ferroui_view::on_cleanup;
 use std::{cell::Cell, rc::Rc};
 
+// Microsoft.Phone.Controls.Toolkit/Effects/TiltEffect.cs, commit
+// 4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df: the angle budget is shared by
+// both axes; depression is strongest at the center, zero at a corner.
+const MAX_ANGLE_RADIANS: f64 = 0.3;
+const MAX_DEPRESSION: f64 = crate::reference_pixels(25.0);
+// Silverlight PlaneProjection uses a camera 1000 reference pixels from the
+// plane (Microsoft MSDN, "Projection Transforms Sans Math", April 2010).
+const CAMERA_DISTANCE: f64 = crate::reference_pixels(1000.0);
+const RETURN_DELAY: f64 = 0.2;
+const RETURN_DURATION: f64 = 0.1;
+
 struct Tilt {
     content: WeakRef<Control>,
     transform: Ref<Rotate3DTransform>,
     scale: Ref<ScaleTransform>,
     projected: Rc<dyn ITransform>,
     pointer: Cell<Option<i32>>,
+    releasing: Cell<bool>,
     enabled: Box<dyn Fn() -> bool>,
 }
 
@@ -28,16 +40,36 @@ pub fn attach_press_tilt(button: &Ref<Button>, enabled: impl Fn() -> bool + 'sta
     let transform = Rotate3DTransform::new();
     let scale = ScaleTransform::new();
     let group = TransformGroup::new();
-    group.children().add(scale.clone().upcast());
     group.children().add(transform.clone().upcast());
+    group.children().add(scale.clone().upcast());
+    transform.set_depth(CAMERA_DISTANCE);
     transform.enable_transitions();
-    scale.enable_transitions();
+    // A rotation at focal length D + depression followed by scale D/(D +
+    // depression) is the same perspective projection as translating the
+    // plane away from a fixed camera by depression. Derive scale from the
+    // animated depth, so the 100 ms return also interpolates Z correctly.
+    let weak_scale = scale.downgrade();
+    let projection_changed = transform.property_changed(move |change| {
+        if change.property() == Rotate3DTransform::depth_property().as_property() {
+            if let Some(scale) = weak_scale.upgrade() {
+                let depth = change.get_new_value::<f64>();
+                let factor = if depth.is_finite() && depth >= CAMERA_DISTANCE {
+                    CAMERA_DISTANCE / depth
+                } else {
+                    1.0
+                };
+                scale.set_scale_x(factor);
+                scale.set_scale_y(factor);
+            }
+        }
+    });
     let state = Rc::new(Tilt {
         content: content.downgrade(),
         projected: group.into(),
         transform,
         scale,
         pointer: Cell::new(None),
+        releasing: Cell::new(false),
         enabled: Box::new(enabled),
     });
     let weak = button.downgrade();
@@ -86,11 +118,24 @@ pub fn attach_press_tilt(button: &Ref<Button>, enabled: impl Fn() -> bool + 'sta
                 {
                     moved_state.press(point, size.width, size.height);
                 } else {
-                    moved_state.reset(false);
+                    // An excursion outside pauses the effect; a captured
+                    // pointer can reenter without requiring a second press.
+                    moved_state.restore(false);
                 }
             }
         },
         RoutingStrategies::BUBBLE,
+        true,
+    );
+    let released_state = state.clone();
+    let released = button.add_handler_with(
+        InputElement::pointer_released_event(),
+        move |_, event| {
+            if released_state.pointer.get() == Some(event.pointer().id()) {
+                released_state.releasing.set(true);
+            }
+        },
+        RoutingStrategies::TUNNEL,
         true,
     );
     let changed_state = state.clone();
@@ -98,7 +143,7 @@ pub fn attach_press_tilt(button: &Ref<Button>, enabled: impl Fn() -> bool + 'sta
         if change.property() == Button::is_pressed_property().as_property()
             && !change.get_new_value::<bool>()
         {
-            changed_state.reset(true);
+            changed_state.reset(changed_state.releasing.replace(false));
         }
     });
     let holding_state = state.clone();
@@ -112,6 +157,13 @@ pub fn attach_press_tilt(button: &Ref<Button>, enabled: impl Fn() -> bool + 'sta
         RoutingStrategies::BUBBLE,
         true,
     );
+    let capture_state = state.clone();
+    let capture_lost =
+        button.add_handler(InputElement::pointer_capture_lost_event(), move |_, _| {
+            if capture_state.pointer.get().is_some() {
+                capture_state.reset(false);
+            }
+        });
     let unloaded_state = state.clone();
     let unloaded = button.add_handler(Control::unloaded_event(), move |_, _| {
         unloaded_state.reset(false)
@@ -119,11 +171,14 @@ pub fn attach_press_tilt(button: &Ref<Button>, enabled: impl Fn() -> bool + 'sta
     let weak = button.downgrade();
     on_cleanup(move || {
         changed.dispose();
+        projection_changed.dispose();
         state.reset(false);
         if let Some(button) = weak.upgrade() {
             button.remove_handler(InputElement::pointer_pressed_event(), pressed);
             button.remove_handler(InputElement::pointer_moved_event(), moved);
+            button.remove_handler(InputElement::pointer_released_event(), released);
             button.remove_handler(InputElement::holding_event(), held);
+            button.remove_handler(InputElement::pointer_capture_lost_event(), capture_lost);
             button.remove_handler(Control::unloaded_event(), unloaded);
         }
     });
@@ -145,33 +200,37 @@ impl Tilt {
             return;
         }
         self.transform.set_transitions(None);
-        self.scale.set_transitions(None);
-        self.transform.set_depth(width.max(height).max(1.0) * 6.0);
-        let (x, y) = angles(point, width, height);
-        self.transform.set_angle_x(x);
-        self.transform.set_angle_y(y);
-        self.scale.set_scale_x(0.975);
-        self.scale.set_scale_y(0.975);
+        let projection = projection(point, width, height);
+        self.transform
+            .set_depth(CAMERA_DISTANCE + projection.depression);
+        self.transform.set_angle_x(projection.x);
+        self.transform.set_angle_y(projection.y);
         content.set_render_transform_origin(RelativePoint::CENTER);
         content.set_render_transform(Some(self.projected.clone()));
     }
 
     fn reset(&self, animate: bool) {
-        if self.pointer.take().is_none()
-            && self.transform.angle_x() == 0.0
+        self.pointer.set(None);
+        self.releasing.set(false);
+        self.restore(animate);
+    }
+
+    fn restore(&self, animate: bool) {
+        if self.transform.angle_x() == 0.0
             && self.transform.angle_y() == 0.0
             && self.scale.scale_x() == 1.0
         {
             return;
         }
-        let transitions = |properties: [&'static ferroui_base::FerroProperty; 2]| {
+        let transitions = |properties: [&'static ferroui_base::FerroProperty; 3]| {
             (animate && crate::motion_enabled()).then(|| {
                 let transition = |property| {
                     let transition = DoubleTransition::with_property(
                         property,
-                        SignedDuration::from_seconds(0.12),
+                        SignedDuration::from_seconds(RETURN_DURATION),
                     );
-                    transition.set_easing(CubicEaseOut::new());
+                    transition.set_delay(SignedDuration::from_seconds(RETURN_DELAY));
+                    transition.set_easing(LinearEasing::new());
                     Rc::<dyn ITransition>::from(transition)
                 };
                 Transitions::from_items(properties.map(transition))
@@ -180,15 +239,11 @@ impl Tilt {
         self.transform.set_transitions(transitions([
             Rotate3DTransform::angle_x_property().as_property(),
             Rotate3DTransform::angle_y_property().as_property(),
-        ]));
-        self.scale.set_transitions(transitions([
-            ScaleTransform::scale_x_property().as_property(),
-            ScaleTransform::scale_y_property().as_property(),
+            Rotate3DTransform::depth_property().as_property(),
         ]));
         self.transform.set_angle_x(0.0);
         self.transform.set_angle_y(0.0);
-        self.scale.set_scale_x(1.0);
-        self.scale.set_scale_y(1.0);
+        self.transform.set_depth(CAMERA_DISTANCE);
         if !animate {
             if let Some(content) = self.content.upgrade() {
                 if content
@@ -202,31 +257,81 @@ impl Tilt {
     }
 }
 
-fn angles(point: Point, width: f64, height: f64) -> (f64, f64) {
-    let component = |value: f64, length: f64| {
-        if !value.is_finite() || !length.is_finite() || length <= 0.0 {
-            0.0
-        } else {
-            (value / length * 2.0 - 1.0).clamp(-1.0, 1.0) * 6.0
-        }
-    };
-    (-component(point.y, height), component(point.x, width))
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct Projection {
+    x: f64,
+    y: f64,
+    depression: f64,
+}
+
+fn projection(point: Point, width: f64, height: f64) -> Projection {
+    if !point.x.is_finite()
+        || !point.y.is_finite()
+        || !width.is_finite()
+        || !height.is_finite()
+        || width <= 0.0
+        || height <= 0.0
+    {
+        return Projection::default();
+    }
+    let u = (point.x / width).clamp(0.0, 1.0) - 0.5;
+    let v = (point.y / height).clamp(0.0, 1.0) - 0.5;
+    Projection {
+        x: v * MAX_ANGLE_RADIANS.to_degrees(),
+        y: -u * MAX_ANGLE_RADIANS.to_degrees(),
+        depression: (1.0 - u.abs() - v.abs()) * MAX_DEPRESSION,
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
-    fn press_projection_is_symmetric_and_bounded_for_all_tile_sizes() {
+    fn center_press_depresses_without_rotation_and_corner_press_only_rotates() {
         for (w, h) in [(86.0, 86.0), (180.0, 180.0), (368.0, 180.0)] {
-            assert_eq!(angles(Point::new(w / 2.0, h / 2.0), w, h), (0.0, 0.0));
-            assert_eq!(angles(Point::new(0.0, 0.0), w, h), (6.0, -6.0));
-            assert_eq!(angles(Point::new(w, h), w, h), (-6.0, 6.0));
-            assert_eq!(angles(Point::new(w * 2.0, -h), w, h), (6.0, 6.0));
+            let center = projection(Point::new(w / 2.0, h / 2.0), w, h);
+            assert_eq!(
+                center,
+                Projection {
+                    x: 0.0,
+                    y: 0.0,
+                    depression: MAX_DEPRESSION
+                }
+            );
+            let top_left = projection(Point::new(0.0, 0.0), w, h);
+            let bottom_right = projection(Point::new(w, h), w, h);
+            assert_eq!(top_left.depression, 0.0);
+            assert_eq!(bottom_right.depression, 0.0);
+            assert_eq!(top_left.x, -bottom_right.x);
+            assert_eq!(top_left.y, -bottom_right.y);
+            assert!((top_left.x + 8.594366926962348).abs() < 1e-10);
+            assert!((top_left.y - 8.594366926962348).abs() < 1e-10);
+            let edge = projection(Point::new(0.0, h / 2.0), w, h);
+            assert_eq!(edge.x, 0.0);
+            assert_eq!(edge.depression, MAX_DEPRESSION / 2.0);
         }
+    }
+
+    #[test]
+    fn invalid_or_outside_samples_never_produce_nonfinite_or_unbounded_projection() {
         assert_eq!(
-            angles(Point::new(f64::NAN, 10.0), 0.0, f64::INFINITY),
-            (0.0, 0.0)
+            projection(Point::new(f64::NAN, 10.0), 0.0, f64::INFINITY),
+            Projection::default()
         );
+        assert_eq!(
+            projection(Point::new(10.0, 10.0), -1.0, 80.0),
+            Projection::default()
+        );
+        assert_eq!(
+            projection(Point::new(-1000.0, 1000.0), 80.0, 80.0),
+            projection(Point::new(0.0, 80.0), 80.0, 80.0)
+        );
+        for x in 0..=20 {
+            for y in 0..=20 {
+                let p = projection(Point::new(x as f64 * 4.0, y as f64 * 4.0), 80.0, 80.0);
+                assert!(p.x.abs() + p.y.abs() <= MAX_ANGLE_RADIANS.to_degrees() + 1e-10);
+                assert!((0.0..=MAX_DEPRESSION).contains(&p.depression));
+            }
+        }
     }
 }

@@ -14,8 +14,8 @@ pub fn paragraph(value: impl Into<String>) -> Element {
 pub fn page_title(app: &str, title: &str) -> Element {
     let p = palette();
     rsx! {StackPanel{spacing:4.0,margin:(0.0,7.0,0.0,16.0),
-        TextBlock{text:app.to_uppercase(),font_size:13.0,foreground:p.foreground}
-        TextBlock{text:title,font_size:46.0,font_weight:FontWeight::Light,foreground:p.foreground}
+        TextBlock{text:app.to_uppercase(),font_size:crate::FONT_NORMAL*p.text_scale,foreground:p.foreground}
+        TextBlock{text:title,font_size:crate::FONT_PAGE_TITLE*p.text_scale,font_weight:FontWeight::SemiLight,foreground:p.foreground}
     }}
 }
 

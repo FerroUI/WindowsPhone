@@ -29,10 +29,24 @@ pub fn scroll(content: Element) -> Element {
     vertical_scroll_bar_visibility:ScrollBarVisibility::Hidden, {content} } }
 }
 pub fn page(title: &str, body: Element, bar: Element) -> Element {
-    rsx! { Grid {row_definitions:"Auto,*,Auto",clip_to_bounds:true,
-        TextBlock { text:title.to_uppercase(),font_size:13.0,font_weight:FontWeight::SemiBold,margin:(20.0,8.0,16.0,9.0) }
-        Border {Grid.row:1,{body}}
-        Border {Grid.row:2,{bar}}
+    let bar_height = if matches!(bar, Element::Empty) {
+        0.0
+    } else {
+        phone_controls::APP_BAR_HEIGHT
+    };
+    let session = crate::current_session();
+    let dismiss = session
+        .as_ref()
+        .filter(|ui| ui.menu.get())
+        .map(|ui| ui.menu);
+    rsx! { Grid {row_definitions:"Auto,*",clip_to_bounds:true,
+        TextBlock { text:title.to_uppercase(),font_size:phone_controls::FONT_NORMAL*phone_controls::text_scale(),font_weight:FontWeight::Normal,margin:(20.0,8.0,16.0,9.0) }
+        Border {Grid.row:1,margin:(0.0,0.0,0.0,bar_height),{body}}
+        if let Some(menu)=dismiss {Button {Grid.row:1,name:"AppBarDismiss",class:"phone-flat",
+            horizontal_alignment:H::Stretch,vertical_alignment:ferroui_base::layout::VerticalAlignment::Stretch,
+            automation_properties_name:"Close application bar",background:"Transparent",
+            on_click:move |event|{event.set_handled(true);menu.set(false);}}}
+        Border {Grid.row:1,vertical_alignment:ferroui_base::layout::VerticalAlignment::Bottom,{bar}}
     } }
 }
 pub fn row(title: &str, subtitle: &str, on_click: impl Fn() + 'static) -> Element {
@@ -46,7 +60,7 @@ pub fn empty(title: &str, subtitle: &str) -> Element {
     rsx! { StackPanel {margin:(20.0,30.0),spacing:16.0,{text(title,30.0)}{muted(subtitle,18.0)}} }
 }
 pub fn title(value: &str) -> Element {
-    rsx! {TextBlock{text:value.to_owned(),font_size:48.0,font_weight:FontWeight::Light,margin:(18.0,0.0,0.0,18.0)}}
+    rsx! {TextBlock{text:value.to_owned(),font_size:phone_controls::FONT_PAGE_TITLE*phone_controls::text_scale(),font_weight:FontWeight::SemiLight,margin:(18.0,0.0,0.0,18.0)}}
 }
 
 pub fn app_icon(app: AppId) -> Icon {

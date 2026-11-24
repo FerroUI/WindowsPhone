@@ -406,6 +406,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "ferroui-headless"
+version = "0.6.0-preview.1"
+dependencies = [
+ "ferroui-base",
+ "ferroui-controls",
+ "ferroui-harfbuzz",
+ "ferroui-system",
+]
+
+[[package]]
 name = "ferroui-ident-macros"
 version = "0.6.0-preview.1"
 
@@ -1867,6 +1877,7 @@ dependencies = [
  "phone-domain",
  "phone-sdk",
  "phone-state",
+ "serde",
  "serde_json",
 ]
 
@@ -2161,6 +2172,7 @@ dependencies = [
  "ferroui-base",
  "ferroui-build",
  "ferroui-controls",
+ "ferroui-headless",
  "ferroui-markup-xaml",
  "ferroui-themes-winui",
  "ferroui-view",
@@ -2349,6 +2361,7 @@ dependencies = [
  "ferroui-build",
  "ferroui-controls",
  "ferroui-dynamic-data",
+ "ferroui-headless",
  "ferroui-reactive",
  "ferroui-reactiveui",
  "ferroui-view",

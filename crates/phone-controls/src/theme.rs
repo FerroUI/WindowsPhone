@@ -38,7 +38,7 @@ pub fn set_palette(app: &Application, accent: &str, light: bool) {
         return;
     }
     crate::tokens::PALETTE.with(|current| *current.borrow_mut() = palette.clone());
-    app.set_requested_theme_variant(Some(if light {
+    app.set_requested_theme_variant(Some(if palette.light {
         ThemeVariant::light()
     } else {
         ThemeVariant::dark()
@@ -66,6 +66,7 @@ fn install_palette(styles: &Styles, p: &Palette) {
         "Button.phone-flat",
         "Button.phone-tile",
         "Button.phone-action",
+        "Button.phone-more",
         "Button.phone-button",
         "Button.phone-pivot",
         "Button.phone-row",
@@ -190,9 +191,12 @@ fn install_palette(styles: &Styles, p: &Palette) {
             .build(),
     );
     install_lists(styles);
+    crate::pivot_host::install(styles, p);
     crate::inputs::install(styles, p);
     crate::sliders::install(styles, p);
     crate::pickers::install(styles, p);
+    crate::switches::install(styles, p);
+    crate::choices::install(styles, p);
 }
 
 fn install_lists(styles: &Styles) {

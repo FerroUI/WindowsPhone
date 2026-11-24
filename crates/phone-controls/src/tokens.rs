@@ -7,8 +7,29 @@ pub const PAGE_MARGIN: f64 = 20.0;
 pub const TILE_GAP: f64 = 8.0;
 pub const STATUS_HEIGHT: f64 = 26.0;
 pub const NAVIGATION_HEIGHT: f64 = 56.0;
-pub const APP_BAR_HEIGHT: f64 = 62.0;
+pub const APP_BAR_HEIGHT: f64 = 60.0;
 pub const MIN_TOUCH_TARGET: f64 = 44.0;
+/// The retained phone surface is designed at 400 logical pixels. Original
+/// Silverlight/Toolkit values use a 480-pixel reference; angles and timings do
+/// not scale. Keep reference geometry in one place instead of mixing units.
+pub const REFERENCE_SCALE: f64 = PHONE_WIDTH / 480.0;
+pub const fn reference_pixels(value: f64) -> f64 {
+    value * REFERENCE_SCALE
+}
+pub const CONTROL_BORDER: f64 = reference_pixels(3.0);
+pub const FONT_SMALL: f64 = reference_pixels(18.667);
+pub const FONT_NORMAL: f64 = reference_pixels(20.0);
+pub const FONT_MEDIUM: f64 = reference_pixels(22.667);
+pub const FONT_MEDIUM_LARGE: f64 = reference_pixels(25.333);
+pub const FONT_LARGE: f64 = reference_pixels(32.0);
+pub const FONT_EXTRA_LARGE: f64 = reference_pixels(42.667);
+pub const FONT_PAGE_TITLE: f64 = reference_pixels(72.0);
+pub const CHOICE_INDICATOR_SIZE: f64 = reference_pixels(32.0);
+pub const SWITCH_TRACK_WIDTH: f64 = reference_pixels(89.0);
+pub const SWITCH_TRACK_HEIGHT: f64 = reference_pixels(34.0);
+pub const SWITCH_THUMB_WIDTH: f64 = reference_pixels(28.0);
+pub const SWITCH_THUMB_HEIGHT: f64 = reference_pixels(38.0);
+pub const SWITCH_TRAVEL: f64 = reference_pixels(69.0);
 /// Segoe is used when installed by the host. Inter is bundled by FerroUI.
 pub const FONT_FAMILY: &str = "Segoe WP, Segoe UI, fonts:Phone#Selawik, fonts:Inter#Inter";
 
@@ -29,6 +50,9 @@ pub struct Palette {
 impl Palette {
     pub fn new(accent: &str, light: bool) -> Self {
         let high_contrast = HIGH_CONTRAST.with(Cell::get);
+        // High contrast is one complete dark palette. Mixing a white canvas
+        // with the former white secondary ink made settings labels disappear.
+        let light = light && !high_contrast;
         let accent = if ferroui_base::media::Color::parse(accent).is_ok() {
             accent.to_owned()
         } else {
@@ -111,4 +135,21 @@ pub fn set_text_scale(value: f64) {
 
 pub fn palette() -> Palette {
     PALETTE.with(|p| p.borrow().clone())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn high_contrast_overrides_light_background_as_a_complete_palette() {
+        let previous = HIGH_CONTRAST.with(|value| value.replace(true));
+        let p = Palette::new(DEFAULT_ACCENT, true);
+        HIGH_CONTRAST.with(|value| value.set(previous));
+        assert!(!p.light);
+        assert_eq!(p.background, "#000000");
+        assert_eq!(p.foreground, "#FFFFFF");
+        assert_eq!(p.secondary, "#FFFFFF");
+        assert_eq!(p.surface, "#000000");
+    }
 }

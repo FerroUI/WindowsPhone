@@ -15,6 +15,9 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if ui.state::<crate::MailState>().folders.get() {
         return folders(vm, ui);
     }
+    if ui.state::<crate::MailState>().saved_drafts.get() {
+        return crate::draft_list::view(vm, ui);
+    }
     let mode = ui.pivot.get().min(2);
     let folder = ui.state::<crate::MailState>().folder.get();
     let selecting = ui.state::<crate::MailState>().selecting.get();
@@ -134,6 +137,7 @@ fn normal_bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let search = ui.clone();
     let menu = ui.menu;
     let folders = ui.clone();
+    let drafts = ui.clone();
     let notifications = vm.clone();
     app_bar(
         vec![
@@ -162,6 +166,11 @@ fn normal_bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         ],
         ui.menu.get(),
         vec![
+            flat("drafts", move || {
+                drafts.menu.set(false);
+                drafts.state::<crate::MailState>().reset();
+                drafts.state::<crate::MailState>().saved_drafts.set(true);
+            }),
             flat("folders", move || {
                 folders.menu.set(false);
                 folders.state::<crate::MailState>().folders.set(true);
@@ -280,6 +289,15 @@ fn folders(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     names.insert("inbox".into());
     names.insert("deleted".into());
     let mut body = stack_panel().child(title("folders"));
+    let drafts = ui.clone();
+    let draft_count = match crate::drafts::read(&vm) {
+        Ok(library) => format!("{} saved on this phone", library.items.len()),
+        Err(_) => "Open local drafts".into(),
+    };
+    body = body.child(row("local drafts", &draft_count, move || {
+        drafts.state::<crate::MailState>().reset();
+        drafts.state::<crate::MailState>().saved_drafts.set(true);
+    }));
     for name in names {
         let count = vm
             .data()
@@ -300,6 +318,7 @@ fn folders(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             &format!("{count} messages, {unread} unread"),
             move || {
                 state.state::<crate::MailState>().folder.set(name.clone());
+                state.state::<crate::MailState>().saved_drafts.set(false);
                 state.state::<crate::MailState>().reset();
                 state.pivot.set(0);
                 state.query.set(String::new());

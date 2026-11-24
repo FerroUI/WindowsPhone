@@ -63,13 +63,16 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             ];
             let rows = days.into_iter().enumerate().map(|(index,name)| {
                 let change=ui.clone();let checked=selected.contains(&(index as u8));
-                rsx!{Button{class:"phone-flat",min_height:52.0,padding:(0.0,8.0),automation_properties_name:format!("{name}, {}",if checked{"selected"}else{"not selected"}),
-                    on_click:move |_|change.state::<phone_alarm_service::AlarmState>().editor.weekdays.update(|days|{let day=index as u8;if let Some(index)=days.iter().position(|item|*item==day){days.remove(index);}else{days.push(day);days.sort_unstable();}}),
-                    Grid{column_definitions:"32,*",column_spacing:16.0,
-                        Border{width:28.0,height:28.0,border_brush:common::fg(&vm).as_str(),border_thickness:2.0,
-                            if checked {{phone_controls::icon(Icon::Check,19.0,&common::fg(&vm))}}}
-                        TextBlock{Grid.column:1,text:name,font_size:24.0}
-                    }
+                rsx!{CheckBox{class:"phone-check",content:name,min_height:52.0,
+                    automation_properties_name:format!("{name}, {}",if checked{"selected"}else{"not selected"}),
+                    is_checked:phone_controls::checked_state(Some(checked),move |next|{
+                        let checked=next==Some(true);
+                        change.state::<phone_alarm_service::AlarmState>().editor.weekdays.update(|days|{
+                            let day=index as u8;
+                            if checked && !days.contains(&day){days.push(day);days.sort_unstable();}
+                            else if !checked {days.retain(|value|*value!=day);}
+                        });
+                    })
                 }}
             }).collect::<Vec<_>>();
             rsx! {StackPanel{margin:(20.0,0.0),spacing:3.0,for row in rows{{row}}}}

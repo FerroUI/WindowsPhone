@@ -25,6 +25,9 @@ fn main() {
             "ContextMenu",
             "MenuItem",
             "Separator",
+            "Pivot",
+            "PivotItem",
+            "PivotHeaderItem",
         ])
         .run();
 }

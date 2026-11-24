@@ -1,7 +1,6 @@
-use ferroui_base::layout::Orientation;
 use ferroui_view::prelude::*;
 use phone_app_support::settings::update;
-use phone_controls::{flat, pivot, toggle};
+use phone_controls::{flat, pivot_pages, toggle, PivotPage};
 use phone_domain::Route;
 use phone_sdk::{
     common::{muted, page, scroll, text},
@@ -43,30 +42,29 @@ pub fn battery_settings(vm: Rc<PhoneViewModel>) -> Element {
 }
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let selected = ui.pivot.get().min(1);
-    let usage = ui.pivot;
-    let settings = ui.pivot;
     let environment = vm.environment();
     let level = environment
         .battery_percent
         .map(|value| format!("{value}%"))
         .unwrap_or_else(|| "–".into());
-    let body = if selected == 1 {
-        rsx! {Border{margin:20.0,{battery_settings(vm.clone())}}}
-    } else {
-        rsx! {StackPanel{spacing:20.0,margin:20.0,
-            {text(&level,72.0)}{text("remaining battery",24.0)}
-            {muted(if environment.charging==Some(true){"Connected to power"}else if environment.battery_percent.is_some(){"Using your host's current battery reading"}else{"This host does not expose its battery level."},18.0)}
-            {muted("Per-app battery usage is not available from this host. This page does not estimate another app's power consumption.",17.0)}
-        }}
-    };
+    let usage = rsx! {StackPanel{spacing:20.0,margin:20.0,
+        {text(&level,72.0)}{text("remaining battery",24.0)}
+        {muted(if environment.charging==Some(true){"Connected to power"}else if environment.battery_percent.is_some(){"Using your host's current battery reading"}else{"This host does not expose its battery level."},18.0)}
+        {muted("Per-app battery usage is not available from this host. This page does not estimate another app's power consumption.",17.0)}
+    }};
     page(
         "battery saver",
-        scroll(rsx! {StackPanel{
-            StackPanel{orientation:Orientation::Horizontal,margin:(20.0,0.0),
-                {pivot("usage",selected==0,move ||usage.set(0))}{pivot("settings",selected==1,move ||settings.set(1))}}
-            {body}
-        }}),
+        pivot_pages(
+            "BatteryPivot",
+            ui.pivot,
+            vec![
+                PivotPage::new("usage", scroll(usage)),
+                PivotPage::new(
+                    "settings",
+                    scroll(rsx! {Border{margin:20.0,{battery_settings(vm.clone())}}}),
+                ),
+            ],
+        ),
         Element::Empty,
     )
 }

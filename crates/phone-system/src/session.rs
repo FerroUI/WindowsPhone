@@ -103,6 +103,7 @@ impl SystemSessionExt for Session {
         crate::gestures::cancel();
         self.clear_overlays();
         self.state::<PreviewCache>().clear();
+        self.state::<crate::page_motion::NavigationMotion>().reset();
         self.registry().reset(vm, self);
         self.app_pivots.borrow_mut().clear();
         self.app_selections.borrow_mut().clear();

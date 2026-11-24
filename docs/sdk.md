@@ -118,7 +118,7 @@ fn editor(cx: AppContext) -> Element {
 
 The store is typed by `TypeId` and returns an `Rc<T>`. Use an app-private state type; two apps deliberately using the same type share that state. A stable session owner owns the state's reactive signals, so re-rendering or detaching a page does not dispose the app's draft signals. App state should contain UI-thread data, not cross-thread native resources.
 
-Phone dialing, Calculator, Photos zoom, Outlook selection/folder state, Messaging drafts, browser navigation UI, Calendar editing, Files selections and Office editor state now live in their owning app or a reusable support crate. The SDK does not import those types. Common page commands, dialogs and the system media transport remain shared session facilities.
+Phone dialing, Calculator, Photos zoom, Outlook selection/folder/composer state, Messaging drafts, browser navigation UI, Calendar editing, Files selections and Office editor state now live in their owning app or a reusable support crate. The SDK does not import those types. Common page commands, dialogs and the system media transport remain shared session facilities.
 
 Use lifecycle/reset hooks to release transient resources and clear state when a different phone document replaces the current one. Preserve unsaved drafts when the system merely covers an app with its in-app lock screen.
 
@@ -148,6 +148,52 @@ storage.write(&preferences)?;
 The phone supports at most 256 app namespaces and 256 KiB of serialized JSON per namespace, subject to the complete phone-document limit. JSON values are limited to 32 nested levels and 16,384 nodes. Integer values must lie within JavaScript's exact range, −9,007,199,254,740,991 through 9,007,199,254,740,991, so browser backup transport cannot silently round them; encode larger identifiers as strings. Writes and restored backups use the same validation. Rejected writes leave the old namespace intact. Each app owns schema versions and migrations. Invalid or unsupported stored data must be reported or migrated explicitly; do not overwrite it with defaults after a decode error. Small committed changes belong in app storage; image/audio/video bytes belong in host asset storage.
 
 Application data survives a normal reload and participates in phone backup/restore. This is logical namespacing within one trusted document, not encryption or isolation from other linked Rust code. The general persistence callback and host save-error reporting retain their existing semantics; a successful UI command does not certify physical storage durability on every host.
+
+### Outlook draft example
+
+`phone-app-outlook` keeps saved mail composition in the built-in identity's `phone.outlook` namespace. Its version-1 schema is `{version, next_id, items: [{id, fields: {to, subject, body}, updated}]}`; `updated` is a timestamp in seconds. Draft IDs remain stable on replacement. Validation bounds the collection to 100 drafts, each header to 4 KiB and body to 64 KiB, within the SDK's stricter aggregate namespace/document budgets. Unsupported or malformed stored data is reported without resetting it.
+
+The editor keeps unsaved fields and its saved baseline in typed session state. Only the save draft command writes the namespace. Back confirms discard of changed fields; cancellation keeps the editor, while discarding changes preserves an existing saved version. Ordinary deactivation retains the editor; reset clears its transient state. Local draft navigation uses a separate flag and cannot hide an imported mail folder named `drafts`.
+
+`HostRequest::Email` requests host composition and has no delivery acknowledgement. Opening the host email app therefore neither persists current edits, removes a saved draft, nor adds a sent-mail entry. This is a concrete example of separating a user-owned local document from an external action's observed result. The new draft tests and rendered workflow are pending verification; see [current status](parity.md#metro-and-outlook-refinement).
+
+## Metro controls and pivot pages
+
+Use the phone helpers `toggle`, `check` and `radio` for native ToggleSwitch, CheckBox and RadioButton behavior. For a directly declared native control, `checked_state` supplies an `Option<bool>` value and a render-owned change callback:
+
+```rust
+use ferroui_view::prelude::*;
+
+fn repeat_day(enabled: bool, update: impl Fn(bool) + 'static) -> Element {
+    rsx! { CheckBox {
+        class:"phone-check", content:"Monday",
+        automation_properties_name:"Repeat on Monday",
+        is_checked:phone_controls::checked_state(
+            Some(enabled), move |next| update(next.unwrap_or(false))
+        ),
+    } }
+}
+```
+
+Model reconciliation replaces the prior subscription, initializes the retained control, then listens for native pointer/keyboard/automation changes. It must not echo a model refresh through an obsolete callback. `None` remains available for an indeterminate checkbox; radio helpers publish selection only when checked. App code should not synthesize clicks to reproduce native selection or switch dragging.
+
+`pivot_pages` accepts a stable automation name, the app's selected-index signal and retained `PivotPage` values. Give each pane its own vertical scroller; wrapping the whole pivot in a scroller prevents it from receiving a finite page viewport.
+
+```rust
+use phone_controls::{pivot_pages, PivotPage};
+use phone_sdk::{common::scroll, session::Session};
+
+fn hub(ui: &Session, first: Element, second: Element) -> Element {
+    pivot_pages("ExamplePivot", ui.pivot, vec![
+        PivotPage::new("overview", scroll(first)),
+        PivotPage::new("details", scroll(second)),
+    ])
+}
+```
+
+Declare the matching `with_pivot_count` for shell arbitration and return zero while a detail editor or picker owns horizontal input. Native panes own their manipulation; avoid a second manual swipe handler advancing the same gesture. Battery Saver, Data Sense and Games are the current integrations, with carousel/layout verification in progress. The reduced-motion path keeps the same selection and headers without compositor animation.
+
+`app_bar` allows four primary commands plus a separate ellipsis and moves additional commands into its text menu. SDK composition connects expansion to `Session::menu`; shared page helpers overlay the bounded menu and prevent a dismissal click from activating page content. Do not implement an independent Back/menu state in each app. Shell incoming turnstiles and press tilt use the [documented original constants](metro-design.md); outgoing-page choreography and full Panorama parity remain incomplete.
 
 ## Lifecycle and input hooks
 
