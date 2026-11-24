@@ -1,24 +1,17 @@
 //! Bounded native motion. Every explicit animation cancels on unload and
 //! releases its handler at completion; there is no application animation loop.
 use ferroui_base::animation::easings::CubicEaseOut;
-use ferroui_base::animation::{
-    Animation, Cue, DoubleTransition, ITransition, KeyFrame, SignedDuration,
-    TransformOperationsTransition, Transitions,
-};
+use ferroui_base::animation::{Animation, Cue, KeyFrame, SignedDuration};
 use ferroui_base::media::transformation::TransformOperations;
 use ferroui_base::media::{ITransform, TranslateTransform};
 use ferroui_base::styling::Setter;
 use ferroui_base::threading::CancellationToken;
 use ferroui_base::{Ref, Visual};
 use ferroui_controls::Control;
-use std::{
-    cell::{Cell, OnceCell},
-    rc::Rc,
-};
+use std::{cell::Cell, rc::Rc};
 
 ferroui_base::ferro_thread_local! {
     static ENABLED: Cell<bool> = const { Cell::new(true) };
-    static PRESS: OnceCell<Transitions> = const { OnceCell::new() };
 }
 
 pub fn set_motion_enabled(enabled: bool) {
@@ -27,29 +20,6 @@ pub fn set_motion_enabled(enabled: bool) {
 
 pub fn motion_enabled() -> bool {
     ENABLED.with(Cell::get)
-}
-
-/// The same short native response is shared by all Metro command templates.
-pub(crate) fn press_transitions() -> Option<Transitions> {
-    if !motion_enabled() {
-        return None;
-    }
-    Some(PRESS.with(|slot| {
-        slot.get_or_init(|| {
-            let opacity: Rc<dyn ITransition> = DoubleTransition::with_property(
-                Visual::opacity_property().as_property(),
-                SignedDuration::from_seconds(0.085),
-            )
-            .into();
-            let transform = TransformOperationsTransition::with_property(
-                Visual::render_transform_property().as_property(),
-                SignedDuration::from_seconds(0.11),
-            );
-            transform.set_easing(CubicEaseOut::new());
-            Transitions::from_items([opacity, transform.into()])
-        })
-        .clone()
-    }))
 }
 
 pub(crate) fn scale(value: f64) -> Option<Rc<dyn ITransform>> {

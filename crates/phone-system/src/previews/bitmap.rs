@@ -14,7 +14,7 @@ struct PageImage {
     scale: f64,
 }
 
-pub(super) fn capture(
+pub(crate) fn capture(
     visual: &Ref<Visual>,
     logical_size: Size,
     pixels: PixelSize,

@@ -78,6 +78,10 @@ impl SystemSessionExt for Session {
         *self.last_route.borrow_mut() = route.clone();
     }
     fn clear_overlays(self: &Rc<Self>) {
+        if phone_controls::has_open_phone_picker() {
+            self.state::<crate::page_motion::NavigationMotion>().cancel();
+            phone_controls::close_phone_pickers();
+        }
         crate::app_list::dismiss_native(self);
         self.state::<HardwareState>().close();
         self.state::<AlarmState>().editor.close();

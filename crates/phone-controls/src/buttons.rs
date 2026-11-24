@@ -5,6 +5,7 @@ use ferroui_view::prelude::*;
 
 pub fn flat(label: &str, on_click: impl Fn() + 'static) -> Element {
     rsx! { Button {class:"phone-flat",min_height:44.0,automation_properties_name:label,
+        with:|button|crate::attach_press_tilt(button,||true),
         horizontal_content_alignment:H::Left,vertical_content_alignment:V::Center,
         on_click:move |event| { event.set_handled(true); on_click(); },
         TextBlock {text:label,font_size:22.0*crate::text_scale(),text_wrapping:TextWrapping::Wrap}
@@ -39,6 +40,7 @@ pub fn command_button(label: &str, on_click: impl Fn() + 'static) -> El<Button> 
 pub fn pivot(label: &str, selected: bool, on_click: impl Fn() + 'static) -> Element {
     let p = palette();
     rsx! { Button {class:"phone-pivot",min_height:56.0,padding:(0.0,0.0,22.0,0.0),
+        with:|button|crate::attach_press_tilt(button,||true),
         automation_properties_name:label,
         on_click:move |event| {event.set_handled(true);on_click();},
         TextBlock {text:label,font_size:crate::FONT_EXTRA_LARGE*crate::text_scale(),font_weight:FontWeight::Light,
@@ -90,6 +92,7 @@ pub fn toggle(label: &str, value: bool, on_change: impl Fn(bool) + 'static) -> E
 pub fn list_row(title: &str, detail: &str, on_click: impl Fn() + 'static) -> Element {
     let p = palette();
     rsx! {Button {class:"phone-row",min_height:68.0,padding:(0.0,7.0),automation_properties_name:title,
+        with:|button|crate::attach_press_tilt(button,||true),
         on_click:move |event| {event.set_handled(true);on_click();},
         StackPanel {spacing:3.0,
             {text(title,24.0,p.foreground)}

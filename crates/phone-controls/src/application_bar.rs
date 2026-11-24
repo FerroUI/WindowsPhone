@@ -2,10 +2,10 @@
 //! The SDK supplies expansion state, so Back, navigation and app-bar input share
 //! one owner. Standalone bars retain their own expansion state when no host is
 //! connected, so overflow commands remain reachable in a control gallery too.
-use crate::{icon, palette, Icon};
+use crate::{Icon, palette};
 use ferroui_base::interactivity::RoutingStrategies;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
-use ferroui_base::media::TextWrapping;
+use ferroui_base::media::{TextTrimming, TextWrapping};
 use ferroui_controls::automation::AutomationProperties;
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::element::{Handler, PropValue};
@@ -35,7 +35,6 @@ fn controller() -> Option<ExpansionController> {
 /// Circular icon with an expanded-only label. The ellipsis is deliberately a
 /// separate, uncircled affordance and does not consume one of the four slots.
 pub fn action(kind: Icon, label: &str, on_click: impl Fn() + 'static) -> Element {
-    let p = palette();
     let more = matches!(kind, Icon::More);
     if more {
         return rsx! {Button {
@@ -43,7 +42,7 @@ pub fn action(kind: Icon, label: &str, on_click: impl Fn() + 'static) -> Element
             horizontal_alignment:H::Stretch, vertical_alignment:V::Top,
             automation_properties_name:label, tool_tip_tip:label,
             on_click:move |event| {event.set_handled(true);on_click();},
-            {icon(Icon::More,24.0,p.foreground)}
+            {crate::icons::action_glyph(Icon::More,24.0,"more")}
         }};
     }
     let host = controller();
@@ -57,13 +56,14 @@ pub fn action(kind: Icon, label: &str, on_click: impl Fn() + 'static) -> Element
             on_click();
         },
         StackPanel {spacing:5.0, horizontal_alignment:H::Center,
-            Border {name:format!("AppBarCircle-{label}"),width:40.0,height:40.0,corner_radius:40.0,
-                border_thickness:2.5,border_brush:p.foreground,
-                {icon(kind,26.0*5.0/6.0,p.foreground)}
+            Border {name:format!("AppBarCircle-{label}"),class:"phone-action-circle",width:40.0,height:40.0,corner_radius:40.0,
+                border_thickness:2.5,
+                {crate::icons::action_glyph(kind,26.0*5.0/6.0,label)}
             }
             TextBlock {name:format!("AppBarLabel-{label}"),class:"phone-action-label",text:label,font_size:11.0,
-                horizontal_alignment:H::Center,foreground:p.foreground,
-                text_wrapping:TextWrapping::Wrap,max_width:76.0}
+                horizontal_alignment:H::Center,
+                text_wrapping:TextWrapping::NoWrap,max_lines:1,
+                text_trimming:<dyn TextTrimming>::character_ellipsis(),max_width:76.0}
         }
     }}
 }
@@ -265,10 +265,10 @@ fn render_app_bar(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use ferroui_base::FerroLocator;
     use ferroui_base::interactivity::RoutedEventArgs;
     use ferroui_base::platform::IPlatformRenderInterface;
     use ferroui_base::reactive::IDisposable;
-    use ferroui_base::FerroLocator;
     use std::cell::Cell;
 
     fn render_scope() -> Rc<dyn IDisposable> {
@@ -472,11 +472,13 @@ mod tests {
         )
         .mount_root();
         assert!(control.classes().contains("collapsed"));
-        assert!(control
-            .get_logical_descendants()
-            .filter_map(|child| child.cast::<Button>())
-            .find(|button| button.has_name("AppBarAction-five"))
-            .is_none());
+        assert!(
+            control
+                .get_logical_descendants()
+                .filter_map(|child| child.cast::<Button>())
+                .find(|button| button.has_name("AppBarAction-five"))
+                .is_none()
+        );
         let more = control
             .find_descendant_of_type_where::<Button>(false, |button| button.has_name("AppBarMore"))
             .unwrap();

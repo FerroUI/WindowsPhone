@@ -40,7 +40,19 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         .is_some();
     let (width, height, desktop) = phone_size(&vm);
     let page_motion = ui.state::<crate::page_motion::NavigationMotion>();
-    let visit = page_motion.observe(&route, width);
+    let picker_open = phone_controls::has_open_phone_picker();
+    let obscured = locked || alert || ui.preview_obscured(&route) || !vm.status().is_empty();
+    if page_motion.route_departing(&route) || obscured {
+        phone_controls::close_phone_pickers();
+    }
+    // Capture the old settled page before route cleanup changes any of its
+    // native bindings. Covered pages never become a retiring image.
+    let visit = page_motion.prepare(
+        &route,
+        width,
+        height,
+        vm.motion_enabled() && !obscured && !picker_open,
+    );
     ui.state::<crate::previews::PreviewCache>().before_render(
         &route,
         ui.switcher_open.get_untracked() || route == Route::Switcher,
@@ -72,6 +84,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let attach_vm = vm.clone();
     let attach_ui = ui.clone();
     let dismiss_status = vm.clone();
+    let outgoing_motion = page_motion.clone();
     let screen = rsx! {Grid{name:"PhoneScreen",width:width,height:height,row_definitions:"26,*,54",background:background.as_str(),clip_to_bounds:true,
         with:move |root| {
             attach_ui.state::<crate::previews::PreviewCache>().attach(root);
@@ -81,8 +94,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         Border{Grid.row:1,name:"PhonePage",key:format!("page-{route:?}"),clip_to_bounds:true,
             is_visible:!ui.locked.get(),is_enabled:!ui.locked.get() && !alert,
             on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){
-                let entrance=page_motion.take_for_load(visit,control.bounds().width);
-                crate::page_motion::enter(&control,entrance);
+                page_motion.loaded(&control,visit);
             },
             {match &route {
                 Route::Start|Route::Folder(_)=>start::view(vm.clone(),ui.clone()),
@@ -93,6 +105,12 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 Route::Switcher=>navigation::switcher(vm.clone(),ui.clone(),false),
                 _=>ui.registry().view(vm.clone(),ui.clone()),
             }}
+        }
+        Border{Grid.row:1,name:"PhoneOutgoingPage",clip_to_bounds:true,
+            opacity:0.0,is_hit_test_visible:false,is_enabled:false,
+            with:move |root|outgoing_motion.attach_outgoing(root),
+            Image{name:"PhoneOutgoingImage",stretch:ferroui_base::media::Stretch::Fill,
+                is_hit_test_visible:false}
         }
         Border{Grid.row:2,{navigation::bar(vm.clone(),ui.clone())}}
         if !locked && ui.switcher_open.get(){Border{Grid.row_span:2,background:background.as_str(),{navigation::switcher(vm.clone(),ui.clone(),true)}}}

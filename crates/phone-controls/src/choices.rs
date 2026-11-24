@@ -1,25 +1,41 @@
-//! Phone checkbox/radio presentation; native controls retain state, keyboard,
-//! radio grouping and UI Automation semantics, including indeterminate checks.
-use crate::{Palette, CHOICE_INDICATOR_SIZE, CONTROL_BORDER, FONT_FAMILY, MIN_TOUCH_TARGET};
+//! Native checkbox/radio behavior with phone presentation.
+//!
+//! The checkbox geometry and immediate pressed/disabled resource roles are
+//! adapted from Microsoft's MS-PL Windows Phone Toolkit WP8
+//! `ListPickerPage.xaml`, `AnyFontSizeCheckBoxStyle`, revision
+//! 4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df. This is a Toolkit ListPicker
+//! reference, not a recovered universal Windows Phone 8.1 OS template.
+//! The radio circle, desktop focus overlay and 22-pixel label typography are
+//! application adaptations. Native state, keyboard, grouping and automation
+//! remain the responsibility of CheckBox and RadioButton.
+use crate::{
+    CHOICE_INDICATOR_SIZE, CONTROL_BORDER, FONT_FAMILY, MIN_TOUCH_TARGET, Palette,
+    reference_pixels as px,
+};
 use ferroui_base::data::TemplateBinding;
 use ferroui_base::layout::{HorizontalAlignment as H, Layoutable, VerticalAlignment as V};
-use ferroui_base::media::{Brushes, FontFamily, Geometry, TextWrapping};
-use ferroui_base::styling::{ControlTheme, Setter, Styles};
-use ferroui_base::{CornerRadius, Ref, StyledElement, Thickness, Visual};
+use ferroui_base::media::{Brushes, FontFamily, FontWeight, Geometry, Stretch, TextWrapping};
+use ferroui_base::styling::Styles;
+use ferroui_base::{CornerRadius, Ref, Thickness, Visual};
 use ferroui_controls::presenters::ContentPresenter;
 use ferroui_controls::primitives::TemplatedControl;
+use ferroui_controls::shapes::{Path, Shape};
 use ferroui_controls::templates::{
     FuncControlTemplate, FuncTemplateNameScopeExtensions, IControlTemplate,
 };
 use ferroui_controls::{
-    Border, CheckBox, ColumnDefinitions, ContentControl, Grid, PathIcon, RadioButton,
+    Border, CheckBox, ColumnDefinitions, ContentControl, Control, Grid, RadioButton, TextBlock,
 };
 use ferroui_view::{prelude::*, style};
 use std::{cell::OnceCell, rc::Rc};
 
+// Copyright (c) Microsoft Corporation. Adapted under the Microsoft Public
+// License from the Toolkit CheckMark path; see NOTICE and the bundled license.
+const TOOLKIT_CHECK_PATH: &str = "M0,123 L39,93 L124,164 L256,18 L295,49 L124,240 z";
+
 ferroui_base::ferro_thread_local! {
-    static CHECK: OnceCell<Ref<ControlTheme>> = const { OnceCell::new() };
-    static RADIO: OnceCell<Ref<ControlTheme>> = const { OnceCell::new() };
+    static CHECK: OnceCell<Rc<dyn IControlTemplate>> = const { OnceCell::new() };
+    static RADIO: OnceCell<Rc<dyn IControlTemplate>> = const { OnceCell::new() };
 }
 
 /// A two-state checkbox. Its native IsCheckedChanged event also supports
@@ -42,25 +58,35 @@ pub fn radio(label: &str, group: &str, selected: bool, on_select: impl Fn() + 's
     }}
 }
 
-pub(crate) fn install(styles: &Styles, p: &Palette) {
-    for (selector, theme) in [
-        (
-            "CheckBox.phone-check",
-            CHECK.with(|slot| theme::<CheckBox>(slot, false)),
-        ),
-        (
-            "RadioButton.phone-radio",
-            RADIO.with(|slot| theme::<RadioButton>(slot, true)),
-        ),
+/// Keep the actual template outside the replaceable palette style group. A
+/// light/dark or accent change must not recreate a pressed/focused control.
+pub(crate) fn install_templates(styles: &Styles) {
+    for (selector, radio) in [
+        ("CheckBox.phone-check", false),
+        ("RadioButton.phone-radio", true),
     ] {
         styles.add(
             style(selector)
-                .set(StyledElement::theme_property(), Some(theme))
+                .set(TemplatedControl::template_property(), Some(template(radio)))
+                .build(),
+        );
+    }
+}
+
+pub(crate) fn install(styles: &Styles, p: &Palette) {
+    // The original source names resource roles, but the SDK's per-theme ARGB
+    // table was not recovered. Our mapping is explicit: normal ink uses the
+    // palette foreground; pressed fill/mark use foreground/background; the
+    // disabled role uses secondary ink. These colors are an adaptation.
+    for selector in ["CheckBox.phone-check", "RadioButton.phone-radio"] {
+        styles.add(
+            style(selector)
                 .set(
                     TemplatedControl::font_family_property(),
                     FontFamily::new(FONT_FAMILY),
                 )
                 .set(TemplatedControl::font_size_property(), 22.0 * p.text_scale)
+                .set(TemplatedControl::font_weight_property(), FontWeight::Normal)
                 .set(TemplatedControl::foreground_property(), p.foreground)
                 .set(TemplatedControl::background_property(), "Transparent")
                 .set(TemplatedControl::padding_property(), 0.0)
@@ -70,228 +96,244 @@ pub(crate) fn install(styles: &Styles, p: &Palette) {
                 .set(Layoutable::min_height_property(), MIN_TOUCH_TARGET)
                 .build(),
         );
-        styles.add(
-            style(&format!("{selector} /template/ Border#PhoneChoiceOutline"))
-                .set(Border::border_brush_property(), p.foreground)
-                .set(Border::background_property(), p.background)
-                .build(),
-        );
-        styles.add(
-            style(&format!(
-                "{selector}:pressed /template/ Border#PhoneChoiceOutline"
-            ))
-            .set(Border::background_property(), p.accent.as_str())
-            .build(),
-        );
-        styles.add(
-            style(&format!("{selector} /template/ Border#PhoneChoiceMark"))
-                .set(Border::background_property(), p.foreground)
-                .build(),
-        );
-        styles.add(
-            style(&format!("{selector} /template/ PathIcon#PhoneChoiceCheck"))
-                .set(TemplatedControl::foreground_property(), p.foreground)
-                .build(),
-        );
-        for name in ["Border#PhoneChoiceMark", "PathIcon#PhoneChoiceCheck"] {
+        for (state, fill, ink, edge, caption) in [
+            ("", "Transparent", p.foreground, p.foreground, p.foreground),
+            (
+                ":pressed",
+                p.foreground,
+                p.background,
+                p.foreground,
+                p.foreground,
+            ),
+            (
+                ":disabled",
+                "Transparent",
+                p.secondary,
+                p.secondary,
+                p.secondary,
+            ),
+        ] {
             styles.add(
-                style(&format!("{selector} /template/ {name}"))
+                style(&format!(
+                    "{selector}{state} /template/ Border#PhoneChoiceOutline"
+                ))
+                .set(Border::border_brush_property(), edge)
+                .set(Border::background_property(), fill)
+                .build(),
+            );
+            for name in ["PhoneChoiceMark", "PhoneChoiceIndeterminate"] {
+                styles.add(
+                    style(&format!("{selector}{state} /template/ Border#{name}"))
+                        .set(Border::background_property(), ink)
+                        .build(),
+                );
+            }
+            styles.add(
+                style(&format!(
+                    "{selector}{state} /template/ Path#PhoneChoiceCheck"
+                ))
+                .set(Shape::fill_property(), ink)
+                .build(),
+            );
+            styles.add(
+                style(&format!(
+                    "{selector}{state} /template/ ContentPresenter#PART_ContentPresenter"
+                ))
+                .set(ContentPresenter::foreground_property(), caption)
+                .build(),
+            );
+            // A default string template creates a TextBlock. Its explicit
+            // general TextBlock style outranks inherited presenter ink, so
+            // only generated label text receives this more specific rule.
+            styles.add(
+                style(&format!("{selector}{state} TextBlock.phone-choice-content"))
+                    .set(TextBlock::foreground_property(), caption)
+                    .build(),
+            );
+        }
+        for (part, state) in [
+            ("Border#PhoneChoiceMark", ":checked"),
+            ("Path#PhoneChoiceCheck", ":checked"),
+            ("Border#PhoneChoiceIndeterminate", ":indeterminate"),
+        ] {
+            styles.add(
+                style(&format!("{selector} /template/ {part}"))
                     .set(Visual::is_visible_property(), false)
                     .build(),
             );
             styles.add(
-                style(&format!("{selector}:checked /template/ {name}"))
+                style(&format!("{selector}{state} /template/ {part}"))
                     .set(Visual::is_visible_property(), true)
                     .build(),
             );
         }
-        styles.add(
-            style(&format!(
-                "{selector}:indeterminate /template/ Border#PhoneChoiceIndeterminate"
-            ))
-            .set(Border::background_property(), p.foreground)
-            .set(Visual::is_visible_property(), true)
-            .build(),
-        );
-        styles.add(
-            style(&format!(
-                "{selector}:not(:indeterminate) /template/ Border#PhoneChoiceIndeterminate"
-            ))
-            .set(Visual::is_visible_property(), false)
-            .build(),
-        );
-        styles.add(
-            style(&format!(
-                "{selector}:focus-visible /template/ Border#PhoneChoiceFocus"
-            ))
-            .set(Border::border_brush_property(), p.foreground)
-            .build(),
-        );
+        for (state, edge) in [
+            ("", "Transparent"),
+            (":focus-visible", p.foreground),
+            (":disabled", "Transparent"),
+        ] {
+            styles.add(
+                style(&format!(
+                    "{selector}{state} /template/ Border#PhoneChoiceFocus"
+                ))
+                .set(Border::border_brush_property(), edge)
+                .build(),
+            );
+        }
         styles.add(
             style(&format!("{selector}:disabled"))
-                .set(Visual::opacity_property(), 0.3)
+                .set(TemplatedControl::foreground_property(), p.secondary)
                 .build(),
         );
     }
 }
 
-fn theme<T: ferroui_base::ObjectType>(
-    slot: &OnceCell<Ref<ControlTheme>>,
-    radio: bool,
-) -> Ref<ControlTheme> {
-    slot.get_or_init(|| {
-        let theme = ControlTheme::for_type::<T>();
-        let template: Rc<dyn IControlTemplate> = FuncControlTemplate::new(move |_, scope| {
-            let focus = Border::new();
-            focus.set_name(Some("PhoneChoiceFocus".into()));
-            focus.set_background(Some(Brushes::transparent()));
-            focus.set_border_thickness(Thickness::uniform(1.0));
-            let root = Grid::new();
-            root.set_column_definitions(
-                ColumnDefinitions::parse("44,*").expect("fixed choice columns"),
-            );
-            root.set_column_spacing(8.0);
+fn template(radio: bool) -> Rc<dyn IControlTemplate> {
+    let create = |slot: &OnceCell<Rc<dyn IControlTemplate>>| {
+        slot.get_or_init(|| {
+            FuncControlTemplate::new(move |_, scope| {
+                let root = Grid::new();
+                root.set_background(Some(Brushes::transparent()));
+                let row = Grid::new();
+                row.set_column_definitions(
+                    ColumnDefinitions::parse("Auto,*").expect("choice columns"),
+                );
+                row.set_column_spacing(px(12.0));
+                row.set_margin(Thickness::symmetric(px(12.0), px(20.0)));
 
-            let outline = Border::new();
-            outline.set_name(Some("PhoneChoiceOutline".into()));
-            outline.set_width(CHOICE_INDICATOR_SIZE);
-            outline.set_height(CHOICE_INDICATOR_SIZE);
-            outline.set_horizontal_alignment(H::Center);
-            outline.set_vertical_alignment(V::Center);
-            outline.set_corner_radius(CornerRadius::uniform(if radio {
-                CHOICE_INDICATOR_SIZE
-            } else {
-                0.0
-            }));
-            outline.set_border_thickness(Thickness::uniform(CONTROL_BORDER));
-            if radio {
-                let dot = Border::new();
-                dot.set_name(Some("PhoneChoiceMark".into()));
-                dot.set_width(crate::reference_pixels(14.0));
-                dot.set_height(crate::reference_pixels(14.0));
-                dot.set_corner_radius(CornerRadius::uniform(CHOICE_INDICATOR_SIZE));
-                dot.set_horizontal_alignment(H::Center);
-                dot.set_vertical_alignment(V::Center);
-                outline.set_child(dot.register_in_name_scope(&**scope));
-            } else {
-                let marks = Grid::new();
-                let check = PathIcon::new();
-                check.set_name(Some("PhoneChoiceCheck".into()));
-                check.set_data(Some(
-                    Geometry::parse(crate::paths::path(crate::Icon::Check))
-                        .expect("phone check geometry"),
-                ));
-                check.set_width(crate::reference_pixels(24.0));
-                check.set_height(crate::reference_pixels(24.0));
-                check.set_horizontal_alignment(H::Center);
-                check.set_vertical_alignment(V::Center);
-                marks.children().add(check.register_in_name_scope(&**scope));
-                let mixed = Border::new();
-                mixed.set_name(Some("PhoneChoiceIndeterminate".into()));
-                mixed.set_width(crate::reference_pixels(16.0));
-                mixed.set_height(crate::reference_pixels(5.0));
-                mixed.set_horizontal_alignment(H::Center);
-                mixed.set_vertical_alignment(V::Center);
-                marks.children().add(mixed.register_in_name_scope(&**scope));
-                outline.set_child(marks);
-            }
-            root.children()
-                .add(outline.register_in_name_scope(&**scope));
-            let content = ContentPresenter::new();
-            content.set_name(Some("PART_ContentPresenter".into()));
-            content.set_vertical_alignment(V::Center);
-            content.set_text_wrapping(TextWrapping::Wrap);
-            Grid::set_column(&content, 1);
-            for (target, source) in [
-                (
-                    ContentPresenter::content_property().as_property(),
-                    ContentControl::content_property().as_property(),
-                ),
-                (
-                    ContentPresenter::content_template_property().as_property(),
-                    ContentControl::content_template_property().as_property(),
-                ),
-                (
-                    ContentPresenter::foreground_property().as_property(),
-                    TemplatedControl::foreground_property().as_property(),
-                ),
-                (
-                    ContentPresenter::font_family_property().as_property(),
-                    TemplatedControl::font_family_property().as_property(),
-                ),
-                (
-                    ContentPresenter::font_size_property().as_property(),
-                    TemplatedControl::font_size_property().as_property(),
-                ),
-            ] {
-                content.bind_binding(target, &*TemplateBinding::new(source));
-            }
-            root.children()
-                .add(content.register_in_name_scope(&**scope));
-            focus.set_child(root);
-            focus.register_in_name_scope(&**scope).upcast()
-        });
-        theme.add_setter(Setter::new(
-            TemplatedControl::template_property(),
-            Some(template),
-        ));
-        theme
-    })
-    .clone()
+                let indicator = Grid::new();
+                indicator.set_width(CHOICE_INDICATOR_SIZE);
+                indicator.set_height(CHOICE_INDICATOR_SIZE);
+                indicator.set_vertical_alignment(V::Top);
+                indicator.set_is_hit_test_visible(false);
+                let outline = Border::new();
+                outline.set_name(Some("PhoneChoiceOutline".into()));
+                outline.set_corner_radius(CornerRadius::uniform(if radio {
+                    CHOICE_INDICATOR_SIZE
+                } else {
+                    0.0
+                }));
+                outline.set_border_thickness(Thickness::uniform(CONTROL_BORDER));
+                indicator
+                    .children()
+                    .add(outline.register_in_name_scope(&**scope));
+                if radio {
+                    let dot = Border::new();
+                    dot.set_name(Some("PhoneChoiceMark".into()));
+                    dot.set_width(px(14.0));
+                    dot.set_height(px(14.0));
+                    dot.set_corner_radius(CornerRadius::uniform(CHOICE_INDICATOR_SIZE));
+                    dot.set_horizontal_alignment(H::Center);
+                    dot.set_vertical_alignment(V::Center);
+                    indicator
+                        .children()
+                        .add(dot.register_in_name_scope(&**scope));
+                } else {
+                    let check = Path::new();
+                    check.set_name(Some("PhoneChoiceCheck".into()));
+                    check.set_data(Some(
+                        Geometry::parse(TOOLKIT_CHECK_PATH).expect("Toolkit check geometry"),
+                    ));
+                    check.set_width(px(23.0));
+                    check.set_height(px(21.0));
+                    check.set_stretch(Stretch::Fill);
+                    check.set_horizontal_alignment(H::Center);
+                    check.set_vertical_alignment(V::Center);
+                    indicator
+                        .children()
+                        .add(check.register_in_name_scope(&**scope));
+                    let mixed = Border::new();
+                    mixed.set_name(Some("PhoneChoiceIndeterminate".into()));
+                    mixed.set_width(px(16.0));
+                    mixed.set_height(px(16.0));
+                    mixed.set_horizontal_alignment(H::Center);
+                    mixed.set_vertical_alignment(V::Center);
+                    indicator
+                        .children()
+                        .add(mixed.register_in_name_scope(&**scope));
+                }
+                row.children().add(indicator);
+                let content = ContentPresenter::new();
+                content.set_name(Some("PART_ContentPresenter".into()));
+                content.set_vertical_alignment(V::Top);
+                content.set_text_wrapping(TextWrapping::Wrap);
+                Grid::set_column(&content, 1);
+                for (target, source) in [
+                    (
+                        ContentPresenter::content_property().as_property(),
+                        ContentControl::content_property().as_property(),
+                    ),
+                    (
+                        ContentPresenter::content_template_property().as_property(),
+                        ContentControl::content_template_property().as_property(),
+                    ),
+                    (
+                        ContentPresenter::font_family_property().as_property(),
+                        TemplatedControl::font_family_property().as_property(),
+                    ),
+                    (
+                        ContentPresenter::font_size_property().as_property(),
+                        TemplatedControl::font_size_property().as_property(),
+                    ),
+                    (
+                        ContentPresenter::font_weight_property().as_property(),
+                        TemplatedControl::font_weight_property().as_property(),
+                    ),
+                    (
+                        ContentPresenter::padding_property().as_property(),
+                        TemplatedControl::padding_property().as_property(),
+                    ),
+                    (
+                        ContentPresenter::horizontal_content_alignment_property().as_property(),
+                        ContentControl::horizontal_content_alignment_property().as_property(),
+                    ),
+                ] {
+                    content.bind_binding(target, &*TemplateBinding::new(source));
+                }
+                content.add_property_changed_handler(Rc::new(|change| {
+                    if change.property() != ContentPresenter::child_property().as_property() {
+                        return;
+                    }
+                    let Some(presenter) = change.sender().downcast_ref::<ContentPresenter>() else {
+                        return;
+                    };
+                    if presenter.content_template().is_some()
+                        || presenter
+                            .content()
+                            .as_ref()
+                            .and_then(Control::from_boxed)
+                            .is_some()
+                    {
+                        return;
+                    }
+                    if let Some(text) = change
+                        .get_new_value::<Option<Ref<Control>>>()
+                        .and_then(|child| child.cast::<TextBlock>())
+                    {
+                        text.classes().add("phone-choice-content");
+                    }
+                }));
+                row.children().add(content.register_in_name_scope(&**scope));
+                root.children().add(row);
+
+                // This desktop keyboard affordance is an overlay: activating it
+                // never changes the indicator, text bounds or native hit target.
+                let focus = Border::new();
+                focus.set_name(Some("PhoneChoiceFocus".into()));
+                focus.set_border_thickness(Thickness::uniform(1.0));
+                focus.set_is_hit_test_visible(false);
+                root.children().add(focus.register_in_name_scope(&**scope));
+                root.upcast()
+            })
+        })
+        .clone()
+    };
+    if radio {
+        RADIO.with(create)
+    } else {
+        CHECK.with(create)
+    }
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-    use std::cell::{Cell, RefCell};
-
-    #[test]
-    fn checkbox_publishes_native_changes_without_initial_or_duplicate_notifications() {
-        let values = Rc::new(RefCell::new(Vec::new()));
-        let recorded = values.clone();
-        let (control, owner) = check("sync mail", true, move |value| {
-            recorded.borrow_mut().push(value)
-        })
-        .mount_root();
-        let checkbox = control.cast::<CheckBox>().expect("a native checkbox");
-        assert_eq!(checkbox.is_checked(), Some(true));
-        assert!(
-            values.borrow().is_empty(),
-            "mounting a saved value must not write it again"
-        );
-        checkbox.set_is_checked(Some(false));
-        checkbox.set_is_checked(Some(false));
-        checkbox.set_is_checked(Some(true));
-        assert_eq!(*values.borrow(), [false, true]);
-        owner.dispose();
-    }
-
-    #[test]
-    fn radio_selection_keeps_native_exclusive_group_and_notifies_only_selected_option() {
-        let first_count = Rc::new(Cell::new(0));
-        let second_count = Rc::new(Cell::new(0));
-        let first_recorded = first_count.clone();
-        let second_recorded = second_count.clone();
-        let (control, owner) = stack_panel()
-            .child(radio("dark", "phone-background-test", true, move || {
-                first_recorded.set(first_recorded.get() + 1)
-            }))
-            .child(radio("light", "phone-background-test", false, move || {
-                second_recorded.set(second_recorded.get() + 1)
-            }))
-            .into_element()
-            .mount_root();
-        let panel = control.cast::<StackPanel>().unwrap();
-        let first = panel.children().get(0).cast::<RadioButton>().unwrap();
-        let second = panel.children().get(1).cast::<RadioButton>().unwrap();
-        assert_eq!((first_count.get(), second_count.get()), (0, 0));
-        second.set_is_checked(Some(true));
-        assert_eq!(first.is_checked(), Some(false));
-        assert_eq!(second.is_checked(), Some(true));
-        assert_eq!((first_count.get(), second_count.get()), (0, 1));
-        first.set_is_checked(Some(true));
-        assert_eq!(second.is_checked(), Some(false));
-        assert_eq!((first_count.get(), second_count.get()), (1, 1));
-        owner.dispose();
-    }
-}
+mod tests;

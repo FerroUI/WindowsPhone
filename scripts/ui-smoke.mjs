@@ -23,6 +23,9 @@ import { verifyMapsExpansion } from "./ui-maps-expanded.mjs";
 import { installMapTileFixture } from "./ui-map-fixture.mjs";
 import { verifyPlatformRefinements } from "./ui-platform-refinements.mjs";
 import { verifyMetroControls } from "./ui-metro-controls.mjs";
+import { verifyNavigationMotion } from "./ui-navigation-motion.mjs";
+import { verifyPhoneControlStates } from "./ui-phone-control-states.mjs";
+import { verifyPhonePickers } from "./ui-phone-pickers.mjs";
 import { verifyOutlookDrafts } from "./ui-outlook-drafts.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
@@ -178,7 +181,12 @@ async function capture(name, {picker} = {}) {
   await until(async () => {
     const view = await snapshot();
     const page = view?.elements.find(element => element.name === "PhonePage");
-    return !page || page.projection === null;
+    const outgoing = view?.elements.find(element => element.name === "PhoneOutgoingPage");
+    const image = view?.elements.find(element => element.name === "PhoneOutgoingImage");
+    const surface = view?.elements.find(element => element.name === "PhonePickerSurface");
+    return (!page || (page.projection === null && page.opacity === 1)) &&
+      (!outgoing || (outgoing.projection === null && outgoing.opacity === 0)) &&
+      !image?.imageSource && (!surface || surface.projection === null);
   }, `${name}: page entrance completed`);
   await sleep(150);
   healthy();
@@ -635,13 +643,13 @@ try {
     await until(async () => !(await snapshot()).elements.some(element => element.name === "AppSwitcher"),
       "hardware Back dismisses task switcher");
   });
-  const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control,
+  const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control, output,
     clickName, clickLabel, clickText, textPresent, reveal, edit, home, isRoute, reload };
   // These modules restore isolated fixtures in finally. Collect their independent
   // failures in one opt-in run, while keeping every assertion a publication gate.
   const refinementFailures = [];
   for (const verify of [verifyOfficeRefinements, verifyCalendarRefinements,
-    verifyAlarmRefinements, verifyMetroControls, verifyOutlookDrafts, verifyShellParity, verifySystemRefinements,
+    verifyAlarmRefinements, verifyMetroControls, verifyPhoneControlStates, verifyPhonePickers, verifyNavigationMotion, verifyOutlookDrafts, verifyShellParity, verifySystemRefinements,
     verifyBrowserRefinements, verifyPimRefinements, verifyHostRefinements, verifySdkGames,
     verifyOfficeExpansion, verifyMediaLibraries, verifyConnectedApps, verifyMapsExpansion, verifyPlatformRefinements,
     verifyLiveTiles, verifyStartCustomization, verifyLockscreenDraft, verifyLiveFolder]) {

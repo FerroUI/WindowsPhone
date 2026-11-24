@@ -1,12 +1,12 @@
 //! Phone presentation over the native Slider/Track/Thumb input contract.
 use crate::Palette;
+use ferroui_base::Visual;
 use ferroui_base::data::{BindingMode, TemplateBinding};
 use ferroui_base::layout::{
     HorizontalAlignment as H, Layoutable, Orientation, VerticalAlignment as V,
 };
 use ferroui_base::media::Brushes;
-use ferroui_base::styling::{ControlTheme, Setter, Styles};
-use ferroui_base::{Ref, StyledElement, Visual};
+use ferroui_base::styling::Styles;
 use ferroui_controls::primitives::{RangeBase, TemplatedControl, Thumb, Track};
 use ferroui_controls::templates::{
     FuncControlTemplate, FuncTemplateNameScopeExtensions, IControlTemplate,
@@ -16,20 +16,29 @@ use ferroui_view::style;
 use std::{cell::OnceCell, rc::Rc};
 
 ferroui_base::ferro_thread_local! {
-    static HORIZONTAL: OnceCell<Ref<ControlTheme>> = const { OnceCell::new() };
-    static VERTICAL: OnceCell<Ref<ControlTheme>> = const { OnceCell::new() };
+    static HORIZONTAL: OnceCell<Rc<dyn IControlTemplate>> = const { OnceCell::new() };
+    static VERTICAL: OnceCell<Rc<dyn IControlTemplate>> = const { OnceCell::new() };
+}
+
+pub(crate) fn install_templates(styles: &Styles) {
+    for (pseudo, vertical) in [("horizontal", false), ("vertical", true)] {
+        let template = if vertical {
+            VERTICAL.with(|slot| template(slot, true))
+        } else {
+            HORIZONTAL.with(|slot| template(slot, false))
+        };
+        styles.add(
+            style(&format!("Slider.phone-slider:{pseudo}"))
+                .set(TemplatedControl::template_property(), Some(template))
+                .build(),
+        );
+    }
 }
 
 pub(crate) fn install(styles: &Styles, palette: &Palette) {
     for (pseudo, vertical) in [("horizontal", false), ("vertical", true)] {
-        let theme = if vertical {
-            VERTICAL.with(|slot| theme(slot, true))
-        } else {
-            HORIZONTAL.with(|slot| theme(slot, false))
-        };
         styles.add(
             style(&format!("Slider.phone-slider:{pseudo}"))
-                .set(StyledElement::theme_property(), Some(theme))
                 .set(TemplatedControl::background_property(), palette.subtle)
                 .set(
                     TemplatedControl::foreground_property(),
@@ -73,10 +82,9 @@ pub(crate) fn install(styles: &Styles, palette: &Palette) {
     );
 }
 
-fn theme(slot: &OnceCell<Ref<ControlTheme>>, vertical: bool) -> Ref<ControlTheme> {
+fn template(slot: &OnceCell<Rc<dyn IControlTemplate>>, vertical: bool) -> Rc<dyn IControlTemplate> {
     slot.get_or_init(|| {
-        let theme = ControlTheme::for_type::<Slider>();
-        let template: Rc<dyn IControlTemplate> = FuncControlTemplate::new(move |_, scope| {
+        FuncControlTemplate::new(move |_, scope| {
             let root = Grid::new();
             root.set_background(Some(Brushes::transparent()));
             let rail = Border::new();
@@ -153,12 +161,7 @@ fn theme(slot: &OnceCell<Ref<ControlTheme>>, vertical: bool) -> Ref<ControlTheme
             track.set_thumb(thumb);
             root.children().add(track.register_in_name_scope(&**scope));
             root.upcast()
-        });
-        theme.add_setter(Setter::new(
-            TemplatedControl::template_property(),
-            Some(template),
-        ));
-        theme
+        }) as Rc<dyn IControlTemplate>
     })
     .clone()
 }

@@ -1,15 +1,25 @@
 //! Live native control geometry and state for end-to-end input verification.
-use ferroui_base::media::{Rotate3DTransform, TranslateTransform};
+use ferroui_base::media::{IBrush, Rotate3DTransform, TranslateTransform};
 use ferroui_base::rendering::composition::CompositionVisual;
 use ferroui_base::{Matrix, Point, Rect, Visual, input::InputElement};
 use ferroui_controls::{
-    Application, Button, ListBox, ListBoxItem, Pivot, PivotHeaderItem, ScrollViewer, TextBlock,
-    TextBox, ToggleSwitch,
+    Application, Border, Button, Image, ListBox, ListBoxItem, Pivot, PivotHeaderItem, ScrollViewer,
+    TextBlock, TextBox, ToggleSwitch,
     automation::{AutomationProperties, peers::ControlAutomationPeer},
-    primitives::ToggleButton,
+    presenters::ContentPresenter,
+    primitives::{TemplatedControl, ToggleButton},
+    shapes::Shape,
 };
 use serde_json::json;
 use wasm_bindgen::prelude::*;
+
+fn solid_color(brush: Option<std::rc::Rc<dyn IBrush>>) -> Option<String> {
+    brush.and_then(|brush| {
+        brush
+            .as_solid_color_brush()
+            .map(|solid| format!("#{:08x}", solid.color().to_uint32()))
+    })
+}
 
 /// Maps a control into the root's coordinates as it appeared in the last
 /// rendered frame. `Visual::transform_to_visual` alone misses compositor
@@ -110,12 +120,13 @@ pub fn inspect_view() -> String {
                 .and_then(|toggle| toggle.is_checked());
             // Read the actual animation-owned native transform. Tests sample
             // this across rendered frames; it does not drive animation state.
-            let projection = if name.as_deref() == Some("PhonePage") {
+            let projection = if matches!(name.as_deref(), Some("PhonePage" | "PhoneOutgoingPage" | "PhonePickerSurface")) {
                 visual.render_transform().and_then(|transform| {
                     let object = transform.as_object()?;
                     if let Some(rotation) = object.downcast_ref::<Rotate3DTransform>() {
-                        Some(json!({"kind":"turnstile", "angleY":rotation.angle_y(),
-                            "centerX":rotation.center_x(), "depth":rotation.depth()}))
+                        Some(json!({"kind":if name.as_deref()==Some("PhonePickerSurface"){"swivel"}else{"turnstile"},
+                            "angleX":rotation.angle_x(), "angleY":rotation.angle_y(),
+                            "centerX":rotation.center_x(), "centerY":rotation.center_y(), "depth":rotation.depth()}))
                     } else {
                         object.downcast_ref::<TranslateTransform>().map(
                             |translation| json!({"kind":"slide", "translateX":translation.x()}),
@@ -125,11 +136,29 @@ pub fn inspect_view() -> String {
             } else {
                 None
             };
+            let templated = visual.cast::<TemplatedControl>();
+            let presenter = visual.cast::<ContentPresenter>();
+            let foreground = solid_color(visual.cast::<TextBlock>().and_then(|text| text.foreground())
+                .or_else(|| templated.as_ref().and_then(|control| control.foreground()))
+                .or_else(|| presenter.as_ref().and_then(|control| control.foreground()))
+                .or_else(|| visual.cast::<Shape>().and_then(|shape| shape.fill())));
+            let background = solid_color(visual.cast::<Border>().and_then(|border| border.background())
+                .or_else(|| templated.as_ref().and_then(|control| control.background()))
+                .or_else(|| presenter.as_ref().and_then(|control| control.background())));
+            let image_source = visual.cast::<Image>().and_then(|image| image.source()).map(|source| {
+                let size = source.size();
+                json!({"width":size.width,"height":size.height})
+            });
             Some(json!({
                 "type":visual.get_type().name(),"name":name,"text":text,
                 "automationName":automation_name,
                 "focused":input.as_ref().is_some_and(|input|input.is_focused()),
                 "enabled":input.as_ref().map(|input|input.is_effectively_enabled()),
+                "hitTestVisible":input.as_ref().map(|input|input.is_hit_test_visible()),
+                "pressed":visual.cast::<Button>().map(|button|button.is_pressed()),
+                "opacity":visual.opacity(),"foreground":foreground,"background":background,
+                "imageSource":image_source,
+                "renderedBounds":{"x":rendered.x,"y":rendered.y,"width":rendered.width,"height":rendered.height},
                 "checked":checked,
                 "selectedIndex":visual.cast::<Pivot>().map(|pivot|pivot.selected_index()),
                 "projection":projection,

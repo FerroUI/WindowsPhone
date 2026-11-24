@@ -46,6 +46,8 @@ Segoe WP regular, Light, Semilight and Semibold are distinct named resources. Ti
 
 The [ApplicationBar API](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff402616(v=vs.105)) allows one to four icon buttons. Icons are monochrome, theme recolored, and surrounded by a circle drawn by the control. The circle must not be duplicated inside the glyph. The hardware/system Back action supplies backward navigation; a second app-bar Back button is not the original convention. Expanded labels, command disabling, pointer cancellation and Back-to-collapse need behavioral verification, not just a static screenshot.
 
+The icon rules also specify a **single line for English captions**, with truncation when necessary. Our labels now retain one line and use character ellipsis within their existing 76-unit slot. Command and app-bar pressed states use immediate contrasting fill/ink without shrinking the input rectangle. This palette mapping is an explicit adaptation: the original OS button-state brush ARGB values and app-bar expansion easing have not been recovered.
+
 ## Pivot and Panorama
 
 [Pivot guidance](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh202919(v=vs.105)) describes cyclical horizontal pan/flick navigation among related data views. It recommends four or fewer pages, brief one/two-word headers, and retaining an empty filter when later user actions can populate it. Header continuity should advertise adjacent content. Nested Pivot/Panorama controls and horizontal gesture conflicts are discouraged; maps, sliders and editors belong on appropriate detail pages. Vertical list scrolling remains a supported hosted-control interaction. A horizontal pointer sequence must not also activate its starting row.
@@ -71,6 +73,37 @@ The [ToggleSwitchButton implementation](https://github.com/microsoftarchive/Wind
 
 The default WP8 Silverlight CheckBox/RadioButton templates and exact TextBox state colors were not recovered here. Microsoft's [theme implementation documentation](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff402557(v=vs.105)) locates per-theme `ThemeResources.xaml` files under `C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Design`. Extract their values from a matching original SDK before treating approximate control templates as exact. The published resource table identifies edit/read-only TextBox and pressed/disabled check/radio brushes but does not provide their ARGB values.
 
+### Recovered choice and editor templates
+
+The Toolkit's [ListPickerPage.xaml](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit.WP8/ListPicker/ListPickerPage.xaml) contains `AnyFontSizeCheckBoxStyle`. Its square is 32 × 32, its outline is 3, its check path occupies 23 × 21 with `Stretch=Fill`, and its indeterminate mark is 16 × 16. The content gap is 12 and the touch overhang is 12 × 20. Pressing replaces the fill/check resource roles; disabling replaces outline/check/content ink rather than fading the whole subtree. This is evidence for this **Toolkit ListPicker style**, not the unrecovered universal OS checkbox. The adapted check geometry retains [MS-PL attribution](../NOTICE.md); the radio geometry remains an application adaptation.
+
+The Toolkit [PhoneTextBox template](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit.WP8/Themes/Generic.xaml) specifies a normal-weight 25.333 font, 3-unit border/padding and 1 × 2 inner margin. Focus changes background and border resource roles immediately. The original disabled presentation swaps to a separate read-only TextBox with transparent chrome and disabled ink. Our adapter preserves one native TextPresenter/ScrollViewer, including composition, selection, undo and clipboard state, and applies those resource roles without swapping editors. Neutral color values, general read-only appearance, and the desktop keyboard-focus outline are documented adaptations. Forms retain their existing outer placement rather than receiving a second 12-unit margin.
+
+Structural templates are installed separately from replaceable palette styles. Changing the accent or light/dark theme must preserve native button presenters, choice parts, slider tracks, picker wheels and active text composition. Palette changes must not synthesize a click, selection change or value commit.
+
+### Date and time picker pages
+
+The Toolkit [DatePickerPage.xaml](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit.WP8/DateTimePickers/DatePickerPage.xaml), [TimePickerPage.xaml](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit.WP8/DateTimePickers/TimePickerPage.xaml) and [shared page implementation](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit/DateTimePickers/DateTimePickerPageBase.cs) establish a full phone page, chrome background, large looping selectors and check/cancel application-bar actions.
+
+| Picker detail | Original 480-unit reference | Implementation boundary |
+| --- | --- | --- |
+| Columns/cell pitch | Three columns of 148; three columns total 444, centered | Scaled to available phone width; native presenters retain optional seconds support |
+| Cell inset | 6 on each side, leaving a visible 136-unit square | Padding is inside the 148-unit pitch |
+| Cell type | Primary 54 Semibold; secondary 20 normal | Portable phone font; original Segoe WP rasterization is unverified |
+| Header | 22.667 Semibold; margin 24,16,24,24 | Safe status and hardware strips remain owned by the shell |
+| Selection | Accent fill/white ink; unselected expanded outline 3 at opacity 0.8 | Native DateTimePickerPanel owns selection and scrolling |
+| Open | X rotation −50° to 0°, 200 ms linear | Dedicated picker surface, input gated during the motion |
+| Close | X rotation from current angle to +90°, 200 ms exponential-in | Exponent 2, the documented Silverlight default; lock/navigation teardown is immediate |
+| Commit | Stage selection; check commits; cancel/Back abandons it | Native DatePicker/TimePicker value events remain authoritative |
+
+The XAML leaves the close `ExponentialEase.Exponent` unset. Microsoft's [property documentation](https://learn.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/dd431601(v=vs.95)) establishes its default as **2**. This picker-specific storyboard differs from the generic swivel navigation storyboard below.
+
+The original picker wraps month/day/hour/minute without carrying into an adjacent unit; AM/PM and year lists are finite, and month/year changes clamp the day. Culture controls field order and 24-hour display omits AM/PM. The native FerroUI picker is retained for calendar/range/increment validation, keyboard input and value staging. Its wheel inertia and snap curve are **not yet a verified match** for the original Toolkit `LoopingSelector` (330 ms expansion, 500 ms snap and distinct pan/friction behavior). Full-page composition and matching selected constants do not establish identical selector physics.
+
+The adapter snaps selector pitch to the nearest **1/64 logical unit**, an adjustment of at most 1/128 unit. At fractional adapted widths, unrounded pitch could make the native panel's offset-to-index truncation return the preceding item (for example, a quotient just below 2), silently losing a keyboard step. Binary-exact pitch keeps each native step stable; column width uses the same pitch. This numerical adaptation is separately covered by a per-key month sequence and is not an original Microsoft geometry constant.
+
+Hardware Back first collapses an expanded picker application bar, then cancels the picker, and only a subsequent Back may leave its editor. Home, route replacement, lock/privacy overlays and session teardown close picker surfaces synchronously without confirmation or focus restoration into a hidden editor. Normal dismissal may restore keyboard focus to the owning field.
+
 [ListPicker source](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit/ListPicker/ListPicker.cs) sets the inline threshold to five items when expansion is permitted and animates height/translation over 200 ms. Longer choices use a picker page. Date/time pickers, full-page list selection and picker cancellation need phone-specific composition rather than generic desktop popups.
 
 [Microsoft's certification guidance](https://blogs.windows.com/windowsdeveloper/2014/01/10/top-windows-phone-app-certification-failures-and-how-to-avoid-them/) requires Back to dismiss dialogs/keyboards, navigate to a preceding page, and leave the app only at its root. Implement those outcomes through one ordered Back dispatcher. Do not let keyboard dismissal or menu cancellation also pop the navigation journal. Start preserves appropriate suspended app state. Browser and native host adapters must map their input into the same shell contracts.
@@ -91,6 +124,8 @@ The following values are from the Toolkit's [navigation storyboards](https://git
 | Swivel forward out | X rotation: 0° → +90° | 250 ms | Exponential in, exponent 15 |
 
 Turnstile entry reaches opacity 1 at 10 ms. Exit stays opaque until 240 ms and becomes invisible at 250 ms. Plain turnstile uses `PlaneProjection.CenterOfRotationX = 0` in [Transitions.cs](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit/Transitions/Transitions.cs), with the default Y origin 0.5. [TurnstileFeatherEffect](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit/Effects/TurnstileFeatherEffect.cs) instead uses a horizontal rotation origin of −0.2; stagger increments are 40 ms for forward-in/backward-out and 50 ms for forward-out/backward-in. Preserve forward/backward distinctions rather than playing one generic fade for every route.
+
+Our page choreography now preserves one rendered image of the settled outgoing page for the 250 ms exit, then starts the 350 ms incoming turnstile. Route mutation and old app disposal remain synchronous; the destination is the only live app tree. During the exit its input is disabled to prevent activation through the retiring image. The image is noninteractive and bounded to 2,097,152 pixels (at most 8 MiB in RGBA), clears at completion, and is discarded on supersession, resize, lock/privacy coverage, unload or reduced motion/Battery Saver. If capture is unavailable, the incoming animation proceeds without an outgoing image. This is a bounded cross-host rendering strategy, not the original operating system's page-cache implementation.
 
 ### Position-sensitive tilt
 

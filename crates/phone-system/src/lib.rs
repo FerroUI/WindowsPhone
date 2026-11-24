@@ -76,12 +76,16 @@ pub fn set_preview_capture_enabled(enabled: bool) {
         SESSION.with(|slot| {
             if let Some(ui) = slot.borrow().upgrade() {
                 ui.state::<crate::previews::PreviewCache>().clear();
+                ui.state::<crate::page_motion::NavigationMotion>().cancel();
             }
         });
     }
 }
 
 pub fn back(vm: &Rc<PhoneViewModel>) {
+    if phone_controls::dismiss_phone_picker() {
+        return;
+    }
     let ui = SESSION.with(|slot| slot.borrow().upgrade());
     let from = vm.route();
     let motion = ui
@@ -146,6 +150,7 @@ pub fn set_weather(place: String, temperature: f64, condition: String) {
     });
 }
 pub fn lock() {
+    phone_controls::close_phone_pickers();
     SESSION.with(|slot| {
         if let Some(ui) = slot.borrow().upgrade() {
             ui.locked.set(true);
@@ -184,6 +189,9 @@ pub fn home(vm: &Rc<PhoneViewModel>) {
     vm.home();
 }
 pub fn has_overlay() -> bool {
+    if phone_controls::has_open_phone_picker() {
+        return true;
+    }
     SESSION.with(|slot| {
         slot.borrow().upgrade().is_some_and(|ui| {
             ui.state::<phone_alarm_service::AlarmState>()
@@ -314,6 +322,8 @@ pub fn host_closing(vm: &Rc<PhoneViewModel>) {
         return;
     }
     if let Some(ui) = SESSION.with(|slot| slot.borrow().upgrade()) {
+        phone_controls::close_phone_pickers();
+        ui.state::<page_motion::NavigationMotion>().cancel();
         ui.state::<phone_alarm_service::AlarmState>()
             .host_closing(vm);
         phone_sdk::media::flush(vm, &ui);
@@ -333,6 +343,8 @@ pub fn host_visibility(visible: bool) {
         ui.state::<phone_alarm_service::AlarmState>()
             .host_visibility(&vm, visible);
         if !visible {
+            phone_controls::close_phone_pickers();
+            ui.state::<page_motion::NavigationMotion>().cancel();
             phone_sdk::media::flush(&vm, &ui);
         }
         ui.registry().lifecycle(

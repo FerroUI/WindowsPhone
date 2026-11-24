@@ -19,6 +19,7 @@ struct PickerFocus {
     owner: WeakRef<TemplatedControl>,
     generation: Cell<u64>,
     subscriptions: RefCell<Option<(Subscription, Subscription)>>,
+    presentation: RefCell<Option<Rc<super::presentation::PhonePicker>>>,
 }
 
 /// Attach once from a date/time picker's declarative `with` callback.
@@ -31,15 +32,20 @@ pub fn attach_picker_focus(picker: &TemplatedControl) {
         owner: picker.to_ref().downgrade(),
         generation: Cell::new(0),
         subscriptions: RefCell::new(None),
+        presentation: RefCell::new(None),
     });
     let template_state = state.clone();
     let template = picker.template_applied(move |_, event| template_state.bind(event));
     let unload_state = state.clone();
     let unloaded = picker.unloaded(move |_, _| {
         unload_state.invalidate();
+        if let Some(presentation) = unload_state.presentation.borrow().as_ref() {
+            presentation.close_immediately();
+        }
     });
     on_cleanup(move || {
         state.invalidate();
+        drop(state.presentation.borrow_mut().take());
         drop(state.subscriptions.borrow_mut().take());
         if let Some(picker) = state.owner.upgrade() {
             picker.remove_handler(TemplatedControl::template_applied_event(), template);
@@ -60,6 +66,7 @@ impl PickerFocus {
         // Palette/template changes replace these guards. They must never leave
         // callbacks on an old popup or accumulate callbacks on the new one.
         drop(self.subscriptions.borrow_mut().take());
+        drop(self.presentation.borrow_mut().take());
         let scope = event.name_scope();
         let (Some(popup), Some(presenter)) = (
             scope.find_as::<Popup>("PART_Popup"),
@@ -67,6 +74,11 @@ impl PickerFocus {
         ) else {
             return;
         };
+        if let Some(owner) = self.owner.upgrade() {
+            *self.presentation.borrow_mut() = Some(super::presentation::PhonePicker::attach(
+                &owner, &popup, &presenter,
+            ));
+        }
         let weak_state = Rc::downgrade(self);
         let weak_popup = popup.downgrade();
         let weak_presenter = presenter.downgrade();

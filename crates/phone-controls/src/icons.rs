@@ -86,7 +86,27 @@ ferroui_base::ferro_thread_local! {
 }
 
 pub fn icon(kind: Icon, size: f64, color: &str) -> Element {
-    let data = GEOMETRY.with(|cache| {
+    let data = geometry(kind);
+    rsx! { PathIcon {
+        data: Some(data), width:size, height:size, foreground:color,
+        vertical_alignment:V::Center, horizontal_alignment:H::Center,
+        is_hit_test_visible:false, automation_properties_is_control_element_override:Some(false)
+    } }
+}
+
+/// Palette/state ink is supplied by the command theme, not a local value that
+/// would mask pressed and disabled styles. Geometry shares the same cache.
+pub(crate) fn action_glyph(kind: Icon, size: f64, label: &str) -> Element {
+    rsx! { PathIcon {
+        name:format!("AppBarGlyph-{label}"),class:"phone-action-glyph",
+        data:Some(geometry(kind)),width:size,height:size,
+        vertical_alignment:V::Center,horizontal_alignment:H::Center,
+        is_hit_test_visible:false,automation_properties_is_control_element_override:Some(false)
+    } }
+}
+
+fn geometry(kind: Icon) -> Ref<Geometry> {
+    GEOMETRY.with(|cache| {
         cache
             .borrow_mut()
             .entry(kind)
@@ -94,10 +114,5 @@ pub fn icon(kind: Icon, size: f64, color: &str) -> Element {
                 Geometry::parse(crate::paths::path(kind)).expect("embedded phone icon")
             })
             .clone()
-    });
-    rsx! { PathIcon {
-        data: Some(data), width:size, height:size, foreground:color,
-        vertical_alignment:V::Center, horizontal_alignment:H::Center,
-        is_hit_test_visible:false, automation_properties_is_control_element_override:Some(false)
-    } }
+    })
 }

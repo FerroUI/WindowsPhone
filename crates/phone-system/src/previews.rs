@@ -1,6 +1,6 @@
 //! Native page snapshots are optional host capabilities. Captures happen on the
 //! UI thread before reconciliation, never from rendering or layout callbacks.
-mod bitmap;
+pub(crate) mod bitmap;
 
 use ferroui_base::media::IImage;
 use ferroui_base::platform::IPlatformRenderInterface;
@@ -24,6 +24,10 @@ ferroui_base::ferro_thread_local! {
 
 pub(crate) fn set_enabled(enabled: bool) {
     ENABLED.with(|flag| flag.set(enabled));
+}
+
+pub(crate) fn capture_enabled() -> bool {
+    ENABLED.with(Cell::get)
 }
 
 #[derive(Clone)]

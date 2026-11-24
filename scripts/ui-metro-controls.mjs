@@ -109,7 +109,7 @@ export async function verifyMetroControls(ctx) {
   };
   const restingPage = () => until(async () => {
     const page = named(await snapshot(), "PhonePage");
-    return page?.projection === null ? page : undefined;
+    return page?.projection === null && page.opacity === 1 ? page : undefined;
   }, "Native PhonePage projection has settled and detached");
   // Register a frame observer before real input, so CDP round trips and the
   // click helper's normal delay cannot hide a short entrance. This only reads
