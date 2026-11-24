@@ -1,5 +1,6 @@
 //! Presentation-only templates: Button and ListBoxItem still own interaction.
-use ferroui_base::data::TemplateBinding;
+use ferroui_base::data::{BindingPriority, TemplateBinding};
+use ferroui_base::layout::{HorizontalAlignment as H, Layoutable, VerticalAlignment as V};
 use ferroui_base::styling::{ControlTheme, Setter, Styles};
 use ferroui_base::{Ref, Thickness};
 use ferroui_controls::presenters::ContentPresenter;
@@ -7,7 +8,7 @@ use ferroui_controls::primitives::TemplatedControl;
 use ferroui_controls::templates::{
     FuncControlTemplate, FuncTemplateNameScopeExtensions, IControlTemplate,
 };
-use ferroui_controls::{Border, Button, ContentControl, Grid};
+use ferroui_controls::{Border, Button, ContentControl, Control, Grid};
 use ferroui_view::style;
 use std::{cell::OnceCell, rc::Rc};
 
@@ -31,35 +32,28 @@ pub(crate) const BUTTON_SELECTORS: [&str; 7] = [
 /// Set Template directly: a style-owned Theme is temporarily removed when
 /// palettes invalidate style frames, before the next theme-application pass.
 pub(crate) fn install(styles: &Styles) {
-    for selector in BUTTON_SELECTORS {
+    // Keep the native ListBox's ItemContainerTheme stable. A style-owned
+    // override would refresh its generated containers on palette invalidation;
+    // the direct container template supplies the phone presentation instead.
+    for selector in BUTTON_SELECTORS.into_iter().chain([
+        "ToggleButton.phone-toggle",
+        "ListBox.phone-list ListBoxItem",
+    ]) {
         styles.add(
             style(selector)
                 .set(
                     TemplatedControl::template_property(),
                     Some(content_template()),
                 )
+                // These defaults belonged to the previous minimal phone
+                // themes. Retaining a host theme must not import WinUI's
+                // Left/Center sizing or a second system focus decoration.
+                .set(Layoutable::horizontal_alignment_property(), H::Stretch)
+                .set(Layoutable::vertical_alignment_property(), V::Stretch)
+                .set(Control::focus_adorner_property(), None)
                 .build(),
         );
     }
-    styles.add(
-        style("ToggleButton.phone-toggle")
-            .set(
-                TemplatedControl::template_property(),
-                Some(content_template()),
-            )
-            .build(),
-    );
-    // Keep the native ListBox's ItemContainerTheme stable. A style-owned
-    // override would refresh its generated containers on palette invalidation;
-    // the direct container template below supplies the phone presentation.
-    styles.add(
-        style("ListBox.phone-list ListBoxItem")
-            .set(
-                TemplatedControl::template_property(),
-                Some(content_template()),
-            )
-            .build(),
-    );
 }
 
 fn content_theme<T: ferroui_base::ObjectType>(
@@ -136,7 +130,29 @@ fn content_template() -> Rc<dyn IControlTemplate> {
                         TemplatedControl::font_weight_property().as_property(),
                     ),
                 ] {
-                    content.bind_binding(target, &*TemplateBinding::new(source));
+                    // The owner owns phone state and any local app colors.
+                    // WinUI's retained theme also has template-part hover,
+                    // pressed and disabled ink setters: those must not replace
+                    // the owner's effective phone colors. Keep the framework's
+                    // weak TemplateBinding lifecycle, at local priority only
+                    // for these three presentation brushes.
+                    let phone_ink = [
+                        ContentPresenter::background_property().as_property(),
+                        ContentPresenter::foreground_property().as_property(),
+                        ContentPresenter::border_brush_property().as_property(),
+                    ]
+                    .into_iter()
+                    .any(|property| std::ptr::eq(target, property));
+                    content.bind_binding_with_priority(
+                        target,
+                        &*TemplateBinding::new(source),
+                        if phone_ink {
+                            BindingPriority::LocalValue
+                        } else {
+                            BindingPriority::Template
+                        },
+                        None,
+                    );
                 }
                 let root = Grid::new();
                 root.children()

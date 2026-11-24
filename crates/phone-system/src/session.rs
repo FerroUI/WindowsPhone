@@ -11,6 +11,7 @@ pub trait SystemSessionExt {
     fn clear_overlays(self: &Rc<Self>);
     fn reconcile_document(self: &Rc<Self>, vm: &Rc<PhoneViewModel>);
     fn tick_live_tiles(&self, now: i64);
+    fn shell_obscured(&self, route: &Route) -> bool;
     fn preview_obscured(&self, route: &Route) -> bool;
 }
 impl SystemSessionExt for Session {
@@ -79,7 +80,8 @@ impl SystemSessionExt for Session {
     }
     fn clear_overlays(self: &Rc<Self>) {
         if phone_controls::has_open_phone_picker() {
-            self.state::<crate::page_motion::NavigationMotion>().cancel();
+            self.state::<crate::page_motion::NavigationMotion>()
+                .cancel();
             phone_controls::close_phone_pickers();
         }
         crate::app_list::dismiss_native(self);
@@ -130,7 +132,7 @@ impl SystemSessionExt for Session {
             self.live_clock.set(now);
         }
     }
-    fn preview_obscured(&self, route: &Route) -> bool {
+    fn shell_obscured(&self, route: &Route) -> bool {
         route.is_overlay()
             || crate::app_list::has_native_overlay(self)
             || self.state::<AlarmState>().active.get_untracked().is_some()
@@ -143,7 +145,9 @@ impl SystemSessionExt for Session {
             || self.alphabet.get_untracked()
             || self.edit_tile.get_untracked().is_some()
             || self.folder.get_untracked().is_some()
-            || self.registry().has_overlay(route, self)
+    }
+    fn preview_obscured(&self, route: &Route) -> bool {
+        self.shell_obscured(route) || self.registry().has_overlay(route, self)
     }
 }
 fn route_key(route: &Route) -> Option<String> {

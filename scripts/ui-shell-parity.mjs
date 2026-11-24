@@ -146,8 +146,14 @@ export async function verifyShellParity(ctx) {
       await page.click(...centre(group));
       await control(element=>element.name==="AppJump-m","M jump cell");
       const alphabet=await snapshot();
-      for(const cell of alphabet.elements.filter(element=>element.name?.startsWith("AppJump-"))){
+      const cells=alphabet.elements.filter(element=>element.name?.startsWith("AppJump-"));
+      const screen=named(alphabet,"PhoneScreen");
+      assert.equal(cells.length,27,"The alphabet grid renders every active and inactive group");
+      assert(screen,"The alphabet grid has a mounted phone viewport");
+      const cellSize=Math.max(44,(screen.width-40)/4-10);
+      for(const cell of cells){
         close(cell.width,cell.height,"Alphabet jump cells remain square at the phone width");
+        close(cell.width,cellSize,"Alphabet input fills the complete four-column grid cell");
       }
       const disabled=named(alphabet,"AppJump-z");
       assert(disabled,"The inactive Z group must remain visible in the alphabet grid");

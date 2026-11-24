@@ -35,6 +35,7 @@ pub fn view(context: AppContext) -> Element {
     let foreground = fg(&context.vm);
     let size = (phone_size(&context.vm).0 - 40.0).clamp(180.0, 360.0);
     let mut squares = grid()
+        .name("TicTacToeBoard")
         .width(size)
         .height(size)
         .row_definitions("*,*,*")
@@ -52,6 +53,7 @@ pub fn view(context: AppContext) -> Element {
             Grid.row:(index / 3) as i32, Grid.column:(index % 3) as i32,
             Button {
                 class:"phone-flat", name:format!("TicTacToeCell{index}"),
+                horizontal_alignment:H::Stretch, vertical_alignment:V::Stretch,
                 background:if context.vm.data().settings.dark {"#202020"} else {"#E6E6E6"},
                 horizontal_content_alignment:H::Center, vertical_content_alignment:V::Center,
                 automation_properties_name:format!("Row {}, column {}, {}", index / 3 + 1, index % 3 + 1,

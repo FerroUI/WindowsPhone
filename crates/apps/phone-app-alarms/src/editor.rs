@@ -1,6 +1,6 @@
 use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, Icon};
+use phone_controls::{Icon, action, app_bar};
 use phone_domain::ALARM_SNOOZE_MINUTES;
 use phone_sdk::{common, session::Session};
 use phone_state::PhoneViewModel;
@@ -26,13 +26,16 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         Picker::Repeat => "repeats",
         Picker::Snooze => "snooze",
     };
+    // Each editor page owns a different native control tree. Stable page and
+    // choice keys retain controls within that page without reusing a Main-page
+    // content button as an unrelated choice after navigation.
     let body = match page {
         Picker::Main => {
             let repeat = ui.clone();
             let snooze = ui.clone();
             let mut preview = alarm.clone();
             preview.weekdays = editor.weekdays.get();
-            rsx! {StackPanel{margin:(20.0,0.0,20.0,20.0),spacing:18.0,
+            rsx! {StackPanel{key:"alarm-editor-main",margin:(20.0,0.0,20.0,20.0),spacing:18.0,
                 StackPanel{spacing:5.0,{common::muted("time",16.0)}
                     TimePicker{name:"AlarmTimePicker",class:"phone-picker",horizontal_alignment:H::Stretch,
                         with:|picker|phone_controls::attach_picker_focus(picker),
@@ -63,7 +66,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             ];
             let rows = days.into_iter().enumerate().map(|(index,name)| {
                 let change=ui.clone();let checked=selected.contains(&(index as u8));
-                rsx!{CheckBox{class:"phone-check",content:name,min_height:52.0,
+                rsx!{CheckBox{key:format!("alarm-weekday-{index}"),class:"phone-check",content:name,min_height:52.0,
                     automation_properties_name:format!("{name}, {}",if checked{"selected"}else{"not selected"}),
                     is_checked:phone_controls::checked_state(Some(checked),move |next|{
                         let checked=next==Some(true);
@@ -75,16 +78,18 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                     })
                 }}
             }).collect::<Vec<_>>();
-            rsx! {StackPanel{margin:(20.0,0.0),spacing:3.0,for row in rows{{row}}}}
+            rsx! {StackPanel{key:"alarm-editor-repeat",margin:(20.0,0.0),spacing:3.0,for row in rows{{row}}}}
         }
         Picker::Snooze => {
             let rows=ALARM_SNOOZE_MINUTES.into_iter().map(|minutes| {
                 let choose=ui.clone();let color=if editor.snooze.get()==minutes{common::accent(&vm)}else{common::fg(&vm)};
-                rsx!{Button{class:"phone-flat",content:format!("{minutes} minutes"),font_size:27.0,min_height:56.0,
+                rsx!{Button{key:format!("alarm-snooze-{minutes}"),class:"phone-flat",font_size:27.0,min_height:56.0,horizontal_alignment:H::Stretch,
                     foreground:color.as_str(),automation_properties_name:format!("Snooze {minutes} minutes"),
-                    on_click:move |_|{choose.state::<phone_alarm_service::AlarmState>().editor.snooze.set(minutes);choose.state::<phone_alarm_service::AlarmState>().editor.page.set(Picker::Main);}}}
+                    on_click:move |_|{choose.state::<phone_alarm_service::AlarmState>().editor.snooze.set(minutes);choose.state::<phone_alarm_service::AlarmState>().editor.page.set(Picker::Main);},
+                    TextBlock{text:format!("{minutes} minutes"),font_size:27.0,foreground:color.as_str()}
+                }}
             }).collect::<Vec<_>>();
-            rsx! {StackPanel{margin:(20.0,0.0),spacing:4.0,for row in rows{{row}}}}
+            rsx! {StackPanel{key:"alarm-editor-snooze",margin:(20.0,0.0),spacing:4.0,for row in rows{{row}}}}
         }
     };
     let save = ui.clone();

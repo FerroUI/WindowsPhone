@@ -49,6 +49,13 @@ pub(crate) fn install(styles: &Styles, p: &Palette) {
                     .build(),
             );
         }
+    }
+    // Every consumer of the shared content template has the same independent
+    // focus overlay, including native toggles and generated list containers.
+    for selector in BUTTON_SELECTORS.into_iter().chain([
+        "ToggleButton.phone-toggle",
+        "ListBox.phone-list ListBoxItem",
+    ]) {
         styles.add(
             style(&format!("{selector} /template/ Border#PhoneControlFocus"))
                 .set(Border::border_brush_property(), p.foreground)

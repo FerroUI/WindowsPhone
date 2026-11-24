@@ -1,4 +1,4 @@
-use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
+use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_controls::{primitives::ScrollBarVisibility, Control};
 use ferroui_dynamic_data::IObservableCache;
 use ferroui_view::prelude::*;
@@ -129,7 +129,7 @@ fn alphabet(ui: Rc<Session>, available: Vec<char>) -> Element {
     for (index, letter) in std::iter::once('#').chain('a'..='z').enumerate() {
         let close = ui.alphabet;
         let enabled = available.contains(&letter);
-        letters=letters.child(rsx!{Button{Grid.row:(index/4)as i32,Grid.column:(index%4)as i32,class:"phone-button",
+        letters=letters.child(rsx!{Button{Grid.row:(index/4)as i32,Grid.column:(index%4)as i32,class:"phone-button",horizontal_alignment:H::Stretch,vertical_alignment:V::Stretch,
             content:letter.to_string(),font_size:30.0,is_enabled:enabled,automation_properties_name:format!("Jump to {letter}"),
             on_click:move |event|{
                 let root=event.source().and_then(|source|source.cast::<Control>()).and_then(|source|source.find_ancestor_of_type_where::<Control>(true,|control|control.name().as_deref()==Some("PeopleRoot")));

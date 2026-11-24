@@ -127,7 +127,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             let palette = phone_controls::palette();
             let enabled = groups.contains_key(&letter);
             let jump = ui.clone();
-            cells.push(rsx!{Button{name:format!("AppJump-{letter}"),class:"phone-flat",height:cell,margin:5.0,is_enabled:enabled,opacity:1.0,automation_properties_name:format!("Jump to {letter}"),background:if enabled{palette.accent.as_str()}else{palette.subtle},horizontal_content_alignment:H::Center,
+            cells.push(rsx!{Button{name:format!("AppJump-{letter}"),class:"phone-flat",height:cell,margin:5.0,is_enabled:enabled,opacity:1.0,automation_properties_name:format!("Jump to {letter}"),background:if enabled{palette.accent.as_str()}else{palette.subtle},horizontal_alignment:H::Stretch,vertical_alignment:V::Stretch,horizontal_content_alignment:H::Center,vertical_content_alignment:V::Center,
                 on_click:move |_|{jump.alphabet.set(false);if let Some(scroll)=scroll_node.get_untracked(){jump.state::<crate::app_list::AppListState>().jump(&scroll,letter);}},
                 TextBlock{text:letter.to_string(),font_size:37.0,font_weight:FontWeight::Light,foreground:if enabled{"White"}else{palette.secondary}}
             }});

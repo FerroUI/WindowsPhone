@@ -178,7 +178,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             let alphabet = ui.alphabet;
             let list = state.list;
             let palette = phone_controls::palette();
-            cells=cells.child(rsx!{Button{name:format!("AppJump-{letter}"),class:"phone-flat",height:cell,margin:5.0,is_enabled:index.is_some(),background:if index.is_some(){palette.accent.as_str()}else{palette.subtle},automation_properties_name:format!("Jump to {letter}"),on_click:move|_|{alphabet.set(false);if let(Some(index),Some(list))=(index,list.get_untracked()){list.scroll_into_view(index as i32);}},TextBlock{text:letter.to_string(),font_size:37.0,foreground:if index.is_some(){"White"}else{palette.secondary}}}});
+            cells=cells.child(rsx!{Button{name:format!("AppJump-{letter}"),class:"phone-flat",height:cell,margin:5.0,is_enabled:index.is_some(),background:if index.is_some(){palette.accent.as_str()}else{palette.subtle},horizontal_alignment:H::Stretch,vertical_alignment:V::Stretch,horizontal_content_alignment:H::Center,vertical_content_alignment:V::Center,automation_properties_name:format!("Jump to {letter}"),on_click:move|_|{alphabet.set(false);if let(Some(index),Some(list))=(index,list.get_untracked()){list.scroll_into_view(index as i32);}},TextBlock{text:letter.to_string(),font_size:37.0,foreground:if index.is_some(){"White"}else{palette.secondary}}}});
         }
         content = rsx! {Grid{{content}Border{background:common::bg(&vm).as_str(),{common::scroll(cells.into())}}}};
     }

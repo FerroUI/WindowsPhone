@@ -43,6 +43,29 @@ export async function verifySdkGames(ctx) {
     await isRoute('Search');
     await edit('CortanaInput', query);
   };
+  const boardGeometry = async (name, prefix, columns, rows, gap, empty = false) => until(async () => {
+    const view = await snapshot();
+    const board = view.elements.find(element => element.name === name);
+    const page = view.elements.find(element => element.name === 'PhonePage');
+    if (!board || page?.projection !== null) return;
+    const cells = view.elements.filter(element => element.name?.startsWith(prefix));
+    assert.equal(cells.length, columns * rows, `${name}: every cell has rendered native bounds`);
+    const width = (board.width - gap * (columns - 1)) / columns;
+    const height = (board.height - gap * (rows - 1)) / rows;
+    assert(width > 0 && height > 0, `${name}: the board allocates positive cell bounds`);
+    return Array.from({length: columns * rows}, (_, index) => {
+      const cell = cells.find(element => element.name === `${prefix}${index}`);
+      assert(cell, `${name}: cell ${index} is mounted`);
+      const actual = [cell.x - board.x, cell.y - board.y, cell.width, cell.height];
+      const expected = [(index % columns) * (width + gap), Math.floor(index / columns) * (height + gap), width, height];
+      // Star tracks divide the native board into physical-pixel-rounded cells.
+      // Check the complete allocation, including empty cells with no content.
+      actual.forEach((value, axis) => assert(Math.abs(value - expected[axis]) <= 1,
+        `${name}: cell ${index} fills its grid slot (${actual} versus ${expected})`));
+      if (empty) assert(cell.hit && cell.enabled, `${name}: empty cell ${index} accepts native input`);
+      return actual;
+    });
+  }, `${name}: complete native grid geometry${empty ? ' with playable empty cells' : ''}`);
   const cellColor = async (image, name, rgb, label) => {
     const view = await snapshot();
     const cell = view.elements.find(element => element.name === name);
@@ -86,19 +109,26 @@ export async function verifySdkGames(ctx) {
       assert.deepEqual(await state(), beforeSearch, 'local discovery and open commands do not change app data');
       await clickLabel('more'); await clickLabel('two players');
       await until(async () => (await saved(tic))?.game.mode === 'TwoPlayers', 'two-player mode saved');
+      const emptyBoard = await boardGeometry('TicTacToeBoard', 'TicTacToeCell', 3, 3, 5, true);
+      await capture('sdk-tic-tac-toe-empty-playable-board');
       for (const index of [0, 3, 1, 4, 2]) await clickName(`TicTacToeCell${index}`);
       await until(async () => (await saved(tic))?.local_scores[0] === 1, 'single completed local win');
       await textPresent('X wins');
       const completed = await saved(tic);
       assert.deepEqual(completed.game.moves, [0, 3, 1, 4, 2]);
       assert.deepEqual(completed.local_scores, [1, 0, 0]);
+      assert.deepEqual(await boardGeometry('TicTacToeBoard', 'TicTacToeCell', 3, 3, 5), emptyBoard,
+        'occupied and completed cells retain their original input bounds');
       const completedImage = await capture('sdk-tic-tac-toe-completed-game');
       await cellColor(completedImage, 'TicTacToeCell0', [27, 161, 226], 'completed X remains accent colored');
       await cellColor(completedImage, 'TicTacToeCell3', [255, 255, 255], 'completed O remains white');
       await reload(); await launch(tic);
       assert.deepEqual(await saved(tic), completed, 'board and scores survive a real reload');
       await textPresent('X wins');
+      assert.deepEqual(await boardGeometry('TicTacToeBoard', 'TicTacToeCell', 3, 3, 5), emptyBoard,
+        'reloaded completed cells retain the same grid allocation');
       await clickLabel('more'); await clickLabel('against phone');
+      await boardGeometry('TicTacToeBoard', 'TicTacToeCell', 3, 3, 5, true);
       await clickName('TicTacToeCell0');
       await until(async () => (await saved(tic))?.game.moves.length === 2, 'complete phone reply');
       await clickLabel('undo');
@@ -109,6 +139,8 @@ export async function verifySdkGames(ctx) {
 
     await check('registered Minesweeper provides safe first reveal, flags, transient clock and resumable state', async () => {
       await launch(mines);
+      const emptyBoard = await boardGeometry('MinesweeperBoard', 'MineCell', 8, 8, 2, true);
+      await capture('sdk-minesweeper-empty-playable-board');
       await clickName('MineCell0');
       await until(async () => (await saved(mines))?.game.first === 0, 'first reveal persisted');
       let data = await saved(mines);
@@ -130,6 +162,8 @@ export async function verifySdkGames(ctx) {
       assert.deepEqual(await saved(mines), data, 'clock does not mutate the game model');
       assert.equal(await page.evaluate("localStorage.getItem('ferroui.windows-phone.v1')"), bytes,
         'clock does not persist phone data');
+      assert.deepEqual(await boardGeometry('MinesweeperBoard', 'MineCell', 8, 8, 2), emptyBoard,
+        'revealed and flagged cells retain their original grid allocation');
       const playingImage = await capture('sdk-minesweeper-playing');
       await cellColor(playingImage, `MineCell${hidden}`, [255, 189, 56], 'native flag is visibly amber');
       await reload(); await launch(mines);

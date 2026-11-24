@@ -42,7 +42,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let page_motion = ui.state::<crate::page_motion::NavigationMotion>();
     let picker_open = phone_controls::has_open_phone_picker();
     let obscured = locked || alert || ui.preview_obscured(&route) || !vm.status().is_empty();
-    if page_motion.route_departing(&route) || obscured {
+    // An app-local editor is excluded from previews, but it may own this
+    // picker. Ordinary redraws must not dismiss the editor's staged selection.
+    // Only leaving its route or an actual shell/privacy takeover does that.
+    if page_motion.route_departing(&route) || ui.shell_obscured(&route) || !vm.status().is_empty() {
         phone_controls::close_phone_pickers();
     }
     // Capture the old settled page before route cleanup changes any of its
@@ -164,6 +167,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         rsx! {Grid{name:"WindowsPhoneApp",background:background.as_str(),{screen}}}
     }
 }
+
+#[cfg(test)]
+mod tests;
 
 #[derive(Default)]
 struct PrivacyState {

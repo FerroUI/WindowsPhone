@@ -4,7 +4,7 @@ use ferroui_base::animation::SignedDuration;
 use ferroui_base::input::{Key, PhysicalKey, RawInputModifiers};
 use ferroui_base::threading::{CancellationToken, Dispatcher};
 use ferroui_base::utilities::DateTimeOffset;
-use ferroui_base::{ObjectType, Ref};
+use ferroui_base::{AnyValue, ObjectType, Ref};
 use ferroui_controls::primitives::{DateTimePickerPanel, Popup};
 use ferroui_controls::{
     AppBuilder, Application, Button, Control, DatePicker, Grid, ListBoxItem, TimePicker, Window,
@@ -56,6 +56,37 @@ fn date(year: i32, month: i32, day: i32) -> DateTimeOffset {
     DateTimeOffset::new(year, month, day, 0, 0, 0, SignedDuration::ZERO)
 }
 
+fn assert_centered_wheel(panel: &DateTimePickerPanel) {
+    let children = panel.children().snapshot();
+    let selected = children
+        .iter()
+        .filter_map(|child| child.cast::<ListBoxItem>())
+        .find(|item| item.is_selected())
+        .expect("a native wheel has one selected container");
+    let bounds = selected.bounds();
+    assert!(
+        (bounds.y + bounds.height / 2.0 - panel.bounds().height / 2.0).abs() < 1.0,
+        "selected value stays centered after the native ring grows: item {bounds:?}, panel {:?}",
+        panel.bounds()
+    );
+    for child in children.iter() {
+        let item = child.cast::<ListBoxItem>().unwrap();
+        assert!(
+            item.tag()
+                .is_some_and(|tag| { (&*tag as &dyn AnyValue).downcast_ref::<i32>().is_some() }),
+            "every recycled native slot receives its value after a viewport resize"
+        );
+        assert!(
+            item.content().is_some_and(|content| {
+                (&*content as &dyn AnyValue)
+                    .downcast_ref::<String>()
+                    .is_some_and(|text| !text.is_empty())
+            }),
+            "expanded native slots contain formatted values instead of blank cells"
+        );
+    }
+}
+
 #[test]
 fn native_phone_date_page_preserves_staging_range_and_palette_identity() {
     let session = HeadlessUnitTestSession::start_new(|| {
@@ -102,6 +133,23 @@ fn native_phone_date_page_preserves_staging_range_and_palette_identity() {
                 let year = part::<DateTimePickerPanel>(&presenter, "PART_YearSelector");
                 assert_eq!((year.minimum_value(), year.maximum_value()), (2020, 2030));
                 assert!((month.item_height() - 148.0 * 320.0 / 480.0).abs() < 0.01);
+                for panel in [&month, &day, &year] {
+                    assert_centered_wheel(panel);
+                }
+                // Growing only the viewport height does not change item
+                // pitch. It must still populate the native panel's larger
+                // recycled ring, preserving its staged date and focus.
+                for height in [820.0, 600.0] {
+                    window.set_height(height);
+                    frame();
+                    for panel in [&month, &day, &year] {
+                        assert_centered_wheel(panel);
+                    }
+                    assert_eq!(month.selected_value(), 1);
+                    assert_eq!(day.selected_value(), 31);
+                    assert_eq!(year.selected_value(), 2024);
+                    assert_eq!(picker.selected_date(), Some(original));
+                }
                 assert!(month.focus());
                 key(&window, Key::Down, PhysicalKey::ArrowDown);
                 assert_eq!(

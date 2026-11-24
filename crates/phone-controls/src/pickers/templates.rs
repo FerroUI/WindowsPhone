@@ -97,6 +97,18 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
                         .set(TemplatedControl::template_property(), Some(item_template()))
                         .build(),
                 );
+                let weak_selector = selector.downgrade();
+                selector.size_changed(move |_, _| {
+                    if let Some(selector) = weak_selector.upgrade() {
+                        // The native panel grows its recycled ring when the
+                        // popup becomes a full phone page, but refreshes the
+                        // ring's labels only on its initial measure. Populate
+                        // the new slots and recenter the selected container
+                        // after every real viewport resize. Selection, offset
+                        // and scrolling remain owned by the native panel.
+                        selector.refresh_items();
+                    }
+                });
                 let weak_wheels = wheels.downgrade();
                 let weak_selector = selector.downgrade();
                 selector.add_handler_with(

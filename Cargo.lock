@@ -2415,6 +2415,7 @@ dependencies = [
  "ferroui-build",
  "ferroui-controls",
  "ferroui-dynamic-data",
+ "ferroui-headless",
  "ferroui-reactive",
  "ferroui-reactiveui",
  "ferroui-view",

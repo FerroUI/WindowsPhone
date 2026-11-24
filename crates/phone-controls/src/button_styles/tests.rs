@@ -1,12 +1,12 @@
 use super::*;
-use ferroui_base::Ref;
 use ferroui_base::input::{Key, KeyModifiers, NavigationMethod, PhysicalKey, RawInputModifiers};
 use ferroui_base::media::{Color, IBrush};
 use ferroui_base::threading::{CancellationToken, Dispatcher};
+use ferroui_base::{Point, Ref};
 use ferroui_controls::presenters::ContentPresenter;
-use ferroui_controls::primitives::ToggleButton;
+use ferroui_controls::primitives::{AdornerLayer, ToggleButton};
 use ferroui_controls::{
-    AppBuilder, Application, Button, Control, ListBox, PathIcon, Slider, Window,
+    AppBuilder, Application, Button, Control, Grid, ListBox, PathIcon, Slider, Window,
 };
 use ferroui_headless::{
     FerroHeadlessPlatform, FerroHeadlessPlatformExtensions, FerroHeadlessPlatformOptions,
@@ -43,6 +43,11 @@ fn native_commands_keep_focus_geometry_and_template_parts_across_palette_changes
                         crate::command_button("save", move || calls.set(calls.get() + 1))
                             .name("CommandUnderTest"),
                     )
+                    .child(rsx! {Grid{name:"FiniteButtonGrid",height:70.0,column_definitions:"*,*",
+                        Button{name:"FlatUnderTest",class:"phone-flat",background:"#174E75",foreground:"#E4A80D"}
+                        Button{Grid.column:1,name:"AlignedUnderTest",class:"phone-flat",content:"local",
+                            horizontal_alignment:H::Right,vertical_alignment:V::Bottom}
+                    }})
                     .child(crate::app_bar(
                         vec![crate::action(crate::Icon::Plus, "add", || {})],
                         false,
@@ -88,6 +93,17 @@ fn native_commands_keep_focus_geometry_and_template_parts_across_palette_changes
                         c.has_name("PhoneControlFocus")
                     })
                     .unwrap();
+                let grid = root.find_descendant_of_type_where::<Grid>(false, |c| c.has_name("FiniteButtonGrid")).unwrap();
+                let flat = root.find_descendant_of_type_where::<Button>(false, |c| c.has_name("FlatUnderTest")).unwrap();
+                let flat_presenter = flat.find_descendant_of_type::<ContentPresenter>(false).unwrap();
+                let aligned = root.find_descendant_of_type_where::<Button>(false, |c| c.has_name("AlignedUnderTest")).unwrap();
+                assert_eq!(flat.bounds().width, grid.bounds().width / 2.0, "an empty phone button fills its finite grid column");
+                assert_eq!(flat.bounds().height, grid.bounds().height, "phone buttons retain the former full-height layout default");
+                assert_eq!(aligned.horizontal_alignment(), H::Right, "explicit caller alignment retains precedence");
+                assert_eq!(aligned.vertical_alignment(), V::Bottom);
+                assert!(aligned.bounds().width < flat.bounds().width);
+                assert_eq!(aligned.bounds().right(), grid.bounds().width);
+                assert_eq!(aligned.bounds().bottom(), grid.bounds().height);
                 let action = root
                     .find_descendant_of_type_where::<Button>(false, |c| {
                         c.has_name("AppBarAction-add")
@@ -160,8 +176,16 @@ fn native_commands_keep_focus_geometry_and_template_parts_across_palette_changes
                     assert!(Ref::ptr_eq(&item_presenter, &item.find_descendant_of_type::<ContentPresenter>(false).unwrap()));
                     assert_eq!(list.selected_index(),0);
                     let p = crate::palette();
+                    let point = flat.translate_point(Point::new(flat.bounds().width / 2.0, flat.bounds().height / 2.0), &window).unwrap();
+                    window.mouse_move(point, RawInputModifiers::NONE);
+                    frame();
+                    assert!(flat.is_pointer_over(), "the native pointer actually reaches the flat button");
+                    assert_eq!(color(flat_presenter.background()), Color::parse("#174E75").unwrap(), "WinUI hover must not replace a phone row's local background");
+                    assert_eq!(color(flat_presenter.foreground()), Color::parse("#E4A80D").unwrap(), "WinUI hover must not replace a phone row's local ink");
                     assert!(command.focus_with(NavigationMethod::Tab, KeyModifiers::NONE));
                     frame();
+                    assert!(command.focus_adorner().is_none(), "the phone overlay replaces the host-theme focus adorner");
+                    assert!(AdornerLayer::get_adorner_layer(&command).unwrap().children().snapshot().is_empty(), "native keyboard focus must not add a second focus decoration");
                     assert_eq!(
                         focus.opacity(),
                         1.0,
@@ -204,6 +228,8 @@ fn native_commands_keep_focus_geometry_and_template_parts_across_palette_changes
                         color(command.background()),
                         Color::parse(p.foreground).unwrap()
                     );
+                    assert_eq!(color(presenter.background()), Color::parse(p.foreground).unwrap(), "the rendered presenter must use phone pressed fill");
+                    assert_eq!(color(presenter.foreground()), Color::parse(p.background).unwrap(), "the rendered presenter must use phone pressed ink");
                     assert_eq!(
                         color(text.foreground()),
                         Color::parse(p.background).unwrap()
@@ -252,6 +278,8 @@ fn native_commands_keep_focus_geometry_and_template_parts_across_palette_changes
                     color(text.foreground()),
                     Color::parse(crate::palette().secondary).unwrap()
                 );
+                assert_eq!(color(presenter.foreground()), Color::parse(crate::palette().secondary).unwrap(), "the rendered disabled presenter keeps phone secondary ink");
+                assert_eq!(color(presenter.background()), color(command.background()), "the rendered disabled presenter keeps the phone surface");
                 assert_eq!(
                     command.opacity(),
                     1.0,

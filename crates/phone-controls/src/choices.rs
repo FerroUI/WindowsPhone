@@ -68,6 +68,7 @@ pub(crate) fn install_templates(styles: &Styles) {
         styles.add(
             style(selector)
                 .set(TemplatedControl::template_property(), Some(template(radio)))
+                .set(Control::focus_adorner_property(), None)
                 .build(),
         );
     }

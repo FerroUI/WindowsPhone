@@ -94,10 +94,31 @@ export async function verifyPhoneControlStates(ctx) {
         const normalView = await snapshot();
         const outline = onePart(normalView, checked, "PhoneChoiceOutline");
         const mark = onePart(normalView, checked, "PhoneChoiceCheck");
-        near(outline.width, 32 * 400 / 480, "Toolkit checkbox width scales from the 480-pixel reference");
-        near(outline.height, 32 * 400 / 480, "Toolkit checkbox height scales from the 480-pixel reference");
-        near(mark.width, 23 * 400 / 480, "Toolkit check width");
-        near(mark.height, 21 * 400 / 480, "Toolkit check height");
+        const backing = await page.evaluate(`(() => {
+          const canvas = document.querySelector("#out canvas");
+          return { width: canvas.width, height: canvas.height };
+        })()`);
+        const scale = backing.width / normalView.width;
+        assert(Number.isFinite(scale) && scale > 0 &&
+          Math.abs(scale - backing.height / normalView.height) < 0.000001,
+        "native viewport and canvas must establish one uniform pixel density");
+        // LayoutHelper::round_layout_size_up rounds arranged native sizes to
+        // whole device pixels. At the observed 1× density the requested
+        // 26.6667 square and 19.1667×17.5 mark therefore render as 27 and 20×18.
+        // Source geometry itself is separately checked with rounding disabled
+        // by the mounted Rust regression; this gate checks the rendered size.
+        const pixels = reference => {
+          const requested = reference * 400 / 480;
+          const normalized = scale === 1 ? requested : Math.round(requested * 1e8) / 1e8;
+          return Math.ceil(normalized * scale) / scale;
+        };
+        for (const [actual, expected, label] of [
+          [outline.width, pixels(32), "Toolkit checkbox width"],
+          [outline.height, pixels(32), "Toolkit checkbox height"],
+          [mark.width, pixels(23), "Toolkit check width"],
+          [mark.height, pixels(21), "Toolkit check height"],
+        ]) assert(Math.abs(actual - expected) < 0.01 / scale,
+          `${label} must match native pixel rounding: ${actual} versus ${expected} at ${scale}×`);
         sameColor(mark.foreground, foreground, "normal check ink follows the phone palette");
 
         heldPointer = centre(checked);

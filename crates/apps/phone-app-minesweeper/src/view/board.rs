@@ -12,6 +12,7 @@ pub fn view(context: &AppContext, game: &Game, flag_mode: bool) -> Element {
     let columns = vec!["*"; width].join(",");
     let rows = vec!["*"; height].join(",");
     let mut board = grid()
+        .name("MinesweeperBoard")
         .width(size)
         .height(size * height as f64 / width as f64)
         .column_definitions(&columns)
@@ -76,6 +77,7 @@ pub fn view(context: &AppContext, game: &Game, flag_mode: bool) -> Element {
             Grid.column:(index % width) as i32, Grid.row:(index / width) as i32,
             Button {
                 class:"phone-flat", name:format!("MineCell{index}"),
+                horizontal_alignment:H::Stretch, vertical_alignment:V::Stretch,
                 min_width:0.0, min_height:0.0, padding:0.0,
                 horizontal_content_alignment:H::Center, vertical_content_alignment:V::Center,
                 background:if hit {"#C42B1C"} else if cell.revealed {if dark {"#161616"} else {"#F1F1F1"}} else {if dark {"#383838"} else {"#CCCCCC"}},

@@ -34,6 +34,28 @@ export async function verifyAlarmRefinements(ctx) {
     await settled();
   };
   const noAlert=async()=>!(await snapshot()).elements.some(element=>element.name==="PhoneAlarm");
+  const snoozeChoices=async selected=>{
+    const minutes=[5,10,20,30,60];
+    const rendered=await until(async()=>{
+      const view=await snapshot();
+      const rows=minutes.map(value=>view.elements.find(element=>button(element)&&
+        element.automationName===`Snooze ${value} minutes`&&element.hit&&element.enabled));
+      return rows.every(row=>row&&row.width>0&&row.height>=56)&&{view,rows};
+    },"all five native snooze choices are rendered and interactive");
+    const screen=rendered.view.elements.find(element=>element.name==="PhoneScreen");
+    const color=value=>value?.toLowerCase().replace(/^#ff(?=[0-9a-f]{6}$)/,"#");
+    for(const [index,row] of rendered.rows.entries()){
+      assert(Math.abs(row.width-(screen.width-40))<0.01,
+        `Snooze ${minutes[index]} must retain the full editor row target`);
+      const caption=rendered.view.elements.find(element=>element.type==="TextBlock"&&
+        element.text===`${minutes[index]} minutes`&&element.width>0&&element.height>0&&
+        element.x>=row.x&&element.x<row.x+row.width&&element.y>=row.y&&element.y<row.y+row.height);
+      assert(caption,`Snooze ${minutes[index]} must retain its visible native caption`);
+      assert.equal(color(caption.foreground),color(minutes[index]===selected?fixture.settings.accent:
+        fixture.settings.dark?"#FFFFFF":"#000000"),
+      `Snooze ${minutes[index]} caption must expose the actual selection color`);
+    }
+  };
   let frozen=false;
   try {
     await load(fixture);
@@ -44,7 +66,10 @@ export async function verifyAlarmRefinements(ctx) {
       await choose("Choose alarm repeat days");
       await clickLabel("Monday, not selected");await clickLabel("Wednesday, not selected");
       await clickLabel("done");
-      await choose("Choose alarm snooze time");await clickLabel("Snooze 20 minutes");
+      await choose("Choose alarm snooze time");await snoozeChoices(5);
+      await clickLabel("Snooze 20 minutes");
+      await choose("Choose alarm snooze time");await snoozeChoices(20);
+      await capture("alarm-native-snooze-choices");await clickLabel("done");
       await capture("alarm-native-editor");
       await clickLabel("save");
       const saved=await until(async()=>(await state()).alarms.find(alarm=>alarm.label==="Native repeating alarm"),

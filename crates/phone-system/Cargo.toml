@@ -24,3 +24,6 @@ phone-alarm-service.workspace = true
 
 [build-dependencies]
 ferroui-build.workspace = true
+
+[dev-dependencies]
+ferroui-headless.workspace = true

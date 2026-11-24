@@ -49,6 +49,13 @@ export async function verifyPhonePickers(ctx) {
     for(const name of ["PART_AcceptButton","PART_DismissButton","PhonePickerMore"]){
       const command=named(view,name);assert(command?.hit&&inside(command,picker),`${name} is reachable inside the picker page`);
     }
+    for(const selector of view.elements.filter(element=>element.type.endsWith("DateTimePickerPanel"))){
+      const selected=view.elements.filter(element=>element.type.endsWith("ListBoxItem")&&
+        element.opacity===1&&element.hit&&inside(element,selector));
+      assert.equal(selected.length,1,`${selector.name} renders one selected native cell inside its column`);
+      near(selected[0].y+selected[0].height/2,selector.y+selector.height/2,
+        `${selector.name} keeps the selected cell vertically centered after full-page layout`);
+    }
     assert(named(view,"HardwareBack")?.hit,"native hardware Back remains reachable while the picker is open");
     return view;
   };
