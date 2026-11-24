@@ -8,6 +8,27 @@ const runtimeInputs = [
   "rust-toolchain.toml", "scripts/build-browser.sh", "scripts/prepare-site.mjs",
 ];
 
+export function resolveReuseRun({ input = "", commitMessage = "", eventName = "" }) {
+  const inputRun = input.trim();
+  // Recognize malformed variants too, so a broken request cannot silently
+  // fall back to a normal build. Only the exact marker syntax is accepted.
+  const starts = [...commitMessage.matchAll(/\[\s*reuse-run/gi)];
+  assert(starts.length <= 1, "Duplicate or conflicting reuse-run markers");
+  let markerRun = "";
+  if (starts.length) {
+    const marker = /^\[reuse-run:([1-9][0-9]*)\]/.exec(commitMessage.slice(starts[0].index));
+    assert(marker, "Malformed reuse marker; expected [reuse-run:RUN_ID]");
+    markerRun = marker[1];
+  }
+  assert(!(inputRun && markerRun), "Duplicate or conflicting reuse_run input and commit marker");
+  const runId = inputRun || markerRun;
+  if (!runId) return null;
+  assert(/^[1-9][0-9]*$/.test(runId) && Number.isSafeInteger(Number(runId)), "reuse_run must be a run ID");
+  assert.equal(eventName, inputRun ? "workflow_dispatch" : "push",
+    "Reuse input requires workflow_dispatch; a reuse marker requires push");
+  return runId;
+}
+
 export function validateRun(run, repository, runId) {
   assert.equal(String(run.id), runId, "The API returned a different run");
   assert.equal(run.repository?.full_name, repository, "Run belongs to another repository");
@@ -41,9 +62,16 @@ export function validateArtifact(artifacts, run) {
 }
 
 async function main() {
-  const runId = (process.env.PHONE_REUSE_RUN || "").trim();
+  const runId = resolveReuseRun({
+    input: process.env.PHONE_REUSE_RUN || "",
+    commitMessage: process.env.PHONE_REUSE_COMMIT_MESSAGE || "",
+    eventName: process.env.GITHUB_EVENT_NAME || "",
+  });
+  if (runId === null) {
+    console.log("No compiled artifact reuse requested.");
+    return;
+  }
   const repository = process.env.GITHUB_REPOSITORY || "";
-  assert(/^[1-9][0-9]*$/.test(runId) && Number.isSafeInteger(Number(runId)), "reuse_run must be a run ID");
   assert(/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository), "Invalid repository");
   assert.equal(process.env.GITHUB_REF, "refs/heads/main", "Replay must run from main");
   assert(process.env.GITHUB_TOKEN && process.env.GITHUB_OUTPUT, "Missing Actions credentials or output");
@@ -64,7 +92,7 @@ async function main() {
   verifyRuntimeSources(sha);
   const listed = await api(`actions/runs/${runId}/artifacts?name=compiled-app&per_page=100`);
   const artifactId = validateArtifact(listed.artifacts, run);
-  await appendFile(process.env.GITHUB_OUTPUT, `artifact_id=${artifactId}\nsource_sha=${sha}\n`);
+  await appendFile(process.env.GITHUB_OUTPUT, `run_id=${runId}\nartifact_id=${artifactId}\nsource_sha=${sha}\n`);
   console.log(`Verified compiled-app ${artifactId} from run ${runId} (${sha}); runtime sources match HEAD.`);
 }
 

@@ -330,7 +330,12 @@ export async function verifyMetroControls(ctx) {
       await selectedPivot(0);
       await stable(element => element.name === "GameLaunch-org.ferroui.minesweeper", "Collection pane");
       await page.send("Emulation.setTouchEmulationEnabled", { enabled: false });
-      await clickLabel("player");
+      // Native Pivot exposes its automation name on PivotItem; its separate
+      // presentation header is a hit-testable PivotHeaderItem with text. Wait
+      // for that header's rendered position after wrapping, then send real input.
+      await page.click(...centre(await stable(element =>
+        /PivotHeaderItem$/.test(element.type) && element.text === "player",
+      "Native player pivot header")));
       await selectedPivot(1);
       await stable(element => element.text === "local player", "Header-selected player pane", false);
       await control(element => element.name === "HeaderClipper" && element.focused,

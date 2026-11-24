@@ -50,10 +50,10 @@ jobs:
           cache: npm
           cache-dependency-path: FerroUI/src/Browser/FerroUI.Browser/webapp/package-lock.json
       - name: Validate compiled artifact reuse
-        if: inputs.reuse_run != ''
         id: reuse
         env:
           PHONE_REUSE_RUN: ${{ inputs.reuse_run }}
+          PHONE_REUSE_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/verify-reuse.mjs
       - name: Read framework tool pins
@@ -132,7 +132,7 @@ jobs:
           merge-multiple: true
           path: target/browser/phone-browser
           repository: ${{ github.repository }}
-          run-id: ${{ inputs.reuse_run }}
+          run-id: ${{ steps.reuse.outputs.run_id }}
           github-token: ${{ github.token }}
       - name: Verify reused module links
         if: steps.reuse.outputs.artifact_id != ''

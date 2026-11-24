@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 // Verify the rendered Device app against this browser's actual capability
 // description. This gate never asks for an OS permission or opens a share UI.
 export async function verifyPlatformRefinements(ctx) {
-  const {page, check, state, snapshot, capture, clickLabel, textPresent, isRoute, button} = ctx;
+  const {page, check, state, snapshot, capture, control, clickLabel, textPresent, isRoute, button} = ctx;
   const original = await state();
   const fixture = structuredClone(original);
   Object.assign(fixture.settings, {lock_timeout: 0, reduced_motion: true});
@@ -26,11 +26,21 @@ export async function verifyPlatformRefinements(ctx) {
       await isRoute({Extension: {app: 'org.ferroui.device', path: ''}});
       await textPresent('web browser · application');
       await textPresent('Home role: unavailable\nShell session: unavailable');
+      const services = [['notifications', 'allow notifications'], ['haptics', 'try haptic feedback']];
+      // Parent text can acquire a composition readback before newly attached
+      // commands. Require actual rendered controls for supported services;
+      // the snapshot below still checks exact presence and absence.
+      for (const [feature, label] of services) {
+        if (observed.features.includes(feature)) {
+          await control(element => button(element) && element.automationName === label,
+            `${label} rendered from observed API support`);
+        }
+      }
       const view = await snapshot();
       assert(!view.elements.some(element => element.name === 'DeviceApplicationList'));
       assert(!view.elements.some(element => button(element) &&
         ['choose as home app', 'application settings', 'network settings'].includes(element.automationName)));
-      for (const [feature, label] of [['notifications', 'allow notifications'], ['haptics', 'try haptic feedback']]) {
+      for (const [feature, label] of services) {
         assert.equal(view.elements.some(element => button(element) && element.automationName === label),
           observed.features.includes(feature), `${label} follows the provider's observed API support`);
       }
