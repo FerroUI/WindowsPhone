@@ -84,6 +84,7 @@ jobs:
           bash -n scripts/smoke-android.sh scripts/smoke-android-home.sh scripts/smoke-android-device.sh scripts/smoke-android-notifications.sh
           bash scripts/test-android-contracts.sh
           python3 scripts/verify_android_package_test.py
+          python3 scripts/verify_android_home_test.py
           python3 scripts/verify_android_ui_test.py
           python3 scripts/verify_android_device_test.py
           python3 scripts/verify_android_bootstrap_test.py

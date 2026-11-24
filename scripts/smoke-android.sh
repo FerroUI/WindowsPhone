@@ -175,8 +175,58 @@ adb_shell wm density > "$phone_out/display-density.txt"
 phone_user="$(adb_shell am get-current-user | tr -d '\r\n')"
 [[ "$phone_user" =~ ^[0-9]+$ ]]
 printf '%s\n' "$phone_user" > "$phone_out/user-before.txt"
-adb_shell cmd role get-role-holders --user "$phone_user" android.app.role.HOME \
-    | tr -d '\r' | sort > "$phone_out/home-before.txt"
+phase 'Waiting for completed provisioning and a stable eligible HOME baseline'
+# sys.boot_completed can precede the setup app disabling its temporary HOME
+# component. Preserve raw read-only observations and never restore that transient
+# holder merely because RoleManager reported it once during first boot.
+phone_home_deadline=$((SECONDS + 120))
+home_readiness_query() {
+    local name="$1" status=0 remaining=$((phone_home_deadline - SECONDS - 5))
+    shift
+    # Reserve the private-AVD identity check's five-second bound as well.
+    if [ "$remaining" -le 0 ]; then return 1; fi
+    if [ "$remaining" -gt 5 ]; then remaining=5; fi
+    ADB_TIMEOUT="$remaining" adb_shell "$@" > "$phone_home_sample/$name.txt" \
+        2> "$phone_home_sample/$name.error.txt" || status=$?
+    printf '%s\n' "$status" > "$phone_home_sample/$name.status"
+    return "$status"
+}
+phone_home_attempt=0
+phone_home_previous=""
+phone_home_ready=0
+while [ "$SECONDS" -lt "$phone_home_deadline" ]; do
+    if [ "$((phone_home_deadline - SECONDS))" -le 5 ]; then break; fi
+    phone_home_attempt=$((phone_home_attempt + 1))
+    phone_home_sample="$phone_out/home-readiness/$phone_home_attempt"
+    mkdir -p "$phone_home_sample"
+    date -u +%Y-%m-%dT%H:%M:%SZ > "$phone_home_sample/observed-at.txt"
+    if home_readiness_query user am get-current-user \
+        && home_readiness_query device-provisioned settings get global device_provisioned \
+        && home_readiness_query user-setup-complete settings --user "$phone_user" get secure user_setup_complete \
+        && home_readiness_query holders cmd role get-role-holders --user "$phone_user" android.app.role.HOME \
+        && home_readiness_query resolved cmd package resolve-activity --components --user "$phone_user" \
+            -a android.intent.action.MAIN -c android.intent.category.HOME \
+        && home_readiness_query activities cmd package query-activities --components --user "$phone_user" \
+            -a android.intent.action.MAIN -c android.intent.category.HOME \
+        && home_readiness_query holders-after cmd role get-role-holders --user "$phone_user" android.app.role.HOME \
+        && home_readiness_query user-after am get-current-user; then
+        if [ -n "$phone_home_previous" ] && python3 "$phone_repo/scripts/verify_android_home.py" \
+            "$phone_home_previous" "$phone_home_sample" "$phone_user" \
+            > "$phone_out/home-before.tmp" 2> "$phone_out/home-readiness-error.txt"; then
+            mv "$phone_out/home-before.tmp" "$phone_out/home-before.txt"
+            printf '%s\n%s\n' "${phone_home_previous##*/}" "$phone_home_attempt" \
+                > "$phone_out/home-readiness-accepted.txt"
+            phone_home_ready=1
+            break
+        fi
+    fi
+    phone_home_previous="$phone_home_sample"
+    if [ "$((SECONDS + 2))" -lt "$phone_home_deadline" ]; then sleep 2; else break; fi
+done
+if [ "$phone_home_ready" != 1 ]; then
+    printf 'Timed out waiting for a provisioned, stable and eligible original HOME; see home-readiness observations\n' >&2
+    exit 1
+fi
 adb_do logcat -c
 
 wait_for_view() {
