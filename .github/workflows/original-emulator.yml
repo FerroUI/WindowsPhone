@@ -4,18 +4,25 @@ on:
     branches: [main]
     paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Official Microsoft media to attempt on a fresh runner
+        type: choice
+        options: [web, offline-iso]
+        default: web
 permissions:
   contents: read
 concurrency:
-  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-original-emulator]')) && 'windows-phone-original-emulator' || format('windows-phone-original-emulator-skip-{0}', github.run_id) }}
+  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-original-emulator]') || contains(github.event.head_commit.message, '[verify-original-emulator-iso]')) && 'windows-phone-original-emulator' || format('windows-phone-original-emulator-skip-{0}', github.run_id) }}
   cancel-in-progress: true
 jobs:
   reference-setup:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-original-emulator]')
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-original-emulator]') || contains(github.event.head_commit.message, '[verify-original-emulator-iso]')
     runs-on: windows-2022
     timeout-minutes: 20
     env:
       PYTHONDONTWRITEBYTECODE: 1
+      ORIGINAL_EMULATOR_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || contains(github.event.head_commit.message, '[verify-original-emulator-iso]') && 'offline-iso' || 'web' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,11 +43,15 @@ jobs:
             exit 1
           }
       - name: Attempt the signature-verified vendor setup without reboot
-        timeout-minutes: 13
+        timeout-minutes: 17
         shell: pwsh
         run: |
           $evidence = Join-Path $env:RUNNER_TEMP 'original-emulator-evidence'
           [void][IO.Directory]::CreateDirectory($evidence)
+          # The offline image is 986,316,800 bytes. Give its streamed download and
+          # normal setup 15 minutes, plus one minute for probes and cleanup.
+          $budgetSeconds = if ($env:ORIGINAL_EMULATOR_MODE -eq 'offline-iso') { 900 } else { 600 }
+          $watchdogSeconds = $budgetSeconds + 60
           # An independent parent also bounds HTTP/signature calls, including
           # failures that prevent the child script from reaching its finally.
           $start = [Diagnostics.ProcessStartInfo]::new()
@@ -48,17 +59,18 @@ jobs:
           $start.UseShellExecute = $false
           foreach ($argument in @('-NoProfile', '-NonInteractive', '-File',
               (Join-Path $PWD 'scripts/attempt-original-emulator.ps1'),
-              '-OutputDirectory', $evidence, '-TimeoutSeconds', '600')) {
+              '-OutputDirectory', $evidence, '-Mode', $env:ORIGINAL_EMULATOR_MODE,
+              '-TimeoutSeconds', [string]$budgetSeconds)) {
             $start.ArgumentList.Add($argument)
           }
           $attempt = [Diagnostics.Process]::Start($start)
           $watch = [Diagnostics.Stopwatch]::StartNew()
-          $record = [ordered]@{ pid = $attempt.Id; timeout_seconds = 600; timed_out = $false }
+          $record = [ordered]@{ pid = $attempt.Id; mode = $env:ORIGINAL_EMULATOR_MODE; timeout_seconds = $watchdogSeconds; download_setup_budget_seconds = $budgetSeconds; timed_out = $false }
           $attemptExit = 1
           try {
-            if (-not $attempt.WaitForExit(600000)) {
+            if (-not $attempt.WaitForExit($watchdogSeconds * 1000)) {
               $record.timed_out = $true
-              throw 'The complete reference-setup attempt exceeded 10 minutes.'
+              throw "The complete reference-setup attempt exceeded $watchdogSeconds seconds."
             }
             $record.exit_code = $attempt.ExitCode
             $attemptExit = $attempt.ExitCode
@@ -73,23 +85,54 @@ jobs:
             $attempt.Dispose()
           }
           exit $attemptExit
-      - name: Preserve a final read-only probe after an interrupted attempt
+      - name: Dismount the owned ISO and preserve a final probe after interruption
         if: always()
         timeout-minutes: 2
         shell: pwsh
         run: |
           $evidence = Join-Path $env:RUNNER_TEMP 'original-emulator-evidence'
           [void][IO.Directory]::CreateDirectory($evidence)
+          $markerPath = Join-Path $evidence 'mounted-iso.json'
+          $cleanup = [ordered]@{ marker_present = (Test-Path $markerPath); failed = $false }
+          try {
+            if ($cleanup.marker_present) {
+              $marker = Get-Content -LiteralPath $markerPath -Raw | ConvertFrom-Json
+              $ownedRoot = [IO.Path]::GetFullPath($marker.work_root)
+              $ownedIso = [IO.Path]::GetFullPath($marker.image_path)
+              # Do not eject unrelated mounted media, even after a killed child.
+              if ([IO.Path]::GetFileName($ownedRoot) -notmatch '^phone-original-sdk-[0-9a-f]{32}$' -or
+                  [IO.Path]::GetDirectoryName($ownedRoot).TrimEnd('\') -ine [IO.Path]::GetTempPath().TrimEnd('\') -or
+                  $ownedIso -ine (Join-Path $ownedRoot 'windowsphone81sdkupdate1.iso')) {
+                throw 'The retained ISO marker does not identify this attempt-owned temporary image.'
+              }
+              if (Test-Path -LiteralPath $ownedIso) {
+                $disk = Get-DiskImage -ImagePath $ownedIso -ErrorAction Stop
+                $cleanup.attached_before = $disk.Attached
+                if ($disk.Attached) { Dismount-DiskImage -ImagePath $ownedIso -ErrorAction Stop }
+                $cleanup.dismounted = -not (Get-DiskImage -ImagePath $ownedIso -ErrorAction Stop).Attached
+                if (-not $cleanup.dismounted) { throw 'The owned ISO remained attached after cleanup.' }
+              } else {
+                $cleanup.temporary_image_already_removed = $true
+              }
+            }
+          } catch {
+            $cleanup.failed = $true
+            $cleanup.error = $_.Exception.Message
+            Write-Warning $_.Exception.Message
+          } finally {
+            $cleanup | ConvertTo-Json | Set-Content (Join-Path $evidence 'iso-cleanup.json') -Encoding utf8NoBOM
+          }
           if (-not (Test-Path (Join-Path $evidence 'after.json'))) {
             python scripts/probe-original-emulator.py --json --timeout 20 `
               2> (Join-Path $evidence 'after-fallback-stderr.txt') |
               Set-Content (Join-Path $evidence 'after-fallback.json') -Encoding utf8NoBOM
           }
+          if ($cleanup.failed) { exit 1 }
       - name: Retain reference setup observations and vendor logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: original-windows-phone-setup
+          name: ${{ env.ORIGINAL_EMULATOR_MODE == 'offline-iso' && 'original-windows-phone-setup-iso' || 'original-windows-phone-setup' }}
           path: |
             ${{ runner.temp }}/original-emulator-evidence/*.json
             ${{ runner.temp }}/original-emulator-evidence/*.html
