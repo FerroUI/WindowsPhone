@@ -143,7 +143,8 @@ function Save-MicrosoftIso([uri] $Uri, [string] $Destination, [int64] $ExpectedB
             while (($count = $inputStream.ReadAsync($buffer, 0, $buffer.Length, $cancel.Token).GetAwaiter().GetResult()) -gt 0) {
                 $received += $count
                 if ($received -gt $ExpectedBytes) { throw 'The ISO stream exceeds the exact catalog size.' }
-                $outputStream.WriteAsync($buffer, 0, $count, $cancel.Token).GetAwaiter().GetResult()
+                # Task completion is not function output; only return metadata.
+                [void]$outputStream.WriteAsync($buffer, 0, $count, $cancel.Token).GetAwaiter().GetResult()
             }
             if ($received -ne $ExpectedBytes) { throw 'The ISO stream ended before the exact catalog size.' }
             return [pscustomobject]@{ Bytes = $received; Url = $Uri.AbsoluteUri; RedirectChain = @($chain); Status = [int]$response.StatusCode }
