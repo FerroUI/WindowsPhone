@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "event": "cleanup-end",
+  "observed_at_unix_ms": 1795521477754,
+  "driver_pid": 15379,
+  "driver_state": "not_running",
+  "observed_exit_code": null,
+  "liveness_source": "Shell kill -0 of its direct simctl launch child; not native application liveness.",
+  "console": {
+    "observed_at_unix_ms": 1795521477754,
+    "maximum_read_bytes": 1048576,
+    "parsed_pid": 15442,
+    "exists": true,
+    "bytes": 47984,
+    "modified_at_unix_ns": 1795521474182024083,
+    "read_bytes": 47984,
+    "stable_during_read": true,
+    "truncated": false,
+    "read_sha256": "efb15ed9dd58ca6de0796e2dec6fd105902c989b89249ef9e4b6083966d27645"
+  }
+}

@@ -1,0 +1,164 @@
+# Selected complete diagnostic lines from original vendor logs
+# Line numbers refer to the original source-artifact files.
+# This excerpt omits unrelated installer variables; full MSI logs are retained separately.
+
+
+## logs/setup.log
+0033: [1BE0:0750][2026-11-24T10:54:47]i000: Setting numeric variable 'HypervisorSupported' to value 1
+0034: [1BE0:0750][2026-11-24T10:54:47]i000: Setting numeric variable 'HypervisorEnabled' to value 1
+0035: [1BE0:0750][2026-11-24T10:54:47]i000: MUX:  Resume = None
+0036: [1BE0:0750][2026-11-24T10:54:47]i000: MUX:  Restart = Never
+0037: [1BE0:0750][2026-11-24T10:54:47]i000: MUX:  Relation = None
+0038: [1BE0:0750][2026-11-24T10:54:47]i000: MUX:  Action = Install
+0039: [1BE0:0750][2026-11-24T10:54:47]i000: MUX:  Display = None
+0102: [1BE0:096C][2026-11-24T10:54:47]i052: Condition '(NOT VersionNT64)' evaluates to false.
+0103: [1BE0:096C][2026-11-24T10:54:47]i052: Condition '(HypervisorSupported = "0") AND (CurrentOperation = "Install")' evaluates to false.
+0104: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  Default Selectable Items state:
+0105: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  Initial Selectable Items state:
+0106: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  Non-applicable packages grouped by Selectable Items:
+0107: [1BE0:096C][2026-11-24T10:54:47]i199: Detect complete, result: 0x0
+0108: [1BE0:096C][2026-11-24T10:54:47]i200: Plan begin, 9 packages, action: Install
+0109: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  Plan Phase Begin
+0110: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  ----------------
+0111: [1BE0:096C][2026-11-24T10:54:47]i052: Condition 'DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath' evaluates to false.
+0112: [1BE0:096C][2026-11-24T10:54:47]i052: Condition 'VersionNT64 AND (DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath)' evaluates to false.
+0113: [1BE0:096C][2026-11-24T10:54:47]i052: Condition 'DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath' evaluates to false.
+0114: [1BE0:096C][2026-11-24T10:54:47]i052: Condition 'DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath' evaluates to false.
+0129: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: WindowsPhone81GDR1SDK_Desktop, state: Absent, default requested: Absent, ba requested: Absent, execute: None, rollback: None, cache: No, uncache: No, dependency: None
+0130: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: WindowsPhone81GDR1SDK_Desktop_x64, state: Absent, default requested: Absent, ba requested: Absent, execute: None, rollback: None, cache: No, uncache: No, dependency: None
+0131: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: WindowsPhone81GDR1SDK_x86, state: Absent, default requested: Absent, ba requested: Absent, execute: None, rollback: None, cache: No, uncache: No, dependency: None
+0132: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: WindowsPhone81GDR1SDK_ARM, state: Absent, default requested: Absent, ba requested: Absent, execute: None, rollback: None, cache: No, uncache: No, dependency: None
+0133: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: WindowsPhone81GDR1SDK_VHD, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, cache: Yes, uncache: No, dependency: Register
+0134: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: CoreConExtraGDR1, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, cache: Yes, uncache: No, dependency: Register
+0135: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: MobileTools_XDEConfig81, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, cache: Yes, uncache: No, dependency: Register
+0136: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: MobileTools_Finalizer81, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, cache: Yes, uncache: No, dependency: Register
+0137: [1BE0:096C][2026-11-24T10:54:47]i201: Planned package: Preparation_MobileTools_EmulatorWP81GDR1, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, cache: Yes, uncache: No, dependency: None
+0138: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  InstallPath: C:\Program Files (x86)
+0139: [1BE0:096C][2026-11-24T10:54:47]i000: MUX:  PathCheckResult = CustomInstallPath_Valid
+0140: [1BE0:096C][2026-11-24T10:54:47]i299: Plan complete, result: 0x0
+0152: [0440:1BEC][2026-11-24T10:54:49]i320: Registering bundle dependency provider: {FAEA055D-B3B9-38E0-B50E-4798B701620E}, version: 12.0.40507.0
+0153: [0440:1BEC][2026-11-24T10:54:49]i371: Updating session, registration key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}, resume: Active, restart initiated: No, disable resume: No
+0154: [1BE0:0D2C][2026-11-24T10:54:49]i000: MUX:  Cache Begin
+0155: [1BE0:096C][2026-11-24T10:54:49]i000: MUX:  Vital packages to be installed: 3
+0156: [1BE0:096C][2026-11-24T10:54:49]i000: MUX:  Total packages to be installed: 5
+0157: [1BE0:0D2C][2026-11-24T10:54:49]i338: Acquiring package: WindowsPhone81GDR1SDK_VHD, payload: WindowsPhone81GDR1SDK_VHD, copy from: E:\packages\WindowsPhone81GDR1VHD\WindowsPhoneSDK-VHD.msi
+0158: [1BE0:0D2C][2026-11-24T10:54:49]i000: Setting string variable 'WixBundleLastUsedSource' to value 'E:\'
+0159: [0440:0C14][2026-11-24T10:54:49]i305: Verified acquired payload: WindowsPhone81GDR1SDK_VHD at path: C:\ProgramData\Package Cache\.unverified\WindowsPhone81GDR1SDK_VHD, moving to: C:\ProgramData\Package Cache\{FED32CDE-5F1C-4D3A-BD0B-B041B49CF72F}v8.1.14141\packages\WindowsPhone81GDR1VHD\WindowsPhoneSDK-VHD.msi.
+0160: [1BE0:0D2C][2026-11-24T10:54:49]i000: MUX:  Source confirmed
+0210: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: cabEC9F57B5E1234929D6EFCBF37E27577F at path: C:\ProgramData\Package Cache\.unverified\cabEC9F57B5E1234929D6EFCBF37E27577F, moving to: C:\ProgramData\Package Cache\{FED32CDE-5F1C-4D3A-BD0B-B041B49CF72F}v8.1.14141\packages\WindowsPhone81GDR1VHD\Vhd1p.cab.
+0211: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0212: [1BE0:0D2C][2026-11-24T10:54:58]i338: Acquiring package: WindowsPhone81GDR1SDK_VHD, payload: cab1B5F5014D35F70D347C7C3C170990F2B, copy from: E:\packages\WindowsPhone81GDR1VHD\Vhd1q.cab
+0213: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: cab1B5F5014D35F70D347C7C3C170990F2B at path: C:\ProgramData\Package Cache\.unverified\cab1B5F5014D35F70D347C7C3C170990F2B, moving to: C:\ProgramData\Package Cache\{FED32CDE-5F1C-4D3A-BD0B-B041B49CF72F}v8.1.14141\packages\WindowsPhone81GDR1VHD\Vhd1q.cab.
+0214: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0215: [1BE0:0D2C][2026-11-24T10:54:58]i338: Acquiring package: CoreConExtraGDR1, payload: CoreConExtraGDR1, copy from: E:\packages\CoreCon\MobileTools_WPImagesGDR1.msi
+0216: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: CoreConExtraGDR1 at path: C:\ProgramData\Package Cache\.unverified\CoreConExtraGDR1, moving to: C:\ProgramData\Package Cache\{774D5370-8768-3D25-A369-185573F85E16}v12.0.40507\packages\CoreCon\MobileTools_WPImagesGDR1.msi.
+0217: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0218: [1BE0:0D2C][2026-11-24T10:54:58]i338: Acquiring package: CoreConExtraGDR1, payload: cabC0F355E3ACE564503793E6EC117AF33C, copy from: E:\packages\CoreCon\cab1.cab
+0219: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: cabC0F355E3ACE564503793E6EC117AF33C at path: C:\ProgramData\Package Cache\.unverified\cabC0F355E3ACE564503793E6EC117AF33C, moving to: C:\ProgramData\Package Cache\{774D5370-8768-3D25-A369-185573F85E16}v12.0.40507\packages\CoreCon\cab1.cab.
+0220: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0221: [1BE0:0D2C][2026-11-24T10:54:58]i338: Acquiring package: MobileTools_XDEConfig81, payload: MobileTools_XDEConfig81, copy from: E:\packages\MobileTools\xdeconfigurator\MobileTools_XDEConfig81.msi
+0222: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: MobileTools_XDEConfig81 at path: C:\ProgramData\Package Cache\.unverified\MobileTools_XDEConfig81, moving to: C:\ProgramData\Package Cache\{69B49F20-02DC-3689-99E7-AB23B149E428}v12.0.40507\packages\MobileTools\xdeconfigurator\MobileTools_XDEConfig81.msi.
+0223: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0224: [1BE0:0D2C][2026-11-24T10:54:58]i338: Acquiring package: MobileTools_Finalizer81, payload: MobileTools_Finalizer81, copy from: E:\packages\MobileTools\xdeconfigurator\Mobiletools_Finalizer81GDR1.msi
+0225: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: MobileTools_Finalizer81 at path: C:\ProgramData\Package Cache\.unverified\MobileTools_Finalizer81, moving to: C:\ProgramData\Package Cache\{D7D6DB6D-3BAA-4F1B-9648-D75D9507F161}v12.0.40507\packages\MobileTools\xdeconfigurator\Mobiletools_Finalizer81GDR1.msi.
+0226: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0227: [1BE0:0D2C][2026-11-24T10:54:58]i338: Acquiring package: Preparation_MobileTools_EmulatorWP81GDR1, payload: Preparation_MobileTools_EmulatorWP81GDR1, copy from: E:\packages\MobileTools_EmulatorWP81GDR1\Preparation.exe
+0228: [0440:0C14][2026-11-24T10:54:58]i305: Verified acquired payload: Preparation_MobileTools_EmulatorWP81GDR1 at path: C:\ProgramData\Package Cache\.unverified\Preparation_MobileTools_EmulatorWP81GDR1, moving to: C:\ProgramData\Package Cache\A5CB181E-2F49-3EA3-8F82-AF80A4A86BDC\packages\MobileTools_EmulatorWP81GDR1\Preparation.exe.
+0229: [1BE0:0D2C][2026-11-24T10:54:58]i000: MUX:  Source confirmed
+0230: [0440:1BEC][2026-11-24T10:54:58]i301: Applying execute package: WindowsPhone81GDR1SDK_VHD, action: Install, path: C:\ProgramData\Package Cache\{FED32CDE-5F1C-4D3A-BD0B-B041B49CF72F}v8.1.14141\packages\WindowsPhone81GDR1VHD\WindowsPhoneSDK-VHD.msi, arguments: ' ARPSYSTEMCOMPONENT="1" MSIFASTINSTALL="7"'
+0231: [1BE0:096C][2026-11-24T10:55:11]i000: MUX:  Installation size in bytes for package: WindowsPhone81GDR1SDK_VHD MaxAppDrive: 0  MaxSysDrive: 1773558338  AppDrive: 0  SysDrive: 1773374018
+0232: [1BE0:096C][2026-11-24T10:55:11]i000: MUX:  Return Code:0x0 Msi Messages:0 Result Detail:RollbackCleanup Restart:None
+0233: [1BE0:096C][2026-11-24T10:55:11]i000: MUX:  Reset execution Result
+0234: [1BE0:096C][2026-11-24T10:55:11]i000: MUX:  Reset Result
+0235: [1BE0:096C][2026-11-24T10:55:11]i000: MUX:  Engine Requested: None
+0236: [1BE0:096C][2026-11-24T10:55:11]i319: Applied execute package: WindowsPhone81GDR1SDK_VHD, result: 0x0, restart: None
+0237: [0440:1BEC][2026-11-24T10:55:11]i325: Registering dependency: {d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c} on package provider: Microsoft.WindowsPhone.WP_SDK_VHD_Update_1,v8.1, package: WindowsPhone81GDR1SDK_VHD
+0238: [0440:1BEC][2026-11-24T10:55:11]i301: Applying execute package: CoreConExtraGDR1, action: Install, path: C:\ProgramData\Package Cache\{774D5370-8768-3D25-A369-185573F85E16}v12.0.40507\packages\CoreCon\MobileTools_WPImagesGDR1.msi, arguments: ' ARPSYSTEMCOMPONENT="1" MSIFASTINSTALL="7"'
+0239: [1BE0:096C][2026-11-24T10:55:13]i000: MUX:  Installation size in bytes for package: CoreConExtraGDR1 MaxAppDrive: 0  MaxSysDrive: 598016  AppDrive: 0  SysDrive: 598016
+0240: [1BE0:096C][2026-11-24T10:55:13]i000: MUX:  Return Code:0x0 Msi Messages:0 Result Detail:RollbackCleanup Restart:None
+0241: [1BE0:096C][2026-11-24T10:55:13]i000: MUX:  Reset execution Result
+0242: [1BE0:096C][2026-11-24T10:55:13]i000: MUX:  Reset Result
+0243: [1BE0:096C][2026-11-24T10:55:13]i000: MUX:  Engine Requested: None
+0244: [1BE0:096C][2026-11-24T10:55:13]i319: Applied execute package: CoreConExtraGDR1, result: 0x0, restart: None
+0245: [0440:1BEC][2026-11-24T10:55:13]i325: Registering dependency: {d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c} on package provider: Microsoft.VS.MobileTools_WPImagesGDR1_x86_enu,v12, package: CoreConExtraGDR1
+0246: [0440:1BEC][2026-11-24T10:55:13]i323: Registering package dependency provider: {69B49F20-02DC-3689-99E7-AB23B149E428}, version: 12.0.40507, package: MobileTools_XDEConfig81
+0247: [0440:1BEC][2026-11-24T10:55:13]i301: Applying execute package: MobileTools_XDEConfig81, action: Install, path: C:\ProgramData\Package Cache\{69B49F20-02DC-3689-99E7-AB23B149E428}v12.0.40507\packages\MobileTools\xdeconfigurator\MobileTools_XDEConfig81.msi, arguments: ' ARPSYSTEMCOMPONENT="1" MSIFASTINSTALL="7" VSEXTUI="1" VS7.3643236F_FC70_11D3_A536_0090278A1BB8="C:\Program Files (x86)" ARPSYSTEMCOMPONENT="1" DISPLAYMODE="Full" CURRENT_OPERATION="Install"'
+0248: [0440:1BEC][2026-11-24T10:55:25]w355: Unable to register source directory: C:\ProgramData\Package Cache\{69B49F20-02DC-3689-99E7-AB23B149E428}v12.0.40507\packages\MobileTools\xdeconfigurator\, product: {69B49F20-02DC-3689-99E7-AB23B149E428}, reason: 0x80070645. Continuing...
+0249: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Installation size in bytes for package: MobileTools_XDEConfig81 MaxAppDrive: 0  MaxSysDrive: 3473408  AppDrive: 0  SysDrive: 2461696
+0250: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Return Code:0x0 Msi Messages:0 Result Detail:RollbackCleanup Restart:RestartInitiated
+0251: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Suspend Now: Reboot Behavior = Immediate and Restart = RestartInitiated
+0252: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Engine Requested: RestartInitiated
+0253: [1BE0:096C][2026-11-24T10:55:25]i319: Applied execute package: MobileTools_XDEConfig81, result: 0x0, restart: Initiated
+0254: [0440:1BEC][2026-11-24T10:55:25]i372: Session end, registration key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}, resume: Reboot Pending, restart: Initiated, disable resume: No
+0255: [0440:1BEC][2026-11-24T10:55:25]i371: Updating session, registration key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}, resume: Reboot Pending, restart initiated: Yes, disable resume: No
+0256: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Apply Complete: Disk Space Used in bytes for Installation:  MaxAppDrive: 0  MaxSysDrive: 2667204608  AppDrive: 0  SysDrive: 2666192896
+0257: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Free Disk Space after install:  SystemDrive C:\ 82490015744 bytes  AppDrive C:\ 82490015744 bytes
+0258: [1BE0:096C][2026-11-24T10:55:25]i000: MUX:  Engine Restart's request: RestartInitiated
+0259: [1BE0:096C][2026-11-24T10:55:25]i399: Apply complete, result: 0x0, restart: Initiated, ba requested restart:  No
+0260: [1BE0:0750][2026-11-24T10:55:25]i000: MUX:  Exit Run
+0261: [1BE0:0750][2026-11-24T10:55:25]i000: Setting numeric variable 'RebootCount' to value 1
+0262: [1BE0:0750][2026-11-24T10:55:25]i000: Setting string variable 'CurrentRepairPackage' to value 'CoreConExtraGDR1'
+0263: [1BE0:0750][2026-11-24T10:55:25]i000: MUX:  Metrics: ShouldSendData=True
+0316: [1BE0:0750][2026-11-24T10:55:26]i000: Setting string variable 'LastGoodSource' to value 'Web'
+0317: [1BE0:0750][2026-11-24T10:55:26]i000: Setting string variable 'IsWebBundle' to value 'False'
+0318: [1BE0:0750][2026-11-24T10:55:26]i000: MUX:  Ux Uninitialized
+0319: [1BE0:0750][2026-11-24T10:55:26]i000: MUX:  Exit with 0x80048BC7 (Incomplete and reboot required)
+0320: [1BE0:096C][2026-11-24T10:55:26]i500: Shutting down, exit code: 0x80048bc7
+0380: [1BE0:096C][2026-11-24T10:55:26]i007: Exit code: 0x80048bc7, restarting: No
+
+## logs/setup_000_WindowsPhone81GDR1SDK_VHD.log
+0556: MSI (s) (54:C4) [10:55:11:799]: Windows Installer installed the product. Product Name: Windows Phone 8.1 Update 1 Emulator Images. Product Version: 8.1.14141. Product Language: 1033. Manufacturer: Microsoft Corporation. Installation success or error status: 0.
+0557: 
+0558: MSI (s) (54:C4) [10:55:11:814]: Deferring clean up of packages/files, if any exist
+0559: MSI (s) (54:C4) [10:55:11:814]: MainEngineThread is returning 0
+
+## logs/setup_001_CoreConExtraGDR1.log
+1049: MSI (s) (54:78) [10:55:13:050]: Windows Installer installed the product. Product Name: Windows Phone 8.0 Emulation Images GDR1. Product Version: 12.0.40507. Product Language: 1033. Manufacturer: Microsoft Corporation. Installation success or error status: 0.
+1050: 
+1051: MSI (s) (54:78) [10:55:13:050]: Deferring clean up of packages/files, if any exist
+1052: MSI (s) (54:78) [10:55:13:050]: MainEngineThread is returning 0
+
+## logs/setup_002_MobileTools_XDEConfig81.log
+0450: Calling custom action HyperVEnablerCA!Microsoft.WPTools.CustomAction.HyperVEnabler.CustomActions.ConfigureHyperVForXDELaunch
+0451: Begin CustomAction ConfigureHyperVForXDELaunch.
+0452: Configuration checks for running XDE returned the following results:
+0453: > Hardware Virtualization is Supported and Enabled in BIOS.
+0454: > Hyper-V is not Enabled.
+0455: > Current User is not a member of Hyper-V Administrators Group.
+0456: Trying to fix Configuration for XDE Launch.
+0457: Dism Exit Code = -2146498548
+0458: Status after trying to fix Configuration for XDE Launch:
+0459: > Hardware Virtualization is Supported and Enabled in BIOS.
+0460: > Hyper-V is not Enabled.
+0461: MSI (s) (54!08) [10:55:25:698]: PROPERTY CHANGE: Modifying IS_USER_HYPERV_ADMIN property. Its current value is 'Unknown'. Its new value: 'JustEnabled'.
+0462: MSI (s) (54!08) [10:55:25:698]: PROPERTY CHANGE: Modifying IS_HYPERV_ENABLED property. Its current value is 'Unknown'. Its new value: 'Disabled'.
+0463: MSI (s) (54!08) [10:55:25:698]: PROPERTY CHANGE: Modifying IS_HARWARE_VIRT_ENABLED property. Its current value is 'Unknown'. Its new value: 'AlreadyEnabled'.
+0464: MSI (s) (54!08) [10:55:25:698]: PROPERTY CHANGE: Modifying REBOOT_REQUIRED property. Its current value is 'False'. Its new value: 'True'.
+0465: > Current user has been added to the Hyper-V administrators group.
+0466: Warning 39999.WPTools Message
+0467: Warning 39999.Warning 39999.WPTools Message
+0468: Exiting CustomAction ConfigureHyperVForXDELaunch.
+0469: MSI (s) (54:B8) [10:55:25:777]: Skipping action: CheckSlatState (condition is false)
+0470: MSI (s) (54:B8) [10:55:25:777]: Skipping action: AddSlatStateDisabledRegKey (condition is false)
+0471: MSI (s) (54:B8) [10:55:25:777]: Doing action: ForceReboot
+0472: MSI (s) (54:B8) [10:55:25:777]: Note: 1: 2205 2:  3: ActionText 
+0473: Action ended 10:55:25: ConfigureHyperVForXDELaunch. Return value 1.
+0474: Action start 10:55:25: ForceReboot.
+0500: MSI (s) (54:B8) [10:55:25:793]: Executing op: ActionStart(Name=ForceReboot,,)
+0501: Info 1721.There is a problem with this Windows Installer package. A program required for this install to complete could not be run. Contact your support personnel or package vendor. Action: UninstallSlatStateRegKey, location: C:\Program Files (x86)\Common Files\Microsoft Shared\CoreCon\5.01\Misc\, command: "C:\Windows\SysWOW64\reg.exe" DELETE "HKLM\SOFTWARE\Microsoft\VPDExpress\11.0\Metrics" /f 
+0502: MSI (s) (54:B8) [10:55:25:793]: Executing op: RegAddRunOnceEntry(Name=!02F94B96CD209863997EBA321B944E,Command=/I "C:\ProgramData\Package Cache\{69B49F20-02DC-3689-99E7-AB23B149E428}v12.0.40507\packages\MobileTools\xdeconfigurator\MobileTools_XDEConfig81.msi" AFTERREBOOT=1 RUNONCEENTRY="!02F94B96CD209863997EBA321B944E" /qN /lmewuisoarpcv+ "D:\a\_temp\original-emulator-evidence\logs\setup_002_MobileTools_XDEConfig81.log")
+0503: MSI (s) (54:B8) [10:55:25:793]: Executing op: End(Checksum=0,ProgressTotalHDWord=0,ProgressTotalLDWord=24000)
+0504: MSI (s) (54:B8) [10:55:25:809]: PROPERTY CHANGE: Adding MsiRebootActionScheduled property. Its value is '2'.
+0505: MSI (s) (54:B8) [10:55:25:809]: Note: 1: 2265 2:  3: -2147287035 
+0506: MSI (s) (54:B8) [10:55:25:809]: User policy value 'DisableRollback' is 0
+0507: MSI (s) (54:B8) [10:55:25:809]: Machine policy value 'DisableRollback' is 0
+0508: Action ended 10:55:25: ForceReboot. Return value 4.
+0509: MSI (s) (54:B8) [10:55:25:809]: Unlocking Server
+0510: MSI (s) (54:B8) [10:55:25:809]: PROPERTY CHANGE: Deleting UpdateStarted property. Its current value is '1'.
+0511: Action ended 10:55:25: INSTALL. Return value 4.
+0633: Property(S): SourcedirProduct = {69B49F20-02DC-3689-99E7-AB23B149E428}
+0634: Property(S): MsiRebootActionScheduled = 2
+0635: MSI (s) (54:B8) [10:55:25:840]: Windows Installer installed the product. Product Name: Windows Phone Emulator 8.0 Configurator. Product Version: 12.0.40507. Product Language: 1033. Manufacturer: Microsoft Corporation. Installation success or error status: 1604.
+0636: 
+0637: MSI (s) (54:B8) [10:55:25:840]: Deferring clean up of packages/files, if any exist
+0638: MSI (s) (54:B8) [10:55:25:840]: MainEngineThread is returning 1604

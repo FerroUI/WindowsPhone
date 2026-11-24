@@ -1,0 +1,26 @@
+{
+  "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+  "package": "org.ferroui.windowsphone.launcher",
+  "launcher": true,
+  "abi": "x86_64",
+  "native_bytes": 128964040,
+  "load_alignment": {
+    "lib/x86_64/libimage_processing_util_jni.so": [
+      16384,
+      16384,
+      16384
+    ],
+    "lib/x86_64/libphone_android.so": [
+      16384,
+      16384,
+      16384,
+      16384
+    ],
+    "lib/x86_64/libsurface_util_jni.so": [
+      16384,
+      16384
+    ]
+  },
+  "native_sha256": "fd066b0a9c41bd12a9cc706b51707538b9a2f2d0e83369d07e4643cc7bc037eb",
+  "apk_sha256": "d02e3b7e62c347b908629baaa5d8f8360e9af487f52fbd5c8885149a3f314f94"
+}

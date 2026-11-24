@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "collected_at_utc": "2026-11-24 11:37:32 UTC",
+  "repository": "FerroUI/WindowsPhone",
+  "source_revision_label": "C",
+  "implementation_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "workflow": {
+    "run_id": 45378306221,
+    "attempt": 2,
+    "job_id": 138403728001,
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378306221/job/138403728001",
+    "checkout_commit_log_lines": [
+      142,
+      156
+    ],
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2
+      },
+      {
+        "name": "Read pinned toolchain",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3
+      },
+      {
+        "name": "Install pinned Rust and iOS standard library",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4
+      },
+      {
+        "name": "Normalize framework source timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6
+      },
+      {
+        "name": "Verify portable iOS completion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7
+      },
+      {
+        "name": "Type check the optional carrier provider for physical iPhone",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8
+      },
+      {
+        "name": "Check all native bridge files against the simulator SDK",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9
+      },
+      {
+        "name": "Build and bundle the standard UIKit application",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10
+      },
+      {
+        "name": "Build and bundle the optional carrier provider",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11
+      },
+      {
+        "name": "Cache the successfully built UIKit application",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 12
+      },
+      {
+        "name": "Verify native UI, device roundtrips and activation",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 13
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 30
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31
+      }
+    ]
+  },
+  "artifact": {
+    "id": 14915756823,
+    "name": "ios-verification",
+    "archive_file": "/tmp/windowsphone-ios-1a20466-attempt2.zip",
+    "archive_bytes": 1612666,
+    "sha256": "0771405e4a85301d91423bba821bb4cb18c8fb710eae31a7ae86e30261ef64c7",
+    "github_artifact_digest": "sha256:0771405e4a85301d91423bba821bb4cb18c8fb710eae31a7ae86e30261ef64c7",
+    "digest_matches": true,
+    "extracted_directory": "/tmp/windowsphone-ios-1a20466-attempt2",
+    "original_png_count": 1,
+    "expected_route_capture_count": 7,
+    "actual_route_capture_count": 0,
+    "retained_original_files": [
+      {
+        "entry": "console.log",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/console.log",
+        "bytes": 32,
+        "sha256": "4b1660a6070c986aa7240a1cc650f8c96424bfc6d47d170d441e0882547a5bfb",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          31,
+          6
+        ]
+      },
+      {
+        "entry": "failure.png",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/failure.png",
+        "bytes": 1602711,
+        "sha256": "6b12f0cf17090eccb079562bbe166e6329391f9014399d49ac9a7c3ac251803e",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          27,
+          2
+        ]
+      },
+      {
+        "entry": "owned-installation.json",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/owned-installation.json",
+        "bytes": 404,
+        "sha256": "82439647c7b03a7d319cf0035803d77b51a9e4a969dc7cc43596b83dd9be32b6",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          25,
+          28
+        ]
+      },
+      {
+        "entry": "owned-process.json",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/owned-process.json",
+        "bytes": 292,
+        "sha256": "467c183952b064c054a3bfe0bfac0d10e40f2f8ad8c6cec6ebfa9c270d4c531f",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          27,
+          0
+        ]
+      },
+      {
+        "entry": "phase.txt",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/phase.txt",
+        "bytes": 28,
+        "sha256": "2063f8ad2fbd9c5901607a0225e05aabbf0c2304396544ae916c9b0834acab1e",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          25,
+          30
+        ]
+      },
+      {
+        "entry": "simulator.txt",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/simulator.txt",
+        "bytes": 92,
+        "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          19,
+          4
+        ]
+      },
+      {
+        "entry": "xctest-build.log",
+        "path": "/tmp/windowsphone-ios-1a20466-attempt2/xctest-build.log",
+        "bytes": 121186,
+        "sha256": "008934a34137cb65df1de95f19ffbb9d79268ce47280466500e1429d0b6534a9",
+        "zip_modified_datetime": [
+          2026,
+          11,
+          24,
+          11,
+          19,
+          0
+        ]
+      }
+    ]
+  },
+  "decoded_job_log": {
+    "path": "/tmp/windowsphone-ios-1a20466-attempt2-job.log",
+    "bytes": 289804,
+    "sha256": "c513a8930b6f0ec38969c485066e642a5b1842d70643f22ab08a4bf33a8a38fd",
+    "line_numbering": "One-based decoded GitHub job log lines; line endings normalized to LF."
+  },
+  "environment": {
+    "runner_image": "macos-26-arm64",
+    "xcode": "26.6 / build 17F113",
+    "simulator_runtime": "iOS 26.5",
+    "simulator_device_type": "iPhone 11",
+    "simulator_id": "EA2ABBB0-4A1C-4788-A246-9CA4B0B086DE",
+    "rust_toolchain": "1.99.0",
+    "rust_build_target": "aarch64-apple-ios-sim",
+    "bundle_id": "org.ferroui.windowsphone",
+    "geometry_observed": false
+  },
+  "portable_and_build_checks": {
+    "python": [
+      {
+        "passed": 7,
+        "failed": 0,
+        "summary_log_line": 250,
+        "command": "python3 scripts/verify_ios_smoke_test.py"
+      },
+      {
+        "passed": 6,
+        "failed": 0,
+        "summary_log_line": 255,
+        "command": "python3 scripts/collect_ios_failure_test.py"
+      }
+    ],
+    "rust": [
+      {
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "summary_log_line": 303,
+        "command": "cargo test --locked -p phone-ios --lib"
+      },
+      {
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "summary_log_line": 349,
+        "command": "cargo test --locked -p phone-ios --lib --features ios26-telephony"
+      }
+    ],
+    "rust_execution_qualification": "The same seven portable cases ran in two feature configurations; 14 executions do not represent 14 distinct cases.",
+    "physical_iphone_swift_typecheck": "passed; arm64-apple-ios15.0 syntax/type coverage only",
+    "objc_bridge_simulator_syntax_checks": "passed with WP_IOS_TELEPHONY=0 and 1; warnings remain",
+    "standard_simulator_bundle": "built successfully",
+    "optional_carrier_simulator_bundle": "built successfully; does not establish carrier capability",
+    "build_completion_log_lines": [
+      1268,
+      1919
+    ],
+    "xctest_driver_build": "built;runtime URL test was not started"
+  },
+  "runtime": {
+    "result": "failed",
+    "phase": "Waiting for the Start route",
+    "initial_mount_deadline_seconds": 90,
+    "observed_wait_start_utc": "2026-11-24T11:25:30.191832Z",
+    "observed_timeout_utc": "2026-11-24T11:27:00.493581Z",
+    "observed_wait_seconds": 90.301749,
+    "outer_step_timeout_minutes": 20,
+    "outer_step_timeout_reached": false,
+    "failure": "No phone-ios-smoke.json was produced before the mounted Start deadline.",
+    "failure_log_lines": [
+      {
+        "line": 3318,
+        "text": "2026-11-24T11:27:00.4935810Z Timed out waiting for the mounted route home."
+      },
+      {
+        "line": 3319,
+        "text": "2026-11-24T11:27:00.5962280Z [Errno 2] No such file or directory: '/Users/runner/Library/Developer/CoreSimulator/Devices/EA2ABBB0-4A1C-4788-A246-9CA4B0B086DE/data/Containers/Data/Application/14C22802-8F5C-4CC1-8604-998103C68705/Documents/phone-ios-smoke.json'"
+      }
+    ],
+    "timing_phases": [
+      {
+        "line": 1935,
+        "text": "2026-11-24T11:18:27.1609680Z Building the public XCTest system URL driver"
+      },
+      {
+        "line": 1936,
+        "text": "2026-11-24T11:19:02.1033110Z Selecting the simulator runtime"
+      },
+      {
+        "line": 1937,
+        "text": "2026-11-24T11:19:05.1013790Z Booting the simulator"
+      },
+      {
+        "line": 3316,
+        "text": "2026-11-24T11:25:03.2703730Z Installing and launching the UIKit application"
+      },
+      {
+        "line": 3317,
+        "text": "2026-11-24T11:25:30.1918320Z Waiting for the Start route"
+      }
+    ],
+    "boot_to_install_seconds": 358.168994,
+    "failure_report_to_step_exit_seconds": 272.399848,
+    "last_native_phase": null,
+    "native_phases": [],
+    "main_entry_observed": false,
+    "owned_installation": {
+      "schema": 1,
+      "simulator": "EA2ABBB0-4A1C-4788-A246-9CA4B0B086DE",
+      "bundle_id": "org.ferroui.windowsphone",
+      "executable": "/Users/runner/Library/Developer/CoreSimulator/Devices/EA2ABBB0-4A1C-4788-A246-9CA4B0B086DE/data/Containers/Bundle/Application/8A68FD2D-61DC-4072-A947-EDC470EC96D9/phone-ios.app/phone-ios",
+      "inode": 3161031,
+      "bytes": 258174464,
+      "prepared_at_unix_ms": 1795519529661
+    },
+    "owned_process": {
+      "schema": 1,
+      "simulator": "EA2ABBB0-4A1C-4788-A246-9CA4B0B086DE",
+      "bundle_id": "org.ferroui.windowsphone",
+      "captured_at_unix_ms": 1795519620891,
+      "console_pid": null,
+      "diagnostic_error": "Expected exactly one process for the owned installed executable.",
+      "crash_reports": []
+    },
+    "final_console": {
+      "bytes": 32,
+      "contents": "org.ferroui.windowsphone: 34323\n",
+      "exact_bundle_parser_result": 34323,
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        31,
+        6
+      ]
+    },
+    "diagnostic_console_sample": {
+      "console_pid": null,
+      "captured_at_unix_ms": 1795519620891,
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        27,
+        0
+      ],
+      "qualification": "The retained console file was modified about four minutes after the collector ran. Its final PID line parses correctly; no escaping or exact-bundle parser defect was reproduced. The original diagnostic does not distinguish zero from multiple exact executable matches."
+    }
+  },
+  "device_checks": {
+    "status": "not_reached",
+    "passed": 0,
+    "report_available": false,
+    "cleanup_errors_observed": null,
+    "qualification": "No completed provider report exists. No Contacts CRUD, writable brightness or other device check is credited to this attempt."
+  },
+  "native_activation": {
+    "status": "not_started",
+    "requested_urls": 0,
+    "accepted_activations": 0,
+    "request_files": [],
+    "prompt_handler_available": false,
+    "home_restored": false,
+    "qualification": "Zero records mean the URL phase was never reached; they do not report rejected native activations."
+  },
+  "captures": [
+    {
+      "capture": "failure",
+      "screenshot_file": "failure.png",
+      "screenshot_sha256": "6b12f0cf17090eccb079562bbe166e6329391f9014399d49ac9a7c3ac251803e",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "iOS SpringBoard is visible with the installed Windows Phone icon; no Windows Phone application UI is shown.",
+      "route_verified": false
+    }
+  ],
+  "diagnosis": {
+    "established": "The initial mounted-Start gate failed without a pure-Rust main entry, native initialization phase, mounted observation, provider check or URL request.",
+    "comparison_with_attempt_1": "This is a different observed signature. Attempt 1 reached snapshot.permissions and showed a white application surface; attempt 2 retained only a late simctl PID line and a SpringBoard screenshot.",
+    "comparison_with_history": "The observed no-phase/SpringBoard signature resembles historical 77f0a0f, but neither record identifies a concrete process-exit or SDK cause.",
+    "unknown": "The retained diagnostic cannot distinguish a delayed launch, a process that exited before main, or an ambiguous exact-process lookup. There is no successful owned-process stack or matching crash report.",
+    "parser_review": "Raw console bytes have no escape sequences and the existing exact parser returns 34323. The log was modified after the diagnostic snapshot; broadening bundle/PID parsing is not warranted.",
+    "next_step": "Capture bounded launch-driver status and exact installed-process candidate classification before considering recovery; retain narrower permission markers for the separate attempt 1 interval. No third unchanged rerun is authorized by this record."
+  },
+  "qualifications": [
+    "This second unchanged-source C attempt remains a failed native runtime gate. The first failure is preserved independently.",
+    "Successful portable tests, physical-target Swift type checking, simulator Objective-C syntax checks and both full bundles do not establish application startup.",
+    "Only one original failure PNG exists and was visually inspected. None of the seven requested route captures was produced.",
+    "Zero runtime/provider/activation credits are assigned. The URL XCTest phase was never started, so zero activation records do not mean rejected URLs.",
+    "No mounted native identity or foreground scene observation exists. An installed icon and a simctl launch PID line do not establish a running or mounted application.",
+    "The owned-process collector retained no stack and no crash report. Its generic exact-match error does not distinguish no process from multiple candidates.",
+    "Console artifact modification occurred after the failed gate and collector. This timing does not identify a parser bug or prove that main was entered.",
+    "Neither attempt places a call, sends a message or completes provider qualification. Physical hardware, carrier roles, NFC/payment, signing and original Windows Phone parity remain unqualified.",
+    "No runtime provider, deadline, assertion or permission state was changed for this single authorized exact-source retry."
+  ],
+  "historical_comparison": {
+    "ios_inputs_unchanged_between_B_and_C": {
+      "from": "c9923b2730e9fde63d4c822452f69ad46af30959",
+      "to": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+      "paths": [
+        "crates/phone-ios",
+        "scripts/smoke-ios.sh",
+        "scripts/ios-ui-tests",
+        "scripts/verify-ios-smoke.py",
+        ".github/workflows/ios.yml"
+      ],
+      "git_diff_name_only": [],
+      "qualification": "This equality covers iOS provider/harness inputs only. Shared UI changed and the complete native binaries are not claimed identical."
+    },
+    "prior_signatures": [
+      {
+        "source": "99ffbfc09aebb9d16ea88aa2bb71035ff6b9a55d",
+        "record": "docs/verification/launcher-native-integration/history/ios-99ffbfc-partial.json",
+        "observed": "Initial 90-second mount timeout, absent observation, white UIKit surface with system status bar; tel queries 50.898 seconds apart.",
+        "cause": "Unconfirmed; no precise blocked SDK frame retained."
+      },
+      {
+        "source": "77f0a0f",
+        "record": "docs/verification/launcher-native-integration/history/ios-77f0a0f-partial.json",
+        "observed": "Initial mount timeout, PID-only console and SpringBoard screenshot; no framework/capability marker.",
+        "cause": "Unconfirmed and not the same observed phase as C."
+      },
+      {
+        "source": "fd6c475545d5687f2cc7f98d0cbb34398c31f395",
+        "record": "docs/verification/launcher-native-integration/history/ios-fd6c475-partial.json",
+        "observed": "Initial mount and five provider checks passed without changing provider initialization; a separate Settings activation-outcome bug failed later.",
+        "framework_initialization_seconds": 0.923428
+      },
+      {
+        "source": "9a628e39af18b727555ad4f9a5184761d2519502",
+        "record": "docs/verification/launcher-native-integration/ios.json",
+        "observed": "Initial mount, providers and all six activations passed.",
+        "initial_permissions_to_carrier_seconds": 0.066965
+      },
+      {
+        "source": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+        "record": "/tmp/windowsphone-ios-1f578a9/console.log",
+        "initial_permissions_to_carrier_seconds": 0.033685
+      },
+      {
+        "source": "c9923b2730e9fde63d4c822452f69ad46af30959",
+        "record": "/tmp/windowsphone-ios-c9923b2/console.log",
+        "initial_permissions_to_carrier_seconds": 0.041492
+      }
+    ],
+    "qualification": "Prior successful or failed runs do not establish the cause of C attempt 1; no specific synchronous permission API is identified by the retained marker."
+  },
+  "publication_retention": {
+    "directory": "ios-1a20466-attempt2",
+    "original_file_count": 7,
+    "original_capture_count": 1,
+    "qualified_route_capture_count": 0,
+    "files": [
+      {
+        "artifact_entry": "console.log",
+        "path": "ios-1a20466-attempt2/console.log",
+        "bytes": 32,
+        "sha256": "4b1660a6070c986aa7240a1cc650f8c96424bfc6d47d170d441e0882547a5bfb"
+      },
+      {
+        "artifact_entry": "failure.png",
+        "path": "ios-1a20466-attempt2/failure.png",
+        "bytes": 1602711,
+        "sha256": "6b12f0cf17090eccb079562bbe166e6329391f9014399d49ac9a7c3ac251803e"
+      },
+      {
+        "artifact_entry": "owned-installation.json",
+        "path": "ios-1a20466-attempt2/owned-installation.json",
+        "bytes": 404,
+        "sha256": "82439647c7b03a7d319cf0035803d77b51a9e4a969dc7cc43596b83dd9be32b6"
+      },
+      {
+        "artifact_entry": "owned-process.json",
+        "path": "ios-1a20466-attempt2/owned-process.json",
+        "bytes": 292,
+        "sha256": "467c183952b064c054a3bfe0bfac0d10e40f2f8ad8c6cec6ebfa9c270d4c531f"
+      },
+      {
+        "artifact_entry": "phase.txt",
+        "path": "ios-1a20466-attempt2/phase.txt",
+        "bytes": 28,
+        "sha256": "2063f8ad2fbd9c5901607a0225e05aabbf0c2304396544ae916c9b0834acab1e"
+      },
+      {
+        "artifact_entry": "simulator.txt",
+        "path": "ios-1a20466-attempt2/simulator.txt",
+        "bytes": 92,
+        "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281"
+      },
+      {
+        "artifact_entry": "xctest-build.log",
+        "path": "ios-1a20466-attempt2/xctest-build.log",
+        "bytes": 121186,
+        "sha256": "008934a34137cb65df1de95f19ffbb9d79268ce47280466500e1429d0b6534a9"
+      }
+    ],
+    "note": "All seven original entries from artifact 14915756823 were retained byte-for-byte. Collection-time /tmp paths remain provenance; repository paths are provided by this explicit retention map."
+  }
+}

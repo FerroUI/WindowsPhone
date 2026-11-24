@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "source_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+  "run_id": 45378305962,
+  "job_id": 138390368341,
+  "artifact_id": 14914366011,
+  "artifact_sha256": "48529f6fd10ecda5c2a46304ecb3ffb1577e9db9d326065de9256a2f79fec375",
+  "passed": false,
+  "passed_groups": 75,
+  "captures": 143,
+  "elapsed_ms": 253932,
+  "runtime_errors": [],
+  "deployment": "skipped",
+  "findings": [
+    {
+      "area": "Native Pivot header lookup",
+      "observation": "The actual player PivotHeaderItem is visible/hit-testable at (623,125),113x64 with text player and empty presentation-peer automationName. clickLabel required an automation name of player, so never sent a click. Named tab semantics belong to PivotItemAutomationPeer.",
+      "correction": "Find the unique stable native header by its type/text and send actual pointer input; retain subsequent selection/focus/keyboard assertions."
+    },
+    {
+      "area": "Device commands",
+      "observation": "The failure capture contains both expected enabled/hit-testable Button controls; waiting for parent text did not establish child readbacks.",
+      "correction": "Wait for provider-supported native commands, then retain exact conditional presence/absence and authority assertions."
+    }
+  ],
+  "retained_original_files": [
+    {
+      "path": "history/1a20466-results.json",
+      "entry": "results.json",
+      "bytes": 42461,
+      "sha256": "a3c40cf689e4d9e927b11dee658658e86ff4c4d0230b96a0cc0c3face95c726a"
+    },
+    {
+      "path": "history/1a20466-metro-controls-failure.json",
+      "entry": "metro-controls-failure.json",
+      "bytes": 25688,
+      "sha256": "ab4183ff89cb75d4cbe97d8d11a72c3f69fd77c4e025328a3875c7b92c9f8f2c"
+    },
+    {
+      "path": "history/1a20466-metro-controls-failure.png",
+      "entry": "metro-controls-failure.png",
+      "bytes": 25574,
+      "sha256": "301efbe784aea3c6442d91a59faa7703771c801c07df2195046ee5111b680eb6"
+    },
+    {
+      "path": "history/1a20466-platform-refinements-failure.json",
+      "entry": "platform-refinements-failure.json",
+      "bytes": 19699,
+      "sha256": "4a4e18dd486c12948ac6a2e7a5c72d9f78016b068fda5358e0ff743db2c4126d"
+    },
+    {
+      "path": "history/1a20466-platform-refinements-failure.png",
+      "entry": "platform-refinements-failure.png",
+      "bytes": 42553,
+      "sha256": "6a76a06a9574c2ba7b3aefa2c05dce654e84e599460bed0f67fe21834ac26d94"
+    }
+  ],
+  "qualification": "Integrated suite remains failed. No production app code change is required by these two diagnosed harness issues; the rerun must exercise all original assertions.",
+  "build_gates": {
+    "rust_passed": 376,
+    "rust_failed": 0,
+    "rust_ignored": 1,
+    "rust_suite_summaries": 79,
+    "javascript_passed": 59,
+    "browser_compilation": "passed",
+    "ui_integration": "failed"
+  }
+}

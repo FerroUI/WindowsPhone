@@ -1,0 +1,2033 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "c9923b2730e9fde63d4c822452f69ad46af30959",
+  "conclusion": "success",
+  "evidence_scope": "Final revision B passed its own ARM64 package and API 36 x86_64 runtime jobs. Earlier A failure and superseded diagnostic run are separately retained.",
+  "source": {
+    "implementation_A": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+    "diagnostic_only_revision": "9f900b0e6894bb27d27a3aba1517e9951f565c1a",
+    "final_revision_B": "c9923b2730e9fde63d4c822452f69ad46af30959",
+    "changes_A_to_B": [
+      ".github/workflows/pages.yml",
+      "crates/apps/phone-app-word/src/lib.rs",
+      "crates/phone-browser/src/inspection.rs",
+      "crates/phone-controls/src/application_bar.rs",
+      "crates/phone-controls/src/switches.rs",
+      "scripts/smoke-android-device.sh",
+      "scripts/smoke-android.sh",
+      "scripts/ui-metro-controls.mjs",
+      "scripts/ui-motion-evidence.test.mjs",
+      "scripts/ui-shell-parity.mjs",
+      "scripts/ui-system-refinements.mjs"
+    ],
+    "changes_diagnostic_to_B": [
+      ".github/workflows/pages.yml",
+      "crates/apps/phone-app-word/src/lib.rs",
+      "crates/phone-browser/src/inspection.rs",
+      "crates/phone-controls/src/application_bar.rs",
+      "crates/phone-controls/src/switches.rs",
+      "scripts/ui-metro-controls.mjs",
+      "scripts/ui-motion-evidence.test.mjs",
+      "scripts/ui-shell-parity.mjs",
+      "scripts/ui-system-refinements.mjs"
+    ],
+    "android_platform_and_dependencies": {
+      "crates/phone-android": {
+        "A": "a3c35d726f7a9c7868e459c37b9f9dee6fd822d6",
+        "B": "a3c35d726f7a9c7868e459c37b9f9dee6fd822d6"
+      },
+      "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallActivity.java": {
+        "A": "411e72daf5e22263481c116c5900076d021ecd8b",
+        "B": "411e72daf5e22263481c116c5900076d021ecd8b"
+      },
+      "crates/phone-android/platform/java/org/ferroui/phone/PhoneInCallService.java": {
+        "A": "85580cf71e425fd875b2af5e04e746724bc5cb6a",
+        "B": "85580cf71e425fd875b2af5e04e746724bc5cb6a"
+      },
+      "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallNotifications.java": {
+        "A": "95edaa2cc969b43dd72d1ff2345efe8cb84403f5",
+        "B": "95edaa2cc969b43dd72d1ff2345efe8cb84403f5"
+      },
+      "Cargo.toml": {
+        "A": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6",
+        "B": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+      },
+      "Cargo.lock": {
+        "A": "fbc484eaa673fec6023583bf2dd4d5465980e7a1",
+        "B": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+      },
+      "FerroUI": {
+        "A": "db2e8859cd4b67bac870839ea70503b8babf541f",
+        "B": "db2e8859cd4b67bac870839ea70503b8babf541f"
+      }
+    },
+    "shared_crate_tree_changed": true,
+    "qualification": "Final B changes shared UI code; A runtime/package evidence is historical. Android platform sources remain equal but B requires its own target runs."
+  },
+  "ui": {
+    "run_id": 45370106370,
+    "job_id": 138362179580,
+    "attempt": 1,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45370106370",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45370106370/job/138362179580",
+    "run_started_at": "2026-11-24T09:57:33Z",
+    "completed_by": "2026-11-24T10:06:18Z",
+    "head_sha": "c9923b2730e9fde63d4c822452f69ad46af30959",
+    "result": {
+      "result": "passed",
+      "exit_code": 0,
+      "phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+      "target": {
+        "platform": "android",
+        "api": 36,
+        "abi": "x86_64",
+        "gpu": "software"
+      },
+      "expected_routes": [
+        "Start",
+        "org.ferroui.wallet",
+        "Start"
+      ],
+      "expected_variants": [
+        "app",
+        "launcher"
+      ],
+      "captures": [
+        "app-back.png",
+        "app-home-restored.png",
+        "app-start.png",
+        "app-wallet.png",
+        "device-action-center-revoked.png",
+        "device-action-center.png",
+        "device-active-call.png",
+        "device-ended-call.png",
+        "device-messaging.png",
+        "device-notifications-scroll-0.png",
+        "device-ringing.png",
+        "device-start-unread.png",
+        "home-role-back-start.png",
+        "home-role-returned.png",
+        "home-role-start.png",
+        "home-role-wallet.png",
+        "launcher-back.png",
+        "launcher-home-restored.png",
+        "launcher-start.png",
+        "launcher-wallet.png"
+      ],
+      "observations": [
+        "app-back.json",
+        "app-home-restored.json",
+        "app-start.json",
+        "app-wallet.json",
+        "bootstrap-current.json",
+        "device-active.json",
+        "device-after-answer.json",
+        "device-baseline.json",
+        "device-current.json",
+        "device-ended.json",
+        "device-notifications-admitted.json",
+        "device-notifications-revoked.json",
+        "device-notifications-scroll-0.json",
+        "device-notifications-visible.json",
+        "device-ringing.json",
+        "device-roles.json",
+        "device-sms-ui.json",
+        "device-sms.json",
+        "device-start-restored.json",
+        "device-start-unread.json",
+        "home-role-back-start.json",
+        "home-role-returned.json",
+        "home-role-start.json",
+        "home-role-wallet.json",
+        "launcher-back.json",
+        "launcher-home-restored.json",
+        "launcher-start.json",
+        "launcher-wallet.json"
+      ]
+    },
+    "artifact_id": 14909810361,
+    "artifact": {
+      "path": "/tmp/windowsphone-android-45370106370/artifact.zip",
+      "bytes": 5371136,
+      "sha256": "d0cdfc1656be9078864b01e9935d3ac34c77afd781b0f3dce1e5ed1785b02daa"
+    },
+    "artifact_digest_matches_github": true,
+    "retained_directory": "/tmp/windowsphone-android-45370106370",
+    "job_log": {
+      "path": "/tmp/windowsphone-android-45370106370/job.log",
+      "bytes": 200422,
+      "sha256": "19bd1e5e0b77cc81a29fce1dd59d02cc19b9b07d41531601b5cc5a28eeb38a9f"
+    },
+    "call_log": {
+      "path": "/tmp/windowsphone-android-45370106370/call-logcat.txt",
+      "bytes": 571858,
+      "sha256": "d5fa6d0a8f18570e081cc1b82001acd26fc35868105463f0bbecdda383c49f4c"
+    },
+    "original_files_manifest": "/tmp/windowsphone-android-45370106370/original-files-manifest.json",
+    "tests": {
+      "jvm_assertions": 111,
+      "aosp_source_hashes": 24,
+      "package_validator": 8,
+      "mounted_geometry_validator": 8,
+      "call_foreground_validator": 3,
+      "notification_bootstrap_validator": 19,
+      "rust_phone_android": 7
+    },
+    "device": {
+      "api": "36",
+      "abi": "x86_64",
+      "serial": "emulator-5584"
+    },
+    "emulator_version": "INFO         | Android emulator version 37.3.10.0 (build_id 16970787) (CL:N/A)",
+    "geometry_replayed": [
+      {
+        "observation": "app-start.json",
+        "sequence": 2,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "app-wallet.json",
+        "sequence": 6,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "app-back.json",
+        "sequence": 9,
+        "uri": "back:ferroui-phone://app/org.ferroui.wallet",
+        "route": "Start",
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "app-home-restored.json",
+        "sequence": 13,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-start.json",
+        "sequence": 3,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-wallet.json",
+        "sequence": 8,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-back.json",
+        "sequence": 12,
+        "uri": "back:ferroui-phone://app/org.ferroui.wallet",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-home-restored.json",
+        "sequence": 18,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-start.json",
+        "sequence": 2,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-wallet.json",
+        "sequence": 7,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-returned.json",
+        "sequence": 11,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-back-start.json",
+        "sequence": 14,
+        "uri": "back:ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      }
+    ],
+    "native_observations": {
+      "baseline": {
+        "observation": "device-baseline.json",
+        "sequence": 3,
+        "observed_at": 1795514712365,
+        "codec": {
+          "result": "passed",
+          "assertions": 13,
+          "encoded_bytes": 266,
+          "rf_requests": 0
+        },
+        "replayed": true
+      },
+      "roles": {
+        "observation": "device-roles.json",
+        "sequence": 6,
+        "observed_at": 1795514714556,
+        "codec": {
+          "result": "passed",
+          "assertions": 13,
+          "encoded_bytes": 266,
+          "rf_requests": 0
+        },
+        "replayed": true
+      },
+      "sms": {
+        "observation": "device-sms.json",
+        "sequence": 9,
+        "observed_at": 1795514716339,
+        "codec": {
+          "result": "passed",
+          "assertions": 13,
+          "encoded_bytes": 266,
+          "rf_requests": 0
+        },
+        "replayed": true,
+        "received_sms": {
+          "id": "sms:1",
+          "thread_id": "thread:1",
+          "body_sha256": "e69f2fe9f2fce6a81205f7c35b9091a9a2375afe5811c4956112e90a03053a4e",
+          "type": 1,
+          "matching_rows": 1,
+          "bridge_messages": {
+            "kind": "messages",
+            "value": {
+              "thread_id": "thread:1",
+              "messages": [
+                {
+                  "id": "sms:1",
+                  "thread_id": "thread:1",
+                  "address": "5550101",
+                  "body": "FerroUI SMS 39c4691255c4a171edf059e1b4d521f4",
+                  "timestamp": 1795514715360,
+                  "read": false,
+                  "outgoing": false,
+                  "status": "received",
+                  "subscription": "sms-subscription:1",
+                  "attachment_count": 0
+                }
+              ]
+            }
+          },
+          "bridge_threads": {
+            "kind": "messageThreads",
+            "value": [
+              {
+                "id": "thread:1",
+                "recipients": [
+                  "5550101"
+                ],
+                "title": "5550101",
+                "snippet": "FerroUI SMS 39c4691255c4a171edf059e1b4d521f4",
+                "timestamp": 1795514715000,
+                "unread": 1,
+                "has_attachments": false
+              }
+            ]
+          }
+        }
+      },
+      "ringing": {
+        "observation": "device-ringing.json",
+        "sequence": 50,
+        "observed_at": 1795514741529,
+        "codec": {
+          "result": "passed",
+          "assertions": 13,
+          "encoded_bytes": 266,
+          "rf_requests": 0
+        },
+        "replayed": true,
+        "calls": [
+          {
+            "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+            "number": "5550102",
+            "name": "",
+            "state": "ringing",
+            "incoming": true,
+            "muted": false,
+            "speaker": true,
+            "can_hold": false,
+            "account": "phone-account:Y29tLmFuZHJvaWQucGhvbmUvY29tLmFuZHJvaWQuc2VydmljZXMudGVsZXBob255LlRlbGVwaG9ueUNvbm5lY3Rpb25TZXJ2aWNlCjE"
+          }
+        ],
+        "native_call_visible": true,
+        "call_presentation": {
+          "service_type": 4,
+          "foreground_notification": true,
+          "call_style": true
+        }
+      },
+      "active": {
+        "observation": "device-active.json",
+        "sequence": 59,
+        "observed_at": 1795514748284,
+        "codec": {
+          "result": "passed",
+          "assertions": 13,
+          "encoded_bytes": 266,
+          "rf_requests": 0
+        },
+        "replayed": true,
+        "calls": [
+          {
+            "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+            "number": "5550102",
+            "name": "",
+            "state": "active",
+            "incoming": true,
+            "muted": false,
+            "speaker": true,
+            "can_hold": true,
+            "connected_at": 1795514745395,
+            "account": "phone-account:Y29tLmFuZHJvaWQucGhvbmUvY29tLmFuZHJvaWQuc2VydmljZXMudGVsZXBob255LlRlbGVwaG9ueUNvbm5lY3Rpb25TZXJ2aWNlCjE"
+          }
+        ],
+        "native_call_visible": true,
+        "call_presentation": {
+          "service_type": 4,
+          "foreground_notification": true,
+          "call_style": true
+        }
+      },
+      "ended": {
+        "observation": "device-ended.json",
+        "sequence": 62,
+        "observed_at": 1795514750465,
+        "codec": {
+          "result": "passed",
+          "assertions": 13,
+          "encoded_bytes": 266,
+          "rf_requests": 0
+        },
+        "replayed": true,
+        "calls": [],
+        "native_call_visible": true,
+        "call_presentation": {
+          "service_type": 0,
+          "foreground_notification": false,
+          "call_style": false
+        }
+      }
+    },
+    "bootstrap": {
+      "start-unread": {
+        "observation": "device-start-unread.json",
+        "sequence": 12,
+        "route": "Start",
+        "device_message_unread": 1,
+        "device_notification_count": 0,
+        "fixture": [],
+        "rendered_fixture_labels": [],
+        "replayed": true,
+        "badges": [
+          {
+            "bounds": {
+              "fully_visible": true,
+              "height": 32.5,
+              "width": 10.0,
+              "x": 322.0,
+              "y": 121.0
+            },
+            "name": "TileBadge-101",
+            "text": "1",
+            "tile_id": 101
+          }
+        ]
+      },
+      "notifications-admitted": {
+        "observation": "device-notifications-admitted.json",
+        "sequence": 18,
+        "route": "Start",
+        "device_message_unread": 1,
+        "device_notification_count": 3,
+        "fixture": [
+          {
+            "actions": [],
+            "application": "Shell",
+            "body": "Native-listener-39c4691255c4a171edf059e1b4d521f4",
+            "clearable": true,
+            "key": "notification:ac6a40477c38ac5c4279089c851b53f01259ebdd4606626491a3c9bd56dfd11c",
+            "ongoing": false,
+            "package_id": "com.android.shell",
+            "timestamp": 1795514720901,
+            "title": "FerroUI-bootstrap-39c4691255c4a171edf059e1b4d521f4"
+          }
+        ],
+        "rendered_fixture_labels": [],
+        "replayed": true
+      },
+      "notifications-visible": {
+        "observation": "device-notifications-visible.json",
+        "sequence": 39,
+        "route": "Start",
+        "device_message_unread": 1,
+        "device_notification_count": 3,
+        "fixture": [
+          {
+            "actions": [],
+            "application": "Shell",
+            "body": "Native-listener-39c4691255c4a171edf059e1b4d521f4",
+            "clearable": true,
+            "key": "notification:ac6a40477c38ac5c4279089c851b53f01259ebdd4606626491a3c9bd56dfd11c",
+            "ongoing": false,
+            "package_id": "com.android.shell",
+            "timestamp": 1795514720901,
+            "title": "FerroUI-bootstrap-39c4691255c4a171edf059e1b4d521f4"
+          }
+        ],
+        "rendered_fixture_labels": [
+          {
+            "bounds": {
+              "fully_visible": true,
+              "height": 79.5,
+              "width": 324.0,
+              "x": 18.0,
+              "y": 389.0
+            },
+            "text": "FerroUI-bootstrap-39c4691255c4a171edf059e1b4d521f4"
+          },
+          {
+            "bounds": {
+              "fully_visible": true,
+              "height": 61.5,
+              "width": 324.0,
+              "x": 18.0,
+              "y": 472.5
+            },
+            "text": "Native-listener-39c4691255c4a171edf059e1b4d521f4"
+          }
+        ],
+        "replayed": true
+      },
+      "notifications-revoked": {
+        "observation": "device-notifications-revoked.json",
+        "sequence": 44,
+        "route": "Start",
+        "device_message_unread": 1,
+        "device_notification_count": 0,
+        "fixture": [],
+        "rendered_fixture_labels": [],
+        "replayed": true
+      },
+      "start-restored": {
+        "observation": "device-start-restored.json",
+        "sequence": 47,
+        "route": "Start",
+        "device_message_unread": 1,
+        "device_notification_count": 0,
+        "fixture": [],
+        "rendered_fixture_labels": [],
+        "replayed": true
+      },
+      "measured_notification_scroll": {
+        "input_file": "device-notifications-scroll-0-input.txt",
+        "input_pixels": [
+          360,
+          1100,
+          820
+        ],
+        "before": {
+          "bounds": {
+            "fully_visible": true,
+            "height": 311.5,
+            "width": 360.0,
+            "x": 0.0,
+            "y": 282.5
+          },
+          "extent": {
+            "height": 888.0,
+            "width": 360.0
+          },
+          "offset": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "targets": [
+            {
+              "bounds": {
+                "height": 79.5,
+                "width": 324.0,
+                "x": 18.0,
+                "y": 615.0
+              },
+              "text": "FerroUI-bootstrap-39c4691255c4a171edf059e1b4d521f4"
+            },
+            {
+              "bounds": {
+                "height": 61.5,
+                "width": 324.0,
+                "x": 18.0,
+                "y": 698.5
+              },
+              "text": "Native-listener-39c4691255c4a171edf059e1b4d521f4"
+            }
+          ],
+          "viewport": {
+            "height": 311.5,
+            "width": 360.0
+          }
+        },
+        "after": {
+          "bounds": {
+            "fully_visible": true,
+            "height": 311.5,
+            "width": 360.0,
+            "x": 0.0,
+            "y": 282.5
+          },
+          "extent": {
+            "height": 888.0,
+            "width": 360.0
+          },
+          "offset": {
+            "x": 0.0,
+            "y": 225.97693064652154
+          },
+          "targets": [
+            {
+              "bounds": {
+                "height": 79.5,
+                "width": 324.0,
+                "x": 18.0,
+                "y": 389.0
+              },
+              "text": "FerroUI-bootstrap-39c4691255c4a171edf059e1b4d521f4"
+            },
+            {
+              "bounds": {
+                "height": 61.5,
+                "width": 324.0,
+                "x": 18.0,
+                "y": 472.5
+              },
+              "text": "Native-listener-39c4691255c4a171edf059e1b4d521f4"
+            }
+          ],
+          "viewport": {
+            "height": 311.5,
+            "width": 360.0
+          }
+        },
+        "replayed": true
+      }
+    },
+    "roles": {
+      "HOME": {
+        "before": [
+          "com.google.android.apps.nexuslauncher"
+        ],
+        "selected": [
+          "org.ferroui.windowsphone.launcher"
+        ],
+        "after": [
+          "com.google.android.apps.nexuslauncher"
+        ],
+        "restored_exact": true
+      },
+      "DIALER": {
+        "before": [
+          "com.google.android.dialer"
+        ],
+        "selected": [
+          "org.ferroui.windowsphone.launcher"
+        ],
+        "after": [
+          "com.google.android.dialer"
+        ],
+        "restored_exact": true
+      },
+      "SMS": {
+        "before": [
+          "com.google.android.apps.messaging"
+        ],
+        "selected": [
+          "org.ferroui.windowsphone.launcher"
+        ],
+        "after": [
+          "com.google.android.apps.messaging"
+        ],
+        "restored_exact": true
+      }
+    },
+    "notification_listener_access": {
+      "before": [
+        "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+        "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+      ],
+      "granted": [
+        "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+        "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService",
+        "org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneNotificationListener"
+      ],
+      "revoked": [
+        "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+        "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+      ],
+      "restored": [
+        "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener",
+        "com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+      ],
+      "unrelated_access_unchanged": true,
+      "restored_exact": true
+    },
+    "android_user_before": "0",
+    "android_user_after": "0",
+    "crash_buffer_bytes": 0,
+    "call_answer": {
+      "node": {
+        "index": "3",
+        "text": "answer",
+        "resource-id": "",
+        "class": "android.widget.Button",
+        "package": "org.ferroui.windowsphone.launcher",
+        "content-desc": "",
+        "checkable": "false",
+        "checked": "false",
+        "clickable": "true",
+        "enabled": "true",
+        "focusable": "true",
+        "focused": "false",
+        "scrollable": "false",
+        "long-clickable": "false",
+        "password": "false",
+        "selected": "false",
+        "bounds": "[40,474][680,578]",
+        "drawing-order": "4",
+        "hint": ""
+      },
+      "input_pixels": [
+        360,
+        526
+      ],
+      "focus_lines": [
+        "  mCurrentFocus=Window{7f0842 u0 org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneCallActivity}"
+      ]
+    },
+    "call_history": {
+      "ringing": {
+        "file": "call-ringing-observations.jsonl",
+        "samples": 4,
+        "valid_sequences": [
+          49,
+          50
+        ],
+        "accepted_distinct_pair": [
+          49,
+          50
+        ],
+        "replayed_two_fresh_observations": true,
+        "states": [
+          {
+            "sequence": 48,
+            "observed_at": 1795514739907,
+            "calls": [],
+            "presentation": {
+              "service_type": 0,
+              "foreground_notification": false,
+              "call_style": false
+            }
+          },
+          {
+            "sequence": 48,
+            "observed_at": 1795514739907,
+            "calls": [],
+            "presentation": {
+              "service_type": 0,
+              "foreground_notification": false,
+              "call_style": false
+            }
+          },
+          {
+            "sequence": 49,
+            "observed_at": 1795514740665,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "ringing"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 50,
+            "observed_at": 1795514741529,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "ringing"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          }
+        ]
+      },
+      "active": {
+        "file": "call-active-observations.jsonl",
+        "samples": 6,
+        "valid_sequences": [
+          57,
+          59
+        ],
+        "accepted_distinct_pair": [
+          57,
+          59
+        ],
+        "replayed_two_fresh_observations": true,
+        "states": [
+          {
+            "sequence": 56,
+            "observed_at": 1795514744898,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "ringing"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 56,
+            "observed_at": 1795514744898,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "ringing"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 56,
+            "observed_at": 1795514744898,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "ringing"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 57,
+            "observed_at": 1795514745485,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "active"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 57,
+            "observed_at": 1795514745485,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "active"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 59,
+            "observed_at": 1795514748284,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "active"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          }
+        ]
+      },
+      "ended": {
+        "file": "call-ended-observations.jsonl",
+        "samples": 5,
+        "valid_sequences": [
+          61,
+          62
+        ],
+        "accepted_distinct_pair": [
+          61,
+          62
+        ],
+        "replayed_two_fresh_observations": true,
+        "states": [
+          {
+            "sequence": 59,
+            "observed_at": 1795514748284,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "active"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 59,
+            "observed_at": 1795514748284,
+            "calls": [
+              {
+                "id": "call:72b5b262-35ce-4911-99d4-a73f09dc8adf",
+                "state": "active"
+              }
+            ],
+            "presentation": {
+              "service_type": 4,
+              "foreground_notification": true,
+              "call_style": true
+            }
+          },
+          {
+            "sequence": 61,
+            "observed_at": 1795514749888,
+            "calls": [],
+            "presentation": {
+              "service_type": 0,
+              "foreground_notification": false,
+              "call_style": false
+            }
+          },
+          {
+            "sequence": 61,
+            "observed_at": 1795514749888,
+            "calls": [],
+            "presentation": {
+              "service_type": 0,
+              "foreground_notification": false,
+              "call_style": false
+            }
+          },
+          {
+            "sequence": 62,
+            "observed_at": 1795514750465,
+            "calls": [],
+            "presentation": {
+              "service_type": 0,
+              "foreground_notification": false,
+              "call_style": false
+            }
+          }
+        ]
+      }
+    },
+    "call_log_transitions": [
+      {
+        "line": 205,
+        "text": "11-24 10:05:40.175   678  5414 I Telecom : CallsManager: setCallState NEW -> RINGING, call: [Call id=TC@1, state=NEW, tpac=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, cmgr=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, handle=tel:*****02, vidst=A, childs(0), has_parent(false), cap=[ sup_hld mut !v2a spd_aud], prop=[]], voip=false: (...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF->CILH.sL->CILH.oQC->BCF.gBS->BCF.gBS->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF(cap/cast)@E-E-Aqg\ud83d\udd12"
+      },
+      {
+        "line": 1873,
+        "text": "11-24 10:05:45.199   678  1274 I Telecom : Event: RecordEntry TC@1: REQUEST_ACCEPT, null: ICA.aC->CSC.aC->CSFM.rF(ofwl)@Atw\ud83d\udd12"
+      },
+      {
+        "line": 1880,
+        "text": "11-24 10:05:45.215   678  1274 I Telecom : CallsManager: setCallState RINGING -> ANSWERED, call: [Call id=TC@1, state=RINGING, tpac=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, cmgr=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, handle=tel:*****02, vidst=A, childs(0), has_parent(false), cap=[ sup_hld mut !v2a spd_aud], prop=[]], voip=false: ICA.aC->CSC.aC->CSFM.rF(ofwl)@Atw\ud83d\udd12"
+      },
+      {
+        "line": 1971,
+        "text": "11-24 10:05:45.395   678  1842 I Telecom : CallsManager: setCallState ANSWERED -> ACTIVE, call: [Call id=TC@1, state=ANSWERED, tpac=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, cmgr=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, handle=tel:*****02, vidst=A, childs(0), has_parent(false), cap=[ sup_hld mut !v2a spd_aud], prop=[]], voip=false: CSW.sA(cap)@At4\ud83d\udd12"
+      },
+      {
+        "line": 2973,
+        "text": "11-24 10:05:48.940   678  1416 I Telecom : CallsManager: markCallAsDisconnected: call=[Call id=TC@1, state=ACTIVE, tpac=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, cmgr=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, handle=tel:*****02, vidst=A, childs(0), has_parent(false), cap=[ hld sup_hld mut !v2a spd_aud], prop=[]], voip=false; disconnectCause=DisconnectCause [ Code: (REMOTE) Label: () Description: () Reason: (NORMAL) Tone: (27)  TelephonyCause: 2/-1 ImsReasonInfo: null]: CSW.sDc(cap)@AwI\ud83d\udd12"
+      },
+      {
+        "line": 2974,
+        "text": "11-24 10:05:48.941   678  1416 I Telecom : CallsManager: setCallState ACTIVE -> DISCONNECTED, call: [Call id=TC@1, state=ACTIVE, tpac=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, cmgr=ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}, handle=tel:*****02, vidst=A, childs(0), has_parent(false), cap=[ hld sup_hld mut !v2a spd_aud], prop=[]], voip=false: CSW.sDc(cap)@AwI\ud83d\udd12"
+      }
+    ],
+    "call_log_capture": {
+      "limit_seconds": 300,
+      "limit_bytes": 33554432,
+      "actual_bytes": 571858,
+      "exit_status": 143,
+      "termination": "143 is the expected deliberate stop of the owned reader after successful ended-state capture; no cap was reached."
+    },
+    "gsm_list_diagnostics": {
+      "outputs": {
+        "modem-before-call.txt": "OK\n",
+        "modem-ringing-calls.txt": "OK\n",
+        "modem-after-answer-calls.txt": "OK\n",
+        "modem-active-calls.txt": "OK\n"
+      },
+      "qualification": "This emulator returned only OK to gsm list. These commands do not independently establish state; actual Telecom logs and strict native observations establish ringing/active/ended."
+    },
+    "captures": [
+      {
+        "name": "app-back.png",
+        "bytes": 324163,
+        "sha256": "e80188272730fd561a042cce0875fd345c33a4429ea738fe8e0163aa59f25899",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "app-home-restored.png",
+        "bytes": 325373,
+        "sha256": "209418f006156e0412404f7eeb82a5642461840ed99cc2b7babebb6405ac549f",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "app-start.png",
+        "bytes": 324116,
+        "sha256": "efa0af526e960e10c87f0ccb45b92cdc51ef137aa648377b8bd2743eaf1bdd76",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "app-wallet.png",
+        "bytes": 93217,
+        "sha256": "7442bc58893e31b7067bf001ed524c39650750f9ae5d9756aaab9d23a9c564f3",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "device-action-center-revoked.png",
+        "bytes": 77643,
+        "sha256": "680ee8e1d9fe8b75b11bf5d590efcf77ed1435e2b32b7f90d83069363d27c373",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Native fixture removed after revocation; built-in demonstration notifications remain."
+      },
+      {
+        "name": "device-action-center.png",
+        "bytes": 89149,
+        "sha256": "ccf07eeb44d14f40e5d3f73a2b8fecaf2ef10d49e1e89a878453a72e67579d5a",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "The unique native notification title and body are visible after measured scrolling."
+      },
+      {
+        "name": "device-active-call.png",
+        "bytes": 47370,
+        "sha256": "0869b0076a751a9567a832309326d11e1aa496d1eda4c6d9630d237aeadbd6c9",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "PHONE, caller 5550102, active, end call, mute, phone audio, hold and dialpad are present."
+      },
+      {
+        "name": "device-ended-call.png",
+        "bytes": 24119,
+        "sha256": "279c46fbf730c04eb61bd7b1f26f06002f1c9c8bb925b2919362901a159b8103",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "PHONE, call ended and Return to phone are present."
+      },
+      {
+        "name": "device-messaging.png",
+        "bytes": 55055,
+        "sha256": "b62f027ef325bd4410da51f220beb918cdd6e03a092da67ea1c6c56820871a8f",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Native 5550101 conversation and exact incoming SMS fixture are visible."
+      },
+      {
+        "name": "device-notifications-scroll-0.png",
+        "bytes": 79903,
+        "sha256": "31b133caf68489ebe613f0c4d8185b590d1699ea1d5f8162e1883f6be2421162",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "device-ringing.png",
+        "bytes": 28201,
+        "sha256": "cf03cf907d99c7288bc6771a76d811d0f6cf6ef026a56a1d1ac2fb5e821ecd16",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Incoming 5550102, ringing, Answer and Decline visible; system heads-up banner overlaps the header area."
+      },
+      {
+        "name": "device-start-unread.png",
+        "bytes": 510287,
+        "sha256": "3e1576d738f8075d05d0709eff0705c4578d4933dbcb9ef422f609f6ad4be6d2",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Canonical Messaging tile visibly shows the native unread badge 1 before Messaging is opened."
+      },
+      {
+        "name": "home-role-back-start.png",
+        "bytes": 509292,
+        "sha256": "f8d5b502fd111ccc3b871ddd0f6ac2d3fdf00631c8791b57ed100148f57f521c",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "home-role-returned.png",
+        "bytes": 509292,
+        "sha256": "f8d5b502fd111ccc3b871ddd0f6ac2d3fdf00631c8791b57ed100148f57f521c",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "home-role-start.png",
+        "bytes": 453801,
+        "sha256": "3038f44078886cd26cfd79a67003e649b9233f8e8d293875bfa05fa778b7f0a6",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Mounted Start tiles appear inside the native safe area while HOME is active."
+      },
+      {
+        "name": "home-role-wallet.png",
+        "bytes": 93471,
+        "sha256": "93c6c93ee28424238f0fa6498b4732d8ad6269c2ae1cae66b4b78929a029feda",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Mounted Wallet title, pivot headers, search, empty state and application bar are visible."
+      },
+      {
+        "name": "launcher-back.png",
+        "bytes": 425592,
+        "sha256": "6306969c5e802cd37249c009ac83d4dbaaaa2981ec7c069144d2c578a0d9b508",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "launcher-home-restored.png",
+        "bytes": 453896,
+        "sha256": "28a98abfd5208d44156d642a9b12bbac896ef3d10762b89014b29e79059b1ebb",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "launcher-start.png",
+        "bytes": 425530,
+        "sha256": "5bf42ccdea66d3975b49cf4f501b383e47c63b787a1cd86ba0727b6cdbc6c84d",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      },
+      {
+        "name": "launcher-wallet.png",
+        "bytes": 93286,
+        "sha256": "a99e02d4bfeee951d5bdc8540f274e026addad24013b0e74dff3b5c764932cf0",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": false,
+        "review": null
+      }
+    ],
+    "capture_count": 20,
+    "visually_reviewed_capture_count": 9,
+    "capture_review_method": "Original PNGs viewed; unmodified bytes matched archive entries. Native text findings cross-checked with opaque pixel regions/OCR where needed. No missing caller or PHONE-header defect is supported."
+  },
+  "arm64": {
+    "run_id": 45370106379,
+    "job_id": 138361873061,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45370106379",
+    "head_sha": "c9923b2730e9fde63d4c822452f69ad46af30959",
+    "conclusion": "success",
+    "retained_directory": "/tmp/windowsphone-android-arm64-c9923b2",
+    "package_evidence": {
+      "archive": "/tmp/windowsphone-android-arm64-c9923b2.zip",
+      "artifact_id": 14909580163,
+      "run_id": 45370106379,
+      "head_sha": "c9923b2730e9fde63d4c822452f69ad46af30959",
+      "archive_bytes": 73328695,
+      "archive_sha256": "cb15224eced672a26264c71082a01135ec2530a21ce1840ab8f0558c5ec45131",
+      "archive_digest_matches_github": true,
+      "packages": [
+        {
+          "flavor": "app",
+          "archive_entry": "phone-arm64-v8a-debug/outputs/apk/app/debug/WindowsPhoneAndroid-app-debug.apk",
+          "apk_bytes": 118489680,
+          "apk": "WindowsPhoneAndroid-app-debug.apk",
+          "package": "org.ferroui.windowsphone",
+          "launcher": false,
+          "abi": "arm64-v8a",
+          "native_bytes": 112400768,
+          "load_alignment": {
+            "lib/arm64-v8a/libimage_processing_util_jni.so": [
+              16384,
+              16384,
+              16384
+            ],
+            "lib/arm64-v8a/libphone_android.so": [
+              16384,
+              16384,
+              16384,
+              16384
+            ],
+            "lib/arm64-v8a/libsurface_util_jni.so": [
+              16384,
+              16384
+            ]
+          },
+          "native_sha256": "a102d7a107b56c8a3dc60a15d5b7c00691eaadf1c2528a3460613f9eaefd60a8",
+          "apk_sha256": "1c752b41e4f3b4d369801218d803be7e0e0d105529e906ef295c3bf2faf3d634",
+          "apk_hash_replayed": true
+        },
+        {
+          "flavor": "launcher",
+          "archive_entry": "phone-arm64-v8a-debug/outputs/apk/launcher/debug/WindowsPhoneAndroid-launcher-debug.apk",
+          "apk_bytes": 118489728,
+          "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+          "package": "org.ferroui.windowsphone.launcher",
+          "launcher": true,
+          "abi": "arm64-v8a",
+          "native_bytes": 112400768,
+          "load_alignment": {
+            "lib/arm64-v8a/libimage_processing_util_jni.so": [
+              16384,
+              16384,
+              16384
+            ],
+            "lib/arm64-v8a/libphone_android.so": [
+              16384,
+              16384,
+              16384,
+              16384
+            ],
+            "lib/arm64-v8a/libsurface_util_jni.so": [
+              16384,
+              16384
+            ]
+          },
+          "native_sha256": "a102d7a107b56c8a3dc60a15d5b7c00691eaadf1c2528a3460613f9eaefd60a8",
+          "apk_sha256": "5040259330d76ac006db4e7e489a81231848e7d6dba14eb2ae6563fb95ad2b53",
+          "apk_hash_replayed": true
+        }
+      ]
+    },
+    "tests": {
+      "jvm_assertions": 111,
+      "aosp_source_hashes": 24,
+      "package_validator": 8,
+      "rust_phone_android": 7
+    },
+    "embedding_no_default_features": "passed: cargo check --locked -p phone-android --no-default-features --target aarch64-linux-android",
+    "merged_manifest_jni_and_alignment": "passed for both flavors; all listed ELF LOAD alignments 16384 and APK zipalign -P 16 verified by CI",
+    "job_log": {
+      "path": "/tmp/windowsphone-android-arm64-c9923b2/job.log",
+      "bytes": 223119,
+      "sha256": "cc372f4af7b87bad76db41987b7fbb1cc9e5924999064ae804998892c5e403b0"
+    }
+  },
+  "history": [
+    {
+      "head_sha": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+      "run_id": 45365729246,
+      "job_id": 138346844797,
+      "conclusion": "failure",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45365729246/job/138346844797",
+      "retained_directory": "/tmp/windowsphone-android-45365729246",
+      "artifact": {
+        "path": "/tmp/windowsphone-android-45365729246/artifact.zip",
+        "bytes": 5156382,
+        "sha256": "2b9227fbb9dd068dafe35c1612329d0484069ad7b4cd6254b58473680418a2c9"
+      },
+      "phase": "Waiting for active Telecom state after the native Answer tap",
+      "exact_error": "Native active observation failed: Telecom did not report the real expected call state",
+      "facts": [
+        "Native Android Answer Button was correctly selected at [40,474][680,578], tap (360,526).",
+        "Pre-tap native observation showed ringing; final observation showed calls=[] and the ended native screen.",
+        "No crash was retained.",
+        "The last 12,000 log lines began 09:38:22; the Answer interaction around 09:37:56 was not retained.",
+        "Native call Java sources were unchanged from preceding successful 77f0a0f."
+      ],
+      "root_cause": "Unresolved. Final B success does not retroactively establish why A failed or prove an automation-only cause. No production call-path patch was made."
+    },
+    {
+      "head_sha": "9f900b0e6894bb27d27a3aba1517e9951f565c1a",
+      "run_id": 45369167398,
+      "conclusion": "cancelled",
+      "qualification": "Superseded by final B after its runtime step began; cancellation is not a test failure.",
+      "original_run_metadata": "/tmp/windowsphone-android-superseded-9f900b0.json"
+    }
+  ],
+  "limitations": [
+    "API 36 x86_64 software-GPU emulator evidence does not qualify physical/OEM devices, RF carrier delivery, or actual Windows Phone visual parity.",
+    "Incoming and remote-ended calls were emulator fixtures; actual app Answer input and Telecom/service/notification observations were required.",
+    "The ringing capture contains a system heads-up banner that occludes part of the header area.",
+    "The first A call failure remains unexplained because its immediate native logs were not retained.",
+    "The intermediate diagnostic-only run was canceled; final B includes shared UI changes as well as diagnostics.",
+    "Twenty original screenshots are retained; nine representative screenshots were visually reviewed."
+  ],
+  "publication_retention": {
+    "complete_original_capture_count": 20,
+    "retained_files_in_repository": [
+      "captures/android-result.json",
+      "captures/android-device-baseline.json",
+      "captures/android-device-start-unread.json",
+      "captures/android-device-notifications-admitted.json",
+      "captures/android-device-notifications-visible.json",
+      "captures/android-device-notifications-revoked.json",
+      "captures/android-device-sms.json",
+      "captures/android-device-sms-ui.json",
+      "captures/android-device-roles.json",
+      "captures/android-device-ringing.json",
+      "captures/android-device-active.json",
+      "captures/android-device-ended.json",
+      "captures/android-home-role-back-start.json",
+      "captures/android-device-active-call.png",
+      "captures/android-device-ended-call.png",
+      "captures/android-device-action-center.png",
+      "captures/android-device-messaging.png",
+      "captures/android-call-ringing-observations.jsonl",
+      "captures/android-call-active-observations.jsonl",
+      "captures/android-call-ended-observations.jsonl",
+      "captures/android-call-logcat.txt",
+      "captures/android-call-answer-input.txt",
+      "captures/android-call-tree.xml"
+    ],
+    "note": "The complete workflow artifact was retrieved and its SHA-256 verified. This repository retains the listed selected original files; full capture hashes and artifact identity remain in this report. Collection-time /tmp paths describe provenance rather than published file locations."
+  }
+}

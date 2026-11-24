@@ -1,0 +1,1779 @@
+{
+  "site": "/home/runner/work/WindowsPhone/WindowsPhone/target/browser/phone-browser",
+  "viewport": [
+    1280,
+    936
+  ],
+  "checks": [
+    {
+      "name": "desktop Start renders",
+      "elapsedMs": 606,
+      "passed": true
+    },
+    {
+      "name": "native tile launch and Back",
+      "elapsedMs": 985,
+      "passed": true
+    },
+    {
+      "name": "native context menu resizes a tile",
+      "elapsedMs": 1046,
+      "passed": true
+    },
+    {
+      "name": "app list search and native note creation",
+      "elapsedMs": 3523,
+      "passed": true
+    },
+    {
+      "name": "native note edit and reload persistence",
+      "elapsedMs": 5342,
+      "passed": true
+    },
+    {
+      "name": "native secondary note tile opens its note",
+      "elapsedMs": 1552,
+      "passed": true
+    },
+    {
+      "name": "native note deletion",
+      "elapsedMs": 411,
+      "passed": true
+    },
+    {
+      "name": "app search launches a working calculator",
+      "elapsedMs": 3287,
+      "passed": true
+    },
+    {
+      "name": "Action Center toggles and clears notifications",
+      "elapsedMs": 1510,
+      "passed": true
+    },
+    {
+      "name": "native quick-action customization updates Action Center",
+      "elapsedMs": 3711,
+      "passed": true
+    },
+    {
+      "name": "native virtualized Photos rows update and select",
+      "elapsedMs": 4735,
+      "passed": true
+    },
+    {
+      "name": "all 23 app surfaces render",
+      "elapsedMs": 16198,
+      "passed": true
+    },
+    {
+      "name": "native task switcher previews, resumes, and closes an app",
+      "elapsedMs": 2110,
+      "passed": true
+    },
+    {
+      "name": "native Word creation, editing, formatting, reload and pinned activation",
+      "elapsedMs": 6202,
+      "passed": true
+    },
+    {
+      "name": "native Excel editing calculates a range formula and preserves worksheets",
+      "elapsedMs": 3737,
+      "passed": true
+    },
+    {
+      "name": "native Excel range selection, AutoSum, sorting, find and clear preserve unrelated cells",
+      "elapsedMs": 7267,
+      "passed": true
+    },
+    {
+      "name": "native PowerPoint text and speaker notes remain in their slide",
+      "elapsedMs": 5034,
+      "passed": true
+    },
+    {
+      "name": "native Files hierarchy, multi-copy, move and rename preserve document identity",
+      "elapsedMs": 5036,
+      "passed": true
+    },
+    {
+      "name": "native Files properties report actual copies and close with Back without changing documents",
+      "elapsedMs": 2463,
+      "passed": true
+    },
+    {
+      "name": "Office binary host callbacks roundtrip real packages and reject damaged imports",
+      "elapsedMs": 777,
+      "passed": true
+    },
+    {
+      "name": "native calendar month, week, day and year views drill into appointments",
+      "elapsedMs": 3198,
+      "passed": true
+    },
+    {
+      "name": "native recurring appointment edit changes one occurrence atomically",
+      "elapsedMs": 3938,
+      "passed": true
+    },
+    {
+      "name": "native all-day recurring appointment preferences survive reload",
+      "elapsedMs": 5632,
+      "passed": true
+    },
+    {
+      "name": "native alarm editor saves repeat days and configurable snooze",
+      "elapsedMs": 2724,
+      "passed": true
+    },
+    {
+      "name": "foreground alarm preserves an unsaved form and Back snoozes two minutes",
+      "elapsedMs": 2885,
+      "passed": true
+    },
+    {
+      "name": "foreground calendar reminder snoozes and opens its exact occurrence",
+      "elapsedMs": 2095,
+      "passed": true
+    },
+    {
+      "name": "Metro application bar reveals labels without moving page content",
+      "elapsedMs": 2176,
+      "passed": true
+    },
+    {
+      "name": "native page entrances survive route cleanup and reverse on Back",
+      "elapsedMs": 5436,
+      "passed": true
+    },
+    {
+      "name": "native Metro switch thumb follows touch and persists on release",
+      "elapsedMs": 3251,
+      "passed": true
+    },
+    {
+      "name": "native Metro pivot supports touch wrapping, headers and keyboard",
+      "elapsedMs": 3406,
+      "passed": true
+    },
+    {
+      "name": "Metro controls fit 320-pixel light and dark phone surfaces",
+      "elapsedMs": 3280,
+      "passed": true
+    },
+    {
+      "name": "reduced motion keeps phone pivot headings and content usable",
+      "elapsedMs": 780,
+      "passed": true
+    },
+    {
+      "name": "native Outlook multiline editor saves drafts only after explicit save",
+      "elapsedMs": 2846,
+      "passed": true
+    },
+    {
+      "name": "Outlook Back cancellation and app switching preserve unsaved text without replacing the saved draft",
+      "elapsedMs": 4170,
+      "passed": true
+    },
+    {
+      "name": "Outlook rejects an invalid handoff and deletes a local draft only after confirmation",
+      "elapsedMs": 1406,
+      "passed": true
+    },
+    {
+      "name": "native transparent tiles share a bounded wallpaper plane across tall Start layouts",
+      "elapsedMs": 1305,
+      "passed": true
+    },
+    {
+      "name": "native tile projection responds to press location while retaining Button bounds",
+      "elapsedMs": 2624,
+      "passed": true
+    },
+    {
+      "name": "native alphabet jump, sticky push-off and search use actual app-list geometry",
+      "elapsedMs": 2080,
+      "passed": true
+    },
+    {
+      "name": "native phone date and time pickers preserve popup accept and cancel behavior",
+      "elapsedMs": 2968,
+      "passed": true
+    },
+    {
+      "name": "native hardware volume separates ringer and media with stable mute",
+      "elapsedMs": 1672,
+      "passed": true
+    },
+    {
+      "name": "native accessibility preferences and lock detail selection persist",
+      "elapsedMs": 6106,
+      "passed": true
+    },
+    {
+      "name": "native notification policy hides one app and grouped dismissal preserves others",
+      "elapsedMs": 5907,
+      "passed": true
+    },
+    {
+      "name": "native mail selection deletes and restores the selected messages",
+      "elapsedMs": 3325,
+      "passed": true
+    },
+    {
+      "name": "native message search, forwarding draft, contact selection and deletion work",
+      "elapsedMs": 4522,
+      "passed": true
+    },
+    {
+      "name": "native browser tabs retain independent navigation journals",
+      "elapsedMs": 3826,
+      "passed": true
+    },
+    {
+      "name": "native favorites and configurable address shortcut persist",
+      "elapsedMs": 2210,
+      "passed": true
+    },
+    {
+      "name": "native browser history clears independently of open tabs and favorites",
+      "elapsedMs": 1500,
+      "passed": true
+    },
+    {
+      "name": "vCard host bytes import atomically and the native People card exposes file sharing",
+      "elapsedMs": 967,
+      "passed": true
+    },
+    {
+      "name": "iCalendar byte callbacks preserve local recurrence and native series sharing",
+      "elapsedMs": 1023,
+      "passed": true
+    },
+    {
+      "name": "native Storage Sense distinguishes observed origin quota and persistent storage",
+      "elapsedMs": 1345,
+      "passed": true
+    },
+    {
+      "name": "native notification settings distinguish unrequested and blocked host permissions",
+      "elapsedMs": 1150,
+      "passed": true
+    },
+    {
+      "name": "SDK rejects unregistered and malformed application activation without mutation",
+      "elapsedMs": 15,
+      "passed": true
+    },
+    {
+      "name": "registered Tic tac toe supports local search, native play, exact score persistence and turn undo",
+      "elapsedMs": 6149,
+      "passed": true
+    },
+    {
+      "name": "registered Minesweeper provides safe first reveal, flags, transient clock and resumable state",
+      "elapsedMs": 4684,
+      "passed": true
+    },
+    {
+      "name": "SDK app Start links, local search, and Store disable/enable preserve game progress",
+      "elapsedMs": 4541,
+      "passed": true
+    },
+    {
+      "name": "native Word undo and redo restore content and formatting independently",
+      "elapsedMs": 3304,
+      "passed": true
+    },
+    {
+      "name": "native Excel evaluates typed conditions and undoes worksheet edits",
+      "elapsedMs": 3636,
+      "passed": true
+    },
+    {
+      "name": "native OneNote notebooks, sections, checklists and page moves persist",
+      "elapsedMs": 6566,
+      "passed": true
+    },
+    {
+      "name": "Music playlists select, reorder, rename and survive a real reload without changing media files",
+      "elapsedMs": 5142,
+      "passed": true
+    },
+    {
+      "name": "Video playlists use an independent namespace and expose only video selections",
+      "elapsedMs": 1574,
+      "passed": true
+    },
+    {
+      "name": "Photos albums select, rename photos, survive restore, and remove membership without deleting originals",
+      "elapsedMs": 5064,
+      "passed": true
+    },
+    {
+      "name": "Weather searches real task fixtures, saves hourly/daily readings and preserves units across reload",
+      "elapsedMs": 3860,
+      "passed": true
+    },
+    {
+      "name": "Podcasts imports an HTTPS feed through SDK, persists played state and pins a deep route",
+      "elapsedMs": 3576,
+      "passed": true
+    },
+    {
+      "name": "Wallet creates, validates, displays Code 39, favorites and restores independently",
+      "elapsedMs": 6329,
+      "passed": true
+    },
+    {
+      "name": "native map tiles render with attribution and bounded visible images; pan and zoom preserve data",
+      "elapsedMs": 1199,
+      "passed": true
+    },
+    {
+      "name": "trusted map pinch, pointer cancellation and route cleanup stay within the map",
+      "elapsedMs": 1559,
+      "passed": true
+    },
+    {
+      "name": "native Maps saves coordinates, home shortcuts and directions preferences",
+      "elapsedMs": 7142,
+      "passed": true
+    },
+    {
+      "name": "native Maps coordinate search and recent history need no network lookup",
+      "elapsedMs": 1893,
+      "passed": true
+    },
+    {
+      "name": "Device app renders observed browser services without offering a launcher or device catalog",
+      "elapsedMs": 593,
+      "passed": true
+    },
+    {
+      "name": "browser embedding API validates platform requests and activation routes before mutation",
+      "elapsedMs": 6,
+      "passed": true
+    },
+    {
+      "name": "mounted People live tile advances one cell without input or persistence",
+      "elapsedMs": 1469,
+      "passed": true
+    },
+    {
+      "name": "six native live-card templates, capped badge and finite flip render",
+      "elapsedMs": 1033,
+      "passed": true
+    },
+    {
+      "name": "queued cards rotate and scheduled expiry survives reduced motion without saving",
+      "elapsedMs": 556,
+      "passed": true
+    },
+    {
+      "name": "native tile customization, folder creation and dissolution preserve full records",
+      "elapsedMs": 5031,
+      "passed": true
+    },
+    {
+      "name": "lock screen covers an open Office form and preserves its unsaved draft",
+      "elapsedMs": 2010,
+      "passed": true
+    },
+    {
+      "name": "native live-folder cover, expansion and child activation retain tile identity",
+      "elapsedMs": 1295,
+      "passed": true
+    },
+    {
+      "name": "narrow viewport and trusted touch navigation",
+      "elapsedMs": 2647,
+      "passed": true
+    },
+    {
+      "name": "mobile DPR2 canvas, native layout, pixels, and input agree",
+      "elapsedMs": 4415,
+      "passed": true
+    },
+    {
+      "name": "emulated DPR1 on a physical DPR2 browser stays full size",
+      "elapsedMs": 3136,
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "name": "01-start-desktop",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 4203
+    },
+    {
+      "name": "02-phone-history",
+      "route": {
+        "App": "Phone"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 179
+    },
+    {
+      "name": "03-start-resized",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3607
+    },
+    {
+      "name": "04-native-note-form",
+      "route": {
+        "App": "OneNote"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 179
+    },
+    {
+      "name": "05-note-created",
+      "route": {
+        "Note": 1048
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 197
+    },
+    {
+      "name": "06-note-restored",
+      "route": {
+        "Note": 1048
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 201
+    },
+    {
+      "name": "06b-note-pinned",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 341
+    },
+    {
+      "name": "07-app-search",
+      "route": "Apps",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 85
+    },
+    {
+      "name": "08-calculator",
+      "route": {
+        "App": "Calculator"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 145
+    },
+    {
+      "name": "09-action-center",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 131
+    },
+    {
+      "name": "09b-quick-action-settings",
+      "route": {
+        "Setting": "notifications+actions"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 258
+    },
+    {
+      "name": "09c-customized-action-center",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 139
+    },
+    {
+      "name": "photos-virtualized-grid",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 8898
+    },
+    {
+      "name": "photos-scrolled-selection",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 6215
+    },
+    {
+      "name": "photos-imported-selection",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 5959
+    },
+    {
+      "name": "app-phone",
+      "route": {
+        "App": "Phone"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 178
+    },
+    {
+      "name": "app-messaging",
+      "route": {
+        "App": "Messaging"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 259
+    },
+    {
+      "name": "app-people",
+      "route": {
+        "App": "People"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 194
+    },
+    {
+      "name": "app-outlook",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 285
+    },
+    {
+      "name": "app-calendar",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 171
+    },
+    {
+      "name": "app-photos",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3180
+    },
+    {
+      "name": "app-camera",
+      "route": {
+        "App": "Camera"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 139
+    },
+    {
+      "name": "app-internet-explorer",
+      "route": {
+        "App": "InternetExplorer"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 171
+    },
+    {
+      "name": "app-music",
+      "route": {
+        "App": "Music"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 197
+    },
+    {
+      "name": "app-video",
+      "route": {
+        "App": "Video"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 194
+    },
+    {
+      "name": "app-games",
+      "route": {
+        "App": "Games"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 173
+    },
+    {
+      "name": "app-store",
+      "route": {
+        "App": "Store"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 258
+    },
+    {
+      "name": "app-settings",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 212
+    },
+    {
+      "name": "app-alarms",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 171
+    },
+    {
+      "name": "app-calculator",
+      "route": {
+        "App": "Calculator"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 142
+    },
+    {
+      "name": "app-one-note",
+      "route": {
+        "App": "OneNote"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 183
+    },
+    {
+      "name": "app-maps",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 245
+    },
+    {
+      "name": "app-cortana",
+      "route": {
+        "App": "Cortana"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 230
+    },
+    {
+      "name": "app-weather",
+      "route": {
+        "App": "Weather"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 242
+    },
+    {
+      "name": "app-files",
+      "route": {
+        "App": "Files"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 153
+    },
+    {
+      "name": "app-office",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 230
+    },
+    {
+      "name": "app-battery-saver",
+      "route": {
+        "App": "BatterySaver"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 245
+    },
+    {
+      "name": "app-data-sense",
+      "route": {
+        "App": "DataSense"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 224
+    },
+    {
+      "name": "task-switcher-preview",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 265
+    },
+    {
+      "name": "task-switcher-closed-card",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 269
+    },
+    {
+      "name": "office-word-native-editor",
+      "route": {
+        "Document": 1052
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 180
+    },
+    {
+      "name": "office-word-persisted-and-pinned",
+      "route": {
+        "Document": 1052
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 181
+    },
+    {
+      "name": "office-excel-formula-and-worksheets",
+      "route": {
+        "Document": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 186
+    },
+    {
+      "name": "office-excel-range-sort-and-autosum",
+      "route": {
+        "Document": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 197
+    },
+    {
+      "name": "office-excel-find-selection",
+      "route": {
+        "Document": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 187
+    },
+    {
+      "name": "office-powerpoint-native-editor",
+      "route": {
+        "Document": 1051
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 178
+    },
+    {
+      "name": "office-powerpoint-slide-and-notes",
+      "route": {
+        "Document": 1051
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 212
+    },
+    {
+      "name": "files-native-copy-move-rename",
+      "route": {
+        "FileFolder": 1055
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 222
+    },
+    {
+      "name": "files-copied-document-reopened",
+      "route": {
+        "Document": 1057
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 187
+    },
+    {
+      "name": "files-native-folder-properties",
+      "route": {
+        "FileFolder": null
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 180
+    },
+    {
+      "name": "files-native-file-properties",
+      "route": {
+        "FileFolder": 1055
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 214
+    },
+    {
+      "name": "office-imported-mobile-copy",
+      "route": {
+        "Document": 1058
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 315
+    },
+    {
+      "name": "calendar-month-inline-appointments",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 297
+    },
+    {
+      "name": "calendar-day-overlapping-appointments",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 292
+    },
+    {
+      "name": "calendar-year-navigation",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 326
+    },
+    {
+      "name": "calendar-native-date-picker",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 274
+    },
+    {
+      "name": "calendar-native-time-picker",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 227
+    },
+    {
+      "name": "calendar-native-occurrence-editor",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 204
+    },
+    {
+      "name": "calendar-recurring-appointment-details",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 215
+    },
+    {
+      "name": "calendar-reloaded-recurring-appointment",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 328
+    },
+    {
+      "name": "alarm-native-editor",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 192
+    },
+    {
+      "name": "alarm-native-ringing",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 156
+    },
+    {
+      "name": "alarm-restored-office-draft",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 125
+    },
+    {
+      "name": "calendar-native-reminder",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "calendar-reminder-opened-occurrence",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 217
+    },
+    {
+      "name": "metro-app-bar-labels-overlay",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 163
+    },
+    {
+      "name": "metro-app-bar-collapsed",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 161
+    },
+    {
+      "name": "metro-turnstile-navigation-settled",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 209
+    },
+    {
+      "name": "metro-native-switch-touch-restored",
+      "route": {
+        "Setting": "ringtones+sounds"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 218
+    },
+    {
+      "name": "metro-pivot-native-player",
+      "route": {
+        "App": "Games"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 210
+    },
+    {
+      "name": "metro-controls-320-dark",
+      "route": {
+        "Setting": "ringtones+sounds"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 166
+    },
+    {
+      "name": "metro-controls-320-light",
+      "route": {
+        "Setting": "ringtones+sounds"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 174
+    },
+    {
+      "name": "metro-pivot-reduced-motion-320",
+      "route": {
+        "App": "Games"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 205
+    },
+    {
+      "name": "outlook-native-multiline-editor",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 234
+    },
+    {
+      "name": "outlook-local-drafts",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 187
+    },
+    {
+      "name": "outlook-unsaved-back-confirmation",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 137
+    },
+    {
+      "name": "outlook-restored-draft",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 230
+    },
+    {
+      "name": "outlook-draft-deleted",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 171
+    },
+    {
+      "name": "shell-wallpaper-tall-layout-bottom",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 9825
+    },
+    {
+      "name": "shell-tile-native-resting-bounds",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 1228
+    },
+    {
+      "name": "shell-alphabet-native-grid",
+      "route": "Apps",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 133
+    },
+    {
+      "name": "shell-app-list-sticky-push",
+      "route": "Apps",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 214
+    },
+    {
+      "name": "shell-app-search-from-scrolled-list",
+      "route": "Apps",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 75
+    },
+    {
+      "name": "shell-native-time-picker",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 184
+    },
+    {
+      "name": "shell-native-date-picker",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 258
+    },
+    {
+      "name": "system-volume-expanded-muted",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3645
+    },
+    {
+      "name": "system-high-contrast-settings",
+      "route": {
+        "Setting": "ease of access"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 193
+    },
+    {
+      "name": "system-lock-screen-settings",
+      "route": {
+        "Setting": "lock screen"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 220
+    },
+    {
+      "name": "system-personalized-lock-screen",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7557
+    },
+    {
+      "name": "system-filtered-action-center",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 172
+    },
+    {
+      "name": "mail-native-bulk-selection",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 345
+    },
+    {
+      "name": "mail-deleted-folder-after-restore",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 193
+    },
+    {
+      "name": "messaging-native-bubble-context",
+      "route": {
+        "Conversation": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 202
+    },
+    {
+      "name": "messaging-contact-recipient-form",
+      "route": {
+        "App": "Messaging"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 137
+    },
+    {
+      "name": "browser-native-tabs",
+      "route": {
+        "App": "InternetExplorer"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 216
+    },
+    {
+      "name": "browser-native-favorites",
+      "route": {
+        "App": "InternetExplorer"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 209
+    },
+    {
+      "name": "browser-native-history",
+      "route": {
+        "App": "InternetExplorer"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 234
+    },
+    {
+      "name": "people-native-vcard-contact",
+      "route": {
+        "Contact": 1051
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 197
+    },
+    {
+      "name": "calendar-native-icalendar-series",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 211
+    },
+    {
+      "name": "host-native-storage-observations",
+      "route": {
+        "Setting": "storage sense"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 247
+    },
+    {
+      "name": "host-native-notification-permission",
+      "route": {
+        "Setting": "notifications+actions"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 233
+    },
+    {
+      "name": "sdk-tic-tac-toe-completed-game",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.tic-tac-toe",
+          "path": ""
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 183
+    },
+    {
+      "name": "sdk-minesweeper-playing",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.minesweeper",
+          "path": ""
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 196
+    },
+    {
+      "name": "sdk-minesweeper-restored",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.minesweeper",
+          "path": ""
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 197
+    },
+    {
+      "name": "sdk-game-store-disabled",
+      "route": {
+        "App": "Store"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 251
+    },
+    {
+      "name": "office-word-content-history",
+      "route": {
+        "Document": 1051
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 137
+    },
+    {
+      "name": "office-excel-typed-formulas-and-history",
+      "route": {
+        "Document": 1052
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 184
+    },
+    {
+      "name": "onenote-notebooks-checklist-and-move",
+      "route": {
+        "Note": 1053
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "onenote-restored-section-and-checklist",
+      "route": {
+        "Note": 1053
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "music-persisted-playlist",
+      "route": {
+        "App": "Music"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 198
+    },
+    {
+      "name": "video-persisted-playlist",
+      "route": {
+        "App": "Video"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 189
+    },
+    {
+      "name": "photos-persisted-album",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 1759
+    },
+    {
+      "name": "photos-after-album-delete",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 142
+    },
+    {
+      "name": "weather-hourly-forecast",
+      "route": {
+        "App": "Weather"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 216
+    },
+    {
+      "name": "weather-daily-forecast",
+      "route": {
+        "App": "Weather"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 240
+    },
+    {
+      "name": "weather-saved-city",
+      "route": {
+        "App": "Weather"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 234
+    },
+    {
+      "name": "podcasts-episode-detail",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.podcasts",
+          "path": "show/1"
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 195
+    },
+    {
+      "name": "podcasts-persisted-collection",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.podcasts",
+          "path": "show/1"
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 196
+    },
+    {
+      "name": "wallet-membership-barcode",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": "card/1"
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 192
+    },
+    {
+      "name": "wallet-persisted-card",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": "card/1"
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 163
+    },
+    {
+      "name": "wallet-narrow-barcode",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": "card/1"
+        }
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 192
+    },
+    {
+      "name": "wallet-narrow-pivot",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 186
+    },
+    {
+      "name": "maps-native-tiles-pan-zoom",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 324
+    },
+    {
+      "name": "maps-pinch-cancel-and-remount",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 288
+    },
+    {
+      "name": "maps-saved-place-directions",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 208
+    },
+    {
+      "name": "maps-saved-place-start-activation",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 336
+    },
+    {
+      "name": "maps-deleted-place-clears-shortcut",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 259
+    },
+    {
+      "name": "maps-coordinate-search-and-history",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 183
+    },
+    {
+      "name": "platform-browser-device-services",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.device",
+          "path": ""
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 220
+    },
+    {
+      "name": "live-people-before-tick",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 179
+    },
+    {
+      "name": "live-people-after-tick",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 172
+    },
+    {
+      "name": "start-live-templates",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3594
+    },
+    {
+      "name": "start-scheduled-card-reduced-motion",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 154
+    },
+    {
+      "name": "start-customized-tiles",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 165
+    },
+    {
+      "name": "start-customized-folder",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 130
+    },
+    {
+      "name": "system-lock-covers-office-draft",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7582
+    },
+    {
+      "name": "system-unlock-restores-office-draft",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 155
+    },
+    {
+      "name": "start-folder-live-cover",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 156
+    },
+    {
+      "name": "start-folder-expanded-children",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 252
+    },
+    {
+      "name": "10-start-mobile",
+      "route": "Start",
+      "width": 390,
+      "height": 844,
+      "sampledColours": 2881
+    },
+    {
+      "name": "11-app-list-mobile",
+      "route": "Apps",
+      "width": 390,
+      "height": 844,
+      "sampledColours": 184
+    },
+    {
+      "name": "12-start-after-swipe",
+      "route": "Start",
+      "width": 390,
+      "height": 844,
+      "sampledColours": 2877
+    },
+    {
+      "name": "13-start-mobile-dpr2",
+      "route": "Start",
+      "width": 780,
+      "height": 1688,
+      "sampledColours": 8958
+    },
+    {
+      "name": "14-start-mobile-emulated-dpr1",
+      "route": "Start",
+      "width": 390,
+      "height": 844,
+      "sampledColours": 2850
+    }
+  ],
+  "passed": false,
+  "error": "Error: Timed out: hardware navigation\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:81:9)\n    at async ready (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:166:3)\n    at async navigate (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-offline.mjs:10:5)\n    at async verifyOfflineStartup (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-offline.mjs:23:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:700:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:699:3",
+  "elapsedMs": 270732,
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:43267/index.html?nooffline=1",
+    "http://127.0.0.1:43267/app.css",
+    "http://127.0.0.1:43267/icon.svg",
+    "http://127.0.0.1:43267/main.js",
+    "http://127.0.0.1:43267/manifest.webmanifest",
+    "http://127.0.0.1:43267/ferroui.js",
+    "http://127.0.0.1:43267/ferroui-loader.js",
+    "http://127.0.0.1:43267/host.js",
+    "http://127.0.0.1:43267/canvas-sizing.js",
+    "http://127.0.0.1:43267/environment.js",
+    "http://127.0.0.1:43267/updates.js",
+    "http://127.0.0.1:43267/platform-bridge.js",
+    "http://127.0.0.1:43267/browser-lifecycle.js",
+    "http://127.0.0.1:43267/sdk-tasks.js",
+    "http://127.0.0.1:43267/http-tasks.js",
+    "http://127.0.0.1:43267/map-tiles.js",
+    "http://127.0.0.1:43267/phone-storage.js",
+    "http://127.0.0.1:43267/urls.js",
+    "http://127.0.0.1:43267/media.js",
+    "http://127.0.0.1:43267/backup.js",
+    "http://127.0.0.1:43267/documents.js",
+    "http://127.0.0.1:43267/document-share.js",
+    "http://127.0.0.1:43267/alarm-alert.js",
+    "http://127.0.0.1:43267/system-notifications.js",
+    "http://127.0.0.1:43267/storage-environment.js",
+    "http://127.0.0.1:43267/pim.js",
+    "http://127.0.0.1:43267/file-picker.js",
+    "http://127.0.0.1:43267/media-session.js",
+    "http://127.0.0.1:43267/backup-format.js",
+    "http://127.0.0.1:43267/phone-browser.js",
+    "http://127.0.0.1:43267/phone_browser.wasm",
+    "https://tile.openstreetmap.org/2/1/1.png",
+    "https://tile.openstreetmap.org/2/1/2.png",
+    "https://tile.openstreetmap.org/2/1/0.png",
+    "https://tile.openstreetmap.org/2/2/0.png",
+    "https://tile.openstreetmap.org/2/2/1.png",
+    "https://tile.openstreetmap.org/2/2/2.png",
+    "http://127.0.0.1:43267/icon.svg?phone-smoke=first",
+    "http://127.0.0.1:43267/icon.svg?phone-smoke=second",
+    "http://127.0.0.1:43267/icon.svg?phone-smoke=third",
+    "https://tile.openstreetmap.org/2/3/0.png",
+    "https://tile.openstreetmap.org/2/3/1.png",
+    "https://tile.openstreetmap.org/2/3/2.png",
+    "https://tile.openstreetmap.org/3/3/2.png",
+    "https://tile.openstreetmap.org/3/3/3.png",
+    "https://tile.openstreetmap.org/3/3/4.png",
+    "https://tile.openstreetmap.org/3/4/2.png",
+    "https://tile.openstreetmap.org/3/4/3.png",
+    "https://tile.openstreetmap.org/3/4/4.png",
+    "https://tile.openstreetmap.org/3/5/2.png",
+    "https://tile.openstreetmap.org/3/5/3.png",
+    "https://tile.openstreetmap.org/3/5/4.png",
+    "https://tile.openstreetmap.org/4/8/5.png",
+    "https://tile.openstreetmap.org/4/8/6.png",
+    "https://tile.openstreetmap.org/4/8/7.png",
+    "https://tile.openstreetmap.org/4/9/5.png",
+    "https://tile.openstreetmap.org/4/9/6.png",
+    "https://tile.openstreetmap.org/4/9/7.png",
+    "https://tile.openstreetmap.org/14/9020/5549.png",
+    "https://tile.openstreetmap.org/14/9020/5550.png",
+    "https://tile.openstreetmap.org/14/9021/5549.png",
+    "https://tile.openstreetmap.org/14/9021/5550.png",
+    "https://tile.openstreetmap.org/14/9019/5548.png",
+    "https://tile.openstreetmap.org/14/9019/5549.png",
+    "https://tile.openstreetmap.org/14/9020/5548.png",
+    "https://tile.openstreetmap.org/14/9021/5548.png",
+    "https://tile.openstreetmap.org/14/9019/5550.png",
+    "http://127.0.0.1:42935/index.html?nooffline=1",
+    "http://127.0.0.1:42935/app.css",
+    "http://127.0.0.1:42935/icon.svg",
+    "http://127.0.0.1:42935/main.js",
+    "http://127.0.0.1:42935/manifest.webmanifest",
+    "http://127.0.0.1:42935/ferroui.js",
+    "http://127.0.0.1:42935/ferroui-loader.js",
+    "http://127.0.0.1:42935/host.js",
+    "http://127.0.0.1:42935/canvas-sizing.js",
+    "http://127.0.0.1:42935/environment.js",
+    "http://127.0.0.1:42935/updates.js",
+    "http://127.0.0.1:42935/platform-bridge.js",
+    "http://127.0.0.1:42935/browser-lifecycle.js",
+    "http://127.0.0.1:42935/sdk-tasks.js",
+    "http://127.0.0.1:42935/http-tasks.js",
+    "http://127.0.0.1:42935/map-tiles.js",
+    "http://127.0.0.1:42935/phone-storage.js",
+    "http://127.0.0.1:42935/urls.js",
+    "http://127.0.0.1:42935/media.js",
+    "http://127.0.0.1:42935/backup.js",
+    "http://127.0.0.1:42935/documents.js",
+    "http://127.0.0.1:42935/document-share.js",
+    "http://127.0.0.1:42935/alarm-alert.js",
+    "http://127.0.0.1:42935/system-notifications.js",
+    "http://127.0.0.1:42935/storage-environment.js",
+    "http://127.0.0.1:42935/pim.js",
+    "http://127.0.0.1:42935/file-picker.js",
+    "http://127.0.0.1:42935/media-session.js",
+    "http://127.0.0.1:42935/backup-format.js",
+    "http://127.0.0.1:42935/phone-browser.js",
+    "http://127.0.0.1:42935/phone_browser.wasm",
+    "http://127.0.0.1:42935/"
+  ]
+}

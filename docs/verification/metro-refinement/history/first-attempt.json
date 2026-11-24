@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "commit": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+  "run_id": 45365729328,
+  "job_id": 138346845265,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45365729328",
+  "artifact_id": 14906828818,
+  "passed": false,
+  "passing_checks": 58,
+  "captures": 116,
+  "elapsed_ms": 203468,
+  "runtime_errors": [],
+  "failures": [
+    {
+      "module": "verifyOfficeRefinements",
+      "error": "Error: Timed out: bold\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:81:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:110:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-office-refinements.mjs:65:59\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async verifyOfficeRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-office-refinements.mjs:59:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:643:11"
+    },
+    {
+      "module": "verifyMetroControls",
+      "error": "AssertionError [ERR_ASSERTION]: Reduced-motion navigation never attaches a decorative projection\n    at file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-metro-controls.mjs:246:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async verifyMetroControls (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-metro-controls.mjs:215:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:643:11"
+    },
+    {
+      "module": "verifyShellParity",
+      "error": "AssertionError [ERR_ASSERTION]: Motion preferences must suppress decorative press projection\n    at press (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-shell-parity.mjs:92:16)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-shell-parity.mjs:109:28\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async verifyShellParity (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-shell-parity.mjs:76:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:643:11"
+    },
+    {
+      "module": "verifySystemRefinements",
+      "error": "Error: Timed out: Settings scroll viewer (Ambiguous control: Settings scroll viewer (2))\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:81:9)\n    at async reveal (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:140:32)\n    at async setting (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:48:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:88:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async verifySystemRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:87:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:643:11"
+    },
+    {
+      "module": "verifyOfficeExpansion",
+      "error": "Error: Timed out: bold\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:81:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:110:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-office-expanded.mjs:30:59\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async verifyOfficeExpansion (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-office-expanded.mjs:24:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:643:11"
+    }
+  ],
+  "retained_originals": [
+    {
+      "path": "history/1f578a9-browser-results.json",
+      "artifact_entry": "results.json",
+      "sha256": "a6cc37980ee5cf51360458399a222ca2983c1d0385ce64cbf48e46a255f2188d",
+      "bytes": 37442
+    },
+    {
+      "path": "history/1f578a9-switch-off.png",
+      "artifact_entry": "metro-app-bar-collapsed.png",
+      "sha256": "1f9c81d5ae913619037506d053e0fd3bf13e43457fa99fb46c047b6eed97597e",
+      "bytes": 24913
+    },
+    {
+      "path": "history/1f578a9-switch-off.json",
+      "artifact_entry": "metro-app-bar-collapsed.json",
+      "sha256": "5371173ec6bc3aa2c93b2b0329676524e0525e55a58e85482d2c2bd722741213",
+      "bytes": 20889
+    }
+  ],
+  "diagnosis": [
+    {
+      "scope": "Word formatting",
+      "finding": "Generic app-bar dismissal closed the format replacement menu; the bubbling fallback also could dismiss a replacement reopened by a callback.",
+      "fix": "Dismiss direct-wired commands before the callback exactly once; Word explicitly opens its format menu."
+    },
+    {
+      "scope": "Motion assertions",
+      "finding": "Missing page frames were treated as projections; left-edge alignment did not prove a left-hinged turnstile had settled.",
+      "fix": "Require mounted destination evidence and reject every observed non-null projection; wait for null page projection and stable tile geometry before input. These observation defects were established from source; the first failure captures did not retain transient values."
+    },
+    {
+      "scope": "Settings lookup",
+      "finding": "The captured route was start+theme: the click during entrance landed on the first settings row.",
+      "fix": "Wait for a rendered resting page and assert the Settings hub route before/after selecting its system header."
+    },
+    {
+      "scope": "Native Pivot inspection",
+      "finding": "Visible collection/player header text was missing from the layout-only native inspection.",
+      "fix": "Use compositor readback transforms for coordinates, viewport filtering, and hit-test centers."
+    },
+    {
+      "scope": "Unchecked ToggleSwitch",
+      "finding": "Native layout rounding left a 17px fixed mask centered inside a 19px inner aperture, exposing two accent rows.",
+      "fix": "Vertically stretch the mask to its actual rounded clip; retain original horizontal geometry and travel."
+    }
+  ]
+}

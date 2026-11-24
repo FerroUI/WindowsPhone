@@ -1,0 +1,4 @@
+Error: see logcat for details.
+java.util.concurrent.ExecutionException: java.lang.RuntimeException: Failed
+Error: see logcat for details.
+java.util.concurrent.ExecutionException: java.lang.RuntimeException: Failed

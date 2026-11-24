@@ -1,0 +1,2333 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+  "conclusion": "failure",
+  "evidence_scope": "Revision E ARM64 package success and API36 x86_64 package/navigation partial success, followed by a retained HOME restoration failure. No later runtime gates receive credit.",
+  "source": {
+    "repository": "FerroUI/WindowsPhone",
+    "head_sha": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "previous_revision_C": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+    "android_platform_and_dependencies": {
+      "crates/phone-android": {
+        "C": "a3c35d726f7a9c7868e459c37b9f9dee6fd822d6",
+        "E": "a3c35d726f7a9c7868e459c37b9f9dee6fd822d6"
+      },
+      "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallActivity.java": {
+        "C": "411e72daf5e22263481c116c5900076d021ecd8b",
+        "E": "411e72daf5e22263481c116c5900076d021ecd8b"
+      },
+      "crates/phone-android/platform/java/org/ferroui/phone/PhoneInCallService.java": {
+        "C": "85580cf71e425fd875b2af5e04e746724bc5cb6a",
+        "E": "85580cf71e425fd875b2af5e04e746724bc5cb6a"
+      },
+      "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallNotifications.java": {
+        "C": "95edaa2cc969b43dd72d1ff2345efe8cb84403f5",
+        "E": "95edaa2cc969b43dd72d1ff2345efe8cb84403f5"
+      },
+      "Cargo.toml": {
+        "C": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6",
+        "E": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+      },
+      "Cargo.lock": {
+        "C": "fbc484eaa673fec6023583bf2dd4d5465980e7a1",
+        "E": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+      },
+      "FerroUI": {
+        "C": "db2e8859cd4b67bac870839ea70503b8babf541f",
+        "E": "db2e8859cd4b67bac870839ea70503b8babf541f"
+      },
+      "scripts/build-android.sh": {
+        "C": "16cce3010e4268754747f653959bfbe294f67232",
+        "E": "16cce3010e4268754747f653959bfbe294f67232"
+      },
+      "scripts/smoke-android.sh": {
+        "C": "c0f1cb08b7d41167cd7f39990b7940344ce61528",
+        "E": "c0f1cb08b7d41167cd7f39990b7940344ce61528"
+      },
+      "scripts/smoke-android-device.sh": {
+        "C": "4f31f373ce825407ee935f83ee6a2ae10ebe4718",
+        "E": "4f31f373ce825407ee935f83ee6a2ae10ebe4718"
+      },
+      "scripts/smoke-android-notifications.sh": {
+        "C": "5fbe30899c683de89ef64e4a95a3cb5229cec2d4",
+        "E": "5fbe30899c683de89ef64e4a95a3cb5229cec2d4"
+      },
+      "scripts/verify-android-package.py": {
+        "C": "35d8a6ae713b33ba29d28d8abd7707330c841b1e",
+        "E": "35d8a6ae713b33ba29d28d8abd7707330c841b1e"
+      },
+      "scripts/verify_android_ui.py": {
+        "C": "62bcc40a1ae1c9b5ffb40b00ff65619c3c4d6765",
+        "E": "62bcc40a1ae1c9b5ffb40b00ff65619c3c4d6765"
+      },
+      "scripts/verify_android_device.py": {
+        "C": "8bf981393b716e039658045c5500642cffd797f4",
+        "E": "8bf981393b716e039658045c5500642cffd797f4"
+      },
+      "scripts/verify_android_bootstrap.py": {
+        "C": "6e1e8aa9d6743e9e886c18b94f02d353c50fd945",
+        "E": "6e1e8aa9d6743e9e886c18b94f02d353c50fd945"
+      },
+      ".github/workflows/android.yml": {
+        "C": "7602737d48c17ea56a1f4f4d5a22cc100b28d96d",
+        "E": "7602737d48c17ea56a1f4f4d5a22cc100b28d96d"
+      },
+      ".github/workflows/android-ui.yml": {
+        "C": "7538ba6f47b00d6cd6e7c035e623e77add50aa0a",
+        "E": "7538ba6f47b00d6cd6e7c035e623e77add50aa0a"
+      },
+      "scripts/smoke-android-home.sh": {
+        "C": "afd7588c5e072e1ad182ddde0ce1b4329d2d3f4c",
+        "E": "afd7588c5e072e1ad182ddde0ce1b4329d2d3f4c"
+      }
+    },
+    "shared_runtime": {
+      "crates/phone-controls": {
+        "C": "19072cb5a57be2dc7bba48114859809b5ae5e92e",
+        "E": "0fc10b3045fc094d44aafaa96dd3d5b5adc0e77d"
+      },
+      "crates/phone-sdk": {
+        "C": "3a2c5995954e706a38483f81cb6657de11c69baa",
+        "E": "328084572f4b2daeab3b3b5747566f7af590eb04"
+      },
+      "crates/phone-system": {
+        "C": "8f14799ed194e80bca9703ef56d895a765b74680",
+        "E": "c2fad56409577ae2a3947b5384d84adb6fb4bf77"
+      }
+    },
+    "changes_C_to_E": [
+      ".github/workflows/pages.yml",
+      "crates/phone-controls/src/buttons.rs",
+      "crates/phone-controls/src/theme.rs",
+      "crates/phone-ios/native/device.m",
+      "crates/phone-sdk/src/session.rs",
+      "crates/phone-system/src/dialogs.rs",
+      "scripts/attempt-original-emulator.ps1",
+      "scripts/collect-ios-failure.py",
+      "scripts/collect_ios_failure_test.py",
+      "scripts/smoke-ios.sh",
+      "scripts/ui-browser-refinements.mjs",
+      "scripts/ui-maps-expanded.mjs",
+      "scripts/ui-media-libraries.mjs",
+      "scripts/ui-metro-controls.mjs",
+      "scripts/ui-outlook-drafts.mjs",
+      "scripts/ui-platform-refinements.mjs",
+      "scripts/ui-sdk-games.mjs",
+      "scripts/ui-smoke.mjs",
+      "scripts/ui-start-customization.mjs",
+      "scripts/ui-system-refinements.mjs",
+      "scripts/verify-reuse.mjs",
+      "scripts/verify-reuse.test.mjs"
+    ],
+    "qualification": "E changes shared controls, SDK confirmation labels and system dialog UI. Unchanged Android bridge and validators do not substitute for E-specific package/runtime results."
+  },
+  "ui": {
+    "run_id": 45387122385,
+    "job_id": 138420827696,
+    "attempt": 1,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122385",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122385/job/138420827696",
+    "run_started_at": "2026-11-24T11:45:39Z",
+    "completed_by": "2026-11-24T11:52:57Z",
+    "head_sha": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "conclusion": "failure",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4
+      },
+      {
+        "name": "Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5
+      },
+      {
+        "name": "Run android-actions/setup-android@v3",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6
+      },
+      {
+        "name": "Install the pinned Android tools and API 36 x86_64 image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7
+      },
+      {
+        "name": "Enable KVM for this ephemeral runner",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8
+      },
+      {
+        "name": "Install pinned Rust and the Android emulator target",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9
+      },
+      {
+        "name": "Normalize framework source timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11
+      },
+      {
+        "name": "Reset per-run observation artifacts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12
+      },
+      {
+        "name": "Verify package and mounted-layout contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13
+      },
+      {
+        "name": "Build x86_64 application and launcher APKs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14
+      },
+      {
+        "name": "Save successfully built native outputs before runtime verification",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15
+      },
+      {
+        "name": "Verify the actual emulator packages",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16
+      },
+      {
+        "name": "Verify native geometry, HOME, cold-Start unread badge, notification bootstrap/revocation and carrier call ownership",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 17
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19
+      },
+      {
+        "name": "Post Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 36
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 37
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 38
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 39
+      }
+    ],
+    "artifact_id": 14916168651,
+    "artifact": {
+      "path": "/tmp/windowsphone-android-45387122385/artifact.zip",
+      "bytes": 4848053,
+      "sha256": "8ab1daf156f1b3d2a72ba058252ab48091a53d5b9e64b4a9ee9b1caaca652c68"
+    },
+    "artifact_digest_matches_github": true,
+    "original_files_count": 69,
+    "original_files_manifest": {
+      "path": "/tmp/windowsphone-android-45387122385/original-files-manifest.json",
+      "bytes": 10817,
+      "sha256": "17a0c81f04a3a03691016389a3c8bd78175032d112d5b0ca45f5dd85e94fca42"
+    },
+    "retained_directory": "/tmp/windowsphone-android-45387122385",
+    "job_log": {
+      "path": "/tmp/windowsphone-android-45387122385/job.log",
+      "bytes": 194963,
+      "sha256": "ea6d102b403d485eb147c873de1bde6c6e395c0e3a9a234980ab84a988671fa0"
+    },
+    "result": {
+      "result": "failed",
+      "exit_code": 1,
+      "phase": "Restoring and verifying the original HOME holder inside the isolated emulator",
+      "target": {
+        "platform": "android",
+        "api": 36,
+        "abi": "x86_64",
+        "gpu": "software"
+      },
+      "expected_routes": [
+        "Start",
+        "org.ferroui.wallet",
+        "Start"
+      ],
+      "expected_variants": [
+        "app",
+        "launcher"
+      ],
+      "captures": [
+        "app-back.png",
+        "app-home-restored.png",
+        "app-start.png",
+        "app-wallet.png",
+        "failure.png",
+        "home-role-back-start.png",
+        "home-role-returned.png",
+        "home-role-start.png",
+        "home-role-wallet.png",
+        "launcher-back.png",
+        "launcher-home-restored.png",
+        "launcher-start.png",
+        "launcher-wallet.png"
+      ],
+      "observations": [
+        "app-back.json",
+        "app-home-restored.json",
+        "app-start.json",
+        "app-wallet.json",
+        "home-role-back-start.json",
+        "home-role-returned.json",
+        "home-role-start.json",
+        "home-role-wallet.json",
+        "launcher-back.json",
+        "launcher-home-restored.json",
+        "launcher-start.json",
+        "launcher-wallet.json"
+      ]
+    },
+    "tests": {
+      "jvm_assertions": 111,
+      "aosp_source_hashes": 24,
+      "package_validator": 8,
+      "rust_phone_android": 7,
+      "mounted_geometry_validator": 8,
+      "call_foreground_validator": 3,
+      "notification_bootstrap_validator": 19
+    },
+    "device": {
+      "api": "36",
+      "abi": "x86_64",
+      "serial": "emulator-5584"
+    },
+    "emulator_version": "/usr/local/lib/android/sdk/emulator/qemu/linux-x86_64/qemu-system-x86_64: error while loading shared libraries: libpulse.so.0: cannot open shared object file: No such file or directory",
+    "geometry_replayed": [
+      {
+        "observation": "app-start.json",
+        "sequence": 2,
+        "observed_at_unix_ms": 1795521106700,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "app-wallet.json",
+        "sequence": 6,
+        "observed_at_unix_ms": 1795521110495,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "app-back.json",
+        "sequence": 11,
+        "observed_at_unix_ms": 1795521113129,
+        "uri": "back:ferroui-phone://app/org.ferroui.wallet",
+        "route": "Start",
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "app-home-restored.json",
+        "sequence": 16,
+        "observed_at_unix_ms": 1795521116420,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts"
+          ],
+          "launcher": "unsupported",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-start.json",
+        "sequence": 3,
+        "observed_at_unix_ms": 1795521131071,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-wallet.json",
+        "sequence": 8,
+        "observed_at_unix_ms": 1795521133867,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-back.json",
+        "sequence": 12,
+        "observed_at_unix_ms": 1795521136136,
+        "uri": "back:ferroui-phone://app/org.ferroui.wallet",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "launcher-home-restored.json",
+        "sequence": 18,
+        "observed_at_unix_ms": 1795521139593,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "available",
+          "mode": "app",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-start.json",
+        "sequence": 3,
+        "observed_at_unix_ms": 1795521149936,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-wallet.json",
+        "sequence": 7,
+        "observed_at_unix_ms": 1795521151949,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "route": {
+          "Extension": {
+            "app": "org.ferroui.wallet",
+            "path": ""
+          }
+        },
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-returned.json",
+        "sequence": 10,
+        "observed_at_unix_ms": 1795521153694,
+        "uri": "ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      },
+      {
+        "observation": "home-role-back-start.json",
+        "sequence": 13,
+        "observed_at_unix_ms": 1795521155250,
+        "uri": "back:ferroui-phone://home",
+        "route": "Start",
+        "host": {
+          "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+          "features": [
+            "installedApps",
+            "systemSettings",
+            "nativeSharing",
+            "haptics",
+            "notifications",
+            "location",
+            "hardwareControls",
+            "telephony",
+            "messaging",
+            "contacts",
+            "notificationCenter",
+            "maps",
+            "appShortcuts",
+            "launcherRole"
+          ],
+          "launcher": "active",
+          "mode": "launcher",
+          "platform": "android",
+          "shell": "unsupported"
+        },
+        "client": {
+          "height": 720.0,
+          "width": 360.0
+        },
+        "safe_area": {
+          "bottom": 24.0,
+          "left": 0.0,
+          "right": 0.0,
+          "top": 68.0
+        },
+        "inner": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "screen": {
+          "height": 628.0,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 68.0
+        },
+        "viewport": {
+          "height": 628.0,
+          "width": 360.0
+        },
+        "render_scaling": 2.0,
+        "replayed": true
+      }
+    ],
+    "roles": {
+      "HOME": {
+        "before": [
+          "com.google.android.googlesdksetup"
+        ],
+        "selected": [
+          "org.ferroui.windowsphone.launcher"
+        ],
+        "after": null,
+        "restored_exact": false,
+        "restore_remove_output": "",
+        "restore_add_output": "Error: see logcat for details.\njava.util.concurrent.ExecutionException: java.lang.RuntimeException: Failed\nError: see logcat for details.\njava.util.concurrent.ExecutionException: java.lang.RuntimeException: Failed\n",
+        "restoration_attempts_observed": 2,
+        "qualification": "Both the explicit restoration and EXIT cleanup attempted the same recorded holder and failed. No home-restored.txt was produced."
+      },
+      "DIALER": {
+        "status": "not reached",
+        "modified_by_this_test": false
+      },
+      "SMS": {
+        "status": "not reached",
+        "modified_by_this_test": false
+      }
+    },
+    "android_user_before": "0",
+    "android_user_after": null,
+    "crash_buffer_bytes": 0,
+    "native_observations": {},
+    "bootstrap": {},
+    "call_history": {},
+    "notification_listener_access": {
+      "status": "not reached",
+      "modified_by_this_test": false
+    },
+    "unreached_gates": [
+      "Native carrier role qualification and restoration",
+      "Incoming SMS and mounted conversation",
+      "Cold-Start unread badge",
+      "Notification admission, rendered bootstrap, revocation and listener restoration",
+      "Native Telecom ringing, real Answer input, active call and remote hangup",
+      "Native foreground call service/notification ownership",
+      "MMS device codec exercise",
+      "Final unchanged-user and HOME restoration verification"
+    ],
+    "credit_counts": {
+      "mounted_route_observations": 12,
+      "native_sms_runtime": 0,
+      "notification_runtime": 0,
+      "telecom_runtime": 0,
+      "call_answer_inputs": 0,
+      "mms_device_codec": 0,
+      "verified_home_restorations": 0
+    },
+    "failure_diagnosis": {
+      "observed": "The original HOME baseline was com.google.android.googlesdksetup. Android later rejected restoring it because its required MAIN/HOME activity was no longer eligible.",
+      "classification": "Harness baseline captured during first-boot setup; no failing application route was observed.",
+      "source_log": {
+        "path": "/tmp/windowsphone-android-45387122385/logcat.txt",
+        "bytes": 1795137,
+        "sha256": "9b0ddeced3b0c0a7a4d11363b98933d53feb4e261cc05e5afeeee308750e2798"
+      },
+      "log_lines": [
+        {
+          "line": 13848,
+          "text": "11-24 11:52:36.390   674  1158 I Role    : com.google.android.googlesdksetup not qualified for android.app.role.HOME due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.intent.action.MAIN', mCategories='[android.intent.category.HOME]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='null', mQueryFlags=0, mMetaData=[]}"
+        },
+        {
+          "line": 13849,
+          "text": "11-24 11:52:36.390   674  1158 E RoleControllerServiceImpl: Package does not qualify for the role, package: com.google.android.googlesdksetup, role: android.app.role.HOME"
+        }
+      ],
+      "baseline_collection_interval_utc_inferred_from_script_order": [
+        "2026-11-24T11:51:07.0547769Z",
+        "2026-11-24T11:51:08.1556745Z"
+      ],
+      "qualification": "The interval brackets the booted message and first app installation. The original run did not capture provisioning settings or query HOME eligibility before recording the role, so exact setup-completion timing is not observed.",
+      "source_contract": "FerroUI emu_start waits for sys.boot_completed and the package manager; smoke-android.sh then immediately snapshots HOME. Neither waits for provisioning and a stable eligible HOME holder.",
+      "minimal_correction": "Before recording the restoration baseline, wait for device/user setup completion and two stable HOME snapshots whose authoritative holder resolves to an enabled MAIN/HOME component. Preserve exact restoration and private-AVD identity guards.",
+      "correction_validation": "A follow-up harness change passes local parser fixtures; no corrected emulator result is claimed by this E record."
+    },
+    "failure_observation": {
+      "action_center": null,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "client": {
+        "height": 720.0,
+        "width": 360.0
+      },
+      "closed": false,
+      "device_message_ids": [],
+      "device_message_thread": null,
+      "device_message_unread": 0,
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "device_snapshot": {
+        "controls": [
+          {
+            "access": "panel",
+            "control": "wifi",
+            "detail": "Android owns Wi-Fi changes; use its connectivity panel.",
+            "value": {
+              "kind": "toggle",
+              "value": true
+            }
+          },
+          {
+            "access": "permission",
+            "control": "bluetooth",
+            "detail": "Android requires user consent to enable Bluetooth and owns disabling it.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "panel",
+            "control": "cellular",
+            "detail": "Cellular data and SIM selection are controlled in Android settings.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "panel",
+            "control": "airplane",
+            "detail": "Android owns flight-mode changes.",
+            "value": {
+              "kind": "toggle",
+              "value": false
+            }
+          },
+          {
+            "access": "panel",
+            "control": "location",
+            "detail": "Location access permission and the device location switch are separate.",
+            "value": {
+              "kind": "toggle",
+              "value": true
+            }
+          },
+          {
+            "access": "permission",
+            "control": "rotation",
+            "detail": "Enabled means rotation is locked. Android change-settings access is required to write it.",
+            "value": {
+              "kind": "toggle",
+              "value": false
+            }
+          },
+          {
+            "access": "permission",
+            "control": "brightness",
+            "detail": "Brightness is a normalized system level; changing it selects manual brightness.",
+            "value": {
+              "kind": "level",
+              "value": 0.4
+            }
+          },
+          {
+            "access": "permission",
+            "control": "autoBrightness",
+            "detail": "Android change-settings access is required.",
+            "value": {
+              "kind": "toggle",
+              "value": false
+            }
+          },
+          {
+            "access": "permission",
+            "control": "flashlight",
+            "detail": "Camera permission is required to control the flash.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "writable",
+            "control": "ringerVolume",
+            "detail": "Observed Android stream volume. Quiet-hours policy can restrict ringer changes.",
+            "value": {
+              "kind": "level",
+              "value": 0.7142857142857143
+            }
+          },
+          {
+            "access": "writable",
+            "control": "mediaVolume",
+            "detail": "Observed Android stream volume. Quiet-hours policy can restrict ringer changes.",
+            "value": {
+              "kind": "level",
+              "value": 0.3333333333333333
+            }
+          },
+          {
+            "access": "writable",
+            "control": "alarmVolume",
+            "detail": "Observed Android stream volume. Quiet-hours policy can restrict ringer changes.",
+            "value": {
+              "kind": "level",
+              "value": 0.8333333333333334
+            }
+          },
+          {
+            "access": "permission",
+            "control": "ringerMode",
+            "detail": "Quiet-hours policy access is required before changing ringer mode.",
+            "value": {
+              "kind": "choice",
+              "value": "normal"
+            }
+          },
+          {
+            "access": "panel",
+            "control": "doNotDisturb",
+            "detail": "Observed global quiet-hours state. Android 15+ combines system rules; this application opens the rule/settings screen instead of claiming to override other rules.",
+            "value": {
+              "kind": "toggle",
+              "value": false
+            }
+          },
+          {
+            "access": "panel",
+            "control": "batterySaver",
+            "detail": "Android owns battery-saver changes.",
+            "value": {
+              "kind": "toggle",
+              "value": false
+            }
+          },
+          {
+            "access": "panel",
+            "control": "hotspot",
+            "detail": "Android or the device vendor owns this setting; no undocumented state is inferred.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "unavailable",
+            "control": "nfc",
+            "detail": "Android owns the NFC switch; no payment-card capability is implied.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "permission",
+            "control": "screenTimeout",
+            "detail": "Screen timeout is expressed in seconds. Device administration can impose a shorter timeout.",
+            "value": {
+              "kind": "choice",
+              "value": "1800"
+            }
+          },
+          {
+            "access": "unavailable",
+            "control": "nightLight",
+            "detail": "Android or the device vendor owns this setting; no undocumented state is inferred.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "panel",
+            "control": "cast",
+            "detail": "Android or the device vendor owns this setting; no undocumented state is inferred.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "unavailable",
+            "control": "nearbyShare",
+            "detail": "Android or the device vendor owns this setting; no undocumented state is inferred.",
+            "value": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "access": "panel",
+            "control": "vpn",
+            "detail": "VPN state describes the active network; Android owns VPN profiles and consent.",
+            "value": {
+              "kind": "choice",
+              "value": "not connected"
+            }
+          },
+          {
+            "access": "panel",
+            "control": "audioOutput",
+            "detail": "Observed Android audio route; choose devices through Android sound/Bluetooth settings.",
+            "value": {
+              "kind": "choice",
+              "value": "Phone"
+            }
+          },
+          {
+            "access": "writable",
+            "control": "sync",
+            "detail": "Android account sync master switch. Individual account and background restrictions still apply.",
+            "value": {
+              "kind": "toggle",
+              "value": true
+            }
+          },
+          {
+            "access": "panel",
+            "control": "dataSaver",
+            "detail": "Android data saver is separate from this application's background-data exemption.",
+            "value": {
+              "kind": "toggle",
+              "value": false
+            }
+          }
+        ],
+        "detail": "Android observations use current roles and permissions. SMS/MMS use the selected carrier; RCS is not exposed by Android's public messaging APIs. Protected toggles open Android-owned settings or consent.",
+        "operations": [
+          "writeContacts",
+          "dial",
+          "composeMessage",
+          "pickMessageAttachments",
+          "maps",
+          "applicationDetails",
+          "uninstallApplications"
+        ],
+        "permissions": [
+          {
+            "permission": "contacts",
+            "status": "prompt"
+          },
+          {
+            "permission": "callLog",
+            "status": "prompt"
+          },
+          {
+            "permission": "readSms",
+            "status": "prompt"
+          },
+          {
+            "permission": "sendSms",
+            "status": "prompt"
+          },
+          {
+            "permission": "phone",
+            "status": "prompt"
+          },
+          {
+            "permission": "camera",
+            "status": "prompt"
+          },
+          {
+            "permission": "bluetooth",
+            "status": "prompt"
+          },
+          {
+            "permission": "location",
+            "status": "prompt"
+          },
+          {
+            "permission": "notifications",
+            "status": "prompt"
+          }
+        ],
+        "phone_accounts": [],
+        "roles": [
+          {
+            "detail": "Android owns role and special-access consent.",
+            "role": "home",
+            "status": "available"
+          },
+          {
+            "detail": "Android owns role and special-access consent.",
+            "role": "dialer",
+            "status": "available"
+          },
+          {
+            "detail": "Android owns role and special-access consent.",
+            "role": "sms",
+            "status": "available"
+          },
+          {
+            "detail": "Android owns role and special-access consent.",
+            "role": "notificationListener",
+            "status": "available"
+          },
+          {
+            "detail": "Android owns role and special-access consent.",
+            "role": "writeSettings",
+            "status": "available"
+          },
+          {
+            "detail": "Android owns role and special-access consent.",
+            "role": "doNotDisturb",
+            "status": "available"
+          }
+        ],
+        "settings": [
+          "application",
+          "network",
+          "notifications",
+          "defaultApps",
+          "wifi",
+          "bluetooth",
+          "cellular",
+          "airplane",
+          "hotspot",
+          "vpn",
+          "nfc",
+          "location",
+          "display",
+          "brightness",
+          "rotation",
+          "screenTimeout",
+          "sound",
+          "audioOutput",
+          "doNotDisturb",
+          "battery",
+          "batterySaver",
+          "storage",
+          "security",
+          "biometrics",
+          "accounts",
+          "sync",
+          "dateTime",
+          "language",
+          "keyboard",
+          "accessibility",
+          "privacy",
+          "permissions",
+          "notificationAccess",
+          "writeSettings",
+          "phone",
+          "messaging",
+          "dataUsage",
+          "dataSaver",
+          "cast",
+          "about"
+        ],
+        "sms_subscriptions": []
+      },
+      "device_threads": [],
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "available",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      },
+      "inner": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 14.0,
+            "x": 318.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "2",
+          "tile_id": 101
+        }
+      ],
+      "messaging_tile_ids": [
+        101
+      ],
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "nonce": "1514c324bf9ef12d16935801447e2210",
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "observed_at_unix_ms": 1795521156951,
+      "platform": "android",
+      "process_id": 4444,
+      "ready": true,
+      "render_scaling": 2.0,
+      "route": "Start",
+      "safe_area": {
+        "bottom": 24.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 68.0
+      },
+      "schema": 1,
+      "screen": {
+        "height": 628.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "sequence": 16,
+      "status": "",
+      "status_bar": {
+        "fully_visible": true,
+        "height": 26.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "viewport": {
+        "height": 628.0,
+        "width": 360.0
+      },
+      "wrapper": {
+        "height": 720.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "emulator_cleanup": {
+      "shutdown_observed_in_job_log": true,
+      "private_avd_directory_removal_in_script": true,
+      "qualification": "The isolated emulator was shut down after both restoration attempts failed. This is not successful role restoration."
+    },
+    "captures": [
+      {
+        "name": "app-back.png",
+        "path": "/tmp/windowsphone-android-45387122385/app-back.png",
+        "bytes": 323569,
+        "sha256": "88207b0de3ee70233834a43f92851975f6f79452ea79117e838d1d76682297e9",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "app-home-restored.png",
+        "path": "/tmp/windowsphone-android-45387122385/app-home-restored.png",
+        "bytes": 323576,
+        "sha256": "f6a44b487198ad34528796be87e9d121528a8028fef2a65c3eb280de286d3eac",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "app-start.png",
+        "path": "/tmp/windowsphone-android-45387122385/app-start.png",
+        "bytes": 508457,
+        "sha256": "e6def8d7d9fbe4457168c9bbc3fb5e6b4ca07b3c5a057ef09e840cafebc8725c",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "app-wallet.png",
+        "path": "/tmp/windowsphone-android-45387122385/app-wallet.png",
+        "bytes": 92737,
+        "sha256": "5b93b59df3df40694b5928094f96a66f13dd78fb55453bbb8287d40683a1259c",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Empty Wallet view is rendered with all/favorites/archived Pivot headings, Search cards, explanatory copy, add/import/ellipsis bar, and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "failure.png",
+        "path": "/tmp/windowsphone-android-45387122385/failure.png",
+        "bytes": 451788,
+        "sha256": "d9c6a26ed5a01d18b4e2f2b9ef61a974d562593fe00457a637ca3ab8dbacdf26",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets. The capture remains on Start after the harness role-restoration failure; it does not show a rendering crash."
+      },
+      {
+        "name": "home-role-back-start.png",
+        "path": "/tmp/windowsphone-android-45387122385/home-role-back-start.png",
+        "bytes": 451788,
+        "sha256": "d9c6a26ed5a01d18b4e2f2b9ef61a974d562593fe00457a637ca3ab8dbacdf26",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "home-role-returned.png",
+        "path": "/tmp/windowsphone-android-45387122385/home-role-returned.png",
+        "bytes": 451788,
+        "sha256": "d9c6a26ed5a01d18b4e2f2b9ef61a974d562593fe00457a637ca3ab8dbacdf26",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "home-role-start.png",
+        "path": "/tmp/windowsphone-android-45387122385/home-role-start.png",
+        "bytes": 451798,
+        "sha256": "2010dab86d9052416c9ab4f3a98f6784e222ee214876f6f606e7ba755a4e687a",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "home-role-wallet.png",
+        "path": "/tmp/windowsphone-android-45387122385/home-role-wallet.png",
+        "bytes": 93431,
+        "sha256": "bac6f01857f325871f483cf2a6050e27f8f316e6a778db3494eb4c73aa12264f",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Empty Wallet view is rendered with all/favorites/archived Pivot headings, Search cards, explanatory copy, add/import/ellipsis bar, and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "launcher-back.png",
+        "path": "/tmp/windowsphone-android-45387122385/launcher-back.png",
+        "bytes": 426555,
+        "sha256": "4465dc9dac34f4eecc0854bae951b545a37a8e98d823750c60b53af29de85dce",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "launcher-home-restored.png",
+        "path": "/tmp/windowsphone-android-45387122385/launcher-home-restored.png",
+        "bytes": 425818,
+        "sha256": "b913bf87fd50ec15bc55a9a4cb775be9fe53483021cf413b76a55e6769231ba0",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "launcher-start.png",
+        "path": "/tmp/windowsphone-android-45387122385/launcher-start.png",
+        "bytes": 425890,
+        "sha256": "cc78de92b7d8d8bfa721fa9ffeda2aed793d69515a9d52fdb1780f3bd226a06f",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Start is rendered with Phone, Messaging, People, Outlook and Photos tiles and the phone navigation row within Android system insets."
+      },
+      {
+        "name": "launcher-wallet.png",
+        "path": "/tmp/windowsphone-android-45387122385/launcher-wallet.png",
+        "bytes": 93481,
+        "sha256": "606b28821eba1858c10b0b842235632251222bb5a1b380fa23de44e984ba5f8c",
+        "pixels": [
+          720,
+          1440
+        ],
+        "retained_original": true,
+        "visually_reviewed": true,
+        "review": "Empty Wallet view is rendered with all/favorites/archived Pivot headings, Search cards, explanatory copy, add/import/ellipsis bar, and the phone navigation row within Android system insets."
+      }
+    ],
+    "capture_count": 13,
+    "visually_reviewed_capture_count": 13,
+    "capture_review_method": "All thirteen original PNGs were viewed individually; no generated or transformed comparison imagery.",
+    "packages": {
+      "run_id": 45387122385,
+      "job_id": 138420827696,
+      "attempt": 1,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122385",
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122385/job/138420827696",
+      "run_started_at": "2026-11-24T11:45:39Z",
+      "completed_by": "2026-11-24T11:52:57Z",
+      "head_sha": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Read framework tool pins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run android-actions/setup-android@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Install the pinned Android tools and API 36 x86_64 image",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Enable KVM for this ephemeral runner",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Install pinned Rust and the Android emulator target",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Normalize framework source timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Run actions/cache/restore@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Reset per-run observation artifacts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Verify package and mounted-layout contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Build x86_64 application and launcher APKs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Save successfully built native outputs before runtime verification",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Verify the actual emulator packages",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Verify native geometry, HOME, cold-Start unread badge, notification bootstrap/revocation and carrier call ownership",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 17
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 36
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 37
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 38
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 39
+        }
+      ],
+      "artifact_id": 14917607222,
+      "artifact": {
+        "path": "/tmp/windowsphone-android-x86_64-41d7e3c/artifact.zip",
+        "bytes": 80305292,
+        "sha256": "be5aa8a31b9278b0a4b314828dc12b6f82300b5cab10949c57324ffc875b74a7"
+      },
+      "artifact_digest_matches_github": true,
+      "original_files_count": 6,
+      "original_files_manifest": {
+        "path": "/tmp/windowsphone-android-x86_64-41d7e3c/original-files-manifest.json",
+        "bytes": 1234,
+        "sha256": "bba0f6908baa8857dee046d8c51dc820d51093593aabbe90884dbca92be3dc4f"
+      },
+      "retained_directory": "/tmp/windowsphone-android-x86_64-41d7e3c",
+      "job_log": {
+        "path": "/tmp/windowsphone-android-x86_64-41d7e3c/job.log",
+        "bytes": 194963,
+        "sha256": "ea6d102b403d485eb147c873de1bde6c6e395c0e3a9a234980ab84a988671fa0"
+      },
+      "packages": [
+        {
+          "apk": "WindowsPhoneAndroid-app-debug.apk",
+          "package": "org.ferroui.windowsphone",
+          "launcher": false,
+          "abi": "x86_64",
+          "native_bytes": 128964040,
+          "load_alignment": {
+            "lib/x86_64/libimage_processing_util_jni.so": [
+              16384,
+              16384,
+              16384
+            ],
+            "lib/x86_64/libphone_android.so": [
+              16384,
+              16384,
+              16384,
+              16384
+            ],
+            "lib/x86_64/libsurface_util_jni.so": [
+              16384,
+              16384
+            ]
+          },
+          "native_sha256": "fd066b0a9c41bd12a9cc706b51707538b9a2f2d0e83369d07e4643cc7bc037eb",
+          "apk_sha256": "d3c4a780b318679a03db5f46ddeedd3b6227d4ad58e30e8d2c28ad649e9ebb78",
+          "path": "/tmp/windowsphone-android-x86_64-41d7e3c/phone-x86_64-debug/outputs/apk/app/debug/WindowsPhoneAndroid-app-debug.apk",
+          "apk_bytes": 135086679,
+          "decoded_manifest": {
+            "path": "/tmp/windowsphone-android-x86_64-41d7e3c/verification-ui/app-manifest.xml",
+            "bytes": 17031,
+            "sha256": "6b7b4f153cb875221b32974b7b6cdbcb17461257f721d26c371617e1d175a93d"
+          },
+          "apk_hash_replayed": true,
+          "native_hash_elf_and_jni_replayed": true,
+          "manifest_boundary_replayed": true
+        },
+        {
+          "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+          "package": "org.ferroui.windowsphone.launcher",
+          "launcher": true,
+          "abi": "x86_64",
+          "native_bytes": 128964040,
+          "load_alignment": {
+            "lib/x86_64/libimage_processing_util_jni.so": [
+              16384,
+              16384,
+              16384
+            ],
+            "lib/x86_64/libphone_android.so": [
+              16384,
+              16384,
+              16384,
+              16384
+            ],
+            "lib/x86_64/libsurface_util_jni.so": [
+              16384,
+              16384
+            ]
+          },
+          "native_sha256": "fd066b0a9c41bd12a9cc706b51707538b9a2f2d0e83369d07e4643cc7bc037eb",
+          "apk_sha256": "171250b7064c7c83fe2a663c4ae75f3bd6f6e713441d05b378a1662ab4f2a083",
+          "path": "/tmp/windowsphone-android-x86_64-41d7e3c/phone-x86_64-debug/outputs/apk/launcher/debug/WindowsPhoneAndroid-launcher-debug.apk",
+          "apk_bytes": 135086727,
+          "decoded_manifest": {
+            "path": "/tmp/windowsphone-android-x86_64-41d7e3c/verification-ui/launcher-manifest.xml",
+            "bytes": 17470,
+            "sha256": "ffb0e17514710e21ee6d0fe564f1aad8902a25a18b047fe5f8e24212e1310153"
+          },
+          "apk_hash_replayed": true,
+          "native_hash_elf_and_jni_replayed": true,
+          "manifest_boundary_replayed": true
+        }
+      ],
+      "packaging_conclusion": "success",
+      "qualification": "Package build, contract and merged-manifest/JNI/alignment gates passed; the parent UI workflow subsequently failed at HOME restoration."
+    }
+  },
+  "arm64": {
+    "run_id": 45387122271,
+    "job_id": 138420827761,
+    "attempt": 1,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122271",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122271/job/138420827761",
+    "run_started_at": "2026-11-24T11:45:39Z",
+    "completed_by": "2026-11-24T11:50:36Z",
+    "head_sha": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "conclusion": "success",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4
+      },
+      {
+        "name": "Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5
+      },
+      {
+        "name": "Run android-actions/setup-android@v3",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6
+      },
+      {
+        "name": "Install the pinned Android SDK and NDK",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7
+      },
+      {
+        "name": "Install pinned Rust and Android standard library",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8
+      },
+      {
+        "name": "Normalize framework source timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10
+      },
+      {
+        "name": "Verify portable Android completion and media contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11
+      },
+      {
+        "name": "Build native application and HOME launcher APKs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12
+      },
+      {
+        "name": "Check the Android embedding library",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13
+      },
+      {
+        "name": "Cache the successfully built native packages",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14
+      },
+      {
+        "name": "Verify merged manifests, JNI entry and native alignment",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16
+      },
+      {
+        "name": "Post Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 30
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33
+      }
+    ],
+    "artifact_id": 14917241616,
+    "artifact": {
+      "path": "/tmp/windowsphone-android-arm64-41d7e3c/artifact.zip",
+      "bytes": 73339468,
+      "sha256": "db98cfc9229a7eab0c835a3ee27209c9a13acdf6b1715ed0312f47311b0a751e"
+    },
+    "artifact_digest_matches_github": true,
+    "original_files_count": 6,
+    "original_files_manifest": {
+      "path": "/tmp/windowsphone-android-arm64-41d7e3c/original-files-manifest.json",
+      "bytes": 1228,
+      "sha256": "86fcd107ae10fe74d89e81d824e2d8d480e7438591bb8a37dbc13da8b8e7feb5"
+    },
+    "retained_directory": "/tmp/windowsphone-android-arm64-41d7e3c",
+    "job_log": {
+      "path": "/tmp/windowsphone-android-arm64-41d7e3c/job.log",
+      "bytes": 224012,
+      "sha256": "4fa6aacc374e0243c6fe0c631bddcd3d98e485a25c23d3100d3964d00ae1772e"
+    },
+    "tests": {
+      "jvm_assertions": 111,
+      "aosp_source_hashes": 24,
+      "package_validator": 8,
+      "rust_phone_android": 7
+    },
+    "packages": [
+      {
+        "apk": "WindowsPhoneAndroid-app-debug.apk",
+        "package": "org.ferroui.windowsphone",
+        "launcher": false,
+        "abi": "arm64-v8a",
+        "native_bytes": 112419848,
+        "load_alignment": {
+          "lib/arm64-v8a/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "b8ed0805d7fc307f6526357baaf41eec85fa117a36b3bc08c047397eb902fb90",
+        "apk_sha256": "c035cb3c2d1625b12913abb478eb3e2ab44cef67a35e1f92b0445cd3ca8781d3",
+        "path": "/tmp/windowsphone-android-arm64-41d7e3c/phone-arm64-v8a-debug/outputs/apk/app/debug/WindowsPhoneAndroid-app-debug.apk",
+        "apk_bytes": 118506064,
+        "decoded_manifest": {
+          "path": "/tmp/windowsphone-android-arm64-41d7e3c/verification/app-manifest.xml",
+          "bytes": 17031,
+          "sha256": "6b7b4f153cb875221b32974b7b6cdbcb17461257f721d26c371617e1d175a93d"
+        },
+        "apk_hash_replayed": true,
+        "native_hash_elf_and_jni_replayed": true,
+        "manifest_boundary_replayed": true
+      },
+      {
+        "apk": "WindowsPhoneAndroid-launcher-debug.apk",
+        "package": "org.ferroui.windowsphone.launcher",
+        "launcher": true,
+        "abi": "arm64-v8a",
+        "native_bytes": 112419848,
+        "load_alignment": {
+          "lib/arm64-v8a/libimage_processing_util_jni.so": [
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libphone_android.so": [
+            16384,
+            16384,
+            16384,
+            16384
+          ],
+          "lib/arm64-v8a/libsurface_util_jni.so": [
+            16384,
+            16384
+          ]
+        },
+        "native_sha256": "b8ed0805d7fc307f6526357baaf41eec85fa117a36b3bc08c047397eb902fb90",
+        "apk_sha256": "6d79fd45d4228345a0e32de45bbc280a8aae1ff164396de247cfcbaabdb7b47f",
+        "path": "/tmp/windowsphone-android-arm64-41d7e3c/phone-arm64-v8a-debug/outputs/apk/launcher/debug/WindowsPhoneAndroid-launcher-debug.apk",
+        "apk_bytes": 118506112,
+        "decoded_manifest": {
+          "path": "/tmp/windowsphone-android-arm64-41d7e3c/verification/launcher-manifest.xml",
+          "bytes": 17470,
+          "sha256": "ffb0e17514710e21ee6d0fe564f1aad8902a25a18b047fe5f8e24212e1310153"
+        },
+        "apk_hash_replayed": true,
+        "native_hash_elf_and_jni_replayed": true,
+        "manifest_boundary_replayed": true
+      }
+    ],
+    "embedding_no_default_features": "Passed in CI: cargo check --locked -p phone-android --no-default-features --target aarch64-linux-android"
+  },
+  "history": [
+    {
+      "head_sha": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+      "conclusion": "success",
+      "evidence": "docs/verification/metro-refinement/android-1a20466.json"
+    },
+    {
+      "head_sha": "c9923b2730e9fde63d4c822452f69ad46af30959",
+      "conclusion": "success",
+      "evidence": "docs/verification/metro-refinement/android.json"
+    },
+    {
+      "head_sha": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+      "conclusion": "failure",
+      "qualification": "Earlier active-call acceptance failure remains unresolved; this separate HOME failure and later passes do not establish its cause."
+    }
+  ],
+  "limitations": [
+    "Runtime observations are from an API36 x86_64 software-GPU emulator, not physical ARM64/OEM hardware.",
+    "This E attempt stopped before native SMS, notifications, Telecom, call input or device MMS tests; earlier revision successes are not E runtime proof.",
+    "No RF or carrier delivery, outgoing paid call, or real-world emergency-call behavior was validated.",
+    "Android HOME is a launcher role and does not confer system-shell ownership.",
+    "Original Windows Phone visual parity is not established by screenshots of this implementation."
+  ],
+  "publication_retention": {
+    "qualification": "The complete original ZIPs, extracted entries and all-file manifests are indexed above. Selected unchanged Android originals and both ABI package reports are retained here with exact archive-entry mappings. The failure is retained, not replaced by a proposed correction.",
+    "manifest": "capture-manifest-41d7e3c.json",
+    "files": [
+      "captures-41d7e3c/android-head.txt",
+      "captures-41d7e3c/android-result.json",
+      "captures-41d7e3c/android-device.json",
+      "captures-41d7e3c/android-emulator-version.txt",
+      "captures-41d7e3c/android-phase.txt",
+      "captures-41d7e3c/android-app-start.json",
+      "captures-41d7e3c/android-app-wallet.json",
+      "captures-41d7e3c/android-app-back.json",
+      "captures-41d7e3c/android-app-home-restored.json",
+      "captures-41d7e3c/android-launcher-start.json",
+      "captures-41d7e3c/android-launcher-wallet.json",
+      "captures-41d7e3c/android-launcher-back.json",
+      "captures-41d7e3c/android-launcher-home-restored.json",
+      "captures-41d7e3c/android-home-role-start.json",
+      "captures-41d7e3c/android-home-role-wallet.json",
+      "captures-41d7e3c/android-home-role-returned.json",
+      "captures-41d7e3c/android-home-role-back-start.json",
+      "captures-41d7e3c/android-home-before.txt",
+      "captures-41d7e3c/android-home-selected.txt",
+      "captures-41d7e3c/android-home-select.txt",
+      "captures-41d7e3c/android-home-restore-remove.txt",
+      "captures-41d7e3c/android-home-restore-add.txt",
+      "captures-41d7e3c/android-user-before.txt",
+      "captures-41d7e3c/android-crash.txt",
+      "captures-41d7e3c/android-logcat.txt",
+      "captures-41d7e3c/android-failure.json",
+      "captures-41d7e3c/android-home-role-back-start-window.txt",
+      "captures-41d7e3c/android-app-start.png",
+      "captures-41d7e3c/android-app-wallet.png",
+      "captures-41d7e3c/android-home-role-wallet.png",
+      "captures-41d7e3c/android-home-role-back-start.png",
+      "captures-41d7e3c/android-failure.png",
+      "captures-41d7e3c/android-arm64-app.json",
+      "captures-41d7e3c/android-arm64-launcher.json",
+      "captures-41d7e3c/android-arm64-app-manifest.xml",
+      "captures-41d7e3c/android-arm64-launcher-manifest.xml",
+      "captures-41d7e3c/android-x86_64-app.json",
+      "captures-41d7e3c/android-x86_64-launcher.json",
+      "captures-41d7e3c/android-x86_64-app-manifest.xml",
+      "captures-41d7e3c/android-x86_64-launcher-manifest.xml"
+    ]
+  }
+}

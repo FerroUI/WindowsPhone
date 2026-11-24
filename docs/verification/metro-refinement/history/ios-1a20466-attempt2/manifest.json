@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "implementation_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+  "workflow_run_id": 45378306221,
+  "attempt": 2,
+  "job_id": 138403728001,
+  "artifact_id": 14915756823,
+  "artifact_zip_bytes": 1612666,
+  "artifact_zip_sha256": "0771405e4a85301d91423bba821bb4cb18c8fb710eae31a7ae86e30261ef64c7",
+  "digest_matches_github": true,
+  "files": [
+    {
+      "path": "console.log",
+      "artifact_entry": "console.log",
+      "bytes": 32,
+      "sha256": "4b1660a6070c986aa7240a1cc650f8c96424bfc6d47d170d441e0882547a5bfb",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        31,
+        6
+      ]
+    },
+    {
+      "path": "failure.png",
+      "artifact_entry": "failure.png",
+      "bytes": 1602711,
+      "sha256": "6b12f0cf17090eccb079562bbe166e6329391f9014399d49ac9a7c3ac251803e",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        27,
+        2
+      ]
+    },
+    {
+      "path": "owned-installation.json",
+      "artifact_entry": "owned-installation.json",
+      "bytes": 404,
+      "sha256": "82439647c7b03a7d319cf0035803d77b51a9e4a969dc7cc43596b83dd9be32b6",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        25,
+        28
+      ]
+    },
+    {
+      "path": "owned-process.json",
+      "artifact_entry": "owned-process.json",
+      "bytes": 292,
+      "sha256": "467c183952b064c054a3bfe0bfac0d10e40f2f8ad8c6cec6ebfa9c270d4c531f",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        27,
+        0
+      ]
+    },
+    {
+      "path": "phase.txt",
+      "artifact_entry": "phase.txt",
+      "bytes": 28,
+      "sha256": "2063f8ad2fbd9c5901607a0225e05aabbf0c2304396544ae916c9b0834acab1e",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        25,
+        30
+      ]
+    },
+    {
+      "path": "simulator.txt",
+      "artifact_entry": "simulator.txt",
+      "bytes": 92,
+      "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        19,
+        4
+      ]
+    },
+    {
+      "path": "xctest-build.log",
+      "artifact_entry": "xctest-build.log",
+      "bytes": 121186,
+      "sha256": "008934a34137cb65df1de95f19ffbb9d79268ce47280466500e1429d0b6534a9",
+      "zip_modified_datetime": [
+        2026,
+        11,
+        24,
+        11,
+        19,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "source_commit": "98a013dbc6a1d0a96fc0691050bd69b32780ae7d",
+  "compiled_application_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+  "runtime_sources_changed": false,
+  "run_id": 45384063840,
+  "job_id": 138410281292,
+  "artifact_id": 14914378858,
+  "artifact_sha256": "8ddbc47fdb2f245bfdc9bcb878b22983668075ed98c6750fbe484e7597a0f6ac",
+  "passed": false,
+  "passed_groups": 79,
+  "captures": 144,
+  "elapsed_ms": 270732,
+  "runtime_errors": [],
+  "deployment": "skipped",
+  "error": "Error: Timed out: hardware navigation\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:81:9)\n    at async ready (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:166:3)\n    at async navigate (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-offline.mjs:10:5)\n    at async verifyOfflineStartup (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-offline.mjs:23:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:700:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:276:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:699:3",
+  "observed": {
+    "metro_control_touch_wrap_header_keyboard": "passed",
+    "metro_320_light_dark": "passed",
+    "reduced_motion": "passed",
+    "outlook_drafts": "passed",
+    "device_supported_native_commands": "passed",
+    "offline_startup": "Global 270-second suite budget exhausted during offline reload readiness; subsequent original failure snapshot shows native HardwareStart enabled and hit-testable with settled Start."
+  },
+  "retained_original_files": [
+    {
+      "path": "history/98a013d-results.json",
+      "entry": "results.json",
+      "bytes": 42494,
+      "sha256": "8e5bda741cd25a3dcf93d1ff3d41e2fc341d7c7c2d0d080e833503d2644a49d0"
+    },
+    {
+      "path": "history/98a013d-failure-view.json",
+      "entry": "failure-view.json",
+      "bytes": 29016,
+      "sha256": "5bae9843cd8d5b02d0b64c4cc59dd8833f0107834e0361c3857d374c83b6c447"
+    },
+    {
+      "path": "history/98a013d-failure.png",
+      "entry": "failure.png",
+      "bytes": 67693,
+      "sha256": "c392c771995464f37abf8b1ef4c6a1e4b76dccacf815a916741e76121e65dbe1"
+    },
+    {
+      "path": "history/98a013d-outlook-unsaved-back-confirmation.png",
+      "entry": "outlook-unsaved-back-confirmation.png",
+      "bytes": 19854,
+      "sha256": "371557f17d270fb1d93135a9fb5678a6e73df79d0955772e16cbeebe21ba338f"
+    },
+    {
+      "path": "history/98a013d-outlook-unsaved-back-confirmation.json",
+      "entry": "outlook-unsaved-back-confirmation.json",
+      "bytes": 32620,
+      "sha256": "0f9de115be1649a828a01d8c5ea7a2f40c79b095ef46e3f997236b25b573ec07"
+    }
+  ],
+  "qualification": "All preceding 79 groups passed, but integrated suite and deployment remain failed. This replay used the validated exact compiled C app artifact; it did not recompile or change the application.",
+  "findings": [
+    {
+      "area": "Expanded suite budget",
+      "successful_checks_ms": 253709,
+      "suite_budget_ms": 270000,
+      "total_elapsed_ms": 270732,
+      "correction": "Increase only total suite budget to360s and outer CI step from5to7minutes. Preserve individual deadlines and all offline assertions; report global exhaustion distinctly."
+    },
+    {
+      "area": "Destructive confirmation captions",
+      "observation": "Original discard-confirmation PNG shows unlabeled Save and Close icons. Global collapsed-only appbar label styling also hid direct action() captions outside a real appbar. AutomationName-based interaction passed but visual meaning was misleading.",
+      "correction": "Use explicit native text commands for dialog decisions and scope appbar-only hiding to actual bar descendants; add visible-caption/geometry regression."
+    }
+  ],
+  "diagnosis_source": {
+    "control_geometry": {
+      "name": "HardwareStart",
+      "x": 130,
+      "y": 790,
+      "width": 130,
+      "height": 54,
+      "enabled": true,
+      "hit": true
+    },
+    "phone_screen": {
+      "width": 390,
+      "height": 844
+    },
+    "phone_page_projection": null,
+    "successful_checks_elapsed_ms": 253709
+  }
+}

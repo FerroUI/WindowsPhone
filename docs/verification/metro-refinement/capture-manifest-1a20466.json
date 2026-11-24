@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "source_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+  "files": [
+    {
+      "path": "captures-1a20466/android-result.json",
+      "artifact": 14912592638,
+      "entry": "result.json",
+      "bytes": 1999,
+      "sha256": "91300ac944bc013d6346c27dc30ac8330a5d3831ddfdf00376bb3f47dc369d10"
+    },
+    {
+      "path": "captures-1a20466/android-device-baseline.json",
+      "artifact": 14912592638,
+      "entry": "device-baseline.json",
+      "bytes": 6430,
+      "sha256": "8b87f062105b0b73a3dac737ca06fad2746e6ca965eeda3798b98efc8d508edf"
+    },
+    {
+      "path": "captures-1a20466/android-device-start-unread.json",
+      "artifact": 14912592638,
+      "entry": "device-start-unread.json",
+      "bytes": 8351,
+      "sha256": "c57d0d771dfbb53fcd80f901591d9dd94d5dea1f7963fba4bb8ea8ad5f6cf959"
+    },
+    {
+      "path": "captures-1a20466/android-device-notifications-admitted.json",
+      "artifact": 14912592638,
+      "entry": "device-notifications-admitted.json",
+      "bytes": 8719,
+      "sha256": "e2ee61286b8eaea6956985a04a9fb5670bfa4f2dfa647a687277c540c9eb804b"
+    },
+    {
+      "path": "captures-1a20466/android-device-notifications-visible.json",
+      "artifact": 14912592638,
+      "entry": "device-notifications-visible.json",
+      "bytes": 9508,
+      "sha256": "67b20cd40739b495306c09dba7d245ad837bda762b419e142bb3df57445f2043"
+    },
+    {
+      "path": "captures-1a20466/android-device-notifications-revoked.json",
+      "artifact": 14912592638,
+      "entry": "device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "40de8ecb59d7da3e53eeb40968ab0d7cbd2b71d5a2f4b0e3e3509d2f8c4eff25"
+    },
+    {
+      "path": "captures-1a20466/android-device-sms.json",
+      "artifact": 14912592638,
+      "entry": "device-sms.json",
+      "bytes": 7620,
+      "sha256": "e6ca32d98efd17844a0de8556a17933863d04490d45c98f59ee263ff97680be7"
+    },
+    {
+      "path": "captures-1a20466/android-device-sms-ui.json",
+      "artifact": 14912592638,
+      "entry": "device-sms-ui.json",
+      "bytes": 8263,
+      "sha256": "7a414e182e0b3e2ba8919da96b96b0bb1eeb9d559a837a361816a68734300852"
+    },
+    {
+      "path": "captures-1a20466/android-device-roles.json",
+      "artifact": 14912592638,
+      "entry": "device-roles.json",
+      "bytes": 6898,
+      "sha256": "772b9ab3ffbd07fc7cf44742461337be7e13fb78f9bb75cdb4dfabf5af299a23"
+    },
+    {
+      "path": "captures-1a20466/android-device-ringing.json",
+      "artifact": 14912592638,
+      "entry": "device-ringing.json",
+      "bytes": 7907,
+      "sha256": "26a1c190913235d076853e358e1a421b97b33abbd3ce238a201c9f3e583b11f0"
+    },
+    {
+      "path": "captures-1a20466/android-device-active.json",
+      "artifact": 14912592638,
+      "entry": "device-active.json",
+      "bytes": 7934,
+      "sha256": "5fb22bb644cf3247c11ab1ce86edaaf5d6e7112e1fff2a8effb8144f43b16dc7"
+    },
+    {
+      "path": "captures-1a20466/android-device-ended.json",
+      "artifact": 14912592638,
+      "entry": "device-ended.json",
+      "bytes": 7620,
+      "sha256": "08471db76258905f72754db84f69b65e1a3390789d2574e1f6379e9a6f77de42"
+    },
+    {
+      "path": "captures-1a20466/android-home-role-back-start.json",
+      "artifact": 14912592638,
+      "entry": "home-role-back-start.json",
+      "bytes": 7870,
+      "sha256": "8c9a455a7f8f0a9ea5d4baa0033392c08d9379606351211f2fdcd87d962c7aad"
+    },
+    {
+      "path": "captures-1a20466/android-device-active-call.png",
+      "artifact": 14912592638,
+      "entry": "device-active-call.png",
+      "bytes": 47886,
+      "sha256": "885001c9b97a0abef8159aeb2f6c49c7e924ff72fc628445de38918e0afb9a8e"
+    },
+    {
+      "path": "captures-1a20466/android-device-ended-call.png",
+      "artifact": 14912592638,
+      "entry": "device-ended-call.png",
+      "bytes": 25781,
+      "sha256": "cc4723ccfd2d2812e091a7bbc2b107df44d896939e16863a191ce59fa4dc81bd"
+    },
+    {
+      "path": "captures-1a20466/android-device-action-center.png",
+      "artifact": 14912592638,
+      "entry": "device-action-center.png",
+      "bytes": 95545,
+      "sha256": "c4c87cfc64a7a84dde45216ae72ecb0cf66042abdb35454fa4ab6bd418c66849"
+    },
+    {
+      "path": "captures-1a20466/android-device-messaging.png",
+      "artifact": 14912592638,
+      "entry": "device-messaging.png",
+      "bytes": 57493,
+      "sha256": "dd03846eb7fa206eb97969b4d6b169a7d729178446cbaebd4f516de4386f2a3c"
+    },
+    {
+      "path": "captures-1a20466/android-call-ringing-observations.jsonl",
+      "artifact": 14912592638,
+      "entry": "call-ringing-observations.jsonl",
+      "bytes": 31060,
+      "sha256": "534bb63eceb8fe3fb619721eefa426f585a16022b3ad8d00abc68dd7e89b9792"
+    },
+    {
+      "path": "captures-1a20466/android-call-active-observations.jsonl",
+      "artifact": 14912592638,
+      "entry": "call-active-observations.jsonl",
+      "bytes": 39594,
+      "sha256": "21e82693a4c86db353e8b1b811dddabd654b5a14a6b4eb57d81236add2cfd150"
+    },
+    {
+      "path": "captures-1a20466/android-call-ended-observations.jsonl",
+      "artifact": 14912592638,
+      "entry": "call-ended-observations.jsonl",
+      "bytes": 23177,
+      "sha256": "77b56b61d2cd67789c05e65cad19c5490542aa00c2ee8a08ee45c058e5e7985c"
+    },
+    {
+      "path": "captures-1a20466/android-call-logcat.txt",
+      "artifact": 14912592638,
+      "entry": "call-logcat.txt",
+      "bytes": 493607,
+      "sha256": "fd31535f84c1969f2e6f1e8538cfd0b029f4e70fae7b3c89890db0d925e08307"
+    },
+    {
+      "path": "captures-1a20466/android-call-answer-input.txt",
+      "artifact": 14912592638,
+      "entry": "call-answer-input.txt",
+      "bytes": 8,
+      "sha256": "d64fc58e8d92a390e04a94d582513b1faf237cbc71154f5a603e7453ce173501"
+    },
+    {
+      "path": "captures-1a20466/android-call-tree.xml",
+      "artifact": 14912592638,
+      "entry": "call-tree.xml",
+      "bytes": 3795,
+      "sha256": "8793ea0c0ed727d0354f556988993bf8f4cc1d96c250af776793000ef0bb643d"
+    }
+  ]
+}

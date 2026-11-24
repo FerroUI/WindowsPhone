@@ -1,0 +1,27 @@
+[ios-smoke-entry] pid=29690 process.main
+[ios-smoke-phase] pid=29690 sequence=1 elapsed=0.000000 delegate.create_builder.begin
+[ios-smoke-phase] pid=29690 sequence=2 elapsed=0.031047 delegate.create_builder.end
+[ios-smoke-phase] pid=29690 sequence=3 elapsed=0.308055 builder.platform_services.end
+[ios-smoke-phase] pid=29690 sequence=4 elapsed=0.400350 application.initialize.begin
+[ios-smoke-phase] pid=29690 sequence=5 elapsed=0.400402 application.initialize.theme
+[ios-smoke-phase] pid=29690 sequence=6 elapsed=0.916439 application.initialize.end
+[ios-smoke-phase] pid=29690 sequence=7 elapsed=0.916500 builder.application_setup.end
+[ios-smoke-phase] pid=29690 sequence=8 elapsed=0.967236 builder.fonts_and_setup.end
+[ios-smoke-phase] pid=29690 sequence=9 elapsed=0.967285 application.framework_init.begin
+[ios-smoke-phase] pid=29690 sequence=10 elapsed=0.969883 application.platform.begin
+[ios-smoke-phase] pid=29690 sequence=11 elapsed=0.975664 application.host.begin
+ferroui-view: a list of 3 elements (Grid, ...) has no keys: give each item a `key` so that it keeps its control when the list changes
+ferroui-view: a list of 2 elements (Grid, ...) has no keys: give each item a `key` so that it keeps its control when the list changes
+ferroui-view: a list of 2 elements (Border, ...) has no keys: give each item a `key` so that it keeps its control when the list changes
+ferroui-view: a list of 2 elements (StackPanel, ...) has no keys: give each item a `key` so that it keeps its control when the list changes
+[ios-smoke-phase] pid=29690 sequence=12 elapsed=1.307089 device_poll.begin
+[ios-smoke-phase] pid=29690 sequence=13 elapsed=1.307821 device_poll.pruned
+[ios-smoke-phase] pid=29690 sequence=14 elapsed=1.307844 snapshot.begin
+[ios-smoke-phase] pid=29690 sequence=15 elapsed=1.307877 snapshot.contacts
+[ios-smoke-phase] pid=29690 sequence=16 elapsed=1.344526 snapshot.tel
+2026-11-24 11:07:31.798 phone-ios[29690:84311] -canOpenURL: failed for URL: "tel:0" - error: "The operation couldn’t be completed. (OSStatus error -10814.)"
+[ios-smoke-phase] pid=29690 sequence=17 elapsed=1.369663 snapshot.compose_text
+[ios-smoke-phase] pid=29690 sequence=18 elapsed=1.372581 snapshot.compose_attachments
+[ios-smoke-phase] pid=29690 sequence=19 elapsed=1.382727 snapshot.maps
+[ios-smoke-phase] pid=29690 sequence=20 elapsed=1.383355 snapshot.permissions
+org.ferroui.windowsphone: 29690

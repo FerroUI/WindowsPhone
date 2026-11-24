@@ -153,9 +153,9 @@ Application data survives a normal reload and participates in phone backup/resto
 
 `phone-app-outlook` keeps saved mail composition in the built-in identity's `phone.outlook` namespace. Its version-1 schema is `{version, next_id, items: [{id, fields: {to, subject, body}, updated}]}`; `updated` is a timestamp in seconds. Draft IDs remain stable on replacement. Validation bounds the collection to 100 drafts, each header to 4 KiB and body to 64 KiB, within the SDK's stricter aggregate namespace/document budgets. Unsupported or malformed stored data is reported without resetting it.
 
-The editor keeps unsaved fields and its saved baseline in typed session state. Only the save draft command writes the namespace. Back confirms discard of changed fields; cancellation keeps the editor, while discarding changes preserves an existing saved version. Ordinary deactivation retains the editor; reset clears its transient state. Local draft navigation uses a separate flag and cannot hide an imported mail folder named `drafts`.
+The editor keeps unsaved fields and its saved baseline in typed session state. Editing fields does not write storage. Save draft commits the editor; confirmed deletion updates the saved draft collection. Back confirms discard of changed fields; cancellation keeps the editor, while discarding changes preserves an existing saved version. Ordinary deactivation retains the editor; reset clears its transient state. Local draft navigation uses a separate flag and cannot hide an imported mail folder named `drafts`.
 
-`HostRequest::Email` requests host composition and has no delivery acknowledgement. Opening the host email app therefore neither persists current edits, removes a saved draft, nor adds a sent-mail entry. This is a concrete example of separating a user-owned local document from an external action's observed result. The new draft tests and rendered workflow are pending verification; see [current status](parity.md#metro-and-outlook-refinement).
+`HostRequest::Email` requests host composition and has no delivery acknowledgement. Opening the host email app therefore neither persists current edits, removes a saved draft, nor adds a sent-mail entry. This is a concrete example of separating a user-owned local document from an external action's observed result. Native draft contracts and rendered editor/persistence workflows have separate exact-source records; see [the verification index](verification/metro-refinement/README.md) and [remaining parity](parity.md#metro-and-outlook-refinement).
 
 ## Metro controls and pivot pages
 
@@ -191,9 +191,11 @@ fn hub(ui: &Session, first: Element, second: Element) -> Element {
 }
 ```
 
-Declare the matching `with_pivot_count` for shell arbitration and return zero while a detail editor or picker owns horizontal input. Native panes own their manipulation; avoid a second manual swipe handler advancing the same gesture. Battery Saver, Data Sense and Games are the current integrations, with carousel/layout verification in progress. The reduced-motion path keeps the same selection and headers without compositor animation.
+Declare the matching `with_pivot_count` for shell arbitration and return zero while a detail editor or picker owns horizontal input. Native panes own their manipulation; avoid a second manual swipe handler advancing the same gesture. Battery Saver, Data Sense and Games are the current integrations. The phone Pivot disables inherited item auto-scroll so native pan, snap and selection own one consistent viewport; mounted regressions cover both wrap directions and actual composed content alignment. The reduced-motion path keeps the same selection and headers without compositor animation.
 
 `app_bar` allows four primary commands plus a separate ellipsis and moves additional commands into its text menu. SDK composition connects expansion to `Session::menu`; shared page helpers overlay the bounded menu and prevent a dismissal click from activating page content. Do not implement an independent Back/menu state in each app. Shell incoming turnstiles and press tilt use the [documented original constants](metro-design.md); outgoing-page choreography and full Panorama parity remain incomplete.
+
+Use `command` for a standalone text command, or `command_button` when a native `El<Button>` must be named or placed explicitly. Its caption wraps and follows text scaling within a minimum 44-unit height. `Session::confirm` uses the explicit text `confirm`; `form` uses `save`; `form_with_action` supplies a specific action such as `discard` or `delete`. Dialogs use readable text commands and never guess a destructive action’s icon from its label. Only a collapsed `phone-app-bar` hides its descendant icon captions; unrelated actions have no ellipsis and retain their labels.
 
 ## Lifecycle and input hooks
 

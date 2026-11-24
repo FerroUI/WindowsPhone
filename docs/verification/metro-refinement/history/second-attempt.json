@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "source_commit": "c9923b2730e9fde63d4c822452f69ad46af30959",
+  "run_id": 45370106537,
+  "job_id": 138361983594,
+  "artifact_id": 14910323995,
+  "artifact_sha256": "3a2087323e047abecd8f6c9056abf4445b80f233e07469da3eb6b374c594cd65",
+  "passed": false,
+  "passed_groups_before_abort": 31,
+  "captures": 76,
+  "elapsed_ms": 115127,
+  "deployment": "skipped",
+  "findings": [
+    {
+      "area": "Pivot",
+      "observation": "Selected index 1 but local player content rendered one viewport to the right, leaving the visible page blank.",
+      "classification": "production_defect"
+    },
+    {
+      "area": "Theme replacement",
+      "observation": "Reducing motion triggered native panic: Could not find control PART_MovingKnobs.",
+      "classification": "production_defect"
+    },
+    {
+      "area": "Outlook",
+      "observation": "Immediate post-navigation readback had no editor; retained failure frame contains the native body TextBox and the exact unsaved text.",
+      "classification": "render_readiness_assumption"
+    },
+    {
+      "area": "Wallpaper",
+      "observation": "Immediate readback had zero planes; retained failure snapshot later contains all 17 fixture wallpaper planes with the common origin.",
+      "classification": "render_readiness_assumption"
+    }
+  ],
+  "retained_original_files": [
+    {
+      "path": "history/c9923b2-results.json",
+      "artifact_entry": "results.json",
+      "bytes": 25688,
+      "sha256": "af2931c1538593d6729fab83c3ba36392e2de216aa88b548fe8ddfacdbdeb9f1"
+    },
+    {
+      "path": "history/c9923b2-metro-controls-failure.png",
+      "artifact_entry": "metro-controls-failure.png",
+      "bytes": 17913,
+      "sha256": "771633997ab8a95e0a4d3d3d59e341ccbdbc6c16b21e774c26320c667beb2bb3"
+    },
+    {
+      "path": "history/c9923b2-metro-controls-failure.json",
+      "artifact_entry": "metro-controls-failure.json",
+      "bytes": 23600,
+      "sha256": "1d175b796248cbd7c7c70c7cbd0c981a0413b239796d81056decb0c11b93fff9"
+    },
+    {
+      "path": "history/c9923b2-outlook-drafts-failure.png",
+      "artifact_entry": "outlook-drafts-failure.png",
+      "bytes": 37504,
+      "sha256": "c5e0e68c35aaf16542eb864636e4be9f2c9f8bde55d9780e3db98b87afa46401"
+    },
+    {
+      "path": "history/c9923b2-outlook-drafts-failure.json",
+      "artifact_entry": "outlook-drafts-failure.json",
+      "bytes": 21032,
+      "sha256": "f20cd2f740226714b98b10fb3454fd2cf8c7bcb7a9e0324592ae577f392d2f48"
+    }
+  ],
+  "qualification": "This run is preserved as a failed attempt. Passing earlier groups do not imply a passing integrated build or release.",
+  "build_gates": {
+    "rust_passed": 374,
+    "rust_ignored": 1,
+    "rust_suite_summaries": 79,
+    "javascript_passed": 59,
+    "browser_compilation": "passed",
+    "ui_integration": "failed"
+  }
+}

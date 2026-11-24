@@ -1,0 +1,553 @@
+{
+  "schema_version": 1,
+  "collected_at_utc": "2026-11-24 10:14:33 UTC",
+  "repository": "FerroUI/WindowsPhone",
+  "source_revision_label": "B; corrected implementation",
+  "implementation_commit": "c9923b2730e9fde63d4c822452f69ad46af30959",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "workflow": {
+    "run_id": 45370106416,
+    "job_id": 138361873133,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45370106416/job/138361873133",
+    "checkout_commit_log_lines": [
+      142,
+      156
+    ]
+  },
+  "artifact": {
+    "id": 14908089776,
+    "name": "ios-verification",
+    "archive_file": "/tmp/windowsphone-ios-c9923b2.zip",
+    "archive_bytes": 1594727,
+    "sha256": "99c1466a5e358baa5671ae6549e7bb598880f17e98ce780b92399b00d913855b",
+    "github_artifact_digest": "sha256:99c1466a5e358baa5671ae6549e7bb598880f17e98ce780b92399b00d913855b",
+    "digest_matches": true,
+    "extracted_directory": "/tmp/windowsphone-ios-c9923b2",
+    "original_png_count": 7
+  },
+  "environment": {
+    "runner_image": "macos-26-arm64",
+    "xcode": "26.6",
+    "simulator_runtime": "iOS 26.5",
+    "simulator_runtime_source": "xctest.log and console.log",
+    "rust_toolchain": "1.99.0",
+    "rust_build_target": "aarch64-apple-ios-sim",
+    "simulator_id": "832AAFC1-5FDA-4E30-98F1-5DD103F91B80",
+    "bundle_id": "org.ferroui.windowsphone",
+    "client_points": {
+      "height": 896.0,
+      "width": 414.0
+    },
+    "phone_content_points": {
+      "height": 814.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 48.0
+    },
+    "safe_area_points": {
+      "bottom": 34.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 48.0
+    },
+    "render_scaling": 2.0
+  },
+  "portable_and_build_checks": {
+    "python": [
+      {
+        "command": "python3 scripts/verify_ios_smoke_test.py",
+        "passed": 7,
+        "failed": 0,
+        "summary_log_line": 245
+      },
+      {
+        "command": "python3 scripts/collect_ios_failure_test.py",
+        "passed": 6,
+        "failed": 0,
+        "summary_log_line": 250
+      }
+    ],
+    "rust": [
+      {
+        "command": "cargo test --locked -p phone-ios --lib",
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "summary_log_line": 298
+      },
+      {
+        "command": "cargo test --locked -p phone-ios --lib --features ios26-telephony",
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0,
+        "summary_log_line": 344
+      }
+    ],
+    "rust_execution_qualification": "The same seven portable cases ran in two feature configurations; 14 executions do not represent 14 distinct cases.",
+    "physical_iphone_swift_typecheck": "passed; arm64-apple-ios15.0, syntax/type coverage only",
+    "objc_bridge_simulator_syntax_checks": "passed with WP_IOS_TELEPHONY=0 and 1; warnings remain",
+    "standard_simulator_bundle": "built successfully",
+    "optional_carrier_simulator_bundle": "built successfully; does not establish carrier capability",
+    "standard_build_completion_log_line": 1263,
+    "optional_build_completion_log_line": 1914
+  },
+  "device_checks": {
+    "source": "device-tests.json",
+    "status": "passed",
+    "passed": 5,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "observed_simulator_capabilities",
+        "passed": true
+      },
+      {
+        "before": 0.5,
+        "name": "brightness_read_only",
+        "observed": 0.5,
+        "passed": true,
+        "refusal": "Screen brightness is read-only in iOS Simulator.",
+        "requested": 0.67
+      },
+      {
+        "name": "contact_create_and_query",
+        "passed": true
+      },
+      {
+        "name": "contact_update_and_query",
+        "passed": true
+      },
+      {
+        "name": "contact_delete_and_query",
+        "passed": true
+      }
+    ],
+    "cleanup_errors": [],
+    "error": null,
+    "simulator_only": true,
+    "physical_brightness": "requires_device_qualification",
+    "sent_calls": 0,
+    "sent_messages": 0
+  },
+  "observed_device_capabilities": {
+    "source": "start.json / device-tests.json",
+    "operations": [
+      "readContacts",
+      "writeContacts",
+      "maps"
+    ],
+    "controls": [
+      {
+        "control": "brightness",
+        "access": "readOnly",
+        "value": {
+          "kind": "level",
+          "value": 0.5
+        }
+      },
+      {
+        "control": "flashlight",
+        "access": "unavailable",
+        "value": {
+          "kind": "unknown"
+        }
+      },
+      {
+        "control": "mediaVolume",
+        "access": "panel",
+        "value": {
+          "kind": "level",
+          "value": 0.6000000238418579
+        }
+      },
+      {
+        "control": "audioOutput",
+        "access": "panel",
+        "value": {
+          "kind": "choice",
+          "value": "Speaker"
+        }
+      },
+      {
+        "control": "cast",
+        "access": "panel",
+        "value": {
+          "kind": "choice",
+          "value": "Speaker"
+        }
+      },
+      {
+        "control": "batterySaver",
+        "access": "readOnly",
+        "value": {
+          "kind": "toggle",
+          "value": false
+        }
+      }
+    ],
+    "permissions": [
+      {
+        "permission": "contacts",
+        "status": "granted"
+      },
+      {
+        "permission": "camera",
+        "status": "prompt"
+      },
+      {
+        "permission": "location",
+        "status": "prompt"
+      },
+      {
+        "permission": "notifications",
+        "status": "prompt"
+      },
+      {
+        "permission": "phone",
+        "status": "unsupported"
+      },
+      {
+        "permission": "callLog",
+        "status": "unsupported"
+      },
+      {
+        "permission": "readSms",
+        "status": "unsupported"
+      },
+      {
+        "permission": "sendSms",
+        "status": "unsupported"
+      }
+    ],
+    "roles": [
+      {
+        "role": "dialer",
+        "status": "unsupported"
+      },
+      {
+        "role": "sms",
+        "status": "unsupported"
+      }
+    ],
+    "phone_accounts": [],
+    "sms_subscriptions": []
+  },
+  "native_activation": {
+    "driver": "XCUIDevice.shared.system.open",
+    "xctest": {
+      "name": "PhonePromptTests.testOpenWindowsPhoneURLs",
+      "passed": 1,
+      "failed": 0,
+      "duration_seconds": 134.315,
+      "source": "xctest.log",
+      "summary_line": 61
+    },
+    "requested_urls": 6,
+    "accepted_activations": 6,
+    "acceptance_source": "Each destination observation activation.outcome, correlated by exact URI with request-1.json through request-6.json.",
+    "same_native_identity_across_all_seven_observations": true,
+    "native_identity": {
+      "application_delegate": "FerroAppDelegate",
+      "application_state": 0,
+      "bundle_id": "org.ferroui.windowsphone",
+      "launch_id": "FCF7C4E9-8D09-4F99-8406-FD2A5B85AEC1",
+      "pid": 10366,
+      "scenes": [
+        {
+          "activation_state": 0,
+          "delegate_class": "FerroSceneDelegate",
+          "scene_class": "UIWindowScene",
+          "session_id": "732C60FA-A99D-4A5A-B8A3-A73571880081"
+        }
+      ]
+    },
+    "home_restored": true,
+    "prompt_handler": {
+      "phase": "complete",
+      "opened_url_count": 6,
+      "accepted_prompt_count": 0,
+      "qualification": "accepted counts system prompts accepted by the handler, not native URL activations. Zero accepted prompts does not mean zero accepted activations."
+    },
+    "requests": [
+      {
+        "sequence": 1,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "issued_at_unix_ms": 1795514937872
+      },
+      {
+        "sequence": 2,
+        "uri": "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+        "issued_at_unix_ms": 1795514958419
+      },
+      {
+        "sequence": 3,
+        "uri": "ferroui-phone://app/phone.people?path=device",
+        "issued_at_unix_ms": 1795514971990
+      },
+      {
+        "sequence": 4,
+        "uri": "ferroui-phone://app/phone.messaging?path=compose",
+        "issued_at_unix_ms": 1795514981879
+      },
+      {
+        "sequence": 5,
+        "uri": "ferroui-phone://app/phone.settings?path=device",
+        "issued_at_unix_ms": 1795515002629
+      },
+      {
+        "sequence": 6,
+        "uri": "ferroui-phone://home",
+        "issued_at_unix_ms": 1795515063080
+      }
+    ],
+    "success_log_line": 2142
+  },
+  "captures": [
+    {
+      "capture": "start",
+      "observation_file": "start.json",
+      "screenshot_file": "start.png",
+      "screenshot_sha256": "45e8a8d3b8037b4ded30a8b7182aa9f70298e4964020601f7b93f897732abe15",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Readable Start tiles, notification badges, People mosaic, photo tile and Back/Home/Search controls; content fits the captured portrait phone surface.",
+      "route": "Start",
+      "activation": null,
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "device_fields": {},
+      "sequence": 3,
+      "observed_at_unix_ms": 1795514813048
+    },
+    {
+      "capture": "wallet",
+      "observation_file": "wallet.json",
+      "screenshot_file": "wallet.png",
+      "screenshot_sha256": "7e794573f84b03b41ef7d1e3f3451c68f5ba4891c17bdedc91f3cdff905955fc",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Wallet pivot labels, search, empty-state copy and add/import application-bar actions are legible. Search and application-bar edges are horizontal in this capture; the visible skew in the historical A Wallet image is not present here.",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "WalletSearch"
+      ],
+      "device_fields": {},
+      "sequence": 258,
+      "observed_at_unix_ms": 1795514941179
+    },
+    {
+      "capture": "phone",
+      "observation_file": "phone.json",
+      "screenshot_file": "phone.png",
+      "screenshot_sha256": "c33f44bde36e7c4dce690cfdbfc7e84280d01b2d909ce84cf704669fdb099035",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Prefilled +1 202 555 0147 dial field, keypad, call/save actions and application bar are visible. No call is shown as placed.",
+      "route": {
+        "App": "Phone"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3"
+      },
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DevicePhoneNumber"
+      ],
+      "device_fields": {
+        "DevicePhoneNumber": "+1 202 555 0147"
+      },
+      "sequence": 296,
+      "observed_at_unix_ms": 1795514959388
+    },
+    {
+      "capture": "people",
+      "observation_file": "people.json",
+      "screenshot_file": "people.png",
+      "screenshot_sha256": "a45d85eef1074e2e2f785e6a66c23612eee28450d3864bddfdd4e2b7d639217b",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Device pivot is selected; six simulator Contacts entries and the search field are readable, with add/refresh application-bar actions.",
+      "route": {
+        "App": "People"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.people?path=device"
+      },
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DevicePeopleSearch"
+      ],
+      "device_fields": {},
+      "sequence": 325,
+      "observed_at_unix_ms": 1795514973153
+    },
+    {
+      "capture": "messages",
+      "observation_file": "messages.json",
+      "screenshot_file": "messages.png",
+      "screenshot_sha256": "68c15fab4e897f9919e3a263d67483e12da6fc7f9f37814706aaf055a2d53551",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Empty recipient and message fields, character count and send/cancel application-bar actions are visible. No message is shown as sent.",
+      "route": {
+        "App": "Messaging"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.messaging?path=compose"
+      },
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DeviceMessageRecipients",
+        "DeviceMessageBody"
+      ],
+      "device_fields": {
+        "DeviceMessageBody": "",
+        "DeviceMessageRecipients": ""
+      },
+      "sequence": 362,
+      "observed_at_unix_ms": 1795514996361
+    },
+    {
+      "capture": "settings",
+      "observation_file": "settings.json",
+      "screenshot_file": "settings.png",
+      "screenshot_sha256": "45558a31dd621842a8272caf55154ba5a405bca4c3901fc1e4c4dfe0d0d9f828",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Device services heading and settings destinations are readable; lower content continues below the visible page and requires scrolling.",
+      "route": {
+        "Setting": "device services"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.settings?path=device"
+      },
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DeviceSettingsRoot"
+      ],
+      "device_fields": {},
+      "sequence": 469,
+      "observed_at_unix_ms": 1795515049351
+    },
+    {
+      "capture": "home-restored",
+      "observation_file": "home-restored.json",
+      "screenshot_file": "home-restored.png",
+      "screenshot_sha256": "fd082450fd93a0cc93ab164b338b0744f641dfb7a1ee8fc4dcf1b0d1e9f809c7",
+      "screenshot_size_pixels": [
+        828,
+        1792
+      ],
+      "visually_inspected_original": true,
+      "visual_observation": "Start is restored with the same visible tile arrangement and hardware controls. People/photo live-tile imagery differs from the first capture.",
+      "route": "Start",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "ready": true,
+      "closed": false,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "device_fields": {},
+      "sequence": 499,
+      "observed_at_unix_ms": 1795515063445
+    }
+  ],
+  "qualifications": [
+    "This is the FerroUI WindowsPhone application running in Apple iOS Simulator, not an original Microsoft Windows Phone emulator or physical handset.",
+    "Seven original PNGs were visually inspected. They prove expected route content was rendered; they do not measure complete motion timing, touch gestures, original Windows Phone pixel parity or all controls.",
+    "UIKit/native observation equality establishes continuity of PID, launch ID, active application and scene across these samples; it is not a general lifecycle stress test.",
+    "Contacts CRUD exercised the simulator Contacts provider and deleted its created contact. Phone and Messaging routing did not initiate a call or send a message.",
+    "Brightness remained 0.5 after a rejected request for 0.67, as expected for a simulator without a writable physical backlight. Physical brightness and other hardware behavior remain unqualified.",
+    "Carrier/default-dialer/default-SMS roles were unsupported in the observed simulator build; no carrier entitlement, region, physical hardware, NFC or payment capability was verified.",
+    "Python and Rust portable checks, Swift type checking, simulator bridge syntax checks and successful bundles do not replace physical-device tests. Build warnings remain.",
+    "The screenshot harness waits for a fresh mounted route, not for a measured compositor presentation or page projection settling. The captured scenes are legible, but these screenshots and the 134.315-second XCTest runtime are not animation-performance measurements."
+  ],
+  "publication_retention": {
+    "complete_original_capture_count": 7,
+    "retained_files_in_repository": [
+      "captures/ios-start.json",
+      "captures/ios-wallet.json",
+      "captures/ios-phone.json",
+      "captures/ios-people.json",
+      "captures/ios-messages.json",
+      "captures/ios-settings.json",
+      "captures/ios-home-restored.json",
+      "captures/ios-start.png",
+      "captures/ios-settings.png",
+      "captures/ios-messages.png",
+      "captures/ios-wallet.png",
+      "captures/ios-device-tests.json",
+      "captures/ios-prompt-handler.json",
+      "captures/ios-owned-installation.json",
+      "captures/ios-console.log",
+      "captures/ios-request-1.json",
+      "captures/ios-request-2.json",
+      "captures/ios-request-3.json",
+      "captures/ios-request-4.json",
+      "captures/ios-request-5.json",
+      "captures/ios-request-6.json"
+    ],
+    "note": "All seven original captures were inspected; the repository preserves selected PNGs and all seven matching native observations. Collection-time /tmp paths describe provenance."
+  }
+}

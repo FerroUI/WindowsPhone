@@ -1,0 +1,78 @@
+Command line invocation:
+    /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/xcodebuild test-without-building -xctestrun /var/folders/q2/p1t6rgxj5fj32g1dc7dmd49r0000gn/T/phone-ios-prompt.PA1mNr/Build/Products/PhonePromptTests_iphonesimulator26.5-arm64-x86_64.xctestrun -destination "platform=iOS Simulator,id=CE1E80CB-CF5A-4C40-9EF2-DC88006A243E" -parallel-testing-enabled NO "-only-testing:PhonePromptTests/PhonePromptTests/testOpenWindowsPhoneURLs" -resultBundlePath /Users/runner/work/_temp/phone-ios-ui/prompt-ui.xcresult
+
+2026-11-24 11:56:47.673 xcodebuild[15725:51346] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+Writing result bundle at path:
+	/Users/runner/work/_temp/phone-ios-ui/prompt-ui.xcresult
+
+2026-11-24 11:56:47.752 xcodebuild[15725:51346] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:CE1E80CB-CF5A-4C40-9EF2-DC88006A243E, OS:26.5, name:WindowsPhone-CI-45387122381 }
+{ platform:iOS Simulator, arch:x86_64, id:CE1E80CB-CF5A-4C40-9EF2-DC88006A243E, OS:26.5, name:WindowsPhone-CI-45387122381 }
+2026-11-24 11:56:56.445 xcodebuild[15725:51346] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-11-24 11:57:05.635075+0000 PhonePromptTests-Runner[17218:55051] [Default] Running tests...
+2026-11-24 11:57:05.778286+0000 PhonePromptTests-Runner[17218:55232] [General] Failed to send CA Event for app launch measurements for ca_event_type: 0 event_name: com.apple.app_launch_measurement.FirstFramePresentationMetric
+2026-11-24 11:57:05.820512+0000 PhonePromptTests-Runner[17218:55232] [General] Failed to send CA Event for app launch measurements for ca_event_type: 1 event_name: com.apple.app_launch_measurement.ExtendedLaunchMetrics
+objc[17218]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x10af7c310) and /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x10b004398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'Selected tests' started at 2026-11-24 11:57:13.657.
+Test Suite 'PhonePromptTests.xctest' started at 2026-11-24 11:57:13.658.
+Test Suite 'PhonePromptTests' started at 2026-11-24 11:57:13.659.
+Test Case '-[PhonePromptTests.PhonePromptTests testOpenWindowsPhoneURLs]' started.
+    t =     0.00s Start Test at 2026-11-24 11:57:13.660
+    t =     0.98s Set Up
+    t =     1.00s Open org.ferroui.windowsphone
+    t =     1.00s     Activate org.ferroui.windowsphone
+    t =     1.09s         Wait for org.ferroui.windowsphone to idle
+    t =     1.18s Wait for org.ferroui.windowsphone to become Running Foreground
+    t =     4.57s Opening default application for URL ferroui-phone://app/org.ferroui.wallet
+    t =     4.72s     Wait for org.ferroui.windowsphone to idle
+    t =     5.07s Checking existence of `Alert (First Match)`
+    t =     5.55s Checking existence of `Alert (First Match)`
+    t =     5.84s Checking existence of `Alert (First Match)`
+    t =     6.14s Checking existence of `Alert (First Match)`
+    t =     6.54s Checking existence of `Alert (First Match)`
+    t =     6.83s Checking existence of `Alert (First Match)`
+    t =     7.12s Checking existence of `Alert (First Match)`
+    t =     7.42s Checking existence of `Alert (First Match)`
+    t =    15.15s Opening default application for URL ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3
+    t =    15.23s     Wait for org.ferroui.windowsphone to idle
+    t =    15.33s Checking existence of `Alert (First Match)`
+    t =    15.63s Checking existence of `Alert (First Match)`
+    t =    15.96s Checking existence of `Alert (First Match)`
+    t =    27.54s Opening default application for URL ferroui-phone://app/phone.people?path=device
+    t =    27.64s     Wait for org.ferroui.windowsphone to idle
+    t =    27.88s Checking existence of `Alert (First Match)`
+    t =    28.21s Checking existence of `Alert (First Match)`
+    t =    31.57s Opening default application for URL ferroui-phone://app/phone.messaging?path=compose
+    t =    31.61s     Wait for org.ferroui.windowsphone to idle
+    t =    31.66s Checking existence of `Alert (First Match)`
+    t =    32.10s Checking existence of `Alert (First Match)`
+    t =    32.41s Checking existence of `Alert (First Match)`
+    t =    34.49s Opening default application for URL ferroui-phone://app/phone.settings?path=device
+    t =    34.55s     Wait for org.ferroui.windowsphone to idle
+    t =    34.61s Checking existence of `Alert (First Match)`
+    t =    35.05s Checking existence of `Alert (First Match)`
+    t =    36.10s Opening default application for URL ferroui-phone://home
+    t =    36.12s     Wait for org.ferroui.windowsphone to idle
+    t =    36.19s Checking existence of `Alert (First Match)`
+    t =    36.48s Checking existence of `Alert (First Match)`
+    t =    36.80s Checking existence of `Alert (First Match)`
+    t =    37.34s Tear Down
+Test Case '-[PhonePromptTests.PhonePromptTests testOpenWindowsPhoneURLs]' passed (37.386 seconds).
+Test Suite 'PhonePromptTests' passed at 2026-11-24 11:57:51.048.
+	 Executed 1 test, with 0 failures (0 unexpected) in 37.386 (37.389) seconds
+Test Suite 'PhonePromptTests.xctest' passed at 2026-11-24 11:57:51.049.
+	 Executed 1 test, with 0 failures (0 unexpected) in 37.386 (37.390) seconds
+Test Suite 'Selected tests' passed at 2026-11-24 11:57:51.049.
+	 Executed 1 test, with 0 failures (0 unexpected) in 37.386 (37.392) seconds
+2026-11-24 11:57:51.714 xcodebuild[15725:51346] [MT] IDETestOperationsObserverDebug: 55.249 elapsed -- Testing started completed.
+2026-11-24 11:57:51.714 xcodebuild[15725:51346] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-24 11:57:51.714 xcodebuild[15725:51346] [MT] IDETestOperationsObserverDebug: 55.249 sec, +55.249 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/runner/work/_temp/phone-ios-ui/prompt-ui.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started

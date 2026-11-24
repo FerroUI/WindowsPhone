@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "source_sha": "05ac89500978f087ebc66e1782e6ac4f88688835",
+  "run_id": 45378950959,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378950959",
+  "job_id": 138392608347,
+  "conclusion": "failure",
+  "artifact_id": 14911819459,
+  "artifact_name": "original-windows-phone-setup-iso",
+  "artifact_bytes": 75937,
+  "artifact_sha256": "3b0eee5079e0295bc040b56c970fae69ce6cf0833ec1e872223a84600a4c2c5c",
+  "artifact_digest_independently_verified": true,
+  "original_files": [
+    {
+      "path": "after-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied_unmodified": false
+    },
+    {
+      "path": "after.json",
+      "bytes": 2480,
+      "sha256": "5a5870edeaf67d618c799de15ce53090234bc6979faa1a5837b7e86a9fca8dd6",
+      "copied_unmodified": true
+    },
+    {
+      "path": "before-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied_unmodified": false
+    },
+    {
+      "path": "before.json",
+      "bytes": 2290,
+      "sha256": "ff6936aae03163ef8c3cf2e58bd7aac587b47195d0e8917da88863913ec26ff7",
+      "copied_unmodified": true
+    },
+    {
+      "path": "download-page.html",
+      "bytes": 128083,
+      "sha256": "46fe4be6564f73141d2d1d9585537f105e21b04637a8d4be40387a6157ce9d49",
+      "copied_unmodified": false
+    },
+    {
+      "path": "iso-cleanup.json",
+      "bytes": 96,
+      "sha256": "41e5f05c5ee10f7b28d27c461b4d7ce0cd4df4533edb8d5a175875dc558cfe7d",
+      "copied_unmodified": true
+    },
+    {
+      "path": "iso-inventory.json",
+      "bytes": 3124,
+      "sha256": "aeb63bb12beb2a438b219cceefe3d2d222bfe1035fc8abe0ce92c505dafeec85",
+      "copied_unmodified": true
+    },
+    {
+      "path": "logs/setup.log",
+      "bytes": 76049,
+      "sha256": "3e07cf3a28192c4e03d5630114fb6e5e2a0ed4ca3d3a56fdf466a70b9e79a6c6",
+      "copied_unmodified": false
+    },
+    {
+      "path": "logs/setup_000_WindowsPhone81GDR1SDK_VHD.log",
+      "bytes": 105468,
+      "sha256": "3773e7bc3da3d10ba4473eea48a9412510c07ed634758fd21ba7e9dea41281d7",
+      "copied_unmodified": true
+    },
+    {
+      "path": "logs/setup_001_CoreConExtraGDR1.log",
+      "bytes": 257100,
+      "sha256": "de621a71c32504e2d40be86c5604df0ac43621d61f4ffcda8f93e1715ee5a3d0",
+      "copied_unmodified": true
+    },
+    {
+      "path": "logs/setup_002_MobileTools_XDEConfig81.log",
+      "bytes": 120792,
+      "sha256": "92473190d83a89aa3483d35d4f651235dc24c3639ad29bc7541c94a62cffb7ec",
+      "copied_unmodified": true
+    },
+    {
+      "path": "mounted-iso.json",
+      "bytes": 321,
+      "sha256": "f3ef2592790d1f75eb28b08a91fa729e66b599fe54dc245a2630f7c0bd0c46b3",
+      "copied_unmodified": true
+    },
+    {
+      "path": "result.json",
+      "bytes": 3764,
+      "sha256": "435b27a1aa89cd44bbf8a5d33698cc620df21539dd599dd4f2013b2d57226e57",
+      "copied_unmodified": true
+    },
+    {
+      "path": "watchdog.json",
+      "bytes": 192,
+      "sha256": "98f03c7c0b8765fde98da761c53ea873d952e560f4490b0199ebbf1427f48fb4",
+      "copied_unmodified": true
+    }
+  ],
+  "excerpt": {
+    "path": "vendor-setup-excerpt.txt",
+    "sha256": "92a20f0ced7b04e155ec029c1af37a7356f80d23ec7dec290676e2bd5105a02f",
+    "method": "Selected complete diagnostic lines with original file names and line numbers; unrelated installer variables omitted. Original MSI logs are copied without editing. Full unmodified bundle log remains in the source ZIP."
+  },
+  "media": {
+    "name": "windowsphone81sdkupdate1.iso",
+    "bytes": 986316800,
+    "sha256": "ce5cba83133aa71c58353fd9e34ae143555adf78cb200f7ec77217a77b5d244d",
+    "hash_source": "Get-FileHash on the complete ISO in the Windows runner; the ISO itself is not redistributed.",
+    "mounted_read_only": true,
+    "file_count": 29,
+    "mounted_layout_matches_prior_range_directory": true,
+    "setup_authenticode": "Valid Microsoft Corporation",
+    "setup_sha256": "3b2f954d2bccb97ac4288f122b69ecc241ddae9bae743b5ec3a4b9c1a0f7f137",
+    "dismounted": true
+  },
+  "interpretation": {
+    "stage": "vendor_setup",
+    "outcome": "partial_installation_suspended_reboot_required",
+    "vendor_exit_signed": -2147185721,
+    "vendor_exit_hex": "0x80048BC7",
+    "vendor_exit_description": "Incomplete and reboot required",
+    "applied_image_package_result": "0x0",
+    "applied_corecon_package_result": "0x0",
+    "configurator_msi_return": 1604,
+    "configurator_msi_meaning": "ERROR_INSTALL_SUSPEND",
+    "configurator_dism_exit_signed": -2146498548,
+    "configurator_dism_exit_hex": "0x800F080C",
+    "vendor_hyperv_check": "not Enabled",
+    "vendor_user_group_change": "Current user added to Hyper-V administrators group",
+    "vendor_reboot_required": true,
+    "raw_result_restart_required": false,
+    "raw_result_restart_required_limitation": "The original helper recognized only exit3010. Vendor bundle line319 and configurator line464 establish reboot required. Original JSON is preserved unchanged; future helper classification is corrected without converting failure into success.",
+    "vendor_reboot_scheduled": true,
+    "bundle_final_restarting": "No",
+    "host_reboot_performed": false,
+    "image_present": true,
+    "image_path": "C:\\Program Files (x86)\\Microsoft SDKs\\Windows Phone\\v8.1\\Emulation\\Images\\flash.update1.vhd",
+    "image_bytes": 1773481984,
+    "image_hash_recorded": false,
+    "xde_present": false,
+    "base_vs2013_or_vs2015_prerequisite_qualified": false,
+    "timeout": false,
+    "original_emulator_launched": false,
+    "guest_boot_verified": false,
+    "parity_verified": false
+  }
+}

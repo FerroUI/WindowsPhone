@@ -1,0 +1,642 @@
+{
+  "schema_version": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "implementation_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "rust_toolchain": "1.99.0",
+  "workflow": {
+    "name": "Build and publish",
+    "run_id": 45378305962,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378305962"
+  },
+  "native_jobs": [
+    {
+      "platform": "ubuntu-latest",
+      "job_id": 138390368250,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378305962/job/138390368250",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_log_line": 145,
+      "rust_passed": 60,
+      "rust_failed": 0,
+      "rust_ignored": 2,
+      "rust_passed_by_package": {
+        "phone-host": 34,
+        "phone-platform-desktop": 9,
+        "phone-native": 17
+      },
+      "python_packaging_passed": 6,
+      "python_packaging_skipped": 0,
+      "python_packaging_summary_log_line": 803,
+      "python_packaging_result_log_line": 805,
+      "python_packaging_skips": [],
+      "rust_suites": [
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_host-37129744dc58a2a0)",
+          "declared": 34,
+          "started_line": 715,
+          "ignored_tests": [
+            {
+              "name": "native::media_session::linux::tests::private_bus_media_controls",
+              "result": "ignored, requires a dedicated dbus-run-session",
+              "line": 729
+            }
+          ],
+          "result": "ok",
+          "passed": 33,
+          "failed": 0,
+          "ignored": 1,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 751
+        },
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_platform_desktop-2cb21f213b115054)",
+          "declared": 10,
+          "started_line": 755,
+          "ignored_tests": [
+            {
+              "name": "linux::tests::gio_fixture_child",
+              "result": "ignored, run only by the isolated parent fixture with its temporary XDG directories",
+              "line": 756
+            }
+          ],
+          "result": "ok",
+          "passed": 9,
+          "failed": 0,
+          "ignored": 1,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 767
+        },
+        {
+          "name": "Doc-tests phone_host",
+          "declared": 0,
+          "started_line": 771,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 773
+        },
+        {
+          "name": "Doc-tests phone_platform_desktop",
+          "declared": 0,
+          "started_line": 777,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 779
+        },
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_host-37129744dc58a2a0)",
+          "declared": 1,
+          "started_line": 840,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 33,
+          "summary_line": 843
+        },
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_native-17f72c918f77eba5)",
+          "declared": 17,
+          "started_line": 1397,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 1416
+        }
+      ],
+      "desktop_build": {
+        "command": "cargo build --locked -p phone-desktop",
+        "result": "success",
+        "profile": "dev / unoptimized",
+        "duration_seconds": 66.0,
+        "completion_log_line": 2014,
+        "completion": "2026-11-24T10:52:54.5451095Z     Finished `dev` profile [unoptimized] target(s) in 1m 06s"
+      },
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "conclusion": "success"
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify shared native services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "decoded_job_log": {
+        "path": "/tmp/windowsphone-native-ci-1a20466-linux.log",
+        "bytes": 196262,
+        "sha256": "eae571c0e4f0748d9b2008865e324a7279bd9459232156f73418300162e33708",
+        "line_numbering": "One-based decoded GitHub job log lines; line endings normalized to LF."
+      },
+      "cache": {
+        "restore": "hit",
+        "records": [
+          {
+            "line": 678,
+            "text": "2026-11-24T10:50:35.3708122Z Cache restored from key: phone-native-v2-Linux-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0"
+          },
+          {
+            "line": 2016,
+            "text": "2026-11-24T10:52:54.8169515Z Cache hit occurred on the primary key phone-native-v2-Linux-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0, not saving cache."
+          }
+        ]
+      }
+    },
+    {
+      "platform": "macos-latest",
+      "job_id": 138390367765,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378305962/job/138390367765",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_log_line": 146,
+      "rust_passed": 51,
+      "rust_failed": 0,
+      "rust_ignored": 0,
+      "rust_passed_by_package": {
+        "phone-host": 29,
+        "phone-platform-desktop": 5,
+        "phone-native": 17
+      },
+      "python_packaging_passed": 6,
+      "python_packaging_skipped": 0,
+      "python_packaging_summary_log_line": 466,
+      "python_packaging_result_log_line": 468,
+      "python_packaging_skips": [],
+      "rust_suites": [
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_host-11c45409783d636b)",
+          "declared": 29,
+          "started_line": 388,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 29,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 419
+        },
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_platform_desktop-f255be81b08adae1)",
+          "declared": 5,
+          "started_line": 423,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 430
+        },
+        {
+          "name": "Doc-tests phone_host",
+          "declared": 0,
+          "started_line": 434,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 437
+        },
+        {
+          "name": "Doc-tests phone_platform_desktop",
+          "declared": 0,
+          "started_line": 440,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 442
+        },
+        {
+          "name": "Running unittests src/lib.rs (target/debug/deps/phone_native-8fd7edb5603fcea1)",
+          "declared": 17,
+          "started_line": 1180,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 1199
+        }
+      ],
+      "desktop_build": {
+        "command": "cargo build --locked -p phone-desktop",
+        "result": "success",
+        "profile": "dev / unoptimized",
+        "duration_seconds": 1130.0,
+        "completion_log_line": 1906,
+        "completion": "2026-11-24T11:23:34.3503620Z     Finished `dev` profile [unoptimized] target(s) in 18m 50s"
+      },
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "conclusion": "success"
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify shared native services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "decoded_job_log": {
+        "path": "/tmp/windowsphone-native-ci-1a20466-macos.log",
+        "bytes": 186713,
+        "sha256": "3ceb6e59daaa7bca2a42d31a718a03b3d32e8207d0f10bafdffdffb5c58f1c3c",
+        "line_numbering": "One-based decoded GitHub job log lines; line endings normalized to LF."
+      },
+      "cache": {
+        "restore": "miss",
+        "records": [
+          {
+            "line": 211,
+            "text": "2026-11-24T10:49:22.3487060Z Cache not found for input keys: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0, phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-"
+          },
+          {
+            "line": 1929,
+            "text": "2026-11-24T11:24:31.2738160Z Cache saved with key: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0"
+          }
+        ]
+      }
+    },
+    {
+      "platform": "windows-2022 / x86_64-pc-windows-msvc",
+      "job_id": 138390368333,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378305962/job/138390368333",
+      "status": "completed",
+      "conclusion": "success",
+      "checkout_sha_log_line": 132,
+      "rust_passed": 52,
+      "rust_failed": 0,
+      "rust_ignored": 0,
+      "rust_passed_by_package": {
+        "phone-host": 30,
+        "phone-platform-desktop": 6,
+        "phone-native": 16
+      },
+      "python_packaging_passed": 4,
+      "python_packaging_skipped": 2,
+      "python_packaging_summary_log_line": 356,
+      "python_packaging_result_log_line": 358,
+      "python_packaging_skips": [
+        {
+          "test": "test_linux_client_preserves_executable_path_and_closed_argument_set",
+          "reason": "POSIX session scripts are exercised on Linux/macOS",
+          "log_line": 348
+        },
+        {
+          "test": "test_session_entry_refuses_to_replace_a_running_desktop",
+          "reason": "POSIX session guard",
+          "log_line": 350
+        }
+      ],
+      "rust_suites": [
+        {
+          "name": "Running unittests src\\lib.rs (target\\debug\\deps\\phone_host-0252274be61478b3.exe)",
+          "declared": 30,
+          "started_line": 275,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 30,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 307
+        },
+        {
+          "name": "Running unittests src\\lib.rs (target\\debug\\deps\\phone_platform_desktop-67aea25bcf4ad0bc.exe)",
+          "declared": 6,
+          "started_line": 311,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 319
+        },
+        {
+          "name": "Doc-tests phone_host",
+          "declared": 0,
+          "started_line": 323,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 325
+        },
+        {
+          "name": "Doc-tests phone_platform_desktop",
+          "declared": 0,
+          "started_line": 329,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 331
+        },
+        {
+          "name": "Running unittests src\\lib.rs (target\\debug\\deps\\phone_native-843df45cf9780f79.exe)",
+          "declared": 16,
+          "started_line": 948,
+          "ignored_tests": [],
+          "result": "ok",
+          "passed": 16,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "summary_line": 966
+        }
+      ],
+      "desktop_build": {
+        "command": "cargo build --locked -p phone-desktop",
+        "result": "success",
+        "profile": "dev / unoptimized",
+        "duration_seconds": 209.0,
+        "completion_log_line": 1645,
+        "completion": "2026-11-24T10:57:54.6508684Z     Finished `dev` profile [unoptimized] target(s) in 3m 29s"
+      },
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "conclusion": "success"
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "conclusion": "success"
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify shared native services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "decoded_job_log": {
+        "path": "/tmp/windowsphone-native-ci-1a20466-windows.log",
+        "bytes": 176024,
+        "sha256": "049286695d9f26c8f6b3567e9eb86e5963ad0ee87065433a17b907f97b24497f",
+        "line_numbering": "One-based decoded GitHub job log lines; line endings normalized to LF."
+      },
+      "compiler_contract": {
+        "result": "success",
+        "compiler": "clang version 20.1.8",
+        "target": "x86_64-pc-windows-msvc",
+        "check": "C++17 syntax checking of installed <string> headers with the pinned runner LLVM/libclang",
+        "compiler_log_line": 152
+      },
+      "shell_helper_parse": {
+        "result": "success",
+        "script": "crates/phone-desktop/platform/windows/ShellLauncher.ps1",
+        "qualification": "PowerShell parser validation; shell configuration was not installed or applied."
+      },
+      "cache": {
+        "restore": "hit",
+        "records": [
+          {
+            "line": 237,
+            "text": "2026-11-24T10:50:22.1135552Z Cache restored from key: phone-native-v2-Windows-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-windows-2022-3509942fd55143161e33172d37829e20a9711eab7ad5140bd4241c42db17a5bb"
+          },
+          {
+            "line": 1647,
+            "text": "2026-11-24T10:57:55.2437725Z Cache hit occurred on the primary key phone-native-v2-Windows-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-windows-2022-3509942fd55143161e33172d37829e20a9711eab7ad5140bd4241c42db17a5bb, not saving cache."
+          }
+        ]
+      }
+    }
+  ],
+  "qualifications": [
+    "Counts represent passed executions, not cross-platform unique behaviors.",
+    "The ordinary MPRIS test is ignored, then passed in a dedicated private D-Bus session.",
+    "The ignored GIO child fixture is invoked by its passing parent protocol test; logs lack a marker distinguishing the real GIO branch from the explicitly supported no-runtime path.",
+    "Native compilation and linking do not establish rendered desktop UI, physical-phone hardware or original Windows Phone emulator parity.",
+    "Windows' two skipped packaging tests exercise POSIX session scripts; those checks passed on Linux and macOS.",
+    "phone-native's Unix-only refuses_symlink_media_files case is compiled and passed on Linux/macOS, and absent from Windows' 16-case native suite. No Windows symlink-case coverage is inferred.",
+    "A successful original-emulator prerequisite probe means the inventory script completed, not that an original Windows Phone emulator was available or launched. Its environment result is recorded separately.",
+    "Warnings remain in the pinned framework and host builds. Successful compilation is not a warning-free build claim."
+  ],
+  "collected_at_utc": "2026-11-24 11:25:06 UTC",
+  "scope": "Native desktop verification only; browser and mobile gates have separate evidence records.",
+  "all_native_jobs_completed_successfully": true
+}

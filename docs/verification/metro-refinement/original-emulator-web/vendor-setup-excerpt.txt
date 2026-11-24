@@ -1,0 +1,64 @@
+# Selected diagnostic lines from original logs/setup.log
+# Line numbers refer to the unmodified vendor log in the source artifact.
+# This excerpt omits unrelated installer variables; it is not a complete log.
+
+0033: [1F00:07E0][2026-11-24T10:35:54]i000: Setting numeric variable 'HypervisorSupported' to value 1
+0034: [1F00:07E0][2026-11-24T10:35:54]i000: Setting numeric variable 'HypervisorEnabled' to value 1
+0036: [1F00:07E0][2026-11-24T10:35:54]i000: MUX:  Restart = Never
+0039: [1F00:07E0][2026-11-24T10:35:54]i000: MUX:  Display = None
+0103: [1F00:065C][2026-11-24T10:35:55]i052: Condition '(HypervisorSupported = "0") AND (CurrentOperation = "Install")' evaluates to false.
+0107: [1F00:065C][2026-11-24T10:35:55]i199: Detect complete, result: 0x0
+0111: [1F00:065C][2026-11-24T10:35:55]i052: Condition 'DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath' evaluates to false.
+0112: [1F00:065C][2026-11-24T10:35:55]i052: Condition 'VersionNT64 AND (DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath)' evaluates to false.
+0113: [1F00:065C][2026-11-24T10:35:55]i052: Condition 'DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath' evaluates to false.
+0114: [1F00:065C][2026-11-24T10:35:55]i052: Condition 'DevEnvAppIdKeyPath OR VSWinExpressAppIdKeyPath' evaluates to false.
+0140: [1F00:065C][2026-11-24T10:35:55]i299: Plan complete, result: 0x0
+0141: [1F00:065C][2026-11-24T10:35:55]i300: Apply begin
+0163: [1F00:0BBC][2026-11-24T10:35:59]e000: Error 0x80190194: Failed to download BITS job.
+0164: [1F00:0BBC][2026-11-24T10:35:59]e000: Error 0x80190194: Failed attempt to download URL: 'bits://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\WindowsPhone81GDR1SDK_VHD'
+0165: [1F00:0BBC][2026-11-24T10:35:59]i000: MUX:  Set Result: Return Code=-2145844844 (0x80190194), Error Message=, Result Detail=, Vital=False, Package Action=Download_Bits, Package Id=WindowsPhone81GDR1SDK_VHD
+0173: [1F00:0BBC][2026-11-24T10:36:02]e000: Error 0x80070002: Failed to send request to URL: http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409
+0174: [1F00:0BBC][2026-11-24T10:36:02]e000: Error 0x80070002: Failed to connect to URL: http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409
+0175: [1F00:0BBC][2026-11-24T10:36:02]e000: Error 0x80070002: Failed to get size and time for URL: http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409
+0176: [1F00:0BBC][2026-11-24T10:36:02]e000: Error 0x80070002: Failed attempt to download URL: 'http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\WindowsPhone81GDR1SDK_VHD'
+0184: [1F00:0BBC][2026-11-24T10:36:06]e000: Error 0x80190194: Failed to download BITS job.
+0185: [1F00:0BBC][2026-11-24T10:36:06]e000: Error 0x80190194: Failed attempt to download URL: 'bits://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\WindowsPhone81GDR1SDK_VHD'
+0193: [1F00:0BBC][2026-11-24T10:36:09]e000: Error 0x80070002: Failed to send request to URL: http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409
+0194: [1F00:0BBC][2026-11-24T10:36:09]e000: Error 0x80070002: Failed to connect to URL: http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409
+0195: [1F00:0BBC][2026-11-24T10:36:09]e000: Error 0x80070002: Failed to get size and time for URL: http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409
+0196: [1F00:0BBC][2026-11-24T10:36:09]e000: Error 0x80070002: Failed attempt to download URL: 'http://go.microsoft.com/fwlink/?LinkId=500159&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\WindowsPhone81GDR1SDK_VHD'
+0201: [1F00:0BBC][2026-11-24T10:36:12]i000: MUX:  Set Result: Return Code=-2145844844 (0x80190194), Error Message=, Result Detail=No new source, Vital=False, Package Action=Download_Bits, Package Id=WindowsPhone81GDR1SDK_VHD
+0202: [1F00:0BBC][2026-11-24T10:36:12]e054: Failed to resolve source for file: C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\packages\WindowsPhone81GDR1VHD\WindowsPhoneSDK-VHD.msi, error: 0x80070002.
+0203: [1F00:0BBC][2026-11-24T10:36:12]e000: Error 0x80070002: Failed while prompting for source (original path 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\packages\WindowsPhone81GDR1VHD\WindowsPhoneSDK-VHD.msi').
+0204: [1F00:0BBC][2026-11-24T10:36:12]e313: Failed to acquire payload: WindowsPhone81GDR1SDK_VHD to working path: C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\WindowsPhone81GDR1SDK_VHD, error: 0x80070002.
+0205: [1F00:0BBC][2026-11-24T10:36:12]w350: Applied non-vital package: WindowsPhone81GDR1SDK_VHD, encountered error: 0x80070002. Continuing...
+0206: [1F00:065C][2026-11-24T10:36:12]w309: Skipping apply of package: WindowsPhone81GDR1SDK_VHD due to cache error: 0x80070002. Continuing...
+0218: [1F00:065C][2026-11-24T10:36:12]i319: Applied execute package: WindowsPhone81GDR1SDK_VHD, result: 0x0, restart: None
+0220: [1F00:0BBC][2026-11-24T10:36:14]e000: Error 0x80190194: Failed to download BITS job.
+0221: [1F00:0BBC][2026-11-24T10:36:14]e000: Error 0x80190194: Failed attempt to download URL: 'bits://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\CoreConExtraGDR1'
+0222: [1F00:0BBC][2026-11-24T10:36:14]i000: MUX:  Set Result: Return Code=-2145844844 (0x80190194), Error Message=, Result Detail=, Vital=True, Package Action=Download_Bits, Package Id=CoreConExtraGDR1
+0230: [1F00:0BBC][2026-11-24T10:36:17]e000: Error 0x80070002: Failed to send request to URL: http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409
+0231: [1F00:0BBC][2026-11-24T10:36:17]e000: Error 0x80070002: Failed to connect to URL: http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409
+0232: [1F00:0BBC][2026-11-24T10:36:17]e000: Error 0x80070002: Failed to get size and time for URL: http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409
+0233: [1F00:0BBC][2026-11-24T10:36:17]e000: Error 0x80070002: Failed attempt to download URL: 'http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\CoreConExtraGDR1'
+0241: [1F00:0BBC][2026-11-24T10:36:20]e000: Error 0x80190194: Failed to download BITS job.
+0242: [1F00:0BBC][2026-11-24T10:36:20]e000: Error 0x80190194: Failed attempt to download URL: 'bits://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\CoreConExtraGDR1'
+0250: [1F00:0BBC][2026-11-24T10:36:24]e000: Error 0x80070002: Failed to send request to URL: http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409
+0251: [1F00:0BBC][2026-11-24T10:36:24]e000: Error 0x80070002: Failed to connect to URL: http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409
+0252: [1F00:0BBC][2026-11-24T10:36:24]e000: Error 0x80070002: Failed to get size and time for URL: http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409
+0253: [1F00:0BBC][2026-11-24T10:36:24]e000: Error 0x80070002: Failed attempt to download URL: 'http://go.microsoft.com/fwlink/?LinkId=497754&clcid=0x409' to: 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\CoreConExtraGDR1'
+0258: [1F00:0BBC][2026-11-24T10:36:27]i000: MUX:  Set Result: Return Code=-2145844844 (0x80190194), Error Message=, Result Detail=No new source, Vital=True, Package Action=Download_Bits, Package Id=CoreConExtraGDR1
+0259: [1F00:0BBC][2026-11-24T10:36:27]e054: Failed to resolve source for file: C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\packages\CoreCon\MobileTools_WPImagesGDR1.msi, error: 0x80070002.
+0260: [1F00:0BBC][2026-11-24T10:36:27]e000: Error 0x80070002: Failed while prompting for source (original path 'C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\packages\CoreCon\MobileTools_WPImagesGDR1.msi').
+0261: [1F00:0BBC][2026-11-24T10:36:27]e313: Failed to acquire payload: CoreConExtraGDR1 to working path: C:\Users\runneradmin\AppData\Local\Temp\phone-original-sdk-deaa44f7e8c04498bd10b5d7c1146b8f\temp\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}\CoreConExtraGDR1, error: 0x80070002.
+0264: [1F00:065C][2026-11-24T10:36:27]e000: Error 0x80070002: Cache thread exited unexpectedly.
+0266: [1F00:065C][2026-11-24T10:36:27]w309: Skipping apply of package: WindowsPhone81GDR1SDK_VHD due to cache error: 0x80070002. Continuing...
+0272: [1F00:065C][2026-11-24T10:36:27]i319: Applied rollback package: WindowsPhone81GDR1SDK_VHD, result: 0x0, restart: None
+0275: [1128:1DD8][2026-11-24T10:36:27]i372: Session end, registration key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{d3e6984b-8c3e-4cd5-840b-4bfa8c2d582c}, resume: None, restart: None, disable resume: No
+0281: [1F00:065C][2026-11-24T10:36:27]i399: Apply complete, result: 0x80070002, restart: None, ba requested restart:  No
+0352: [1F00:07E0][2026-11-24T10:36:27]i000: MUX:  Metrics: 515 = 0x80190194
+0365: [1F00:07E0][2026-11-24T10:36:27]i000: MUX:  P7 - 0x80190194
+0373: [1F00:065C][2026-11-24T10:36:28]i500: Shutting down, exit code: 0x643
+0382: [1F00:065C][2026-11-24T10:36:28]i410: Variable: HypervisorEnabled = 1
+0383: [1F00:065C][2026-11-24T10:36:28]i410: Variable: HypervisorSupported = 1
+0429: [1F00:065C][2026-11-24T10:36:28]i007: Exit code: 0x643, restarting: No

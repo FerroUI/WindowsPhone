@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "started_at_utc": "2026-11-24T10:35:23.9609775Z",
+  "head_sha": "535c376981e0e53088f77023f7cac8991260a264",
+  "run_id": "45376175224",
+  "run_attempt": "1",
+  "runner_image": "win22",
+  "runner_image_version": "20261116.370.1",
+  "status": "vendor_setup_failed",
+  "stage": "vendor_setup",
+  "budget_seconds": 600,
+  "source_page": "https://www.microsoft.com/en-us/download/details.aspx?id=43719",
+  "setup_option_source": "https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2013/e2h7fzkw(v=vs.120)#using-command-line-parameters",
+  "target_guest_package_version": "8.10.14141.167",
+  "original_emulator_launched": false,
+  "guest_boot_verified": false,
+  "parity_verified": false,
+  "errors": [],
+  "before_assessment": "installation_not_detected",
+  "vendor_metadata": {
+    "isPrimary": "False",
+    "name": "windowsphone81sdkupdate1.exe",
+    "url": "https://download.microsoft.com/download/e/7/d/e7d9744a-06a6-46fb-aea4-50faaec6ce73/windowsphone81sdkupdate1.exe",
+    "size": "1164600",
+    "version": "8.10.14141.167",
+    "datePublished": "7/15/2024 3:21:52 AM"
+  },
+  "page_sha256": "dc878023cd9c099e8727a4e2901cf3377de4d5e85c79c59b6c4c424b9c1eea3f",
+  "page_redirects": [
+    "https://www.microsoft.com/en-us/download/details.aspx?id=43719"
+  ],
+  "download_url": "https://download.microsoft.com/download/e/7/d/e7d9744a-06a6-46fb-aea4-50faaec6ce73/windowsphone81sdkupdate1.exe",
+  "download_redirects": [
+    "https://download.microsoft.com/download/e/7/d/e7d9744a-06a6-46fb-aea4-50faaec6ce73/windowsphone81sdkupdate1.exe"
+  ],
+  "download_bytes": 1164600,
+  "bootstrapper_sha256": "3b2f954d2bccb97ac4288f122b69ecc241ddae9bae743b5ec3a4b9c1a0f7f137",
+  "authenticode": {
+    "status": "Valid",
+    "message": "Signature verified.",
+    "subject": "CN=Microsoft Corporation, OU=MOPR, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "issuer": "CN=Microsoft Code Signing PCA, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "thumbprint": "67B1757863E3EFF760EA9EBB02849AF07D3A8080",
+    "timestamp_subject": "CN=Microsoft Time-Stamp Service, OU=nCipher DSE ESN:C0F4-3086-DEF8, OU=MOPR, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+  },
+  "bootstrapper_version": {
+    "file_version": "12.0.40507.0",
+    "product_version": "12.0.40507.0",
+    "product_name": "Windows Phone 8.1 Update 1 SDK and Emulators - ENU",
+    "original_filename": "MobileTools_EmulatorWP81GDR1.exe"
+  },
+  "installer_arguments": [
+    "/quiet",
+    "/norestart",
+    "/log",
+    "D:\\a\\_temp\\original-emulator-evidence\\logs\\setup.log"
+  ],
+  "installer_pid": 4392,
+  "installer_exit_code": 1603,
+  "installer_exit_hex": "0x00000643",
+  "restart_required": false,
+  "download_setup_elapsed_seconds": 50.952,
+  "after_assessment": "installation_not_detected",
+  "installed_inventory": [],
+  "reference_files_detected": false,
+  "additional_logs": [],
+  "completed_at_utc": "2026-11-24T10:36:30.6070374Z",
+  "qualification": "Experimental original SDK installation attempt only. File presence, setup success and Hyper-V services do not prove guest boot or Windows Phone parity."
+}

@@ -305,8 +305,11 @@ try {
     $result.installer_exit_code = $setupProcess.ExitCode
     $unsignedCode = [BitConverter]::ToUInt32([BitConverter]::GetBytes([int32]$setupProcess.ExitCode), 0)
     $result.installer_exit_hex = '0x{0:X8}' -f $unsignedCode
-    $result.restart_required = $setupProcess.ExitCode -eq 3010
-    $result.status = if ($setupProcess.ExitCode -eq 0) { 'setup_completed' } elseif ($setupProcess.ExitCode -eq 3010) { 'setup_completed_restart_required' } else { 'vendor_setup_failed' }
+    # Observed MUX result: "Incomplete and reboot required". It remains failure,
+    # unlike MSI 3010. Other failure codes cannot establish that no reboot is due.
+    $incompleteRestart = $result.installer_exit_hex -eq '0x80048BC7'
+    $result.restart_required = if ($setupProcess.ExitCode -eq 3010 -or $incompleteRestart) { $true } elseif ($setupProcess.ExitCode -eq 0) { $false } else { $null }
+    $result.status = if ($setupProcess.ExitCode -eq 0) { 'setup_completed' } elseif ($setupProcess.ExitCode -eq 3010) { 'setup_completed_restart_required' } elseif ($incompleteRestart) { 'setup_incomplete_restart_required' } else { 'vendor_setup_failed' }
     if ($setupProcess.ExitCode -in @(0, 3010)) { $scriptExitCode = 0 }
 } catch {
     $result.errors.Add($_.Exception.Message)

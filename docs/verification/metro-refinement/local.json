@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "implementation_commit": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "full_local_native": {
+    "passed": 372,
+    "failed": 0,
+    "ignored": 1,
+    "suite_results": 87,
+    "log_sha256": "5c3634658f963d171739122b21f6c7dc96f02415ab7a9425b73a964f19803896",
+    "environment": {
+      "CARGO_BUILD_JOBS": "2",
+      "CARGO_PROFILE_DEV_DEBUG": "0",
+      "CARGO_PROFILE_TEST_DEBUG": "0",
+      "CARGO_INCREMENTAL": "0"
+    }
+  },
+  "full_local_javascript": {
+    "summary": [
+      "\u2139 tests 55",
+      "\u2139 pass 55",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 todo 0",
+      "\u2139 duration_ms 360.039357"
+    ],
+    "log_sha256": "7e55cf7e14ba25fc15380c503de422f196dbccf1a26590a81f9b9d3644dba6bb"
+  },
+  "browser_launch": {
+    "result": "blocked_before_application_start",
+    "checks": 0,
+    "captures": 0,
+    "observed_error": "Chrome ProcessSingleton socket() failed: Operation not permitted (1)",
+    "qualification": "No local rendered pass is inferred; rendered verification is performed in GitHub Actions."
+  },
+  "correction_commit": "c9923b2730e9fde63d4c822452f69ad46af30959",
+  "focused_checks": [
+    {
+      "scope": [
+        "phone-controls",
+        "phone-sdk",
+        "phone-app-word"
+      ],
+      "phase": "Application-bar replacement and Word format repair, before mask repair",
+      "passed": 72,
+      "failed": 0,
+      "ignored": 0,
+      "log_sha256": "18b8da5901d72ff01047dc981b57d3cc61507986b5b27a82898667bac1174ea0"
+    },
+    {
+      "scope": [
+        "phone-controls",
+        "phone-sdk"
+      ],
+      "phase": "Final switch-mask repair and native layout regression",
+      "passed": 73,
+      "failed": 0,
+      "ignored": 0,
+      "log_sha256": "6c47f2ff7fac56e283101b3d2a91354f37346abeebdf74a60df5fd0407476d14"
+    }
+  ],
+  "switch_regression": {
+    "red_case": "Native compact template with layout rounding: unchecked cover starts at y=1 instead of y=0 inside its 19px aperture",
+    "fixed_case": "Stretched cover covers exact aperture and follows native off/on/off travel",
+    "red_log_sha256": "70eb4d6d4665f7ea92d27b547c709cacf0368637efe4fab40221ddbff7d4d371"
+  },
+  "qualifications": [
+    "Runs have overlapping tests; do not sum their counts.",
+    "Local Chromium never reached application startup due denied ProcessSingleton socket creation.",
+    "Authoritative final rendered counts are recorded separately from GitHub Actions."
+  ],
+  "palette_regression": {
+    "scope": [
+      "phone-controls",
+      "phone-sdk"
+    ],
+    "phase": "Mounted palette replacement regression; native Pivot correction not yet included",
+    "passed": 74,
+    "failed": 0,
+    "ignored": 0,
+    "log_sha256": "2d892b57d806ab2487d236c034c40e48f8e26e7caff7babe66362fd31788b816",
+    "red_log_sha256": "be96fa3254acceb5e65095713b9d3554fbfd80f3c7a2a69ca2434d28217ca097",
+    "red_case": "A mounted native ToggleSwitch loses PART_MovingKnobs during one palette replacement styling pass.",
+    "green_case": "Normal and compact templates retain native part identity, checked state and expected knob transitions across light/dark and reduced-motion changes.",
+    "subsequently_published_in": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+    "qualification": "Focused working-tree check before the final Pivot correction; not claimed as an exact-checkout run of the subsequent combined commit."
+  },
+  "final_correction_checks": {
+    "source_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+    "scope": [
+      "phone-controls",
+      "phone-sdk"
+    ],
+    "passed": 75,
+    "failed": 0,
+    "ignored": 0,
+    "log_sha256": "a6e998a09b3a7c214b25aa58316221797de5fdd48681285f7a4d83e1c0810353",
+    "pivot_red_log_sha256": "340de1488f5475b6eb0a2b13035c7bdb4396de7c1a231834c04c95b50eb68bc0",
+    "pivot_regression": "Actual native Window/compositor and native pan events verify forward pan, forward wrap, reverse wrap, matching scroll/layout offsets, rendered content alignment and selected header at20px inset.",
+    "inspection": "Advance to latest completed compositor readback before observing geometry, matching native composition hit testing."
+  },
+  "harness_replay_checks": {
+    "phase": "Header/Device lookup and push-triggered strict reuse corrections",
+    "javascript_passed": 67,
+    "failed": 0,
+    "skipped": 0,
+    "log_sha256": "f9ff6ebcbd05cbfbc5099d86c115230e77cdbbac5bd2000d1130d2846dd4ff54",
+    "runtime_sources_changed": false,
+    "source_commit": "98a013dbc6a1d0a96fc0691050bd69b32780ae7d",
+    "compiled_application_commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366"
+  },
+  "dialog_correction_checks": {
+    "subsequently_published_in": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "passed": 117,
+    "failed": 0,
+    "ignored": 0,
+    "by_scope": {
+      "phone_controls": 23,
+      "phone_sdk_unit": 29,
+      "phone_sdk_integration": 24,
+      "phone_system": 41
+    },
+    "log_sha256": "d2729de1e32aab13ef237faeb25e1e9f6c66de7499104789c591e4f38a3936de",
+    "qualification": "Focused working-tree run; published source differs only by removal of two compiler-confirmed unused test imports and formatting. Exact-source full CI is recorded separately."
+  },
+  "confirmation_harness_checks": {
+    "source_commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "javascript_passed": 67,
+    "failed": 0,
+    "skipped": 0,
+    "log_sha256": "fe482c6731a86ab6daf7df79123a6160ed4c1442ad9e8748f2498a48e250f47b",
+    "scope": "Visible dialog captions and touch geometry, including320px;11 traced generic confirmation labels; all explicit save/discard/delete paths retained."
+  },
+  "android_home_readiness_checks": {
+    "source_commit": "b65eb4eb68d2da11729843a7407ad918cff269e7",
+    "readiness_fixtures_passed": 9,
+    "existing_android_python_checks_passed": 38,
+    "total_python_passed": 47,
+    "runtime_sources_changed_from_41d7e3c": false,
+    "qualification": "Local fixtures and shell syntax; actual provisioning, role restoration and subsequent runtime gates are recorded in the independent Android follow-up."
+  }
+}

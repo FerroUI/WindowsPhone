@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "started_at_utc": "2026-11-24T10:47:07.3477112Z",
+  "head_sha": "c59ac667b6253206ac33fa45ee14b297f5052f68",
+  "run_id": "45378014366",
+  "run_attempt": "1",
+  "runner_image": "win22",
+  "runner_image_version": "20261116.370.1",
+  "status": "attempt_failed",
+  "stage": "download_iso",
+  "mode": "offline-iso",
+  "budget_seconds": 900,
+  "source_page": "https://www.microsoft.com/en-us/download/details.aspx?id=43719",
+  "setup_option_source": "https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2013/e2h7fzkw(v=vs.120)#using-command-line-parameters",
+  "target_guest_package_version": "8.10.14141.167",
+  "original_emulator_launched": false,
+  "guest_boot_verified": false,
+  "parity_verified": false,
+  "errors": [
+    "The property 'Bytes' cannot be found on this object. Verify that the property exists."
+  ],
+  "before_assessment": "installation_not_detected",
+  "vendor_metadata": {
+    "isPrimary": "False",
+    "name": "windowsphone81sdkupdate1.iso",
+    "url": "https://download.microsoft.com/download/e/7/d/e7d9744a-06a6-46fb-aea4-50faaec6ce73/windowsphone81sdkupdate1.iso",
+    "size": "986316800",
+    "version": "8.10.14141.167",
+    "datePublished": "7/15/2024 3:21:52 AM"
+  },
+  "page_sha256": "b5e626cc1c9e2818f59d3f8eee31dd318be834d2930fb2f5bfb460763c4e0339",
+  "page_redirects": [
+    "https://www.microsoft.com/en-us/download/details.aspx?id=43719"
+  ],
+  "download_setup_elapsed_seconds": 168.125,
+  "after_assessment": "installation_not_detected",
+  "installed_inventory": [],
+  "reference_files_detected": false,
+  "additional_logs": [],
+  "completed_at_utc": "2026-11-24T10:50:09.8402232Z",
+  "qualification": "Experimental original SDK installation attempt only. File presence, setup success and Hyper-V services do not prove guest boot or Windows Phone parity."
+}

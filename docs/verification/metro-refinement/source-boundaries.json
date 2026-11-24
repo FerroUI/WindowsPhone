@@ -1,0 +1,297 @@
+{
+  "schema": 1,
+  "repository": "FerroUI/WindowsPhone",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "revisions": {
+    "initial": {
+      "commit": "1f578a9a3ee02b2554dcbb7d8d39b33392264cee",
+      "tree": "a4a0576c5783bde2baca1d302f29e83d58c8a84e",
+      "runtime_inputs": {
+        "crates": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "88ca1a975a68cdfad38fe534b614ec3e17f05a66"
+        },
+        "Cargo.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+        },
+        "Cargo.lock": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+        },
+        ".cargo": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "2b53289aea955f069620c86b631fc8db96f128fd"
+        },
+        "FerroUI": {
+          "mode": "160000",
+          "type": "commit",
+          "object": "db2e8859cd4b67bac870839ea70503b8babf541f"
+        },
+        ".gitmodules": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "c6977bb3ec2a6a3f9d6ec0830dc181542288dbfa"
+        },
+        "rust-toolchain.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "21b23a0f103038844d8c57cd8eec0adbad92d384"
+        },
+        "scripts/build-browser.sh": {
+          "mode": "100755",
+          "type": "blob",
+          "object": "1ab9fd508340f4164511dd151251abf99e64f460"
+        },
+        "scripts/prepare-site.mjs": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "6a286ba1349cb6b8b8e7dc55b91ceaadd98f28cf"
+        }
+      }
+    },
+    "native_pivot_and_palette_correction": {
+      "commit": "1a2046672e0e82ffd3fe978fdae8ff4c0b5c8366",
+      "tree": "739f77d2b994d8dfe6aab8496770f965d99c3a90",
+      "runtime_inputs": {
+        "crates": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "93c5d994cf144d1b3ac30e3b7b5d6ed932a24b0a"
+        },
+        "Cargo.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+        },
+        "Cargo.lock": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+        },
+        ".cargo": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "2b53289aea955f069620c86b631fc8db96f128fd"
+        },
+        "FerroUI": {
+          "mode": "160000",
+          "type": "commit",
+          "object": "db2e8859cd4b67bac870839ea70503b8babf541f"
+        },
+        ".gitmodules": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "c6977bb3ec2a6a3f9d6ec0830dc181542288dbfa"
+        },
+        "rust-toolchain.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "21b23a0f103038844d8c57cd8eec0adbad92d384"
+        },
+        "scripts/build-browser.sh": {
+          "mode": "100755",
+          "type": "blob",
+          "object": "1ab9fd508340f4164511dd151251abf99e64f460"
+        },
+        "scripts/prepare-site.mjs": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "6a286ba1349cb6b8b8e7dc55b91ceaadd98f28cf"
+        }
+      }
+    },
+    "harness_replay": {
+      "commit": "98a013dbc6a1d0a96fc0691050bd69b32780ae7d",
+      "tree": "4cffcee1257e27a8ce176e89096c91e1b8458226",
+      "runtime_inputs": {
+        "crates": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "93c5d994cf144d1b3ac30e3b7b5d6ed932a24b0a"
+        },
+        "Cargo.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+        },
+        "Cargo.lock": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+        },
+        ".cargo": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "2b53289aea955f069620c86b631fc8db96f128fd"
+        },
+        "FerroUI": {
+          "mode": "160000",
+          "type": "commit",
+          "object": "db2e8859cd4b67bac870839ea70503b8babf541f"
+        },
+        ".gitmodules": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "c6977bb3ec2a6a3f9d6ec0830dc181542288dbfa"
+        },
+        "rust-toolchain.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "21b23a0f103038844d8c57cd8eec0adbad92d384"
+        },
+        "scripts/build-browser.sh": {
+          "mode": "100755",
+          "type": "blob",
+          "object": "1ab9fd508340f4164511dd151251abf99e64f460"
+        },
+        "scripts/prepare-site.mjs": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "6a286ba1349cb6b8b8e7dc55b91ceaadd98f28cf"
+        }
+      }
+    },
+    "current_application": {
+      "commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+      "tree": "6c0ac55d084debc34d3292a1f44a8436d6356475",
+      "runtime_inputs": {
+        "crates": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "3017797bef8fd250179c52df3ee799be99e22dd8"
+        },
+        "Cargo.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+        },
+        "Cargo.lock": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+        },
+        ".cargo": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "2b53289aea955f069620c86b631fc8db96f128fd"
+        },
+        "FerroUI": {
+          "mode": "160000",
+          "type": "commit",
+          "object": "db2e8859cd4b67bac870839ea70503b8babf541f"
+        },
+        ".gitmodules": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "c6977bb3ec2a6a3f9d6ec0830dc181542288dbfa"
+        },
+        "rust-toolchain.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "21b23a0f103038844d8c57cd8eec0adbad92d384"
+        },
+        "scripts/build-browser.sh": {
+          "mode": "100755",
+          "type": "blob",
+          "object": "1ab9fd508340f4164511dd151251abf99e64f460"
+        },
+        "scripts/prepare-site.mjs": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "6a286ba1349cb6b8b8e7dc55b91ceaadd98f28cf"
+        }
+      }
+    },
+    "android_home_readiness_harness": {
+      "commit": "b65eb4eb68d2da11729843a7407ad918cff269e7",
+      "tree": "ed37ba45dba8bdc6620cda0728caff16850d2742",
+      "runtime_inputs": {
+        "crates": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "3017797bef8fd250179c52df3ee799be99e22dd8"
+        },
+        "Cargo.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "2b5cef1cdad69b93f11c6837949e4d2ea91d6fa6"
+        },
+        "Cargo.lock": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "fbc484eaa673fec6023583bf2dd4d5465980e7a1"
+        },
+        ".cargo": {
+          "mode": "040000",
+          "type": "tree",
+          "object": "2b53289aea955f069620c86b631fc8db96f128fd"
+        },
+        "FerroUI": {
+          "mode": "160000",
+          "type": "commit",
+          "object": "db2e8859cd4b67bac870839ea70503b8babf541f"
+        },
+        ".gitmodules": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "c6977bb3ec2a6a3f9d6ec0830dc181542288dbfa"
+        },
+        "rust-toolchain.toml": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "21b23a0f103038844d8c57cd8eec0adbad92d384"
+        },
+        "scripts/build-browser.sh": {
+          "mode": "100755",
+          "type": "blob",
+          "object": "1ab9fd508340f4164511dd151251abf99e64f460"
+        },
+        "scripts/prepare-site.mjs": {
+          "mode": "100644",
+          "type": "blob",
+          "object": "6a286ba1349cb6b8b8e7dc55b91ceaadd98f28cf"
+        }
+      }
+    }
+  },
+  "compiled_c_replay": {
+    "source_run": 45378305962,
+    "compiled_artifact_id": 14913351224,
+    "compiled_artifact_zip_sha256": "f001b718c8adf0ef64f041204764849a269bec501b73830c094cb3450e170ec5",
+    "replay_run": 45384063840,
+    "runtime_diff": [],
+    "qualification": "D reused the validated exact C app because all runtime inputs were unchanged. D remains a failed integrated run; no release was deployed."
+  },
+  "current_rebuild": {
+    "source_commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "workflow_run": 45387122214,
+    "runtime_diff_from_c": [
+      "crates/phone-controls/src/buttons.rs",
+      "crates/phone-controls/src/theme.rs",
+      "crates/phone-ios/native/device.m",
+      "crates/phone-sdk/src/session.rs",
+      "crates/phone-system/src/dialogs.rs"
+    ],
+    "qualification": "E changes native dialog/control code and iOS startup diagnostics; it requires a fresh compiled application and independent platform evidence. C/D passes are not substituted for E."
+  },
+  "android_followup": {
+    "application_source": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+    "harness_source": "b65eb4eb68d2da11729843a7407ad918cff269e7",
+    "arm64_package_run": 45387122271,
+    "initial_ui_run": 45387122385,
+    "followup_ui_run": 45389593350,
+    "runtime_diff": [],
+    "changes": [
+      ".github/workflows/android-ui.yml",
+      "scripts/smoke-android.sh",
+      "scripts/verify_android_home.py",
+      "scripts/verify_android_home_test.py"
+    ],
+    "qualification": "The independent Android follow-up changes only the private-emulator readiness harness and its workflow/tests. Production runtime inputs match E. Its outcome does not replace the failed E HOME-restoration record."
+  }
+}

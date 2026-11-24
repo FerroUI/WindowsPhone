@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-11-24T10:50:07.910494+00:00",
+  "read_only": true,
+  "platform": {
+    "system": "Windows",
+    "release": "2022Server",
+    "machine": "AMD64"
+  },
+  "cpu_virtualization_flags": null,
+  "kvm_device_present": false,
+  "tools": {
+    "qemu-system-x86_64": null,
+    "wine": null,
+    "powershell.exe": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "pwsh": "C:\\Program Files\\PowerShell\\7\\pwsh.EXE"
+  },
+  "windows": {
+    "status": "observed",
+    "data": {
+      "os": {
+        "Caption": "Microsoft Windows Server 2022 Datacenter",
+        "Version": "10.0.20348",
+        "OSArchitecture": "64-bit"
+      },
+      "computer": {
+        "HypervisorPresent": true
+      },
+      "processors": [
+        {
+          "Architecture": 9,
+          "SecondLevelAddressTranslationExtensions": false,
+          "VirtualizationFirmwareEnabled": true,
+          "VMMonitorModeExtensions": false
+        }
+      ],
+      "hyperv_features": [
+        {
+          "Name": "Microsoft-Hyper-V",
+          "InstallState": 1
+        },
+        {
+          "Name": "Microsoft-Hyper-V-Offline",
+          "InstallState": 1
+        },
+        {
+          "Name": "Microsoft-Hyper-V-Online",
+          "InstallState": 1
+        },
+        {
+          "Name": "Microsoft-Hyper-V-Management-Clients",
+          "InstallState": 2
+        },
+        {
+          "Name": "Microsoft-Hyper-V-Management-PowerShell",
+          "InstallState": 1
+        }
+      ],
+      "hyperv_services": [
+        {
+          "Name": "vmcompute",
+          "Status": "Running"
+        },
+        {
+          "Name": "vmms",
+          "Status": "Running"
+        }
+      ]
+    }
+  },
+  "installations": {
+    "searched_roots": [
+      "C:\\Program Files",
+      "C:\\Program Files (x86)"
+    ],
+    "xde": [],
+    "images": [],
+    "sdk_roots": [],
+    "errors": []
+  },
+  "assessment": "installation_not_detected",
+  "next_steps": [
+    "XDE and phone images were not both found in conventional installation locations; a custom location may exist.",
+    "Consult the Microsoft SDK archive and docs/original-emulator.md for the appropriate licensed SDK/image."
+  ]
+}

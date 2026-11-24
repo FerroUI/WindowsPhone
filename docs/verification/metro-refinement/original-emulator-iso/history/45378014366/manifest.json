@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "source_sha": "c59ac667b6253206ac33fa45ee14b297f5052f68",
+  "run_id": 45378014366,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45378014366",
+  "job_id": 138389341057,
+  "conclusion": "failure",
+  "artifact_id": 14911224364,
+  "artifact_name": "original-windows-phone-setup-iso",
+  "artifact_bytes": 23364,
+  "artifact_sha256": "b0861fd767a383927f45d14c1ce6868ac99b4e81eba1141e86047bead27721f4",
+  "artifact_digest_independently_verified": true,
+  "original_files": [
+    {
+      "path": "after-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied_unmodified": false
+    },
+    {
+      "path": "after.json",
+      "bytes": 2289,
+      "sha256": "297d7e316a8794844c35ff26b7c0d238ad07265abf2936492e6082fb1decc5f8",
+      "copied_unmodified": true
+    },
+    {
+      "path": "before-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied_unmodified": false
+    },
+    {
+      "path": "before.json",
+      "bytes": 2289,
+      "sha256": "0d5c1b93c6a149b6be29b0be810a42c1659a5a0aa98bc199175bb5dcb3f24b21",
+      "copied_unmodified": true
+    },
+    {
+      "path": "download-page.html",
+      "bytes": 128083,
+      "sha256": "b5e626cc1c9e2818f59d3f8eee31dd318be834d2930fb2f5bfb460763c4e0339",
+      "copied_unmodified": false
+    },
+    {
+      "path": "iso-cleanup.json",
+      "bytes": 53,
+      "sha256": "44eac75047cc8c7a772832328a3f402dde9017e8afc375e9e7861437068c8892",
+      "copied_unmodified": true
+    },
+    {
+      "path": "result.json",
+      "bytes": 1875,
+      "sha256": "cb9154d77e8ae44438174b2f1c90950ae0e2ecd3eb47912b236448e50477b1dc",
+      "copied_unmodified": true
+    },
+    {
+      "path": "watchdog.json",
+      "bytes": 192,
+      "sha256": "0d594a6306409b206d4c6c79d711cc16acebbf13946c82bb78cb60c6485f0e4e",
+      "copied_unmodified": true
+    }
+  ],
+  "interpretation": {
+    "stage": "download_iso",
+    "failure": "powershell_stream_metadata_pipeline_contamination",
+    "error": "The property 'Bytes' cannot be found on this object. Verify that the property exists.",
+    "fix": "Suppress WriteAsync await completion output with an explicit [void] cast so the helper returns only its metadata object.",
+    "vendor_setup_started": false,
+    "iso_mounted": false,
+    "full_iso_hash_recorded": false,
+    "prerequisite_failure_observed": false,
+    "timeout": false,
+    "original_emulator_launched": false,
+    "guest_boot_verified": false,
+    "parity_verified": false
+  }
+}

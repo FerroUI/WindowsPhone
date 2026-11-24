@@ -1,0 +1,9 @@
+{
+  "pid": 3404,
+  "mode": "offline-iso",
+  "timeout_seconds": 960,
+  "download_setup_budget_seconds": 900,
+  "timed_out": false,
+  "exit_code": 1,
+  "elapsed_seconds": 139.5836221
+}

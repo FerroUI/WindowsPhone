@@ -1,0 +1,1601 @@
+﻿2026-11-24T11:46:43.3795350Z Current runner version: '2.338.2'
+2026-11-24T11:46:43.3845250Z ##[group]Runner Image Provisioner
+2026-11-24T11:46:43.3847380Z Hosted Compute Agent
+2026-11-24T11:46:43.3847840Z Version: 20261111.635
+2026-11-24T11:46:43.3848270Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-24T11:46:43.3848730Z Build Date: 2026-11-11T01:49:01Z
+2026-11-24T11:46:43.3849160Z Worker ID: {892a4812-6652-42e1-9bde-f389e2aabebb}
+2026-11-24T11:46:43.3849610Z Region: westus
+2026-11-24T11:46:43.3849950Z Cloud: MacCloud
+2026-11-24T11:46:43.3850440Z ##[endgroup]
+2026-11-24T11:46:43.3851960Z ##[group]Operating System
+2026-11-24T11:46:43.3852350Z macOS
+2026-11-24T11:46:43.3852670Z 26.7.2
+2026-11-24T11:46:43.3852980Z 25G332
+2026-11-24T11:46:43.3853290Z ##[endgroup]
+2026-11-24T11:46:43.3853640Z ##[group]Runner Image
+2026-11-24T11:46:43.3854010Z Image: macos-26-arm64
+2026-11-24T11:46:43.3854370Z Version: 20261117.0516.1
+2026-11-24T11:46:43.3855250Z Included Software: https://github.com/actions/runner-images/blob/macos-26-arm64/20261117.0516/images/macos/macos-26-arm64-Readme.md
+2026-11-24T11:46:43.3856280Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26-arm64%2F20261117.0516
+2026-11-24T11:46:43.3856930Z ##[endgroup]
+2026-11-24T11:46:43.3857820Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T11:46:43.3859670Z Actions: read
+2026-11-24T11:46:43.3860030Z Contents: read
+2026-11-24T11:46:43.3860370Z Metadata: read
+2026-11-24T11:46:43.3860710Z Pages: write
+2026-11-24T11:46:43.3861060Z ##[endgroup]
+2026-11-24T11:46:43.3862720Z Secret source: Actions
+2026-11-24T11:46:43.3863300Z Cache mode: write
+2026-11-24T11:46:43.3863780Z Prepare workflow directory
+2026-11-24T11:46:43.4461240Z Prepare all required actions
+2026-11-24T11:46:43.4547630Z Getting action download info
+2026-11-24T11:46:43.9087670Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-24T11:46:45.1029120Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+2026-11-24T11:46:45.2581110Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-24T11:46:45.6304880Z Complete job name: native (macos-latest)
+2026-11-24T11:46:45.7303450Z ##[group]Run actions/checkout@v4
+2026-11-24T11:46:45.7304610Z with:
+2026-11-24T11:46:45.7305150Z   submodules: true
+2026-11-24T11:46:45.7305850Z   repository: FerroUI/WindowsPhone
+2026-11-24T11:46:45.7317100Z   token: ***
+2026-11-24T11:46:45.7317770Z   ssh-strict: true
+2026-11-24T11:46:45.7318410Z   ssh-user: git
+2026-11-24T11:46:45.7319050Z   persist-credentials: true
+2026-11-24T11:46:45.7320820Z   clean: true
+2026-11-24T11:46:45.7322180Z   sparse-checkout-cone-mode: true
+2026-11-24T11:46:45.7322960Z   fetch-depth: 1
+2026-11-24T11:46:45.7323520Z   fetch-tags: false
+2026-11-24T11:46:45.7324120Z   show-progress: true
+2026-11-24T11:46:45.7324780Z   lfs: false
+2026-11-24T11:46:45.7325310Z   set-safe-directory: true
+2026-11-24T11:46:45.7326670Z   allow-unsafe-pr-checkout: false
+2026-11-24T11:46:45.7329140Z env:
+2026-11-24T11:46:45.7329800Z   CARGO_TERM_COLOR: always
+2026-11-24T11:46:45.7330520Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:46:45.7331090Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:46:45.7331820Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:46:45.7332540Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:46:45.7333280Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:46:45.7333940Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:46:45.7334710Z ##[endgroup]
+2026-11-24T11:46:46.2116740Z Syncing repository: FerroUI/WindowsPhone
+2026-11-24T11:46:46.2119630Z ##[group]Getting Git version info
+2026-11-24T11:46:46.2120600Z Working directory is '/Users/runner/work/WindowsPhone/WindowsPhone'
+2026-11-24T11:46:46.2122030Z [command]/opt/homebrew/bin/git version
+2026-11-24T11:46:46.2754540Z git version 2.56.1
+2026-11-24T11:46:46.2783690Z ##[endgroup]
+2026-11-24T11:46:46.2791470Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/a4b9d723-5890-4608-8e11-60ccd824b38f/.gitconfig'
+2026-11-24T11:46:46.2803600Z Temporarily overriding HOME='/Users/runner/work/_temp/a4b9d723-5890-4608-8e11-60ccd824b38f' before making global git config changes
+2026-11-24T11:46:46.2805810Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T11:46:46.2811710Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/WindowsPhone/WindowsPhone
+2026-11-24T11:46:46.3021370Z Deleting the contents of '/Users/runner/work/WindowsPhone/WindowsPhone'
+2026-11-24T11:46:46.3026250Z ##[group]Initializing the repository
+2026-11-24T11:46:46.3029860Z [command]/opt/homebrew/bin/git init /Users/runner/work/WindowsPhone/WindowsPhone
+2026-11-24T11:46:46.3522340Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T11:46:46.3524110Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-24T11:46:46.3525820Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-24T11:46:46.3528120Z hint: call:
+2026-11-24T11:46:46.3528980Z hint:
+2026-11-24T11:46:46.3529860Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T11:46:46.3530840Z hint:
+2026-11-24T11:46:46.3532280Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T11:46:46.3533760Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T11:46:46.3534960Z hint:
+2026-11-24T11:46:46.3537430Z hint: 	git branch -m <name>
+2026-11-24T11:46:46.3538220Z hint:
+2026-11-24T11:46:46.3539250Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-24T11:46:46.3541100Z Initialized empty Git repository in /Users/runner/work/WindowsPhone/WindowsPhone/.git/
+2026-11-24T11:46:46.3550360Z [command]/opt/homebrew/bin/git remote add origin https://github.com/FerroUI/WindowsPhone
+2026-11-24T11:46:46.3657160Z ##[endgroup]
+2026-11-24T11:46:46.3659960Z ##[group]Disabling automatic garbage collection
+2026-11-24T11:46:46.3661330Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-11-24T11:46:46.3755150Z ##[endgroup]
+2026-11-24T11:46:46.3758920Z ##[group]Setting up auth
+2026-11-24T11:46:46.3763620Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T11:46:46.3852520Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T11:46:46.5406470Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T11:46:46.5486660Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T11:46:46.6723460Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T11:46:46.6809510Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T11:46:46.8181250Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T11:46:46.8427300Z ##[endgroup]
+2026-11-24T11:46:46.8428530Z ##[group]Fetching the repository
+2026-11-24T11:46:46.8453330Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6:refs/remotes/origin/main
+2026-11-24T11:46:47.8094380Z From https://github.com/FerroUI/WindowsPhone
+2026-11-24T11:46:47.8096270Z  * [new ref]         41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6 -> origin/main
+2026-11-24T11:46:47.8103020Z ##[endgroup]
+2026-11-24T11:46:47.8104610Z ##[group]Determining the checkout info
+2026-11-24T11:46:47.8106340Z ##[endgroup]
+2026-11-24T11:46:47.8115410Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-11-24T11:46:47.8234820Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T11:46:47.8379140Z ##[group]Checking out the ref
+2026-11-24T11:46:47.8380810Z [command]/opt/homebrew/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-24T11:46:48.0606290Z Switched to a new branch 'main'
+2026-11-24T11:46:48.0637790Z branch 'main' set up to track 'origin/main'.
+2026-11-24T11:46:48.0640830Z ##[endgroup]
+2026-11-24T11:46:48.0647720Z ##[group]Setting up auth for fetching submodules
+2026-11-24T11:46:48.0648690Z [command]/opt/homebrew/bin/git config --global http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T11:46:48.0762850Z [command]/opt/homebrew/bin/git config --global --unset-all url.https://github.com/.insteadOf
+2026-11-24T11:46:48.0895330Z [command]/opt/homebrew/bin/git config --global --add url.https://github.com/.insteadOf git@github.com:
+2026-11-24T11:46:48.1063650Z [command]/opt/homebrew/bin/git config --global --add url.https://github.com/.insteadOf org-345665177@github.com:
+2026-11-24T11:46:48.1185750Z ##[endgroup]
+2026-11-24T11:46:48.1186440Z ##[group]Fetching submodules
+2026-11-24T11:46:48.1186900Z [command]/opt/homebrew/bin/git submodule sync
+2026-11-24T11:46:48.3319100Z [command]/opt/homebrew/bin/git -c protocol.version=2 submodule update --init --force --depth=1
+2026-11-24T11:46:48.5222680Z Submodule 'FerroUI' (https://github.com/wieslawsoltes/FerroUI.git) registered for path 'FerroUI'
+2026-11-24T11:46:48.5502980Z Cloning into '/Users/runner/work/WindowsPhone/WindowsPhone/FerroUI'...
+2026-11-24T11:47:00.4310750Z From https://github.com/wieslawsoltes/FerroUI
+2026-11-24T11:47:00.4404870Z  * branch              db2e8859cd4b67bac870839ea70503b8babf541f -> FETCH_HEAD
+2026-11-24T11:47:06.0461120Z Submodule path 'FerroUI': checked out 'db2e8859cd4b67bac870839ea70503b8babf541f'
+2026-11-24T11:47:06.0556280Z [command]/opt/homebrew/bin/git submodule foreach git config --local gc.auto 0
+2026-11-24T11:47:06.2003370Z Entering 'FerroUI'
+2026-11-24T11:47:06.2171090Z ##[endgroup]
+2026-11-24T11:47:06.2174030Z ##[group]Persisting credentials for submodules
+2026-11-24T11:47:06.2206280Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'url\.https\:\/\/github\.com\/\.insteadOf' && git config --local --unset-all 'url.https://github.com/.insteadOf' || :"
+2026-11-24T11:47:06.3767010Z Entering 'FerroUI'
+2026-11-24T11:47:06.4198410Z [command]/opt/homebrew/bin/git submodule foreach sh -c "git config --local 'http.https://github.com/.extraheader' 'AUTHORIZATION: basic ***' && git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-24T11:47:06.5977670Z Entering 'FerroUI'
+2026-11-24T11:47:06.6437470Z file:/Users/runner/work/WindowsPhone/WindowsPhone/.git/modules/FerroUI/config	remote.origin.url
+2026-11-24T11:47:06.6547960Z [command]/opt/homebrew/bin/git submodule foreach git config --local --add 'url.https://github.com/.insteadOf' 'git@github.com:'
+2026-11-24T11:47:06.8077550Z Entering 'FerroUI'
+2026-11-24T11:47:06.8281610Z [command]/opt/homebrew/bin/git submodule foreach git config --local --add 'url.https://github.com/.insteadOf' 'org-345665177@github.com:'
+2026-11-24T11:47:06.9697750Z Entering 'FerroUI'
+2026-11-24T11:47:06.9913080Z ##[endgroup]
+2026-11-24T11:47:07.0280610Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-11-24T11:47:07.0472760Z 41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6
+2026-11-24T11:47:07.1164580Z ##[group]Run PHONE_NATIVE_RUST=$(sed -n 's/^channel = "\(.*\)"/\1/p' rust-toolchain.toml)
+2026-11-24T11:47:07.1166320Z [36;1mPHONE_NATIVE_RUST=$(sed -n 's/^channel = "\(.*\)"/\1/p' rust-toolchain.toml)[0m
+2026-11-24T11:47:07.1167710Z [36;1mrustup toolchain install "$PHONE_NATIVE_RUST" --profile minimal[0m
+2026-11-24T11:47:07.1169140Z [36;1mecho "RUSTUP_TOOLCHAIN=$PHONE_NATIVE_RUST" >> "$GITHUB_ENV"[0m
+2026-11-24T11:47:07.1170490Z [36;1mecho "PHONE_NATIVE_FRAMEWORK=$(git -C FerroUI rev-parse HEAD)" >> "$GITHUB_ENV"[0m
+2026-11-24T11:47:07.1296840Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T11:47:07.1307300Z env:
+2026-11-24T11:47:07.1307940Z   CARGO_TERM_COLOR: always
+2026-11-24T11:47:07.1308860Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:47:07.1309770Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:47:07.1310440Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:47:07.1311100Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:47:07.1311980Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:47:07.1312770Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:47:07.1313500Z ##[endgroup]
+2026-11-24T11:47:07.3417280Z info: syncing channel updates for 1.99.0-aarch64-apple-darwin
+2026-11-24T11:47:07.5577460Z info: latest update on 2026-10-01 for version 1.99.0 (b940084d7 2026-09-28)
+2026-11-24T11:47:07.5591470Z info: downloading 3 components
+2026-11-24T11:47:15.6219530Z 
+2026-11-24T11:47:15.7529420Z   1.99.0-aarch64-apple-darwin installed - rustc 1.99.0 (b940084d7 2026-09-28)
+2026-11-24T11:47:15.7530360Z info: self-update is disabled for this build of rustup
+2026-11-24T11:47:15.7531750Z info: any updates to rustup will need to be fetched with your system package manager
+2026-11-24T11:47:15.7532220Z 
+2026-11-24T11:47:15.8152440Z ##[group]Run python scripts/ci-framework-mtimes.py
+2026-11-24T11:47:15.8153810Z [36;1mpython scripts/ci-framework-mtimes.py[0m
+2026-11-24T11:47:15.8242450Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T11:47:15.8242870Z env:
+2026-11-24T11:47:15.8243090Z   CARGO_TERM_COLOR: always
+2026-11-24T11:47:15.8243450Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:47:15.8243720Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:47:15.8244030Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:47:15.8244410Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:47:15.8244690Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:47:15.8245070Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:47:15.8246180Z   RUSTUP_TOOLCHAIN: 1.99.0
+2026-11-24T11:47:15.8246600Z   PHONE_NATIVE_FRAMEWORK: db2e8859cd4b67bac870839ea70503b8babf541f
+2026-11-24T11:47:15.8247900Z ##[endgroup]
+2026-11-24T11:47:18.0171470Z Normalized 18877 pinned framework files and 2051 directories.
+2026-11-24T11:47:18.4136970Z ##[group]Run actions/cache@v4
+2026-11-24T11:47:18.4137320Z with:
+2026-11-24T11:47:18.4137640Z   path: target
+~/.cargo/registry
+~/.cargo/git
+
+2026-11-24T11:47:18.4138330Z   key: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0
+2026-11-24T11:47:18.4139260Z   restore-keys: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-
+
+2026-11-24T11:47:18.4139720Z   enableCrossOsArchive: false
+2026-11-24T11:47:18.4139980Z   fail-on-cache-miss: false
+2026-11-24T11:47:18.4140230Z   lookup-only: false
+2026-11-24T11:47:18.4140410Z   save-always: false
+2026-11-24T11:47:18.4140570Z env:
+2026-11-24T11:47:18.4140710Z   CARGO_TERM_COLOR: always
+2026-11-24T11:47:18.4140960Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:47:18.4141190Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:47:18.4141500Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:47:18.4142490Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:47:18.4142900Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:47:18.4143220Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:47:18.4143430Z   RUSTUP_TOOLCHAIN: 1.99.0
+2026-11-24T11:47:18.4143750Z   PHONE_NATIVE_FRAMEWORK: db2e8859cd4b67bac870839ea70503b8babf541f
+2026-11-24T11:47:18.4144060Z ##[endgroup]
+2026-11-24T11:47:18.6195500Z (node:1675) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T11:47:18.6196810Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T11:47:18.9342630Z Cache hit for: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0
+2026-11-24T11:47:18.9460130Z (node:1675) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T11:47:20.2266830Z Received 0 of 1930889571 (0.0%), 0.0 MBs/sec
+2026-11-24T11:47:21.2288840Z Received 71303168 of 1930889571 (3.7%), 33.9 MBs/sec
+2026-11-24T11:47:22.2325190Z Received 130023424 of 1930889571 (6.7%), 41.2 MBs/sec
+2026-11-24T11:47:23.2341030Z Received 188743680 of 1930889571 (9.8%), 44.9 MBs/sec
+2026-11-24T11:47:24.3163860Z Received 268435456 of 1930889571 (13.9%), 50.3 MBs/sec
+2026-11-24T11:47:25.3196560Z Received 331350016 of 1930889571 (17.2%), 51.9 MBs/sec
+2026-11-24T11:47:26.3231540Z Received 398458880 of 1930889571 (20.6%), 53.6 MBs/sec
+2026-11-24T11:47:27.3215270Z Received 457179136 of 1930889571 (23.7%), 53.8 MBs/sec
+2026-11-24T11:47:28.3235640Z Received 536870912 of 1930889571 (27.8%), 56.3 MBs/sec
+2026-11-24T11:47:29.3243680Z Received 608174080 of 1930889571 (31.5%), 57.4 MBs/sec
+2026-11-24T11:47:30.3260660Z Received 671088640 of 1930889571 (34.8%), 57.7 MBs/sec
+2026-11-24T11:47:31.3277310Z Received 742391808 of 1930889571 (38.4%), 58.5 MBs/sec
+2026-11-24T11:47:32.3304380Z Received 805306368 of 1930889571 (41.7%), 58.6 MBs/sec
+2026-11-24T11:47:33.3314330Z Received 872415232 of 1930889571 (45.2%), 59.0 MBs/sec
+2026-11-24T11:47:34.4290510Z Received 939524096 of 1930889571 (48.7%), 58.9 MBs/sec
+2026-11-24T11:47:35.4289680Z Received 989855744 of 1930889571 (51.3%), 58.3 MBs/sec
+2026-11-24T11:47:36.4310620Z Received 1061158912 of 1930889571 (55.0%), 58.8 MBs/sec
+2026-11-24T11:47:37.4324550Z Received 1086324736 of 1930889571 (56.3%), 56.9 MBs/sec
+2026-11-24T11:47:38.4344130Z Received 1170210816 of 1930889571 (60.6%), 58.1 MBs/sec
+2026-11-24T11:47:39.4341040Z Received 1207959552 of 1930889571 (62.6%), 57.0 MBs/sec
+2026-11-24T11:47:40.4354870Z Received 1270874112 of 1930889571 (65.8%), 57.1 MBs/sec
+2026-11-24T11:47:41.4374170Z Received 1342177280 of 1930889571 (69.5%), 57.6 MBs/sec
+2026-11-24T11:47:42.4385600Z Received 1400897536 of 1930889571 (72.6%), 57.6 MBs/sec
+2026-11-24T11:47:43.4490520Z Received 1472200704 of 1930889571 (76.2%), 58.0 MBs/sec
+2026-11-24T11:47:44.4568550Z Received 1522532352 of 1930889571 (78.9%), 57.6 MBs/sec
+2026-11-24T11:47:45.4509910Z Received 1602224128 of 1930889571 (83.0%), 58.3 MBs/sec
+2026-11-24T11:47:46.4530380Z Received 1652555776 of 1930889571 (85.6%), 57.9 MBs/sec
+2026-11-24T11:47:47.4545880Z Received 1719664640 of 1930889571 (89.1%), 58.1 MBs/sec
+2026-11-24T11:47:48.4570850Z Received 1774190592 of 1930889571 (91.9%), 57.9 MBs/sec
+2026-11-24T11:47:49.4576080Z Received 1841299456 of 1930889571 (95.4%), 58.1 MBs/sec
+2026-11-24T11:47:50.4575750Z Received 1887436800 of 1930889571 (97.7%), 57.6 MBs/sec
+2026-11-24T11:47:50.9469150Z Received 1930889571 of 1930889571 (100.0%), 58.0 MBs/sec
+2026-11-24T11:47:50.9478900Z Cache Size: ~1841 MB (1930889571 B)
+2026-11-24T11:47:50.9651980Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/06875dfe-d225-436b-afbe-e8cdca856a18/cache.tzst -P -C /Users/runner/work/WindowsPhone/WindowsPhone --delay-directory-restore --use-compress-program unzstd
+2026-11-24T11:48:21.1375770Z Cache restored successfully
+2026-11-24T11:48:21.3560800Z Cache restored from key: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0
+2026-11-24T11:48:21.4620940Z ##[group]Run cargo test --locked -p phone-host -p phone-platform-desktop
+2026-11-24T11:48:21.4622480Z [36;1mcargo test --locked -p phone-host -p phone-platform-desktop[0m
+2026-11-24T11:48:21.4963930Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T11:48:21.4964340Z env:
+2026-11-24T11:48:21.4964570Z   CARGO_TERM_COLOR: always
+2026-11-24T11:48:21.4964870Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:48:21.4965150Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:48:21.4965420Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:48:21.4965680Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:48:21.4965990Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:48:21.4966350Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:48:21.4966620Z   RUSTUP_TOOLCHAIN: 1.99.0
+2026-11-24T11:48:21.4971490Z   PHONE_NATIVE_FRAMEWORK: db2e8859cd4b67bac870839ea70503b8babf541f
+2026-11-24T11:48:21.4971820Z ##[endgroup]
+2026-11-24T11:48:22.9494030Z [1m[33mwarning[0m: profile package spec `ferroui-themes-fluent` in profile `dist` did not match any packages
+2026-11-24T11:48:22.9495130Z [1m[33mwarning[0m: profile package spec `ferroui-themes-macos` in profile `dist` did not match any packages
+2026-11-24T11:48:22.9496000Z [1m[33mwarning[0m: profile package spec `ferroui-themes-material` in profile `dist` did not match any packages
+2026-11-24T11:48:22.9496850Z [1m[33mwarning[0m: profile package spec `ferroui-themes-simple` in profile `dist` did not match any packages
+2026-11-24T11:48:22.9498110Z [1m[33mwarning[0m: profile package spec `fearless_simd` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9499060Z [1m[33mwarning[0m: profile package spec `ferroui-vello` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9499800Z [1m[33mwarning[0m: profile package spec `glifo` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9500380Z 
+2026-11-24T11:48:22.9500730Z help: a package with a similar name exists: `dlib`
+2026-11-24T11:48:22.9501470Z [1m[33mwarning[0m: profile package spec `kurbo` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9501900Z 
+2026-11-24T11:48:22.9502220Z help: a package with a similar name exists: `errno`
+2026-11-24T11:48:22.9503000Z [1m[33mwarning[0m: profile package spec `read-fonts` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9503910Z [1m[33mwarning[0m: profile package spec `skrifa` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9505970Z [1m[33mwarning[0m: profile package spec `vello_common` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9508380Z [1m[33mwarning[0m: profile package spec `vello_cpu` in profile `browser` did not match any packages
+2026-11-24T11:48:22.9510270Z [1m[33mwarning[0m: profile package spec `vello_gpu` in profile `browser` did not match any packages
+2026-11-24T11:48:23.0470530Z [1m[92m   Compiling[0m phone-host v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-host)
+2026-11-24T11:48:39.7651810Z [1m[33mwarning[0m[1m: methods `snapshot` and `enqueue` are never used[0m
+2026-11-24T11:48:39.7652850Z    [1m[94m--> [0mcrates/phone-host/src/native/media_session.rs:130:8
+2026-11-24T11:48:39.7654410Z     [1m[94m|[0m
+2026-11-24T11:48:39.7661040Z [1m[94m129[0m [1m[94m|[0m impl Shared {
+2026-11-24T11:48:39.7661840Z     [1m[94m|[0m [1m[94m-----------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:48:39.7663260Z [1m[94m130[0m [1m[94m|[0m     fn snapshot(&self) -> Snapshot {
+2026-11-24T11:48:39.7664000Z     [1m[94m|[0m        [1m[33m^^^^^^^^[0m
+2026-11-24T11:48:39.7664490Z [1m[94m...[0m
+2026-11-24T11:48:39.7664940Z [1m[94m140[0m [1m[94m|[0m     fn enqueue(&self, action: Action) -> bool {
+2026-11-24T11:48:39.7665620Z     [1m[94m|[0m        [1m[33m^^^^^^^[0m
+2026-11-24T11:48:39.7666200Z     [1m[94m|[0m
+2026-11-24T11:48:39.7666740Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:39.7668350Z 
+2026-11-24T11:48:41.2701170Z [1m[33mwarning[0m: `phone-host` (lib) generated 1 warning
+2026-11-24T11:48:41.2704550Z [1m[92m   Compiling[0m phone-platform-desktop v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-platform-desktop)
+2026-11-24T11:48:49.9957650Z [1m[92m    Finished[0m `test` profile [unoptimized] target(s) in 28.24s
+2026-11-24T11:48:50.0170350Z [1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/phone_host-11c45409783d636b)
+2026-11-24T11:48:50.0280580Z 
+2026-11-24T11:48:50.0282700Z running 29 tests
+2026-11-24T11:48:50.0293140Z test environment::tests::old_environment_remains_unknown_and_observations_are_bounded ... ok
+2026-11-24T11:48:50.0298920Z test file_names::tests::names_are_single_components_and_preserve_actual_format ... ok
+2026-11-24T11:48:50.0305360Z test file_names::tests::unicode_names_and_untrusted_prefixes_remain_bounded ... ok
+2026-11-24T11:48:50.0310630Z test file_picker::tests::picker_limits_reject_patterns_mime_strings_and_oversized_reads ... ok
+2026-11-24T11:48:50.0313260Z test file_picker::tests::selected_suffix_is_checked_after_native_filtering ... ok
+2026-11-24T11:48:50.0315180Z test http::tests::rejects_private_reserved_and_transition_dns_results ... ok
+2026-11-24T11:48:50.0317690Z test http::tests::rejects_local_credentials_unsafe_schemes_and_limits ... ok
+2026-11-24T11:48:50.0319370Z test maps::tests::coordinates_are_bounded_before_shift_or_network ... ok
+2026-11-24T11:48:50.0322620Z test native::background::tests::worker_wakes_pending_future_and_completes_on_another_thread ... ok
+2026-11-24T11:48:50.0324990Z test native::background::tests::a_pending_system_prompt_does_not_block_file_work ... ok
+2026-11-24T11:48:50.0327450Z test native::background::tests::dropping_queued_task_cancels_work_without_poisoning_worker ... ok
+2026-11-24T11:48:50.0329260Z test native::location::tests::coordinates_are_finite_bounded_and_encoded_without_user_markup ... ok
+2026-11-24T11:48:50.0330840Z test native::media_session::tests::inactive_or_closed_sessions_cannot_act_on_player ... ok
+2026-11-24T11:48:50.0332410Z test native::media_session::tests::remote_commands_are_bounded_and_stale_sources_cannot_seek ... ok
+2026-11-24T11:48:50.0334150Z test native::notifications::tests::notification_text_has_explicit_limits_and_no_embedded_nul ... ok
+2026-11-24T11:48:50.0335660Z test native::media_session::tests::metadata_has_bounded_plain_text_and_finite_timeline ... ok
+2026-11-24T11:48:50.0337370Z test native::power::windows::tests::unknown_and_absent_batteries_are_not_reported_as_full_or_charging ... ok
+2026-11-24T11:48:50.0339090Z test native::weather::tests::weather_requires_real_bounded_readings_and_maps_wmo_codes ... ok
+2026-11-24T11:48:50.0340800Z test platform::device::admission::tests::identities_are_correlated_before_delivery ... ok
+2026-11-24T11:48:50.0342850Z test platform::device::admission::tests::old_reads_cannot_restore_revoked_personal_data ... ok
+2026-11-24T11:48:50.0345020Z test platform::device::tests::controls_reject_wrong_units_and_unknown_write_values ... ok
+2026-11-24T11:48:50.0346790Z test platform::device::tests::messages_and_calls_are_bounded_at_the_shared_boundary ... ok
+2026-11-24T11:48:50.0454470Z test platform::device::tests::native_catalogs_cannot_replace_each_other_with_ambiguous_ids ... ok
+2026-11-24T11:48:50.0456940Z test platform::registry::tests::replacement_is_explicit_and_denial_never_falls_through ... ok
+2026-11-24T11:48:50.0460010Z test platform::validation::tests::catalog_identity_is_bounded_and_unambiguous ... ok
+2026-11-24T11:48:50.0460810Z test platform::validation::tests::fullscreen_does_not_grant_a_shell_role ... ok
+2026-11-24T11:48:50.0461550Z test platform::device::tests::typed_wire_format_roundtrips_without_command_strings ... ok
+2026-11-24T11:48:50.0462320Z test urls::tests::handoffs_reject_recipient_injection_and_encode_payloads ... ok
+2026-11-24T11:48:50.0566010Z test native::files::tests::replacement_preserves_previous_file_if_commit_fails ... ok
+2026-11-24T11:48:50.0571630Z 
+2026-11-24T11:48:50.0573310Z test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+2026-11-24T11:48:50.0575440Z [1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/phone_platform_desktop-f255be81b08adae1)
+2026-11-24T11:48:50.0578090Z 
+2026-11-24T11:48:50.0693620Z 
+2026-11-24T11:48:50.0696530Z running 5 tests
+2026-11-24T11:48:50.0699840Z test tests::fullscreen_intent_never_substitutes_for_a_configured_session ... ok
+2026-11-24T11:48:50.0700950Z test tests::closing_revokes_admitted_targets_and_unpolled_discovery ... ok
+2026-11-24T11:48:50.0701600Z test tests::catalog_text_is_bounded_without_breaking_unicode ... ok
+2026-11-24T11:48:50.0702020Z test tests::launch_accepts_only_identities_from_the_last_successful_catalog ... ok
+2026-11-24T11:48:50.0702760Z test tests::malformed_replacement_does_not_partially_replace_a_catalog ... ok
+2026-11-24T11:48:50.0704130Z 
+2026-11-24T11:48:50.0704400Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-24T11:48:50.0704790Z 
+2026-11-24T11:48:50.0708060Z [1m[92m   Doc-tests[0m phone_host
+2026-11-24T11:48:50.5040000Z 
+2026-11-24T11:48:50.5085410Z [1m[92m   Doc-tests[0m phone_platform_desktop
+2026-11-24T11:48:50.5086090Z running 0 tests
+2026-11-24T11:48:50.5095510Z 
+2026-11-24T11:48:50.5130000Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-24T11:48:50.5130830Z 
+2026-11-24T11:48:50.5635840Z 
+2026-11-24T11:48:50.5713740Z running 0 tests
+2026-11-24T11:48:50.5714220Z 
+2026-11-24T11:48:50.5714830Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-24T11:48:50.5715290Z 
+2026-11-24T11:48:50.5882230Z ##[group]Run python -B -m unittest discover -s crates/phone-desktop/platform/tests -v
+2026-11-24T11:48:50.5883010Z [36;1mpython -B -m unittest discover -s crates/phone-desktop/platform/tests -v[0m
+2026-11-24T11:48:50.5981860Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T11:48:50.5982320Z env:
+2026-11-24T11:48:50.5982480Z   CARGO_TERM_COLOR: always
+2026-11-24T11:48:50.5982650Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:48:50.5982900Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:48:50.5983140Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:48:50.5983520Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:48:50.5983890Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:48:50.5984130Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:48:50.5984510Z   RUSTUP_TOOLCHAIN: 1.99.0
+2026-11-24T11:48:50.5984780Z   PHONE_NATIVE_FRAMEWORK: db2e8859cd4b67bac870839ea70503b8babf541f
+2026-11-24T11:48:50.5985200Z ##[endgroup]
+2026-11-24T11:48:51.4615300Z test_linux_client_preserves_executable_path_and_closed_argument_set (test_packaging.ShellConfigurationTests.test_linux_client_preserves_executable_path_and_closed_argument_set) ... ok
+2026-11-24T11:48:51.4659030Z test_linux_home_shortcut_targets_existing_window (test_packaging.ShellConfigurationTests.test_linux_home_shortcut_targets_existing_window) ... ok
+2026-11-24T11:48:51.4736700Z test_session_entry_refuses_to_replace_a_running_desktop (test_packaging.ShellConfigurationTests.test_session_entry_refuses_to_replace_a_running_desktop) ... ok
+2026-11-24T11:48:51.4739610Z test_windows_executable_cannot_be_a_command_or_environment_expansion (test_packaging.ShellConfigurationTests.test_windows_executable_cannot_be_a_command_or_environment_expansion) ... ok
+2026-11-24T11:48:51.4742790Z test_windows_policy_is_per_account_and_keeps_explorer_default (test_packaging.ShellConfigurationTests.test_windows_policy_is_per_account_and_keeps_explorer_default) ... ok
+2026-11-24T11:48:51.4747620Z test_windows_reserved_names_without_deprecated_pathlib_api (test_packaging.ShellConfigurationTests.test_windows_reserved_names_without_deprecated_pathlib_api) ... ok
+2026-11-24T11:48:51.4749310Z 
+2026-11-24T11:48:51.4749880Z ----------------------------------------------------------------------
+2026-11-24T11:48:51.4750830Z Ran 6 tests in 0.096s
+2026-11-24T11:48:51.4751360Z 
+2026-11-24T11:48:51.4751730Z OK
+2026-11-24T11:48:51.4999610Z ##[group]Run cargo test --locked -p phone-native --lib
+2026-11-24T11:48:51.5000210Z [36;1mcargo test --locked -p phone-native --lib[0m
+2026-11-24T11:48:51.5039770Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T11:48:51.5051770Z env:
+2026-11-24T11:48:51.5052070Z   CARGO_TERM_COLOR: always
+2026-11-24T11:48:51.5052280Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:48:51.5052480Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:48:51.5052690Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:48:51.5052940Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:48:51.5053150Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:48:51.5053360Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:48:51.5053640Z   RUSTUP_TOOLCHAIN: 1.99.0
+2026-11-24T11:48:51.5053910Z   PHONE_NATIVE_FRAMEWORK: db2e8859cd4b67bac870839ea70503b8babf541f
+2026-11-24T11:48:51.5054720Z ##[endgroup]
+2026-11-24T11:48:51.7144080Z [1m[33mwarning[0m: profile package spec `ferroui-themes-fluent` in profile `dist` did not match any packages
+2026-11-24T11:48:51.7259480Z [1m[33mwarning[0m: profile package spec `ferroui-themes-macos` in profile `dist` did not match any packages
+2026-11-24T11:48:51.7345900Z [1m[33mwarning[0m: profile package spec `ferroui-themes-material` in profile `dist` did not match any packages
+2026-11-24T11:48:51.7351680Z [1m[33mwarning[0m: profile package spec `ferroui-themes-simple` in profile `dist` did not match any packages
+2026-11-24T11:48:51.7381200Z [1m[33mwarning[0m: profile package spec `fearless_simd` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7386580Z [1m[33mwarning[0m: profile package spec `ferroui-vello` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7405160Z [1m[33mwarning[0m: profile package spec `glifo` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7405770Z 
+2026-11-24T11:48:51.7405990Z help: a package with a similar name exists: `dlib`
+2026-11-24T11:48:51.7466540Z [1m[33mwarning[0m: profile package spec `kurbo` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7499390Z 
+2026-11-24T11:48:51.7500350Z help: a package with a similar name exists: `errno`
+2026-11-24T11:48:51.7535560Z [1m[33mwarning[0m: profile package spec `read-fonts` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7548810Z [1m[33mwarning[0m: profile package spec `skrifa` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7551800Z [1m[33mwarning[0m: profile package spec `vello_common` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7576380Z [1m[33mwarning[0m: profile package spec `vello_cpu` in profile `browser` did not match any packages
+2026-11-24T11:48:51.7578120Z [1m[33mwarning[0m: profile package spec `vello_gpu` in profile `browser` did not match any packages
+2026-11-24T11:48:52.1298070Z [1m[33mwarning[0m[1m: unused import: `Cell`[0m
+2026-11-24T11:48:52.1299690Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_visual_collection.rs:8:17
+2026-11-24T11:48:52.1300980Z   [1m[94m|[0m
+2026-11-24T11:48:52.1303690Z [1m[94m8[0m [1m[94m|[0m use std::cell::{Cell, RefCell};
+2026-11-24T11:48:52.1304550Z   [1m[94m|[0m                 [1m[33m^^^^[0m
+2026-11-24T11:48:52.1305200Z   [1m[94m|[0m
+2026-11-24T11:48:52.1306110Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1306840Z 
+2026-11-24T11:48:52.1307180Z [1m[33mwarning[0m[1m: unused attribute[0m
+2026-11-24T11:48:52.1308090Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property.rs:836:5
+2026-11-24T11:48:52.1308870Z     [1m[94m|[0m
+2026-11-24T11:48:52.1309500Z [1m[94m836[0m [1m[94m|[0m     #[inline]
+2026-11-24T11:48:52.1310520Z     [1m[94m|[0m     [1m[33m^^^^^^^^^[0m [1m[33mhelp: remove this attribute[0m
+2026-11-24T11:48:52.1311380Z     [1m[94m|[0m
+2026-11-24T11:48:52.1312010Z [1m[92mnote[0m: attribute also specified here
+2026-11-24T11:48:52.1314080Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property.rs:834:5
+2026-11-24T11:48:52.1315310Z     [1m[94m|[0m
+2026-11-24T11:48:52.1315590Z [1m[94m834[0m [1m[94m|[0m     #[inline]
+2026-11-24T11:48:52.1315870Z     [1m[94m|[0m     [1m[92m^^^^^^^^^[0m
+2026-11-24T11:48:52.1316600Z     [1m[94m= [0m[1mwarning[0m: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+2026-11-24T11:48:52.1317330Z     [1m[94m= [0m[1mnote[0m: `#[warn(unused_attributes)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1317630Z 
+2026-11-24T11:48:52.1318120Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:48:52.1318900Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/frames/lifetime.rs:280:18
+2026-11-24T11:48:52.1319820Z     [1m[94m|[0m
+2026-11-24T11:48:52.1320250Z [1m[94m280[0m [1m[94m|[0m                 .fetch_update(Ordering::AcqRel, Ordering::Acquire, |reads| {
+2026-11-24T11:48:52.1320780Z     [1m[94m|[0m                  [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1321090Z     [1m[94m|[0m
+2026-11-24T11:48:52.1321360Z     [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:48:52.1321710Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:48:52.1321990Z     [1m[94m|[0m
+2026-11-24T11:48:52.1322380Z [1m[94m280[0m [91m- [0m                .[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |reads| {
+2026-11-24T11:48:52.1322960Z [1m[94m280[0m [92m+ [0m                .[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |reads| {
+2026-11-24T11:48:52.1323340Z     [1m[94m|[0m
+2026-11-24T11:48:52.1323440Z 
+2026-11-24T11:48:52.1324040Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:48:52.1324690Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/frames/lifetime.rs:499:14
+2026-11-24T11:48:52.1325100Z     [1m[94m|[0m
+2026-11-24T11:48:52.1325470Z [1m[94m499[0m [1m[94m|[0m             .fetch_update(Ordering::AcqRel, Ordering::Acquire, |value| {
+2026-11-24T11:48:52.1325890Z     [1m[94m|[0m              [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1326150Z     [1m[94m|[0m
+2026-11-24T11:48:52.1326400Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:48:52.1326680Z     [1m[94m|[0m
+2026-11-24T11:48:52.1327090Z [1m[94m499[0m [91m- [0m            .[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |value| {
+2026-11-24T11:48:52.1327790Z [1m[94m499[0m [92m+ [0m            .[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |value| {
+2026-11-24T11:48:52.1328170Z     [1m[94m|[0m
+2026-11-24T11:48:52.1328280Z 
+2026-11-24T11:48:52.1329040Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:48:52.1331320Z   [1m[94m--> [0mFerroUI/src/FerroUI.Base/property_store/hot_value.rs:36:10
+2026-11-24T11:48:52.1331770Z    [1m[94m|[0m
+2026-11-24T11:48:52.1332440Z [1m[94m36[0m [1m[94m|[0m         .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |generation| Some(generation.wrapping_add(1).max(1)));
+2026-11-24T11:48:52.1333060Z    [1m[94m|[0m          [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1333360Z    [1m[94m|[0m
+2026-11-24T11:48:52.1334730Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:48:52.1335600Z    [1m[94m|[0m
+2026-11-24T11:48:52.1337280Z [1m[94m36[0m [91m- [0m        .[91mfetch_update[0m(Ordering::Relaxed, Ordering::Relaxed, |generation| Some(generation.wrapping_add(1).max(1)));
+2026-11-24T11:48:52.1339590Z [1m[94m36[0m [92m+ [0m        .[92mtry_update[0m(Ordering::Relaxed, Ordering::Relaxed, |generation| Some(generation.wrapping_add(1).max(1)));
+2026-11-24T11:48:52.1341800Z    [1m[94m|[0m
+2026-11-24T11:48:52.1342200Z 
+2026-11-24T11:48:52.1342620Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:48:52.1343800Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/media/imaging/render_target_bitmap.rs:3:29
+2026-11-24T11:48:52.1344770Z   [1m[94m|[0m
+2026-11-24T11:48:52.1346150Z [1m[94m3[0m [1m[94m|[0m use crate::platform::{self, IBitmapImpl, IDrawingContextImpl, IRenderTargetBitmapImpl};
+2026-11-24T11:48:52.1347460Z   [1m[94m|[0m                             [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1348000Z 
+2026-11-24T11:48:52.1348400Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:48:52.1349610Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/media/imaging/writeable_bitmap.rs:5:42
+2026-11-24T11:48:52.1350500Z   [1m[94m|[0m
+2026-11-24T11:48:52.1352790Z [1m[94m5[0m [1m[94m|[0m use crate::platform::{self, AlphaFormat, IBitmapImpl, ILockedFramebuffer, IWriteableBitmapImpl, PixelFormat};
+2026-11-24T11:48:52.1354340Z   [1m[94m|[0m                                          [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1354920Z 
+2026-11-24T11:48:52.1355460Z [1m[33mwarning[0m[1m: unused import: `IServerAnimatedPropertyHost`[0m
+2026-11-24T11:48:52.1356940Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/animations/animation_instance_base.rs:6:49
+2026-11-24T11:48:52.1358060Z   [1m[94m|[0m
+2026-11-24T11:48:52.1359470Z [1m[94m6[0m [1m[94m|[0m     CompositionProperty, IAnimatedServerObject, IServerAnimatedPropertyHost, IServerClockItem, ServerCompositor,
+2026-11-24T11:48:52.1361170Z   [1m[94m|[0m                                                 [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1361800Z 
+2026-11-24T11:48:52.1362650Z [1m[33mwarning[0m[1m: unused import: `crate::platform::IBitmapImpl`[0m
+2026-11-24T11:48:52.1364240Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/brushes/server_simple_image_brush.rs:8:5
+2026-11-24T11:48:52.1365460Z   [1m[94m|[0m
+2026-11-24T11:48:52.1366280Z [1m[94m8[0m [1m[94m|[0m use crate::platform::IBitmapImpl;
+2026-11-24T11:48:52.1370460Z   [1m[94m|[0m     [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1370830Z 
+2026-11-24T11:48:52.1371480Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:48:52.1372050Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_drawing_surface.rs:2:23
+2026-11-24T11:48:52.1372570Z   [1m[94m|[0m
+2026-11-24T11:48:52.1373170Z [1m[94m2[0m [1m[94m|[0m use crate::platform::{IBitmapImpl, IPlatformRenderInterfaceContext, PlatformGraphicsContextLostError};
+2026-11-24T11:48:52.1373710Z   [1m[94m|[0m                       [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1373900Z 
+2026-11-24T11:48:52.1374090Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:48:52.1374650Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_surface.rs:2:23
+2026-11-24T11:48:52.1377230Z   [1m[94m|[0m
+2026-11-24T11:48:52.1378460Z [1m[94m2[0m [1m[94m|[0m use crate::platform::{IBitmapImpl, IDrawingContextImpl};
+2026-11-24T11:48:52.1379570Z   [1m[94m|[0m                       [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1380080Z 
+2026-11-24T11:48:52.1380500Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:48:52.1382020Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_compositor.rs:6:23
+2026-11-24T11:48:52.1386180Z   [1m[94m|[0m
+2026-11-24T11:48:52.1388560Z [1m[94m6[0m [1m[94m|[0m use crate::platform::{IBitmapImpl, IPlatformGraphics, IRenderTarget, LtrbRect};
+2026-11-24T11:48:52.1391030Z   [1m[94m|[0m                       [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1391550Z 
+2026-11-24T11:48:52.1391980Z [1m[33mwarning[0m[1m: method `notifier` is never used[0m
+2026-11-24T11:48:52.1394310Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/data/core/typed_binding_expression.rs:190:19
+2026-11-24T11:48:52.1395360Z     [1m[94m|[0m
+2026-11-24T11:48:52.1397630Z [1m[94m 82[0m [1m[94m|[0m impl<TSource: 'static, TValue: PropertyValue> TypedClrPropertyInfo<TSource, TValue> {
+2026-11-24T11:48:52.1400080Z     [1m[94m|[0m [1m[94m-----------------------------------------------------------------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1401410Z [1m[94m...[0m
+2026-11-24T11:48:52.1402710Z [1m[94m190[0m [1m[94m|[0m     pub(crate) fn notifier<'a>(&self, source: &'a TSource) -> Option<&'a dyn INotifyPropertyChanged> {
+2026-11-24T11:48:52.1403930Z     [1m[94m|[0m                   [1m[33m^^^^^^^^[0m
+2026-11-24T11:48:52.1404320Z     [1m[94m|[0m
+2026-11-24T11:48:52.1404730Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1405380Z 
+2026-11-24T11:48:52.1405610Z [1m[33mwarning[0m[1m: method `is_disposed` is never used[0m
+2026-11-24T11:48:52.1406220Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_target.rs:146:19
+2026-11-24T11:48:52.1406710Z     [1m[94m|[0m
+2026-11-24T11:48:52.1406990Z [1m[94m143[0m [1m[94m|[0m impl ServerCompositionTarget {
+2026-11-24T11:48:52.1407440Z     [1m[94m|[0m [1m[94m----------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1407770Z [1m[94m...[0m
+2026-11-24T11:48:52.1408070Z [1m[94m146[0m [1m[94m|[0m     pub(crate) fn is_disposed(&self) -> bool {
+2026-11-24T11:48:52.1408480Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1408700Z 
+2026-11-24T11:48:52.1408910Z [1m[33mwarning[0m[1m: associated function `new_shared` is never used[0m
+2026-11-24T11:48:52.1409350Z   [1m[94m--> [0mFerroUI/src/FerroUI.Base/property_store/value_frame.rs:32:12
+2026-11-24T11:48:52.1409680Z    [1m[94m|[0m
+2026-11-24T11:48:52.1409940Z [1m[94m19[0m [1m[94m|[0m impl ValueFrameBase {
+2026-11-24T11:48:52.1410480Z    [1m[94m|[0m [1m[94m-------------------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:48:52.1410990Z [1m[94m...[0m
+2026-11-24T11:48:52.1411390Z [1m[94m32[0m [1m[94m|[0m     pub fn new_shared(priority: BindingPriority, type_: FrameType) -> Self {
+2026-11-24T11:48:52.1412310Z    [1m[94m|[0m            [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:48:52.1412480Z 
+2026-11-24T11:48:52.1412760Z [1m[33mwarning[0m[1m: methods `is_evaluating`, `remove_frame`, and `get_priority` are never used[0m
+2026-11-24T11:48:52.1414560Z     [1m[94m--> [0mFerroUI/src/FerroUI.Base/property_store/value_store.rs:183:12
+2026-11-24T11:48:52.1415540Z      [1m[94m|[0m
+2026-11-24T11:48:52.1416160Z [1m[94m 130[0m [1m[94m|[0m impl ValueStore {
+2026-11-24T11:48:52.1417320Z      [1m[94m|[0m [1m[94m---------------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:48:52.1418260Z [1m[94m...[0m
+2026-11-24T11:48:52.1419070Z [1m[94m 183[0m [1m[94m|[0m     pub fn is_evaluating(&self) -> bool {
+2026-11-24T11:48:52.1420090Z      [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1420790Z [1m[94m...[0m
+2026-11-24T11:48:52.1421880Z [1m[94m1042[0m [1m[94m|[0m     pub fn remove_frame(&self, owner: &FerroObject, frame: &Rc<dyn ValueFrame>) -> bool {
+2026-11-24T11:48:52.1423160Z      [1m[94m|[0m            [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1423910Z [1m[94m...[0m
+2026-11-24T11:48:52.1424910Z [1m[94m1090[0m [1m[94m|[0m     pub fn get_priority(&self, property: &FerroProperty) -> BindingPriority {
+2026-11-24T11:48:52.1426180Z      [1m[94m|[0m            [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1426420Z 
+2026-11-24T11:48:52.1426650Z [1m[33mwarning[0m[1m: method `create_effective_value` is never used[0m
+2026-11-24T11:48:52.1427070Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property.rs:284:8
+2026-11-24T11:48:52.1427370Z     [1m[94m|[0m
+2026-11-24T11:48:52.1427660Z [1m[94m283[0m [1m[94m|[0m pub(crate) trait PropertyRoutes {
+2026-11-24T11:48:52.1428490Z     [1m[94m|[0m                  [1m[94m--------------[0m [1m[94mmethod in this trait[0m
+2026-11-24T11:48:52.1429140Z [1m[94m284[0m [1m[94m|[0m     fn create_effective_value(&'static self, o: &FerroObject) -> Rc<dyn EffectiveValueDyn>;
+2026-11-24T11:48:52.1429660Z     [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1430140Z 
+2026-11-24T11:48:52.1430620Z [1m[33mwarning[0m[1m: method `with_sender` is never used[0m
+2026-11-24T11:48:52.1431170Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_changed_event_args.rs:146:19
+2026-11-24T11:48:52.1431590Z     [1m[94m|[0m
+2026-11-24T11:48:52.1431880Z [1m[94m 20[0m [1m[94m|[0m impl<'a> FerroPropertyChangedEventArgs<'a> {
+2026-11-24T11:48:52.1432430Z     [1m[94m|[0m [1m[94m------------------------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1433130Z [1m[94m...[0m
+2026-11-24T11:48:52.1433610Z [1m[94m146[0m [1m[94m|[0m     pub(crate) fn with_sender<'b>(&'b self, sender: &'b FerroObject) -> FerroPropertyChangedEventArgs<'b> {
+2026-11-24T11:48:52.1434160Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1434390Z 
+2026-11-24T11:48:52.1434560Z [1m[33mwarning[0m[1m: method `base` is never used[0m
+2026-11-24T11:48:52.1434950Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_metadata.rs:483:8
+2026-11-24T11:48:52.1435320Z     [1m[94m|[0m
+2026-11-24T11:48:52.1435620Z [1m[94m482[0m [1m[94m|[0m pub trait PropertyMetadata: Sized + 'static {
+2026-11-24T11:48:52.1436090Z     [1m[94m|[0m           [1m[94m----------------[0m [1m[94mmethod in this trait[0m
+2026-11-24T11:48:52.1436560Z [1m[94m483[0m [1m[94m|[0m     fn base(&self) -> &FerroPropertyMetadata;
+2026-11-24T11:48:52.1436920Z     [1m[94m|[0m        [1m[33m^^^^[0m
+2026-11-24T11:48:52.1437290Z 
+2026-11-24T11:48:52.1437550Z [1m[33mwarning[0m[1m: method `default_metadata` is never used[0m
+2026-11-24T11:48:52.1438040Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_metadata.rs:845:12
+2026-11-24T11:48:52.1438400Z     [1m[94m|[0m
+2026-11-24T11:48:52.1438730Z [1m[94m827[0m [1m[94m|[0m impl<M: PropertyMetadata> MetadataTable<M> {
+2026-11-24T11:48:52.1439320Z     [1m[94m|[0m [1m[94m------------------------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1439750Z [1m[94m...[0m
+2026-11-24T11:48:52.1440050Z [1m[94m845[0m [1m[94m|[0m     pub fn default_metadata(&self) -> &Rc<M> {
+2026-11-24T11:48:52.1440520Z     [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1440730Z 
+2026-11-24T11:48:52.1440900Z [1m[33mwarning[0m[1m: method `properties` is never used[0m
+2026-11-24T11:48:52.1441360Z   [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_registry.rs:77:19
+2026-11-24T11:48:52.1441710Z    [1m[94m|[0m
+2026-11-24T11:48:52.1442010Z [1m[94m67[0m [1m[94m|[0m impl FerroPropertyRegistry {
+2026-11-24T11:48:52.1442490Z    [1m[94m|[0m [1m[94m--------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1442860Z [1m[94m...[0m
+2026-11-24T11:48:52.1443260Z [1m[94m77[0m [1m[94m|[0m     pub(crate) fn properties(&self) -> Vec<&'static FerroProperty> {
+2026-11-24T11:48:52.1443800Z    [1m[94m|[0m                   [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:48:52.1444010Z 
+2026-11-24T11:48:52.1444360Z [1m[33mwarning[0m[1m: associated function `rooted_visual_children_count` is never used[0m
+2026-11-24T11:48:52.1445040Z     [1m[94m--> [0mFerroUI/src/FerroUI.Base/visual.rs:2523:19
+2026-11-24T11:48:52.1445400Z      [1m[94m|[0m
+2026-11-24T11:48:52.1445880Z [1m[94m1078[0m [1m[94m|[0m impl Visual {
+2026-11-24T11:48:52.1446490Z      [1m[94m|[0m [1m[94m-----------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:48:52.1447350Z [1m[94m...[0m
+2026-11-24T11:48:52.1447970Z [1m[94m2523[0m [1m[94m|[0m     pub(crate) fn rooted_visual_children_count() -> i32 {
+2026-11-24T11:48:52.1449040Z      [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1449370Z 
+2026-11-24T11:48:52.1449840Z [1m[33mwarning[0m: `ferroui-base` (lib) generated 22 warnings (run `cargo fix --lib -p ferroui-base` to apply 5 suggestions)
+2026-11-24T11:48:52.1450610Z [1m[33mwarning[0m[1m: method `property_info_arguments` is never used[0m
+2026-11-24T11:48:52.1451240Z     [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml.Loader/rust_emitter/emitter.rs:3692:8
+2026-11-24T11:48:52.1461640Z      [1m[94m|[0m
+2026-11-24T11:48:52.1461930Z [1m[94m1020[0m [1m[94m|[0m impl<'a> Emitter<'a> {
+2026-11-24T11:48:52.1462350Z      [1m[94m|[0m [1m[94m--------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1462710Z [1m[94m...[0m
+2026-11-24T11:48:52.1463960Z [1m[94m3692[0m [1m[94m|[0m     fn property_info_arguments(&self, node: &Rc<dyn IXamlAstNode>, property: &Rc<dyn IXamlProperty>) -> EmitResult<String> {
+2026-11-24T11:48:52.1464740Z      [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1465030Z      [1m[94m|[0m
+2026-11-24T11:48:52.1465360Z      [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1465620Z 
+2026-11-24T11:48:52.1468290Z [1m[33mwarning[0m: `ferroui-markup-xaml-loader` (lib) generated 1 warning
+2026-11-24T11:48:52.1471410Z [1m[33mwarning[0m: `ferroui-base` (lib) generated 22 warnings (22 duplicates)
+2026-11-24T11:48:52.1472620Z [1m[33mwarning[0m[1m: unused doc comment[0m
+2026-11-24T11:48:52.1480890Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/markup_types/contracts.rs:180:1
+2026-11-24T11:48:52.1482300Z     [1m[94m|[0m
+2026-11-24T11:48:52.1483080Z [1m[94m180[0m [1m[94m|[0m /// The types declared in this file.
+2026-11-24T11:48:52.1484630Z     [1m[94m|[0m [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[33mrustdoc does not generate documentation for macro invocations[0m
+2026-11-24T11:48:52.1485770Z     [1m[94m|[0m
+2026-11-24T11:48:52.1487050Z     [1m[94m= [0m[1mhelp[0m: to document an item produced by a macro, the macro must produce the documentation as part of its expansion
+2026-11-24T11:48:52.1489620Z     [1m[94m= [0m[1mnote[0m: `#[warn(unused_doc_comments)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1490670Z 
+2026-11-24T11:48:52.1491080Z [1m[33mwarning[0m[1m: unused import: `IDisposable`[0m
+2026-11-24T11:48:52.1492020Z   [1m[94m--> [0mFerroUI/src/FerroUI.Controls/combo_box.rs:26:63
+2026-11-24T11:48:52.1492840Z    [1m[94m|[0m
+2026-11-24T11:48:52.1494290Z [1m[94m26[0m [1m[94m|[0m use ferroui_base::reactive::{CompositeDisposable, Disposable, IDisposable, ObservableExt, Subscription};
+2026-11-24T11:48:52.1495830Z    [1m[94m|[0m                                                               [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1496770Z    [1m[94m|[0m
+2026-11-24T11:48:52.1497680Z    [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1498410Z 
+2026-11-24T11:48:52.1498840Z [1m[33mwarning[0m[1m: method `is_disposed` is never used[0m
+2026-11-24T11:48:52.1500030Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/animation/connected_animation.rs:355:19
+2026-11-24T11:48:52.1501150Z     [1m[94m|[0m
+2026-11-24T11:48:52.1501460Z [1m[94m132[0m [1m[94m|[0m impl ConnectedAnimation {
+2026-11-24T11:48:52.1501880Z     [1m[94m|[0m [1m[94m-----------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1502210Z [1m[94m...[0m
+2026-11-24T11:48:52.1502490Z [1m[94m355[0m [1m[94m|[0m     pub(crate) fn is_disposed(&self) -> bool {
+2026-11-24T11:48:52.1502840Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1503080Z     [1m[94m|[0m
+2026-11-24T11:48:52.1503410Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1503670Z 
+2026-11-24T11:48:52.1504400Z [1m[33mwarning[0m[1m: field `sprite` is never read[0m
+2026-11-24T11:48:52.1504810Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/media/reveal_focus.rs:163:5
+2026-11-24T11:48:52.1505110Z     [1m[94m|[0m
+2026-11-24T11:48:52.1505320Z [1m[94m159[0m [1m[94m|[0m struct ShownGlow {
+2026-11-24T11:48:52.1505650Z     [1m[94m|[0m        [1m[94m---------[0m [1m[94mfield in this struct[0m
+2026-11-24T11:48:52.1505960Z [1m[94m...[0m
+2026-11-24T11:48:52.1506200Z [1m[94m163[0m [1m[94m|[0m     sprite: Option<SpriteVisual>,
+2026-11-24T11:48:52.1506480Z     [1m[94m|[0m     [1m[33m^^^^^^[0m
+2026-11-24T11:48:52.1506630Z 
+2026-11-24T11:48:52.1506760Z [1m[33mwarning[0m[1m: field `icon` is never read[0m
+2026-11-24T11:48:52.1507090Z   [1m[94m--> [0mFerroUI/src/FerroUI.Controls/title_bar.rs:52:5
+2026-11-24T11:48:52.1507590Z    [1m[94m|[0m
+2026-11-24T11:48:52.1507810Z [1m[94m47[0m [1m[94m|[0m struct Parts {
+2026-11-24T11:48:52.1508350Z    [1m[94m|[0m        [1m[94m-----[0m [1m[94mfield in this struct[0m
+2026-11-24T11:48:52.1508630Z [1m[94m...[0m
+2026-11-24T11:48:52.1508860Z [1m[94m52[0m [1m[94m|[0m     icon: Option<Ref<Control>>,
+2026-11-24T11:48:52.1509150Z    [1m[94m|[0m     [1m[33m^^^^[0m
+2026-11-24T11:48:52.1509300Z 
+2026-11-24T11:48:52.1509460Z [1m[33mwarning[0m[1m: field `presenter` is never read[0m
+2026-11-24T11:48:52.1509850Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/navigation_view_item.rs:134:5
+2026-11-24T11:48:52.1510150Z     [1m[94m|[0m
+2026-11-24T11:48:52.1510340Z [1m[94m132[0m [1m[94m|[0m struct Parts {
+2026-11-24T11:48:52.1510650Z     [1m[94m|[0m        [1m[94m-----[0m [1m[94mfield in this struct[0m
+2026-11-24T11:48:52.1511020Z [1m[94m133[0m [1m[94m|[0m     root_grid: Option<Ref<Panel>>,
+2026-11-24T11:48:52.1511430Z [1m[94m134[0m [1m[94m|[0m     presenter: Option<Ref<Control>>,
+2026-11-24T11:48:52.1513160Z     [1m[94m|[0m     [1m[33m^^^^^^^^^[0m
+2026-11-24T11:48:52.1513380Z     [1m[94m|[0m
+2026-11-24T11:48:52.1513840Z     [1m[94m= [0m[1mnote[0m: `Parts` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+2026-11-24T11:48:52.1514220Z 
+2026-11-24T11:48:52.1514420Z [1m[33mwarning[0m[1m: associated function `with_behavior_from` is never used[0m
+2026-11-24T11:48:52.1514900Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/documents/hyperlink.rs:225:19
+2026-11-24T11:48:52.1515200Z     [1m[94m|[0m
+2026-11-24T11:48:52.1515430Z [1m[94m176[0m [1m[94m|[0m impl Hyperlink {
+2026-11-24T11:48:52.1515840Z     [1m[94m|[0m [1m[94m--------------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:48:52.1516180Z [1m[94m...[0m
+2026-11-24T11:48:52.1516490Z [1m[94m225[0m [1m[94m|[0m     pub(crate) fn with_behavior_from(source: &Self) -> Ref<Self> {
+2026-11-24T11:48:52.1516890Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1517070Z 
+2026-11-24T11:48:52.1517420Z [1m[33mwarning[0m[1m: associated items `new`, `from_fields`, `visible_text`, `same_snapshot`, and `visible_slice` are never used[0m
+2026-11-24T11:48:52.1518010Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/rich_text/rich_text_field_story.rs:285:19
+2026-11-24T11:48:52.1518340Z     [1m[94m|[0m
+2026-11-24T11:48:52.1518530Z [1m[94m281[0m [1m[94m|[0m impl FieldStory {
+2026-11-24T11:48:52.1518920Z     [1m[94m|[0m [1m[94m---------------[0m [1m[94massociated items in this implementation[0m
+2026-11-24T11:48:52.1519240Z [1m[94m...[0m
+2026-11-24T11:48:52.1519450Z [1m[94m285[0m [1m[94m|[0m     pub(crate) fn new(
+2026-11-24T11:48:52.1519720Z     [1m[94m|[0m                   [1m[33m^^^[0m
+2026-11-24T11:48:52.1519940Z [1m[94m...[0m
+2026-11-24T11:48:52.1520170Z [1m[94m292[0m [1m[94m|[0m     pub(crate) fn from_fields(
+2026-11-24T11:48:52.1520480Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1520710Z [1m[94m...[0m
+2026-11-24T11:48:52.1521300Z [1m[94m453[0m [1m[94m|[0m     pub(crate) fn visible_text(&self) -> &str {
+2026-11-24T11:48:52.1521680Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1521910Z [1m[94m...[0m
+2026-11-24T11:48:52.1522210Z [1m[94m471[0m [1m[94m|[0m     pub(crate) fn same_snapshot(&self, other: &Self) -> bool {
+2026-11-24T11:48:52.1522590Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1522830Z [1m[94m...[0m
+2026-11-24T11:48:52.1523060Z [1m[94m670[0m [1m[94m|[0m     pub(super) fn visible_slice(
+2026-11-24T11:48:52.1523370Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1523540Z 
+2026-11-24T11:48:52.1523680Z [1m[33mwarning[0m[1m: method `set_root` is never used[0m
+2026-11-24T11:48:52.1524050Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/calendar/calendar.rs:576:19
+2026-11-24T11:48:52.1524520Z     [1m[94m|[0m
+2026-11-24T11:48:52.1524710Z [1m[94m468[0m [1m[94m|[0m impl Calendar {
+2026-11-24T11:48:52.1525060Z     [1m[94m|[0m [1m[94m-------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1525360Z [1m[94m...[0m
+2026-11-24T11:48:52.1525660Z [1m[94m576[0m [1m[94m|[0m     pub(crate) fn set_root(&self, value: Option<Ref<Panel>>) {
+2026-11-24T11:48:52.1526020Z     [1m[94m|[0m                   [1m[33m^^^^^^^^[0m
+2026-11-24T11:48:52.1526190Z 
+2026-11-24T11:48:52.1526350Z [1m[33mwarning[0m[1m: method `set_month_view` is never used[0m
+2026-11-24T11:48:52.1526750Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/calendar/calendar_item.rs:338:19
+2026-11-24T11:48:52.1527060Z     [1m[94m|[0m
+2026-11-24T11:48:52.1527260Z [1m[94m195[0m [1m[94m|[0m impl CalendarItem {
+2026-11-24T11:48:52.1527620Z     [1m[94m|[0m [1m[94m-----------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:48:52.1527920Z [1m[94m...[0m
+2026-11-24T11:48:52.1528230Z [1m[94m338[0m [1m[94m|[0m     pub(crate) fn set_month_view(&self, value: Option<Ref<Grid>>) {
+2026-11-24T11:48:52.1528620Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1528790Z 
+2026-11-24T11:48:52.1529020Z [1m[33mwarning[0m[1m: bounds on generic parameters in type aliases are not enforced[0m
+2026-11-24T11:48:52.1529480Z   [1m[94m--> [0mFerroUI/src/FerroUI.Controls/platform/win32_properties.rs:48:25
+2026-11-24T11:48:52.1529880Z    [1m[94m|[0m
+2026-11-24T11:48:52.1530220Z [1m[94m48[0m [1m[94m|[0m type InvocationLists<F: ?Sized> = RefCell<Vec<(Weak<F>, Vec<Rc<F>>)>>;
+2026-11-24T11:48:52.1530760Z    [1m[94m|[0m                         [1m[33m^^^^^^[0m [1m[33mwill not be checked at usage sites of the type alias[0m
+2026-11-24T11:48:52.1531110Z    [1m[94m|[0m
+2026-11-24T11:48:52.1531520Z    [1m[94m= [0m[1mnote[0m: this is a known limitation of the type checker that may be lifted in a future edition.
+2026-11-24T11:48:52.1532070Z            see issue #112792 <https://github.com/rust-lang/rust/issues/112792> for more information
+2026-11-24T11:48:52.1532570Z    [1m[94m= [0m[1mnote[0m: `#[warn(type_alias_bounds)]` on by default
+2026-11-24T11:48:52.1533000Z [1m[96mhelp[0m: remove this bound
+2026-11-24T11:48:52.1533210Z    [1m[94m|[0m
+2026-11-24T11:48:52.1533560Z [1m[94m48[0m [91m- [0mtype InvocationLists<F[91m: ?Sized[0m> = RefCell<Vec<(Weak<F>, Vec<Rc<F>>)>>;
+2026-11-24T11:48:52.1534060Z [1m[94m48[0m [92m+ [0mtype InvocationLists<F> = RefCell<Vec<(Weak<F>, Vec<Rc<F>>)>>;
+2026-11-24T11:48:52.1534420Z    [1m[94m|[0m
+2026-11-24T11:48:52.1534510Z 
+2026-11-24T11:48:52.1534870Z [1m[33mwarning[0m: `ferroui-controls` (lib) generated 11 warnings (run `cargo fix --lib -p ferroui-controls` to apply 1 suggestion)
+2026-11-24T11:48:52.1535750Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:48:52.1536280Z   [1m[94m--> [0mFerroUI/src/FerroUI.Media/lib.rs:52:10
+2026-11-24T11:48:52.1536530Z    [1m[94m|[0m
+2026-11-24T11:48:52.1537180Z [1m[94m52[0m [1m[94m|[0m     NEXT.fetch_update(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:48:52.1537630Z    [1m[94m|[0m          [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1537850Z    [1m[94m|[0m
+2026-11-24T11:48:52.1538090Z    [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:48:52.1538420Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:48:52.1538670Z    [1m[94m|[0m
+2026-11-24T11:48:52.1539070Z [1m[94m52[0m [91m- [0m    NEXT.[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:48:52.1541440Z [1m[94m52[0m [92m+ [0m    NEXT.[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:48:52.1542570Z    [1m[94m|[0m
+2026-11-24T11:48:52.1543810Z 
+2026-11-24T11:48:52.1544830Z [1m[33mwarning[0m: `ferroui-media` (lib) generated 1 warning (run `cargo fix --lib -p ferroui-media` to apply 1 suggestion)
+2026-11-24T11:48:52.1546610Z [1m[33mwarning[0m[1m: unused imports: `cell::RefCell` and `collections::HashMap`[0m
+2026-11-24T11:48:52.1547900Z  [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/populate_overrides.rs:5:11
+2026-11-24T11:48:52.1549150Z   [1m[94m|[0m
+2026-11-24T11:48:52.1549970Z [1m[94m5[0m [1m[94m|[0m use std::{cell::RefCell, collections::HashMap, rc::Rc};
+2026-11-24T11:48:52.1551050Z   [1m[94m|[0m           [1m[33m^^^^^^^^^^^^^[0m  [1m[33m^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:48:52.1551810Z   [1m[94m|[0m
+2026-11-24T11:48:52.1552660Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1553380Z 
+2026-11-24T11:48:52.1553740Z [1m[33mwarning[0m[1m: unused import: `INameScope`[0m
+2026-11-24T11:48:52.1555010Z   [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/markup_extensions/x_bind/deferred_element.rs:12:30
+2026-11-24T11:48:52.1556110Z    [1m[94m|[0m
+2026-11-24T11:48:52.1556950Z [1m[94m12[0m [1m[94m|[0m use ferroui_base::controls::{INameScope, NameScope};
+2026-11-24T11:48:52.1557940Z    [1m[94m|[0m                              [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:48:52.1558440Z 
+2026-11-24T11:48:52.1558890Z [1m[33mwarning[0m[1m: associated function `new` is never used[0m
+2026-11-24T11:48:52.1560150Z   [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/data/dynamic_resource_expression.rs:90:19
+2026-11-24T11:48:52.1561160Z    [1m[94m|[0m
+2026-11-24T11:48:52.1561810Z [1m[94m89[0m [1m[94m|[0m impl DynamicResourceExpression {
+2026-11-24T11:48:52.1563030Z    [1m[94m|[0m [1m[94m------------------------------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:48:52.1564140Z [1m[94m90[0m [1m[94m|[0m     pub(crate) fn new(
+2026-11-24T11:48:52.1564870Z    [1m[94m|[0m                   [1m[33m^^^[0m
+2026-11-24T11:48:52.1565510Z    [1m[94m|[0m
+2026-11-24T11:48:52.1566530Z    [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:48:52.1567230Z 
+2026-11-24T11:48:52.1567710Z [1m[33mwarning[0m[1m: fields `key` and `previous` are never read[0m
+2026-11-24T11:48:52.1569010Z   [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/populate_overrides.rs:20:5
+2026-11-24T11:48:52.1569910Z    [1m[94m|[0m
+2026-11-24T11:48:52.1570560Z [1m[94m19[0m [1m[94m|[0m pub struct PopulateOverrideGuard {
+2026-11-24T11:48:52.1571670Z    [1m[94m|[0m            [1m[94m---------------------[0m [1m[94mfields in this struct[0m
+2026-11-24T11:48:52.1572600Z [1m[94m20[0m [1m[94m|[0m     key: usize,
+2026-11-24T11:48:52.1573260Z    [1m[94m|[0m     [1m[33m^^^[0m
+2026-11-24T11:48:52.1574050Z [1m[94m21[0m [1m[94m|[0m     previous: Option<PopulateOverride>,
+2026-11-24T11:48:52.1574850Z    [1m[94m|[0m     [1m[33m^^^^^^^^[0m
+2026-11-24T11:48:52.1575260Z 
+2026-11-24T11:48:52.1577400Z [1m[33mwarning[0m: `ferroui-markup-xaml` (lib) generated 4 warnings (run `cargo fix --lib -p ferroui-markup-xaml` to apply 1 suggestion)
+2026-11-24T11:48:52.1579350Z [1m[92m   Compiling[0m phone-controls v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-controls)
+2026-11-24T11:48:55.2839140Z [1m[92m   Compiling[0m phone-domain v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-domain)
+2026-11-24T11:49:01.0967580Z [1m[92m   Compiling[0m phone-host v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-host)
+2026-11-24T11:49:03.4487510Z [1m[33mwarning[0m[1m: methods `snapshot` and `enqueue` are never used[0m
+2026-11-24T11:49:03.4525610Z    [1m[94m--> [0mcrates/phone-host/src/native/media_session.rs:130:8
+2026-11-24T11:49:03.4542160Z     [1m[94m|[0m
+2026-11-24T11:49:03.4552300Z [1m[94m129[0m [1m[94m|[0m impl Shared {
+2026-11-24T11:49:03.4582090Z     [1m[94m|[0m [1m[94m-----------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:49:03.4583930Z [1m[94m130[0m [1m[94m|[0m     fn snapshot(&self) -> Snapshot {
+2026-11-24T11:49:03.4584420Z     [1m[94m|[0m        [1m[33m^^^^^^^^[0m
+2026-11-24T11:49:03.4584750Z [1m[94m...[0m
+2026-11-24T11:49:03.4585130Z [1m[94m140[0m [1m[94m|[0m     fn enqueue(&self, action: Action) -> bool {
+2026-11-24T11:49:03.4585520Z     [1m[94m|[0m        [1m[33m^^^^^^^[0m
+2026-11-24T11:49:03.4585860Z     [1m[94m|[0m
+2026-11-24T11:49:03.4586280Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:49:03.4586540Z 
+2026-11-24T11:49:04.8112980Z [1m[33mwarning[0m: `phone-host` (lib) generated 1 warning
+2026-11-24T11:49:04.8115050Z [1m[92m   Compiling[0m phone-sdk v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-sdk)
+2026-11-24T11:49:06.6728040Z [1m[92m   Compiling[0m phone-state v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-state)
+2026-11-24T11:49:19.7374930Z [1m[92m   Compiling[0m phone-app-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-support)
+2026-11-24T11:49:22.6603140Z [1m[92m   Compiling[0m phone-office-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-office-support)
+2026-11-24T11:49:24.9424400Z [1m[92m   Compiling[0m phone-alarm-service v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-alarm-service)
+2026-11-24T11:49:26.3446470Z [1m[92m   Compiling[0m phone-media-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-media-support)
+2026-11-24T11:49:29.7196130Z [1m[92m   Compiling[0m phone-storage-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-storage-support)
+2026-11-24T11:49:34.8936830Z [1m[33mwarning[0m[1m: unused import: `std::error::Error`[0m
+2026-11-24T11:49:34.8937860Z  [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/composition/task_support.rs:9:5
+2026-11-24T11:49:34.8940370Z   [1m[94m|[0m
+2026-11-24T11:49:34.8940950Z [1m[94m9[0m [1m[94m|[0m use std::error::Error;
+2026-11-24T11:49:34.8941270Z   [1m[94m|[0m     [1m[33m^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:49:34.8941530Z   [1m[94m|[0m
+2026-11-24T11:49:34.8970460Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:49:34.8970760Z 
+2026-11-24T11:49:34.8971200Z [1m[33mwarning[0m[1m: unused import: `std::rc::Rc`[0m
+2026-11-24T11:49:34.8971670Z   [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/composition/task_support.rs:12:5
+2026-11-24T11:49:34.8972120Z    [1m[94m|[0m
+2026-11-24T11:49:34.8972510Z [1m[94m12[0m [1m[94m|[0m use std::rc::Rc;
+2026-11-24T11:49:34.8972820Z    [1m[94m|[0m     [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:49:34.8973030Z 
+2026-11-24T11:49:34.8973370Z [1m[33mwarning[0m[1m: unused import: `ferroui_base::reactive::IDisposable`[0m
+2026-11-24T11:49:34.8973950Z  [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/controls/open_gl_control_base.rs:9:5
+2026-11-24T11:49:34.8974750Z   [1m[94m|[0m
+2026-11-24T11:49:34.8975330Z [1m[94m9[0m [1m[94m|[0m use ferroui_base::reactive::IDisposable;
+2026-11-24T11:49:34.9011610Z   [1m[94m|[0m     [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:49:34.9012890Z 
+2026-11-24T11:49:34.9014280Z [1m[33mwarning[0m[1m: methods `is_import_memory_fd_ext_available` and `is_import_semaphore_fd_ext_available` are never used[0m
+2026-11-24T11:49:34.9016010Z    [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/entry_points.rs:122:21
+2026-11-24T11:49:34.9016950Z     [1m[94m|[0m
+2026-11-24T11:49:34.9017680Z [1m[94m100[0m [1m[94m|[0m           impl $Owner {
+2026-11-24T11:49:34.9018890Z     [1m[94m|[0m           [1m[94m-----------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:49:34.9019840Z [1m[94m...[0m
+2026-11-24T11:49:34.9020720Z [1m[94m122[0m [1m[94m|[0m               $vis fn [<is_ $name _available>](&self) -> bool {
+2026-11-24T11:49:34.9033760Z     [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:49:34.9034670Z     [1m[94m|[0m
+2026-11-24T11:49:34.9036020Z    [1m[94m::: [0mFerroUI/src/FerroUI.OpenGL/features/external_objects_open_gl_extension_feature.rs:24:1
+2026-11-24T11:49:34.9037370Z     [1m[94m|[0m
+2026-11-24T11:49:34.9038110Z [1m[94m 24[0m [1m[94m|[0m [1m[94m/[0m gl_entry_points! {
+2026-11-24T11:49:34.9039830Z [1m[94m 25[0m [1m[94m|[0m [1m[94m|[0m     table ExternalObjectsEntryPoints for ExternalObjectsInterface.ext(get, info: ());
+2026-11-24T11:49:34.9041270Z [1m[94m 26[0m [1m[94m|[0m [1m[94m|[0m
+2026-11-24T11:49:34.9042760Z [1m[94m 27[0m [1m[94m|[0m [1m[94m|[0m     optional safe pub(crate) fn import_memory_fd_ext(memory: u32, size: u64, handle_type: i32, fd: i32)
+2026-11-24T11:49:34.9044330Z [1m[94m...[0m   [1m[94m|[0m
+2026-11-24T11:49:34.9045960Z [1m[94m 74[0m [1m[94m|[0m [1m[94m|[0m     optional unsafe pub(crate) fn get_unsigned_bytev_ext(target: i32, data: *mut u8) = get("glGetUnsignedBytevEXT");
+2026-11-24T11:49:34.9047570Z [1m[94m 75[0m [1m[94m|[0m [1m[94m|[0m }
+2026-11-24T11:49:34.9048520Z     [1m[94m|[0m [1m[94m|_-[0m [1m[94min this macro invocation[0m
+2026-11-24T11:49:34.9049410Z     [1m[94m|[0m
+2026-11-24T11:49:34.9050310Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:49:34.9052500Z     [1m[94m= [0m[1mnote[0m: this warning originates in the macro `gl_entry_points` (in Nightly builds, run with -Z macro-backtrace for more info)
+2026-11-24T11:49:34.9053730Z 
+2026-11-24T11:49:34.9054980Z [1m[33mwarning[0m: `ferroui-opengl` (lib) generated 4 warnings (run `cargo fix --lib -p ferroui-opengl` to apply 2 suggestions)
+2026-11-24T11:49:34.9057180Z [1m[92m   Compiling[0m phone-app-battery-saver v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-battery-saver)
+2026-11-24T11:49:35.9870050Z [1m[92m   Compiling[0m phone-system v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-system)
+2026-11-24T11:49:37.0862050Z [1m[92m   Compiling[0m phone-app-excel v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-excel)
+2026-11-24T11:49:38.2326550Z [1m[92m   Compiling[0m phone-app-messaging v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-messaging)
+2026-11-24T11:49:39.4625970Z [1m[92m   Compiling[0m phone-app-word v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-word)
+2026-11-24T11:49:40.7212700Z [1m[92m   Compiling[0m phone-app-powerpoint v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-powerpoint)
+2026-11-24T11:49:45.7898690Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: native/buffer.m:11:25: warning: 'CVBufferGetAttachment' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+2026-11-24T11:49:45.7901970Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:    11 |     CFTypeRef primaries=CVBufferGetAttachment(buffer,kCVImageBufferColorPrimariesKey,NULL);
+2026-11-24T11:49:45.7908510Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                         ^~~~~~~~~~~~~~~~~~~~~
+2026-11-24T11:49:45.7911230Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                         CVBufferCopyAttachment
+2026-11-24T11:49:45.7913050Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreVideo.framework/Headers/CVBuffer.h:106:33: note: 'CVBufferGetAttachment' has been explicitly marked deprecated here
+2026-11-24T11:49:45.7916830Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:   106 | CV_EXPORT CFTypeRef CV_NULLABLE CVBufferGetAttachment( CVBufferRef CV_NONNULL buffer, CFStringRef CV_NONNULL key, CVAttachmentMode * CV_NULLABLE attachmentMode )  API_DEPRECATED_WITH_REPLACEMENT("CVBufferCopyAttachment", macos(10.4, 12.0), ios(4.0,15.0), tvos(9.0, 15.0), watchos(4.0, 8.0));
+2026-11-24T11:49:45.7922500Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                                 ^
+2026-11-24T11:49:45.7923590Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: native/buffer.m:12:24: warning: 'CVBufferGetAttachment' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+2026-11-24T11:49:45.7926200Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:    12 |     CFTypeRef transfer=CVBufferGetAttachment(buffer,kCVImageBufferTransferFunctionKey,NULL);
+2026-11-24T11:49:45.7927040Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                        ^~~~~~~~~~~~~~~~~~~~~
+2026-11-24T11:49:45.7929270Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                        CVBufferCopyAttachment
+2026-11-24T11:49:45.7931390Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreVideo.framework/Headers/CVBuffer.h:106:33: note: 'CVBufferGetAttachment' has been explicitly marked deprecated here
+2026-11-24T11:49:45.7934740Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:   106 | CV_EXPORT CFTypeRef CV_NULLABLE CVBufferGetAttachment( CVBufferRef CV_NONNULL buffer, CFStringRef CV_NONNULL key, CVAttachmentMode * CV_NULLABLE attachmentMode )  API_DEPRECATED_WITH_REPLACEMENT("CVBufferCopyAttachment", macos(10.4, 12.0), ios(4.0,15.0), tvos(9.0, 15.0), watchos(4.0, 8.0));
+2026-11-24T11:49:45.7936070Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                                 ^
+2026-11-24T11:49:45.7936920Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: 2 warnings generated.
+2026-11-24T11:49:45.7937960Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:49:45.7938940Z   [1m[94m--> [0mFerroUI/src/FerroUI.Media.OpenGL/renderer.rs:91:22
+2026-11-24T11:49:45.7939540Z    [1m[94m|[0m
+2026-11-24T11:49:45.7940360Z [1m[94m91[0m [1m[94m|[0m                     .fetch_update(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:49:45.7941130Z    [1m[94m|[0m                      [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:49:45.7941490Z    [1m[94m|[0m
+2026-11-24T11:49:45.7942010Z    [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:49:45.7942690Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:49:45.7943180Z    [1m[94m|[0m
+2026-11-24T11:49:45.7943810Z [1m[94m91[0m [91m- [0m                    .[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:49:45.7944960Z [1m[94m91[0m [92m+ [0m                    .[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:49:45.7945700Z    [1m[94m|[0m
+2026-11-24T11:49:45.7945880Z 
+2026-11-24T11:49:45.7946570Z [1m[33mwarning[0m: `ferroui-media-opengl` (lib) generated 1 warning (run `cargo fix --lib -p ferroui-media-opengl` to apply 1 suggestion)
+2026-11-24T11:49:46.2672580Z [1m[92m   Compiling[0m phone-app-cortana v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-cortana)
+2026-11-24T11:49:47.4607960Z [1m[92m   Compiling[0m phone-app-camera v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-camera)
+2026-11-24T11:49:48.5948460Z [1m[92m   Compiling[0m phone-app-calendar v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-calendar)
+2026-11-24T11:49:49.8053930Z [1m[92m   Compiling[0m phone-app-calculator v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-calculator)
+2026-11-24T11:49:51.0021350Z [1m[92m   Compiling[0m phone-app-browser v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-browser)
+2026-11-24T11:49:52.2187590Z [1m[92m   Compiling[0m phone-app-weather v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-weather)
+2026-11-24T11:49:53.6242320Z [1m[92m   Compiling[0m phone-app-wallet v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-wallet)
+2026-11-24T11:49:54.7675230Z [1m[92m   Compiling[0m phone-app-video v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-video)
+2026-11-24T11:49:55.8675640Z [1m[92m   Compiling[0m phone-app-tic-tac-toe v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-tic-tac-toe)
+2026-11-24T11:49:57.0143450Z [1m[92m   Compiling[0m phone-app-store v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-store)
+2026-11-24T11:49:58.2566650Z [1m[92m   Compiling[0m phone-app-alarms v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-alarms)
+2026-11-24T11:49:59.4599430Z [1m[92m   Compiling[0m phone-app-settings v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-settings)
+2026-11-24T11:50:00.8077200Z [1m[92m   Compiling[0m phone-app-podcasts v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-podcasts)
+2026-11-24T11:50:02.1286070Z [1m[92m   Compiling[0m phone-app-photos v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-photos)
+2026-11-24T11:50:03.4284940Z [1m[92m   Compiling[0m phone-app-phone v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-phone)
+2026-11-24T11:50:04.7259250Z [1m[92m   Compiling[0m phone-app-people v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-people)
+2026-11-24T11:50:05.9656550Z [1m[92m   Compiling[0m phone-app-outlook v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-outlook)
+2026-11-24T11:50:07.0949030Z [1m[92m   Compiling[0m phone-app-onenote v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-onenote)
+2026-11-24T11:50:08.1499620Z [1m[92m   Compiling[0m phone-app-office v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-office)
+2026-11-24T11:50:09.2434870Z [1m[92m   Compiling[0m phone-app-music v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-music)
+2026-11-24T11:50:10.5357300Z [1m[92m   Compiling[0m phone-app-minesweeper v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-minesweeper)
+2026-11-24T11:50:11.7453810Z [1m[92m   Compiling[0m phone-app-maps v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-maps)
+2026-11-24T11:50:12.9242200Z [1m[92m   Compiling[0m phone-app-games v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-games)
+2026-11-24T11:50:14.1764240Z [1m[92m   Compiling[0m phone-app-files v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-files)
+2026-11-24T11:50:15.2065610Z [1m[92m   Compiling[0m phone-app-device v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-device)
+2026-11-24T11:50:16.5562540Z [1m[92m   Compiling[0m phone-app-data-sense v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-data-sense)
+2026-11-24T11:50:49.3371510Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1: native/player.mm:178:51: warning: 'CVBufferGetAttachment' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+2026-11-24T11:50:49.3376990Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:   178 |     NSDictionary *aspect=(__bridge NSDictionary *)CVBufferGetAttachment(buffer,kCVImageBufferPixelAspectRatioKey,nullptr);
+2026-11-24T11:50:49.3378170Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:       |                                                   ^~~~~~~~~~~~~~~~~~~~~
+2026-11-24T11:50:49.3384570Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:       |                                                   CVBufferCopyAttachment
+2026-11-24T11:50:49.3388630Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreVideo.framework/Headers/CVBuffer.h:106:33: note: 'CVBufferGetAttachment' has been explicitly marked deprecated here
+2026-11-24T11:50:49.3396920Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:   106 | CV_EXPORT CFTypeRef CV_NULLABLE CVBufferGetAttachment( CVBufferRef CV_NONNULL buffer, CFStringRef CV_NONNULL key, CVAttachmentMode * CV_NULLABLE attachmentMode )  API_DEPRECATED_WITH_REPLACEMENT("CVBufferCopyAttachment", macos(10.4, 12.0), ios(4.0,15.0), tvos(9.0, 15.0), watchos(4.0, 8.0));
+2026-11-24T11:50:49.3400890Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:       |                                 ^
+2026-11-24T11:50:49.3402740Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1: 1 warning generated.
+2026-11-24T11:51:23.8834680Z [1m[92m   Compiling[0m phone-ui v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-ui)
+2026-11-24T11:51:24.3384580Z [1m[92m   Compiling[0m phone-runtime v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-runtime)
+2026-11-24T11:51:25.3230400Z [1m[92m   Compiling[0m phone-fonts v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-fonts)
+2026-11-24T11:51:25.6674630Z [1m[92m   Compiling[0m phone-native v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-native)
+2026-11-24T11:51:37.5411050Z [1m[92m    Finished[0m `test` profile [unoptimized] target(s) in 2m 45s
+2026-11-24T11:51:37.6872110Z [1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/phone_native-8fd7edb5603fcea1)
+2026-11-24T11:51:37.7152240Z 
+2026-11-24T11:51:37.7154490Z running 17 tests
+2026-11-24T11:51:37.7174400Z test asset_store::tests::invalid_media_identifiers_cannot_escape_the_store ... ok
+2026-11-24T11:51:37.7843800Z test asset_store::tests::refuses_symlink_media_files ... ok
+2026-11-24T11:51:37.7853330Z test asset_store::tests::validates_kind_sizes_extensions_and_corrupted_manifests ... ok
+2026-11-24T11:51:37.7866890Z test backup::codec::tests::browser_envelope_and_legacy_phone_document_are_readable ... ok
+2026-11-24T11:51:37.7881660Z test backup::codec::tests::restore_remaps_all_media_references_and_counts_missing_payloads ... ok
+2026-11-24T11:51:37.7884210Z test asset_store::tests::asset_roundtrip_is_immutable_and_never_uses_display_name_as_path ... ok
+2026-11-24T11:51:37.7886510Z test backup::encoding::tests::rejects_junk_overflow_and_noncanonical_padding ... ok
+2026-11-24T11:51:37.7889000Z test backup::encoding::tests::standard_vectors_and_all_byte_values_roundtrip ... ok
+2026-11-24T11:51:37.7949430Z test backup::codec::tests::validates_every_asset_before_restore_can_mutate_state ... ok
+2026-11-24T11:51:37.7968330Z test media_files::tests::exported_media_names_keep_the_actual_format_and_safe_leaf_name ... ok
+2026-11-24T11:51:37.7969730Z test backup::codec::tests::native_export_preserves_bytes_and_both_wallpapers ... ok
+2026-11-24T11:51:37.7977400Z test map_cache::tests::fresh_tiles_do_not_repeat_requests_and_expired_tiles_revalidate ... ok
+2026-11-24T11:51:37.7988680Z test native_media::photo::tests::rotation_and_mirroring_match_all_eight_native_exif_orientations ... ok
+2026-11-24T11:51:37.7990680Z test native_media::photo::tests::captured_jpeg_is_valid_rotated_and_unrotated_bytes_are_preserved ... ok
+2026-11-24T11:51:37.7999040Z test native_media::alarm::tests::generated_alert_is_bounded_pcm_with_a_silent_gap ... ok
+2026-11-24T11:51:37.8000720Z test operations::tests::leases_do_not_follow_restored_documents_replacement_hosts_or_closed_hosts ... ok
+2026-11-24T11:51:37.8061900Z test operations::tests::cancelled_asset_staging_preserves_existing_and_committed_files ... ok
+2026-11-24T11:51:37.8062940Z 
+2026-11-24T11:51:37.8063660Z test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+2026-11-24T11:51:37.8064430Z 
+2026-11-24T11:51:37.8394570Z ##[group]Run cargo build --locked -p phone-desktop
+2026-11-24T11:51:37.8500180Z [36;1mcargo build --locked -p phone-desktop[0m
+2026-11-24T11:51:37.9093010Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T11:51:37.9093380Z env:
+2026-11-24T11:51:37.9093580Z   CARGO_TERM_COLOR: always
+2026-11-24T11:51:37.9093890Z   CARGO_INCREMENTAL: 0
+2026-11-24T11:51:37.9094140Z   CARGO_BUILD_JOBS: 1
+2026-11-24T11:51:37.9094370Z   CARGO_PROFILE_BROWSER_CODEGEN_UNITS: 16
+2026-11-24T11:51:37.9094680Z   CARGO_PROFILE_TEST_DEBUG: 0
+2026-11-24T11:51:37.9094900Z   CARGO_PROFILE_DEV_DEBUG: 0
+2026-11-24T11:51:37.9095200Z   CARGO_PROFILE_DEV_CODEGEN_UNITS: 256
+2026-11-24T11:51:37.9095490Z   RUSTUP_TOOLCHAIN: 1.99.0
+2026-11-24T11:51:37.9095790Z   PHONE_NATIVE_FRAMEWORK: db2e8859cd4b67bac870839ea70503b8babf541f
+2026-11-24T11:51:37.9096160Z ##[endgroup]
+2026-11-24T11:51:39.1856610Z [1m[33mwarning[0m: profile package spec `ferroui-themes-fluent` in profile `dist` did not match any packages
+2026-11-24T11:51:39.1860840Z [1m[33mwarning[0m: profile package spec `ferroui-themes-macos` in profile `dist` did not match any packages
+2026-11-24T11:51:39.1863330Z [1m[33mwarning[0m: profile package spec `ferroui-themes-material` in profile `dist` did not match any packages
+2026-11-24T11:51:39.1867240Z [1m[33mwarning[0m: profile package spec `ferroui-themes-simple` in profile `dist` did not match any packages
+2026-11-24T11:51:39.1871880Z [1m[33mwarning[0m: profile package spec `fearless_simd` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1875860Z [1m[33mwarning[0m: profile package spec `ferroui-vello` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1878880Z [1m[33mwarning[0m: profile package spec `glifo` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1879450Z 
+2026-11-24T11:51:39.1879770Z help: a package with a similar name exists: `dlib`
+2026-11-24T11:51:39.1881260Z [1m[33mwarning[0m: profile package spec `kurbo` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1881820Z 
+2026-11-24T11:51:39.1882090Z help: a package with a similar name exists: `errno`
+2026-11-24T11:51:39.1885120Z [1m[33mwarning[0m: profile package spec `read-fonts` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1887770Z [1m[33mwarning[0m: profile package spec `skrifa` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1892140Z [1m[33mwarning[0m: profile package spec `vello_common` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1895840Z [1m[33mwarning[0m: profile package spec `vello_cpu` in profile `browser` did not match any packages
+2026-11-24T11:51:39.1899400Z [1m[33mwarning[0m: profile package spec `vello_gpu` in profile `browser` did not match any packages
+2026-11-24T11:51:39.7514010Z [1m[33mwarning[0m[1m: unused import: `Cell`[0m
+2026-11-24T11:51:39.7515010Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_visual_collection.rs:8:17
+2026-11-24T11:51:39.7515680Z   [1m[94m|[0m
+2026-11-24T11:51:39.7516500Z [1m[94m8[0m [1m[94m|[0m use std::cell::{Cell, RefCell};
+2026-11-24T11:51:39.7517120Z   [1m[94m|[0m                 [1m[33m^^^^[0m
+2026-11-24T11:51:39.7517590Z   [1m[94m|[0m
+2026-11-24T11:51:39.7518460Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7518870Z 
+2026-11-24T11:51:39.7519020Z [1m[33mwarning[0m[1m: unused attribute[0m
+2026-11-24T11:51:39.7519480Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property.rs:836:5
+2026-11-24T11:51:39.7519880Z     [1m[94m|[0m
+2026-11-24T11:51:39.7520140Z [1m[94m836[0m [1m[94m|[0m     #[inline]
+2026-11-24T11:51:39.7520630Z     [1m[94m|[0m     [1m[33m^^^^^^^^^[0m [1m[33mhelp: remove this attribute[0m
+2026-11-24T11:51:39.7521040Z     [1m[94m|[0m
+2026-11-24T11:51:39.7521370Z [1m[92mnote[0m: attribute also specified here
+2026-11-24T11:51:39.7522620Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property.rs:834:5
+2026-11-24T11:51:39.7523190Z     [1m[94m|[0m
+2026-11-24T11:51:39.7523940Z [1m[94m834[0m [1m[94m|[0m     #[inline]
+2026-11-24T11:51:39.7524220Z     [1m[94m|[0m     [1m[92m^^^^^^^^^[0m
+2026-11-24T11:51:39.7524890Z     [1m[94m= [0m[1mwarning[0m: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+2026-11-24T11:51:39.7525760Z     [1m[94m= [0m[1mnote[0m: `#[warn(unused_attributes)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7526120Z 
+2026-11-24T11:51:39.7526580Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:51:39.7527820Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/frames/lifetime.rs:280:18
+2026-11-24T11:51:39.7528360Z     [1m[94m|[0m
+2026-11-24T11:51:39.7528840Z [1m[94m280[0m [1m[94m|[0m                 .fetch_update(Ordering::AcqRel, Ordering::Acquire, |reads| {
+2026-11-24T11:51:39.7529320Z     [1m[94m|[0m                  [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7529700Z     [1m[94m|[0m
+2026-11-24T11:51:39.7530020Z     [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:51:39.7530440Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:51:39.7530830Z     [1m[94m|[0m
+2026-11-24T11:51:39.7531370Z [1m[94m280[0m [91m- [0m                .[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |reads| {
+2026-11-24T11:51:39.7532110Z [1m[94m280[0m [92m+ [0m                .[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |reads| {
+2026-11-24T11:51:39.7532610Z     [1m[94m|[0m
+2026-11-24T11:51:39.7532760Z 
+2026-11-24T11:51:39.7533220Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:51:39.7534130Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/frames/lifetime.rs:499:14
+2026-11-24T11:51:39.7534680Z     [1m[94m|[0m
+2026-11-24T11:51:39.7535130Z [1m[94m499[0m [1m[94m|[0m             .fetch_update(Ordering::AcqRel, Ordering::Acquire, |value| {
+2026-11-24T11:51:39.7535650Z     [1m[94m|[0m              [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7536040Z     [1m[94m|[0m
+2026-11-24T11:51:39.7536360Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:51:39.7537200Z     [1m[94m|[0m
+2026-11-24T11:51:39.7538270Z [1m[94m499[0m [91m- [0m            .[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |value| {
+2026-11-24T11:51:39.7540610Z [1m[94m499[0m [92m+ [0m            .[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |value| {
+2026-11-24T11:51:39.7543020Z     [1m[94m|[0m
+2026-11-24T11:51:39.7543600Z 
+2026-11-24T11:51:39.7544200Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:51:39.7547080Z   [1m[94m--> [0mFerroUI/src/FerroUI.Base/property_store/hot_value.rs:36:10
+2026-11-24T11:51:39.7549290Z    [1m[94m|[0m
+2026-11-24T11:51:39.7551270Z [1m[94m36[0m [1m[94m|[0m         .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |generation| Some(generation.wrapping_add(1).max(1)));
+2026-11-24T11:51:39.7553660Z    [1m[94m|[0m          [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7555150Z    [1m[94m|[0m
+2026-11-24T11:51:39.7556420Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:51:39.7557800Z    [1m[94m|[0m
+2026-11-24T11:51:39.7558770Z [1m[94m36[0m [91m- [0m        .[91mfetch_update[0m(Ordering::Relaxed, Ordering::Relaxed, |generation| Some(generation.wrapping_add(1).max(1)));
+2026-11-24T11:51:39.7561720Z [1m[94m36[0m [92m+ [0m        .[92mtry_update[0m(Ordering::Relaxed, Ordering::Relaxed, |generation| Some(generation.wrapping_add(1).max(1)));
+2026-11-24T11:51:39.7565910Z    [1m[94m|[0m
+2026-11-24T11:51:39.7566870Z 
+2026-11-24T11:51:39.7568700Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:51:39.7571400Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/media/imaging/render_target_bitmap.rs:3:29
+2026-11-24T11:51:39.7574490Z   [1m[94m|[0m
+2026-11-24T11:51:39.7576820Z [1m[94m3[0m [1m[94m|[0m use crate::platform::{self, IBitmapImpl, IDrawingContextImpl, IRenderTargetBitmapImpl};
+2026-11-24T11:51:39.7580320Z   [1m[94m|[0m                             [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7581740Z 
+2026-11-24T11:51:39.7582080Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:51:39.7588000Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/media/imaging/writeable_bitmap.rs:5:42
+2026-11-24T11:51:39.7588570Z   [1m[94m|[0m
+2026-11-24T11:51:39.7589150Z [1m[94m5[0m [1m[94m|[0m use crate::platform::{self, AlphaFormat, IBitmapImpl, ILockedFramebuffer, IWriteableBitmapImpl, PixelFormat};
+2026-11-24T11:51:39.7592550Z   [1m[94m|[0m                                          [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7592870Z 
+2026-11-24T11:51:39.7593190Z [1m[33mwarning[0m[1m: unused import: `IServerAnimatedPropertyHost`[0m
+2026-11-24T11:51:39.7593940Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/animations/animation_instance_base.rs:6:49
+2026-11-24T11:51:39.7600730Z   [1m[94m|[0m
+2026-11-24T11:51:39.7601450Z [1m[94m6[0m [1m[94m|[0m     CompositionProperty, IAnimatedServerObject, IServerAnimatedPropertyHost, IServerClockItem, ServerCompositor,
+2026-11-24T11:51:39.7605610Z   [1m[94m|[0m                                                 [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7606510Z 
+2026-11-24T11:51:39.7607180Z [1m[33mwarning[0m[1m: unused import: `crate::platform::IBitmapImpl`[0m
+2026-11-24T11:51:39.7614670Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/brushes/server_simple_image_brush.rs:8:5
+2026-11-24T11:51:39.7615160Z   [1m[94m|[0m
+2026-11-24T11:51:39.7617650Z [1m[94m8[0m [1m[94m|[0m use crate::platform::IBitmapImpl;
+2026-11-24T11:51:39.7620590Z   [1m[94m|[0m     [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7622130Z 
+2026-11-24T11:51:39.7622440Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:51:39.7623890Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_drawing_surface.rs:2:23
+2026-11-24T11:51:39.7626520Z   [1m[94m|[0m
+2026-11-24T11:51:39.7629120Z [1m[94m2[0m [1m[94m|[0m use crate::platform::{IBitmapImpl, IPlatformRenderInterfaceContext, PlatformGraphicsContextLostError};
+2026-11-24T11:51:39.7641000Z   [1m[94m|[0m                       [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7642720Z 
+2026-11-24T11:51:39.7654470Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:51:39.7657970Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_surface.rs:2:23
+2026-11-24T11:51:39.7658920Z   [1m[94m|[0m
+2026-11-24T11:51:39.7661100Z [1m[94m2[0m [1m[94m|[0m use crate::platform::{IBitmapImpl, IDrawingContextImpl};
+2026-11-24T11:51:39.7662020Z   [1m[94m|[0m                       [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7662210Z 
+2026-11-24T11:51:39.7662380Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:51:39.7662900Z  [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_compositor.rs:6:23
+2026-11-24T11:51:39.7663390Z   [1m[94m|[0m
+2026-11-24T11:51:39.7663960Z [1m[94m6[0m [1m[94m|[0m use crate::platform::{IBitmapImpl, IPlatformGraphics, IRenderTarget, LtrbRect};
+2026-11-24T11:51:39.7664440Z   [1m[94m|[0m                       [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7664670Z 
+2026-11-24T11:51:39.7664810Z [1m[33mwarning[0m[1m: method `notifier` is never used[0m
+2026-11-24T11:51:39.7665270Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/data/core/typed_binding_expression.rs:190:19
+2026-11-24T11:51:39.7665670Z     [1m[94m|[0m
+2026-11-24T11:51:39.7666690Z [1m[94m 82[0m [1m[94m|[0m impl<TSource: 'static, TValue: PropertyValue> TypedClrPropertyInfo<TSource, TValue> {
+2026-11-24T11:51:39.7674420Z     [1m[94m|[0m [1m[94m-----------------------------------------------------------------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7675740Z [1m[94m...[0m
+2026-11-24T11:51:39.7677180Z [1m[94m190[0m [1m[94m|[0m     pub(crate) fn notifier<'a>(&self, source: &'a TSource) -> Option<&'a dyn INotifyPropertyChanged> {
+2026-11-24T11:51:39.7678530Z     [1m[94m|[0m                   [1m[33m^^^^^^^^[0m
+2026-11-24T11:51:39.7679230Z     [1m[94m|[0m
+2026-11-24T11:51:39.7680110Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7680810Z 
+2026-11-24T11:51:39.7681290Z [1m[33mwarning[0m[1m: method `is_disposed` is never used[0m
+2026-11-24T11:51:39.7682710Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/rendering/composition/server/server_composition_target.rs:146:19
+2026-11-24T11:51:39.7683830Z     [1m[94m|[0m
+2026-11-24T11:51:39.7684750Z [1m[94m143[0m [1m[94m|[0m impl ServerCompositionTarget {
+2026-11-24T11:51:39.7686180Z     [1m[94m|[0m [1m[94m----------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7687130Z [1m[94m...[0m
+2026-11-24T11:51:39.7687940Z [1m[94m146[0m [1m[94m|[0m     pub(crate) fn is_disposed(&self) -> bool {
+2026-11-24T11:51:39.7689030Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7689580Z 
+2026-11-24T11:51:39.7690130Z [1m[33mwarning[0m[1m: associated function `new_shared` is never used[0m
+2026-11-24T11:51:39.7691300Z   [1m[94m--> [0mFerroUI/src/FerroUI.Base/property_store/value_frame.rs:32:12
+2026-11-24T11:51:39.7692220Z    [1m[94m|[0m
+2026-11-24T11:51:39.7692870Z [1m[94m19[0m [1m[94m|[0m impl ValueFrameBase {
+2026-11-24T11:51:39.7694000Z    [1m[94m|[0m [1m[94m-------------------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:51:39.7694980Z [1m[94m...[0m
+2026-11-24T11:51:39.7696040Z [1m[94m32[0m [1m[94m|[0m     pub fn new_shared(priority: BindingPriority, type_: FrameType) -> Self {
+2026-11-24T11:51:39.7697190Z    [1m[94m|[0m            [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:51:39.7698000Z 
+2026-11-24T11:51:39.7698860Z [1m[33mwarning[0m[1m: methods `is_evaluating`, `remove_frame`, and `get_priority` are never used[0m
+2026-11-24T11:51:39.7700240Z     [1m[94m--> [0mFerroUI/src/FerroUI.Base/property_store/value_store.rs:183:12
+2026-11-24T11:51:39.7701150Z      [1m[94m|[0m
+2026-11-24T11:51:39.7701760Z [1m[94m 130[0m [1m[94m|[0m impl ValueStore {
+2026-11-24T11:51:39.7702740Z      [1m[94m|[0m [1m[94m---------------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:51:39.7703620Z [1m[94m...[0m
+2026-11-24T11:51:39.7704350Z [1m[94m 183[0m [1m[94m|[0m     pub fn is_evaluating(&self) -> bool {
+2026-11-24T11:51:39.7705260Z      [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7705940Z [1m[94m...[0m
+2026-11-24T11:51:39.7707010Z [1m[94m1042[0m [1m[94m|[0m     pub fn remove_frame(&self, owner: &FerroObject, frame: &Rc<dyn ValueFrame>) -> bool {
+2026-11-24T11:51:39.7708420Z      [1m[94m|[0m            [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7709150Z [1m[94m...[0m
+2026-11-24T11:51:39.7710130Z [1m[94m1090[0m [1m[94m|[0m     pub fn get_priority(&self, property: &FerroProperty) -> BindingPriority {
+2026-11-24T11:51:39.7711300Z      [1m[94m|[0m            [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7711760Z 
+2026-11-24T11:51:39.7712280Z [1m[33mwarning[0m[1m: method `create_effective_value` is never used[0m
+2026-11-24T11:51:39.7713390Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property.rs:284:8
+2026-11-24T11:51:39.7714210Z     [1m[94m|[0m
+2026-11-24T11:51:39.7714880Z [1m[94m283[0m [1m[94m|[0m pub(crate) trait PropertyRoutes {
+2026-11-24T11:51:39.7716680Z     [1m[94m|[0m                  [1m[94m--------------[0m [1m[94mmethod in this trait[0m
+2026-11-24T11:51:39.7718860Z [1m[94m284[0m [1m[94m|[0m     fn create_effective_value(&'static self, o: &FerroObject) -> Rc<dyn EffectiveValueDyn>;
+2026-11-24T11:51:39.7720110Z     [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7720620Z 
+2026-11-24T11:51:39.7721090Z [1m[33mwarning[0m[1m: method `with_sender` is never used[0m
+2026-11-24T11:51:39.7722270Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_changed_event_args.rs:146:19
+2026-11-24T11:51:39.7723210Z     [1m[94m|[0m
+2026-11-24T11:51:39.7724230Z [1m[94m 20[0m [1m[94m|[0m impl<'a> FerroPropertyChangedEventArgs<'a> {
+2026-11-24T11:51:39.7725570Z     [1m[94m|[0m [1m[94m------------------------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7726570Z [1m[94m...[0m
+2026-11-24T11:51:39.7728140Z [1m[94m146[0m [1m[94m|[0m     pub(crate) fn with_sender<'b>(&'b self, sender: &'b FerroObject) -> FerroPropertyChangedEventArgs<'b> {
+2026-11-24T11:51:39.7729690Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7730230Z 
+2026-11-24T11:51:39.7731380Z [1m[33mwarning[0m[1m: method `base` is never used[0m
+2026-11-24T11:51:39.7733170Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_metadata.rs:483:8
+2026-11-24T11:51:39.7762040Z     [1m[94m|[0m
+2026-11-24T11:51:39.7763100Z [1m[94m482[0m [1m[94m|[0m pub trait PropertyMetadata: Sized + 'static {
+2026-11-24T11:51:39.7764340Z     [1m[94m|[0m           [1m[94m----------------[0m [1m[94mmethod in this trait[0m
+2026-11-24T11:51:39.7765520Z [1m[94m483[0m [1m[94m|[0m     fn base(&self) -> &FerroPropertyMetadata;
+2026-11-24T11:51:39.7768050Z     [1m[94m|[0m        [1m[33m^^^^[0m
+2026-11-24T11:51:39.7768470Z 
+2026-11-24T11:51:39.7769180Z [1m[33mwarning[0m[1m: method `default_metadata` is never used[0m
+2026-11-24T11:51:39.7770430Z    [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_metadata.rs:845:12
+2026-11-24T11:51:39.7771340Z     [1m[94m|[0m
+2026-11-24T11:51:39.7772250Z [1m[94m827[0m [1m[94m|[0m impl<M: PropertyMetadata> MetadataTable<M> {
+2026-11-24T11:51:39.7773600Z     [1m[94m|[0m [1m[94m------------------------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7774700Z [1m[94m...[0m
+2026-11-24T11:51:39.7775560Z [1m[94m845[0m [1m[94m|[0m     pub fn default_metadata(&self) -> &Rc<M> {
+2026-11-24T11:51:39.7787050Z     [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7787550Z 
+2026-11-24T11:51:39.7788040Z [1m[33mwarning[0m[1m: method `properties` is never used[0m
+2026-11-24T11:51:39.7789080Z   [1m[94m--> [0mFerroUI/src/FerroUI.Base/ferro_property_registry.rs:77:19
+2026-11-24T11:51:39.7790050Z    [1m[94m|[0m
+2026-11-24T11:51:39.7790710Z [1m[94m67[0m [1m[94m|[0m impl FerroPropertyRegistry {
+2026-11-24T11:51:39.7791860Z    [1m[94m|[0m [1m[94m--------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7795460Z [1m[94m...[0m
+2026-11-24T11:51:39.7796450Z [1m[94m77[0m [1m[94m|[0m     pub(crate) fn properties(&self) -> Vec<&'static FerroProperty> {
+2026-11-24T11:51:39.7797630Z    [1m[94m|[0m                   [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:51:39.7798100Z 
+2026-11-24T11:51:39.7798770Z [1m[33mwarning[0m[1m: associated function `rooted_visual_children_count` is never used[0m
+2026-11-24T11:51:39.7799970Z     [1m[94m--> [0mFerroUI/src/FerroUI.Base/visual.rs:2523:19
+2026-11-24T11:51:39.7801950Z      [1m[94m|[0m
+2026-11-24T11:51:39.7802630Z [1m[94m1078[0m [1m[94m|[0m impl Visual {
+2026-11-24T11:51:39.7803680Z      [1m[94m|[0m [1m[94m-----------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:51:39.7804600Z [1m[94m...[0m
+2026-11-24T11:51:39.7805410Z [1m[94m2523[0m [1m[94m|[0m     pub(crate) fn rooted_visual_children_count() -> i32 {
+2026-11-24T11:51:39.7808200Z      [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7809350Z 
+2026-11-24T11:51:39.7810440Z [1m[33mwarning[0m: `ferroui-base` (lib) generated 22 warnings (run `cargo fix --lib -p ferroui-base` to apply 5 suggestions)
+2026-11-24T11:51:39.7811950Z [1m[33mwarning[0m[1m: method `property_info_arguments` is never used[0m
+2026-11-24T11:51:39.7813460Z     [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml.Loader/rust_emitter/emitter.rs:3692:8
+2026-11-24T11:51:39.7814490Z      [1m[94m|[0m
+2026-11-24T11:51:39.7815210Z [1m[94m1020[0m [1m[94m|[0m impl<'a> Emitter<'a> {
+2026-11-24T11:51:39.7816230Z      [1m[94m|[0m [1m[94m--------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7817110Z [1m[94m...[0m
+2026-11-24T11:51:39.7818640Z [1m[94m3692[0m [1m[94m|[0m     fn property_info_arguments(&self, node: &Rc<dyn IXamlAstNode>, property: &Rc<dyn IXamlProperty>) -> EmitResult<String> {
+2026-11-24T11:51:39.7820250Z      [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7820950Z      [1m[94m|[0m
+2026-11-24T11:51:39.7821790Z      [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7822500Z 
+2026-11-24T11:51:39.7823050Z [1m[33mwarning[0m: `ferroui-markup-xaml-loader` (lib) generated 1 warning
+2026-11-24T11:51:39.7824680Z [1m[33mwarning[0m: `ferroui-base` (lib) generated 22 warnings (22 duplicates)
+2026-11-24T11:51:39.7825290Z [1m[33mwarning[0m[1m: unused doc comment[0m
+2026-11-24T11:51:39.7825660Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/markup_types/contracts.rs:180:1
+2026-11-24T11:51:39.7826080Z     [1m[94m|[0m
+2026-11-24T11:51:39.7826360Z [1m[94m180[0m [1m[94m|[0m /// The types declared in this file.
+2026-11-24T11:51:39.7827000Z     [1m[94m|[0m [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[33mrustdoc does not generate documentation for macro invocations[0m
+2026-11-24T11:51:39.7827440Z     [1m[94m|[0m
+2026-11-24T11:51:39.7827990Z     [1m[94m= [0m[1mhelp[0m: to document an item produced by a macro, the macro must produce the documentation as part of its expansion
+2026-11-24T11:51:39.7828700Z     [1m[94m= [0m[1mnote[0m: `#[warn(unused_doc_comments)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7829190Z 
+2026-11-24T11:51:39.7829470Z [1m[33mwarning[0m[1m: unused import: `IDisposable`[0m
+2026-11-24T11:51:39.7829950Z   [1m[94m--> [0mFerroUI/src/FerroUI.Controls/combo_box.rs:26:63
+2026-11-24T11:51:39.7830240Z    [1m[94m|[0m
+2026-11-24T11:51:39.7830900Z [1m[94m26[0m [1m[94m|[0m use ferroui_base::reactive::{CompositeDisposable, Disposable, IDisposable, ObservableExt, Subscription};
+2026-11-24T11:51:39.7831530Z    [1m[94m|[0m                                                               [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7831840Z    [1m[94m|[0m
+2026-11-24T11:51:39.7832190Z    [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7832480Z 
+2026-11-24T11:51:39.7832640Z [1m[33mwarning[0m[1m: method `is_disposed` is never used[0m
+2026-11-24T11:51:39.7833100Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/animation/connected_animation.rs:355:19
+2026-11-24T11:51:39.7833460Z     [1m[94m|[0m
+2026-11-24T11:51:39.7833700Z [1m[94m132[0m [1m[94m|[0m impl ConnectedAnimation {
+2026-11-24T11:51:39.7834130Z     [1m[94m|[0m [1m[94m-----------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7834480Z [1m[94m...[0m
+2026-11-24T11:51:39.7834780Z [1m[94m355[0m [1m[94m|[0m     pub(crate) fn is_disposed(&self) -> bool {
+2026-11-24T11:51:39.7835170Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7835430Z     [1m[94m|[0m
+2026-11-24T11:51:39.7835760Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7836050Z 
+2026-11-24T11:51:39.7836560Z [1m[33mwarning[0m[1m: field `sprite` is never read[0m
+2026-11-24T11:51:39.7836990Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/media/reveal_focus.rs:163:5
+2026-11-24T11:51:39.7837470Z     [1m[94m|[0m
+2026-11-24T11:51:39.7837690Z [1m[94m159[0m [1m[94m|[0m struct ShownGlow {
+2026-11-24T11:51:39.7838040Z     [1m[94m|[0m        [1m[94m---------[0m [1m[94mfield in this struct[0m
+2026-11-24T11:51:39.7838340Z [1m[94m...[0m
+2026-11-24T11:51:39.7838600Z [1m[94m163[0m [1m[94m|[0m     sprite: Option<SpriteVisual>,
+2026-11-24T11:51:39.7838910Z     [1m[94m|[0m     [1m[33m^^^^^^[0m
+2026-11-24T11:51:39.7839060Z 
+2026-11-24T11:51:39.7839210Z [1m[33mwarning[0m[1m: field `icon` is never read[0m
+2026-11-24T11:51:39.7839560Z   [1m[94m--> [0mFerroUI/src/FerroUI.Controls/title_bar.rs:52:5
+2026-11-24T11:51:39.7839840Z    [1m[94m|[0m
+2026-11-24T11:51:39.7840050Z [1m[94m47[0m [1m[94m|[0m struct Parts {
+2026-11-24T11:51:39.7840390Z    [1m[94m|[0m        [1m[94m-----[0m [1m[94mfield in this struct[0m
+2026-11-24T11:51:39.7840680Z [1m[94m...[0m
+2026-11-24T11:51:39.7840930Z [1m[94m52[0m [1m[94m|[0m     icon: Option<Ref<Control>>,
+2026-11-24T11:51:39.7841230Z    [1m[94m|[0m     [1m[33m^^^^[0m
+2026-11-24T11:51:39.7841370Z 
+2026-11-24T11:51:39.7841530Z [1m[33mwarning[0m[1m: field `presenter` is never read[0m
+2026-11-24T11:51:39.7841940Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/navigation_view_item.rs:134:5
+2026-11-24T11:51:39.7842260Z     [1m[94m|[0m
+2026-11-24T11:51:39.7842470Z [1m[94m132[0m [1m[94m|[0m struct Parts {
+2026-11-24T11:51:39.7842810Z     [1m[94m|[0m        [1m[94m-----[0m [1m[94mfield in this struct[0m
+2026-11-24T11:51:39.7843190Z [1m[94m133[0m [1m[94m|[0m     root_grid: Option<Ref<Panel>>,
+2026-11-24T11:51:39.7843570Z [1m[94m134[0m [1m[94m|[0m     presenter: Option<Ref<Control>>,
+2026-11-24T11:51:39.7843900Z     [1m[94m|[0m     [1m[33m^^^^^^^^^[0m
+2026-11-24T11:51:39.7844130Z     [1m[94m|[0m
+2026-11-24T11:51:39.7844620Z     [1m[94m= [0m[1mnote[0m: `Parts` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+2026-11-24T11:51:39.7845050Z 
+2026-11-24T11:51:39.7845280Z [1m[33mwarning[0m[1m: associated function `with_behavior_from` is never used[0m
+2026-11-24T11:51:39.7845780Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/documents/hyperlink.rs:225:19
+2026-11-24T11:51:39.7846120Z     [1m[94m|[0m
+2026-11-24T11:51:39.7846340Z [1m[94m176[0m [1m[94m|[0m impl Hyperlink {
+2026-11-24T11:51:39.7846770Z     [1m[94m|[0m [1m[94m--------------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:51:39.7847150Z [1m[94m...[0m
+2026-11-24T11:51:39.7847500Z [1m[94m225[0m [1m[94m|[0m     pub(crate) fn with_behavior_from(source: &Self) -> Ref<Self> {
+2026-11-24T11:51:39.7847940Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7848150Z 
+2026-11-24T11:51:39.7848530Z [1m[33mwarning[0m[1m: associated items `new`, `from_fields`, `visible_text`, `same_snapshot`, and `visible_slice` are never used[0m
+2026-11-24T11:51:39.7849210Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/rich_text/rich_text_field_story.rs:285:19
+2026-11-24T11:51:39.7849700Z     [1m[94m|[0m
+2026-11-24T11:51:39.7849920Z [1m[94m281[0m [1m[94m|[0m impl FieldStory {
+2026-11-24T11:51:39.7850600Z     [1m[94m|[0m [1m[94m---------------[0m [1m[94massociated items in this implementation[0m
+2026-11-24T11:51:39.7850970Z [1m[94m...[0m
+2026-11-24T11:51:39.7851210Z [1m[94m285[0m [1m[94m|[0m     pub(crate) fn new(
+2026-11-24T11:51:39.7851510Z     [1m[94m|[0m                   [1m[33m^^^[0m
+2026-11-24T11:51:39.7851750Z [1m[94m...[0m
+2026-11-24T11:51:39.7852010Z [1m[94m292[0m [1m[94m|[0m     pub(crate) fn from_fields(
+2026-11-24T11:51:39.7852400Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7852670Z [1m[94m...[0m
+2026-11-24T11:51:39.7853190Z [1m[94m453[0m [1m[94m|[0m     pub(crate) fn visible_text(&self) -> &str {
+2026-11-24T11:51:39.7853590Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7854160Z [1m[94m...[0m
+2026-11-24T11:51:39.7854480Z [1m[94m471[0m [1m[94m|[0m     pub(crate) fn same_snapshot(&self, other: &Self) -> bool {
+2026-11-24T11:51:39.7854890Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7855150Z [1m[94m...[0m
+2026-11-24T11:51:39.7855400Z [1m[94m670[0m [1m[94m|[0m     pub(super) fn visible_slice(
+2026-11-24T11:51:39.7855740Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7855920Z 
+2026-11-24T11:51:39.7856070Z [1m[33mwarning[0m[1m: method `set_root` is never used[0m
+2026-11-24T11:51:39.7856470Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/calendar/calendar.rs:576:19
+2026-11-24T11:51:39.7856800Z     [1m[94m|[0m
+2026-11-24T11:51:39.7857000Z [1m[94m468[0m [1m[94m|[0m impl Calendar {
+2026-11-24T11:51:39.7857380Z     [1m[94m|[0m [1m[94m-------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7857700Z [1m[94m...[0m
+2026-11-24T11:51:39.7858030Z [1m[94m576[0m [1m[94m|[0m     pub(crate) fn set_root(&self, value: Option<Ref<Panel>>) {
+2026-11-24T11:51:39.7858430Z     [1m[94m|[0m                   [1m[33m^^^^^^^^[0m
+2026-11-24T11:51:39.7858620Z 
+2026-11-24T11:51:39.7858800Z [1m[33mwarning[0m[1m: method `set_month_view` is never used[0m
+2026-11-24T11:51:39.7859280Z    [1m[94m--> [0mFerroUI/src/FerroUI.Controls/calendar/calendar_item.rs:338:19
+2026-11-24T11:51:39.7859620Z     [1m[94m|[0m
+2026-11-24T11:51:39.7859860Z [1m[94m195[0m [1m[94m|[0m impl CalendarItem {
+2026-11-24T11:51:39.7860270Z     [1m[94m|[0m [1m[94m-----------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:51:39.7860600Z [1m[94m...[0m
+2026-11-24T11:51:39.7860950Z [1m[94m338[0m [1m[94m|[0m     pub(crate) fn set_month_view(&self, value: Option<Ref<Grid>>) {
+2026-11-24T11:51:39.7861380Z     [1m[94m|[0m                   [1m[33m^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7861590Z 
+2026-11-24T11:51:39.7861880Z [1m[33mwarning[0m[1m: bounds on generic parameters in type aliases are not enforced[0m
+2026-11-24T11:51:39.7862490Z   [1m[94m--> [0mFerroUI/src/FerroUI.Controls/platform/win32_properties.rs:48:25
+2026-11-24T11:51:39.7863370Z    [1m[94m|[0m
+2026-11-24T11:51:39.7863750Z [1m[94m48[0m [1m[94m|[0m type InvocationLists<F: ?Sized> = RefCell<Vec<(Weak<F>, Vec<Rc<F>>)>>;
+2026-11-24T11:51:39.7864420Z    [1m[94m|[0m                         [1m[33m^^^^^^[0m [1m[33mwill not be checked at usage sites of the type alias[0m
+2026-11-24T11:51:39.7864820Z    [1m[94m|[0m
+2026-11-24T11:51:39.7865290Z    [1m[94m= [0m[1mnote[0m: this is a known limitation of the type checker that may be lifted in a future edition.
+2026-11-24T11:51:39.7865880Z            see issue #112792 <https://github.com/rust-lang/rust/issues/112792> for more information
+2026-11-24T11:51:39.7866400Z    [1m[94m= [0m[1mnote[0m: `#[warn(type_alias_bounds)]` on by default
+2026-11-24T11:51:39.7866730Z [1m[96mhelp[0m: remove this bound
+2026-11-24T11:51:39.7866950Z    [1m[94m|[0m
+2026-11-24T11:51:39.7867410Z [1m[94m48[0m [91m- [0mtype InvocationLists<F[91m: ?Sized[0m> = RefCell<Vec<(Weak<F>, Vec<Rc<F>>)>>;
+2026-11-24T11:51:39.7868020Z [1m[94m48[0m [92m+ [0mtype InvocationLists<F> = RefCell<Vec<(Weak<F>, Vec<Rc<F>>)>>;
+2026-11-24T11:51:39.7868410Z    [1m[94m|[0m
+2026-11-24T11:51:39.7868520Z 
+2026-11-24T11:51:39.7868940Z [1m[33mwarning[0m: `ferroui-controls` (lib) generated 11 warnings (run `cargo fix --lib -p ferroui-controls` to apply 1 suggestion)
+2026-11-24T11:51:39.7870030Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:51:39.7870600Z   [1m[94m--> [0mFerroUI/src/FerroUI.Media/lib.rs:52:10
+2026-11-24T11:51:39.7870900Z    [1m[94m|[0m
+2026-11-24T11:51:39.7871840Z [1m[94m52[0m [1m[94m|[0m     NEXT.fetch_update(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:51:39.7872610Z    [1m[94m|[0m          [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7872910Z    [1m[94m|[0m
+2026-11-24T11:51:39.7873220Z    [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:51:39.7873630Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:51:39.7873960Z    [1m[94m|[0m
+2026-11-24T11:51:39.7874450Z [1m[94m52[0m [91m- [0m    NEXT.[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:51:39.7875140Z [1m[94m52[0m [92m+ [0m    NEXT.[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:51:39.7875560Z    [1m[94m|[0m
+2026-11-24T11:51:39.7875670Z 
+2026-11-24T11:51:39.7876150Z [1m[33mwarning[0m: `ferroui-media` (lib) generated 1 warning (run `cargo fix --lib -p ferroui-media` to apply 1 suggestion)
+2026-11-24T11:51:39.7876850Z [1m[33mwarning[0m[1m: unused imports: `cell::RefCell` and `collections::HashMap`[0m
+2026-11-24T11:51:39.7877390Z  [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/populate_overrides.rs:5:11
+2026-11-24T11:51:39.7877730Z   [1m[94m|[0m
+2026-11-24T11:51:39.7878030Z [1m[94m5[0m [1m[94m|[0m use std::{cell::RefCell, collections::HashMap, rc::Rc};
+2026-11-24T11:51:39.7878490Z   [1m[94m|[0m           [1m[33m^^^^^^^^^^^^^[0m  [1m[33m^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:39.7878770Z   [1m[94m|[0m
+2026-11-24T11:51:39.7879110Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7879380Z 
+2026-11-24T11:51:39.7879530Z [1m[33mwarning[0m[1m: unused import: `INameScope`[0m
+2026-11-24T11:51:39.7880010Z   [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/markup_extensions/x_bind/deferred_element.rs:12:30
+2026-11-24T11:51:39.7880400Z    [1m[94m|[0m
+2026-11-24T11:51:39.7880730Z [1m[94m12[0m [1m[94m|[0m use ferroui_base::controls::{INameScope, NameScope};
+2026-11-24T11:51:39.7881110Z    [1m[94m|[0m                              [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:51:39.7881310Z 
+2026-11-24T11:51:39.7881470Z [1m[33mwarning[0m[1m: associated function `new` is never used[0m
+2026-11-24T11:51:39.7881950Z   [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/data/dynamic_resource_expression.rs:90:19
+2026-11-24T11:51:39.7882320Z    [1m[94m|[0m
+2026-11-24T11:51:39.7882570Z [1m[94m89[0m [1m[94m|[0m impl DynamicResourceExpression {
+2026-11-24T11:51:39.7884750Z    [1m[94m|[0m [1m[94m------------------------------[0m [1m[94massociated function in this implementation[0m
+2026-11-24T11:51:39.7886300Z [1m[94m90[0m [1m[94m|[0m     pub(crate) fn new(
+2026-11-24T11:51:39.7887120Z    [1m[94m|[0m                   [1m[33m^^^[0m
+2026-11-24T11:51:39.7887780Z    [1m[94m|[0m
+2026-11-24T11:51:39.7888740Z    [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7889510Z 
+2026-11-24T11:51:39.7889820Z [1m[33mwarning[0m[1m: fields `key` and `previous` are never read[0m
+2026-11-24T11:51:39.7890290Z   [1m[94m--> [0mFerroUI/src/Markup/FerroUI.Markup.Xaml/populate_overrides.rs:20:5
+2026-11-24T11:51:39.7890660Z    [1m[94m|[0m
+2026-11-24T11:51:39.7890910Z [1m[94m19[0m [1m[94m|[0m pub struct PopulateOverrideGuard {
+2026-11-24T11:51:39.7891350Z    [1m[94m|[0m            [1m[94m---------------------[0m [1m[94mfields in this struct[0m
+2026-11-24T11:51:39.7891740Z [1m[94m20[0m [1m[94m|[0m     key: usize,
+2026-11-24T11:51:39.7892030Z    [1m[94m|[0m     [1m[33m^^^[0m
+2026-11-24T11:51:39.7892380Z [1m[94m21[0m [1m[94m|[0m     previous: Option<PopulateOverride>,
+2026-11-24T11:51:39.7892710Z    [1m[94m|[0m     [1m[33m^^^^^^^^[0m
+2026-11-24T11:51:39.7892860Z 
+2026-11-24T11:51:39.7893860Z [1m[33mwarning[0m: `ferroui-markup-xaml` (lib) generated 4 warnings (run `cargo fix --lib -p ferroui-markup-xaml` to apply 1 suggestion)
+2026-11-24T11:51:39.7894530Z [1m[33mwarning[0m[1m: methods `snapshot` and `enqueue` are never used[0m
+2026-11-24T11:51:39.7895280Z    [1m[94m--> [0mcrates/phone-host/src/native/media_session.rs:130:8
+2026-11-24T11:51:39.7895580Z     [1m[94m|[0m
+2026-11-24T11:51:39.7895780Z [1m[94m129[0m [1m[94m|[0m impl Shared {
+2026-11-24T11:51:39.7896160Z     [1m[94m|[0m [1m[94m-----------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:51:39.7896600Z [1m[94m130[0m [1m[94m|[0m     fn snapshot(&self) -> Snapshot {
+2026-11-24T11:51:39.7896980Z     [1m[94m|[0m        [1m[33m^^^^^^^^[0m
+2026-11-24T11:51:39.7897280Z [1m[94m...[0m
+2026-11-24T11:51:39.7897570Z [1m[94m140[0m [1m[94m|[0m     fn enqueue(&self, action: Action) -> bool {
+2026-11-24T11:51:39.7897910Z     [1m[94m|[0m        [1m[33m^^^^^^^[0m
+2026-11-24T11:51:39.7898170Z     [1m[94m|[0m
+2026-11-24T11:51:39.7898490Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:39.7898750Z 
+2026-11-24T11:51:39.7898910Z [1m[33mwarning[0m: `phone-host` (lib) generated 1 warning
+2026-11-24T11:51:39.7899460Z [1m[92m   Compiling[0m phone-controls v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-controls)
+2026-11-24T11:51:44.6865990Z [1m[92m   Compiling[0m phone-sdk v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-sdk)
+2026-11-24T11:51:54.1843970Z [1m[92m   Compiling[0m phone-app-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-support)
+2026-11-24T11:51:57.1988440Z [1m[92m   Compiling[0m phone-office-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-office-support)
+2026-11-24T11:51:59.9162040Z [1m[33mwarning[0m[1m: unused import: `std::error::Error`[0m
+2026-11-24T11:51:59.9190170Z  [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/composition/task_support.rs:9:5
+2026-11-24T11:51:59.9190580Z   [1m[94m|[0m
+2026-11-24T11:51:59.9191190Z [1m[94m9[0m [1m[94m|[0m use std::error::Error;
+2026-11-24T11:51:59.9191590Z   [1m[94m|[0m     [1m[33m^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:59.9192040Z   [1m[94m|[0m
+2026-11-24T11:51:59.9192510Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:59.9192870Z 
+2026-11-24T11:51:59.9193180Z [1m[33mwarning[0m[1m: unused import: `std::rc::Rc`[0m
+2026-11-24T11:51:59.9193770Z   [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/composition/task_support.rs:12:5
+2026-11-24T11:51:59.9194190Z    [1m[94m|[0m
+2026-11-24T11:51:59.9194470Z [1m[94m12[0m [1m[94m|[0m use std::rc::Rc;
+2026-11-24T11:51:59.9194850Z    [1m[94m|[0m     [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:51:59.9195000Z 
+2026-11-24T11:51:59.9195290Z [1m[33mwarning[0m[1m: unused import: `ferroui_base::reactive::IDisposable`[0m
+2026-11-24T11:51:59.9195780Z  [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/controls/open_gl_control_base.rs:9:5
+2026-11-24T11:51:59.9196190Z   [1m[94m|[0m
+2026-11-24T11:51:59.9196510Z [1m[94m9[0m [1m[94m|[0m use ferroui_base::reactive::IDisposable;
+2026-11-24T11:51:59.9197030Z   [1m[94m|[0m     [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:59.9197450Z 
+2026-11-24T11:51:59.9232890Z [1m[33mwarning[0m[1m: methods `is_import_memory_fd_ext_available` and `is_import_semaphore_fd_ext_available` are never used[0m
+2026-11-24T11:51:59.9241410Z    [1m[94m--> [0mFerroUI/src/FerroUI.OpenGL/entry_points.rs:122:21
+2026-11-24T11:51:59.9242210Z     [1m[94m|[0m
+2026-11-24T11:51:59.9242660Z [1m[94m100[0m [1m[94m|[0m           impl $Owner {
+2026-11-24T11:51:59.9243480Z     [1m[94m|[0m           [1m[94m-----------[0m [1m[94mmethods in this implementation[0m
+2026-11-24T11:51:59.9244050Z [1m[94m...[0m
+2026-11-24T11:51:59.9254000Z [1m[94m122[0m [1m[94m|[0m               $vis fn [<is_ $name _available>](&self) -> bool {
+2026-11-24T11:51:59.9524050Z     [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-11-24T11:51:59.9527620Z     [1m[94m|[0m
+2026-11-24T11:51:59.9529160Z    [1m[94m::: [0mFerroUI/src/FerroUI.OpenGL/features/external_objects_open_gl_extension_feature.rs:24:1
+2026-11-24T11:51:59.9706490Z     [1m[94m|[0m
+2026-11-24T11:51:59.9706950Z [1m[94m 24[0m [1m[94m|[0m [1m[94m/[0m gl_entry_points! {
+2026-11-24T11:51:59.9707590Z [1m[94m 25[0m [1m[94m|[0m [1m[94m|[0m     table ExternalObjectsEntryPoints for ExternalObjectsInterface.ext(get, info: ());
+2026-11-24T11:51:59.9708290Z [1m[94m 26[0m [1m[94m|[0m [1m[94m|[0m
+2026-11-24T11:51:59.9708890Z [1m[94m 27[0m [1m[94m|[0m [1m[94m|[0m     optional safe pub(crate) fn import_memory_fd_ext(memory: u32, size: u64, handle_type: i32, fd: i32)
+2026-11-24T11:51:59.9709700Z [1m[94m...[0m   [1m[94m|[0m
+2026-11-24T11:51:59.9710430Z [1m[94m 74[0m [1m[94m|[0m [1m[94m|[0m     optional unsafe pub(crate) fn get_unsigned_bytev_ext(target: i32, data: *mut u8) = get("glGetUnsignedBytevEXT");
+2026-11-24T11:51:59.9711100Z [1m[94m 75[0m [1m[94m|[0m [1m[94m|[0m }
+2026-11-24T11:51:59.9711620Z     [1m[94m|[0m [1m[94m|_-[0m [1m[94min this macro invocation[0m
+2026-11-24T11:51:59.9711910Z     [1m[94m|[0m
+2026-11-24T11:51:59.9712380Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:51:59.9713330Z     [1m[94m= [0m[1mnote[0m: this warning originates in the macro `gl_entry_points` (in Nightly builds, run with -Z macro-backtrace for more info)
+2026-11-24T11:51:59.9713820Z 
+2026-11-24T11:51:59.9714290Z [1m[33mwarning[0m: `ferroui-opengl` (lib) generated 4 warnings (run `cargo fix --lib -p ferroui-opengl` to apply 2 suggestions)
+2026-11-24T11:52:00.9366930Z [1m[92m   Compiling[0m phone-alarm-service v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-alarm-service)
+2026-11-24T11:52:02.6163650Z [1m[92m   Compiling[0m phone-media-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-media-support)
+2026-11-24T11:52:05.3319450Z [1m[92m   Compiling[0m phone-storage-support v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-storage-support)
+2026-11-24T11:52:10.5372420Z [1m[92m   Compiling[0m skia-bindings v0.153.3 (/Users/runner/work/WindowsPhone/WindowsPhone/FerroUI/external/rust-skia-bindings)
+2026-11-24T11:53:14.2016430Z [1m[33mwarning[0m: skia-bindings@0.153.3: FerroUI Graphite Metal ownership fix: using patched Skia source
+2026-11-24T11:53:14.2018130Z [1m[33mwarning[0m: skia-bindings@0.153.3: FerroUI Graphite Metal ownership fix applied (manual reference counting)
+2026-11-24T11:53:14.2038950Z [1m[92m   Compiling[0m phone-app-battery-saver v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-battery-saver)
+2026-11-24T11:53:17.6068930Z [1m[92m   Compiling[0m phone-system v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-system)
+2026-11-24T11:53:18.8629840Z [1m[92m   Compiling[0m phone-app-excel v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-excel)
+2026-11-24T11:53:20.1624190Z [1m[92m   Compiling[0m phone-app-messaging v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-messaging)
+2026-11-24T11:53:21.3941210Z [1m[92m   Compiling[0m phone-app-word v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-word)
+2026-11-24T11:53:22.7242130Z [1m[92m   Compiling[0m phone-app-powerpoint v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-powerpoint)
+2026-11-24T11:53:28.8440100Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: native/buffer.m:11:25: warning: 'CVBufferGetAttachment' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+2026-11-24T11:53:28.8441590Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:    11 |     CFTypeRef primaries=CVBufferGetAttachment(buffer,kCVImageBufferColorPrimariesKey,NULL);
+2026-11-24T11:53:28.8459640Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                         ^~~~~~~~~~~~~~~~~~~~~
+2026-11-24T11:53:28.8460910Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                         CVBufferCopyAttachment
+2026-11-24T11:53:28.8469060Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreVideo.framework/Headers/CVBuffer.h:106:33: note: 'CVBufferGetAttachment' has been explicitly marked deprecated here
+2026-11-24T11:53:28.8471640Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:   106 | CV_EXPORT CFTypeRef CV_NULLABLE CVBufferGetAttachment( CVBufferRef CV_NONNULL buffer, CFStringRef CV_NONNULL key, CVAttachmentMode * CV_NULLABLE attachmentMode )  API_DEPRECATED_WITH_REPLACEMENT("CVBufferCopyAttachment", macos(10.4, 12.0), ios(4.0,15.0), tvos(9.0, 15.0), watchos(4.0, 8.0));
+2026-11-24T11:53:28.8473280Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                                 ^
+2026-11-24T11:53:28.8474240Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: native/buffer.m:12:24: warning: 'CVBufferGetAttachment' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+2026-11-24T11:53:28.8475750Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:    12 |     CFTypeRef transfer=CVBufferGetAttachment(buffer,kCVImageBufferTransferFunctionKey,NULL);
+2026-11-24T11:53:28.8476620Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                        ^~~~~~~~~~~~~~~~~~~~~
+2026-11-24T11:53:28.8477330Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                        CVBufferCopyAttachment
+2026-11-24T11:53:28.8478670Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreVideo.framework/Headers/CVBuffer.h:106:33: note: 'CVBufferGetAttachment' has been explicitly marked deprecated here
+2026-11-24T11:53:28.8480940Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:   106 | CV_EXPORT CFTypeRef CV_NULLABLE CVBufferGetAttachment( CVBufferRef CV_NONNULL buffer, CFStringRef CV_NONNULL key, CVAttachmentMode * CV_NULLABLE attachmentMode )  API_DEPRECATED_WITH_REPLACEMENT("CVBufferCopyAttachment", macos(10.4, 12.0), ios(4.0,15.0), tvos(9.0, 15.0), watchos(4.0, 8.0));
+2026-11-24T11:53:28.8482310Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1:       |                                 ^
+2026-11-24T11:53:28.8483080Z [1m[33mwarning[0m: ferroui-media-apple@0.6.0-preview.1: 2 warnings generated.
+2026-11-24T11:53:30.6836290Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:53:30.6837620Z   [1m[94m--> [0mFerroUI/src/FerroUI.Media.OpenGL/renderer.rs:91:22
+2026-11-24T11:53:30.6838120Z    [1m[94m|[0m
+2026-11-24T11:53:30.6838840Z [1m[94m91[0m [1m[94m|[0m                     .fetch_update(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:53:30.6839630Z    [1m[94m|[0m                      [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:53:30.6840050Z    [1m[94m|[0m
+2026-11-24T11:53:30.6840470Z    [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:53:30.6841090Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:53:30.6841450Z    [1m[94m|[0m
+2026-11-24T11:53:30.6842100Z [1m[94m91[0m [91m- [0m                    .[91mfetch_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:53:30.6842920Z [1m[94m91[0m [92m+ [0m                    .[92mtry_update[0m(Ordering::AcqRel, Ordering::Acquire, |v| v.checked_add(1))
+2026-11-24T11:53:30.6843350Z    [1m[94m|[0m
+2026-11-24T11:53:30.6843490Z 
+2026-11-24T11:53:30.6846810Z [1m[33mwarning[0m: `ferroui-media-opengl` (lib) generated 1 warning (run `cargo fix --lib -p ferroui-media-opengl` to apply 1 suggestion)
+2026-11-24T11:53:30.6893110Z [1m[92m   Compiling[0m phone-app-alarms v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-alarms)
+2026-11-24T11:53:32.2523660Z [1m[92m   Compiling[0m phone-app-weather v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-weather)
+2026-11-24T11:53:33.5302140Z [1m[92m   Compiling[0m phone-app-wallet v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-wallet)
+2026-11-24T11:53:34.7901450Z [1m[92m   Compiling[0m phone-app-video v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-video)
+2026-11-24T11:53:36.1199040Z [1m[92m   Compiling[0m phone-app-tic-tac-toe v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-tic-tac-toe)
+2026-11-24T11:53:37.3743900Z [1m[92m   Compiling[0m phone-app-store v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-store)
+2026-11-24T11:53:38.5858820Z [1m[92m   Compiling[0m phone-app-settings v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-settings)
+2026-11-24T11:53:39.7920630Z [1m[92m   Compiling[0m phone-app-phone v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-phone)
+2026-11-24T11:53:40.8325050Z [1m[92m   Compiling[0m phone-app-people v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-people)
+2026-11-24T11:53:41.9215500Z [1m[92m   Compiling[0m phone-app-onenote v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-onenote)
+2026-11-24T11:53:43.1438450Z [1m[92m   Compiling[0m phone-app-outlook v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-outlook)
+2026-11-24T11:53:44.4519070Z [1m[92m   Compiling[0m phone-app-podcasts v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-podcasts)
+2026-11-24T11:53:45.6769730Z [1m[92m   Compiling[0m phone-app-office v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-office)
+2026-11-24T11:53:46.9454630Z [1m[92m   Compiling[0m phone-app-photos v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-photos)
+2026-11-24T11:53:48.1684900Z [1m[92m   Compiling[0m phone-app-music v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-music)
+2026-11-24T11:53:49.6027810Z [1m[92m   Compiling[0m phone-app-minesweeper v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-minesweeper)
+2026-11-24T11:53:50.9522040Z [1m[92m   Compiling[0m phone-app-maps v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-maps)
+2026-11-24T11:53:52.3130660Z [1m[92m   Compiling[0m phone-app-games v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-games)
+2026-11-24T11:53:53.7096060Z [1m[92m   Compiling[0m phone-app-files v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-files)
+2026-11-24T11:53:55.1368580Z [1m[92m   Compiling[0m phone-app-device v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-device)
+2026-11-24T11:53:56.5269130Z [1m[92m   Compiling[0m phone-app-data-sense v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-data-sense)
+2026-11-24T11:53:58.0098200Z [1m[92m   Compiling[0m phone-app-cortana v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-cortana)
+2026-11-24T11:53:59.4039530Z [1m[92m   Compiling[0m phone-app-camera v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-camera)
+2026-11-24T11:54:00.8131150Z [1m[92m   Compiling[0m phone-app-calendar v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-calendar)
+2026-11-24T11:54:02.5064840Z [1m[92m   Compiling[0m phone-app-calculator v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-calculator)
+2026-11-24T11:54:03.9189210Z [1m[92m   Compiling[0m phone-app-browser v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/apps/phone-app-browser)
+2026-11-24T11:54:41.2301440Z [1m[92m   Compiling[0m ferroui-skia v0.6.0-preview.1 (/Users/runner/work/WindowsPhone/WindowsPhone/FerroUI/src/Skia/FerroUI.Skia)
+2026-11-24T11:54:46.1718800Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1: gpu/metal/shader_libraries.m:57:94: warning: 'fastMathEnabled' is deprecated: first deprecated in macOS 15.0 - Use mathMode instead [-Wdeprecated-declarations]
+2026-11-24T11:54:46.1720170Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1:    57 |             bool plain = options == nil || (options.preprocessorMacros.count == 0 && options.fastMathEnabled);
+2026-11-24T11:54:46.1721100Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1:       |                                                                                              ^
+2026-11-24T11:54:46.1722660Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLLibrary.h:308:39: note: 'fastMathEnabled' has been explicitly marked deprecated here
+2026-11-24T11:54:46.1724900Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1:   308 | @property (readwrite, nonatomic) BOOL fastMathEnabled API_DEPRECATED("Use mathMode instead", macos(10.11, 15.0), ios(8.0, 18.0));
+2026-11-24T11:54:46.1725910Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1:       |                                       ^
+2026-11-24T11:54:46.1726510Z [1m[33mwarning[0m: ferroui-skia@0.6.0-preview.1: 1 warning generated.
+2026-11-24T11:54:46.1728560Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1: native/player.mm:178:51: warning: 'CVBufferGetAttachment' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+2026-11-24T11:54:46.1729800Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:   178 |     NSDictionary *aspect=(__bridge NSDictionary *)CVBufferGetAttachment(buffer,kCVImageBufferPixelAspectRatioKey,nullptr);
+2026-11-24T11:54:46.1730810Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:       |                                                   ^~~~~~~~~~~~~~~~~~~~~
+2026-11-24T11:54:46.1731620Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:       |                                                   CVBufferCopyAttachment
+2026-11-24T11:54:46.1732960Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1: /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreVideo.framework/Headers/CVBuffer.h:106:33: note: 'CVBufferGetAttachment' has been explicitly marked deprecated here
+2026-11-24T11:54:46.1735170Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:   106 | CV_EXPORT CFTypeRef CV_NULLABLE CVBufferGetAttachment( CVBufferRef CV_NONNULL buffer, CFStringRef CV_NONNULL key, CVAttachmentMode * CV_NULLABLE attachmentMode )  API_DEPRECATED_WITH_REPLACEMENT("CVBufferCopyAttachment", macos(10.4, 12.0), ios(4.0,15.0), tvos(9.0, 15.0), watchos(4.0, 8.0));
+2026-11-24T11:54:46.1736630Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1:       |                                 ^
+2026-11-24T11:54:46.1737440Z [1m[33mwarning[0m: ferroui-media-video-apple@0.6.0-preview.1: 1 warning generated.
+2026-11-24T11:54:46.1737990Z [1m[92m   Compiling[0m skia-safe v0.153.3
+2026-11-24T11:55:26.0885320Z [1m[33mwarning[0m[1m: unused import: `IBitmapImpl`[0m
+2026-11-24T11:55:26.0886450Z  [1m[94m--> [0mFerroUI/src/FerroUI.Native/icon_loader.rs:2:30
+2026-11-24T11:55:26.0887130Z   [1m[94m|[0m
+2026-11-24T11:55:26.0888740Z [1m[94m2[0m [1m[94m|[0m use ferroui_base::platform::{IBitmapImpl, IPlatformRenderInterface};
+2026-11-24T11:55:26.0889350Z   [1m[94m|[0m                              [1m[33m^^^^^^^^^^^[0m
+2026-11-24T11:55:26.0889760Z   [1m[94m|[0m
+2026-11-24T11:55:26.0890200Z   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:55:26.0890640Z 
+2026-11-24T11:55:26.0899570Z [1m[33mwarning[0m: `ferroui-native` (lib) generated 1 warning
+2026-11-24T11:55:26.0913650Z [1m[92m   Compiling[0m phone-ui v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-ui)
+2026-11-24T11:55:28.5929110Z [1m[33mwarning[0m[1m: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency[0m
+2026-11-24T11:55:28.5931370Z    [1m[94m--> [0mFerroUI/src/Skia/FerroUI.Skia/gpu/i_skia_gr_context.rs:138:10
+2026-11-24T11:55:28.5932520Z     [1m[94m|[0m
+2026-11-24T11:55:28.5933720Z [1m[94m138[0m [1m[94m|[0m     NEXT.fetch_update(
+2026-11-24T11:55:28.5934820Z     [1m[94m|[0m          [1m[33m^^^^^^^^^^^^[0m
+2026-11-24T11:55:28.5935820Z     [1m[94m|[0m
+2026-11-24T11:55:28.5936610Z     [1m[94m= [0m[1mnote[0m: `#[warn(deprecated)]` on by default
+2026-11-24T11:55:28.5937820Z [1m[96mhelp[0m: replace the use of the deprecated method
+2026-11-24T11:55:28.5938780Z     [1m[94m|[0m
+2026-11-24T11:55:28.5939600Z [1m[94m138[0m [91m- [0m    NEXT.[91mfetch_update[0m(
+2026-11-24T11:55:28.5940730Z [1m[94m138[0m [92m+ [0m    NEXT.[92mtry_update[0m(
+2026-11-24T11:55:28.5941720Z     [1m[94m|[0m
+2026-11-24T11:55:28.5942110Z 
+2026-11-24T11:55:29.5134360Z [1m[33mwarning[0m[1m: function `band_clips` is never used[0m
+2026-11-24T11:55:29.5201080Z    [1m[94m--> [0mFerroUI/src/Skia/FerroUI.Skia/gpu/graphite/pipelined_layer.rs:288:15
+2026-11-24T11:55:29.5224590Z     [1m[94m|[0m
+2026-11-24T11:55:29.5226880Z [1m[94m288[0m [1m[94m|[0m pub(crate) fn band_clips(size: (i32, i32), bands: usize) -> Vec<(usize, IRect)> {
+2026-11-24T11:55:29.5229190Z     [1m[94m|[0m               [1m[33m^^^^^^^^^^[0m
+2026-11-24T11:55:29.5231550Z     [1m[94m|[0m
+2026-11-24T11:55:29.5232830Z     [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-24T11:55:29.5233870Z 
+2026-11-24T11:55:29.5234950Z [1m[33mwarning[0m[1m: method `set` is never used[0m
+2026-11-24T11:55:29.5236630Z   [1m[94m--> [0mFerroUI/src/Skia/FerroUI.Skia/geometry_impl.rs:87:12
+2026-11-24T11:55:29.5237940Z    [1m[94m|[0m
+2026-11-24T11:55:29.5239400Z [1m[94m75[0m [1m[94m|[0m impl<T: Clone> Shared<T> {
+2026-11-24T11:55:29.5241060Z    [1m[94m|[0m [1m[94m------------------------[0m [1m[94mmethod in this implementation[0m
+2026-11-24T11:55:29.5242390Z [1m[94m...[0m
+2026-11-24T11:55:29.5244770Z [1m[94m87[0m [1m[94m|[0m     pub fn set(&self, value: T) {
+2026-11-24T11:55:29.5246170Z    [1m[94m|[0m            [1m[33m^^^[0m
+2026-11-24T11:55:29.5246870Z 
+2026-11-24T11:55:29.5247540Z [1m[33mwarning[0m[1m: function `counts` is never used[0m
+2026-11-24T11:55:29.5249870Z    [1m[94m--> [0mFerroUI/src/Skia/FerroUI.Skia/metal_libraries.rs:245:15
+2026-11-24T11:55:29.5251100Z     [1m[94m|[0m
+2026-11-24T11:55:29.5252800Z [1m[94m245[0m [1m[94m|[0m pub(crate) fn counts() -> (u64, u64) {
+2026-11-24T11:55:29.5256220Z     [1m[94m|[0m               [1m[33m^^^^^^[0m
+2026-11-24T11:55:29.5256550Z 
+2026-11-24T11:55:32.9640820Z [1m[33mwarning[0m: `ferroui-skia` (lib) generated 4 warnings (run `cargo fix --lib -p ferroui-skia` to apply 1 suggestion)
+2026-11-24T11:55:32.9643140Z [1m[92m   Compiling[0m phone-runtime v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-runtime)
+2026-11-24T11:55:34.3883950Z [1m[92m   Compiling[0m phone-fonts v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-fonts)
+2026-11-24T11:55:34.8056370Z [1m[92m   Compiling[0m phone-native v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-native)
+2026-11-24T11:55:39.0246090Z [1m[92m   Compiling[0m ferroui-desktop v0.6.0-preview.1 (/Users/runner/work/WindowsPhone/WindowsPhone/FerroUI/src/FerroUI.Desktop)
+2026-11-24T11:55:39.4726090Z [1m[92m   Compiling[0m phone-platform-desktop v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-platform-desktop)
+2026-11-24T11:55:40.1065710Z [1m[92m   Compiling[0m phone-desktop v0.1.0 (/Users/runner/work/WindowsPhone/WindowsPhone/crates/phone-desktop)
+2026-11-24T11:55:52.8836630Z [1m[33mwarning[0m[1m: linker stderr: ld: __eh_frame section too large (max 16MB) to encode dwarf unwind offsets in compact unwind table, performance of exception handling might be affected[0m
+2026-11-24T11:55:52.8842410Z   [1m[94m|[0m
+2026-11-24T11:55:52.8843110Z   [1m[94m= [0m[1mnote[0m: `#[warn(linker_messages)]` on by default
+2026-11-24T11:55:52.8843590Z 
+2026-11-24T11:55:55.8519960Z [1m[33mwarning[0m: `phone-desktop` (bin "phone-desktop") generated 1 warning
+2026-11-24T11:55:55.8521250Z [1m[92m    Finished[0m `dev` profile [unoptimized] target(s) in 4m 17s
+2026-11-24T11:55:57.0174530Z Post job cleanup.
+2026-11-24T11:55:57.2640300Z Cache hit occurred on the primary key phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-f2be97291cf1b74528f2c553ba831e8eee78841a598092404f7b2e1c7b68f9b0, not saving cache.
+2026-11-24T11:55:57.2641790Z (node:14913) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T11:55:57.2642610Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T11:55:57.2823530Z Post job cleanup.
+2026-11-24T11:55:57.5019240Z [command]/opt/homebrew/bin/git version
+2026-11-24T11:55:57.5482290Z git version 2.56.1
+2026-11-24T11:55:57.5534900Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/d5b39947-3d31-4483-bf29-6e5d9af605fb/.gitconfig'
+2026-11-24T11:55:57.5544110Z Temporarily overriding HOME='/Users/runner/work/_temp/d5b39947-3d31-4483-bf29-6e5d9af605fb' before making global git config changes
+2026-11-24T11:55:57.5546610Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T11:55:57.5551930Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/WindowsPhone/WindowsPhone
+2026-11-24T11:55:57.5764780Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T11:55:57.5956990Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T11:55:57.8216790Z Entering 'FerroUI'
+2026-11-24T11:55:57.8931220Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T11:55:57.9031830Z http.https://github.com/.extraheader
+2026-11-24T11:55:57.9084180Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-24T11:55:57.9194800Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T11:55:58.0727270Z Entering 'FerroUI'
+2026-11-24T11:55:58.1027060Z http.https://github.com/.extraheader
+2026-11-24T11:55:58.1323220Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T11:55:58.1422990Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T11:55:58.3054020Z Entering 'FerroUI'
+2026-11-24T11:55:58.3318020Z file:/Users/runner/work/WindowsPhone/WindowsPhone/.git/modules/FerroUI/config	remote.origin.url
+2026-11-24T11:55:58.3539440Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/WindowsPhone/WindowsPhone/.git/modules/FerroUI/config --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T11:55:58.3941460Z Cleaning up orphan processes
+2026-11-24T11:56:03.8730440Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

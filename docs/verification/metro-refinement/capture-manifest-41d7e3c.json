@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "source_commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+  "files": [
+    {
+      "path": "captures-41d7e3c/android-head.txt",
+      "artifact": 14916168651,
+      "entry": "head.txt",
+      "bytes": 41,
+      "sha256": "ae0df968d8ebbe9653a2f7f92f6191ed4e6c664f07f26bcd50eeab8acc5693fc"
+    },
+    {
+      "path": "captures-41d7e3c/android-result.json",
+      "artifact": 14916168651,
+      "entry": "result.json",
+      "bytes": 1091,
+      "sha256": "90570e21662081c9dc6de27a0a650bfaba8dab1b7b9e96b908c8f596285370e0"
+    },
+    {
+      "path": "captures-41d7e3c/android-device.json",
+      "artifact": 14916168651,
+      "entry": "device.json",
+      "bytes": 66,
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82"
+    },
+    {
+      "path": "captures-41d7e3c/android-emulator-version.txt",
+      "artifact": 14916168651,
+      "entry": "emulator-version.txt",
+      "bytes": 185,
+      "sha256": "3ff97565dc43f47ef8751d5e1f25224e7f12a6283ebd43cd574071a26064e6e1"
+    },
+    {
+      "path": "captures-41d7e3c/android-phase.txt",
+      "artifact": 14916168651,
+      "entry": "phase.txt",
+      "bytes": 78,
+      "sha256": "c0aba98cc4e95a127a9cc8499b93288bfb87b723b9ddaf0934957a9dd2753b50"
+    },
+    {
+      "path": "captures-41d7e3c/android-app-start.json",
+      "artifact": 14916168651,
+      "entry": "app-start.json",
+      "bytes": 7790,
+      "sha256": "e1a1d1636e8b1c2f305c824d2e69733f5e7658aa115ba963df693755f41fcc98"
+    },
+    {
+      "path": "captures-41d7e3c/android-app-wallet.json",
+      "artifact": 14916168651,
+      "entry": "app-wallet.json",
+      "bytes": 7713,
+      "sha256": "ae73cc835f157926bcb7a3fce78fd982b0f14106c912300f0f32a312d0be4c43"
+    },
+    {
+      "path": "captures-41d7e3c/android-app-back.json",
+      "artifact": 14916168651,
+      "entry": "app-back.json",
+      "bytes": 7809,
+      "sha256": "9e4b9696e5db148436f47ed0114933bf21a29036fcaaba6276d0ce1738ef1c3f"
+    },
+    {
+      "path": "captures-41d7e3c/android-app-home-restored.json",
+      "artifact": 14916168651,
+      "entry": "app-home-restored.json",
+      "bytes": 7791,
+      "sha256": "6fd10a1f0bb6836df7c0c0e252126ab730d955fb7f91b43923b6829cccd9ba90"
+    },
+    {
+      "path": "captures-41d7e3c/android-launcher-start.json",
+      "artifact": 14916168651,
+      "entry": "launcher-start.json",
+      "bytes": 7855,
+      "sha256": "a703f25fb380d22db94594c1327ec4c8d6ce89b53dcfc69b227a2605803c7b48"
+    },
+    {
+      "path": "captures-41d7e3c/android-launcher-wallet.json",
+      "artifact": 14916168651,
+      "entry": "launcher-wallet.json",
+      "bytes": 7778,
+      "sha256": "79bbef4c82fa3a5756c2d71bfdf149bb5af226a56283547474e45d7996759a4b"
+    },
+    {
+      "path": "captures-41d7e3c/android-launcher-back.json",
+      "artifact": 14916168651,
+      "entry": "launcher-back.json",
+      "bytes": 7874,
+      "sha256": "c2587a82b677a9d3765ff559e5f80680347d53614d2ea0221ed815687567e8e7"
+    },
+    {
+      "path": "captures-41d7e3c/android-launcher-home-restored.json",
+      "artifact": 14916168651,
+      "entry": "launcher-home-restored.json",
+      "bytes": 7856,
+      "sha256": "845520048fc0647109a5c35297822edc17290cabb529545e5c307b0b4e04e0bf"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-start.json",
+      "artifact": 14916168651,
+      "entry": "home-role-start.json",
+      "bytes": 7869,
+      "sha256": "0ded20ac07d2234bc1eefcef4a6fa27a3d383e2ec1df987c74b1a2deb1214515"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-wallet.json",
+      "artifact": 14916168651,
+      "entry": "home-role-wallet.json",
+      "bytes": 7792,
+      "sha256": "7a525cc3b60464cd285cc763ef04a35f0289db40df065efa0f65d7fcb4debf88"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-returned.json",
+      "artifact": 14916168651,
+      "entry": "home-role-returned.json",
+      "bytes": 7870,
+      "sha256": "a5d89554653c6132dcae715e127b3d205675e1da30daa6a22c342baae0db137a"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-back-start.json",
+      "artifact": 14916168651,
+      "entry": "home-role-back-start.json",
+      "bytes": 7870,
+      "sha256": "4852b4e51e96ffa95599b25b02c8bd8d75de511d6359ff95f572b6f7f2a6df78"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-before.txt",
+      "artifact": 14916168651,
+      "entry": "home-before.txt",
+      "bytes": 34,
+      "sha256": "9cbd22f8d97d035c0976c613bcdca7f1242be4d0d20026bb01b18384d73ab5aa"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-selected.txt",
+      "artifact": 14916168651,
+      "entry": "home-selected.txt",
+      "bytes": 34,
+      "sha256": "24ab1edb76e054bd2ad3e303782f971f9f71a03a8042b590b9514981edc74099"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-select.txt",
+      "artifact": 14916168651,
+      "entry": "home-select.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-restore-remove.txt",
+      "artifact": 14916168651,
+      "entry": "home-restore-remove.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-restore-add.txt",
+      "artifact": 14916168651,
+      "entry": "home-restore-add.txt",
+      "bytes": 214,
+      "sha256": "8025c7f1b751d98741c26509fd0b0a10ca6752838e76a1a35438056e24204cc5"
+    },
+    {
+      "path": "captures-41d7e3c/android-user-before.txt",
+      "artifact": 14916168651,
+      "entry": "user-before.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "captures-41d7e3c/android-crash.txt",
+      "artifact": 14916168651,
+      "entry": "crash.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "captures-41d7e3c/android-logcat.txt",
+      "artifact": 14916168651,
+      "entry": "logcat.txt",
+      "bytes": 1795137,
+      "sha256": "9b0ddeced3b0c0a7a4d11363b98933d53feb4e261cc05e5afeeee308750e2798"
+    },
+    {
+      "path": "captures-41d7e3c/android-failure.json",
+      "artifact": 14916168651,
+      "entry": "failure.json",
+      "bytes": 7856,
+      "sha256": "7c2d1dd18c69bb278f88301cee4cbf8f85af8c35885fe71fb36ff1540a086b85"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-back-start-window.txt",
+      "artifact": 14916168651,
+      "entry": "home-role-back-start-window.txt",
+      "bytes": 53399,
+      "sha256": "c846977170c8a3869dbcbee53ceb85c5086acf7e97ec0fa7f93be76fb07c4e28"
+    },
+    {
+      "path": "captures-41d7e3c/android-app-start.png",
+      "artifact": 14916168651,
+      "entry": "app-start.png",
+      "bytes": 508457,
+      "sha256": "e6def8d7d9fbe4457168c9bbc3fb5e6b4ca07b3c5a057ef09e840cafebc8725c"
+    },
+    {
+      "path": "captures-41d7e3c/android-app-wallet.png",
+      "artifact": 14916168651,
+      "entry": "app-wallet.png",
+      "bytes": 92737,
+      "sha256": "5b93b59df3df40694b5928094f96a66f13dd78fb55453bbb8287d40683a1259c"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-wallet.png",
+      "artifact": 14916168651,
+      "entry": "home-role-wallet.png",
+      "bytes": 93431,
+      "sha256": "bac6f01857f325871f483cf2a6050e27f8f316e6a778db3494eb4c73aa12264f"
+    },
+    {
+      "path": "captures-41d7e3c/android-home-role-back-start.png",
+      "artifact": 14916168651,
+      "entry": "home-role-back-start.png",
+      "bytes": 451788,
+      "sha256": "d9c6a26ed5a01d18b4e2f2b9ef61a974d562593fe00457a637ca3ab8dbacdf26"
+    },
+    {
+      "path": "captures-41d7e3c/android-failure.png",
+      "artifact": 14916168651,
+      "entry": "failure.png",
+      "bytes": 451788,
+      "sha256": "d9c6a26ed5a01d18b4e2f2b9ef61a974d562593fe00457a637ca3ab8dbacdf26"
+    },
+    {
+      "path": "captures-41d7e3c/android-arm64-app.json",
+      "artifact": 14917241616,
+      "entry": "verification/app.json",
+      "bytes": 638,
+      "sha256": "111359dc57f689206b332414cd261f9c43e3ccc556c9107fa005d6ba81c53afe"
+    },
+    {
+      "path": "captures-41d7e3c/android-arm64-launcher.json",
+      "artifact": 14917241616,
+      "entry": "verification/launcher.json",
+      "bytes": 651,
+      "sha256": "72e0a71abda46374ecf699f22f37462273dafaa3fd78e8528b273744b4196b47"
+    },
+    {
+      "path": "captures-41d7e3c/android-arm64-app-manifest.xml",
+      "artifact": 14917241616,
+      "entry": "verification/app-manifest.xml",
+      "bytes": 17031,
+      "sha256": "6b7b4f153cb875221b32974b7b6cdbcb17461257f721d26c371617e1d175a93d"
+    },
+    {
+      "path": "captures-41d7e3c/android-arm64-launcher-manifest.xml",
+      "artifact": 14917241616,
+      "entry": "verification/launcher-manifest.xml",
+      "bytes": 17470,
+      "sha256": "ffb0e17514710e21ee6d0fe564f1aad8902a25a18b047fe5f8e24212e1310153"
+    },
+    {
+      "path": "captures-41d7e3c/android-x86_64-app.json",
+      "artifact": 14917607222,
+      "entry": "verification-ui/app.json",
+      "bytes": 626,
+      "sha256": "04bdca03307d13e7ecc82732b02b3db453cd69c0c547fe65a16c8601d0425c6a"
+    },
+    {
+      "path": "captures-41d7e3c/android-x86_64-launcher.json",
+      "artifact": 14917607222,
+      "entry": "verification-ui/launcher.json",
+      "bytes": 639,
+      "sha256": "e7a1b73797826085919b7f768661e5cac729a1595350454e501f818b838d2d0d"
+    },
+    {
+      "path": "captures-41d7e3c/android-x86_64-app-manifest.xml",
+      "artifact": 14917607222,
+      "entry": "verification-ui/app-manifest.xml",
+      "bytes": 17031,
+      "sha256": "6b7b4f153cb875221b32974b7b6cdbcb17461257f721d26c371617e1d175a93d"
+    },
+    {
+      "path": "captures-41d7e3c/android-x86_64-launcher-manifest.xml",
+      "artifact": 14917607222,
+      "entry": "verification-ui/launcher-manifest.xml",
+      "bytes": 17470,
+      "sha256": "ffb0e17514710e21ee6d0fe564f1aad8902a25a18b047fe5f8e24212e1310153"
+    }
+  ]
+}

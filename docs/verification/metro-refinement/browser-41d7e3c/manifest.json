@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "source_commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+  "run_id": 45387122214,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122214",
+  "artifact_id": 14919000632,
+  "archive": {
+    "filename": "windowsphone-ci-45387122214.zip",
+    "bytes": 7535748,
+    "sha256": "1a393ff06935c11d4a9a06c810b6e1782ab446ce5f66b6771a42a02e2eaf4976",
+    "matches_reported_artifact_sha256": true
+  },
+  "retention": "Each PNG, snapshot JSON and results.json is copied byte-for-byte from its named ZIP entry and compared with the extracted original. No cropping, resizing, re-encoding or JSON reformatting was applied.",
+  "reviewed_capture_count": 14,
+  "files": [
+    {
+      "path": "metro-app-bar-collapsed.json",
+      "artifact_entry": "metro-app-bar-collapsed.json",
+      "bytes": 20888,
+      "sha256": "4bbf5ec1b068b4609518a30c70ea641849c0cef084b8a6e7856de8adcd9b5ad5"
+    },
+    {
+      "path": "metro-app-bar-collapsed.png",
+      "artifact_entry": "metro-app-bar-collapsed.png",
+      "bytes": 24748,
+      "sha256": "04623cf25bff38dfe81e0b0bcf943ae3df2035dfdc8359ff94b343ccce48edd9"
+    },
+    {
+      "path": "metro-app-bar-labels-overlay.json",
+      "artifact_entry": "metro-app-bar-labels-overlay.json",
+      "bytes": 22043,
+      "sha256": "cb77dd41398a47d04aac308c275eaaebafa8f67001a18184accd53b6eaea4d92"
+    },
+    {
+      "path": "metro-app-bar-labels-overlay.png",
+      "artifact_entry": "metro-app-bar-labels-overlay.png",
+      "bytes": 25186,
+      "sha256": "ef9cb1b37ef950fe0ddbe5613f01dfea4041e9ad2e11b46bcf827ed7ec96eeb4"
+    },
+    {
+      "path": "metro-controls-320-dark.json",
+      "artifact_entry": "metro-controls-320-dark.json",
+      "bytes": 29428,
+      "sha256": "7ad7feef58a432cc79a6a8de1efcf4238a9d0175f73940fbfded5ea63ff5cd41"
+    },
+    {
+      "path": "metro-controls-320-dark.png",
+      "artifact_entry": "metro-controls-320-dark.png",
+      "bytes": 24798,
+      "sha256": "a7b16dc6af64862d4921bd41d811f7dd7e9d0702e6a306ac75b6fa46354b1756"
+    },
+    {
+      "path": "metro-controls-320-light.json",
+      "artifact_entry": "metro-controls-320-light.json",
+      "bytes": 29428,
+      "sha256": "f0d41797743bce501b59f9ea2cd97def484ee98e115f85460416073aefb429a0"
+    },
+    {
+      "path": "metro-controls-320-light.png",
+      "artifact_entry": "metro-controls-320-light.png",
+      "bytes": 24861,
+      "sha256": "d5d570ad2e34903010f1db4394c641a82769dc03a581345bcc522b5301369518"
+    },
+    {
+      "path": "metro-native-switch-touch-restored.json",
+      "artifact_entry": "metro-native-switch-touch-restored.json",
+      "bytes": 32468,
+      "sha256": "283561fc51cce42421c666e9777e0dbae6f1468375d38f1cc1d40a485450bce0"
+    },
+    {
+      "path": "metro-native-switch-touch-restored.png",
+      "artifact_entry": "metro-native-switch-touch-restored.png",
+      "bytes": 41175,
+      "sha256": "161244d5a0f77165823392b358aa34ae48138ddf39521cf1f5860847a90af601"
+    },
+    {
+      "path": "metro-pivot-native-player.json",
+      "artifact_entry": "metro-pivot-native-player.json",
+      "bytes": 23593,
+      "sha256": "01fb446b6405aef26b29432852c2ad9cda93c79ca3fd00cd1b8af266b4b334a3"
+    },
+    {
+      "path": "metro-pivot-native-player.png",
+      "artifact_entry": "metro-pivot-native-player.png",
+      "bytes": 42569,
+      "sha256": "4c47dd3ca60fd1092239634e71bdb20f2162f94e14b043d90dcdaf9ececd57d1"
+    },
+    {
+      "path": "metro-pivot-reduced-motion-320.json",
+      "artifact_entry": "metro-pivot-reduced-motion-320.json",
+      "bytes": 17242,
+      "sha256": "4ea53b1ab6f1086059a1d7e774e160230545221ff0e5496b5d86d4faf567738d"
+    },
+    {
+      "path": "metro-pivot-reduced-motion-320.png",
+      "artifact_entry": "metro-pivot-reduced-motion-320.png",
+      "bytes": 31302,
+      "sha256": "9232c2f3e193bdc84067981cdca233c210db259d90fa5af54a822cdf37572bb4"
+    },
+    {
+      "path": "outlook-delete-draft-confirmation.json",
+      "artifact_entry": "outlook-delete-draft-confirmation.json",
+      "bytes": 32318,
+      "sha256": "49dd988001ea1185c06e71b833996cafe806d7aa9afe85dfef0642266672d04f"
+    },
+    {
+      "path": "outlook-delete-draft-confirmation.png",
+      "artifact_entry": "outlook-delete-draft-confirmation.png",
+      "bytes": 16026,
+      "sha256": "e6c57e8c3294b670a5ab208bce9eaf7e8fbe39a576c11c19d0e970fdaefe0c34"
+    },
+    {
+      "path": "outlook-draft-deleted.json",
+      "artifact_entry": "outlook-draft-deleted.json",
+      "bytes": 16091,
+      "sha256": "fd25159c19581d5b0dd2d582565996b996e344ee1bb759ab16fdb2b8b698436e"
+    },
+    {
+      "path": "outlook-draft-deleted.png",
+      "artifact_entry": "outlook-draft-deleted.png",
+      "bytes": 24811,
+      "sha256": "3464252f2ac8c95b2509ce4897b0cf0edb9a86be28d0993e9747788a05395276"
+    },
+    {
+      "path": "outlook-local-drafts.json",
+      "artifact_entry": "outlook-local-drafts.json",
+      "bytes": 17998,
+      "sha256": "497cc98e4018821f8e2929f2f530252e97499241c1dda562d05ea81df935dc53"
+    },
+    {
+      "path": "outlook-local-drafts.png",
+      "artifact_entry": "outlook-local-drafts.png",
+      "bytes": 30171,
+      "sha256": "6ce56041813c1e66f0f8f8cbf94f934785ae322c16e8d97e2148147d8f9f49d7"
+    },
+    {
+      "path": "outlook-native-multiline-editor.json",
+      "artifact_entry": "outlook-native-multiline-editor.json",
+      "bytes": 27786,
+      "sha256": "7c60633ee2dfe00a8168b2fb395d11264cba1ed59d7d593e65c00b62c8362b28"
+    },
+    {
+      "path": "outlook-native-multiline-editor.png",
+      "artifact_entry": "outlook-native-multiline-editor.png",
+      "bytes": 39745,
+      "sha256": "3120596bdf8dc828fa1d688e8c6c072b3a93607b87e580931297415403cb9834"
+    },
+    {
+      "path": "outlook-restored-draft.json",
+      "artifact_entry": "outlook-restored-draft.json",
+      "bytes": 27799,
+      "sha256": "f1b38c608f94a054a77c7998770a9c73102c0441d15c8d81f647e17a53282cce"
+    },
+    {
+      "path": "outlook-restored-draft.png",
+      "artifact_entry": "outlook-restored-draft.png",
+      "bytes": 37662,
+      "sha256": "2a98d1a856f2a6eb599618be9b92b2191e608bbd62e7c2a51574f01245af1cf9"
+    },
+    {
+      "path": "outlook-unsaved-back-confirmation.json",
+      "artifact_entry": "outlook-unsaved-back-confirmation.json",
+      "bytes": 28818,
+      "sha256": "99af68514bf73e1e54b21d02d0313ced7cab4d02994f18d7f583f28a5c14b0c8"
+    },
+    {
+      "path": "outlook-unsaved-back-confirmation.png",
+      "artifact_entry": "outlook-unsaved-back-confirmation.png",
+      "bytes": 13449,
+      "sha256": "abc779dbb27e8a2a37ace863fdafd7d20df4fb98048898850e67164ea1d3e9a6"
+    },
+    {
+      "path": "results.json",
+      "artifact_entry": "results.json",
+      "bytes": 42219,
+      "sha256": "dc6157b1688e71811dbc588e3037b33c249b2f7366d5e6b88fe88363a6860088"
+    },
+    {
+      "path": "shell-native-date-picker.json",
+      "artifact_entry": "shell-native-date-picker.json",
+      "bytes": 101431,
+      "sha256": "66872a95acea99f9da57166616a319f1eccf08b075041537a5d6656041375a34"
+    },
+    {
+      "path": "shell-native-date-picker.png",
+      "artifact_entry": "shell-native-date-picker.png",
+      "bytes": 58970,
+      "sha256": "a3663fabb7170477d958162a0f680a50f5416bb5e6ff8fdcb5ed835fd668fb94"
+    }
+  ]
+}

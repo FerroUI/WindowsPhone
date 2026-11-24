@@ -1,0 +1,314 @@
+{
+  "schema": 1,
+  "source_commit": "c9923b2730e9fde63d4c822452f69ad46af30959",
+  "files": [
+    {
+      "path": "captures/android-result.json",
+      "artifact": 14909810361,
+      "entry": "result.json",
+      "bytes": 1916,
+      "sha256": "b21182651d6bbd46a9cd14c9398494f0ae7803853fac0186839f9718e7d1aeab"
+    },
+    {
+      "path": "captures/android-device-baseline.json",
+      "artifact": 14909810361,
+      "entry": "device-baseline.json",
+      "bytes": 6430,
+      "sha256": "d1753a76df41a456bcde9f98944a917ed389c5242657409a351d49b2138f910b"
+    },
+    {
+      "path": "captures/android-device-start-unread.json",
+      "artifact": 14909810361,
+      "entry": "device-start-unread.json",
+      "bytes": 8352,
+      "sha256": "a8f914f2bd7f15f17207beea2d0455ac95bd866652737dfa47b1fbea2c3ef4d4"
+    },
+    {
+      "path": "captures/android-device-notifications-admitted.json",
+      "artifact": 14909810361,
+      "entry": "device-notifications-admitted.json",
+      "bytes": 8719,
+      "sha256": "73082d4683c1e33a12ac6eccd9764c4ba4208cf95c5ee09ac28be3cde33ce5a5"
+    },
+    {
+      "path": "captures/android-device-notifications-visible.json",
+      "artifact": 14909810361,
+      "entry": "device-notifications-visible.json",
+      "bytes": 9512,
+      "sha256": "40b8caf71264ca22427792e8c091a70a9f3fef60e4976702123b7154f9176756"
+    },
+    {
+      "path": "captures/android-device-notifications-revoked.json",
+      "artifact": 14909810361,
+      "entry": "device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "639a75836c1323ce3493ddb97896bbc068eb8b4c0c9ef4ca7f7aee2f5d39096f"
+    },
+    {
+      "path": "captures/android-device-sms.json",
+      "artifact": 14909810361,
+      "entry": "device-sms.json",
+      "bytes": 7620,
+      "sha256": "3f4a5ddff3a6351c4a7ed8bfc7ae6aaa1c94bdf47f12f4af87209a4a0236d288"
+    },
+    {
+      "path": "captures/android-device-sms-ui.json",
+      "artifact": 14909810361,
+      "entry": "device-sms-ui.json",
+      "bytes": 8263,
+      "sha256": "f61bb438238a11c30988854c497afb583e0432708bce7a58002d39cb1c71dbfa"
+    },
+    {
+      "path": "captures/android-device-roles.json",
+      "artifact": 14909810361,
+      "entry": "device-roles.json",
+      "bytes": 6898,
+      "sha256": "dc6d9b222ae99edddb9f502c7ad208d6b8c3f6cb2dc72946a4b7c86d88dd8735"
+    },
+    {
+      "path": "captures/android-device-ringing.json",
+      "artifact": 14909810361,
+      "entry": "device-ringing.json",
+      "bytes": 7907,
+      "sha256": "c88026bc823ca7e7537af980e85c5e9d906b5a8caf12f5f612b3720235bd0ca6"
+    },
+    {
+      "path": "captures/android-device-active.json",
+      "artifact": 14909810361,
+      "entry": "device-active.json",
+      "bytes": 7934,
+      "sha256": "5832f496cf147ec36a95a35dec108c95f8ed5ae182562f95a6df8da632a9cb20"
+    },
+    {
+      "path": "captures/android-device-ended.json",
+      "artifact": 14909810361,
+      "entry": "device-ended.json",
+      "bytes": 7620,
+      "sha256": "eb8f3ba2b54159bcb6a9fd10f648e56625f19358173c61f4724bf56c438dc690"
+    },
+    {
+      "path": "captures/android-home-role-back-start.json",
+      "artifact": 14909810361,
+      "entry": "home-role-back-start.json",
+      "bytes": 7870,
+      "sha256": "45c4fedee46d9d1a9a4941b0811951d8833d420bc3cdd87b35db154422e603be"
+    },
+    {
+      "path": "captures/android-device-active-call.png",
+      "artifact": 14909810361,
+      "entry": "device-active-call.png",
+      "bytes": 47370,
+      "sha256": "0869b0076a751a9567a832309326d11e1aa496d1eda4c6d9630d237aeadbd6c9"
+    },
+    {
+      "path": "captures/android-device-ended-call.png",
+      "artifact": 14909810361,
+      "entry": "device-ended-call.png",
+      "bytes": 24119,
+      "sha256": "279c46fbf730c04eb61bd7b1f26f06002f1c9c8bb925b2919362901a159b8103"
+    },
+    {
+      "path": "captures/android-device-action-center.png",
+      "artifact": 14909810361,
+      "entry": "device-action-center.png",
+      "bytes": 89149,
+      "sha256": "ccf07eeb44d14f40e5d3f73a2b8fecaf2ef10d49e1e89a878453a72e67579d5a"
+    },
+    {
+      "path": "captures/android-device-messaging.png",
+      "artifact": 14909810361,
+      "entry": "device-messaging.png",
+      "bytes": 55055,
+      "sha256": "b62f027ef325bd4410da51f220beb918cdd6e03a092da67ea1c6c56820871a8f"
+    },
+    {
+      "path": "captures/android-call-ringing-observations.jsonl",
+      "artifact": 14909810361,
+      "entry": "call-ringing-observations.jsonl",
+      "bytes": 31060,
+      "sha256": "1f3122bd0159b47e4b599f7100d2af69cf1d699dc8ebd5e90b6e660129823172"
+    },
+    {
+      "path": "captures/android-call-active-observations.jsonl",
+      "artifact": 14909810361,
+      "entry": "call-active-observations.jsonl",
+      "bytes": 47531,
+      "sha256": "e3e3772571ee35389bf8b50614903511687a796793867010142208ff83d06e34"
+    },
+    {
+      "path": "captures/android-call-ended-observations.jsonl",
+      "artifact": 14909810361,
+      "entry": "call-ended-observations.jsonl",
+      "bytes": 38733,
+      "sha256": "277b63b1ce71f56bc892b0e0bb667cd4cbf0543f08250f285bee41b9fbfa9dff"
+    },
+    {
+      "path": "captures/android-call-logcat.txt",
+      "artifact": 14909810361,
+      "entry": "call-logcat.txt",
+      "bytes": 571858,
+      "sha256": "d5fa6d0a8f18570e081cc1b82001acd26fc35868105463f0bbecdda383c49f4c"
+    },
+    {
+      "path": "captures/android-call-answer-input.txt",
+      "artifact": 14909810361,
+      "entry": "call-answer-input.txt",
+      "bytes": 8,
+      "sha256": "d64fc58e8d92a390e04a94d582513b1faf237cbc71154f5a603e7453ce173501"
+    },
+    {
+      "path": "captures/android-call-tree.xml",
+      "artifact": 14909810361,
+      "entry": "call-tree.xml",
+      "bytes": 3795,
+      "sha256": "8793ea0c0ed727d0354f556988993bf8f4cc1d96c250af776793000ef0bb643d"
+    },
+    {
+      "path": "captures/ios-start.json",
+      "artifact": 14908089776,
+      "entry": "start.json",
+      "bytes": 3194,
+      "sha256": "22bb17f21487e69aefe32d9f1990fdb91e1207316340b3912ec6399774f1a69f"
+    },
+    {
+      "path": "captures/ios-wallet.json",
+      "artifact": 14908089776,
+      "entry": "wallet.json",
+      "bytes": 3294,
+      "sha256": "246894fb80fbe43cca81b95a7bf6edf634ac9f7e2e2001b5dc670bd8cba0fe40"
+    },
+    {
+      "path": "captures/ios-phone.json",
+      "artifact": 14908089776,
+      "entry": "phone.json",
+      "bytes": 3323,
+      "sha256": "c82abbc057ea493e8c57a15d534a63f42248603e1242e615e7b910a18310ea76"
+    },
+    {
+      "path": "captures/ios-people.json",
+      "artifact": 14908089776,
+      "entry": "people.json",
+      "bytes": 3270,
+      "sha256": "6ee3e5d36b850e8e84ed172af10c677e124124562b3365f640f4e62fa26ba621"
+    },
+    {
+      "path": "captures/ios-messages.json",
+      "artifact": 14908089776,
+      "entry": "messages.json",
+      "bytes": 3353,
+      "sha256": "02c5d84a1d481da8311f46d2c63b85f9027068ef140720ae2380754eb7b48d2e"
+    },
+    {
+      "path": "captures/ios-settings.json",
+      "artifact": 14908089776,
+      "entry": "settings.json",
+      "bytes": 3285,
+      "sha256": "8f0c894decd8b22deef5511fda028d97bd3418d2f031c968575590765961998d"
+    },
+    {
+      "path": "captures/ios-home-restored.json",
+      "artifact": 14908089776,
+      "entry": "home-restored.json",
+      "bytes": 3243,
+      "sha256": "a9091a5ab2e62a9585f44ecc7727982fa583fc364059369c718294f8a94543b9"
+    },
+    {
+      "path": "captures/ios-start.png",
+      "artifact": 14908089776,
+      "entry": "start.png",
+      "bytes": 628062,
+      "sha256": "45e8a8d3b8037b4ded30a8b7182aa9f70298e4964020601f7b93f897732abe15"
+    },
+    {
+      "path": "captures/ios-settings.png",
+      "artifact": 14908089776,
+      "entry": "settings.png",
+      "bytes": 131180,
+      "sha256": "45558a31dd621842a8272caf55154ba5a405bca4c3901fc1e4c4dfe0d0d9f828"
+    },
+    {
+      "path": "captures/ios-messages.png",
+      "artifact": 14908089776,
+      "entry": "messages.png",
+      "bytes": 95737,
+      "sha256": "68c15fab4e897f9919e3a263d67483e12da6fc7f9f37814706aaf055a2d53551"
+    },
+    {
+      "path": "captures/ios-wallet.png",
+      "artifact": 14908089776,
+      "entry": "wallet.png",
+      "bytes": 110094,
+      "sha256": "7e794573f84b03b41ef7d1e3f3451c68f5ba4891c17bdedc91f3cdff905955fc"
+    },
+    {
+      "path": "captures/ios-device-tests.json",
+      "artifact": 14908089776,
+      "entry": "device-tests.json",
+      "bytes": 2939,
+      "sha256": "e5f186fb99420092090585caca6659c0acd0055483a26f53fcedcb72a8c97524"
+    },
+    {
+      "path": "captures/ios-prompt-handler.json",
+      "artifact": 14908089776,
+      "entry": "prompt-handler.json",
+      "bytes": 456,
+      "sha256": "c58f37c5c54323ab0d0ab783daa66eb6daea52c146cee6f42dd42e277dc360fa"
+    },
+    {
+      "path": "captures/ios-owned-installation.json",
+      "artifact": 14908089776,
+      "entry": "owned-installation.json",
+      "bytes": 404,
+      "sha256": "eb36c65eb47b398fc451375b11a3bb1b9b0a28022265ffdcfb7c04cf165162ca"
+    },
+    {
+      "path": "captures/ios-console.log",
+      "artifact": 14908089776,
+      "entry": "console.log",
+      "bytes": 46707,
+      "sha256": "135bb90d3aa013fc6a5797962ad114d95aaf9f2b9941068e4eab77727f434fae"
+    },
+    {
+      "path": "captures/ios-request-1.json",
+      "artifact": 14908089776,
+      "entry": "request-1.json",
+      "bytes": 100,
+      "sha256": "bb607b8b1584ab68783a699b777db662261cb89054532fe26faac9678c815a45"
+    },
+    {
+      "path": "captures/ios-request-2.json",
+      "artifact": 14908089776,
+      "entry": "request-2.json",
+      "bytes": 124,
+      "sha256": "b3c8a9747534d0055d02c4b58a382e89b1e3aa74e3b23c8bb69a3859db0a86c4"
+    },
+    {
+      "path": "captures/ios-request-3.json",
+      "artifact": 14908089776,
+      "entry": "request-3.json",
+      "bytes": 106,
+      "sha256": "cbb5920329d455553d82130d93c3654e95af9109c5150db24f8d004a0b99caa8"
+    },
+    {
+      "path": "captures/ios-request-4.json",
+      "artifact": 14908089776,
+      "entry": "request-4.json",
+      "bytes": 110,
+      "sha256": "78ab329face34c786686b02cc7bb88fe6accd0d63e76ac6ec641869053aafd51"
+    },
+    {
+      "path": "captures/ios-request-5.json",
+      "artifact": 14908089776,
+      "entry": "request-5.json",
+      "bytes": 108,
+      "sha256": "c42cd31765d9d911e7b35ce1470863cf56d9887f99e022d0c64a1ea54da5fa54"
+    },
+    {
+      "path": "captures/ios-request-6.json",
+      "artifact": 14908089776,
+      "entry": "request-6.json",
+      "bytes": 82,
+      "sha256": "848aebe1acdead5fff61f73fc705447ff29c2ba372988999b1e48543c6163e01"
+    }
+  ]
+}

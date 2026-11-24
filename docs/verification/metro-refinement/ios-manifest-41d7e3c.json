@@ -1,0 +1,505 @@
+{
+  "schema_version": 1,
+  "collected_at_utc": "2026-11-24T12:04:59.228820+00:00",
+  "platform": "ios",
+  "implementation_commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+  "workflow_run_id": 45387122381,
+  "workflow_job_id": 138420827831,
+  "artifact_id": 14917072987,
+  "artifact_name": "ios-verification",
+  "artifact_archive_bytes": 1811530,
+  "artifact_archive_sha256": "d2307998aa25796fd93a356132c755fa74bfb5bbb31455b38bfac1c5855ad749",
+  "github_artifact_digest": "sha256:d2307998aa25796fd93a356132c755fa74bfb5bbb31455b38bfac1c5855ad749",
+  "digest_matches": true,
+  "original_files": [
+    {
+      "artifact_entry": "console.log",
+      "published_file": "captures-41d7e3c/ios-console.log",
+      "bytes": 47984,
+      "sha256": "efb15ed9dd58ca6de0796e2dec6fd105902c989b89249ef9e4b6083966d27645",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        54
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "home-restored.json",
+      "published_file": "captures-41d7e3c/ios-home-restored.json",
+      "bytes": 3243,
+      "sha256": "e8557e5d0840a04d8e7e3564ecc113599f7a1a5f40b9a40482ca0b1a894b901c",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        50
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "device-tests.json",
+      "published_file": "captures-41d7e3c/ios-device-tests.json",
+      "bytes": 2939,
+      "sha256": "3e3b22ee6b8fdebf3254f4b8fc21f124cc842812ac89c52c84a9fd7bedcca014",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        52
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "home-restored.png",
+      "published_file": "captures-41d7e3c/ios-home-restored.png",
+      "bytes": 628921,
+      "sha256": "e2d6b081612132383125df46f1531cf118f5b09c5b42ceef40a18d0a39c9668c",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        50
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "last-observation.json",
+      "published_file": "captures-41d7e3c/ios-last-observation.json",
+      "bytes": 3243,
+      "sha256": "8e26ea5f6236981120c9bdfeee9db508502a616f02cb60458ef53c18400c9e3c",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        52
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "launch-driver-cleanup-begin.json",
+      "published_file": "captures-41d7e3c/ios-launch-driver-cleanup-begin.json",
+      "bytes": 651,
+      "sha256": "860e3e5e26ec7946ed6d18819447e508a04e064de0c68eb9e02d91fd2001f153",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        52
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "launch-driver-cleanup-end.json",
+      "published_file": "captures-41d7e3c/ios-launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "505be5d737e093dd70f4a26b9cf063980484badefa98d16dbab579a7fc4e73bf",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        56
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "launch-driver-started.json",
+      "published_file": "captures-41d7e3c/ios-launch-driver-started.json",
+      "bytes": 636,
+      "sha256": "9b88cd4761e6374fa303fbea609a90e7adc0276dc639f908b60885f03aa6a0e5",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        56,
+        8
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "messages.json",
+      "published_file": "captures-41d7e3c/ios-messages.json",
+      "bytes": 3353,
+      "sha256": "fa411e1379de31f3ec444e983de06787ab43bfac6723f4a00a77d55606caf766",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        46
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "messages.png",
+      "published_file": "captures-41d7e3c/ios-messages.png",
+      "bytes": 94988,
+      "sha256": "1257a0ce0d45ed44da6ab24de88ce78b0f76ad2b2500b89aae47d3dadb9af182",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        46
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "owned-installation.json",
+      "published_file": "captures-41d7e3c/ios-owned-installation.json",
+      "bytes": 404,
+      "sha256": "fc5b4227a54c9e59051bedf8ac4a7a548c670c9a956764595c36ff6fcb507049",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        56,
+        8
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "people.json",
+      "published_file": "captures-41d7e3c/ios-people.json",
+      "bytes": 3270,
+      "sha256": "996184b094ff98c040c4707dcb3c758e14b516a715ca5aefd07f7d77b5d388be",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        42
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "people.png",
+      "published_file": "captures-41d7e3c/ios-people.png",
+      "bytes": 127990,
+      "sha256": "80842b8071098cad5030266055febb351d9d6ccf068a2044a1ff1e5cd506c77e",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        42
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "phase.txt",
+      "published_file": "captures-41d7e3c/ios-phase.txt",
+      "bytes": 92,
+      "sha256": "fe27af6c53438c17ad9e3a81bba7dbd5d7f7728eb160a9e8807fbc0e08e543d2",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        52
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "phone.json",
+      "published_file": "captures-41d7e3c/ios-phone.json",
+      "bytes": 3323,
+      "sha256": "2102c5b74ed8dc85214e542f5f1775034c87fa6fa6086dcd569213f901763cf6",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        28
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "phone.png",
+      "published_file": "captures-41d7e3c/ios-phone.png",
+      "bytes": 92344,
+      "sha256": "90d275b367b0c5e0bb869fe7de085e9fb54052f2897d733ea523d117235ba762",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        30
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "prompt-handler.json",
+      "published_file": "captures-41d7e3c/ios-prompt-handler.json",
+      "bytes": 456,
+      "sha256": "358fea6a5465ad48a198f92657174d7d9d18d851951e4b3c6308ee45c79797ec",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        52
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "request-1.json",
+      "published_file": "captures-41d7e3c/ios-request-1.json",
+      "bytes": 100,
+      "sha256": "e0243f1a8652d2ff442fb486e28e512a63fc971a53d1cbf1ce8747e630b00c2f",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        18
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "request-2.json",
+      "published_file": "captures-41d7e3c/ios-request-2.json",
+      "bytes": 124,
+      "sha256": "e027ad518acee66acab759d32a6b5c12d60211234b3516594be8ba7f9197fb28",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        28
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "request-3.json",
+      "published_file": "captures-41d7e3c/ios-request-3.json",
+      "bytes": 106,
+      "sha256": "0ed37bf553888b00abaf1485dae83d914e1440f999bf2cd5df9477e358149df7",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        40
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "request-4.json",
+      "published_file": "captures-41d7e3c/ios-request-4.json",
+      "bytes": 110,
+      "sha256": "79fbbe9bf5e3d83bd29e40ba01435f5f007b37ccbf8b8f8b5b4903cc4b024cbc",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        44
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "request-5.json",
+      "published_file": "captures-41d7e3c/ios-request-5.json",
+      "bytes": 108,
+      "sha256": "c972663a176ded3c0406a22b6e414be542bcc46ce26e0dfda3f0c314f94e136f",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        48
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "request-6.json",
+      "published_file": "captures-41d7e3c/ios-request-6.json",
+      "bytes": 82,
+      "sha256": "426c3e1426e4c80f0f17a140f699e9ca17984c032f9126d8e520c87831cdbea7",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        48
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "settings.png",
+      "published_file": "captures-41d7e3c/ios-settings.png",
+      "bytes": 130402,
+      "sha256": "a4e0213ae61413ca2119ef2b53a41c27279db941e9c1acc97816ae6a01749ca0",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        48
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "settings.json",
+      "published_file": "captures-41d7e3c/ios-settings.json",
+      "bytes": 3285,
+      "sha256": "c1ddbba968255e85eb1bbab58d0a69c6ed45d2af2c49535dd4425d0fba4f74ac",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        48
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "simulator.txt",
+      "published_file": "captures-41d7e3c/ios-simulator.txt",
+      "bytes": 92,
+      "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        50,
+        58
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "start.json",
+      "published_file": "captures-41d7e3c/ios-start.json",
+      "bytes": 3194,
+      "sha256": "075c99f3654c4888161683a02c173b336b30a25666576259fe3f568a0ab99ef2",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        56,
+        20
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "start.png",
+      "published_file": "captures-41d7e3c/ios-start.png",
+      "bytes": 704763,
+      "sha256": "94f600eb8eaf5334c56bdbe5500060a7c3ccf38df70d3d27adefedf0ec56345e",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        56,
+        22
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "wallet.json",
+      "published_file": "captures-41d7e3c/ios-wallet.json",
+      "bytes": 3294,
+      "sha256": "d58e2ba187135b9e423df7c952eebf54d6028780d682910cf356d802de6e7ba7",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        20
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "wallet.png",
+      "published_file": "captures-41d7e3c/ios-wallet.png",
+      "bytes": 109470,
+      "sha256": "e3954307827fc0a3a4224c098df6e690ee8cf125d1f70874ac3b51f491c6ae0e",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        24
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "xctest-build.log",
+      "published_file": "captures-41d7e3c/ios-xctest-build.log",
+      "bytes": 121178,
+      "sha256": "1d6ab83d15007cae5fe304efde3d127403383c1741f9306d8b184a70729a72f0",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        50,
+        56
+      ],
+      "unchanged_original": true
+    },
+    {
+      "artifact_entry": "xctest.log",
+      "published_file": "captures-41d7e3c/ios-xctest.log",
+      "bytes": 6590,
+      "sha256": "0a39974bd99e568d0966f307c0cef51a6deaf082dc26a7cc1523b44454086e8f",
+      "zip_modified_time": [
+        2026,
+        11,
+        24,
+        11,
+        57,
+        50
+      ],
+      "unchanged_original": true
+    }
+  ],
+  "decoded_job_log": {
+    "published_file": "captures-41d7e3c/ios-job.log",
+    "bytes": 268795,
+    "sha256": "7119d8d3c7f43516e34ba9802fa497facd870151cacc558014b58fa7bd356906",
+    "source": "GitHub decoded workflow job log",
+    "original_artifact_entry": false,
+    "encoding_note": "UTF-8 text; CRLF normalized to LF when retrieved."
+  },
+  "qualification": "Each original file is byte-identical to the named entry of the SHA-verified GitHub artifact. Only the ios- publication filename prefix was added. The job log is separately identified decoded GitHub text, not a ZIP entry."
+}

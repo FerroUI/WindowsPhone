@@ -1,0 +1,122 @@
+{
+  "root": "E:\\",
+  "label": "WINDOWSPHONE81SDKUPDATE1",
+  "files": [
+    {
+      "path": "MobileTools_EmulatorWP81GDR1.exe",
+      "bytes": 1164600
+    },
+    {
+      "path": "packages\\CoreCon\\cab1.cab",
+      "bytes": 44302
+    },
+    {
+      "path": "packages\\CoreCon\\MobileTools_WPImagesGDR1.msi",
+      "bytes": 253952
+    },
+    {
+      "path": "packages\\MobileTools_EmulatorWP81GDR1\\Preparation.exe",
+      "bytes": 112816
+    },
+    {
+      "path": "packages\\MobileTools\\xdeconfigurator\\Mobiletools_Finalizer81GDR1.msi",
+      "bytes": 450560
+    },
+    {
+      "path": "packages\\MobileTools\\xdeconfigurator\\MobileTools_XDEConfig81.msi",
+      "bytes": 290816
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1SDK\\WindowsPhoneSdk-ARM.msi",
+      "bytes": 59617280
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1SDK\\WindowsPhoneSdk-Desktop-x64.msi",
+      "bytes": 716800
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1SDK\\WindowsPhoneSdk-Desktop.msi",
+      "bytes": 16539648
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1SDK\\WindowsPhoneSdk-x86.msi",
+      "bytes": 23707648
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1a.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1b.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1c.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1d.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1e.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1f.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1g.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1h.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1i.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1j.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1k.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1l.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1m.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1n.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1o.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1p.cab",
+      "bytes": 50347872
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\Vhd1q.cab",
+      "bytes": 27317311
+    },
+    {
+      "path": "packages\\WindowsPhone81GDR1VHD\\WindowsPhoneSDK-VHD.msi",
+      "bytes": 122880
+    }
+  ]
+}

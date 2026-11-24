@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "application_source": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+  "build_marker": "41d7e3c",
+  "url": "https://ferroui.com/WindowsPhone/",
+  "workflow_run": 45387122214,
+  "build_job": 138420827726,
+  "deploy_job": 138432485572,
+  "deploy_conclusion": "success",
+  "observations": [
+    {
+      "url": "https://ferroui.com/WindowsPhone/",
+      "final_url": "https://ferroui.com/WindowsPhone/",
+      "observed_at_utc": "2026-11-24T12:09:31.760205+00:00",
+      "status": 200,
+      "bytes": 1359,
+      "sha256": "c365ce2a46ca9efce34cbc814d8bc4aadbc3c3bd508628c87d873dd51e97b664",
+      "headers": {
+        "server": "envoy",
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Tue, 24 Nov 2026 12:07:33 GMT",
+        "access-control-allow-origin": "*",
+        "etag": "\"6b057e05-54f\"",
+        "expires": "Tue, 24 Nov 2026 12:19:37 GMT",
+        "cache-control": "max-age=600",
+        "x-proxy-cache": "MISS",
+        "x-github-request-id": "D5CC:3FA4EB:AF1DC1:D57A12:6B057E81",
+        "x-github-edge-region": "iad",
+        "accept-ranges": "bytes",
+        "age": "0",
+        "date": "Tue, 24 Nov 2026 12:09:37 GMT",
+        "via": "1.1 varnish",
+        "x-served-by": "cache-chi-klot8100058-CHI",
+        "x-cache": "MISS",
+        "x-cache-hits": "0",
+        "x-timer": "S1795522177.193721,VS0,VE49",
+        "vary": "Accept-Encoding",
+        "x-fastly-request-id": "f8da107d261ec319576de6b7238ccf7bdcfd6a59",
+        "content-length": "1359",
+        "x-envoy-upstream-service-time": "108",
+        "connection": "close"
+      },
+      "build_lines": [
+        "<html lang=\"en\" data-phone-build=\"41d7e3c\">"
+      ]
+    },
+    {
+      "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+      "final_url": "https://ferroui.com/WindowsPhone/app-sw.js",
+      "observed_at_utc": "2026-11-24T12:09:37.248591+00:00",
+      "status": 200,
+      "bytes": 2604,
+      "sha256": "a374f32aab9942b87d38501713d4bdc782248f46811ba1cd203d409c0155510f",
+      "headers": {
+        "server": "envoy",
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Tue, 24 Nov 2026 12:07:33 GMT",
+        "access-control-allow-origin": "*",
+        "etag": "\"6b057e05-a2c\"",
+        "expires": "Tue, 24 Nov 2026 12:19:41 GMT",
+        "cache-control": "max-age=600",
+        "x-proxy-cache": "MISS",
+        "x-github-request-id": "5DE4:D442D:B534D6:DB8C93:6B057E85",
+        "x-github-edge-region": "iad",
+        "accept-ranges": "bytes",
+        "age": "0",
+        "date": "Tue, 24 Nov 2026 12:09:41 GMT",
+        "via": "1.1 varnish",
+        "x-served-by": "cache-chi-klot8100058-CHI",
+        "x-cache": "MISS",
+        "x-cache-hits": "0",
+        "x-timer": "S1795522182.888699,VS0,VE52",
+        "vary": "Accept-Encoding",
+        "x-fastly-request-id": "632b5e5c9830912a62061fa7081b46899d36f912",
+        "content-length": "2604",
+        "x-envoy-upstream-service-time": "59",
+        "connection": "close"
+      },
+      "build_lines": [
+        "const CACHE=CACHE_PREFIX+'41d7e3c';"
+      ]
+    }
+  ],
+  "retained_original_response_bodies": [
+    {
+      "path": "publication/index.html",
+      "bytes": 1359,
+      "sha256": "c365ce2a46ca9efce34cbc814d8bc4aadbc3c3bd508628c87d873dd51e97b664"
+    },
+    {
+      "path": "publication/app-sw.js",
+      "bytes": 2604,
+      "sha256": "a374f32aab9942b87d38501713d4bdc782248f46811ba1cd203d409c0155510f"
+    }
+  ],
+  "qualification": "Observed public HTML build marker and service-worker cache marker after successful deployment. Browser-rendered behavior comes from the separately verified exact-source compiled artifact; this HTTP observation does not claim a second public-site UI interaction run."
+}

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "simulator": "D224AF32-E798-4880-97B2-02245E5FBE58",
+  "bundle_id": "org.ferroui.windowsphone",
+  "captured_at_unix_ms": 1795518539464,
+  "console_pid": 29690,
+  "pid": 29690,
+  "executable": "phone-ios",
+  "identity": "exact installed executable path, rechecked before sample",
+  "diagnostic_error": "Command '['/usr/bin/sample', '29690', '3', '10', '-file', '/Users/runner/work/_temp/phone-ios-ui/owned-process.sample.txt']' timed out after 8 seconds",
+  "crash_reports": []
+}

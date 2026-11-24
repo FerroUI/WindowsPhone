@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "source_commit": "41d7e3ceddb2d317edf3f1b8f22a7358d38bb7e6",
+  "source_tree": "6c0ac55d084debc34d3292a1f44a8436d6356475",
+  "framework_commit": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "run_id": 45387122214,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45387122214",
+  "build": {
+    "job_id": 138420827726,
+    "conclusion": "success",
+    "fresh_application_compile": true,
+    "reused_prior_compiled_app": false,
+    "optimized_browser_compile_log_duration": "9m 19s",
+    "qualification": "Dependency build caches remain permitted; the changed application runtime was compiled from this exact source. Build duration is not application performance."
+  },
+  "tests": {
+    "rust": {
+      "passed": 379,
+      "failed": 0,
+      "ignored": 1,
+      "suite_summaries": 79,
+      "counting": "Sum of actual test-result summaries in this build job, including zero-test suites. The ordinary ignored case remains ignored; independent desktop checks have their own records."
+    },
+    "javascript": {
+      "tests": 67,
+      "passed": 67,
+      "failed": 0
+    },
+    "rendered_browser": {
+      "passed": true,
+      "groups_passed": 80,
+      "captures": 146,
+      "elapsed_ms": 265630,
+      "errors": [],
+      "base_viewport": [
+        1280,
+        936
+      ],
+      "check_names": [
+        "desktop Start renders",
+        "native tile launch and Back",
+        "native context menu resizes a tile",
+        "app list search and native note creation",
+        "native note edit and reload persistence",
+        "native secondary note tile opens its note",
+        "native note deletion",
+        "app search launches a working calculator",
+        "Action Center toggles and clears notifications",
+        "native quick-action customization updates Action Center",
+        "native virtualized Photos rows update and select",
+        "all 23 app surfaces render",
+        "native task switcher previews, resumes, and closes an app",
+        "native Word creation, editing, formatting, reload and pinned activation",
+        "native Excel editing calculates a range formula and preserves worksheets",
+        "native Excel range selection, AutoSum, sorting, find and clear preserve unrelated cells",
+        "native PowerPoint text and speaker notes remain in their slide",
+        "native Files hierarchy, multi-copy, move and rename preserve document identity",
+        "native Files properties report actual copies and close with Back without changing documents",
+        "Office binary host callbacks roundtrip real packages and reject damaged imports",
+        "native calendar month, week, day and year views drill into appointments",
+        "native recurring appointment edit changes one occurrence atomically",
+        "native all-day recurring appointment preferences survive reload",
+        "native alarm editor saves repeat days and configurable snooze",
+        "foreground alarm preserves an unsaved form and Back snoozes two minutes",
+        "foreground calendar reminder snoozes and opens its exact occurrence",
+        "Metro application bar reveals labels without moving page content",
+        "native page entrances survive route cleanup and reverse on Back",
+        "native Metro switch thumb follows touch and persists on release",
+        "native Metro pivot supports touch wrapping, headers and keyboard",
+        "Metro controls fit 320-pixel light and dark phone surfaces",
+        "reduced motion keeps phone pivot headings and content usable",
+        "native Outlook multiline editor saves drafts only after explicit save",
+        "Outlook Back cancellation and app switching preserve unsaved text without replacing the saved draft",
+        "Outlook rejects an invalid handoff and deletes a local draft only after confirmation",
+        "native transparent tiles share a bounded wallpaper plane across tall Start layouts",
+        "native tile projection responds to press location while retaining Button bounds",
+        "native alphabet jump, sticky push-off and search use actual app-list geometry",
+        "native phone date and time pickers preserve popup accept and cancel behavior",
+        "native hardware volume separates ringer and media with stable mute",
+        "native accessibility preferences and lock detail selection persist",
+        "native notification policy hides one app and grouped dismissal preserves others",
+        "native mail selection deletes and restores the selected messages",
+        "native message search, forwarding draft, contact selection and deletion work",
+        "native browser tabs retain independent navigation journals",
+        "native favorites and configurable address shortcut persist",
+        "native browser history clears independently of open tabs and favorites",
+        "vCard host bytes import atomically and the native People card exposes file sharing",
+        "iCalendar byte callbacks preserve local recurrence and native series sharing",
+        "native Storage Sense distinguishes observed origin quota and persistent storage",
+        "native notification settings distinguish unrequested and blocked host permissions",
+        "SDK rejects unregistered and malformed application activation without mutation",
+        "registered Tic tac toe supports local search, native play, exact score persistence and turn undo",
+        "registered Minesweeper provides safe first reveal, flags, transient clock and resumable state",
+        "SDK app Start links, local search, and Store disable/enable preserve game progress",
+        "native Word undo and redo restore content and formatting independently",
+        "native Excel evaluates typed conditions and undoes worksheet edits",
+        "native OneNote notebooks, sections, checklists and page moves persist",
+        "Music playlists select, reorder, rename and survive a real reload without changing media files",
+        "Video playlists use an independent namespace and expose only video selections",
+        "Photos albums select, rename photos, survive restore, and remove membership without deleting originals",
+        "Weather searches real task fixtures, saves hourly/daily readings and preserves units across reload",
+        "Podcasts imports an HTTPS feed through SDK, persists played state and pins a deep route",
+        "Wallet creates, validates, displays Code 39, favorites and restores independently",
+        "native map tiles render with attribution and bounded visible images; pan and zoom preserve data",
+        "trusted map pinch, pointer cancellation and route cleanup stay within the map",
+        "native Maps saves coordinates, home shortcuts and directions preferences",
+        "native Maps coordinate search and recent history need no network lookup",
+        "Device app renders observed browser services without offering a launcher or device catalog",
+        "browser embedding API validates platform requests and activation routes before mutation",
+        "mounted People live tile advances one cell without input or persistence",
+        "six native live-card templates, capped badge and finite flip render",
+        "queued cards rotate and scheduled expiry survives reduced motion without saving",
+        "native tile customization, folder creation and dissolution preserve full records",
+        "lock screen covers an open Office form and preserves its unsaved draft",
+        "native live-folder cover, expansion and child activation retain tile identity",
+        "narrow viewport and trusted touch navigation",
+        "mobile DPR2 canvas, native layout, pixels, and input agree",
+        "emulated DPR1 on a physical DPR2 browser stays full size",
+        "offline canonical directory reload renders and accepts native input"
+      ],
+      "qualification": "Real native control input and completed compositor readbacks, including touch, keyboard, narrow layouts, DPR 2 and an actual offline directory reload. Total suite elapsed time is not a frame-time or startup benchmark."
+    }
+  },
+  "artifacts": [
+    {
+      "id": 14919000632,
+      "kind": "browser UI originals",
+      "bytes": 7535748,
+      "sha256": "1a393ff06935c11d4a9a06c810b6e1782ab446ce5f66b6771a42a02e2eaf4976",
+      "downloaded_zip_sha256_verified": true,
+      "selected_retention_manifest": "browser-41d7e3c/manifest.json"
+    },
+    {
+      "id": 14917153380,
+      "kind": "compiled-app",
+      "bytes": 10139162,
+      "sha256": "3c8989cc55d344014226aee878f1477f81551e542341fa9d823d1b6c90669292",
+      "digest_source": "GitHub artifact metadata and upload log"
+    },
+    {
+      "id": 14919075517,
+      "kind": "github-pages",
+      "bytes": 10129375,
+      "sha256": "e925202fb1c3c24e2d5fe1fd423c2dde47b4d8caaf49e6c01a84e8a5167a6ab0",
+      "digest_source": "GitHub artifact metadata and upload log"
+    }
+  ],
+  "visual_review": {
+    "reviewed_pngs": 14,
+    "reviewed_matching_native_snapshots": 14,
+    "retained_unmodified_artifact_files": 29,
+    "retained_original_bytes": 905023,
+    "manifest": {
+      "path": "browser-41d7e3c/manifest.json",
+      "bytes": 7230,
+      "sha256": "7597474d73c68a44ec165e4bd9c4a276339867436a760475fffa1610e8198b66"
+    },
+    "review": {
+      "path": "browser-41d7e3c/visual-review.md",
+      "bytes": 5833,
+      "sha256": "044c65aef0f5300b38c7afb7e75aa5abbd67281d67915f9ec0f2ca26bff1ddfd"
+    },
+    "findings": [
+      "320-unit discard/cancel labels are visible inside enabled hit-testable 132 by 45 buttons.",
+      "Delete/cancel labels are visible inside 172 by 45 buttons.",
+      "Restored recipient, subject and multiline body, including the blank paragraph, match the native editor state.",
+      "Narrow light and dark control surfaces remain bounded; native and reduced-motion Games content is readable.",
+      "Application bar expansion reveals captions and grows upward from 60 to 79 units while the alarm row geometry remains unchanged."
+    ],
+    "known_limits": [
+      "Compact date-picker popup still clips long month names in 97-unit labels.",
+      "Oversized settings title retains horizontal clipping.",
+      "Selected settled screenshots do not establish original-device pixel matching or continuous animation timing."
+    ]
+  },
+  "retained_results": {
+    "path": "browser-41d7e3c/results.json",
+    "bytes": 42219,
+    "sha256": "dc6157b1688e71811dbc588e3037b33c249b2f7366d5e6b88fe88363a6860088"
+  },
+  "decoded_build_job_log": {
+    "path": "browser-41d7e3c/job.log",
+    "bytes": 272848,
+    "sha256": "57106972c94cb4ecf799930548e8f17c0ec3db228b857db21c2d8f7f158de0ab",
+    "provenance": "Decoded terminal job log returned by GitHub job-log endpoint; retained separately from original UI artifact entries."
+  },
+  "publication": {
+    "job_id": 138432485572,
+    "conclusion": "success",
+    "url": "https://ferroui.com/WindowsPhone/",
+    "build_marker": "41d7e3c",
+    "http_evidence": "publication-http.json",
+    "qualification": "Public HTML and service-worker cache marker were observed with HTTP 200 after deployment. This is source-identity confirmation, not a second public-site UI interaction run."
+  },
+  "limits": [
+    "No local browser pass is credited: local Chromium was blocked before app startup by ProcessSingleton socket EPERM.",
+    "Prior failed attempts remain failed and are preserved in history/.",
+    "Browser success does not establish physical native hardware, original Windows Phone OS/runtime or 100 percent visual/feature parity.",
+    "Native desktop and mobile outcomes are recorded in their own exact-source reports; overlapping test counts are not added together."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "simulator": "832AAFC1-5FDA-4E30-98F1-5DD103F91B80",
+  "bundle_id": "org.ferroui.windowsphone",
+  "executable": "/Users/runner/Library/Developer/CoreSimulator/Devices/832AAFC1-5FDA-4E30-98F1-5DD103F91B80/data/Containers/Bundle/Application/734A3999-8F58-420E-9D2F-42C8CBB9A6B4/phone-ios.app/phone-ios",
+  "inode": 3146117,
+  "bytes": 258171840,
+  "prepared_at_unix_ms": 1795514805361
+}

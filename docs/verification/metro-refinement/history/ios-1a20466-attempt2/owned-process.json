@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "simulator": "EA2ABBB0-4A1C-4788-A246-9CA4B0B086DE",
+  "bundle_id": "org.ferroui.windowsphone",
+  "captured_at_unix_ms": 1795519620891,
+  "console_pid": null,
+  "diagnostic_error": "Expected exactly one process for the owned installed executable.",
+  "crash_reports": []
+}

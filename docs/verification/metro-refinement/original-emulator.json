@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "observed_at_utc": "2026-11-24T10:55:35Z",
+  "target": "Windows Phone 8.1 Update (2014)",
+  "target_catalog_guest_package_version": "8.10.14141.167",
+  "original_guest_build_verified": false,
+  "original_emulator_launched": false,
+  "guest_boot_verified": false,
+  "parity_verified": false,
+  "outcome": "Official offline image partially installed; vendor configurator suspended setup with reboot required; no XDE was detected.",
+  "host_probes": {
+    "linux": "original-emulator-probe.json",
+    "windows_read_only": "original-emulator-windows.json"
+  },
+  "attempts": [
+    {
+      "source_sha": "535c376981e0e53088f77023f7cac8991260a264",
+      "run_id": 45376175224,
+      "mode": "web",
+      "conclusion": "failure",
+      "outcome": "valid_microsoft_bootstrapper_legacy_payload_download_failure",
+      "manifest": "original-emulator-web/manifest.json"
+    },
+    {
+      "source_sha": "c59ac667b6253206ac33fa45ee14b297f5052f68",
+      "run_id": 45378014366,
+      "mode": "offline-iso",
+      "conclusion": "failure",
+      "outcome": "wrapper_output_failure_before_mount_or_vendor_setup",
+      "manifest": "original-emulator-iso/history/45378014366/manifest.json"
+    },
+    {
+      "source_sha": "05ac89500978f087ebc66e1782e6ac4f88688835",
+      "run_id": 45378950959,
+      "mode": "offline-iso",
+      "conclusion": "failure",
+      "outcome": "partial_installation_suspended_reboot_required",
+      "manifest": "original-emulator-iso/manifest.json"
+    }
+  ],
+  "classification_limitation": "The unmodified final result.json says restart_required=false because its helper only recognized 3010. Vendor logs explicitly identify 0x80048BC7 as incomplete/reboot required. Derived manifest records that correction separately.",
+  "next_step": {
+    "host": "A separately provisioned compatible Windows client reference host that permits completing normal prerequisite setup and required restarts. No further bypass, feature forcing, restart or installation on the unsupported Server 2022 CI runner.",
+    "historical_vs2013_path": "Windows 8.1 x64 Professional or higher, CPU/firmware virtualization and SLAT, Client Hyper-V, Visual Studio 2013 Update 2 or later with matching Windows Phone tools.",
+    "catalog_alternative": "The Update package also lists Windows 10 and Visual Studio 2015; install matching phone development tools and verify the original emulator requirements on that client host.",
+    "then": "Complete supported vendor installation/restarts, re-probe actual XDE/image paths and versions, inspect installed configuration/help, launch through the matching Visual Studio target selector, and record the guest OS build and reference captures."
+  },
+  "primary_sources": [
+    "https://www.microsoft.com/en-us/download/details.aspx?id=43719",
+    "https://learn.microsoft.com/en-us/windows/apps/windows-sdk/downloads-archive",
+    "https://learn.microsoft.com/en-us/visualstudio/releases/2013/vs2013-sysrequirements-vs",
+    "https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2013/e2h7fzkw(v=vs.120)#using-command-line-parameters",
+    "https://learn.microsoft.com/en-us/powershell/module/storage/mount-diskimage?view=windowsserver2022-ps",
+    "https://learn.microsoft.com/en-us/windows/win32/msi/system-reboots",
+    "https://learn.microsoft.com/en-us/windows/win32/msi/error-codes"
+  ],
+  "guide": "../../original-emulator.md",
+  "retention": "JSONs and named MSI logs are copied byte-for-byte; excerpts are explicitly labeled. Hashes of all original artifact files are retained. No SDK/OS executable, package, disk image or licensed font is redistributed."
+}

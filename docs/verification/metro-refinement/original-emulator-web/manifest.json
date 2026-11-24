@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "source_sha": "535c376981e0e53088f77023f7cac8991260a264",
+  "run_id": 45376175224,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45376175224",
+  "job_id": 138382958154,
+  "conclusion": "failure",
+  "artifact_id": 14911346543,
+  "artifact_name": "original-windows-phone-setup",
+  "artifact_bytes": 29460,
+  "artifact_sha256": "6a677155e718f4f2b8051347458aa07fa3fd1f70c6f9c17c289a872427015d87",
+  "artifact_digest_independently_verified": true,
+  "original_files": [
+    {
+      "path": "after-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied_unmodified": false
+    },
+    {
+      "path": "after.json",
+      "bytes": 2290,
+      "sha256": "7ea97e5f0fb70c2c9541e135631405900c13f242a5c37fce2ce0f2479781cc48",
+      "copied_unmodified": true
+    },
+    {
+      "path": "before-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied_unmodified": false
+    },
+    {
+      "path": "before.json",
+      "bytes": 2290,
+      "sha256": "7c199ce5ec9f2e413a504101d63c09a3f57cea932bee8e0e6a7f1b909067d838",
+      "copied_unmodified": true
+    },
+    {
+      "path": "download-page.html",
+      "bytes": 128083,
+      "sha256": "dc878023cd9c099e8727a4e2901cf3377de4d5e85c79c59b6c4c424b9c1eea3f",
+      "copied_unmodified": false
+    },
+    {
+      "path": "logs/setup.log",
+      "bytes": 49178,
+      "sha256": "418bc494ac0cc0c599d9164bfbca49d5eece6b4ff204dcf3f3d2df4d16477d47",
+      "copied_unmodified": false
+    },
+    {
+      "path": "result.json",
+      "bytes": 3211,
+      "sha256": "e23aabe1b860d832645aff8e900b954f64bc6ef5f29e5497fce3aa391f3afa1d",
+      "copied_unmodified": true
+    },
+    {
+      "path": "watchdog.json",
+      "bytes": 124,
+      "sha256": "2858a929966194f5fefa744240d63b58a1ec150dc61082f98c9fe3b1a6cc0e13",
+      "copied_unmodified": true
+    }
+  ],
+  "excerpt": {
+    "path": "vendor-setup-excerpt.txt",
+    "sha256": "d3679d7473697be9d713969afa531e1aaf42bfb5db1a7244e03c9861e433986f",
+    "method": "Selected complete diagnostic lines with original line numbers; unrelated installer variables omitted. Full unmodified vendor log remains in the downloaded source ZIP."
+  },
+  "interpretation": {
+    "stage": "vendor_setup",
+    "vendor_exit_code": 1603,
+    "apply_hresult": "0x80070002",
+    "bits_hresult": "0x80190194",
+    "failure": "legacy_payload_acquisition",
+    "bootstrapper_download_succeeded": true,
+    "authenticode": "Valid Microsoft Corporation",
+    "prerequisite_failure_observed": false,
+    "timeout": false,
+    "original_emulator_launched": false,
+    "guest_boot_verified": false,
+    "parity_verified": false
+  }
+}
