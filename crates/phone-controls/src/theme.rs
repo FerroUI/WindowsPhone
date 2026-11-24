@@ -19,6 +19,12 @@ ferroui_base::ferro_thread_local! {
 pub fn install_theme(app: &Application) {
     app.styles()
         .add(ferroui_themes_winui::WinUITheme::with_parts(None, PARTS).as_style());
+    // A preference change updates ink and motion while native input controls
+    // retain their template parts, focus and gesture ownership.
+    let templates = Styles::new();
+    crate::switches::install_templates(&templates);
+    crate::pivot_host::install_template(&templates);
+    app.styles().add(templates);
     let styles = Styles::new();
     app.styles().add(styles.clone());
     PALETTE_STYLES.with(|current| *current.borrow_mut() = Some(styles));

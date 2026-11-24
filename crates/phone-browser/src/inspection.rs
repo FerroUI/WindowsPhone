@@ -1,12 +1,12 @@
 //! Live native control geometry and state for end-to-end input verification.
 use ferroui_base::media::{Rotate3DTransform, TranslateTransform};
 use ferroui_base::rendering::composition::CompositionVisual;
-use ferroui_base::{input::InputElement, Matrix, Point, Rect, Visual};
+use ferroui_base::{Matrix, Point, Rect, Visual, input::InputElement};
 use ferroui_controls::{
-    automation::{peers::ControlAutomationPeer, AutomationProperties},
-    primitives::ToggleButton,
     Application, Button, ListBox, ListBoxItem, Pivot, PivotHeaderItem, ScrollViewer, TextBlock,
     TextBox, ToggleSwitch,
+    automation::{AutomationProperties, peers::ControlAutomationPeer},
+    primitives::ToggleButton,
 };
 use serde_json::json;
 use wasm_bindgen::prelude::*;
@@ -50,6 +50,12 @@ pub fn inspect_view() -> String {
         .has_composition_visual()
         .then(|| root.composition_visual())
         .flatten();
+    // Match native composition hit testing: pin the latest completed render
+    // before reading any geometry. Otherwise a programmatic route change can
+    // remain on the revision last observed by an earlier pointer event.
+    if let Some(composition) = &root_composition {
+        composition.compositor().readback().next_read();
+    }
     let elements = root
         .get_visual_descendants()
         .filter_map(|visual| {
@@ -86,16 +92,13 @@ pub fn inspect_view() -> String {
                 return None;
             }
             let point = Point::new(0.0, 0.0).transform(transform);
-            let centre = Point::new(bounds.width / 2.0, bounds.height / 2.0)
-                .transform(transform);
+            let centre = Point::new(bounds.width / 2.0, bounds.height / 2.0).transform(transform);
             // A descendant hit bubbles to this control. An ancestor hit does not:
             // accepting it would mark clipped/offscreen children as clickable.
-            let hit = root
-                .input_hit_test_with(centre, false)
-                .is_some_and(|hit| {
-                    let hit: &Visual = &hit;
-                    std::ptr::eq(hit, &*visual) || visual.is_visual_ancestor_of(hit)
-                });
+            let hit = root.input_hit_test_with(centre, false).is_some_and(|hit| {
+                let hit: &Visual = &hit;
+                std::ptr::eq(hit, &*visual) || visual.is_visual_ancestor_of(hit)
+            });
             let input = visual.cast::<InputElement>();
             let automation_name = AutomationProperties::get_name(&visual).or_else(|| {
                 header

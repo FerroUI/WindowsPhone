@@ -10,7 +10,8 @@ use ferroui_base::styling::Styles;
 use ferroui_base::{BoxedValue, Visual};
 use ferroui_controls::presenters::ItemsPresenter;
 use ferroui_controls::primitives::{
-    ScrollBarVisibility, SnapPointsAlignment, SnapPointsType, TemplatedControl,
+    ScrollBarVisibility, SelectingItemsControl, SnapPointsAlignment, SnapPointsType,
+    TemplatedControl,
 };
 use ferroui_controls::shapes::Rectangle;
 use ferroui_controls::templates::{
@@ -103,15 +104,26 @@ pub fn pivot_pages(name: &str, selection: Signal<usize>, pages: Vec<PivotPage>) 
     pivot.into()
 }
 
-pub(crate) fn install(styles: &Styles, p: &Palette) {
+pub(crate) fn install_template(styles: &Styles) {
     styles.add(
         style("Pivot.phone-pivot-host")
+            // Pivot owns a cyclic viewport and compositor translations. The
+            // inherited list selector's BringIntoView uses layout positions
+            // and otherwise rewinds a successfully snapped page to its old
+            // offset as soon as selection changes.
+            .set(
+                SelectingItemsControl::auto_scroll_to_selected_item_property(),
+                false,
+            )
             .set(
                 TemplatedControl::template_property(),
                 Some(phone_template()),
             )
             .build(),
     );
+}
+
+pub(crate) fn install(styles: &Styles, p: &Palette) {
     styles.add(
         style("PivotHeaderItem")
             .set(
@@ -279,4 +291,155 @@ fn phone_template() -> Rc<dyn IControlTemplate> {
         })
         .clone()
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use ferroui_base::input::{ScrollGestureEndedEventArgs, ScrollGestureEventArgs};
+    use ferroui_base::threading::{CancellationToken, Dispatcher};
+    use ferroui_base::{Point, Vector};
+    use ferroui_controls::presenters::ScrollContentPresenter;
+    use ferroui_controls::{AppBuilder, Application, PivotHeaderItem, PivotItem, Window};
+    use ferroui_headless::{
+        FerroHeadlessPlatform, FerroHeadlessPlatformExtensions, FerroHeadlessPlatformOptions,
+        HeadlessUnitTestSession,
+    };
+    use std::time::Duration;
+
+    #[test]
+    fn native_pivot_keeps_content_and_cyclic_headers_aligned_after_panning() {
+        let session = HeadlessUnitTestSession::start_new(|| {
+            AppBuilder::configure::<Application>()
+                .use_headless(FerroHeadlessPlatformOptions::default())
+        });
+        session
+            .dispatch(
+                || {
+                    crate::install_theme(&Application::current().unwrap());
+                    let pivot = Pivot::new();
+                    pivot.classes().add("phone-pivot-host");
+                    pivot.set_selected_index(0);
+                    for label in ["collection", "player"] {
+                        let item = PivotItem::new();
+                        item.set_header(Some(Rc::new(label.to_string())));
+                        item.set_margin(ferroui_base::Thickness::uniform(0.0));
+                        let content = TextBlock::new();
+                        content.set_text(Some(label));
+                        item.set_content(Some(Control::boxed(content)));
+                        pivot.items().add(Some(Control::boxed(item)));
+                    }
+                    let window = Window::new();
+                    window.set_width(400.0);
+                    window.set_height(640.0);
+                    window.set_content(Some(Control::boxed(pivot.clone())));
+                    window.show();
+                    let frame = || {
+                        Dispatcher::ui_thread().run_jobs(None);
+                        FerroHeadlessPlatform::force_render_timer_tick(1);
+                        Dispatcher::ui_thread().run_jobs(None);
+                    };
+                    for _ in 0..3 {
+                        frame();
+                    }
+                    let scroll = pivot
+                        .find_descendant_of_type_where::<ScrollViewer>(false, |c| {
+                            c.has_name("ScrollViewer")
+                        })
+                        .expect("native pivot scroller");
+                    let presenter = scroll
+                        .find_descendant_of_type::<ScrollContentPresenter>(false)
+                        .expect("native scroll gesture target");
+                    let layout = pivot
+                        .find_descendant_of_type_where::<Grid>(false, |c| {
+                            c.has_name("PivotLayoutElement")
+                        })
+                        .expect("native pivot layout anchor");
+                    let initial_offset = scroll.offset().x;
+                    assert!(
+                        initial_offset > 0.0,
+                        "cyclic pivot initializes at its midpoint"
+                    );
+                    let items = pivot
+                        .find_descendant_of_type_where::<ItemsPresenter>(false, |c| {
+                            c.has_name("PivotItemPresenter")
+                        })
+                        .unwrap();
+                    for (id, delta, index, sections) in [
+                        (77, 40.0, 1, 1.0),
+                        (78, 40.0, 0, 2.0), // Wrap from the last pane to the first.
+                        (79, -40.0, 1, 1.0), // Wrap backwards as well.
+                    ] {
+                        presenter.raise_event(&ScrollGestureEventArgs::new(id, Vector::default()));
+                        for _ in 0..8 {
+                            presenter.raise_event(&ScrollGestureEventArgs::new(
+                                id,
+                                Vector::new(delta, 0.0),
+                            ));
+                            frame();
+                        }
+                        presenter.raise_event(&ScrollGestureEndedEventArgs::new(id));
+                        let header = pivot
+                            .find_descendant_of_type_where::<PivotHeaderItem>(false, |c| {
+                                c.is_selected()
+                            })
+                            .expect("the native selected header");
+                        let mut geometry = None;
+                        for _ in 0..60 {
+                            frame();
+                            // As in native hit testing, advance to the completed
+                            // frame before reading compositor-owned transforms.
+                            items
+                                .composition_visual()
+                                .unwrap()
+                                .compositor()
+                                .readback()
+                                .next_read();
+                            geometry = rendered_origin(&items, &window)
+                                .zip(rendered_origin(&pivot, &window))
+                                .zip(rendered_origin(&header, &window));
+                            if geometry.is_some() {
+                                break;
+                            }
+                            std::thread::sleep(Duration::from_millis(2));
+                        }
+                        let ((origin, pivot_origin), header_origin) = geometry
+                            .expect("the completed frame publishes all native visual ancestors");
+                        assert_eq!(pivot.selected_index(), index);
+                        assert_eq!(scroll.offset().x, initial_offset + sections * 400.0);
+                        assert_eq!(layout.bounds().x, scroll.offset().x);
+                        assert!(
+                            (origin.x - pivot_origin.x).abs() < 0.1,
+                            "selected content must occupy the visible page"
+                        );
+                        assert!(
+                            (header_origin.x - pivot_origin.x - 20.0).abs() < 0.1,
+                            "the cyclic selected header must begin at the phone inset"
+                        );
+                    }
+                    window.close();
+                },
+                CancellationToken::none(),
+            )
+            .wait_timeout(Duration::from_secs(20))
+            .expect("headless native pivot test completes");
+        session.dispose();
+    }
+
+    fn rendered_origin(visual: &Visual, root: &Visual) -> Option<Point> {
+        let mut anchor = visual.to_ref();
+        while !anchor.has_composition_visual() {
+            anchor = anchor.visual_parent()?;
+        }
+        let root = root.composition_visual()?;
+        let mut matrix = visual.transform_to_visual(&anchor)?;
+        let mut composition = (*anchor.composition_visual()?).clone();
+        // Match inspectView: the root itself has no parent-relative transform
+        // to contribute and need not have a descendant hit-test readback.
+        while !std::ptr::eq(composition.as_ref(), root.as_ref()) {
+            matrix *= composition.try_get_valid_readback()?.matrix;
+            composition = composition.parent()?;
+        }
+        Some(Point::new(0.0, 0.0).transform(matrix))
+    }
 }

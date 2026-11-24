@@ -40,9 +40,14 @@ export async function verifyShellParity(ctx) {
       return screen&&scroll&&page?.projection===null&&Math.abs(scroll.x-screen.x)<0.1;
     },"Start entrance has reached its native resting position");
   };
-  const planes=view=>{
+  const planes=()=>until(async()=>{
+    const view=await snapshot();
     const scroll=named(view,"StartScroll");
     const all=view.elements.filter(element=>element.name?.startsWith("StartWallpaper-"));
+    // The Start/page readback can precede the newly attached tile subtrees.
+    // Only compare real compositor samples once every fixture plane has one;
+    // never substitute layout geometry for a missing rendered readback.
+    assert(scroll,"The native Start viewport must have a rendered readback");
     assert.equal(all.length,fixture.tiles.length-1,"Every compatible tile must mount its shared image plane");
     assert(!named(view,`StartWallpaper-${opaque.id}`),"The branded Office tile must remain opaque");
     for(const plane of all){
@@ -53,7 +58,7 @@ export async function verifyShellParity(ctx) {
         "The common image plane must cover the complete visible Start viewport");
     }
     return all[0];
-  };
+  },"All compatible Start tiles have coherent rendered wallpaper planes");
   const bottom=async()=>{
     await page.wheel(...centre(await control(element=>element.name==="StartScroll","Start scroll viewer")),0,100000);
     await control(element=>element.name===`Tile-${fixture.tiles.at(-1).id}`,"last tile in the tall Start layout");
@@ -63,11 +68,11 @@ export async function verifyShellParity(ctx) {
   try {
     await check("native transparent tiles share a bounded wallpaper plane across tall Start layouts",async()=>{
       await load(fixture);
-      const before=planes(await snapshot());
+      const before=await planes();
       const document=await state();
       const persisted=await page.evaluate("localStorage.getItem('ferroui.windows-phone.v1')");
       await bottom();
-      const after=planes(await snapshot()),scroll=named(await snapshot(),"StartScroll");
+      const after=await planes(),scroll=named(await snapshot(),"StartScroll");
       assert(before.y-after.y>1,"Enabled wallpaper motion must produce a bounded pan");
       assert(before.y-after.y<=scroll.height*0.25+0.6,"Pan must remain bounded by the viewport, not the tile count");
       assert.deepEqual(await state(),document,"Scrolling wallpaper must not mutate the phone document");
@@ -75,8 +80,8 @@ export async function verifyShellParity(ctx) {
       await capture("shell-wallpaper-tall-layout-bottom");
       for(const preference of ["reduced_motion","battery_saver"]){
         const paused=structuredClone(fixture);paused.settings[preference]=true;
-        await load(paused);const resting=planes(await snapshot());
-        await bottom();const scrolled=planes(await snapshot());
+        await load(paused);const resting=await planes();
+        await bottom();const scrolled=await planes();
         close(scrolled.y,resting.y,`${preference} keeps the image stationary on screen`);
       }
     });

@@ -4,15 +4,15 @@
 //! WP8 SwitchButton (4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df, Generic.xaml).
 //! The template is implemented against FerroUI's own input/automation contract.
 use crate::{
-    reference_pixels as px, Palette, CONTROL_BORDER, FONT_FAMILY, SWITCH_THUMB_HEIGHT,
-    SWITCH_THUMB_WIDTH, SWITCH_TRACK_HEIGHT, SWITCH_TRACK_WIDTH, SWITCH_TRAVEL,
+    CONTROL_BORDER, FONT_FAMILY, Palette, SWITCH_THUMB_HEIGHT, SWITCH_THUMB_WIDTH,
+    SWITCH_TRACK_HEIGHT, SWITCH_TRACK_WIDTH, SWITCH_TRAVEL, reference_pixels as px,
 };
 use ferroui_base::animation::{DoubleTransition, ITransition, SignedDuration, Transitions};
 use ferroui_base::data::TemplateBinding;
 use ferroui_base::layout::{HorizontalAlignment as H, Layoutable, VerticalAlignment as V};
 use ferroui_base::media::{Brushes, FontFamily, FontWeight, TextWrapping, TranslateTransform};
-use ferroui_base::styling::{ControlTheme, Setter, Styles};
-use ferroui_base::{Ref, StyledElement, Thickness, Visual};
+use ferroui_base::styling::Styles;
+use ferroui_base::{Ref, Thickness, Visual};
 use ferroui_controls::presenters::ContentPresenter;
 use ferroui_controls::primitives::TemplatedControl;
 use ferroui_controls::templates::{
@@ -26,14 +26,29 @@ use ferroui_view::style;
 use std::{cell::OnceCell, rc::Rc};
 
 ferroui_base::ferro_thread_local! {
-    static THEME: OnceCell<Ref<ControlTheme>> = const { OnceCell::new() };
-    static COMPACT_THEME: OnceCell<Ref<ControlTheme>> = const { OnceCell::new() };
+    static TEMPLATE: OnceCell<Rc<dyn IControlTemplate>> = const { OnceCell::new() };
+    static COMPACT_TEMPLATE: OnceCell<Rc<dyn IControlTemplate>> = const { OnceCell::new() };
+}
+
+/// Structural templates outlive palette changes. Set Template directly so a
+/// single native styling pass cannot temporarily apply a different control
+/// theme without ToggleSwitch's required drag parts.
+pub(crate) fn install_templates(styles: &Styles) {
+    styles.add(
+        style("ToggleSwitch.phone-switch")
+            .set(TemplatedControl::template_property(), Some(template(false)))
+            .build(),
+    );
+    styles.add(
+        style("ToggleSwitch.phone-switch.phone-switch-compact")
+            .set(TemplatedControl::template_property(), Some(template(true)))
+            .build(),
+    );
 }
 
 pub(crate) fn install(styles: &Styles, p: &Palette) {
     styles.add(
         style("ToggleSwitch.phone-switch")
-            .set(StyledElement::theme_property(), Some(theme(false)))
             .set(
                 TemplatedControl::font_family_property(),
                 FontFamily::new(FONT_FAMILY),
@@ -58,7 +73,6 @@ pub(crate) fn install(styles: &Styles, p: &Palette) {
     );
     styles.add(
         style("ToggleSwitch.phone-switch.phone-switch-compact")
-            .set(StyledElement::theme_property(), Some(theme(true)))
             .set(Layoutable::min_height_property(), 44.0)
             .build(),
     );
@@ -227,11 +241,10 @@ fn presenter(name: &str, property: &'static ferroui_base::FerroProperty) -> Ref<
     presenter
 }
 
-fn theme(compact: bool) -> Ref<ControlTheme> {
-    let construct = |slot: &OnceCell<Ref<ControlTheme>>| {
+fn template(compact: bool) -> Rc<dyn IControlTemplate> {
+    let construct = |slot: &OnceCell<Rc<dyn IControlTemplate>>| {
         slot.get_or_init(|| {
-            let theme = ControlTheme::for_type::<ToggleSwitch>();
-            let template: Rc<dyn IControlTemplate> = FuncControlTemplate::new(move |_, scope| {
+            FuncControlTemplate::for_type::<ToggleSwitch>(move |_, scope| {
                 let root = Grid::new();
                 root.set_background(Some(Brushes::transparent()));
                 root.set_column_definitions(
@@ -359,19 +372,14 @@ fn theme(compact: bool) -> Ref<ControlTheme> {
                 area.children().add(canvas.register_in_name_scope(&**scope));
                 root.children().add(area);
                 root.upcast()
-            });
-            theme.add_setter(Setter::new(
-                TemplatedControl::template_property(),
-                Some(template),
-            ));
-            theme
+            }) as Rc<dyn IControlTemplate>
         })
         .clone()
     };
     if compact {
-        COMPACT_THEME.with(construct)
+        COMPACT_TEMPLATE.with(construct)
     } else {
-        THEME.with(construct)
+        TEMPLATE.with(construct)
     }
 }
 
@@ -384,10 +392,61 @@ mod tests {
     use std::cell::RefCell;
 
     #[test]
+    fn palette_changes_keep_the_mounted_switch_template_and_native_parts() {
+        for compact in [false, true] {
+            let root = StackPanel::new();
+            install_templates(&root.styles());
+            let colors = Styles::new();
+            install(&colors, &Palette::new("#1BA1E2", false));
+            root.styles().add(colors.clone());
+            let switch = ToggleSwitch::new();
+            switch.classes().add("phone-switch");
+            if compact {
+                switch.classes().add("phone-switch-compact");
+            }
+            switch.set_is_checked(Some(true));
+            root.children().add(switch.clone());
+            switch.apply_styling();
+            switch.apply_styling();
+            switch.apply_template();
+            let template = switch.template().expect("the native phone template");
+            let moving = switch
+                .get_template_descendants()
+                .into_iter()
+                .find(|part| part.has_name("PART_MovingKnobs"))
+                .expect("the required native drag panel");
+
+            for (light, motion_enabled) in [(false, false), (true, false), (false, true)] {
+                let mut palette = Palette::new("#00ABA9", light);
+                palette.motion_enabled = motion_enabled;
+                colors.clear();
+                install(&colors, &palette);
+                // Layout applies styles once before applying a template. The
+                // current native template must survive that real ordering.
+                switch.apply_styling();
+                let current = switch
+                    .template()
+                    .expect("palette replacement keeps a template");
+                switch.apply_template();
+                assert!(Rc::ptr_eq(&template, &current));
+                let current_moving = switch
+                    .get_template_descendants()
+                    .into_iter()
+                    .find(|part| part.has_name("PART_MovingKnobs"))
+                    .expect("palette replacement keeps the native drag panel");
+                assert!(Ref::ptr_eq(&moving, &current_moving));
+                assert_eq!(switch.is_checked(), Some(true));
+                assert_eq!(switch.knob_transitions().is_some(), motion_enabled);
+            }
+        }
+    }
+
+    #[test]
     fn rounded_switch_mask_covers_the_off_track_and_follows_native_travel() {
         let mut palette = Palette::new("#1BA1E2", false);
         palette.motion_enabled = false;
         let root = StackPanel::new();
+        install_templates(&root.styles());
         install(&root.styles(), &palette);
         let switch = ToggleSwitch::new();
         switch.classes().add("phone-switch");
@@ -430,12 +489,19 @@ mod tests {
             switch.arrange(layout);
             // This isolated tree has no window layout manager to service the
             // Canvas invalidation caused by its child's new attached Left.
-            canvas.arrange(canvas.previous_arrange().expect("arranged native travel surface"));
+            canvas.arrange(
+                canvas
+                    .previous_arrange()
+                    .expect("arranged native travel surface"),
+            );
             let expected = if checked { canvas.bounds().width } else { 0.0 };
             assert_eq!(Canvas::get_left(&moving), expected);
             assert_eq!(moving.bounds().x, expected);
             let mask_origin = cover.translate_point(Point::new(0.0, 0.0), &clip).unwrap();
-            assert_eq!(mask_origin.x, expected, "mask follows the native thumb in both directions");
+            assert_eq!(
+                mask_origin.x, expected,
+                "mask follows the native thumb in both directions"
+            );
             assert_eq!(mask_origin.y, 0.0);
             assert_eq!(cover.bounds().height, clip.bounds().height);
         }
@@ -446,6 +512,7 @@ mod tests {
         for light in [false, true] {
             let palette = Palette::new("#00ABA9", light);
             let root = StackPanel::new();
+            install_templates(&root.styles());
             root.styles().add(
                 style("TextBlock")
                     .set(TextBlock::foreground_property(), palette.foreground)
@@ -458,8 +525,7 @@ mod tests {
                 Rc::new(String::from("Vibrate")) as ferroui_base::BoxedValue
             ));
             root.children().add(switch.clone());
-            // Applying the class style selects the control theme. The next
-            // styling pass applies that theme before its real template builds.
+            // Apply the class styles before building the native template.
             switch.apply_styling();
             switch.apply_styling();
             switch.apply_template();

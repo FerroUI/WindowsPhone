@@ -30,6 +30,8 @@ export async function verifyOutlookDrafts(ctx) {
     await edit(name,value);
   };
   const drafts=async()=>{await clickLabel("more");await clickLabel("drafts");};
+  const renderedBody=async(value,description)=>until(async()=>
+    (await snapshot()).elements.find(element=>element.name==="MailComposeBody"&&element.text===value),description);
   const closeEditor=async()=>{
     await clickName("HardwareBack");
     await until(async()=>(await snapshot()).elements.every(element=>element.name!=="MailComposeBody"),"Outlook editor closed");
@@ -65,17 +67,17 @@ export async function verifyOutlookDrafts(ctx) {
       await control(element=>button(element)&&element.automationName==="discard","discard unsaved changes confirmation");
       await capture("outlook-unsaved-back-confirmation");
       await clickLabel("cancel");
-      assert((await snapshot()).elements.some(element=>element.name==="MailComposeBody"&&element.text===unsaved));
+      await renderedBody(unsaved,"canceling Back preserves the unsaved multiline editor");
       assert.deepEqual((await saved()).items[0].fields,fields);
       await clickName("HardwareStart");await isRoute("Start");await app();
-      assert((await snapshot()).elements.some(element=>element.name==="MailComposeBody"&&element.text===unsaved),
-        "the retained composer must survive app switching");
+      // Route publication precedes the new frame's composition readback. Wait
+      // for the actual native TextBox while retaining the exact text assertion.
+      await renderedBody(unsaved,"the retained composer survives app switching");
       await clickName("HardwareBack");await clickLabel("discard");
       await until(async()=>(await snapshot()).elements.every(element=>element.name!=="MailComposeBody"),"unsaved replacement discarded");
       assert.deepEqual((await saved()).items[0].fields,fields);
       await reload();await app();await drafts();await clickName(`MailDraft-${id}`);
-      assert((await snapshot()).elements.some(element=>element.name==="MailComposeBody"&&element.text===fields.body),
-        "saved multiline draft must survive a complete runtime reload");
+      await renderedBody(fields.body,"saved multiline draft survives a complete runtime reload");
       await capture("outlook-restored-draft");
     });
 
