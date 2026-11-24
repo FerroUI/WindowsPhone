@@ -1,0 +1,99 @@
+name: Attempt original Windows Phone emulator setup
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-original-emulator]')) && 'windows-phone-original-emulator' || format('windows-phone-original-emulator-skip-{0}', github.run_id) }}
+  cancel-in-progress: true
+jobs:
+  reference-setup:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-original-emulator]')
+    runs-on: windows-2022
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate the experimental PowerShell entry point
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $parseErrors = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path $PWD 'scripts/attempt-original-emulator.ps1'), [ref]$tokens, [ref]$parseErrors)
+          if ($parseErrors.Count -gt 0) {
+            $parseErrors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
+      - name: Attempt the signature-verified vendor setup without reboot
+        timeout-minutes: 13
+        shell: pwsh
+        run: |
+          $evidence = Join-Path $env:RUNNER_TEMP 'original-emulator-evidence'
+          [void][IO.Directory]::CreateDirectory($evidence)
+          # An independent parent also bounds HTTP/signature calls, including
+          # failures that prevent the child script from reaching its finally.
+          $start = [Diagnostics.ProcessStartInfo]::new()
+          $start.FileName = Join-Path $PSHOME 'pwsh.exe'
+          $start.UseShellExecute = $false
+          foreach ($argument in @('-NoProfile', '-NonInteractive', '-File',
+              (Join-Path $PWD 'scripts/attempt-original-emulator.ps1'),
+              '-OutputDirectory', $evidence, '-TimeoutSeconds', '600')) {
+            $start.ArgumentList.Add($argument)
+          }
+          $attempt = [Diagnostics.Process]::Start($start)
+          $watch = [Diagnostics.Stopwatch]::StartNew()
+          $record = [ordered]@{ pid = $attempt.Id; timeout_seconds = 600; timed_out = $false }
+          $attemptExit = 1
+          try {
+            if (-not $attempt.WaitForExit(600000)) {
+              $record.timed_out = $true
+              throw 'The complete reference-setup attempt exceeded 10 minutes.'
+            }
+            $record.exit_code = $attempt.ExitCode
+            $attemptExit = $attempt.ExitCode
+          } finally {
+            if (-not $attempt.HasExited) {
+              $attempt.Kill($true)
+              $record.owned_tree_stop_requested = $true
+              $record.owned_root_exited = $attempt.WaitForExit(10000)
+            }
+            $record.elapsed_seconds = $watch.Elapsed.TotalSeconds
+            $record | ConvertTo-Json | Set-Content (Join-Path $evidence 'watchdog.json') -Encoding utf8NoBOM
+            $attempt.Dispose()
+          }
+          exit $attemptExit
+      - name: Preserve a final read-only probe after an interrupted attempt
+        if: always()
+        timeout-minutes: 2
+        shell: pwsh
+        run: |
+          $evidence = Join-Path $env:RUNNER_TEMP 'original-emulator-evidence'
+          [void][IO.Directory]::CreateDirectory($evidence)
+          if (-not (Test-Path (Join-Path $evidence 'after.json'))) {
+            python scripts/probe-original-emulator.py --json --timeout 20 `
+              2> (Join-Path $evidence 'after-fallback-stderr.txt') |
+              Set-Content (Join-Path $evidence 'after-fallback.json') -Encoding utf8NoBOM
+          }
+      - name: Retain reference setup observations and vendor logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-windows-phone-setup
+          path: |
+            ${{ runner.temp }}/original-emulator-evidence/*.json
+            ${{ runner.temp }}/original-emulator-evidence/*.html
+            ${{ runner.temp }}/original-emulator-evidence/*.txt
+            ${{ runner.temp }}/original-emulator-evidence/logs/*.log
+          if-no-files-found: warn
+          retention-days: 3
