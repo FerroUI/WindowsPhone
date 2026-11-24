@@ -43,7 +43,17 @@ export async function verifySystemRefinements(ctx) {
   const scrollMatch=element=>/ScrollViewer$/.test(element.type)&&element.width>220&&element.height>160;
   const setting=async name=>{
     await app("Settings");
+    // The route is published before its entrance finishes. A coordinate
+    // captured during turnstile motion can land on a different row by release.
+    await until(async()=>{
+      const view=await snapshot();
+      const page=view.elements.find(element=>element.name==="PhonePage");
+      return page&&page.projection===null&&view.elements.some(element=>
+        element.hit&&button(element)&&element.automationName==="system");
+    },"Settings hub entrance settles before native input");
+    await isRoute({App:"Settings"});
     await clickLabel("system");
+    await isRoute({App:"Settings"});
     await page.wheel(...centre(await control(scrollMatch,"Settings scroll viewer")),0,-100000);
     const row=await reveal(element=>button(element)&&element.automationName===name,
       `${name} settings entry`,scrollMatch,"Settings scroll viewer");

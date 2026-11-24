@@ -27,9 +27,17 @@ export async function verifyShellParity(ctx) {
   const load=async data=>{
     await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(data))})`);
     await isRoute("Start");await frame();
+    const restored=await state();
+    for(const preference of ["reduced_motion","battery_saver"])
+      assert.equal(restored.settings[preference],data.settings[preference],
+        `Fixture import must preserve ${preference}`);
     await until(async()=>{
       const view=await snapshot(),screen=named(view,"PhoneScreen"),scroll=named(view,"StartScroll");
-      return screen&&scroll&&Math.abs(scroll.x-screen.x)<0.1;
+      const page=named(view,"PhonePage");
+      // A turnstile rotates about the left edge: the scroll's x coordinate
+      // stays at the screen edge throughout that entrance. Inspect ownership
+      // of the actual page projection before measuring a tile's own feedback.
+      return screen&&scroll&&page?.projection===null&&Math.abs(scroll.x-screen.x)<0.1;
     },"Start entrance has reached its native resting position");
   };
   const planes=view=>{
@@ -76,9 +84,18 @@ export async function verifyShellParity(ctx) {
     await check("native tile projection responds to press location while retaining Button bounds",async()=>{
       const data=shortFixture();await load(data);
       const press=async(fraction,enabled)=>{
-        const button=await control(element=>element.name===`Tile-${first.id}`,"Phone tile");
-        const before=named(await snapshot(),`TileVisual-${first.id}`);
-        assert(before,"The native tile content must be mounted");
+        let previous;
+        const resting=await until(async()=>{
+          const view=await snapshot(),button=named(view,`Tile-${first.id}`);
+          const visual=named(view,`TileVisual-${first.id}`),page=named(view,"PhonePage");
+          if(!button?.hit||!visual||page?.projection!==null){previous=undefined;return;}
+          const current=[...geometry(button),...geometry(visual)];
+          const stable=previous&&current.every((value,index)=>Math.abs(value-previous[index])<0.1);
+          previous=current;
+          return stable?{button,visual}:undefined;
+        },"Tile geometry settles without an inherited page projection before pressing");
+        const button=resting.button,before=resting.visual;
+        const settings=(await state()).settings;
         const x=button.x+button.width*fraction,y=button.y+button.height*0.15;
         await page.mouseMove(x,y);await page.mouseDown(x,y);
         let delta;
@@ -88,15 +105,18 @@ export async function verifyShellParity(ctx) {
           assert(pressed&&visual,"A native press must retain both controls");
           geometry(pressed).forEach((value,index)=>close(value,geometry(button)[index],"Button input bounds remain unchanged"));
           delta=[visual.x-before.x,visual.y-before.y];
+          const diagnostic=JSON.stringify({enabled,preferences:{reduced_motion:settings.reduced_motion,
+            battery_saver:settings.battery_saver},before:geometry(before),pressed:geometry(visual),
+            button:geometry(pressed),page:named(view,"PhonePage"),delta});
           if(enabled)assert(Math.hypot(...delta)>0.25,"The content must project during a corner press");
-          else assert(Math.hypot(...delta)<0.1,"Motion preferences must suppress decorative press projection");
+          else assert(Math.hypot(...delta)<0.1,`Motion preferences must suppress decorative press projection: ${diagnostic}`);
         } finally {await page.mouseUp(x,y);}
         await isRoute({App:"Phone"});
         await clickName("HardwareBack");await isRoute("Start");
         await until(async()=>{
           const view=await snapshot(),tile=named(view,`Tile-${first.id}`),visual=named(view,`TileVisual-${first.id}`);
-          const screen=named(view,"PhoneScreen"),scroll=named(view,"StartScroll");
-          return tile&&visual&&screen&&scroll&&Math.abs(scroll.x-screen.x)<0.1&&
+          const screen=named(view,"PhoneScreen"),scroll=named(view,"StartScroll"),page=named(view,"PhonePage");
+          return tile&&visual&&screen&&scroll&&page?.projection===null&&Math.abs(scroll.x-screen.x)<0.1&&
             Math.abs(tile.x-visual.x)<0.1&&Math.abs(tile.y-visual.y)<0.1;
         },"Released tile content returns to its native resting bounds");
         return delta;

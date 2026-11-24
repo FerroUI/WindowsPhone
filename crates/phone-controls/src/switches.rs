@@ -298,9 +298,11 @@ fn theme(compact: bool) -> Ref<ControlTheme> {
                 let cover = Border::new();
                 cover.set_name(Some("PhoneSwitchCover".into()));
                 cover.set_width(px(77.0));
-                cover.set_height(px(20.0));
                 cover.set_horizontal_alignment(H::Left);
-                cover.set_vertical_alignment(V::Center);
+                // Borders and explicit sizes round independently. Fill the
+                // actual inner clip so the off state cannot expose accent
+                // rows above or below a shorter, fixed-height mask.
+                cover.set_vertical_alignment(V::Stretch);
                 let cover_translation = TranslateTransform::new();
                 cover.set_render_transform(Some(cover_translation.clone().into()));
                 clip.children().add(cover.register_in_name_scope(&**scope));
@@ -378,7 +380,66 @@ mod tests {
     use super::*;
     use ferroui_base::input::{InputElement, Key, KeyEventArgs};
     use ferroui_base::media::{Color, SolidColorBrush};
+    use ferroui_base::{Point, Rect, Size};
     use std::cell::RefCell;
+
+    #[test]
+    fn rounded_switch_mask_covers_the_off_track_and_follows_native_travel() {
+        let mut palette = Palette::new("#1BA1E2", false);
+        palette.motion_enabled = false;
+        let root = StackPanel::new();
+        install(&root.styles(), &palette);
+        let switch = ToggleSwitch::new();
+        switch.classes().add("phone-switch");
+        switch.classes().add("phone-switch-compact");
+        switch.set_use_layout_rounding(true);
+        switch.set_is_checked(Some(false));
+        root.children().add(switch.clone());
+        switch.apply_styling();
+        switch.apply_styling();
+        switch.apply_template();
+        let part = |name: &str| {
+            switch
+                .get_template_descendants()
+                .into_iter()
+                .filter_map(|visual| visual.cast::<Control>())
+                .find(|control| control.has_name(name))
+                .unwrap_or_else(|| panic!("native switch part {name}"))
+        };
+        let cover = part("PhoneSwitchCover");
+        let moving = part("PART_MovingKnobs");
+        let canvas = part("PART_SwitchKnob");
+        let clip = cover.visual_parent().expect("the track's inner clip");
+        let layout = Rect::new(0.0, 0.0, 78.0, 44.0);
+        switch.measure(Size::new(layout.width, layout.height));
+        switch.arrange(layout);
+
+        // At DPR 1 the 29-pixel track and independently rounded borders leave
+        // a 19-pixel opening. The former fixed-height mask rounded to 17,
+        // exposing one accent-colored row along each edge in the off state.
+        assert_eq!(clip.bounds().height, 19.0);
+        assert_eq!(cover.bounds().y, 0.0);
+        assert_eq!(cover.bounds().height, clip.bounds().height);
+        assert!(cover.bounds().width >= clip.bounds().width);
+        assert_eq!(cover.width(), px(77.0), "reference mask width is preserved");
+        assert_eq!(canvas.width(), SWITCH_TRAVEL);
+        assert_eq!(moving.width(), SWITCH_THUMB_WIDTH);
+
+        for checked in [false, true, false] {
+            switch.set_is_checked(Some(checked));
+            switch.arrange(layout);
+            // This isolated tree has no window layout manager to service the
+            // Canvas invalidation caused by its child's new attached Left.
+            canvas.arrange(canvas.previous_arrange().expect("arranged native travel surface"));
+            let expected = if checked { canvas.bounds().width } else { 0.0 };
+            assert_eq!(Canvas::get_left(&moving), expected);
+            assert_eq!(moving.bounds().x, expected);
+            let mask_origin = cover.translate_point(Point::new(0.0, 0.0), &clip).unwrap();
+            assert_eq!(mask_origin.x, expected, "mask follows the native thumb in both directions");
+            assert_eq!(mask_origin.y, 0.0);
+            assert_eq!(cover.bounds().height, clip.bounds().height);
+        }
+    }
 
     #[test]
     fn caption_template_keeps_secondary_ink_above_the_general_text_style() {

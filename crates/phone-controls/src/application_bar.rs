@@ -72,12 +72,19 @@ pub fn action(kind: Icon, label: &str, on_click: impl Fn() + 'static) -> Element
 /// navigate synchronously. Attaching first also works with the handled click
 /// events produced by `flat`. The weak control is only used for cleanup.
 fn close_on_command(control: &ferroui_base::Ref<Control>, host: ExpansionController) {
+    let direct_command = control.cast::<Button>().is_some();
     let token = control.add_handler_with(
         Button::click_event(),
         move |_, event| {
             let Some(button) = event.source().and_then(|source| source.cast::<Button>()) else {
                 return;
             };
+            // Declarative commands already dismissed at the button before
+            // invoking their callback. The bar's fallback must not close a
+            // replacement menu that the callback deliberately opened.
+            if !direct_command && button.classes().contains("phone-app-bar-command") {
+                return;
+            }
             if !button.classes().contains("phone-more") && (host.read)() {
                 (host.write)(false);
             }
@@ -97,6 +104,7 @@ fn dismiss_before_invoke(mut element: Element, host: &ExpansionController) -> El
     match &mut element {
         Element::Control(control) => {
             if (control.class.type_id)() == std::any::TypeId::of::<Button>() {
+                control.classes.push("phone-app-bar-command".into());
                 let host = host.clone();
                 control.handlers.insert(
                     0,
@@ -359,6 +367,52 @@ mod tests {
         command.raise_event(&RoutedEventArgs::with_event(Button::click_event()));
         assert_eq!(calls.get(), 1);
         assert!(!open.get());
+        owner.dispose();
+        EXPANSION.with(|slot| slot.borrow_mut().take());
+    }
+
+    #[test]
+    fn a_command_can_reopen_its_menu_without_the_bubbling_fallback_closing_it() {
+        let _render = render_scope();
+        let open = Rc::new(Cell::new(true));
+        let read = open.clone();
+        let write = open.clone();
+        set_application_bar_controller(
+            Rc::new(move || read.get()),
+            Rc::new(move |value| write.set(value)),
+        );
+        let calls = Rc::new(Cell::new(0));
+        let invoked = calls.clone();
+        let command_open = open.clone();
+        // A primary command exercises a complete native visual event route
+        // without needing to apply a ScrollViewer's template first.
+        let (control, owner) = app_bar(
+            vec![crate::flat("format", move || {
+                assert!(!command_open.get(), "dismiss still precedes the callback");
+                invoked.set(invoked.get() + 1);
+                command_open.set(true);
+            })],
+            false,
+            vec![],
+        )
+        .mount_root();
+        let bubbled = Rc::new(Cell::new(0));
+        let observed = bubbled.clone();
+        control.add_handler_with(
+            Button::click_event(),
+            move |_, _| observed.set(observed.get() + 1),
+            RoutingStrategies::BUBBLE,
+            true,
+        );
+        let command = control
+            .find_descendant_of_type_where::<Button>(false, |button| {
+                AutomationProperties::get_name(button).as_deref() == Some("format")
+            })
+            .unwrap();
+        command.raise_event(&RoutedEventArgs::with_event(Button::click_event()));
+        assert_eq!(calls.get(), 1);
+        assert_eq!(bubbled.get(), 1, "the handled click reached the bar");
+        assert!(open.get(), "the replacement menu remains available");
         owner.dispose();
         EXPANSION.with(|slot| slot.borrow_mut().take());
     }

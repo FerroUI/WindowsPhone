@@ -242,6 +242,17 @@ jobs:
           $tokens = $null
           [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path 'crates/phone-desktop/platform/windows/ShellLauncher.ps1'), [ref]$tokens, [ref]$errors) | Out-Null
           if ($errors.Count -gt 0) { throw ($errors | Out-String) }
+      - name: Inspect original Windows Phone emulator prerequisites
+        if: runner.os == 'Windows'
+        timeout-minutes: 2
+        run: python scripts/probe-original-emulator.py --json > original-emulator-windows.json
+      - uses: actions/upload-artifact@v4
+        if: always() && runner.os == 'Windows'
+        with:
+          name: original-emulator-windows-host
+          path: original-emulator-windows.json
+          if-no-files-found: error
+          retention-days: 7
       - name: Verify Linux media-session protocol
         if: runner.os == 'Linux'
         run: dbus-run-session -- env PHONE_MPRIS_TEST_SESSION=1 cargo test --locked -p phone-host private_bus_media_controls -- --ignored

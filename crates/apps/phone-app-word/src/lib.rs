@@ -56,7 +56,10 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -
             format
                 .state::<phone_office_support::OfficeSession>()
                 .formatting
-                .set(true)
+                .set(true);
+            // The command dismisses its old menu before invoking us. Replace
+            // it with formatting commands in the same expanded bar.
+            format.menu.set(true);
         }));
     }
     for (label, operation) in operations {

@@ -1,6 +1,7 @@
 //! Live native control geometry and state for end-to-end input verification.
 use ferroui_base::media::{Rotate3DTransform, TranslateTransform};
-use ferroui_base::{input::InputElement, Point, Visual};
+use ferroui_base::rendering::composition::CompositionVisual;
+use ferroui_base::{input::InputElement, Matrix, Point, Rect, Visual};
 use ferroui_controls::{
     automation::{peers::ControlAutomationPeer, AutomationProperties},
     primitives::ToggleButton,
@@ -9,6 +10,28 @@ use ferroui_controls::{
 };
 use serde_json::json;
 use wasm_bindgen::prelude::*;
+
+/// Maps a control into the root's coordinates as it appeared in the last
+/// rendered frame. `Visual::transform_to_visual` alone misses compositor
+/// expressions, including the native Pivot's carousel/parallax translations.
+fn rendered_transform(visual: &Visual, root: &CompositionVisual) -> Option<Matrix> {
+    // Drawing items need not own a composition visual. Keep them lightweight:
+    // only use the layout transform up to their nearest materialized ancestor.
+    let mut anchor = visual.to_ref();
+    while !anchor.has_composition_visual() {
+        anchor = anchor.visual_parent()?;
+    }
+    let mut transform = visual.transform_to_visual(&anchor)?;
+    let mut composition = (*anchor.composition_visual()?).clone();
+    while !std::ptr::eq(composition.as_ref(), root) {
+        // These are the same local-to-parent matrices consumed by native hit
+        // testing. The base Translation property does not contain animated
+        // expression values. Wait for a rendered frame when readback is absent.
+        transform *= composition.try_get_valid_readback()?.matrix;
+        composition = composition.parent()?;
+    }
+    Some(transform)
+}
 
 #[wasm_bindgen(js_name=inspectView)]
 pub fn inspect_view() -> String {
@@ -23,6 +46,10 @@ pub fn inspect_view() -> String {
         return "null".into();
     };
     let viewport = root.bounds();
+    let root_composition = root
+        .has_composition_visual()
+        .then(|| root.composition_visual())
+        .flatten();
     let elements = root
         .get_visual_descendants()
         .filter_map(|visual| {
@@ -52,21 +79,19 @@ pub fn inspect_view() -> String {
             if !visual.is_effectively_visible() || bounds.width <= 0.0 || bounds.height <= 0.0 {
                 return None;
             }
-            let point = visual.translate_point(Point::new(0.0, 0.0), &root)?;
-            if point.x >= viewport.width
-                || point.y >= viewport.height
-                || point.x + bounds.width <= 0.0
-                || point.y + bounds.height <= 0.0
-            {
+            let transform = rendered_transform(&visual, root_composition.as_ref()?)?;
+            let local = Rect::from_size(bounds.size());
+            let rendered = local.transform_to_aabb(transform);
+            if !rendered.intersects(Rect::from_size(viewport.size())) {
                 return None;
             }
+            let point = Point::new(0.0, 0.0).transform(transform);
+            let centre = Point::new(bounds.width / 2.0, bounds.height / 2.0)
+                .transform(transform);
             // A descendant hit bubbles to this control. An ancestor hit does not:
             // accepting it would mark clipped/offscreen children as clickable.
             let hit = root
-                .input_hit_test_with(
-                    Point::new(point.x + bounds.width / 2.0, point.y + bounds.height / 2.0),
-                    false,
-                )
+                .input_hit_test_with(centre, false)
                 .is_some_and(|hit| {
                     let hit: &Visual = &hit;
                     std::ptr::eq(hit, &*visual) || visual.is_visual_ancestor_of(hit)
@@ -105,6 +130,8 @@ pub fn inspect_view() -> String {
                 "checked":checked,
                 "selectedIndex":visual.cast::<Pivot>().map(|pivot|pivot.selected_index()),
                 "projection":projection,
+                // Keep logical sizes: motion assertions derive the projection
+                // hinge and camera distance from the page's unprojected width.
                 "x":point.x,"y":point.y,"width":bounds.width,"height":bounds.height,"hit":hit
             }))
         })

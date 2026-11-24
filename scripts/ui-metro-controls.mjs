@@ -1,6 +1,37 @@
 import assert from "node:assert/strict";
 import { sleep } from "../FerroUI/scripts/browser/harness.mjs";
 
+function motionDiagnostic(frames) {
+  const firstProjected = frames.findIndex(frame => frame.page && frame.page.projection !== null);
+  const indices = new Set([0, frames.length - 1, firstProjected]);
+  for (let index = 1; index < 10; index++)
+    indices.add(Math.floor((frames.length - 1) * index / 10));
+  return JSON.stringify({
+    sampledFrames: frames.length,
+    unmountedFrames: frames.filter(frame => !frame.page).length,
+    frames: [...indices].filter(index => index >= 0 && index < frames.length)
+      .sort((a, b) => a - b).map(index => frames[index]),
+  });
+}
+
+// A native route replacement can be observed between detaching the old page
+// and laying out the new one. No projection exists on that unmounted frame.
+// Require actual destination frames and a mounted final page, while rejecting
+// every projection observed on either side of the route replacement.
+export function assertUnprojectedFrames(frames, expectedRoute, scenario = "Reduced-motion navigation") {
+  const diagnostic = motionDiagnostic(frames);
+  const observed = frames.filter(frame => frame.page);
+  assert(observed.every(frame => frame.page.projection === null),
+    `${scenario} rendered a decorative projection: ${diagnostic}`);
+  const expected = JSON.stringify(expectedRoute);
+  const destination = observed.filter(frame => JSON.stringify(frame.route) === expected);
+  assert(destination.length >= 2,
+    `${scenario} destination must render at least two observable frames: ${diagnostic}`);
+  const last = frames.at(-1);
+  assert(last?.page && JSON.stringify(last.route) === expected && last.page.projection === null,
+    `${scenario} must finish on its mounted, untransformed destination: ${diagnostic}`);
+}
+
 // Isolated fixtures and real browser pointer, touch and keyboard input. The
 // exported document and native inspection API are observation surfaces only;
 // no control value, selection or callback is set through an inspection hook.
@@ -37,6 +68,10 @@ export async function verifyMetroControls(ctx) {
     await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(data))})`);
     await isRoute("Start");
     await frame();
+    const restored = await state();
+    for (const preference of ["reduced_motion", "battery_saver"])
+      assert.equal(restored.settings[preference], data.settings[preference],
+        `Fixture import must preserve ${preference}`);
   };
   const app = async name => {
     await page.evaluate(`phoneApp.openApp(${JSON.stringify(name)})`);
@@ -82,12 +117,16 @@ export async function verifyMetroControls(ctx) {
   const motionFrames = async action => {
     const sampled = page.evaluate(`new Promise((resolve,reject)=>{
       const frames=[];const start=performance.now();let frame,done=false;
-      const finish=()=>{if(done)return;done=true;cancelAnimationFrame(frame);clearTimeout(timeout);resolve(frames);};
+      const preferences=()=>{const settings=JSON.parse(phoneApp.exportData()).settings;
+        return {reduced_motion:settings.reduced_motion,battery_saver:settings.battery_saver};};
+      const finish=()=>{if(done)return;done=true;cancelAnimationFrame(frame);clearTimeout(timeout);
+        if(frames.length)frames.at(-1).preferences=preferences();resolve(frames);};
       const timeout=setTimeout(finish,1800);
       const sample=()=>{try{
         const view=JSON.parse(phoneApp.inspectView());
         const page=view.elements.find(element=>element.name==='PhonePage');
         frames.push({elapsed:performance.now()-start,route:JSON.parse(phoneApp.currentRoute()),
+          preferences:frames.length===0?preferences():undefined,
           page:page?{x:page.x,y:page.y,width:page.width,height:page.height,projection:page.projection}:null});
         if(performance.now()-start>=850)finish();else frame=requestAnimationFrame(sample);
       }catch(error){done=true;clearTimeout(timeout);reject(error);}};
@@ -106,9 +145,7 @@ export async function verifyMetroControls(ctx) {
     const visits = frames.filter(frame => JSON.stringify(frame.route) === JSON.stringify(route) && frame.page);
     const poses = visits.map(frame => frame.page).filter(page =>
       page.projection?.kind === "turnstile" && Math.abs(page.projection.angleY) > 0.01);
-    const diagnostic = JSON.stringify(frames.map(frame => ({
-      time: Math.round(frame.elapsed), route: frame.route, pose: frame.page?.projection,
-    })));
+    const diagnostic = motionDiagnostic(frames);
     assert(poses.some(page => page.projection.angleY * (backward ? 1 : -1) > 1),
       `${backward ? "Back" : "Forward"} navigation must render its signed native turnstile: ${diagnostic}`);
     let previous = backward ? 50 : 80;
@@ -230,8 +267,7 @@ export async function verifyMetroControls(ctx) {
         await frame();
         await page.resize(viewport.width, viewport.height);
       });
-      assert(reflow.every(frame => frame.page?.projection === null),
-        "Same-route native resize must not replay a consumed page entrance");
+      assertUnprojectedFrames(reflow, { App: "Settings" }, "Same-route native resize");
       await restingPage();
       assert.deepEqual(await state(), document, "Page motion and reflow do not change saved data");
       await capture("metro-turnstile-navigation-settled");
@@ -243,8 +279,7 @@ export async function verifyMetroControls(ctx) {
       await restingPage();
       const still = await motionFrames(() => rawClick(reducedRow));
       await isRoute({ Setting: "ringtones+sounds" });
-      assert(still.length > 1 && still.every(frame => frame.page?.projection === null),
-        "Reduced-motion navigation never attaches a decorative projection");
+      assertUnprojectedFrames(still, { Setting: "ringtones+sounds" });
       await load(fixture);
     });
 
