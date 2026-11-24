@@ -35,21 +35,51 @@ export FERROUI_EMU_PORT
 source "$phone_repo/FerroUI/scripts/android/emu-common.sh"
 # Recheck the AVD identity before every device operation, including helper cleanup.
 # A concurrent process winning the selected port can never become our test device.
-adb_do() {
+verify_private_avd() {
     local actual
     [ "$emulator_started" = 1 ] || return 1
     actual="$(with_timeout 5 "$ADB" -s "$FERROUI_SERIAL" emu avd name 2>/dev/null | tr -d '\r')" || return 1
     [ "${actual%%$'\n'*}" = "$FERROUI_AVD" ] || return 1
+}
+adb_do() {
+    verify_private_avd || return 1
     with_timeout "${ADB_TIMEOUT:-60}" "$ADB" -s "$FERROUI_SERIAL" "$@"
 }
 phone_package=""
 phone_carrier_roles=0
 phone_home_role=0
 phone_notification_access=0
+phone_call_diagnostics=0
+phone_call_logcat_pid=""
 phone_phase="Preparing the ephemeral emulator"
 phase() {
     phone_phase="$1"
     printf '%s\n' "$phone_phase" | tee "$phone_out/phase.txt"
+}
+start_call_diagnostics() {
+    phone_call_diagnostics=1
+    printf 'time_limit_seconds=300\nfile_limit_kib=32768\nbuffers=main,system,radio\n' > "$phone_out/call-logcat-limits.txt"
+    (
+        # Keep the beginning of this phase: a busy system can overwrite the
+        # device ring buffer long before wait_device's failure is captured.
+        # Own the reader PID directly so cleanup can stop it without touching
+        # any other adb client. Both time and output size are bounded.
+        trap - EXIT INT TERM
+        ulimit -f 32768
+        verify_private_avd || exit 1
+        exec perl -e 'alarm shift; exec @ARGV' 300 "$ADB" -s "$FERROUI_SERIAL" \
+            logcat -b main -b system -b radio -v threadtime -T 1
+    ) > "$phone_out/call-logcat.txt" 2>&1 &
+    phone_call_logcat_pid=$!
+}
+stop_call_diagnostics() {
+    local status=0
+    if [ -n "$phone_call_logcat_pid" ]; then
+        kill "$phone_call_logcat_pid" 2>/dev/null || true
+        wait "$phone_call_logcat_pid" || status=$?
+        printf '%s\n' "$status" > "$phone_out/call-logcat-exit.txt"
+        phone_call_logcat_pid=""
+    fi
 }
 restore_home_role() {
     local holder
@@ -81,6 +111,13 @@ cleanup() {
     write_result "$result"
     if [ "$emulator_started" = 1 ]; then
         if [ "$result" != 0 ]; then
+            if [ "$phone_call_diagnostics" = 1 ]; then
+                # Capture the real call before role restoration cancels the
+                # fixture; diagnostic failures never replace the gate result.
+                ADB_TIMEOUT=10 adb_do emu gsm list > "$phone_out/modem-failure-calls.txt" 2>&1
+                ADB_TIMEOUT=10 emu_read_file "$phone_package" windows-phone/phone-device-smoke.json > "$phone_out/device-call-failure.json"
+                ADB_TIMEOUT=20 adb_shell dumpsys telecom > "$phone_out/call-failure-telecom.txt" 2>&1
+            fi
             emu_screencap "$phone_out/failure.png"
             if [ -n "$phone_package" ]; then
                 emu_read_file "$phone_package" windows-phone/phone-android-smoke.json > "$phone_out/failure.json"
@@ -91,6 +128,7 @@ cleanup() {
         ADB_TIMEOUT=20 adb_shell dumpsys activity activities > "$phone_out/activities.txt" 2>&1
         ADB_TIMEOUT=20 adb_shell dumpsys window > "$phone_out/windows.txt" 2>&1
     fi
+    stop_call_diagnostics
     if [ "$phone_notification_access" = 1 ]; then ADB_TIMEOUT=10 restore_notification_access || result=1; fi
     if [ "$phone_carrier_roles" = 1 ]; then ADB_TIMEOUT=10 restore_carrier_roles || result=1; fi
     if [ "$phone_home_role" = 1 ]; then ADB_TIMEOUT=10 restore_home_role || result=1; fi

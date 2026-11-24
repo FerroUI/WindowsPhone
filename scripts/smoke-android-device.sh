@@ -27,6 +27,14 @@ wait_device() {
     while [ "$SECONDS" -lt "$stop" ]; do
         emu_read_file "$phone_package" windows-phone/phone-device-smoke.json > "$phone_out/device-current.tmp"
         mv "$phone_out/device-current.tmp" "$phone_out/device-current.json"
+        case "$expected" in
+            ringing|active|ended)
+                # The 90-second deadline and existing 500ms polling interval
+                # bound this history. Preserve transient real states as well
+                # as the last sample without changing the acceptance test.
+                printf '%s\n' "$(<"$phone_out/device-current.json")" >> "$phone_out/call-$expected-observations.jsonl"
+                ;;
+        esac
         if current="$(python3 "$phone_repo/scripts/verify_android_device.py" "$phone_out/device-current.json" "$phone_device_nonce" "$expected" "$phone_device_sequence" 2> "$phone_out/device-last-error.txt")"; then
             if [ "$candidate" -gt 0 ] && [ "$current" -gt "$candidate" ]; then
                 phone_device_sequence="$current"
@@ -125,8 +133,12 @@ done
 emu_screencap "$phone_out/device-messaging.png"
 
 phase 'Displaying and answering a real emulator Telecom incoming call'
+start_call_diagnostics
+ADB_TIMEOUT=10 adb_do emu gsm list > "$phone_out/modem-before-call.txt" 2>&1 || true
 adb_do emu gsm call 5550102 > "$phone_out/modem-call.txt" 2>&1
 wait_device ringing
+ADB_TIMEOUT=10 adb_do emu gsm list > "$phone_out/modem-ringing-calls.txt" 2>&1 || true
+ADB_TIMEOUT=10 adb_shell dumpsys window > "$phone_out/call-before-answer-window.txt" 2>&1 || true
 emu_screencap "$phone_out/device-ringing.png"
 adb_shell uiautomator dump /sdcard/phone-native-call.xml > "$phone_out/call-uiautomator.txt" 2>&1
 adb_do pull /sdcard/phone-native-call.xml "$phone_out/call-tree.xml" >/dev/null
@@ -142,13 +154,17 @@ else:
 PY
 )
 [[ "$phone_answer_x" =~ ^[0-9]+$ ]] && [[ "$phone_answer_y" =~ ^[0-9]+$ ]]
+printf '%s %s\n' "$phone_answer_x" "$phone_answer_y" > "$phone_out/call-answer-input.txt"
 adb_shell input tap "$phone_answer_x" "$phone_answer_y"
+ADB_TIMEOUT=10 adb_do emu gsm list > "$phone_out/modem-after-answer-calls.txt" 2>&1 || true
+ADB_TIMEOUT=10 emu_read_file "$phone_package" windows-phone/phone-device-smoke.json > "$phone_out/device-after-answer.json" || true
 wait_device active
 emu_screencap "$phone_out/device-active-call.png"
 adb_do emu gsm list > "$phone_out/modem-active-calls.txt" 2>&1
 adb_do emu gsm cancel 5550102 > "$phone_out/modem-call-end.txt" 2>&1
 wait_device ended
 emu_screencap "$phone_out/device-ended-call.png"
+stop_call_diagnostics
 phase 'Restoring the original carrier-role holders inside the isolated AVD'
 restore_carrier_roles
 adb_shell am force-stop "$phone_package"
