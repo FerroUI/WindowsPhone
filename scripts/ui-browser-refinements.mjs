@@ -57,7 +57,7 @@ export async function verifyBrowserRefinements(ctx) {
       await clickLabel("Browser menu");await clickLabel("history");
       await textPresent("history");await capture("browser-native-history");
       assert.equal((await state()).browser.history.length,3);
-      await clickLabel("delete history");await clickLabel("save");
+      await clickLabel("delete history");await clickLabel("confirm");
       await until(async()=>(await state()).browser.history.length===0,"address-bar history cleared");
       assert.equal((await state()).browser.tabs.length,1);
       assert.equal((await state()).bookmarks.length,1);

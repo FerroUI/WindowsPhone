@@ -50,7 +50,7 @@ export async function verifyMediaLibraries(ctx) {
       await reload(); await open('Music'); await clickLabel('playlists'); await clickLabel('Commute');
       assert.deepEqual(await saved('phone.music'), expected);
       await textPresent('Commute');
-      await clickLabel('delete'); await clickLabel('save');
+      await clickLabel('delete'); await clickLabel('confirm');
       await until(async () => !(await saved('phone.music')).playlists.groups.length, 'playlist deleted');
       assert.deepEqual((await state()).tracks, fixture.tracks, 'deleting a playlist never removes or rewrites files');
     });
@@ -80,7 +80,7 @@ export async function verifyMediaLibraries(ctx) {
       await clickLabel('Family portrait'); await clickLabel('more'); await clickLabel('remove from album');
       await until(async () => (await saved('phone.photos')).albums.groups[0].items.length === 1, 'only album membership removed');
       assert.deepEqual((await state()).photos, roundtrip.photos);
-      await clickLabel('more'); await clickLabel('delete album'); await clickLabel('save');
+      await clickLabel('more'); await clickLabel('delete album'); await clickLabel('confirm');
       await until(async () => !(await saved('phone.photos')).albums.groups.length, 'album deleted');
       assert.deepEqual((await state()).photos, roundtrip.photos, 'album deletion preserves all original photos');
       await capture('photos-after-album-delete');

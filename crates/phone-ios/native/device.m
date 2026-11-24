@@ -110,11 +110,23 @@ NSDictionary *wp_ios_device_snapshot(void) {
     wp_ios_smoke_phase("snapshot.maps");
     if ([UIApplication.sharedApplication canOpenURL:[NSURL URLWithString:@"maps://"]]) [supported addObject:@"maps"];
     wp_ios_smoke_phase("snapshot.permissions");
+    wp_ios_smoke_phase("snapshot.permissions.contacts.begin");
+    NSString *contactsPermission = wp_ios_contacts_permission();
+    wp_ios_smoke_phase("snapshot.permissions.contacts.end");
+    wp_ios_smoke_phase("snapshot.permissions.camera.begin");
+    NSString *cameraAccess = cameraPermission();
+    wp_ios_smoke_phase("snapshot.permissions.camera.end");
+    wp_ios_smoke_phase("snapshot.permissions.location.begin");
+    NSString *locationAccess = locationPermission();
+    wp_ios_smoke_phase("snapshot.permissions.location.end");
+    wp_ios_smoke_phase("snapshot.permissions.notifications.begin");
+    NSString *notificationAccess = wp_ios_notifications_permission();
+    wp_ios_smoke_phase("snapshot.permissions.notifications.end");
     NSMutableArray *permissions = [NSMutableArray arrayWithArray:@[
-        @{@"permission":@"contacts", @"status":wp_ios_contacts_permission()},
-        @{@"permission":@"camera", @"status":cameraPermission()},
-        @{@"permission":@"location", @"status":locationPermission()},
-        @{@"permission":@"notifications", @"status":wp_ios_notifications_permission()}]];
+        @{@"permission":@"contacts", @"status":contactsPermission},
+        @{@"permission":@"camera", @"status":cameraAccess},
+        @{@"permission":@"location", @"status":locationAccess},
+        @{@"permission":@"notifications", @"status":notificationAccess}]];
 #if WP_IOS_TELEPHONY
     wp_ios_smoke_phase("snapshot.carrier");
     char *payload = wp_ios_telephony_snapshot();

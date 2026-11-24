@@ -147,7 +147,7 @@ export async function verifySystemRefinements(ctx) {
       await clickLabel("Select email from Smoke Bob");
       await textPresent("2 selected");
       await capture("mail-native-bulk-selection");
-      await clickLabel("delete");await clickLabel("save");
+      await clickLabel("delete");await clickLabel("confirm");
       await until(async()=>{
         const data=await state();return [firstMail,secondMail].every(id=>data.mail.find(mail=>mail.id===id)?.folder==="deleted");
       },"both selected messages moved to deleted items");
@@ -176,7 +176,7 @@ export async function verifySystemRefinements(ctx) {
         "forward preserves exact selected message text");
       await clickLabel("cancel");
       await rightClick(`Context-Message-${firstMessage}`);
-      await clickLabel("delete");await clickLabel("save");
+      await clickLabel("delete");await clickLabel("confirm");
       await until(async()=>!(await state()).conversations.find(thread=>thread.id===firstThread)?.messages.some(message=>message.id===firstMessage),
         "selected individual message removed");
       assert((await state()).conversations.find(thread=>thread.id===firstThread)?.messages.some(message=>message.id===secondMessage));
@@ -191,7 +191,7 @@ export async function verifySystemRefinements(ctx) {
       const second=await reveal(element=>button(element)&&element.automationName==="Select thread with +12025550992",
         "second selected thread",scrollMatch,"Messaging list scroll viewer");
       await page.click(...centre(second));
-      await clickLabel("delete");await clickLabel("save");
+      await clickLabel("delete");await clickLabel("confirm");
       await until(async()=>{
         const data=await state();return !data.conversations.some(thread=>[firstThread,secondThread].includes(thread.id));
       },"both selected threads removed");

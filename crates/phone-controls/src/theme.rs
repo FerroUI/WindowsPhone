@@ -187,7 +187,9 @@ fn install_palette(styles: &Styles, p: &Palette) {
             .build(),
     );
     styles.add(
-        style("TextBlock.phone-action-label")
+        // Standalone actions have no ellipsis. Only an actual collapsed
+        // application bar may hide the caption beneath an action's icon.
+        style("Border.phone-app-bar.collapsed TextBlock.phone-action-label")
             .set(Visual::is_visible_property(), false)
             .build(),
     );
@@ -245,4 +247,78 @@ fn install_lists(styles: &Styles) {
             )
             .build(),
     );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use ferroui_base::FerroLocator;
+    use ferroui_base::platform::IPlatformRenderInterface;
+    use ferroui_controls::Border;
+    use ferroui_view::prelude::*;
+
+    #[test]
+    fn action_captions_only_collapse_inside_an_actual_application_bar() {
+        let _scope = FerroLocator::enter_scope();
+        FerroLocator::current_mutable()
+            .bind::<dyn IPlatformRenderInterface>()
+            .to_constant(ferroui_headless::testing::headless_platform_render_interface());
+        let content: Element = stack_panel()
+            .child(crate::action(crate::Icon::Check, "confirm", || {}))
+            .child(crate::app_bar(
+                vec![crate::action(crate::Icon::Plus, "add", || {})],
+                false,
+                vec![],
+            ))
+            .into();
+        let (root, owner) = content.mount_root();
+        let styles = Styles::new();
+        install_palette(&styles, &Palette::new(DEFAULT_ACCENT, false));
+        root.styles().add(styles);
+        root.apply_styling();
+        for element in root.get_logical_descendants().collect::<Vec<_>>() {
+            element.apply_styling();
+        }
+        let label = |name: &str| {
+            root.get_logical_descendants()
+                .filter_map(|element| element.cast::<TextBlock>())
+                .find(|element| element.has_name(name))
+                .expect("mounted action caption")
+        };
+        let standalone = label("AppBarLabel-confirm");
+        let primary = label("AppBarLabel-add");
+        let bar = root
+            .get_logical_descendants()
+            .filter_map(|element| element.cast::<Border>())
+            .find(|element| element.has_name("PhoneApplicationBar"))
+            .expect("mounted application bar");
+        assert!(
+            standalone.is_visible(),
+            "standalone actions have no ellipsis"
+        );
+        assert!(
+            !primary.is_visible(),
+            "the real collapsed bar hides its caption"
+        );
+
+        bar.classes().remove("collapsed");
+        bar.classes().add("expanded");
+        assert!(
+            primary.is_visible(),
+            "expansion reveals the existing caption"
+        );
+        assert!(standalone.is_visible());
+
+        bar.classes().remove("expanded");
+        bar.classes().add("collapsed");
+        assert!(
+            !primary.is_visible(),
+            "collapsing restores the icon-only bar"
+        );
+        assert!(
+            standalone.is_visible(),
+            "bar state cannot hide an unrelated action"
+        );
+        owner.dispose();
+    }
 }

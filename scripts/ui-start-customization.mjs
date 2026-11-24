@@ -110,7 +110,7 @@ export async function verifyStartCustomization(ctx) {
       const folder=(await state()).tiles[0];
       assert.deepEqual([...folder.folder_tiles].sort((a,b)=>a.id-b.id),[...before].sort((a,b)=>a.id-b.id));
       await capture("start-customized-folder");
-      await actions(folder.id);await menuName("TileMenu-dissolve-folder");await clickLabel("save");
+      await actions(folder.id);await menuName("TileMenu-dissolve-folder");await clickLabel("confirm");
       await until(async()=>(await state()).tiles.length===2,"folder children returned to Start");
       assert.deepEqual([...(await state()).tiles].sort((a,b)=>a.id-b.id),[...before].sort((a,b)=>a.id-b.id));
     });

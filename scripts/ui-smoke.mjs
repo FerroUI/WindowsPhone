@@ -31,7 +31,9 @@ import { verifyOutlookDrafts } from "./ui-outlook-drafts.mjs";
 const site = path.resolve(process.argv[2] || "artifacts/site");
 const output = path.resolve(process.argv[3] || "artifacts/ui-smoke");
 const started = Date.now();
-const deadline = started + 270000;
+// The expanded rendered suite reached its offline reload after roughly 270s
+// in CI. Reserve completion margin without extending any individual UI wait.
+const deadline = started + 360000;
 const results = { site, viewport: [1280, 936], checks: [], captures: [] };
 const apps = [
   ["Phone", "Phone"], ["Messaging", "Messaging"], ["People", "People"],
@@ -50,7 +52,7 @@ const snapshot = async () => JSON.parse(await page.evaluate("phoneApp.inspectVie
 const state = async () => JSON.parse(await page.evaluate("phoneApp.exportData()"));
 const route = async () => JSON.parse(await page.evaluate("phoneApp.currentRoute()"));
 const healthy = () => {
-  assert(Date.now() < deadline, "UI verification exceeded the 4½-minute budget");
+  assert(Date.now() < deadline, "UI verification exhausted the 6-minute suite budget");
   assert.equal(page.errors.length, 0, page.errors.join("\n"));
 };
 const button = element => /(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type);
@@ -78,6 +80,9 @@ async function until(check, label, timeout = 10000) {
     } catch (error) { lastError = error; }
     await sleep(75);
   }
+  // The shared suite deadline can end the loop before this action's own
+  // timeout. Report that budget exhaustion instead of a missing UI control.
+  healthy();
   throw new Error(`Timed out: ${label}${lastError ? ` (${lastError.message})` : ""}`);
 }
 
@@ -479,7 +484,7 @@ try {
   await check("native note deletion", async () => {
     await clickLabel("delete");
     await textPresent("delete this note?", "note deletion confirmation");
-    await clickLabel("save");
+    await clickLabel("confirm");
     await until(async () => !(await state()).notes.some(note => note.id === noteId), "deleted note");
     assert(!(await state()).tiles.some(tile => tile.target?.Note === noteId),
       "Deleting a note should also remove its secondary tile");

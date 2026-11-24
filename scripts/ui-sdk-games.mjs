@@ -167,9 +167,9 @@ export async function verifySdkGames(ctx) {
       const scroll = element => /ScrollViewer$/.test(element.type) && element.width > 220 && element.height > 250;
       const disable = await reveal(element => button(element) && element.automationName === 'disable',
         'disable game', scroll, 'Store detail scroll viewer');
-      await page.click(...centre(disable)); await clickLabel('save');
+      await page.click(...centre(disable)); await clickLabel('confirm');
       await until(async () => (await state()).disabled_extensions.includes(tic), 'game disabled through Store');
-      await until(async () => !(await snapshot()).elements.some(element => element.hit && button(element) && element.automationName === 'save'),
+      await until(async () => !(await snapshot()).elements.some(element => element.hit && button(element) && element.automationName === 'confirm'),
         'disable confirmation dismissed');
       const disabled = await state();
       assert(!disabled.app_links.some(item => item.app === tic), 'disable removes app links');

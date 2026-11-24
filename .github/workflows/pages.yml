@@ -149,7 +149,7 @@ jobs:
           retention-days: 3
       - name: Verify rendered desktop and touch views
         if: steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
-        timeout-minutes: 5
+        timeout-minutes: 7
         run: node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
       - uses: actions/upload-artifact@v4
         if: always() && (steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]'))

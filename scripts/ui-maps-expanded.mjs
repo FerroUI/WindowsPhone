@@ -104,7 +104,7 @@ export async function verifyMapsExpansion(ctx) {
       await page.click(...centre(target));await isRoute({App:'Maps'});
       await textPresent('Raciborz home','Start tile activates the exact saved place');
       await capture('maps-saved-place-start-activation');
-      await clickLabel('more');await clickLabel('delete place');await clickLabel('save');
+      await clickLabel('more');await clickLabel('delete place');await clickLabel('confirm');
       const deleted=await state();const saved=deleted.app_data['phone.maps'];
       assert.equal(saved.places.length,0);assert.equal(saved.home,null);
       assert(!deleted.app_links.some(item=>item.id===link.id),'Deleting the saved place removes its obsolete Start link');
@@ -117,7 +117,7 @@ export async function verifyMapsExpansion(ctx) {
       assert.equal((await state()).app_data['phone.maps'].recent[0],'50.1, 18.2');
       await clickName('HardwareBack');await clickLabel('recent');
       await textPresent('50.1, 18.2','recent map query');
-      await clickLabel('more');await clickLabel('clear recent searches');await clickLabel('save');
+      await clickLabel('more');await clickLabel('clear recent searches');await clickLabel('confirm');
       assert.deepEqual((await state()).app_data['phone.maps'].recent,[]);
       await capture('maps-coordinate-search-and-history');
     });

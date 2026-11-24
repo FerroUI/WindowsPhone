@@ -55,8 +55,18 @@ save_observations() {
     cp "$device_status" "$out/device-tests.json" || true
   fi
 }
+record_launch_driver() {
+  if [ -z "${launch:-}" ]; then return 0; fi
+  local state=not_running
+  if kill -0 "$launch" 2>/dev/null; then state=running; fi
+  # This is the existing console driver's liveness, not proof of the app PID.
+  # Only the existing completed wait below can supply an exit code.
+  python3 "$root/scripts/collect-ios-failure.py" --launch-driver \
+    "$launch" "$1" "$state" "$out" "${launch_exit_code:-}" || true
+}
 cleanup() {
   local result=$?
+  record_launch_driver cleanup-begin
   save_observations
   if [ "$result" != 0 ]; then
     printf 'iOS verification failed during: %s\n' "$(cat "$out/phase.txt")" >&2
@@ -84,6 +94,7 @@ cleanup() {
   xcrun simctl terminate "$udid" "$bundle_id" >/dev/null 2>&1 || true
   xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
   xcrun simctl delete "$udid" >/dev/null 2>&1 || true
+  record_launch_driver cleanup-end
   return "$result"
 }
 trap cleanup EXIT
@@ -102,6 +113,7 @@ SIMCTL_CHILD_PHONE_IOS_SMOKE=1 SIMCTL_CHILD_PHONE_IOS_DEVICE_TEST=1 SIMCTL_CHILD
   xcrun simctl launch --console-pty --terminate-running-process "$udid" "$bundle_id" \
   > "$out/console.log" 2>&1 &
 launch=$!
+record_launch_driver started
 container="$(xcrun simctl get_app_container "$udid" "$bundle_id" data)"
 status="$container/Documents/phone-ios-smoke.json"
 device_status="$container/Documents/phone-ios-device-tests.json"
@@ -118,6 +130,8 @@ wait_for_route() {
     save_observations
     if ! kill -0 "$launch" 2>/dev/null; then
       if wait "$launch"; then code=0; else code=$?; fi
+      launch_exit_code="$code"
+      record_launch_driver driver-exited
       printf 'Simulator launch console exited with code %s while waiting for %s.\n' "$code" "$expected" >&2
       cat "$out/console.log" >&2
       return 1
@@ -128,6 +142,7 @@ wait_for_route() {
     fi
     sleep 0.5
   done
+  record_launch_driver mount-failed
   printf 'Timed out waiting for the mounted route %s.\n' "$expected" >&2
   python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline" --explain || true
   cat "$out/console.log" >&2

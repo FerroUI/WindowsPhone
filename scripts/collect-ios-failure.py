@@ -3,6 +3,7 @@
 import datetime
 import hashlib
 import json
+import os
 import pathlib
 import plistlib
 import re
@@ -13,6 +14,9 @@ import uuid
 
 BUNDLE_ID = "org.ferroui.windowsphone"
 MAX_REPORT_BYTES = 4 * 1024 * 1024
+MAX_CONSOLE_BYTES = 1024 * 1024
+MAX_RECORDED_PIDS = 8
+DRIVER_EVENTS = frozenset(("started", "driver-exited", "mount-failed", "cleanup-begin", "cleanup-end"))
 
 
 def executable_for_bundle(app, bundle_id):
@@ -35,7 +39,7 @@ def executable_for_bundle(app, bundle_id):
     return executable
 
 
-def owned_pid(processes, executable):
+def owned_process_matches(processes, executable):
     matches = []
     for row in processes.splitlines():
         fields = row.strip().split(None, 1)
@@ -43,6 +47,11 @@ def owned_pid(processes, executable):
             continue
         if int(fields[0]) > 1 and fields[1] == str(executable):
             matches.append(int(fields[0]))
+    return matches
+
+
+def owned_pid(processes, executable):
+    matches = owned_process_matches(processes, executable)
     if len(matches) != 1:
         raise ValueError("Expected exactly one process for the owned installed executable.")
     return matches[0]
@@ -88,6 +97,52 @@ def launch_pid(console):
     if len(identifiers) > 1 or any(value <= 1 for value in identifiers):
         raise ValueError("The launch console contains ambiguous process identities.")
     return next(iter(identifiers), None)
+
+
+def console_observation(path):
+    """Observe one bounded log version; never infer identity from a partial read."""
+    result = {"observed_at_unix_ms": time.time_ns() // 1_000_000,
+              "maximum_read_bytes": MAX_CONSOLE_BYTES, "parsed_pid": None}
+    try:
+        with pathlib.Path(path).open("rb") as stream:
+            before = os.fstat(stream.fileno())
+            content = stream.read(MAX_CONSOLE_BYTES + 1)
+            after = os.fstat(stream.fileno())
+        stable = (before.st_ino, before.st_size, before.st_mtime_ns) == (
+            after.st_ino, after.st_size, after.st_mtime_ns)
+        truncated = len(content) > MAX_CONSOLE_BYTES or after.st_size > MAX_CONSOLE_BYTES
+        bounded = content[:MAX_CONSOLE_BYTES]
+        result.update({"exists": True, "bytes": after.st_size,
+                       "modified_at_unix_ns": after.st_mtime_ns, "read_bytes": len(bounded),
+                       "stable_during_read": stable, "truncated": truncated,
+                       "read_sha256": hashlib.sha256(bounded).hexdigest()})
+        if not stable or truncated:
+            raise ValueError("The launch console changed during its bounded read or exceeded the limit.")
+        if content and not content.endswith(b"\n"):
+            raise ValueError("The launch console ends with an incomplete line.")
+        result["parsed_pid"] = launch_pid(content.decode("utf-8", errors="replace"))
+    except (OSError, ValueError) as error:
+        result["identity_error"] = str(error)[-4096:]
+    return result
+
+
+def record_launch_driver(pid, event, state, output, exit_code=None):
+    """Record the shell's direct child, never use it as the native sampling PID."""
+    pid = int(pid)
+    if pid <= 1 or event not in DRIVER_EVENTS or state not in ("running", "not_running"):
+        raise ValueError("Invalid launch-driver observation.")
+    if exit_code is not None and (type(exit_code) is not int or not 0 <= exit_code <= 255
+                                  or state != "not_running"):
+        raise ValueError("A driver exit code requires an observed completed shell wait.")
+    output = pathlib.Path(output)
+    record = {"schema": 1, "event": event, "observed_at_unix_ms": time.time_ns() // 1_000_000,
+              "driver_pid": pid, "driver_state": state, "observed_exit_code": exit_code,
+              "liveness_source": "Shell kill -0 of its direct simctl launch child; not native application liveness.",
+              "console": console_observation(output / "console.log")}
+    path = output / f"launch-driver-{event}.json"
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(record, indent=2) + "\n")
+    temporary.replace(path)
 
 
 def report_time(value):
@@ -189,8 +244,11 @@ def collect(simulator, bundle_id, output):
             raise ValueError("Cached installation lacks a valid prelaunch timestamp.")
         executable = pathlib.Path(identity["executable"])
         simulator_root(executable, simulator)
-        with (output / "console.log").open() as stream:
-            expected_pid = launch_pid(stream.read(1024 * 1024))
+        console = console_observation(output / "console.log")
+        record["console_observation"] = console
+        if "identity_error" in console:
+            raise ValueError(console["identity_error"])
+        expected_pid = console["parsed_pid"]
         crash_identity_verified = True
         record["console_pid"] = expected_pid
         actual = executable_for_bundle(executable.parent, bundle_id)
@@ -199,6 +257,11 @@ def collect(simulator, bundle_id, output):
             raise ValueError("The installed executable changed after the prelaunch observation.")
         processes = subprocess.run(["/bin/ps", "-axww", "-o", "pid=,comm="],
                                    capture_output=True, text=True, check=True, timeout=4).stdout
+        matches = owned_process_matches(processes, executable)
+        record["exact_process_matches"] = {
+            "count": len(matches),
+            "classification": "none" if not matches else "unique" if len(matches) == 1 else "multiple",
+            "pids": matches[:MAX_RECORDED_PIDS], "pids_truncated": len(matches) > MAX_RECORDED_PIDS}
         pid = owned_pid(processes, executable)
         if expected_pid is not None and expected_pid != pid:
             raise ValueError("The launch console and live installed executable have different process identities.")
@@ -225,9 +288,13 @@ def collect(simulator, bundle_id, output):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 5 and sys.argv[1] == "--prepare":
+    if len(sys.argv) in (6, 7) and sys.argv[1] == "--launch-driver":
+        exit_code = int(sys.argv[6]) if len(sys.argv) == 7 and sys.argv[6] else None
+        record_launch_driver(*sys.argv[2:6], exit_code=exit_code)
+    elif len(sys.argv) == 5 and sys.argv[1] == "--prepare":
         prepare(*sys.argv[2:])
     elif len(sys.argv) == 4:
         collect(*sys.argv[1:])
     else:
-        raise SystemExit("Usage: collect-ios-failure.py [--prepare] SIMULATOR BUNDLE_ID OUTPUT")
+        raise SystemExit("Usage: collect-ios-failure.py [--prepare] SIMULATOR BUNDLE_ID OUTPUT\n"
+                         "       collect-ios-failure.py --launch-driver PID EVENT STATE OUTPUT [EXIT_CODE]")

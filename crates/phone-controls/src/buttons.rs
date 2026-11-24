@@ -12,9 +12,28 @@ pub fn flat(label: &str, on_click: impl Fn() + 'static) -> Element {
 }
 
 pub fn command(label: &str, on_click: impl Fn() + 'static) -> Element {
-    rsx! { Button {class:"phone-button",content:label,automation_properties_name:label,
-        on_click:move |event| { event.set_handled(true); on_click(); }
-    } }
+    command_button(label, on_click).into()
+}
+
+/// A text command remains readable without application-bar expansion. Return
+/// the native builder so dialogs can name and place it without hiding its label.
+pub fn command_button(label: &str, on_click: impl Fn() + 'static) -> El<Button> {
+    button()
+        .class("phone-button")
+        .min_width(0.0)
+        .min_height(44.0)
+        .horizontal_alignment(H::Stretch)
+        .horizontal_content_alignment(H::Stretch)
+        .automation_properties_name(label)
+        .on_click(move |event| {
+            event.set_handled(true);
+            on_click();
+        })
+        .child(rsx! {TextBlock {
+            text:label,font_size:22.0*crate::text_scale(),
+            text_alignment:ferroui_base::media::TextAlignment::Center,
+            text_wrapping:TextWrapping::Wrap,vertical_alignment:V::Center
+        }})
 }
 
 pub fn pivot(label: &str, selected: bool, on_click: impl Fn() + 'static) -> Element {

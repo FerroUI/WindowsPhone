@@ -64,6 +64,50 @@ class OwnedProcessTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             module.launch_pid("org.ferroui.windowsphone: 0\n")
 
+    def test_console_observation_preserves_the_version_seen_before_late_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "console.log"
+            path.write_bytes(b"")
+            before = module.console_observation(path)
+            path.write_bytes(b"org.ferroui.windowsphone: 34323\n")
+            after = module.console_observation(path)
+            self.assertEqual(before["bytes"], 0)
+            self.assertIsNone(before["parsed_pid"])
+            self.assertEqual(after["bytes"], 32)
+            self.assertEqual(after["parsed_pid"], 34323)
+            self.assertNotEqual(before["read_sha256"], after["read_sha256"])
+            self.assertEqual(after["modified_at_unix_ns"], path.stat().st_mtime_ns)
+            self.assertGreaterEqual(after["observed_at_unix_ms"], before["observed_at_unix_ms"])
+            for invalid in (b"org.ferroui.windowsphone: 343", b"org.ferroui.windowsphone: 42\n"
+                            b"org.ferroui.windowsphone: 43\n", b"x" * (module.MAX_CONSOLE_BYTES + 1)):
+                with self.subTest(bytes=len(invalid)):
+                    path.write_bytes(invalid)
+                    result = module.console_observation(path)
+                    self.assertIn("identity_error", result)
+                    self.assertIsNone(result["parsed_pid"])
+                    self.assertLessEqual(result["read_bytes"], module.MAX_CONSOLE_BYTES)
+
+    def test_launch_driver_records_do_not_sample_or_claim_a_native_process(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "console.log").write_text("org.ferroui.windowsphone: 34323\n")
+            with mock.patch.object(module.subprocess, "run") as commands:
+                module.record_launch_driver(42, "started", "running", root)
+                module.record_launch_driver(42, "driver-exited", "not_running", root, exit_code=17)
+            commands.assert_not_called()
+            started = json.loads((root / "launch-driver-started.json").read_text())
+            self.assertEqual(started["driver_pid"], 42)
+            self.assertEqual(started["console"]["parsed_pid"], 34323)
+            self.assertIsNone(started["observed_exit_code"])
+            ended = json.loads((root / "launch-driver-driver-exited.json").read_text())
+            self.assertEqual(ended["observed_exit_code"], 17)
+            for pid, event, state, code in ((1, "started", "running", None),
+                                            (42, "../elsewhere", "running", None),
+                                            (42, "started", "running", 0),
+                                            (42, "driver-exited", "not_running", 256)):
+                with self.subTest(event=event, code=code), self.assertRaises(ValueError):
+                    module.record_launch_driver(pid, event, state, root, exit_code=code)
+
     def test_crash_requires_exact_simulator_installation_bundle_process_and_time(self):
         simulator = "31E50930-5D50-4FC2-A00B-35E79219E55D"
         executable = f"/Users/runner/Library/Developer/CoreSimulator/Devices/{simulator}/data/Containers/Bundle/Application/APP-ID/Phone.app/phone-ios"
@@ -122,6 +166,23 @@ class OwnedProcessTests(unittest.TestCase):
             self.assertEqual(result["pid"], 42)
             self.assertEqual(result["sample_exit_code"], 0)
             self.assertEqual(calls.call_count, 3)
+            self.assertEqual(result["exact_process_matches"]["classification"], "unique")
+            self.assertEqual(result["console_observation"]["parsed_pid"], 42)
+
+            for candidates, classification in (([], "none"), ([42, 43], "multiple"), ([43], "unique")):
+                with self.subTest(candidates=candidates):
+                    rows = "\n".join(f"{pid} {executable}" for pid in candidates)
+                    with mock.patch.object(module.subprocess, "run", return_value=
+                            subprocess.CompletedProcess([], 0, rows, "")) as calls, \
+                            mock.patch.object(module, "collect_crashes", return_value=[]):
+                        module.collect(simulator, module.BUNDLE_ID, root)
+                    failed = json.loads((root / "owned-process.json").read_text())
+                    self.assertEqual(failed["exact_process_matches"]["count"], len(candidates))
+                    self.assertEqual(failed["exact_process_matches"]["classification"], classification)
+                    self.assertIn("diagnostic_error", failed)
+                    self.assertNotIn("pid", failed)
+                    self.assertEqual(calls.call_count, 1)
+                    self.assertNotIn("/usr/bin/sample", calls.call_args.args[0])
 
     def test_crash_discovery_accepts_both_filename_delimiters_with_exact_ownership(self):
         simulator = "31E50930-5D50-4FC2-A00B-35E79219E55D"

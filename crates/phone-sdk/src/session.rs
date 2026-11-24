@@ -123,7 +123,7 @@ impl Session {
     }
 
     pub fn confirm(&self, title: &str, callback: Rc<dyn Fn()>) {
-        self.form(title, Vec::new(), Rc::new(move |_| callback()));
+        self.form_with_action(title, Vec::new(), "confirm", Rc::new(move |_| callback()));
     }
 
     pub fn open_app(&self, vm: &phone_state::PhoneViewModel, app: AppId) {

@@ -7,6 +7,7 @@ export async function verifyOutlookDrafts(ctx) {
   const {page,check,state,snapshot,until,capture,button,centre,control,
     clickName,clickLabel,edit,isRoute,reveal,reload}=ctx;
   const original=await state();
+  const viewport=await snapshot();
   const fixture=structuredClone(original);
   Object.assign(fixture.settings,{lock_timeout:0,reduced_motion:true});
   fixture.app_data||={};
@@ -32,6 +33,31 @@ export async function verifyOutlookDrafts(ctx) {
   const drafts=async()=>{await clickLabel("more");await clickLabel("drafts");};
   const renderedBody=async(value,description)=>until(async()=>
     (await snapshot()).elements.find(element=>element.name==="MailComposeBody"&&element.text===value),description);
+  const resize=async(width,height)=>{
+    await page.resize(width,height);
+    await until(async()=>{
+      const view=await snapshot();return view.width===width&&view.height===height;
+    },`Outlook viewport ${width} × ${height}`);
+  };
+  const inside=(child,parent)=>child.x>=parent.x-0.6&&child.y>=parent.y-0.6&&
+    child.x+child.width<=parent.x+parent.width+0.6&&child.y+child.height<=parent.y+parent.height+0.6;
+  const confirmation=async action=>until(async()=>{
+    const view=await snapshot(),screen=view.elements.find(element=>element.name==="PhoneScreen");
+    if(!screen)return;
+    for(const [name,label] of [["DialogAction",action],["DialogCancel","cancel"]]){
+      const commands=view.elements.filter(element=>element.name===name&&button(element));
+      assert(commands.length<=1,`One ${label} confirmation command`);
+      const command=commands[0];if(!command)return;
+      assert(command.hit&&command.enabled,`${label} confirmation must accept native input`);
+      assert(command.width>=44&&command.height>=44&&inside(command,screen),
+        `${label} confirmation must provide a visible touch target inside the phone`);
+      assert.equal(command.automationName,label,`${label} keeps its explicit accessible caption`);
+      const captions=view.elements.filter(element=>/(?:TextBlock|AccessText)$/.test(element.type)&&
+        element.text===label&&inside(element,command)&&inside(element,screen));
+      assert.equal(captions.length,1,`${label} must be visibly rendered inside its command, not only named for automation`);
+    }
+    return true;
+  },`visible and usable ${action}/cancel confirmation`);
   const closeEditor=async()=>{
     await clickName("HardwareBack");
     await until(async()=>(await snapshot()).elements.every(element=>element.name!=="MailComposeBody"),"Outlook editor closed");
@@ -64,16 +90,18 @@ export async function verifyOutlookDrafts(ctx) {
       const unsaved="Unsaved replacement\nKeep this while switching apps.";
       await field("MailComposeBody",unsaved);
       await clickName("HardwareBack");
-      await control(element=>button(element)&&element.automationName==="discard","discard unsaved changes confirmation");
+      await resize(320,740);
+      await confirmation("discard");
       await capture("outlook-unsaved-back-confirmation");
       await clickLabel("cancel");
+      await resize(viewport.width,viewport.height);
       await renderedBody(unsaved,"canceling Back preserves the unsaved multiline editor");
       assert.deepEqual((await saved()).items[0].fields,fields);
       await clickName("HardwareStart");await isRoute("Start");await app();
       // Route publication precedes the new frame's composition readback. Wait
       // for the actual native TextBox while retaining the exact text assertion.
       await renderedBody(unsaved,"the retained composer survives app switching");
-      await clickName("HardwareBack");await clickLabel("discard");
+      await clickName("HardwareBack");await confirmation("discard");await clickLabel("discard");
       await until(async()=>(await snapshot()).elements.every(element=>element.name!=="MailComposeBody"),"unsaved replacement discarded");
       assert.deepEqual((await saved()).items[0].fields,fields);
       await reload();await app();await drafts();await clickName(`MailDraft-${id}`);
@@ -88,9 +116,11 @@ export async function verifyOutlookDrafts(ctx) {
         "Enter an email address. Separate multiple addresses with commas."),"invalid recipient validation");
       assert.deepEqual((await saved()).items[0].fields,fields);
       assert.deepEqual((await state()).mail,fixture.mail);
-      await clickLabel("delete draft");await clickLabel("cancel");
+      await clickLabel("delete draft");await confirmation("delete");
+      await capture("outlook-delete-draft-confirmation");
+      await clickLabel("cancel");
       assert.equal((await saved()).items.length,1,"canceling deletion preserves the saved draft");
-      await clickLabel("delete draft");await clickLabel("delete");
+      await clickLabel("delete draft");await confirmation("delete");await clickLabel("delete");
       await until(async()=>(await saved()).items.length===0,"confirmed draft deletion persisted");
       assert.deepEqual((await state()).mail,fixture.mail);
       await capture("outlook-draft-deleted");
@@ -99,6 +129,9 @@ export async function verifyOutlookDrafts(ctx) {
     await capture("outlook-drafts-failure").catch(()=>{});
     throw error;
   } finally {
+    const current=await snapshot();
+    if(current.width!==viewport.width||current.height!==viewport.height)
+      await resize(viewport.width,viewport.height);
     await load(original);
   }
 }
