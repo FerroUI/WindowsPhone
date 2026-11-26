@@ -80,7 +80,9 @@ impl PhoneViewModel {
             DeviceResponse::Snapshot(snapshot) => {
                 if matches!(
                     snapshot.permission(DevicePermission::Location),
-                    PermissionState::Denied | PermissionState::Restricted
+                    PermissionState::Unknown
+                        | PermissionState::Denied
+                        | PermissionState::Restricted
                 ) {
                     state.location = None;
                 }
@@ -317,6 +319,32 @@ mod tests {
     use ferroui_reactive::ObservableExt;
     use ferroui_reactiveui::IReactiveNotifyPropertyChanged;
     use std::{cell::Cell, rc::Rc};
+    #[test]
+    fn pending_location_authorization_retires_the_last_observed_position_atomically() {
+        let vm = PhoneViewModel::new(phone_domain::PhoneData::demo(), Rc::new(|_| {}));
+        vm.set_device_location(50.0, 18.0).unwrap();
+        assert!(vm.device_state().location.is_some());
+        let weak = Rc::downgrade(&vm);
+        let subscription = vm.changed().subscribe_next(move |_| {
+            let state = weak.upgrade().unwrap().device_state();
+            assert_eq!(
+                state.snapshot.permission(DevicePermission::Location),
+                PermissionState::Unknown
+            );
+            assert!(state.location.is_none());
+        });
+        vm.set_device_response(DeviceResponse::Snapshot(DeviceSnapshot {
+            permissions: vec![DevicePermissionState {
+                permission: DevicePermission::Location,
+                status: PermissionState::Unknown,
+            }],
+            ..Default::default()
+        }))
+        .unwrap();
+        subscription.dispose();
+        assert!(vm.device_state().location.is_none());
+    }
+
     #[test]
     fn changed_contact_subsets_are_retired_in_the_same_snapshot_publication() {
         let vm = PhoneViewModel::new(phone_domain::PhoneData::demo(), Rc::new(|_| {}));

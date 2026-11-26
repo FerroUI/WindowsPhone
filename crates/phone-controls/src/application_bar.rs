@@ -2,7 +2,7 @@
 //! The SDK supplies expansion state, so Back, navigation and app-bar input share
 //! one owner. Standalone bars retain their own expansion state when no host is
 //! connected, so overflow commands remain reachable in a control gallery too.
-use crate::{Icon, palette};
+use crate::{palette, Icon};
 use ferroui_base::interactivity::RoutingStrategies;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::{TextTrimming, TextWrapping};
@@ -11,6 +11,10 @@ use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::element::{Handler, PropValue};
 use ferroui_view::prelude::*;
 use std::{cell::RefCell, rc::Rc};
+
+#[cfg(test)]
+#[path = "application_bar/layout_tests.rs"]
+mod layout_tests;
 
 #[derive(Clone)]
 struct ExpansionController {
@@ -220,8 +224,13 @@ fn render_app_bar(
     );
     let count = primary.len();
     let mut icons = uniform_grid()
+        .name("AppBarPrimaryCommands")
         .columns(count.max(1) as i32)
-        .horizontal_alignment(H::Center)
+        // Center alignment measures the circle's 44-unit minimum, then jumps
+        // to the caption's desired width when labels appear. Stretch keeps
+        // the same equal command slots in both states; MaxWidth centers the
+        // bounded group while allowing four slots to fit a narrow viewport.
+        .horizontal_alignment(H::Stretch)
         .max_width(count as f64 * 76.0);
     for action in primary {
         icons = icons.child(action);
@@ -265,10 +274,10 @@ fn render_app_bar(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ferroui_base::FerroLocator;
     use ferroui_base::interactivity::RoutedEventArgs;
     use ferroui_base::platform::IPlatformRenderInterface;
     use ferroui_base::reactive::IDisposable;
+    use ferroui_base::FerroLocator;
     use std::cell::Cell;
 
     fn render_scope() -> Rc<dyn IDisposable> {
@@ -472,13 +481,11 @@ mod tests {
         )
         .mount_root();
         assert!(control.classes().contains("collapsed"));
-        assert!(
-            control
-                .get_logical_descendants()
-                .filter_map(|child| child.cast::<Button>())
-                .find(|button| button.has_name("AppBarAction-five"))
-                .is_none()
-        );
+        assert!(control
+            .get_logical_descendants()
+            .filter_map(|child| child.cast::<Button>())
+            .find(|button| button.has_name("AppBarAction-five"))
+            .is_none());
         let more = control
             .find_descendant_of_type_where::<Button>(false, |button| button.has_name("AppBarMore"))
             .unwrap();

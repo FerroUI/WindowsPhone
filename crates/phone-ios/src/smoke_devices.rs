@@ -87,6 +87,11 @@ async fn roundtrip(platform: Rc<dyn PlatformPlugin>) -> Value {
         if initial.permission(DevicePermission::Contacts) != PermissionState::Granted {
             return Err("The isolated simulator must grant Contacts before launch.".into());
         }
+        let location = initial.permission(DevicePermission::Location);
+        if location != PermissionState::Prompt {
+            return Err("The fresh simulator must observe unrequested location authorization without prompting or locating.".into());
+        }
+        checks.push(json!({"name":"location_authorization_observed","passed":true,"status":location}));
         if initial.role(DeviceRole::Dialer) != HostRole::Unsupported || initial.role(DeviceRole::Sms) != HostRole::Unsupported
             || initial.supports(DeviceOperation::CallControl) || initial.supports(DeviceOperation::SendMessages) {
             return Err("The unprovisioned simulator incorrectly advertised carrier roles or in-call control.".into());
@@ -154,8 +159,11 @@ pub fn install(host: &Rc<NativeHost>) {
     DispatcherTimer::run(move || {
         attempts.set(attempts.get() + 1);
         let Some(host) = weak.upgrade() else { return false };
-        if !host.view().is_attached_to_visual_tree() {
-            if attempts.get() >= 40 { report(&json!({"schema":1,"platform":"ios","status":"failed","error":"The native host did not mount for device roundtrips."})); return false; }
+        let authorization = host.vm().device_state().snapshot.permission(DevicePermission::Location);
+        if !host.view().is_attached_to_visual_tree()
+            || matches!(authorization, PermissionState::Unknown | PermissionState::Unsupported)
+        {
+            if attempts.get() >= 40 { report(&json!({"schema":1,"platform":"ios","status":"failed","error":"The native host did not mount and asynchronously observe location authorization for device roundtrips."})); return false; }
             return true;
         }
         let platform = host.runtime().platform();

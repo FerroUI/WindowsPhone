@@ -67,6 +67,16 @@ settings (15 seconds), sharing (120), notification authorization (60), banners
 cancellation only discards ownership of their eventual result. Returning from
 Settings refreshes actual notification authorization without prompting.
 
+Location permission is observed through a lifecycle-owned `CLLocationManager`
+delegate. Device snapshots read its cached state, initially `unknown`, so creating
+the shared view never waits on a synchronous Core Location authorization query.
+The SDK shows `checking` until the delegate reports the actual state. Suspension
+releases the observer and invalidates queued creation; resumption creates a fresh
+observer. This observation does not request authorization or a location. Explicit
+location and permission tasks also wait for the manager's initial authorization
+callback before requesting access, and retain their existing cancellation and
+timeout ownership.
+
 Device snapshots are coalesced and delivered before dependent data events.
 Contacts queries recheck authorization and contact-store generation before
 admitting their results. Native pickers carry the originating draft ID; a late
@@ -172,7 +182,8 @@ timer; the harness explicitly supplies `PHONE_IOS_SMOKE=1`. A separate
 `PHONE_IOS_DEVICE_TEST=1` opt-in additionally requires a simulator build. It
 creates, reads, updates and deletes one uniquely named contact in that disposable
 simulator; verifies that its read-only brightness rejects writes without changing
-the observed value; and checks that unprovisioned carrier
+the observed value; requires an actual asynchronously observed, unrequested
+location permission on the fresh simulator; and checks that unprovisioned carrier
 roles and unavailable hardware remain unavailable. It places no calls and sends
 no messages. Physical brightness changes require device qualification. Contacts
 permission is granted only on that newly created test

@@ -2,7 +2,6 @@
 #import "attachments.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Contacts/Contacts.h>
-#import <CoreLocation/CoreLocation.h>
 #import <MessageUI/MessageUI.h>
 #include <string.h>
 
@@ -81,16 +80,6 @@ static NSString *cameraPermission(void) {
     }
 }
 
-static NSString *locationPermission(void) {
-    switch (CLLocationManager.authorizationStatus) {
-        case kCLAuthorizationStatusNotDetermined: return @"prompt";
-        case kCLAuthorizationStatusAuthorizedAlways:
-        case kCLAuthorizationStatusAuthorizedWhenInUse: return @"granted";
-        case kCLAuthorizationStatusRestricted: return @"restricted";
-        default: return @"denied";
-    }
-}
-
 NSDictionary *wp_ios_device_snapshot(void) {
     wp_ios_smoke_phase("snapshot.begin");
     NSMutableArray *roles = [NSMutableArray new];
@@ -117,7 +106,7 @@ NSDictionary *wp_ios_device_snapshot(void) {
     NSString *cameraAccess = cameraPermission();
     wp_ios_smoke_phase("snapshot.permissions.camera.end");
     wp_ios_smoke_phase("snapshot.permissions.location.begin");
-    NSString *locationAccess = locationPermission();
+    NSString *locationAccess = wp_ios_location_authorization();
     wp_ios_smoke_phase("snapshot.permissions.location.end");
     wp_ios_smoke_phase("snapshot.permissions.notifications.begin");
     NSString *notificationAccess = wp_ios_notifications_permission();
@@ -241,6 +230,7 @@ int wp_ios_device(uint64_t identifier, WPIOSCompletion callback, const char *jso
 
 void wp_ios_device_monitor(int enabled) {
     if (!NSThread.isMainThread) return;
+    wp_ios_location_monitor(enabled);
     if (enabled > 0) wp_ios_notifications_install();
 #if WP_IOS_TELEPHONY
     wp_ios_telephony_monitor(enabled);

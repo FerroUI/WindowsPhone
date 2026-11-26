@@ -16,6 +16,9 @@ use ferroui_headless::{
 use ferroui_view::prelude::*;
 use std::time::Duration;
 
+#[path = "input_tests.rs"]
+mod input_tests;
+
 fn frame() {
     Dispatcher::ui_thread().run_jobs(None);
     FerroHeadlessPlatform::force_render_timer_tick(1);
@@ -83,6 +86,41 @@ fn assert_centered_wheel(panel: &DateTimePickerPanel) {
                     .is_some_and(|text| !text.is_empty())
             }),
             "expanded native slots contain formatted values instead of blank cells"
+        );
+    }
+}
+
+fn assert_separate_time_wheels(window: &Window, presenter: &TemplatedControl, expected: &[&str]) {
+    let wheels = part::<Grid>(presenter, "PART_PickerContainer");
+    let mut previous_right = 0.0;
+    for name in expected {
+        let panel = part::<DateTimePickerPanel>(presenter, &format!("PART_{name}Selector"));
+        let bounds = panel.bounds();
+        let origin = panel
+            .translate_point(ferroui_base::Point::new(0.0, 0.0), &wheels)
+            .expect("wheel belongs to the same native page");
+        assert!(bounds.width > 0.0 && bounds.height > 0.0);
+        assert!(
+            origin.x >= previous_right - 0.01,
+            "{name} must not overlap the preceding time wheel"
+        );
+        previous_right = origin.x + bounds.width;
+        assert!(previous_right <= wheels.bounds().width + 1.0);
+        let centre = panel
+            .translate_point(
+                ferroui_base::Point::new(bounds.width / 2.0, bounds.height / 2.0),
+                window,
+            )
+            .unwrap();
+        let hit = window
+            .input_hit_test(centre)
+            .expect("selected wheel is hittable");
+        assert!(
+            hit.ptr_eq(&panel)
+                || hit
+                    .get_visual_ancestors()
+                    .any(|ancestor| ancestor.ptr_eq(&panel)),
+            "{name}'s selected cell is reached by its own native pointer target"
         );
     }
 }
@@ -259,6 +297,7 @@ fn native_phone_time_page_keeps_clock_increment_seconds_and_teardown_contracts()
         let picker=root.find_descendant_of_type::<TimePicker>(false).unwrap();
         let presenter=open(&window,&picker);
         assert!(!part::<Grid>(&presenter,"PART_PeriodHost").is_visible());
+        assert_separate_time_wheels(&window, &presenter, &["Hour", "Minute"]);
         let hour=part::<DateTimePickerPanel>(&presenter,"PART_HourSelector");
         let minute=part::<DateTimePickerPanel>(&presenter,"PART_MinuteSelector");
         assert!(hour.is_focused(),"native first-selector focus is attached before input");
@@ -268,6 +307,26 @@ fn native_phone_time_page_keeps_clock_increment_seconds_and_teardown_contracts()
         assert_eq!(picker.selected_time(),Some(original));
         key(&window,Key::Enter,PhysicalKey::Enter);
         assert_eq!(picker.selected_time(),Some(SignedDuration::from_hms(14,10,0)));
+        // Reuse the actual popup while clock mode, optional columns and
+        // viewport change. Every visible wheel must keep its own pointer area.
+        for width in [320.0, 400.0] {
+            window.set_width(width);
+            for (clock, seconds, names) in [
+                ("24HourClock", false, &["Hour", "Minute"][..]),
+                ("24HourClock", true, &["Hour", "Minute", "Second"][..]),
+                ("12HourClock", false, &["Hour", "Minute", "Period"][..]),
+                ("12HourClock", true, &["Hour", "Minute", "Second", "Period"][..]),
+            ] {
+                picker.set_clock_identifier(clock);
+                picker.set_use_seconds(seconds);
+                frame();
+                let presenter = open(&window, &picker);
+                assert_separate_time_wheels(&window, &presenter, names);
+                close_phone_pickers();
+                frame();
+            }
+        }
+        window.set_width(320.0);
         picker.set_clock_identifier("12HourClock"); picker.set_use_seconds(true); picker.set_second_increment(15);
         let presenter=open(&window,&picker);
         assert!(part::<Grid>(&presenter,"PART_PeriodHost").is_visible());

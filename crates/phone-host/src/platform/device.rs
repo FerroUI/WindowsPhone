@@ -278,6 +278,8 @@ pub enum DevicePermission {
 pub enum PermissionState {
     #[default]
     Unsupported,
+    /// Supported permission whose native authorization has not been observed yet.
+    Unknown,
     Prompt,
     Granted,
     Limited,
