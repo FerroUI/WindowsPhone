@@ -1,4 +1,6 @@
 use super::{AlarmState, Alert};
+use ferroui_view::prelude::batch;
+use phone_domain::{AppId, CalendarReminder, Route};
 use phone_sdk::{session::Session, AppContext, AppRegistry};
 use phone_state::{HostRequest, PhoneViewModel};
 use std::{
@@ -154,6 +156,69 @@ impl AlarmState {
             id: current.app_id,
         }
         .navigate(&current.reminder.path);
+    }
+
+    pub(super) fn open_calendar_reminder(
+        &self,
+        vm: &Rc<PhoneViewModel>,
+        ui: &Rc<Session>,
+        epoch: u64,
+        item: &CalendarReminder,
+    ) {
+        let registry = ui.registry();
+        let key = Alert::Calendar(item.clone()).key();
+        if !self.owns_open_context(vm, ui, &registry, epoch)
+            || !self
+                .active
+                .get_untracked()
+                .is_some_and(|active| active.key() == key)
+            || !self.calendar_open_is_current(vm, ui, &registry, epoch, item)
+            || !self
+                .active
+                .get_untracked()
+                .is_some_and(|active| active.key() == key)
+        {
+            return;
+        }
+        let Ok(payload) = serde_json::to_value(&item.occurrence) else {
+            return;
+        };
+        self.dismiss(vm);
+        if !self.calendar_open_is_current(vm, ui, &registry, epoch, item) {
+            return;
+        }
+        ui.locked.set(false);
+        if !self.calendar_open_is_current(vm, ui, &registry, epoch, item) {
+            return;
+        }
+        // An already-active Calendar can consume the activation synchronously.
+        // Publish its exact occurrence and route together, as AppContext does,
+        // so a consumer's child route or document restore wins after delivery.
+        batch(|| {
+            if let Err(error) = ui.queue_activation("phone.calendar", payload) {
+                vm.set_status(error);
+                return;
+            }
+            vm.navigate(Route::App(AppId::Calendar));
+        });
+    }
+
+    fn calendar_open_is_current(
+        &self,
+        vm: &PhoneViewModel,
+        ui: &Rc<Session>,
+        registry: &Rc<AppRegistry>,
+        epoch: u64,
+        item: &CalendarReminder,
+    ) -> bool {
+        self.owns_open_context(vm, ui, registry, epoch)
+            && self.refresh_app_reminders(vm)
+            && self.owns_open_context(vm, ui, registry, epoch)
+            && registry
+                .by_id("phone.calendar")
+                .is_some_and(|app| app.manifest.builtin == Some(AppId::Calendar))
+            && vm.data().installed.contains(&AppId::Calendar)
+            && phone_domain::reminder_is_current(item, &vm.data().events)
     }
 
     fn owns_open_context(

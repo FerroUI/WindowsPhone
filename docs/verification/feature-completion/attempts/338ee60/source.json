@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "recorded_at_utc": "2026-11-26T21:26:20.004927+00:00",
+  "repository": "FerroUI/WindowsPhone",
+  "pull_request": 5,
+  "branch": "codex/feature-completion-6fbd965",
+  "head": "338ee603df73190cb71ed78bbd97bb22be9b88a6",
+  "base": "6fbd96563087756a7d4afd4be3451a3fb1178549",
+  "pr_merge": "f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+  "head_and_merge_tree": "165803ec12be0c0527657ad56189b77ece79ba64",
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "runs": {
+    "browser_and_desktop": 45897444145,
+    "android_arm": 45897443713,
+    "android_ui": 45897443998,
+    "ios": 45897443751
+  },
+  "jobs": {
+    "browser": 140174735453,
+    "linux": 140174735340,
+    "macos": 140174734926,
+    "windows": 140174735306,
+    "android_arm": 140174734467,
+    "android_ui": 140174733668,
+    "ios": 140174732970
+  },
+  "status": "Execution in progress; actual checkout/source metadata and terminal results must be retained before qualification."
+}

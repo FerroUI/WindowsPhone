@@ -1,0 +1,705 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "run_id": 45897444145,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45897444145",
+  "event": "pull_request",
+  "attempt": 1,
+  "source": {
+    "head": "338ee603df73190cb71ed78bbd97bb22be9b88a6",
+    "head_tree": "165803ec12be0c0527657ad56189b77ece79ba64",
+    "actual_checkout": "f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+    "checkout_tree": "165803ec12be0c0527657ad56189b77ece79ba64",
+    "checkout_parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "338ee603df73190cb71ed78bbd97bb22be9b88a6"
+    ],
+    "trees_identical": true,
+    "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "native_commands": [
+    "cargo test --locked -p phone-host -p phone-platform-desktop",
+    "python -B -m unittest discover -s crates/phone-desktop/platform/tests -v",
+    "dbus-run-session -- env PHONE_MPRIS_TEST_SESSION=1 cargo test --locked -p phone-host private_bus_media_controls -- --ignored (Linux only)",
+    "cargo test --locked -p phone-native --lib",
+    "cargo build --locked -p phone-desktop"
+  ],
+  "scope": "All three exact candidate merge checkouts: host/platform/native unit tests, native packaging checks and full application build/link. No desktop GUI/device runtime validation is implied. Linux default test exclusions are recorded separately from the explicitly executed private-bus case. Browser failure is independent and not a native-matrix failure.",
+  "jobs": {
+    "linux": {
+      "id": 140174735340,
+      "name": "native (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45897444145/job/140174735340",
+      "started_at": "2026-11-26T21:20:28Z",
+      "completed_at": "2026-11-26T21:25:23Z",
+      "actual_checkout": "f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+      "framework_checkout": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+      "tests": {
+        "phone_host": {
+          "passed": 35,
+          "failed": 0,
+          "ignored": 1,
+          "filtered_out": 0
+        },
+        "phone_platform_desktop": {
+          "passed": 9,
+          "failed": 0,
+          "ignored": 1,
+          "filtered_out": 0
+        },
+        "phone_native": {
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "private_bus_mpris": {
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 35
+        },
+        "python": 6,
+        "ignored_test_log_lines": [
+          "2026-11-26T21:22:02.9544351Z test native::media_session::linux::tests::private_bus_media_controls ... ignored, requires a dedicated dbus-run-session",
+          "2026-11-26T21:22:03.3058704Z test linux::tests::gio_fixture_child ... ignored, run only by the isolated parent fixture with its temporary XDG directories"
+        ]
+      },
+      "full_application_link": {
+        "command": "cargo build --locked -p phone-desktop",
+        "success": true,
+        "step_duration_seconds": 92.0
+      },
+      "cache": {
+        "restored": true,
+        "exact_key_hit": false,
+        "restore_prefix_hit": true,
+        "saved": true,
+        "post_step_conclusion": "success",
+        "proof": [
+          "2026-11-26T21:21:09.2125721Z Cache hit for restore-key: phone-native-v2-Linux-X64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+          "2026-11-26T21:21:52.7004122Z Cache restored from key: phone-native-v2-Linux-X64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+          "2026-11-26T21:25:21.8780483Z Cache saved with key: phone-native-v2-Linux-X64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-3dac1ec2e85066c5226251090956ff1c2773f010eb8584e9dc3dfffe96db7140"
+        ]
+      },
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T21:20:29Z",
+          "completed_at": "2026-11-26T21:20:30Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T21:20:30Z",
+          "completed_at": "2026-11-26T21:20:46Z"
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3,
+          "started_at": "2026-11-26T21:20:46Z",
+          "completed_at": "2026-11-26T21:20:46Z"
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T21:20:46Z",
+          "completed_at": "2026-11-26T21:20:54Z"
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T21:20:54Z",
+          "completed_at": "2026-11-26T21:20:55Z"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-26T21:20:55Z",
+          "completed_at": "2026-11-26T21:21:08Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T21:21:08Z",
+          "completed_at": "2026-11-26T21:21:52Z"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T21:21:52Z",
+          "completed_at": "2026-11-26T21:22:03Z"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T21:22:03Z",
+          "completed_at": "2026-11-26T21:22:04Z"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": "2026-11-26T21:22:04Z",
+          "completed_at": "2026-11-26T21:22:04Z"
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-11-26T21:22:04Z",
+          "completed_at": "2026-11-26T21:22:04Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12,
+          "started_at": "2026-11-26T21:22:04Z",
+          "completed_at": "2026-11-26T21:22:04Z"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-26T21:22:04Z",
+          "completed_at": "2026-11-26T21:22:04Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T21:22:04Z",
+          "completed_at": "2026-11-26T21:23:33Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T21:23:33Z",
+          "completed_at": "2026-11-26T21:25:05Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-26T21:25:05Z",
+          "completed_at": "2026-11-26T21:25:21Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30,
+          "started_at": "2026-11-26T21:25:21Z",
+          "completed_at": "2026-11-26T21:25:22Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31,
+          "started_at": "2026-11-26T21:25:22Z",
+          "completed_at": "2026-11-26T21:25:22Z"
+        }
+      ],
+      "source_proof": [
+        "2026-11-26T21:20:45.8395133Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+        "2026-11-26T21:20:46.1372659Z f2a75acc656bfc47a5a4aeed41cdc033945ce4b5"
+      ],
+      "result_proof": [
+        "2026-11-26T21:22:03.3057601Z test result: ok. 35 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.35s",
+        "2026-11-26T21:22:03.3853386Z test result: ok. 9 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+        "2026-11-26T21:22:03.6946855Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:03.7239187Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:04.0064470Z Ran 6 tests in 0.045s",
+        "2026-11-26T21:22:04.1867428Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 35 filtered out; finished in 0.02s",
+        "2026-11-26T21:23:33.0278580Z test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "2026-11-26T21:25:05.1432777Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized] target(s) in 1m 32s"
+      ],
+      "log": {
+        "path": "/tmp/windowsphone-tooling/native-linux-338ee60.log",
+        "sha256": "60543fcdec1438870b55f63319314f84b9378f8a0e156ed53412fa15c68d15f5",
+        "bytes": 196842
+      }
+    },
+    "macos": {
+      "id": 140174734926,
+      "name": "native (macos-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45897444145/job/140174734926",
+      "started_at": "2026-11-26T21:20:29Z",
+      "completed_at": "2026-11-26T21:29:33Z",
+      "actual_checkout": "f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+      "framework_checkout": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+      "tests": {
+        "phone_host": {
+          "passed": 31,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "phone_platform_desktop": {
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "phone_native": {
+          "passed": 17,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "python": 6,
+        "ignored_test_log_lines": []
+      },
+      "full_application_link": {
+        "command": "cargo build --locked -p phone-desktop",
+        "success": true,
+        "step_duration_seconds": 245.0
+      },
+      "cache": {
+        "restored": true,
+        "exact_key_hit": false,
+        "restore_prefix_hit": true,
+        "saved": true,
+        "post_step_conclusion": "success",
+        "proof": [
+          "2026-11-26T21:21:02.1596550Z Cache hit for restore-key: phone-native-v2-macOS-ARM64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+          "2026-11-26T21:21:35.4169150Z Cache restored from key: phone-native-v2-macOS-ARM64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+          "2026-11-26T21:29:28.3269470Z Cache saved with key: phone-native-v2-macOS-ARM64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-3dac1ec2e85066c5226251090956ff1c2773f010eb8584e9dc3dfffe96db7140"
+        ]
+      },
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T21:20:29Z",
+          "completed_at": "2026-11-26T21:20:30Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T21:20:30Z",
+          "completed_at": "2026-11-26T21:20:52Z"
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3,
+          "started_at": "2026-11-26T21:20:52Z",
+          "completed_at": "2026-11-26T21:20:52Z"
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T21:20:52Z",
+          "completed_at": "2026-11-26T21:20:59Z"
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T21:20:59Z",
+          "completed_at": "2026-11-26T21:21:01Z"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6,
+          "started_at": "2026-11-26T21:21:01Z",
+          "completed_at": "2026-11-26T21:21:01Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T21:21:01Z",
+          "completed_at": "2026-11-26T21:21:35Z"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T21:21:35Z",
+          "completed_at": "2026-11-26T21:22:14Z"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T21:22:14Z",
+          "completed_at": "2026-11-26T21:22:15Z"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": "2026-11-26T21:22:15Z",
+          "completed_at": "2026-11-26T21:22:15Z"
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-11-26T21:22:15Z",
+          "completed_at": "2026-11-26T21:22:15Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12,
+          "started_at": "2026-11-26T21:22:15Z",
+          "completed_at": "2026-11-26T21:22:15Z"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-11-26T21:22:15Z",
+          "completed_at": "2026-11-26T21:22:15Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T21:22:15Z",
+          "completed_at": "2026-11-26T21:24:35Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T21:24:35Z",
+          "completed_at": "2026-11-26T21:28:40Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-26T21:28:40Z",
+          "completed_at": "2026-11-26T21:29:28Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30,
+          "started_at": "2026-11-26T21:29:28Z",
+          "completed_at": "2026-11-26T21:29:29Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31,
+          "started_at": "2026-11-26T21:29:29Z",
+          "completed_at": "2026-11-26T21:29:32Z"
+        }
+      ],
+      "source_proof": [
+        "2026-11-26T21:20:52.0716740Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+        "2026-11-26T21:20:52.7522290Z f2a75acc656bfc47a5a4aeed41cdc033945ce4b5"
+      ],
+      "result_proof": [
+        "2026-11-26T21:22:13.9960930Z test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+        "2026-11-26T21:22:14.0175930Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:14.6386150Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "2026-11-26T21:22:14.7429030Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:15.8272210Z Ran 6 tests in 0.129s",
+        "2026-11-26T21:24:35.5632480Z test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s",
+        "2026-11-26T21:28:39.8148560Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized] target(s) in 4m 04s"
+      ],
+      "log": {
+        "path": "/tmp/windowsphone-tooling/native-macos-338ee60.log",
+        "sha256": "22a33d41d4be8cbfdeeb1bcbc917d9e46abea07b4ec2a22abc70fa7ab7c67a9d",
+        "bytes": 155726
+      }
+    },
+    "windows": {
+      "id": 140174735306,
+      "name": "native (windows-2022)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45897444145/job/140174735306",
+      "started_at": "2026-11-26T21:20:29Z",
+      "completed_at": "2026-11-26T21:30:57Z",
+      "actual_checkout": "f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+      "framework_checkout": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+      "tests": {
+        "phone_host": {
+          "passed": 32,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "phone_platform_desktop": {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "phone_native": {
+          "passed": 16,
+          "failed": 0,
+          "ignored": 0,
+          "filtered_out": 0
+        },
+        "python": 6,
+        "ignored_test_log_lines": []
+      },
+      "full_application_link": {
+        "command": "cargo build --locked -p phone-desktop",
+        "success": true,
+        "step_duration_seconds": 231.0
+      },
+      "cache": {
+        "restored": true,
+        "exact_key_hit": false,
+        "restore_prefix_hit": true,
+        "saved": true,
+        "post_step_conclusion": "success",
+        "proof": [
+          "2026-11-26T21:21:15.3863717Z Cache hit for restore-key: phone-native-v2-Windows-X64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-windows-2022-f199338837b50a0946e0c308779ff7329335cb92f6dbdfb2fdc0c14557260bed",
+          "2026-11-26T21:22:04.7523213Z Cache restored from key: phone-native-v2-Windows-X64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-windows-2022-f199338837b50a0946e0c308779ff7329335cb92f6dbdfb2fdc0c14557260bed",
+          "2026-11-26T21:30:53.1426277Z Cache saved with key: phone-native-v2-Windows-X64-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-windows-2022-0b4ba9c270d38fe889f8632e4cf6a419ae8431dc6543d1ceebc41b43826a5b00"
+        ]
+      },
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T21:20:30Z",
+          "completed_at": "2026-11-26T21:20:31Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T21:20:31Z",
+          "completed_at": "2026-11-26T21:20:54Z"
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T21:20:54Z",
+          "completed_at": "2026-11-26T21:21:00Z"
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T21:21:00Z",
+          "completed_at": "2026-11-26T21:21:10Z"
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T21:21:10Z",
+          "completed_at": "2026-11-26T21:21:14Z"
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6,
+          "started_at": "2026-11-26T21:21:14Z",
+          "completed_at": "2026-11-26T21:21:14Z"
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T21:21:14Z",
+          "completed_at": "2026-11-26T21:22:04Z"
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T21:22:04Z",
+          "completed_at": "2026-11-26T21:22:21Z"
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T21:22:21Z",
+          "completed_at": "2026-11-26T21:22:22Z"
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-26T21:22:22Z",
+          "completed_at": "2026-11-26T21:22:22Z"
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-26T21:22:22Z",
+          "completed_at": "2026-11-26T21:22:31Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-26T21:22:31Z",
+          "completed_at": "2026-11-26T21:22:32Z"
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-11-26T21:22:32Z",
+          "completed_at": "2026-11-26T21:22:32Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T21:22:32Z",
+          "completed_at": "2026-11-26T21:26:28Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T21:26:28Z",
+          "completed_at": "2026-11-26T21:30:19Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-26T21:30:19Z",
+          "completed_at": "2026-11-26T21:30:53Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30,
+          "started_at": "2026-11-26T21:30:53Z",
+          "completed_at": "2026-11-26T21:30:55Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31,
+          "started_at": "2026-11-26T21:30:55Z",
+          "completed_at": "2026-11-26T21:30:55Z"
+        }
+      ],
+      "source_proof": [
+        "2026-11-26T21:20:51.9299856Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+        "2026-11-26T21:20:54.6271599Z f2a75acc656bfc47a5a4aeed41cdc033945ce4b5"
+      ],
+      "result_proof": [
+        "2026-11-26T21:22:20.4839069Z test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s",
+        "2026-11-26T21:22:20.4993682Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:20.9981443Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:21.0782294Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T21:22:22.5135075Z Ran 6 tests in 0.008s",
+        "2026-11-26T21:26:28.6343550Z test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s",
+        "2026-11-26T21:30:19.1916072Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized] target(s) in 3m 50s"
+      ],
+      "log": {
+        "path": "/tmp/windowsphone-tooling/native-windows-338ee60.log",
+        "sha256": "1144d54411bfc8902b67a4e9dfefabcadf8aba9cce1ec65adf9299d508d24185",
+        "bytes": 178415
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "id": 15154377377,
+      "name": "original-emulator-windows-host",
+      "size_in_bytes": 1018,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15154377377",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15154377377/zip",
+      "expired": false,
+      "created_at": "2026-11-26T21:22:32Z",
+      "expires_at": "2026-12-03T21:22:31Z",
+      "updated_at": "2026-11-26T21:22:32Z",
+      "digest": "sha256:9125d9a884d9a34638f7361d2dc910fe7e0a1370264919bb11490310f4eefb85",
+      "workflow_run": {
+        "id": 45897444145,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "338ee603df73190cb71ed78bbd97bb22be9b88a6"
+      }
+    }
+  ],
+  "artifacts_locally_downloaded": false,
+  "finalized": true,
+  "observed_at": "2026-11-26T21:35:21.509Z"
+}

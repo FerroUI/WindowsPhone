@@ -415,17 +415,14 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let open = ui.clone();
     let open_vm = vm.clone();
     let open_item = item.clone();
+    // Calendar occurrences do not carry an epoch. Retain the rendered source
+    // boundary so an old native callback cannot target an equal ID after restore.
+    let open_epoch = vm.document_epoch();
     let reminder_label = if reminder {
         rsx! {Button{name:"AppReminderOpen",class:"phone-flat",padding:0.0,horizontal_content_alignment:H::Left,
         automation_properties_name:if calendar{"Open reminder appointment"}else{"Open reminder item"},
         on_click:move |_|match &open_item {
-            Alert::Calendar(reminder)=>{
-                open.state::<AlarmState>().dismiss(&open_vm);open.locked.set(false);
-                if let Ok(value)=serde_json::to_value(&reminder.occurrence){
-                    if let Err(error)=open.queue_activation("phone.calendar",value){open_vm.set_status(error);return;}
-                }
-                open_vm.navigate(phone_domain::Route::App(phone_domain::AppId::Calendar));
-            }
+            Alert::Calendar(reminder)=>open.state::<AlarmState>().open_calendar_reminder(&open_vm,&open,open_epoch,reminder),
             Alert::App(item)=>open.state::<AlarmState>().open_app_reminder(&open_vm,&open,item),
             Alert::Alarm(_)=>{}
         },{common::text(&label,28.0)}}}

@@ -57,9 +57,27 @@ iOS navigation/path checks. No fresh browser/native execution or publication is
 claimed by this preflight record.
 
 New focused coverage includes a 3,000-row variable-height native grouped list,
-extension preview rendering and lifecycle, 24 Calendar/SDK/reminder Rust tests,
+extension preview rendering and lifecycle, 28 Calendar/SDK/reminder Rust tests,
 seven Calendar browser groups and two Phone browser groups. Those additions are
 requirements for the candidate execution, not substitutes for it.
+
+## Candidate execution history
+
+The [first candidate's retained records](attempts/338ee60/README.md) identify
+the exact PR merge tree and preserve its complete browser failure log. All
+three desktop builds, Android ARM packages, Android mounted verification and
+iOS native verification passed. The browser lane stopped during Calendar test
+thread teardown before compilation/rendering: its direct callback fixture
+omitted production's successful dialog cleanup. The follow-up preserves its
+assertions and releases the dialog at the same boundary as the real command.
+
+The follow-up also guards appointment-reminder opening across synchronous
+dismissal/unlock callbacks. Original document, current session/registry, host
+lifetime and current occurrence are rechecked before navigation; activation
+and route publication are batched so a synchronous consumer's redirect or
+document replacement remains authoritative. Four focused regression tests
+cover retained callbacks, fourteen dismissal/unlock invalidations and both
+synchronous consumer outcomes. Their execution belongs to the successor CI.
 
 ## Corrected historical assessment
 

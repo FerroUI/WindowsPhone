@@ -5,6 +5,8 @@ use phone_sdk::{AppManifest, AppRegistration, AppReminder, Capability, ScopedApp
 use phone_state::HostServices;
 use std::cell::RefCell;
 
+mod calendar;
+
 const APP: &str = "test.reminders";
 type Callback = Box<dyn FnOnce()>;
 thread_local! {
@@ -60,12 +62,15 @@ impl Fixture {
         let mut data = PhoneData::default();
         data.alarms.clear();
         data.events.clear();
+        Self::with_data(data, registry(original))
+    }
+
+    fn with_data(mut data: PhoneData, registry: Rc<AppRegistry>) -> Self {
         data.settings.sounds = true;
         data.settings.ringer_volume = 7;
         let vm = PhoneViewModel::new(data, Rc::new(|_| {}));
         vm.set_clock(phone_domain::days_from_date(2026, 11, 26) * 86_400 + 9 * 3_600);
         vm.set_utc_offset(0);
-        let registry = registry(original);
         registry.bind(&vm);
         let ui = Rc::new(Session::new(vm.now(), registry.clone()));
         phone_sdk::set_current_session(&ui);

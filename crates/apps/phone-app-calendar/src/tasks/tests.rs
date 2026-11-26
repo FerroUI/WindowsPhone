@@ -96,7 +96,13 @@ fn unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_rese
     assert!(!state.matches(&vm, &old));
     assert!(back(&vm, &ui));
     let discard = ui.dialog.get_untracked().unwrap();
+    // Match the shared DialogAction transaction: clear feedback, invoke the
+    // callback, then release the successful dialog. Calling only `save` would
+    // retain its Rc<Session> inside that Session's dialog signal until TLS drop.
+    ui.form_error.set(String::new());
     (discard.save)(Vec::new());
+    assert!(ui.form_error.get_untracked().is_empty());
+    ui.dialog.set(None);
     assert!(state.editor.get_untracked().is_none());
 }
 
