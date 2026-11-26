@@ -27,6 +27,7 @@ import { verifyNavigationMotion } from "./ui-navigation-motion.mjs";
 import { verifyPhoneControlStates } from "./ui-phone-control-states.mjs";
 import { verifyPhonePickers } from "./ui-phone-pickers.mjs";
 import { verifyOutlookDrafts } from "./ui-outlook-drafts.mjs";
+import { inputGeometryReady, inputTarget, stableInputTarget } from "./ui-input-geometry.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
 // Exported state is an observation surface. Gallery navigation and controlled
@@ -111,25 +112,30 @@ const textPresent = (text, label = text) =>
   presence(element => visibleText(element) && element.text === text, label);
 
 async function click(match, label) {
-  await page.click(...centre(await control(match, label)));
+  await page.click(...centre(await inputControl(match, label)));
 }
+const inputControl = (match, label) => until(() => stableInputTarget({
+  snapshot, frame: renderedFrame, match, label,
+}), label);
 const clickName = name => click(element => element.name === name, name);
 const clickLabel = async label => {
+  const match=element=>button(element)&&element.automationName===label;
   const found=await until(async()=>{
     const view=await snapshot();
-    const matches=view.elements.filter(element=>element.hit&&button(element)&&element.automationName===label);
-    assert(matches.length<=1,`Ambiguous control: ${label} (${matches.length})`);
-    if(matches[0])return matches[0];
+    if(!inputGeometryReady(view))return;
+    if(inputTarget(view,match,label))return stableInputTarget({view,snapshot,frame:renderedFrame,match,label});
     const menu=view.elements.find(element=>element.name==='AppBarMenuScroll'&&element.height>0);
     if(menu){
       const target=view.elements.find(element=>button(element)&&element.automationName===label);
-      await page.wheel(...centre(menu),0,target&&centre(target)[1]<menu.y?-220:220);await renderedFrame();
+      const scroll=await inputControl(element=>element.name==='AppBarMenuScroll','application bar menu');
+      await page.wheel(...centre(scroll),0,target&&centre(target)[1]<scroll.y?-220:220);await renderedFrame();
     }
     else {
       const strip=view.elements.find(element=>element.name==='PivotHeaderScroll'&&element.height>0);
       const target=view.elements.find(element=>button(element)&&element.automationName===label);
       if(strip&&target&&(centre(target)[0]<strip.x||centre(target)[0]>strip.x+strip.width)){
-        await page.wheel(...centre(strip),centre(target)[0]<strip.x?-220:220,0);await renderedFrame();
+        const scroll=await inputControl(element=>element.name==='PivotHeaderScroll','pivot header strip');
+        await page.wheel(...centre(scroll),centre(target)[0]<scroll.x?-220:220,0);await renderedFrame();
       }
     }
   },label);
@@ -140,14 +146,16 @@ const isRoute = expected => until(async () => JSON.stringify(await route()) === 
   `route ${JSON.stringify(expected)}`);
 
 async function reveal(match, label, scrollMatch, scrollLabel) {
-  for (let attempt = 0; attempt < 14; attempt++) {
-    healthy();
-    const found = (await snapshot()).elements.filter(element => element.hit && match(element));
-    assert(found.length <= 1, `Ambiguous control: ${label}`);
-    if (found[0]) return found[0];
-    await page.wheel(...centre(await control(scrollMatch, scrollLabel)), 0, 530);
-  }
-  throw new Error(`Could not reveal ${label} by native scrolling`);
+  let attempts = 0;
+  return until(async () => {
+    const view = await snapshot();
+    if (!inputGeometryReady(view)) return;
+    if (inputTarget(view, match, label))
+      return stableInputTarget({view, snapshot, frame: renderedFrame, match, label});
+    assert(attempts < 14, `Could not reveal ${label} by native scrolling`);
+    await page.wheel(...centre(await inputControl(scrollMatch, scrollLabel)), 0, 530);
+    attempts++;
+  }, label);
 }
 
 async function edit(name, text) {
