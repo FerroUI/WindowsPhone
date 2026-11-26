@@ -1,0 +1,145 @@
+{
+  "source_revision": "dc9e2a94d206944023169a789539c02307dd201a",
+  "javascript": {
+    "command": "node --test scripts/*.test.mjs",
+    "passed": 77,
+    "failed": 0,
+    "scope": "The unchanged JavaScript harness passed on the previous source revision. This consumer change does not edit any JavaScript file.",
+    "tested_revision": "f6c3d20d865018ccb960b7720b1f6c4b873c6519"
+  },
+  "formatting_and_whitespace": "passed",
+  "incomplete_native_test_attempt": {
+    "result": "compiler terminated by SIGKILL in framework ferroui-controls code generation",
+    "tests_executed": false,
+    "scope": "No local runtime pass or test assertion failure is claimed. CI provides native test execution.",
+    "attempted_revision": "f6c3d20d865018ccb960b7720b1f6c4b873c6519"
+  },
+  "log_identities": {
+    "javascript": {
+      "path": "/tmp/windowsphone-tooling/browser-budget-4f10a3d-tests.log",
+      "bytes": 7620,
+      "sha256": "19ee0b123969d54b3294545c4cc88a441cf9784a4750015551aa5afe4e1e4cd0"
+    },
+    "incomplete_native_test_attempt": {
+      "path": "/tmp/windowsphone-tooling/picker-shell-regression-before.log",
+      "bytes": 16679,
+      "sha256": "d914a52c247bff9feec0335c39e3546bddf3779ef601002cf7f37ea851f19a75"
+    },
+    "prior_shell_typecheck": {
+      "path": "/tmp/windowsphone-tooling/picker-shell-regression-check.log",
+      "bytes": 25343,
+      "sha256": "598783ac215392f9b7f8618da43e5262effb6be59f8f9bb5c96ff5a78ad808f4"
+    },
+    "prior_reopen_typecheck": {
+      "path": "local/picker-reopen-final.log",
+      "bytes": 17602,
+      "sha256": "47d321f2ac9b66dc934ee67d22a5810da09f277d5ad8c8ff7f879cf00d589970"
+    },
+    "prior_hidden_part_typecheck": {
+      "path": "local/picker-reopen-scope.log",
+      "bytes": 17706,
+      "sha256": "e022423fde5038f280387718495c7b2df23efe0dfde5de8027a2e746caf10e9a"
+    },
+    "prior_bounded_consumer_typecheck": {
+      "path": "local/bounded-scroll-consumer.log",
+      "bytes": 19028,
+      "sha256": "ac98267bd899952ebddaf04514e8a8b4b4a471da853ec7ed497b57c2de6e9684"
+    },
+    "current_followup_consumer_typecheck": {
+      "path": "local/bounded-scroll-followup-consumer.log",
+      "bytes": 19028,
+      "sha256": "08fd60e0342d6908c92c4258776ac64eec115da22b071a0f15f07673b74e0dc4"
+    },
+    "prior_bounded_framework_typecheck": {
+      "path": "local/bounded-scroll-framework.log",
+      "bytes": 19765,
+      "sha256": "e439892f08bd572f2b67ecac5fb636a0021233ddc48a1ddb3b9b43665c3d3d9e"
+    },
+    "current_followup_framework_typecheck": {
+      "path": "local/bounded-scroll-followup-framework.log",
+      "bytes": 19081,
+      "sha256": "76785d77e4c9c3a74aa39e22be32d646669125ce6837caf103d9f599c126600b"
+    }
+  },
+  "prior_shell_typecheck": {
+    "command": "cargo check --locked -p phone-system --tests",
+    "result": "passed",
+    "elapsed_seconds": 697,
+    "tests_executed": false,
+    "scope": "Compiled metadata/type checking for the production shell and integrated popup cancellation regression.",
+    "tested_revision": "f6c3d20d865018ccb960b7720b1f6c4b873c6519"
+  },
+  "rust_typecheck": {
+    "result": "passed",
+    "tests_executed": false,
+    "details": "local/bounded-scroll-followup.json",
+    "scope": "Both consumer phone-controls test metadata and framework ferroui-controls test metadata compile on the exact published dc9e2a9/ec86b9c bytes. No test body is executed locally.",
+    "commands": [
+      {
+        "command": "cargo check --locked -p phone-controls --tests",
+        "elapsed_seconds": 149.736
+      },
+      {
+        "command": "cargo check --locked -p ferroui-controls --tests",
+        "elapsed_seconds": 146.866
+      }
+    ]
+  },
+  "ios_cleanup": {
+    "diagnostic_and_process_tests_passed": 11,
+    "observation_provider_tests_passed": 7,
+    "shell_syntax": "passed",
+    "exact_unchanged_assertion_groups": 8,
+    "details": "local/ios-bootstrap-cleanup.json"
+  },
+  "framework_test_formatting": {
+    "details": "local/framework-picker-format.json",
+    "runtime_tests_executed": false,
+    "scope": "The two changed native regression functions parse and have idempotent pinned formatting; existing outside-function formatting is preserved."
+  },
+  "prior_reopen_typecheck": {
+    "command": "cargo check --locked -p phone-controls --tests",
+    "result": "passed",
+    "elapsed_seconds": 492,
+    "final_recheck_seconds": 0.42,
+    "tests_executed": false,
+    "details": "local/picker-reopen.json",
+    "scope": "Final Date/Time reopen test source checked against the exact published dependency pin; native runtime assertions execute in CI.",
+    "tested_revision": "c96a4f0043bd80137997fcd34dbb4b407414af00"
+  },
+  "prior_hidden_part_typecheck": {
+    "command": "cargo check --locked -p phone-controls --tests",
+    "result": "passed",
+    "elapsed_seconds": 3.74,
+    "tests_executed": false,
+    "details": "local/picker-reopen-scope.json",
+    "scope": "Checks the exact published test-only lookup correction against the unchanged framework pin. Runtime assertions remain a CI gate.",
+    "tested_revision": "e430b2141eae143cca1440f6b0ade31646659332"
+  },
+  "bounded_picker_test_scope": "local/bounded-picker-tests.json",
+  "framework_cpp_baseline_attribution": "local/framework-cpp-baseline.json",
+  "framework_revision": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "prior_bounded_typechecks": {
+    "result": "passed",
+    "tests_executed": false,
+    "details": "local/bounded-scroll.json",
+    "scope": "Both consumer phone-controls test metadata and framework ferroui-controls test metadata compile on the exact published source. This does not execute test bodies.",
+    "commands": [
+      {
+        "command": "cargo check --locked -p phone-controls --tests",
+        "elapsed_seconds": 162.666
+      },
+      {
+        "command": "cargo check --locked -p ferroui-controls --tests",
+        "elapsed_seconds": 218.39
+      }
+    ],
+    "tested_revision": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+    "framework_revision": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb"
+  },
+  "browser_outer_job_budget": {
+    "details": "local/browser-cold-job-budget.json",
+    "steps": "local/browser-cold-job-steps.json",
+    "scope": "Only the outer browser build job timeout changes, from 45 to 60 minutes. The rendered suite 480-second budget, step 9-minute allowance and all assertions are unchanged."
+  }
+}

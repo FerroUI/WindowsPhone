@@ -15,11 +15,14 @@ def verify(data):
         raise ValueError("Provider qualification must never place calls or send messages.")
     checks = data.get("checks", [])
     expected = {"observed_simulator_capabilities", "brightness_read_only", "contact_create_and_query",
-                "contact_update_and_query", "contact_delete_and_query"}
+                "contact_update_and_query", "contact_delete_and_query", "location_authorization_observed"}
     if len(checks) != len(expected) or {check.get("name") for check in checks} != expected:
         raise ValueError("The native provider evidence is incomplete.")
     if not all(check.get("passed") is True for check in checks):
         raise ValueError("A native provider assertion failed.")
+    authorization = next(check for check in checks if check["name"] == "location_authorization_observed")
+    if authorization.get("status") != "prompt":
+        raise ValueError("The fresh simulator must observe unrequested location authorization.")
 
 
 if __name__ == "__main__":

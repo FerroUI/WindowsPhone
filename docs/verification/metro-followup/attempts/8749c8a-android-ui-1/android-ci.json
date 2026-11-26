@@ -1,0 +1,356 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T17:38:26.455836+00:00",
+  "source": {
+    "pr": 4,
+    "head_sha": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+    "checkout_sha": "e13d1f8944adc3861fff3caa35d0d214f4d772e9",
+    "tree_sha": "f4f0a3602eb1f7c8933d16e942c64f7b86cd7ea2",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "8749c8a60cb7eb854f641d772eb662c2afaf8064"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb"
+  },
+  "arm64": {
+    "run_id": 45866715329,
+    "job_id": 140071310039,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45866715329/job/140071310039",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "completed_at": "2026-11-26T17:30:55Z",
+    "checkout_sha_verified_in_log": true,
+    "framework_checkout_log_line": "2026-11-26T17:19:32.3748151Z Submodule path 'FerroUI': checked out '75bdfc3c39a5bd73b5e27651441cd29bce86eebb'",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 8,
+      "rust_passed": 7
+    },
+    "package_variants": [
+      "app",
+      "launcher"
+    ],
+    "package_gates": [
+      "decoded manifest",
+      "JNI entry",
+      "native ELF alignment",
+      "zipalign"
+    ],
+    "artifacts": [
+      {
+        "id": 15141451265,
+        "name": "phone-android-arm64-debug",
+        "size_bytes": 76296161,
+        "github_digest": "sha256:edfbc0a2e39065aed673dc4124d479b3a07e6bff92c33b20e45230c820f3575f",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45866715329/artifacts/15141451265",
+        "zip_downloaded": false
+      }
+    ],
+    "log_path": "/tmp/windowsphone-tooling/android-arm-8749c8a.log"
+  },
+  "mounted_ui": {
+    "run_id": 45866715763,
+    "job_id": 140071311666,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45866715763/job/140071311666",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-26T17:19:16Z",
+    "completed_at": "2026-11-26T17:33:08Z",
+    "checkout_sha_verified_in_log_and_artifact": true,
+    "framework_checkout_log_line": "2026-11-26T17:19:31.5063475Z Submodule path 'FerroUI': checked out '75bdfc3c39a5bd73b5e27651441cd29bce86eebb'",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 47,
+      "python_groups": [
+        8,
+        9,
+        8,
+        3,
+        19
+      ],
+      "rust_passed": 7
+    },
+    "log_path": "/tmp/windowsphone-tooling/android-ui-8749c8a-attempt1.log",
+    "log_sha256": "06b3e25c70e92486d1f1030b904ef52944b654ddfde2a04c7efa1cae4b274d02",
+    "result": {
+      "result": "failed",
+      "exit_code": 1,
+      "phase": "Displaying and answering a real emulator Telecom incoming call",
+      "target": {
+        "platform": "android",
+        "api": 36,
+        "abi": "x86_64",
+        "gpu": "software"
+      },
+      "expected_routes": [
+        "Start",
+        "org.ferroui.wallet",
+        "Start"
+      ],
+      "expected_variants": [
+        "app",
+        "launcher"
+      ],
+      "captures": [
+        "app-back.png",
+        "app-home-restored.png",
+        "app-start.png",
+        "app-wallet.png",
+        "device-action-center-revoked.png",
+        "device-action-center.png",
+        "device-messaging.png",
+        "device-notifications-scroll-0.png",
+        "device-ringing.png",
+        "device-start-unread.png",
+        "failure.png",
+        "home-role-back-start.png",
+        "home-role-returned.png",
+        "home-role-start.png",
+        "home-role-wallet.png",
+        "launcher-back.png",
+        "launcher-home-restored.png",
+        "launcher-start.png",
+        "launcher-wallet.png"
+      ],
+      "observations": [
+        "app-back.json",
+        "app-home-restored.json",
+        "app-start.json",
+        "app-wallet.json",
+        "bootstrap-current.json",
+        "device-after-answer.json",
+        "device-baseline.json",
+        "device-call-failure.json",
+        "device-current.json",
+        "device-notifications-admitted.json",
+        "device-notifications-revoked.json",
+        "device-notifications-scroll-0.json",
+        "device-notifications-visible.json",
+        "device-ringing.json",
+        "device-roles.json",
+        "device-sms-ui.json",
+        "device-sms.json",
+        "device-start-restored.json",
+        "device-start-unread.json",
+        "home-role-back-start.json",
+        "home-role-returned.json",
+        "home-role-start.json",
+        "home-role-wallet.json",
+        "launcher-back.json",
+        "launcher-home-restored.json",
+        "launcher-start.json",
+        "launcher-wallet.json"
+      ]
+    },
+    "files_extracted": 197,
+    "captures": 19,
+    "failure": {
+      "line": "2026-11-26T17:32:56.2038060Z Native active observation failed: Telecom did not report the real expected call state",
+      "phase": "Displaying and answering a real emulator Telecom incoming call",
+      "answer_bounds": [
+        40,
+        474,
+        680,
+        578
+      ],
+      "injected_tap": [
+        360,
+        526
+      ],
+      "native_input_delivered_to_telecom": true,
+      "radio_answer_response_successful": true,
+      "radio_current_calls_after_answer": [],
+      "platform_disconnect_reason": "INCOMING_MISSED",
+      "observed_boundary": "The native app input reached Telecom, which sent ANSWER. RIL acknowledged ANSWER then returned no current calls; Android classified the call as missed. The deeper emulator/radio cause is not established.",
+      "critical_log_lines": [
+        "11-26 17:31:26.042   663  1135 I Telecom : CallSequencingController: answerCall: Beginning call sequencing transaction for answering incoming call.: ICA.aC(ofwl)@Avk\ud83d\udd12",
+        "11-26 17:31:26.084   663  1243 I Telecom : Event: RecordEntry TC@1: SET_ANSWERED, answered: ICA.aC->CSC.aC->CSFM.rF(ofwl)@Avk\ud83d\udd12",
+        "11-26 17:31:26.087  1164  1164 V Telephony: performAnswer",
+        "11-26 17:31:26.104  1164  1164 D RILJ    : [0209]> ANSWER [PHONE0]",
+        "11-26 17:31:26.105  1164  1188 D RILJ    : [0209]< ANSWER  [PHONE0]",
+        "11-26 17:31:26.113  1164  1188 D RILJ    : [0210]< GET_CURRENT_CALLS {} [PHONE0]",
+        "11-26 17:31:26.146  1164  1164 D GsmCdmaConnection: onDisconnect: cause=1",
+        "11-26 17:31:26.154  1164  1164 I Telephony: TelephonyConnection$3: onDisconnect: callId=TC@1_1, cause=INCOMING_MISSED",
+        "11-26 17:31:26.176   663  1644 I Telecom : Event: RecordEntry TC@1: SET_DISCONNECTED, disconnected set explicitly> DisconnectCause [ Code: (MISSED) Label: () Description: () Reason: (INCOMING_MISSED) Tone: (27)  TelephonyCause: 1/-1 ImsReasonInfo: null]: CSW.sDc(cap)@Avs\ud83d\udd12"
+      ],
+      "ringing_call": [
+        {
+          "id": "call:d418fd38-5ba9-43ac-a8b0-e1b81a4fbd86",
+          "number": "5550102",
+          "name": "",
+          "state": "ringing",
+          "incoming": true,
+          "muted": false,
+          "speaker": true,
+          "can_hold": false,
+          "account": "phone-account:Y29tLmFuZHJvaWQucGhvbmUvY29tLmFuZHJvaWQuc2VydmljZXMudGVsZXBob255LlRlbGVwaG9ueUNvbm5lY3Rpb25TZXJ2aWNlCjE"
+        }
+      ],
+      "after_failure_calls": [],
+      "active_state_observed": false,
+      "active_and_ended_assertions_executed_successfully": false,
+      "notification_visible_probe_recovered_after_scroll": true
+    },
+    "pre_call_evidence": {
+      "codec": {
+        "result": "passed",
+        "assertions": 13,
+        "encoded_bytes": 266,
+        "rf_requests": 0
+      },
+      "notifications": {
+        "device-notifications-visible.json": {
+          "device_notification_count": 3,
+          "device_notification_fixture": [
+            {
+              "actions": [],
+              "application": "Shell",
+              "body": "Native-listener-6a9fadfbd090782e37dc52b69efed5b6",
+              "clearable": true,
+              "key": "notification:c984e834ed227a0eba7ef0cc108dd26d48970b91ed804f8a4808c663daad84b9",
+              "ongoing": false,
+              "package_id": "com.android.shell",
+              "timestamp": 1795714261279,
+              "title": "FerroUI-bootstrap-6a9fadfbd090782e37dc52b69efed5b6"
+            }
+          ],
+          "notification_fixture_labels": [
+            {
+              "bounds": {
+                "fully_visible": true,
+                "height": 79.5,
+                "width": 324.0,
+                "x": 18.0,
+                "y": 377.5
+              },
+              "text": "FerroUI-bootstrap-6a9fadfbd090782e37dc52b69efed5b6"
+            },
+            {
+              "bounds": {
+                "fully_visible": true,
+                "height": 61.5,
+                "width": 324.0,
+                "x": 18.0,
+                "y": 461.0
+              },
+              "text": "Native-listener-6a9fadfbd090782e37dc52b69efed5b6"
+            }
+          ],
+          "action_center": {
+            "fully_visible": true,
+            "height": 574.0,
+            "width": 360.0,
+            "x": 0.0,
+            "y": 68.0
+          }
+        },
+        "device-notifications-scroll-0.json": {
+          "device_notification_count": 3,
+          "device_notification_fixture": [
+            {
+              "actions": [],
+              "application": "Shell",
+              "body": "Native-listener-6a9fadfbd090782e37dc52b69efed5b6",
+              "clearable": true,
+              "key": "notification:c984e834ed227a0eba7ef0cc108dd26d48970b91ed804f8a4808c663daad84b9",
+              "ongoing": false,
+              "package_id": "com.android.shell",
+              "timestamp": 1795714261279,
+              "title": "FerroUI-bootstrap-6a9fadfbd090782e37dc52b69efed5b6"
+            }
+          ],
+          "notification_fixture_labels": [],
+          "action_center": {
+            "fully_visible": true,
+            "height": 574.0,
+            "width": 360.0,
+            "x": 0.0,
+            "y": 68.0
+          }
+        },
+        "device-notifications-revoked.json": {
+          "device_notification_count": 0,
+          "device_notification_fixture": [],
+          "notification_fixture_labels": [],
+          "action_center": {
+            "fully_visible": true,
+            "height": 574.0,
+            "width": 360.0,
+            "x": 0.0,
+            "y": 68.0
+          }
+        }
+      }
+    },
+    "cleanup": {
+      "role_and_listener_restoration": [
+        {
+          "before": "home-before.txt",
+          "after": "home-restored.txt",
+          "byte_equal": true,
+          "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7",
+          "value": "com.google.android.apps.nexuslauncher"
+        },
+        {
+          "before": "DIALER-before.txt",
+          "after": "DIALER-after.txt",
+          "byte_equal": true,
+          "sha256": "f71c5270f4eafa717a8a7dcb5ad8adb55a78e4ee990187980af83953f3746fbc",
+          "value": "com.google.android.dialer"
+        },
+        {
+          "before": "SMS-before.txt",
+          "after": "SMS-after.txt",
+          "byte_equal": true,
+          "sha256": "b60e00051573bf4683b72920768b86df0e954aa055a791e8df2c7b58b22f2d98",
+          "value": "com.google.android.apps.messaging"
+        },
+        {
+          "before": "listener-before.txt",
+          "after": "listener-after.txt",
+          "byte_equal": true,
+          "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+          "value": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService"
+        }
+      ],
+      "original_user": "0",
+      "user_after_file_present": false,
+      "original_home_restored_before_device_call_phase": true
+    },
+    "artifacts": [
+      {
+        "id": 15142455195,
+        "name": "phone-android-x86_64-ui",
+        "size_bytes": 5082496,
+        "github_digest": "sha256:6fccb7f85f2b91a2d5f609a8018c3e1dfbb05e90688df65f1572b96678f921bb",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45866715763/artifacts/15142455195",
+        "zip_downloaded": true,
+        "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1.zip",
+        "zip_sha256": "6fccb7f85f2b91a2d5f609a8018c3e1dfbb05e90688df65f1572b96678f921bb",
+        "zip_digest_verified": true,
+        "extracted_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1"
+      },
+      {
+        "id": 15141149055,
+        "name": "phone-android-x86_64-debug",
+        "size_bytes": 83569438,
+        "github_digest": "sha256:b15f1689c29e715eb316f0028276a8ff30ac44b56d0416ca3c84d368fcda34b6",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45866715763/artifacts/15141149055",
+        "zip_downloaded": false
+      }
+    ],
+    "retry": {
+      "authorized_by_parent": true,
+      "maximum_additional_attempts": 1,
+      "source_and_assertions_unchanged": true,
+      "new_isolated_avd_required": true,
+      "requested": false
+    }
+  }
+}

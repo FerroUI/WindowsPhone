@@ -3,15 +3,18 @@ on:
   push:
     branches: [main]
     paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
+  pull_request:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: ${{ (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-ios]')) && 'windows-phone-ios' || format('windows-phone-ios-skipped-{0}', github.run_id) }}
+  group: ${{ github.event_name == 'pull_request' && format('windows-phone-ios-pr-{0}', github.event.pull_request.number) || (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-ios]')) && 'windows-phone-ios' || format('windows-phone-ios-skipped-{0}', github.run_id) }}
   cancel-in-progress: true
 jobs:
   ios:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-ios]')
+    if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[verify-mobile]') || contains(github.event.head_commit.message, '[verify-ios]')
     runs-on: macos-latest
     timeout-minutes: 75
     env:

@@ -1,0 +1,13 @@
+{
+  "pr": 4,
+  "head_sha": "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491",
+  "checkout_sha": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+  "tree_sha": "c2b6ff9b62cbec724d1a242552c621525467f0d1",
+  "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+  "merge_parents": [
+    "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491"
+  ],
+  "checkout_tree_equals_pr_head_tree": true,
+  "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+}

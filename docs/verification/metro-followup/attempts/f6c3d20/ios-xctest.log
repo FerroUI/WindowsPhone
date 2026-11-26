@@ -1,0 +1,26 @@
+Command line invocation:
+    /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/xcodebuild test-without-building -xctestrun /var/folders/q2/p1t6rgxj5fj32g1dc7dmd49r0000gn/T/phone-ios-prompt.UHPrxv/Build/Products/PhonePromptTests_iphonesimulator26.5-arm64-x86_64.xctestrun -destination "platform=iOS Simulator,id=075F891F-4D77-4FBD-A853-41CB0E3BB102" -parallel-testing-enabled NO "-only-testing:PhonePromptTests/PhonePromptTests/testOpenWindowsPhoneURLs" -resultBundlePath /Users/runner/work/_temp/phone-ios-ui/prompt-ui.xcresult
+
+2026-11-26 15:31:57.377 xcodebuild[23825:76594] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+Writing result bundle at path:
+	/Users/runner/work/_temp/phone-ios-ui/prompt-ui.xcresult
+
+2026-11-26 15:31:57.418 xcodebuild[23825:76594] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:075F891F-4D77-4FBD-A853-41CB0E3BB102, OS:26.5, name:WindowsPhone-CI-45846537178 }
+{ platform:iOS Simulator, arch:x86_64, id:075F891F-4D77-4FBD-A853-41CB0E3BB102, OS:26.5, name:WindowsPhone-CI-45846537178 }
+2026-11-26 15:32:27.190 xcodebuild[23825:76594] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-11-26 15:33:52.478592+0000 PhonePromptTests-Runner[27755:87897] [Default] Running tests...
+objc[27755]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x108440310) and /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x1083a4398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'Selected tests' started at 2026-11-26 15:34:02.053.
+Test Suite 'PhonePromptTests.xctest' started at 2026-11-26 15:34:02.055.
+Test Suite 'PhonePromptTests' started at 2026-11-26 15:34:02.056.
+Test Case '-[PhonePromptTests.PhonePromptTests testOpenWindowsPhoneURLs]' started.
+    t =     0.00s Start Test at 2026-11-26 15:34:02.060
+    t =     1.05s Set Up
+    t =     1.06s Open org.ferroui.windowsphone
+    t =     1.06s     Activate org.ferroui.windowsphone
+    t =     1.15s         Wait for org.ferroui.windowsphone to idle
+    t =     1.26s Wait for org.ferroui.windowsphone to become Running Foreground
+** BUILD INTERRUPTED **

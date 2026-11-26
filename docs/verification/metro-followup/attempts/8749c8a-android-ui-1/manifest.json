@@ -1,0 +1,121 @@
+{
+  "source_revision": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+  "actual_checkout": "e13d1f8944adc3861fff3caa35d0d214f4d772e9",
+  "tree": "f4f0a3602eb1f7c8933d16e942c64f7b86cd7ea2",
+  "framework": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "workflow_run": 45866715763,
+  "attempt": 1,
+  "verification_status": "android_ui_failed_after_answer_reached_platform_radio",
+  "files": [
+    {
+      "path": "attempts/8749c8a-android-ui-1/source.json",
+      "source": "/tmp/windowsphone-tooling/source-8749c8a.json",
+      "bytes": 517,
+      "sha256": "207f48dff9d5529f1ec76c857f0767bad76c2282478f4d4217b58fac1275f252"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-8749c8a-attempt1.json",
+      "bytes": 13230,
+      "sha256": "99cd7c941bbd65ac38e221d29d28750ec44ab8caf0e44accb2167283aef4072a"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/result.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/result.json",
+      "bytes": 1756,
+      "sha256": "d6d27b78d4ac43e9395cfe25b4fa8e1be3262e83d7b0110ec843aa9c02af186f"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/call-tree.xml",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/call-tree.xml",
+      "bytes": 3795,
+      "sha256": "8793ea0c0ed727d0354f556988993bf8f4cc1d96c250af776793000ef0bb643d"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/call-answer-input.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/call-answer-input.txt",
+      "bytes": 8,
+      "sha256": "d64fc58e8d92a390e04a94d582513b1faf237cbc71154f5a603e7453ce173501"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/device-ringing.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/device-ringing.json",
+      "bytes": 7907,
+      "sha256": "78b44a61422b2cb65036af01076eb83de55f41c1566f825e32f0cc0de273c3cf"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/device-after-answer.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/device-after-answer.json",
+      "bytes": 7907,
+      "sha256": "3ff498d1ab2c418fa0e38ddfed8c57defff567b3ff9eb73b629c121cbb90bc4b"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/device-call-failure.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/device-call-failure.json",
+      "bytes": 7621,
+      "sha256": "d8b24561b6fb120a2a1032a2c482bb11513a736ba13167c9a9ed3ba14f126588"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/device-ringing.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/device-ringing.png",
+      "bytes": 26401,
+      "sha256": "7dab4b7669dc7bb1edb45ac557fb82dd359c82445c16bcfa597c71b471c935a4"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/failure.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/failure.png",
+      "bytes": 24444,
+      "sha256": "50833728be0924a63932ca7a658765b06d9c35bbd7584dc5c54bea210ad2d7a7"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/call-failure-telecom.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/call-failure-telecom.txt",
+      "bytes": 17256,
+      "sha256": "d5528ad3586dcfa4171ddf8c1c40ffd857a085d02a6c6bbde8786c90c2e74590"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/modem-call.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/modem-call.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/modem-ringing-calls.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/modem-ringing-calls.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/modem-after-answer-calls.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/modem-after-answer-calls.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/call-logcat.txt.gz",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/call-logcat.txt",
+      "bytes": 136836,
+      "sha256": "5c7ad6439db9678d8b5c73a7ec86e3237b59b204a902ca49e8e8f77da5a4c4e7",
+      "encoding": "gzip",
+      "uncompressed_bytes": 1623725,
+      "uncompressed_sha256": "bf322d4aeb72c792cc705075c47127b522ec8cba6c6e5dc8e5a1c91e79bd4b55"
+    },
+    {
+      "path": "attempts/8749c8a-android-ui-1/call-active-observations.jsonl.gz",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-8749c8a-attempt1/call-active-observations.jsonl",
+      "bytes": 11820,
+      "sha256": "ea1aaa93b13904e5075051508bc2adcf54b275bd48b8b76a0633f7c18d04ed7f",
+      "encoding": "gzip",
+      "uncompressed_bytes": 1242923,
+      "uncompressed_sha256": "61f15df23911403fb8bb74adc91b74702558a8788be1731feb4fab1e285ac505"
+    }
+  ],
+  "findings": {
+    "input": "Native focused PhoneCallActivity, screenshot and UIAutomator bounds agree with the injected center at (360, 526); Telecom and Telephony received the answer.",
+    "radio": "RIL ANSWER request at 17:31:26.104Z received a successful response .105Z; GET_CURRENT_CALLS returned an empty list .113Z; the platform classified the call as INCOMING_MISSED .154Z.",
+    "assertion": "The existing test correctly required a real active call; none was observed. It failed after its unchanged 90-second bound.",
+    "cleanup": "Frozen CI evidence verifies four byte-equal original/restored state pairs for HOME, DIALER, SMS and notification listener access.",
+    "retry": "One failed-job rerun was requested on identical source and assertions in a fresh isolated AVD after preserving this failure. Its result is recorded separately.",
+    "scope": "The observed failure boundary is below delivered app input and the acknowledged Telecom/radio request. The deeper emulator/radio cause remains unproven. No production or harness fix is inferred from this attempt."
+  }
+}

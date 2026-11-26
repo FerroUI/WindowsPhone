@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T13:19:44.738710+00:00",
+  "source": {
+    "pr": 4,
+    "head_sha": "5c572ce3534659f753eb6e02f6be16a1130bda8f",
+    "checkout_sha": "9fc07972c42c858e08a7f767d61a7feac8c75e71",
+    "tree_sha": "173a265cfbbc47e2ba1af33e529025c01987aad4",
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "arm64": {
+    "run_id": 45826014358,
+    "job_id": 139933748236,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45826014358",
+    "conclusion": "success",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 8,
+      "rust_passed": 7
+    },
+    "artifacts": [
+      {
+        "id": 15120728054,
+        "name": "phone-android-arm64-debug",
+        "size_bytes": 76294985,
+        "github_digest": "sha256:e129860339e9c350ee7084098f0d51debcf3db7482896f0ae84cc4db52e5be29",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45826014358/artifacts/15120728054"
+      }
+    ],
+    "log_path": "/tmp/windowsphone-tooling/android-arm-5c572ce-attempt2.log",
+    "attempts": [
+      {
+        "attempt": 1,
+        "job_id": 139930220848,
+        "conclusion": "failure",
+        "tests": {
+          "java_assertions": 111,
+          "python_passed": 8,
+          "rust_passed": 7,
+          "aosp_sources_verified": 24
+        },
+        "failure": {
+          "phase": "Gradle dependency resolution",
+          "classification": "external_dependency_rate_limit",
+          "http_status": 429,
+          "host": "repo.maven.apache.org",
+          "example": "com.google.errorprone:error_prone_annotations:2.3.1",
+          "summary": "AGP transitive dependencies could not be retrieved from Maven Central; log reports 18 additional failures with identical causes."
+        },
+        "log_path": "/tmp/windowsphone-tooling/android-arm-5c572ce.log"
+      },
+      {
+        "attempt": 2,
+        "job_id": 139933748236,
+        "conclusion": "success",
+        "log_path": "/tmp/windowsphone-tooling/android-arm-5c572ce-attempt2.log",
+        "tests": {
+          "java_assertions": 111,
+          "aosp_sources_verified": 24,
+          "python_passed": 8,
+          "rust_passed": 7
+        }
+      }
+    ],
+    "rerun_requested_at": "2026-11-26T13:13:14Z",
+    "rerun_scope": "failed jobs only",
+    "retry_after": "No Retry-After value was present in the captured Gradle log.",
+    "status": "completed",
+    "attempt": 2,
+    "initial_failure": {
+      "phase": "Gradle dependency resolution",
+      "classification": "external_dependency_rate_limit",
+      "http_status": 429,
+      "host": "repo.maven.apache.org",
+      "example": "com.google.errorprone:error_prone_annotations:2.3.1",
+      "summary": "AGP transitive dependencies could not be retrieved from Maven Central; log reports 18 additional failures with identical causes."
+    }
+  },
+  "mounted_ui": {
+    "run_id": 45826014444,
+    "job_id": 139930221257,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45826014444",
+    "conclusion": "success",
+    "status": "completed",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 47,
+      "rust_passed": 7,
+      "mms_codec_assertions": 13,
+      "rf_requests": 0
+    },
+    "evidence": {
+      "artifact_id": 15120493397,
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-5c572ce",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-5c572ce.zip",
+      "zip_sha256": "e0c1f6308900082e8e69188a27aed783ca7d9a8669d1141ee4550b6815500d8a",
+      "sha256_verified": true,
+      "file_count": 226,
+      "captures": 20,
+      "head_sha": "9fc07972c42c858e08a7f767d61a7feac8c75e71",
+      "result": {
+        "result": "passed",
+        "exit_code": 0,
+        "phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+        "target": {
+          "platform": "android",
+          "api": 36,
+          "abi": "x86_64",
+          "gpu": "software"
+        },
+        "expected_routes": [
+          "Start",
+          "org.ferroui.wallet",
+          "Start"
+        ],
+        "expected_variants": [
+          "app",
+          "launcher"
+        ],
+        "captures": [
+          "app-back.png",
+          "app-home-restored.png",
+          "app-start.png",
+          "app-wallet.png",
+          "device-action-center-revoked.png",
+          "device-action-center.png",
+          "device-active-call.png",
+          "device-ended-call.png",
+          "device-messaging.png",
+          "device-notifications-scroll-0.png",
+          "device-ringing.png",
+          "device-start-unread.png",
+          "home-role-back-start.png",
+          "home-role-returned.png",
+          "home-role-start.png",
+          "home-role-wallet.png",
+          "launcher-back.png",
+          "launcher-home-restored.png",
+          "launcher-start.png",
+          "launcher-wallet.png"
+        ],
+        "observations": [
+          "app-back.json",
+          "app-home-restored.json",
+          "app-start.json",
+          "app-wallet.json",
+          "bootstrap-current.json",
+          "device-active.json",
+          "device-after-answer.json",
+          "device-baseline.json",
+          "device-current.json",
+          "device-ended.json",
+          "device-notifications-admitted.json",
+          "device-notifications-revoked.json",
+          "device-notifications-scroll-0.json",
+          "device-notifications-visible.json",
+          "device-ringing.json",
+          "device-roles.json",
+          "device-sms-ui.json",
+          "device-sms.json",
+          "device-start-restored.json",
+          "device-start-unread.json",
+          "home-role-back-start.json",
+          "home-role-returned.json",
+          "home-role-start.json",
+          "home-role-wallet.json",
+          "launcher-back.json",
+          "launcher-home-restored.json",
+          "launcher-start.json",
+          "launcher-wallet.json"
+        ]
+      },
+      "exact_restoration": {
+        "home": true,
+        "user": true,
+        "DIALER": true,
+        "SMS": true,
+        "listener": true
+      },
+      "notification_fixture_visible_then_revoked": true,
+      "ended_call_foreground_service_cleared": true,
+      "log_path": "/tmp/windowsphone-tooling/android-ui-5c572ce.log"
+    }
+  }
+}

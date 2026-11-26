@@ -1,0 +1,149 @@
+{
+  "source_revision": "f6c3d20d865018ccb960b7720b1f6c4b873c6519",
+  "actual_checkout": "2a8c05fbef96825b296494364eed03b774af91e9",
+  "tree": "959927d17c6fc6c2e46de0ccc37851f0dc7161b0",
+  "framework": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "verification_status": "browser_reopen_and_ios_xctest_bootstrap_failed_other_gates_passed",
+  "files": [
+    {
+      "path": "attempts/f6c3d20/source.json",
+      "source": "/tmp/windowsphone-tooling/source-f6c3d20.json",
+      "bytes": 479,
+      "sha256": "cc0887fbb8b10a817d80bf58931fbd1b6d29cac6a12480be4ea6d9f6a1cdc19f"
+    },
+    {
+      "path": "attempts/f6c3d20/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-f6c3d20.json",
+      "bytes": 6141,
+      "sha256": "964bb04939eb2e230f3f1d6fb5d1bfc21003595b4e224086caf92c6e07037e8a"
+    },
+    {
+      "path": "attempts/f6c3d20/android-result.json",
+      "source": "target/android-ui-f6c3d20/result.json",
+      "bytes": 1999,
+      "sha256": "91300ac944bc013d6346c27dc30ac8330a5d3831ddfdf00376bb3f47dc369d10"
+    },
+    {
+      "path": "attempts/f6c3d20/android-head.txt",
+      "source": "target/android-ui-f6c3d20/head.txt",
+      "bytes": 41,
+      "sha256": "08b37cb727e5dbf7a1e5df8186d72abd0bce53795528e5ec82f9c89393c5286f"
+    },
+    {
+      "path": "attempts/f6c3d20/android-notifications-visible.json",
+      "source": "target/android-ui-f6c3d20/device-notifications-visible.json",
+      "bytes": 9511,
+      "sha256": "04120bb9f94ab28bffd5d678f6978e1be7a198e04ba297725c2a40437663fcd3"
+    },
+    {
+      "path": "attempts/f6c3d20/android-notifications-revoked.json",
+      "source": "target/android-ui-f6c3d20/device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "9d831361ae571c642aedf2c232e00373e33f49354a63c5457c31db1e0b45f7ff"
+    },
+    {
+      "path": "attempts/f6c3d20/android-call-ended.json",
+      "source": "target/android-ui-f6c3d20/device-ended.json",
+      "bytes": 7620,
+      "sha256": "e1c738434250fa64b5fdefb3946786816b4656ca5d1c07400331371a2d22ef1b"
+    },
+    {
+      "path": "attempts/f6c3d20/android-start.png",
+      "source": "target/android-ui-f6c3d20/app-start.png",
+      "bytes": 325108,
+      "sha256": "4cdcd9b0cd20d191248418315093b310a5c1a4b727aa39e1da8dbc6dd4686462"
+    },
+    {
+      "path": "attempts/f6c3d20/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-f6c3d20-attempt1.json",
+      "bytes": 46544,
+      "sha256": "f422a9390f1199ac3073ea702cb69d8079f1afaf2b98b7dd3e91df5e13d6441d"
+    },
+    {
+      "path": "attempts/f6c3d20/ios-start.json",
+      "source": "/tmp/phone-ios-f6c3d20/start.json",
+      "bytes": 3195,
+      "sha256": "7c73f8f6b92db5252a487784f3b58f431a4ed127112212f8e1022d168020ec01"
+    },
+    {
+      "path": "attempts/f6c3d20/ios-start.png",
+      "source": "/tmp/phone-ios-f6c3d20/start.png",
+      "bytes": 705957,
+      "sha256": "1459ec3d74baee9c43ecaf65a24ecd90934289fe32b07683cd7b22831f5d465a"
+    },
+    {
+      "path": "attempts/f6c3d20/ios-device-tests.json",
+      "source": "/tmp/phone-ios-f6c3d20/device-tests.json",
+      "bytes": 3014,
+      "sha256": "241443020ad43072c1015ed9c4e21ca09a02e7dcf51f387486883a8e214c713c"
+    },
+    {
+      "path": "attempts/f6c3d20/ios-failure.json",
+      "source": "/tmp/phone-ios-f6c3d20/failure.json",
+      "bytes": 3196,
+      "sha256": "0b95cf449b3b2a907b7cbe5b8734ace36f388df376c618a5c91c1f91a5b26fb6"
+    },
+    {
+      "path": "attempts/f6c3d20/ios-xctest.log",
+      "source": "/tmp/phone-ios-f6c3d20/xctest.log",
+      "bytes": 2822,
+      "sha256": "17fbd9cdd5c6023c74be54a9bef261cb6284811454dffbd8ab9d0f80ff935101"
+    },
+    {
+      "path": "attempts/f6c3d20/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-f6c3d20.json",
+      "bytes": 26089,
+      "sha256": "c3a41a47b6886ecab6270dae70792196b0d8403c566ce281af7534c45a1669e5"
+    },
+    {
+      "path": "attempts/f6c3d20/browser-results.json",
+      "source": "target/ui-verification-f6c3d20/results.json",
+      "bytes": 47952,
+      "sha256": "a83eeb9d5671496fea37cb3ae0f2be7acdcd87bb34fbdc9a16ae565dc203c1ca"
+    },
+    {
+      "path": "attempts/f6c3d20/picker-touch.json",
+      "source": "/tmp/windowsphone-tooling/picker-touch-f6c3d20.json",
+      "bytes": 2989,
+      "sha256": "804a6ef1fe76cc1521d11154a0cb015423cb41ea331d6393d724f9aa9c89dc14"
+    },
+    {
+      "path": "attempts/f6c3d20/picker-staging.json",
+      "source": "target/ui-verification-f6c3d20/phone-picker-native-pointer-staging.json",
+      "bytes": 126635,
+      "sha256": "3f6e00a54af8d577ad61ae17b36a0ecb0274d227b512571a1604f5204d277fbd"
+    },
+    {
+      "path": "attempts/f6c3d20/picker-staging.png",
+      "source": "target/ui-verification-f6c3d20/phone-picker-native-pointer-staging.png",
+      "bytes": 14495,
+      "sha256": "87c0f75162501776c828a6f7966b981466f300bd712299faf750bc698a4987f9"
+    },
+    {
+      "path": "attempts/f6c3d20/picker-reopen-failure.json",
+      "source": "target/ui-verification-f6c3d20/phone-picker-failure.json",
+      "bytes": 126638,
+      "sha256": "b6ad7143c7313562a7f44a6c3fedd7adfdd79a0a4d79d1ad0b64c5e5fb7f0675"
+    },
+    {
+      "path": "attempts/f6c3d20/picker-reopen-failure.png",
+      "source": "target/ui-verification-f6c3d20/phone-picker-failure.png",
+      "bytes": 9616,
+      "sha256": "a859cdea403ca99e4600269909d942a479d3e18f5b8e14dd80db9f8dba6693e6"
+    },
+    {
+      "path": "attempts/f6c3d20/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-f6c3d20.json",
+      "bytes": 14735,
+      "sha256": "85b2a6aa2dd362d5748835ab8d9d166da4533d83c062c76800f782a6f0229d39"
+    }
+  ],
+  "completed_findings": {
+    "picker_cancel_fresh_drag": "The production-shell regression and trusted browser movement, release and snap checks passed.",
+    "picker_reopen": "The owner remains 07:00 while retained wheels reopen at 09:01. Explicit pointer acceptance/save and swivel were not executed.",
+    "browser_tail": "DPR2, emulated DPR1 and offline passed: 91 passing rendered checks, 163 captures, 376,871 ms.",
+    "ios": "Mounted Start sequence 1 is ready with location Unknown; later observations record Prompt. Six provider checks passed. The 120-second XCTest bootstrap deadline expired; 0 of 6 warm activations completed.",
+    "android": "Both workflows passed on their first attempt.",
+    "native": "Linux, macOS and Windows passed. The Windows cold full build took 24 min 06 s; its cache was saved at 15:49:49 UTC before job completion."
+  }
+}

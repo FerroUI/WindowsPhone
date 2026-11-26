@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
     paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
+  pull_request:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE', 'NOTICE.md']
   workflow_dispatch:
     inputs:
       verify_ui:
@@ -24,10 +27,8 @@ on:
 permissions:
   contents: read
   actions: read
-  pages: write
-  id-token: write
 concurrency:
-  group: windows-phone-${{ contains(github.event.head_commit.message, '[mobile-only]') && 'mobile-check' || ((inputs.verify_native || contains(github.event.head_commit.message, '[native-only]')) && 'native-check' || 'pages') }}
+  group: windows-phone-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || contains(github.event.head_commit.message, '[mobile-only]') && 'mobile-check' || ((inputs.verify_native || contains(github.event.head_commit.message, '[native-only]')) && 'native-check' || 'pages') }}
   cancel-in-progress: true
 env:
   CARGO_TERM_COLOR: always
@@ -37,9 +38,11 @@ env:
   CARGO_PROFILE_TEST_DEBUG: 0
 jobs:
   build:
-    if: (github.event_name != 'workflow_dispatch' || !inputs.verify_native) && !contains(github.event.head_commit.message, '[native-only]') && !contains(github.event.head_commit.message, '[mobile-only]')
+    if: (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && (github.event_name != 'workflow_dispatch' || !inputs.verify_native) && !contains(github.event.head_commit.message, '[native-only]') && !contains(github.event.head_commit.message, '[mobile-only]')
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # The cold contract/WASM build took over 36 minutes before UI verification.
+    # Leave room for the full nine-minute UI step and its artifact cleanup.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -109,7 +112,7 @@ jobs:
         if: steps.reuse.outputs.artifact_id == ''
         run: cargo test --locked -p phone-host -p phone-domain -p phone-state
       - name: Verify SDK and game contracts
-        if: inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        if: github.event_name == 'pull_request' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
         run: cargo test --locked -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example
       - name: Verify host boundaries
         run: node --test scripts/*.test.mjs
@@ -138,54 +141,65 @@ jobs:
         if: steps.reuse.outputs.artifact_id != ''
         run: node --experimental-vm-modules scripts/verify-site.mjs target/browser/phone-browser
       - name: Verify first frame
-        if: ${{ steps.reuse.outputs.artifact_id == '' && !inputs.verify_ui && !contains(github.event.head_commit.message, '[verify-ui]') }}
+        if: ${{ github.event_name != 'pull_request' && steps.reuse.outputs.artifact_id == '' && !inputs.verify_ui && !contains(github.event.head_commit.message, '[verify-ui]') }}
         timeout-minutes: 2
         run: node scripts/startup-smoke.mjs target/browser/phone-browser
       - uses: actions/upload-artifact@v4
-        if: steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        if: github.event_name == 'pull_request' || steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
         with:
           name: compiled-app
           path: target/browser/phone-browser
           retention-days: 3
       - name: Verify rendered desktop and touch views
-        if: steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
-        timeout-minutes: 7
+        if: github.event_name == 'pull_request' || steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]')
+        # Keep one minute beyond the script's 8-minute budget for failure
+        # snapshots, result writing, and browser cleanup before artifact upload.
+        timeout-minutes: 9
         run: node scripts/ui-smoke.mjs target/browser/phone-browser target/ui-smoke
       - uses: actions/upload-artifact@v4
-        if: always() && (steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]'))
+        if: always() && (github.event_name == 'pull_request' || steps.reuse.outputs.artifact_id != '' || inputs.verify_ui || contains(github.event.head_commit.message, '[verify-ui]'))
         with:
           name: ui-verification
           path: target/ui-smoke
           if-no-files-found: ignore
           retention-days: 5
-      - uses: actions/configure-pages@v5
-        if: github.event_name != 'workflow_dispatch' || inputs.publish
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
-        if: github.event_name != 'workflow_dispatch' || inputs.publish
+        if: github.event_name != 'pull_request' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         with:
           path: target/browser/phone-browser
   deploy:
     needs: build
-    if: (github.event_name != 'workflow_dispatch' || inputs.publish) && !contains(github.event.head_commit.message, '[native-only]') && !contains(github.event.head_commit.message, '[mobile-only]')
+    # Build/test jobs are read-only, including same-repository PRs. Only this
+    # existing publication job receives Pages/OIDC permissions.
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+    if: github.event_name != 'pull_request' && (github.event_name != 'workflow_dispatch' || inputs.publish) && !contains(github.event.head_commit.message, '[native-only]') && !contains(github.event.head_commit.message, '[mobile-only]')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - id: deployment
         uses: actions/deploy-pages@v4
   native:
-    if: "!contains(github.event.head_commit.message, '[mobile-only]') && ((github.event_name == 'workflow_dispatch' && inputs.verify_native) || contains(github.event.head_commit.message, '[verify-native]') || contains(github.event.head_commit.message, '[native-only]'))"
+    if: "(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (!contains(github.event.head_commit.message, '[mobile-only]') && ((github.event_name == 'workflow_dispatch' && inputs.verify_native) || contains(github.event.head_commit.message, '[verify-native]') || contains(github.event.head_commit.message, '[native-only]')))"
     strategy:
       fail-fast: false
       matrix:
         # The pinned ANGLE/bindgen dependency needs a compatible MSVC/LLVM pair.
         os: [windows-2022, macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 40
+    # The a4a7b85 cold Windows build reached the native renderer at the old
+    # 40-minute job limit. Keep the complete build/link gate and allow its
+    # first successful run to populate the pinned framework cache.
+    timeout-minutes: ${{ matrix.os == 'windows-2022' && 60 || 40 }}
     env:
       CARGO_PROFILE_DEV_DEBUG: 0
       CARGO_PROFILE_DEV_CODEGEN_UNITS: 256

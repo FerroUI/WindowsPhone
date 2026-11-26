@@ -1,0 +1,237 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "pull_request": 4,
+  "run_id": 45838786698,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698",
+  "source": {
+    "head": "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491",
+    "base": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+    "head_tree": "c2b6ff9b62cbec724d1a242552c621525467f0d1",
+    "merge_tree": "c2b6ff9b62cbec724d1a242552c621525467f0d1"
+  },
+  "changes_from_predecessor": [
+    "scripts/fixtures/ui-native-input-frames.json",
+    "scripts/ui-alarm-refinements.mjs",
+    "scripts/ui-calendar-refinements.mjs",
+    "scripts/ui-input-geometry.test.mjs",
+    "scripts/ui-metro-controls.mjs",
+    "scripts/ui-phone-pickers.mjs",
+    "scripts/ui-shell-parity.mjs",
+    "scripts/ui-smoke.mjs",
+    "scripts/ui-start-customization.mjs"
+  ],
+  "native_commands_changed": false,
+  "native_commands": [
+    "cargo test --locked -p phone-host -p phone-platform-desktop",
+    "python -B -m unittest discover -s crates/phone-desktop/platform/tests -v",
+    "cargo test --locked -p phone-native --lib",
+    "cargo build --locked -p phone-desktop"
+  ],
+  "scope": "Build/link and automated boundary tests. No desktop GUI/device behavior verification implied.",
+  "jobs": {
+    "windows": {
+      "job_id": 139974608041,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/job/139974608041",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+      "started_at": "2026-11-26T14:25:07Z",
+      "completed_at": "2026-11-26T14:34:45Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 30
+        },
+        "phone_platform_desktop": {
+          "passed": 6
+        },
+        "phone_native": {
+          "passed": 16
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "shell_helper_parse": "success",
+      "full_desktop_build_link": "success",
+      "cache": {
+        "hit": true,
+        "key": "phone-native-v2-Windows-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-windows-2022-f199338837b50a0946e0c308779ff7329335cb92f6dbdfb2fdc0c14557260bed",
+        "full_desktop_cargo_seconds": 209,
+        "predecessor_full_desktop_cargo_seconds": 1210
+      },
+      "steps": [
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T14:25:57Z",
+          "completed_at": "2026-11-26T14:27:11Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T14:27:41Z",
+          "completed_at": "2026-11-26T14:31:10Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T14:31:10Z",
+          "completed_at": "2026-11-26T14:34:40Z"
+        }
+      ]
+    },
+    "linux": {
+      "job_id": 139974608793,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/job/139974608793",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+      "started_at": "2026-11-26T14:25:05Z",
+      "completed_at": "2026-11-26T14:41:02Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 33,
+          "ignored_in_first_run": 1
+        },
+        "phone_platform_desktop": {
+          "passed": 9,
+          "ignored": 1
+        },
+        "phone_native": {
+          "passed": 17
+        },
+        "private_bus_mpris": {
+          "passed": 1,
+          "separate_ignored_test_invocation": true
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success",
+      "cache": {
+        "hit": false,
+        "saved": true,
+        "key": "phone-native-v2-Linux-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+        "full_desktop_cargo_seconds": 402
+      },
+      "steps": [
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T14:25:47Z",
+          "completed_at": "2026-11-26T14:25:48Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T14:26:57Z",
+          "completed_at": "2026-11-26T14:34:00Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T14:34:00Z",
+          "completed_at": "2026-11-26T14:40:43Z"
+        }
+      ]
+    },
+    "macos": {
+      "job_id": 139974608846,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/job/139974608846",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+      "started_at": "2026-11-26T14:25:06Z",
+      "completed_at": "2026-11-26T14:54:11Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 29
+        },
+        "phone_platform_desktop": {
+          "passed": 5
+        },
+        "phone_native": {
+          "passed": 17
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success",
+      "cache": {
+        "hit": false,
+        "saved": true,
+        "key": "phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+        "full_desktop_cargo_seconds": 913,
+        "predecessor_full_desktop_cargo_seconds": 289
+      },
+      "steps": [
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T14:25:39Z",
+          "completed_at": "2026-11-26T14:25:40Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T14:26:37Z",
+          "completed_at": "2026-11-26T14:38:13Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T14:38:13Z",
+          "completed_at": "2026-11-26T14:53:27Z"
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-26T14:53:27Z",
+          "completed_at": "2026-11-26T14:54:05Z"
+        }
+      ],
+      "checkout_log_proof": [
+        "2026-11-26T14:25:10.0276390Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d30cd0ccad75bab0067e0b342f04c5f5e40e62dd:refs/remotes/pull/4/merge",
+        "2026-11-26T14:25:13.6847330Z [command]/opt/homebrew/bin/git checkout --progress --force refs/remotes/pull/4/merge",
+        "2026-11-26T14:25:14.1254350Z HEAD is now at d30cd0c Merge 4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491 into a4a7b851048a151db66f9f4404b0c5ed8672c812"
+      ],
+      "result_log_proof": [
+        "2026-11-26T14:25:40.5765330Z Cache not found for input keys: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9, phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-",
+        "2026-11-26T14:26:36.6909430Z test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+        "2026-11-26T14:26:36.7008810Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-11-26T14:26:37.9557700Z Ran 6 tests in 0.091s",
+        "2026-11-26T14:38:13.2977280Z test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s",
+        "2026-11-26T14:53:27.5700640Z     Finished `dev` profile [unoptimized] target(s) in 15m 13s",
+        "2026-11-26T14:54:05.8141500Z Cache saved with key: phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9"
+      ],
+      "job_log": {
+        "path": "/tmp/windowsphone-tooling/native-macos-4f10a3d.log",
+        "size_bytes": 186367,
+        "sha256": "c2d1e37ca0a677e451cad4838216c944aaef7b440d9347261ed455935225c7f7"
+      }
+    }
+  }
+}

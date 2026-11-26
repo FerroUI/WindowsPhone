@@ -1,0 +1,114 @@
+{
+  "source_revision": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+  "actual_checkout": "96f214d4b36203f38b03b70f9eb62f09bdd27f3b",
+  "tree": "ed06b217572976f4c03bacaa6dba276307c0ff4a",
+  "framework": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "verification_status": "control_test_lookup_failed_all_desktop_android_ios_gates_passed",
+  "files": [
+    {
+      "path": "attempts/c96a4f0/source.json",
+      "source": "/tmp/windowsphone-tooling/source-c96a4f0.json",
+      "bytes": 631,
+      "sha256": "ad5de85c5d42bc9669e016a97296e5127f385133475fa987cc8f21d9ff4fd1e4"
+    },
+    {
+      "path": "attempts/c96a4f0/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-c96a4f0.json",
+      "bytes": 50531,
+      "sha256": "2b9fe0e475949aa1e4f2688bb642eadfb77745ea0d4bb29b7a6d12a270f8fa6b"
+    },
+    {
+      "path": "attempts/c96a4f0/ios-start.json",
+      "source": "/tmp/phone-ios-c96a4f0/start.json",
+      "bytes": 3194,
+      "sha256": "ab0dcd51b3d7866b518ddeb4b9b47906e74a9bf01a70c6149007d83f99762ebe"
+    },
+    {
+      "path": "attempts/c96a4f0/ios-start.png",
+      "source": "/tmp/phone-ios-c96a4f0/start.png",
+      "bytes": 662976,
+      "sha256": "5f2707a2e205e66edd876254fa4718ea188eafd0d0f87b7848423241bbee97d9"
+    },
+    {
+      "path": "attempts/c96a4f0/ios-device-tests.json",
+      "source": "/tmp/phone-ios-c96a4f0/device-tests.json",
+      "bytes": 3014,
+      "sha256": "b3a6fac4c3f6f9136b47a4a0bea7cc212f2250593c876b755874b0eacd35bf11"
+    },
+    {
+      "path": "attempts/c96a4f0/ios-wallet-after-location.json",
+      "source": "/tmp/phone-ios-c96a4f0/wallet.json",
+      "bytes": 3293,
+      "sha256": "761dc2ba04e3bbf71c9c879fdd34c82e369dee27489e981fe42386de7245fae1"
+    },
+    {
+      "path": "attempts/c96a4f0/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-c96a4f0.json",
+      "bytes": 4594,
+      "sha256": "bb289db5fc544cbc4265e8bc2ee4ee7ad7f9e02630826c78006cb519c4131199"
+    },
+    {
+      "path": "attempts/c96a4f0/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-c96a4f0.json",
+      "bytes": 4811,
+      "sha256": "7ccf592b1752d48844b974d17fc504da9002bbaa9a0acd6f18c904da6178dfdd"
+    },
+    {
+      "path": "attempts/c96a4f0/android-result.json",
+      "source": "target/android-ui-c96a4f0/result.json",
+      "bytes": 1999,
+      "sha256": "91300ac944bc013d6346c27dc30ac8330a5d3831ddfdf00376bb3f47dc369d10"
+    },
+    {
+      "path": "attempts/c96a4f0/android-head.txt",
+      "source": "target/android-ui-c96a4f0/head.txt",
+      "bytes": 41,
+      "sha256": "37c46c4e9616d9c082295f52043ac27ff3c9453036ef5c4884e712c299674563"
+    },
+    {
+      "path": "attempts/c96a4f0/android-notifications-visible.json",
+      "source": "target/android-ui-c96a4f0/device-notifications-visible.json",
+      "bytes": 9509,
+      "sha256": "81547cc356ebc023d7d82a876e06ae81338b9a45e6cc993a26dc84805282980f"
+    },
+    {
+      "path": "attempts/c96a4f0/android-notifications-revoked.json",
+      "source": "target/android-ui-c96a4f0/device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "1fee73a89cc11677ae4afd064a43e687c4f0414636a105838208f73f3259408b"
+    },
+    {
+      "path": "attempts/c96a4f0/android-call-ended.json",
+      "source": "target/android-ui-c96a4f0/device-ended.json",
+      "bytes": 7620,
+      "sha256": "9c44045fbd3614dea20eb57657f941676b28f1c232c0bb98b1d2c10f21b15669"
+    },
+    {
+      "path": "attempts/c96a4f0/android-start.png",
+      "source": "target/android-ui-c96a4f0/app-start.png",
+      "bytes": 510216,
+      "sha256": "c34bd2ccd04a2290def19cd1022193ffb4e67b43532f67fceaee1fec4d9ccda3"
+    },
+    {
+      "path": "attempts/c96a4f0/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-c96a4f0.json",
+      "bytes": 26004,
+      "sha256": "f634b823b9a2f450947fb6bb687c527902a5606c98a68ca369abd265e02500ad"
+    }
+  ],
+  "findings": {
+    "state": "157 tests passed and one was ignored.",
+    "sdk_group": "109 tests passed and two new picker regressions failed; control tests were 33 passed, two failed.",
+    "failure": "The added regression helper searched visual template descendants for hidden PART_DaySelector or PART_SecondSelector, which had not been materialized. The tests stopped at part lookup.",
+    "not_reached": [
+      "JavaScript test gate",
+      "phone-sdk package tests",
+      "phone-system integration tests",
+      "WASM build",
+      "rendered browser verification"
+    ],
+    "ios": "Both UIKit builds, all portable/native checks, mounted Start, six provider checks and six warm URI activations passed on the exact checkout and dependency pin.",
+    "android": "Both first-attempt workflows passed; mounted UI archive digest was independently verified. All five restoration files match, notification revocation removes rendered entries, call identity is preserved through ringing/active and cleared after ending, and codec checks make zero RF requests.",
+    "native": "Linux, macOS and Windows passed their portable/shared contracts and full native builds. All three new-framework caches were saved before the successor ref advanced."
+  }
+}

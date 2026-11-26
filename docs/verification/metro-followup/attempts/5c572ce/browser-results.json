@@ -1,0 +1,86 @@
+{
+  "site": "/home/runner/work/WindowsPhone/WindowsPhone/target/browser/phone-browser",
+  "viewport": [
+    1280,
+    936
+  ],
+  "checks": [
+    {
+      "name": "desktop Start renders",
+      "elapsedMs": 648,
+      "passed": true
+    },
+    {
+      "name": "native tile launch and Back",
+      "elapsedMs": 1065,
+      "passed": true
+    },
+    {
+      "name": "native context menu resizes a tile",
+      "elapsedMs": 1233,
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "name": "01-start-desktop",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3718
+    },
+    {
+      "name": "02-phone-history",
+      "route": {
+        "App": "Phone"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 179
+    },
+    {
+      "name": "03-start-resized",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3369
+    }
+  ],
+  "passed": false,
+  "error": "Error: Timed out: FormField0\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:89:9)\n    at async click (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:114:30)\n    at async edit (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:154:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:450:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:289:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:447:3",
+  "elapsedMs": 27094,
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:39733/index.html?nooffline=1",
+    "http://127.0.0.1:39733/app.css",
+    "http://127.0.0.1:39733/icon.svg",
+    "http://127.0.0.1:39733/main.js",
+    "http://127.0.0.1:39733/manifest.webmanifest",
+    "http://127.0.0.1:39733/ferroui.js",
+    "http://127.0.0.1:39733/ferroui-loader.js",
+    "http://127.0.0.1:39733/host.js",
+    "http://127.0.0.1:39733/canvas-sizing.js",
+    "http://127.0.0.1:39733/environment.js",
+    "http://127.0.0.1:39733/updates.js",
+    "http://127.0.0.1:39733/platform-bridge.js",
+    "http://127.0.0.1:39733/browser-lifecycle.js",
+    "http://127.0.0.1:39733/sdk-tasks.js",
+    "http://127.0.0.1:39733/http-tasks.js",
+    "http://127.0.0.1:39733/map-tiles.js",
+    "http://127.0.0.1:39733/phone-storage.js",
+    "http://127.0.0.1:39733/urls.js",
+    "http://127.0.0.1:39733/media.js",
+    "http://127.0.0.1:39733/backup.js",
+    "http://127.0.0.1:39733/documents.js",
+    "http://127.0.0.1:39733/document-share.js",
+    "http://127.0.0.1:39733/alarm-alert.js",
+    "http://127.0.0.1:39733/system-notifications.js",
+    "http://127.0.0.1:39733/storage-environment.js",
+    "http://127.0.0.1:39733/pim.js",
+    "http://127.0.0.1:39733/file-picker.js",
+    "http://127.0.0.1:39733/media-session.js",
+    "http://127.0.0.1:39733/backup-format.js",
+    "http://127.0.0.1:39733/phone-browser.js",
+    "http://127.0.0.1:39733/phone_browser.wasm"
+  ]
+}

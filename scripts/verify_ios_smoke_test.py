@@ -117,7 +117,13 @@ class UIKitProofTests(unittest.TestCase):
                 "checks": [{"name": name, "passed": True} for name in (
                     "observed_simulator_capabilities", "brightness_read_only", "contact_create_and_query",
                     "contact_update_and_query", "contact_delete_and_query")]}
+        data["checks"].append({"name": "location_authorization_observed", "passed": True, "status": "prompt"})
         devices.verify(data)
+        for status in (None, "unknown", "unsupported", "granted", "denied", "restricted"):
+            changed = copy.deepcopy(data)
+            changed["checks"][-1]["status"] = status
+            with self.subTest(status=status), self.assertRaisesRegex(ValueError, "unrequested location"):
+                devices.verify(changed)
         data["sent_messages"] = 1
         with self.assertRaises(ValueError):
             devices.verify(data)

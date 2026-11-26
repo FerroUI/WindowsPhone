@@ -1,0 +1,69 @@
+{
+  "repository": "wieslawsoltes/FerroUI",
+  "pull_request": 1456,
+  "pull_request_url": "https://github.com/wieslawsoltes/FerroUI/pull/1456",
+  "previous_pin": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "pinned_commit": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "pinned_tree": "3dd0893539c85b3179cc9cc2001fc56a8d12c86f",
+  "parent": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "framework_main_at_pr_creation": "8af6d595d45e56e2a831903409f062dbf3a704da",
+  "purpose": "Reset retained native picker transactions, report centered bounded extents, refresh resized realized cells, and synchronize logical metrics without erasing child-owned wrap progress. No public API expansion.",
+  "source_boundary": "WindowsPhone pins the commit based on its original framework revision. The framework pull-request CI merge can include later framework main changes; its checkout must be recorded separately.",
+  "files": [
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker.rs",
+      "bytes": 23605,
+      "sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_presenter.rs",
+      "bytes": 25762,
+      "sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+      "bytes": 37618,
+      "sha256": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_time_picker_panel.rs",
+      "bytes": 36386,
+      "sha256": "1fedebbddd66d52c31899f2850ed10eb7fdaf1924385da80ff69809dbb50c64f"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker.rs",
+      "bytes": 24484,
+      "sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_presenter.rs",
+      "bytes": 20014,
+      "sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+      "bytes": 41030,
+      "sha256": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4"
+    },
+    {
+      "path": "src/FerroUI.Controls/presenters/scroll_content_presenter.rs",
+      "bytes": 70237,
+      "sha256": "d795c407d90abae7e09ff01a285c81d064da05ea8e2bad1d4238fbba304bcf4e"
+    },
+    {
+      "path": "src/FerroUI.Controls/scroll_viewer_tests_i_logical_scrollable.rs",
+      "bytes": 9433,
+      "sha256": "36ef416ea1e1c31d60a2413f07a2776a77e72791cc73a24d14d1bf833a3039a7"
+    },
+    {
+      "path": "src/FerroUI.Controls/test_support_scrolling.rs",
+      "bytes": 7144,
+      "sha256": "2d3bc09a00a3b17ee727e1d636e845f48bfd4751be2dec0a9be12ce1a6f5d1b6"
+    }
+  ],
+  "commits_since_previous_pin": [
+    "cd9aeaef1fb6a80f513d577d345fac6483077966",
+    "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+    "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  ]
+}

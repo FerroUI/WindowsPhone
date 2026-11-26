@@ -68,6 +68,29 @@ cleanup() {
   local result=$?
   record_launch_driver cleanup-begin
   save_observations
+  # A late XCTest bootstrap can activate the phone while failure diagnostics
+  # are sampling it. Stop and reap only our xcodebuild child first; successful
+  # runs keep the finished-marker handshake and its graceful exit window.
+  if [ "$result" != 0 ] && [ -n "${ui_test:-}" ]; then
+    kill "$ui_test" 2>/dev/null || true
+  fi
+  if [ -n "${ui_done:-}" ]; then touch "$ui_done" || true; fi
+  if [ -n "${ui_test:-}" ]; then
+    for attempt in $(seq 1 20); do
+      if ! kill -0 "$ui_test" 2>/dev/null; then break; fi
+      sleep 0.5
+    done
+    if kill -0 "$ui_test" 2>/dev/null; then
+      kill -KILL "$ui_test" 2>/dev/null || true
+    fi
+    local ui_test_exit=0
+    wait "$ui_test" 2>/dev/null || ui_test_exit=$?
+    printf 'Owned XCTest launch driver %s exited with status %s.\n' "$ui_test" "$ui_test_exit"
+    ui_test=
+  fi
+  if [ -n "${ui_status:-}" ] && [ -f "$ui_status" ]; then
+    cp "$ui_status" "$out/prompt-handler.json" || true
+  fi
   if [ "$result" != 0 ]; then
     printf 'iOS verification failed during: %s\n' "$(cat "$out/phase.txt")" >&2
     # Diagnostic work begins only after failure. Each subprocess is bounded,
@@ -78,18 +101,6 @@ cleanup() {
       cat "$out/failure.json" >&2 || true
     fi
     xcrun simctl io "$udid" screenshot "$out/failure.png" >/dev/null 2>&1 || true
-  fi
-  if [ -n "${ui_done:-}" ]; then touch "$ui_done" || true; fi
-  if [ -n "${ui_status:-}" ] && [ -f "$ui_status" ]; then
-    cp "$ui_status" "$out/prompt-handler.json" || true
-  fi
-  if [ -n "${ui_test:-}" ] && kill -0 "$ui_test" 2>/dev/null; then
-    for attempt in $(seq 1 20); do
-      if ! kill -0 "$ui_test" 2>/dev/null; then break; fi
-      sleep 0.5
-    done
-    kill "$ui_test" 2>/dev/null || true
-    wait "$ui_test" 2>/dev/null || true
   fi
   xcrun simctl terminate "$udid" "$bundle_id" >/dev/null 2>&1 || true
   xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
@@ -178,7 +189,9 @@ xcodebuild test-without-building -xctestrun "$test_run" \
   -resultBundlePath "$out/prompt-ui.xcresult" \
   > "$out/xctest.log" 2>&1 &
 ui_test=$!
-deadline=$((SECONDS + 120))
+# A cold hosted runner took 151 seconds to enter the XCTest method. This
+# bounds only driver bootstrap; route/provider and in-test deadlines stay local.
+deadline=$((SECONDS + 240))
 ui_container=
 while [ "$SECONDS" -lt "$deadline" ]; do
   save_observations
@@ -254,6 +267,11 @@ wait_for_route home "$sequence" 'ferroui-phone://home'
 cp "$status" "$out/home-restored.json"
 xcrun simctl io "$udid" screenshot "$out/home-restored.png"
 touch "$ui_done"
-if ! wait "$ui_test"; then cat "$out/xctest.log" >&2; exit 1; fi
+if ! wait "$ui_test"; then
+  ui_test=
+  cat "$out/xctest.log" >&2
+  exit 1
+fi
+ui_test=
 cp "$ui_status" "$out/prompt-handler.json"
 phase 'UIKit mounting, six native activations, Contacts CRUD and simulator hardware limits passed.'

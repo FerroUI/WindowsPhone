@@ -1,0 +1,190 @@
+{
+  "baseline_head": "f6c3d20d865018ccb960b7720b1f6c4b873c6519",
+  "observed_repository_head": "f6c3d20d865018ccb960b7720b1f6c4b873c6519",
+  "started_at_utc": "2026-11-26T15:52:18.805232+00:00",
+  "completed_at_utc": "2026-11-26T15:52:19.900384+00:00",
+  "result": "passed",
+  "source_files": {
+    "scripts/smoke-ios.sh": {
+      "size_bytes": 11964,
+      "sha256": "d457dece8dd537d07a41b8c1c32389cd1f7b223eef3b79c5deace2a4a3d08682"
+    },
+    "scripts/collect_ios_failure_test.py": {
+      "size_bytes": 19091,
+      "sha256": "a77a99b01f5cfa050c05f9de0a8304a4677286a0bbf50f16636cfd8e55b4a0e6"
+    }
+  },
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "scripts/collect_ios_failure_test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.929
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/verify_ios_smoke_test.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.083
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "scripts/smoke-ios.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.004
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "scripts/smoke-ios.sh",
+        "scripts/collect_ios_failure_test.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.007
+    }
+  ],
+  "counts": {
+    "diagnostics_and_cleanup_process_tests": 11,
+    "observation_and_provider_verifier_tests": 7
+  },
+  "unchanged_assertions": [
+    {
+      "file": "scripts/verify-ios-smoke.py",
+      "scope": "whole file",
+      "baseline_bytes": 5950,
+      "current_bytes": 5950,
+      "baseline_sha256": "9914ac06fcf06c7bc3bd6b8d36c5ea26d137b937602e7cd6126eb427646a7811",
+      "current_sha256": "9914ac06fcf06c7bc3bd6b8d36c5ea26d137b937602e7cd6126eb427646a7811",
+      "equal": true
+    },
+    {
+      "file": "scripts/verify-ios-devices.py",
+      "scope": "whole file",
+      "baseline_bytes": 1683,
+      "current_bytes": 1683,
+      "baseline_sha256": "2ca6f951029f875b9a9bc11aa9c29f5dbd5aadcbe8afcda9b7a4b4fe46406983",
+      "current_sha256": "2ca6f951029f875b9a9bc11aa9c29f5dbd5aadcbe8afcda9b7a4b4fe46406983",
+      "equal": true
+    },
+    {
+      "file": "scripts/ios-ui-tests/PhonePromptTests.swift",
+      "scope": "whole file",
+      "baseline_bytes": 5907,
+      "current_bytes": 5907,
+      "baseline_sha256": "83f509e2b4d7833ceda0df5ea1d651a23959104ec88795bcb53fc7996a55125a",
+      "current_sha256": "83f509e2b4d7833ceda0df5ea1d651a23959104ec88795bcb53fc7996a55125a",
+      "equal": true
+    },
+    {
+      "file": ".github/workflows/ios.yml",
+      "scope": "whole file",
+      "baseline_bytes": 5511,
+      "current_bytes": 5511,
+      "baseline_sha256": "91cb769dc7e6f00a0b67e84c7662acabeb26c38cc2795a2b7ad3a8278fec931c",
+      "current_sha256": "91cb769dc7e6f00a0b67e84c7662acabeb26c38cc2795a2b7ad3a8278fec931c",
+      "equal": true
+    },
+    {
+      "file": "scripts/smoke-ios.sh",
+      "scope": "Mounted route verification including 90-second deadline, URI acceptance, original PID/launch UUID, foreground and mounted controls",
+      "start_marker": "wait_for_route() {",
+      "end_marker": "phase 'Waiting for the Start route'",
+      "baseline_bytes": 1310,
+      "current_bytes": 1310,
+      "baseline_sha256": "c1dcb219e064c6e1ab2478403a7044215b105dd086d87bf32ad27a91a2841572",
+      "current_sha256": "c1dcb219e064c6e1ab2478403a7044215b105dd086d87bf32ad27a91a2841572",
+      "equal": true
+    },
+    {
+      "file": "scripts/smoke-ios.sh",
+      "scope": "Provider verification and its 120-second deadline",
+      "start_marker": "phase 'Verifying real Contacts CRUD and simulator hardware limits'",
+      "end_marker": "phase 'Starting the fixed-URL XCTest system driver'",
+      "baseline_bytes": 701,
+      "current_bytes": 701,
+      "baseline_sha256": "cb09762fa366a3f847a20a4ce1c8176b170048532fb2a19fc2274c8963094f43",
+      "current_sha256": "cb09762fa366a3f847a20a4ce1c8176b170048532fb2a19fc2274c8963094f43",
+      "equal": true
+    },
+    {
+      "file": "scripts/smoke-ios.sh",
+      "scope": "XCTest readiness conditions and failure handling, excluding the intentionally changed bootstrap budget",
+      "start_marker": "ui_container=\n",
+      "end_marker": "url_request_sequence=0",
+      "baseline_bytes": 889,
+      "current_bytes": 889,
+      "baseline_sha256": "2168e07f6b2aaf7ad62c73f801b273842cc411c3520664802b28b6063ee0516f",
+      "current_sha256": "2168e07f6b2aaf7ad62c73f801b273842cc411c3520664802b28b6063ee0516f",
+      "equal": true
+    },
+    {
+      "file": "scripts/smoke-ios.sh",
+      "scope": "All six ordered URL requests, acknowledgment and route capture gates",
+      "start_marker": "url_request_sequence=0",
+      "end_marker": "touch \"$ui_done\"",
+      "baseline_bytes": 2384,
+      "current_bytes": 2384,
+      "baseline_sha256": "14b95b732646f43dc9a55fe66c2ddf3cd525e89beae5cd0975e78c3ef6f0aa7a",
+      "current_sha256": "14b95b732646f43dc9a55fe66c2ddf3cd525e89beae5cd0975e78c3ef6f0aa7a",
+      "equal": true
+    }
+  ],
+  "bootstrap_budget": {
+    "old_seconds": 120,
+    "new_seconds": 240,
+    "observed_test_entry_seconds_after_launch": 150.28,
+    "outer_smoke_step_seconds": 1200,
+    "provider_deadline_seconds": 120,
+    "per_route_deadline_seconds": 90,
+    "swift_url_test_deadline_seconds_after_ready": 300
+  },
+  "cleanup_control_flow": "On failure, immediately signal the owned xcodebuild launch child; allow at most twenty half-second polls, then SIGKILL if still running; wait/reap, log its exit status and clear the PID before diagnostics. Success retains the finished-marker handshake. The original cleanup result is returned.",
+  "process_test_scope": {
+    "production_cleanup_function_executed": true,
+    "real_child_processes": true,
+    "simulator_commands_stubbed": true,
+    "cases": [
+      "SIGTERM-responsive child reaped before diagnostics, retaining exit 37",
+      "SIGTERM-ignoring child forcibly killed and reaped before diagnostics, retaining exit 37",
+      "Successful child exits through the finished-marker handshake without termination"
+    ],
+    "native_process_sentinel_remains_running": true,
+    "boundary": "These tests prove the production shell control flow for its owned launch child. They do not independently prove termination of the XCTest runner inside a simulator, the native phone application, or simulator deletion."
+  },
+  "preserved_failure_evidence": [
+    {
+      "path": "/tmp/windowsphone-tooling/ios-ci-f6c3d20-attempt1.json",
+      "size_bytes": 46544,
+      "sha256": "f422a9390f1199ac3073ea702cb69d8079f1afaf2b98b7dd3e91df5e13d6441d",
+      "unchanged": true
+    },
+    {
+      "path": "/tmp/phone-ios-f6c3d20.zip",
+      "size_bytes": 1202060,
+      "sha256": "5a3c92f87abb7dff1f6e86149e3eb36efffbbc1209ec684e18fc3f984d95f60d",
+      "unchanged": true
+    }
+  ],
+  "validation_log": {
+    "path": "/tmp/windowsphone-tooling/ios-bootstrap-cleanup-validation.log",
+    "size_bytes": 6842,
+    "sha256": "7093a579b157fc189cc9932536a0b9508a6a9a4e03c33e30dc53ae1b58b2c951"
+  },
+  "patch": {
+    "path": "/tmp/windowsphone-tooling/ios-bootstrap-cleanup.patch",
+    "size_bytes": 8940,
+    "sha256": "59a0409857785944f5429b8a5c26b7eb1e20552c9efdfa9c1c1b732cd066e9bd"
+  }
+}

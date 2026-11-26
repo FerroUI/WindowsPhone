@@ -1,0 +1,14 @@
+[
+  {
+    "file": "FerroUI/src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+    "changed_regression_rustfmt_idempotent": true,
+    "untouched_prefix_preserved": true,
+    "baseline_has_existing_whole_file_format_differences": true
+  },
+  {
+    "file": "FerroUI/src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+    "changed_regression_rustfmt_idempotent": true,
+    "untouched_prefix_preserved": true,
+    "baseline_has_existing_whole_file_format_differences": true
+  }
+]

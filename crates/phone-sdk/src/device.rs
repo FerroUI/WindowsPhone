@@ -309,7 +309,7 @@ pub fn permission(
     let status = vm.device_state().snapshot.permission(permission);
     let model = vm.clone();
     rsx! {StackPanel{spacing:8.0,
-        {muted(&format!("{label}: {}",match status{PermissionState::Granted=>"allowed",PermissionState::Limited=>"selected items",PermissionState::Prompt=>"not requested",PermissionState::Denied=>"denied",PermissionState::Restricted=>"restricted",PermissionState::Unsupported=>"unavailable"}),16.0)}
+        {muted(&format!("{label}: {}",match status{PermissionState::Granted=>"allowed",PermissionState::Limited=>"selected items",PermissionState::Unknown=>"checking",PermissionState::Prompt=>"not requested",PermissionState::Denied=>"denied",PermissionState::Restricted=>"restricted",PermissionState::Unsupported=>"unavailable"}),16.0)}
         if matches!(status,PermissionState::Prompt|PermissionState::Denied|PermissionState::Limited) {
             {flat(&format!("allow {label}"),move||model.request_device(DeviceRequest::RequestPermission{permission}))}
         }

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { sleep } from "../FerroUI/scripts/browser/harness.mjs";
+import { inputGeometryReady } from "./ui-input-geometry.mjs";
 
 function motionDiagnostic(frames) {
   const firstProjected = frames.findIndex(frame => frame.page && frame.page.projection !== null);
@@ -81,7 +82,13 @@ export async function verifyMetroControls(ctx) {
     let previous;
     let observations = 0;
     return until(async () => {
-      const matches = (await snapshot()).elements.filter(element => (!requireHit || element.hit) && match(element));
+      const view = await snapshot();
+      if (!inputGeometryReady(view)) {
+        previous = undefined;
+        observations = 0;
+        return;
+      }
+      const matches = view.elements.filter(element => (!requireHit || element.hit) && match(element));
       assert(matches.length <= 1, `Ambiguous native target: ${label}`);
       const current = matches[0];
       if (!current) return;
@@ -219,9 +226,14 @@ export async function verifyMetroControls(ctx) {
       const bar = named(before, "PhoneApplicationBar");
       const more = named(before, "AppBarMore");
       const circle = named(before, "AppBarCircle-add");
+      const commands = named(before, "AppBarPrimaryCommands");
+      const action = named(before, "AppBarAction-add");
       const alarm = before.elements.find(element =>
         element.automationName === "Edit alarm 07:00 Metro control fixture");
-      assert(bar && more && circle && alarm, "The native app bar and alarm row must be mounted");
+      assert(bar && more && circle && commands && action && alarm, "The native app bar and alarm row must be mounted");
+      near(commands.width, 76, "The single command retains its complete equal-width slot");
+      near(commands.x + commands.width / 2, bar.x + bar.width / 2, "Primary commands stay centered on the phone");
+      near(action.width, commands.width, "The full command slot accepts input");
       assert(!named(before, "AppBarLabel-add"), "Collapsed application bar hides icon labels");
       assert(!named(before, "AppBarCircle-more"), "The ellipsis is not a circular primary action");
       assert(circle.x + circle.width <= more.x, "The ellipsis follows the primary action slots");
@@ -230,6 +242,9 @@ export async function verifyMetroControls(ctx) {
       await clickStable("AppBarMore");
       await until(async () => !!named(await snapshot(), "AppBarLabel-add"), "Expanded add label");
       const expanded = await snapshot();
+      for (const property of ["x", "width"])
+        near(named(expanded, "AppBarAction-add")[property], action[property],
+          `Showing captions preserves the command's horizontal ${property}`);
       const expandedRow = expanded.elements.find(element => element.automationName === alarm.automationName);
       assert(expandedRow, "Opening the application bar retains the alarm row");
       for (const property of ["x", "y", "width", "height"])

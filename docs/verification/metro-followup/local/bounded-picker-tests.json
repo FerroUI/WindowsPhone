@@ -1,0 +1,128 @@
+{
+  "observed_at": "2026-11-26T17:13:47.939791+00:00",
+  "repository": "wieslawsoltes/FerroUI",
+  "base_commit": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "source_state": "Test changes are now committed in the published dependency; the recorded test file hashes match the published files.",
+  "files": [
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+      "bytes": 37618,
+      "sha256": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad"
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+      "bytes": 41030,
+      "sha256": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4"
+    }
+  ],
+  "added_tests": [
+    "date_time_pickers::time_picker_tests::bounded_picker_keeps_pm_and_last_year_through_layout_changes_without_selection_events",
+    "date_time_pickers::time_picker_tests::bounded_picker_keyboard_and_scroll_gestures_stop_at_the_first_and_last_cells"
+  ],
+  "coverage": {
+    "mount": "Real styled Window, ScrollViewer template, ScrollContentPresenter and DateTimePickerPanel; the selected cell is observed in the realized visual tree.",
+    "bounded_ranges": [
+      {
+        "kind": "TimePeriod",
+        "minimum": 0,
+        "maximum": 1,
+        "initial": 1
+      },
+      {
+        "kind": "Year",
+        "minimum": 2020,
+        "maximum": 2024,
+        "initial": 2024
+      }
+    ],
+    "layout_changes": {
+      "initial_viewport_height": 200,
+      "initial_pitch": 40,
+      "viewport_height_and_pitch_sequence": [
+        [
+          480,
+          40
+        ],
+        [
+          120,
+          40
+        ],
+        [
+          32,
+          40
+        ],
+        [
+          32,
+          64
+        ],
+        [
+          32,
+          48
+        ],
+        [
+          200,
+          48
+        ]
+      ],
+      "no_selection_changed_events": true
+    },
+    "input": "Synthetic routed KeyDown, ScrollGesture and ScrollGestureEnded events reach native handlers. These tests do not inject physical/raw pointer input; the unchanged consumer/browser checks cover real pointer and touch streams.",
+    "behavior": [
+      "retained initially selected PM/final year",
+      "exactly one selected realized cell with expected native value tag",
+      "selected cell center remains at viewport center, including a viewport smaller than the item pitch",
+      "panel/presenter/viewer offset convergence",
+      "last value equals finite legal scroll boundary",
+      "Up/Down/PageUp/PageDown cannot wrap a bounded wheel",
+      "fractional gesture offset snaps to the selected cell on gesture end",
+      "large gesture deltas clamp at both ends"
+    ],
+    "existing_expectation_updates": [
+      "Unhosted bounded three-cell pitch40 viewport100 extent changes from120 to180.",
+      "Unmeasured bounded three-cell pitch40 viewport0 extent changes from120 to80. Looping and empty-child panic assertions are preserved."
+    ]
+  },
+  "validation": {
+    "rustfmt_version": "rustfmt 1.10.0-stable (b940084d7e 2026-09-28)",
+    "complete_test_files_parse": true,
+    "added_mounted_fixture_and_tests_format_idempotent": true,
+    "unrelated_existing_formatting_preserved": true,
+    "git_diff_check": "passed",
+    "cargo_check": {
+      "result": "passed",
+      "checks": [
+        {
+          "scope": "consumer",
+          "command": "cargo check --locked -p phone-controls --tests",
+          "exit_code": 0,
+          "elapsed_seconds_reported_by_check_owner": 162.666,
+          "tests_executed": false,
+          "log": {
+            "path": "/tmp/windowsphone-tooling/bounded-scroll-consumer-check.log",
+            "bytes": 19028,
+            "sha256": "ac98267bd899952ebddaf04514e8a8b4b4a471da853ec7ed497b57c2de6e9684"
+          },
+          "completion_line": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 42s"
+        },
+        {
+          "scope": "framework",
+          "command": "cargo check --locked -p ferroui-controls --tests",
+          "exit_code": 0,
+          "elapsed_seconds_reported_by_check_owner": 218.39,
+          "tests_executed": false,
+          "log": {
+            "path": "/tmp/windowsphone-tooling/bounded-scroll-framework-check.log",
+            "bytes": 19765,
+            "sha256": "e439892f08bd572f2b67ecac5fb636a0021233ddc48a1ddb3b9b43665c3d3d9e"
+          },
+          "completion_line": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3m 36s"
+        }
+      ]
+    },
+    "runtime_tests_executed_locally": false,
+    "runtime_limit": "No local runtime pass is claimed. Earlier framework code generation was SIGKILL; full local test execution was explicitly not repeated."
+  },
+  "validation_completed_at": "2026-11-26T17:25:40.655464+00:00",
+  "published_framework_commit": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "published_test_files_match_recorded_hashes": true
+}

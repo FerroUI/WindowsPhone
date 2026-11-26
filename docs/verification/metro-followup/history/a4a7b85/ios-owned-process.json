@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "simulator": "6BE2DF51-0D24-41DC-8128-176314706A95",
+  "bundle_id": "org.ferroui.windowsphone",
+  "captured_at_unix_ms": 1795558216786,
+  "console_observation": {
+    "observed_at_unix_ms": 1795558216787,
+    "maximum_read_bytes": 1048576,
+    "parsed_pid": 27820,
+    "exists": true,
+    "bytes": 2846,
+    "modified_at_unix_ns": 1795558131270173708,
+    "read_bytes": 2846,
+    "stable_during_read": true,
+    "truncated": false,
+    "read_sha256": "3abbab4cd90a5ef1f6367b05271962a9479fedc24cfe2235504fb1c1e1bbc94c"
+  },
+  "console_pid": 27820,
+  "exact_process_matches": {
+    "count": 1,
+    "classification": "unique",
+    "pids": [
+      27820
+    ],
+    "pids_truncated": false
+  },
+  "pid": 27820,
+  "executable": "phone-ios",
+  "identity": "exact installed executable path, rechecked before sample",
+  "diagnostic_error": "Command '['/usr/bin/sample', '27820', '3', '10', '-file', '/Users/runner/work/_temp/phone-ios-ui/owned-process.sample.txt']' timed out after 8 seconds",
+  "crash_reports": []
+}

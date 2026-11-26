@@ -1,0 +1,94 @@
+{
+  "validation": "Native bounded picker extent and coherent logical scroll metrics",
+  "base_framework_commit": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "framework_commit": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "base_consumer_commit": "e430b2141eae143cca1440f6b0ade31646659332",
+  "consumer_commit": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+  "files": {
+    "FerroUI/src/FerroUI.Controls/date_time_pickers/date_time_picker_panel.rs": "8e6d83e73662fdb191009819b5a96f98f73863b0c16a534e48a7cac0431f7129",
+    "FerroUI/src/FerroUI.Controls/presenters/scroll_content_presenter.rs": "7bc4ca766489396f9d2e5581d5ad3bb5e69db01bb3e7c28350a32ec0a1ec5d05",
+    "FerroUI/src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad",
+    "FerroUI/src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4",
+    "FerroUI/src/FerroUI.Controls/scroll_viewer_tests_i_logical_scrollable.rs": "aa55d098d77a99e57dc014026f5b7bc59d9768181bfaa4848f2b5f51f7d9b232",
+    "FerroUI/src/FerroUI.Controls/test_support_scrolling.rs": "2d3bc09a00a3b17ee727e1d636e845f48bfd4751be2dec0a9be12ce1a6f5d1b6"
+  },
+  "parser_checks": {
+    "production_files_exit_code": 0,
+    "method": "rustfmt --edition 2021 --emit stdout; formatting applied only to changed functions/blocks",
+    "test_files": "Both test owners reported parser and scoped formatting success."
+  },
+  "whitespace_check": {
+    "command": "git diff --check",
+    "working_directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/FerroUI",
+    "exit_code": 0
+  },
+  "environment": {
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/scratch/ac02e890bf90/WindowsPhone/target"
+  },
+  "metadata_checks": {
+    "status": "success",
+    "commands": [
+      {
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+        "command": "/home/agent/.cargo/bin/cargo check --locked -p phone-controls --tests"
+      },
+      {
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone/FerroUI",
+        "command": "/home/agent/.cargo/bin/cargo check --locked -p ferroui-controls --tests"
+      }
+    ],
+    "results_path": "/tmp/windowsphone-tooling/bounded-scroll-check-results.json",
+    "results": [
+      {
+        "check": "consumer",
+        "command": [
+          "/home/agent/.cargo/bin/cargo",
+          "check",
+          "--locked",
+          "-p",
+          "phone-controls",
+          "--tests"
+        ],
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+        "exit_code": 0,
+        "duration_seconds": 162.666,
+        "log": "/tmp/windowsphone-tooling/bounded-scroll-consumer-check.log",
+        "tests_executed": false,
+        "log_sha256": "ac98267bd899952ebddaf04514e8a8b4b4a471da853ec7ed497b57c2de6e9684",
+        "cargo_result_lines": [
+          "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 42s"
+        ]
+      },
+      {
+        "check": "framework",
+        "command": [
+          "/home/agent/.cargo/bin/cargo",
+          "check",
+          "--locked",
+          "-p",
+          "ferroui-controls",
+          "--tests"
+        ],
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone/FerroUI",
+        "exit_code": 0,
+        "duration_seconds": 218.39,
+        "log": "/tmp/windowsphone-tooling/bounded-scroll-framework-check.log",
+        "tests_executed": false,
+        "log_sha256": "e439892f08bd572f2b67ecac5fb636a0021233ddc48a1ddb3b9b43665c3d3d9e",
+        "cargo_result_lines": [
+          "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3m 36s"
+        ]
+      }
+    ]
+  },
+  "tests_executed": false,
+  "limitations": "Local metadata checks compile types but do not execute test bodies. CI must run the dependency regressions, unchanged consumer noon/reopen matrix, and rendered input flow.",
+  "framework_tree": "65ac429a449083798fad37a36a47d5f65b149029",
+  "consumer_tree": "f4f0a3602eb1f7c8933d16e942c64f7b86cd7ea2",
+  "publication_note": "Parent published and synchronized exact same source bytes while sequential metadata checks were running.",
+  "source_hashes_match_after_checks": true,
+  "local_tests_executed": false
+}

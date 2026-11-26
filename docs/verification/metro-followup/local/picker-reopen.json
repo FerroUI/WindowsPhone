@@ -1,0 +1,56 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "consumer_base": "f6c3d20d865018ccb960b7720b1f6c4b873c6519",
+  "consumer_commit": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+  "source_boundary": "Exact files hashed below are present in the published consumer commit, using the committed framework dependency.",
+  "framework": {
+    "repository": "wieslawsoltes/FerroUI",
+    "commit": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+    "tree": "1c72bc71d5253dd1e1a23ca412b44d26cd45dc85",
+    "base": "db2e8859cd4b67bac870839ea70503b8babf541f",
+    "pull_request": "https://github.com/wieslawsoltes/FerroUI/pull/1456"
+  },
+  "sources": [
+    {
+      "path": "crates/phone-controls/src/pickers/tests.rs",
+      "sha256": "75c2db23dcb6939431c0e180eb4cae2f7b46dc395073b2f7a41e3d6d44a51d7f"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers/reopen_tests.rs",
+      "sha256": "ad4a7cf584e20df8ae9953406dc81ad399723989eb1efb59fc8c46ece88400ce"
+    }
+  ],
+  "tests_executed": false,
+  "checks": [
+    {
+      "command": "CARGO_BUILD_JOBS=1 CARGO_INCREMENTAL=0 CARGO_PROFILE_TEST_DEBUG=0 /home/agent/.cargo/bin/cargo check --locked -p phone-controls --tests",
+      "working_directory": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+      "exit_code": 0,
+      "cargo_seconds": 492,
+      "log": {
+        "path": "/tmp/windowsphone-tooling/picker-reopen-check.log",
+        "sha256": "7428ebd1ab2d70760e63492dbb0f7e9573c08fb94a21df0d8a6f68ae70649957"
+      }
+    },
+    {
+      "command": "CARGO_BUILD_JOBS=1 CARGO_INCREMENTAL=0 CARGO_PROFILE_TEST_DEBUG=0 /home/agent/.cargo/bin/cargo check --locked -p phone-controls --tests",
+      "working_directory": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+      "exit_code": 0,
+      "cargo_seconds": 0.42,
+      "log": {
+        "path": "/tmp/windowsphone-tooling/picker-reopen-check-final.log",
+        "sha256": "47d321f2ac9b66dc934ee67d22a5810da09f277d5ad8c8ff7f879cf00d589970"
+      },
+      "purpose": "Final cached rerun verifies the exact test source including explicit local-date/time and offset assertions."
+    }
+  ],
+  "formatting": {
+    "command": "/home/agent/.cargo/bin/rustfmt --edition 2021 --check crates/phone-controls/src/pickers/reopen_tests.rs",
+    "exit_code": 0
+  },
+  "whitespace": {
+    "command": "git diff --check",
+    "exit_code": 0
+  },
+  "consumer_tree": "ed06b217572976f4c03bacaa6dba276307c0ff4a"
+}

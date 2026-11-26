@@ -1,0 +1,204 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "pull_request": 4,
+  "run_id": 45832927821,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927821",
+  "source": {
+    "head": "2dc6f31db9039600e7a6e7c5337deba17d97b88c",
+    "base": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+    "head_tree": "9f5e4794767a53099fe9056ed600d959f0fcd0d3",
+    "merge_tree": "9f5e4794767a53099fe9056ed600d959f0fcd0d3"
+  },
+  "changes_from_predecessor": [
+    "scripts/fixtures/ui-native-input-frames.json",
+    "scripts/ui-input-geometry.mjs",
+    "scripts/ui-input-geometry.test.mjs",
+    "scripts/ui-smoke.mjs"
+  ],
+  "native_commands_changed": false,
+  "native_commands": [
+    "cargo test --locked -p phone-host -p phone-platform-desktop",
+    "python -B -m unittest discover -s crates/phone-desktop/platform/tests -v",
+    "cargo test --locked -p phone-native --lib",
+    "cargo build --locked -p phone-desktop"
+  ],
+  "scope": "Build/link and automated boundary tests. No desktop GUI/device behavior verification implied.",
+  "jobs": {
+    "linux": {
+      "job_id": 139954123290,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927821/job/139954123290",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+      "started_at": "2026-11-26T13:49:44Z",
+      "completed_at": "2026-11-26T13:54:08Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 33,
+          "ignored_in_first_run": 1
+        },
+        "phone_platform_desktop": {
+          "passed": 9,
+          "ignored": 1
+        },
+        "phone_native": {
+          "passed": 17
+        },
+        "private_bus_mpris": {
+          "passed": 1,
+          "separate_ignored_test_invocation": true
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success",
+      "cache": {
+        "hit": true,
+        "key": "phone-native-v2-Linux-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+        "full_desktop_cargo_seconds": 96,
+        "predecessor_full_desktop_cargo_seconds": 478
+      },
+      "steps": [
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T13:50:19Z",
+          "completed_at": "2026-11-26T13:50:43Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T13:50:54Z",
+          "completed_at": "2026-11-26T13:52:29Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T13:52:29Z",
+          "completed_at": "2026-11-26T13:54:05Z"
+        }
+      ]
+    },
+    "macos": {
+      "job_id": 139954123377,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927821/job/139954123377",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+      "started_at": "2026-11-26T13:49:48Z",
+      "completed_at": "2026-11-26T14:00:48Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 29
+        },
+        "phone_platform_desktop": {
+          "passed": 5
+        },
+        "phone_native": {
+          "passed": 17
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success",
+      "cache": {
+        "hit": true,
+        "key": "phone-native-v2-macOS-ARM64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-1253acb5b4be4ae55c2df149631b72d2b6fabecdd10f5f47eebcb119dc227ae9",
+        "full_desktop_cargo_seconds": 289,
+        "predecessor_full_desktop_cargo_seconds": 1112
+      },
+      "steps": [
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T13:50:27Z",
+          "completed_at": "2026-11-26T13:51:34Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T13:52:16Z",
+          "completed_at": "2026-11-26T13:55:47Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T13:55:47Z",
+          "completed_at": "2026-11-26T14:00:38Z"
+        }
+      ]
+    },
+    "windows": {
+      "job_id": 139954123401,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927821/job/139954123401",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+      "started_at": "2026-11-26T13:49:44Z",
+      "completed_at": "2026-11-26T14:22:03Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 30
+        },
+        "phone_platform_desktop": {
+          "passed": 6
+        },
+        "phone_native": {
+          "passed": 16
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "shell_helper_parse": "success",
+      "full_desktop_build_link": "success",
+      "cache": {
+        "hit": false,
+        "saved": true,
+        "key": "phone-native-v2-Windows-X64-1.99.0-db2e8859cd4b67bac870839ea70503b8babf541f-windows-2022-f199338837b50a0946e0c308779ff7329335cb92f6dbdfb2fdc0c14557260bed",
+        "full_desktop_cargo_seconds": 1210
+      },
+      "steps": [
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T13:50:26Z",
+          "completed_at": "2026-11-26T13:50:27Z"
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T13:51:49Z",
+          "completed_at": "2026-11-26T14:01:24Z"
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T14:01:24Z",
+          "completed_at": "2026-11-26T14:21:34Z"
+        }
+      ]
+    }
+  }
+}

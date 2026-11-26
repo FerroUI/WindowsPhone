@@ -1,0 +1,46 @@
+{
+  "sourceRevision": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+  "browserRun": 45494885471,
+  "browserArtifact": 14969081941,
+  "browserArtifactSha256": "835ee75c26114e50b4c1d08441a370eb144a9699808498382dbe986ab8d05e1c",
+  "iosRun": 45494885485,
+  "iosArtifact": 14969012345,
+  "iosArtifactSha256": "a46866c632cfe6405f00957de159f1b9215b0eff4cf336b70aef0b354c901d08",
+  "files": [
+    {
+      "path": "history/a4a7b85/shell-parity-failure.png",
+      "bytes": 16120,
+      "sha256": "e0d84e626ad305804c0c4d9cf0d7b906f5963cbee1cdc714ceeeba2f9a6b6b8f"
+    },
+    {
+      "path": "history/a4a7b85/shell-parity-failure.json",
+      "bytes": 139227,
+      "sha256": "b6764469b9ecb63d5de3c98ff7f28c08321c2a34199edd122515533b0b276d6e"
+    },
+    {
+      "path": "history/a4a7b85/sdk-games-failure.png",
+      "bytes": 30607,
+      "sha256": "115221f4c8ba7870f3c7420ec757b44897fbaec54bedcb937f5e0847fa3cd5f2"
+    },
+    {
+      "path": "history/a4a7b85/sdk-games-failure.json",
+      "bytes": 177632,
+      "sha256": "5316a4f0434acec5621d7c1fa1accc108ab4a74893ccce454d573f7269e981d2"
+    },
+    {
+      "path": "history/a4a7b85/browser-results.json",
+      "bytes": 47132,
+      "sha256": "bdee481e435d08aeaae11046cf32e4fa473ca81544ade07ba29cd3d9f6291c78"
+    },
+    {
+      "path": "history/a4a7b85/ios-console.log",
+      "bytes": 2878,
+      "sha256": "e80a35329bd313cc5a2b3cbf8ad03282ac29695255163d5f94f6b9b6d5a96185"
+    },
+    {
+      "path": "history/a4a7b85/ios-owned-process.json",
+      "bytes": 1028,
+      "sha256": "cc96ff85655fbf7e1faf42479079e470d9101de344437832659c18607345f5b9"
+    }
+  ]
+}

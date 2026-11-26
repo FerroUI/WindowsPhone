@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T14:16:17.055634+00:00",
+  "run": {
+    "id": 45832927821,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927821",
+    "event": "pull_request",
+    "attempt": 1,
+    "build_job_id": 139954123461,
+    "build_job_conclusion": "failure",
+    "deploy_conclusion": "skipped"
+  },
+  "source": {
+    "pr": 4,
+    "head_sha": "2dc6f31db9039600e7a6e7c5337deba17d97b88c",
+    "checkout_sha": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+    "tree_sha": "9f5e4794767a53099fe9056ed600d959f0fcd0d3",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "2dc6f31db9039600e7a6e7c5337deba17d97b88c"
+    ],
+    "expected_head_tree": "9f5e4794767a53099fe9056ed600d959f0fcd0d3",
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "tests": {
+    "state": {
+      "passed": 157,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_apps_controls": {
+      "passed": 242,
+      "failed": 0,
+      "ignored": 0
+    },
+    "phone_controls": {
+      "unit_passed": 33
+    },
+    "phone_sdk": {
+      "unit_passed": 29,
+      "integration_passed": 24,
+      "passed": 53
+    },
+    "javascript": {
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "rendered_ui": {
+    "passed": false,
+    "completed_passing_checks": 7,
+    "captures": 7,
+    "elapsed_ms": 26963,
+    "browser_errors": [],
+    "failure": "AssertionError [ERR_ASSERTION]: Start scroll viewer is not hit-testable\n    at openApps (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:317:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:510:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:297:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:509:3",
+    "phone_picker_module_exercised": false,
+    "system_refinements_module_exercised": false,
+    "passing_checks": [
+      "desktop Start renders",
+      "native tile launch and Back",
+      "native context menu resizes a tile",
+      "app list search and native note creation",
+      "native note edit and reload persistence",
+      "native secondary note tile opens its note",
+      "native note deletion"
+    ]
+  },
+  "artifacts": [
+    {
+      "artifact_id": 15123858527,
+      "name": "compiled-app",
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-2dc6f31",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-2dc6f31.zip",
+      "github_sha256": "4b1c7813b23a9a1bef40f8b87e33cd7d649d03e9711162e344bd04fdaa55a32e",
+      "observed_sha256": "4b1c7813b23a9a1bef40f8b87e33cd7d649d03e9711162e344bd04fdaa55a32e",
+      "sha256_verified": true,
+      "file_count": 43,
+      "wasm_sha256": "942db1c6250956ed980c6ee92f8d98654088f165e79294d37cb88a527764fafc",
+      "wasm_identical_to_c2f9645_and_5c572ce": true
+    },
+    {
+      "artifact_id": 15123603544,
+      "name": "ui-verification",
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-2dc6f31",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-2dc6f31.zip",
+      "github_sha256": "00ef908b8b8151eb5404e74f44087ac6e1416be03b2f48bd73a382d746b6beb7",
+      "observed_sha256": "00ef908b8b8151eb5404e74f44087ac6e1416be03b2f48bd73a382d746b6beb7",
+      "sha256_verified": true,
+      "file_count": 18
+    }
+  ],
+  "evidence": {
+    "build_log": "/tmp/windowsphone-tooling/browser-build-2dc6f31.log",
+    "results": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-2dc6f31/results.json",
+    "failure_view": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-2dc6f31/failure-view.json",
+    "failure_image": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-2dc6f31/failure.png"
+  },
+  "diagnosis": {
+    "proven": "The complete OneNote create/edit/reload/pin/delete sequence passed. openApps then asserted a missing hittable StartScroll from a raw one-shot snapshot. Its failure readback still records a native PhonePage turnstile projection, with angleY +0.5424010460624231.",
+    "failure_page_projection": {
+      "angleX": 0,
+      "angleY": 0.5424010460624231,
+      "centerX": -200,
+      "centerY": 0,
+      "depth": 833.3333333333334,
+      "kind": "turnstile"
+    },
+    "local_followup": "Make normal control acquisition stable by default, expose rawControl for explicit observers, settle home/openApps/launchFromSearch destinations, and gate both manual AllApps probe snapshots. Preserve raw route/frame probes and the single pressed-frame AllApps click."
+  }
+}

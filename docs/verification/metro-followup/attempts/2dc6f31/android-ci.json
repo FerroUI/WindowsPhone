@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T14:05:54.822343+00:00",
+  "source": {
+    "pr": 4,
+    "head_sha": "2dc6f31db9039600e7a6e7c5337deba17d97b88c",
+    "checkout_sha": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+    "tree_sha": "9f5e4794767a53099fe9056ed600d959f0fcd0d3",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "2dc6f31db9039600e7a6e7c5337deba17d97b88c"
+    ],
+    "expected_head_tree": "9f5e4794767a53099fe9056ed600d959f0fcd0d3",
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "arm64": {
+    "run_id": 45832927868,
+    "job_id": 139954122449,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927868",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 8,
+      "rust_passed": 7
+    },
+    "package_variants": [
+      "app",
+      "launcher"
+    ],
+    "package_gates": [
+      "decoded manifest",
+      "JNI entry",
+      "native ELF alignment",
+      "zipalign"
+    ],
+    "artifacts": [
+      {
+        "id": 15124306211,
+        "name": "phone-android-arm64-debug",
+        "size_bytes": 76294989,
+        "github_digest": "sha256:c0aa08a30bbe3ba133d1dabe206589d43f860efb63d4a8ee3967fde444a11051",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927868/artifacts/15124306211"
+      }
+    ],
+    "log_path": "/tmp/windowsphone-tooling/android-arm-2dc6f31.log"
+  },
+  "mounted_ui": {
+    "run_id": 45832927814,
+    "job_id": 139954122700,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45832927814",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 47,
+      "rust_passed": 7,
+      "mms_codec_assertions": 13,
+      "rf_requests": 0
+    },
+    "evidence": {
+      "artifact_id": 15123917944,
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-2dc6f31",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-2dc6f31.zip",
+      "zip_sha256": "0f5dd0230de726c358df6dd8a4557aa34004726700fafabedb6c58a28e2b247f",
+      "sha256_verified": true,
+      "file_count": 201,
+      "captures": 20,
+      "head_sha": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+      "result": {
+        "result": "passed",
+        "exit_code": 0,
+        "phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+        "target": {
+          "platform": "android",
+          "api": 36,
+          "abi": "x86_64",
+          "gpu": "software"
+        },
+        "expected_routes": [
+          "Start",
+          "org.ferroui.wallet",
+          "Start"
+        ],
+        "expected_variants": [
+          "app",
+          "launcher"
+        ],
+        "captures": [
+          "app-back.png",
+          "app-home-restored.png",
+          "app-start.png",
+          "app-wallet.png",
+          "device-action-center-revoked.png",
+          "device-action-center.png",
+          "device-active-call.png",
+          "device-ended-call.png",
+          "device-messaging.png",
+          "device-notifications-scroll-0.png",
+          "device-ringing.png",
+          "device-start-unread.png",
+          "home-role-back-start.png",
+          "home-role-returned.png",
+          "home-role-start.png",
+          "home-role-wallet.png",
+          "launcher-back.png",
+          "launcher-home-restored.png",
+          "launcher-start.png",
+          "launcher-wallet.png"
+        ],
+        "observations": [
+          "app-back.json",
+          "app-home-restored.json",
+          "app-start.json",
+          "app-wallet.json",
+          "bootstrap-current.json",
+          "device-active.json",
+          "device-after-answer.json",
+          "device-baseline.json",
+          "device-current.json",
+          "device-ended.json",
+          "device-notifications-admitted.json",
+          "device-notifications-revoked.json",
+          "device-notifications-scroll-0.json",
+          "device-notifications-visible.json",
+          "device-ringing.json",
+          "device-roles.json",
+          "device-sms-ui.json",
+          "device-sms.json",
+          "device-start-restored.json",
+          "device-start-unread.json",
+          "home-role-back-start.json",
+          "home-role-returned.json",
+          "home-role-start.json",
+          "home-role-wallet.json",
+          "launcher-back.json",
+          "launcher-home-restored.json",
+          "launcher-start.json",
+          "launcher-wallet.json"
+        ]
+      },
+      "exact_restoration": {
+        "home": true,
+        "user": true,
+        "DIALER": true,
+        "SMS": true,
+        "listener": true
+      },
+      "notification_fixture_visible_then_revoked": true,
+      "ended_call_foreground_service_cleared": true,
+      "log_path": "/tmp/windowsphone-tooling/android-ui-2dc6f31.log"
+    }
+  }
+}

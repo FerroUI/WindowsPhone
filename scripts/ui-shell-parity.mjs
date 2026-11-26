@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {assertPickerColumns} from "./ui-phone-pickers.mjs";
 
 // Isolated document fixtures; all scrolling, presses, jumps, searches and picker
 // commands use trusted browser input against the mounted native control tree.
@@ -143,7 +144,7 @@ export async function verifyShellParity(ctx) {
         const groups=(await snapshot()).elements.filter(element=>element.hit&&element.name?.startsWith("AppGroup-"));
         return groups.sort((a,b)=>a.y-b.y)[0];
       },"first visible native alphabet header");
-      await page.click(...centre(group));
+      await page.click(...centre(await control(element=>element.name===group.name,group.name)));
       await control(element=>element.name==="AppJump-m","M jump cell");
       const alphabet=await snapshot();
       const cells=alphabet.elements.filter(element=>element.name?.startsWith("AppJump-"));
@@ -202,7 +203,15 @@ export async function verifyShellParity(ctx) {
         const picker=await control(element=>element.name===entry.picker,`${entry.app} native picker`);
         const screen=named(await snapshot(),"PhoneScreen");
         assert(picker.width<=screen.width-40+0.6&&picker.height>=44,"Native phone picker fits its form and touch target");
+        const expected=entry.capture==="date"?["PART_YearSelector","PART_MonthSelector","PART_DaySelector"]:
+          ["PART_HourSelector","PART_MinuteSelector",...((await state()).settings.time_24h?[]:["PART_PeriodSelector"])];
         await clickName(entry.picker);
+        await until(async()=>{
+          const view=await snapshot(),surface=named(view,"PhonePickerSurface");
+          if(!surface||surface.projection!==null||!surface.hitTestVisible)return;
+          assertPickerColumns(view,expected);
+          return true;
+        },"Native picker columns settle with distinct input targets");
         await control(element=>element.name===entry.selector,"Native picker selector panel");
         await focusedSelector();
         await capture(`shell-native-${entry.capture}-picker`,{

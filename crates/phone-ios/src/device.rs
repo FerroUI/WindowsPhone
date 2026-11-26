@@ -50,6 +50,29 @@ mod tests {
     use phone_host::platform::device::{CompositionOutcome, DevicePermission, PermissionState};
 
     #[test]
+    fn pending_authorization_survives_the_native_boundary_without_granting_private_data() {
+        let PlatformResponse::Device(DeviceResponse::Snapshot(snapshot)) = decode(
+            r#"{"kind":"snapshot","value":{"permissions":[{"permission":"location","status":"unknown"},{"permission":"contacts","status":"unknown"}],"operations":["readContacts"]}}"#,
+        ).unwrap() else { panic!("expected snapshot") };
+        assert_eq!(
+            snapshot.permission(DevicePermission::Location),
+            PermissionState::Unknown
+        );
+        assert_ne!(
+            snapshot.permission(DevicePermission::Location),
+            PermissionState::Prompt
+        );
+        let PlatformResponse::Device(contacts) = decode(
+            r#"{"kind":"contacts","value":[{"id":"native:1","name":"Not yet authorized"}]}"#,
+        )
+        .unwrap() else {
+            panic!("expected contacts")
+        };
+        assert!(contacts.admit(&snapshot).is_err());
+        assert!(DeviceResponse::Contacts(vec![]).admit(&snapshot).is_ok());
+    }
+
+    #[test]
     fn limited_contacts_and_actual_composer_outcomes_survive_the_native_boundary() {
         let PlatformResponse::Device(DeviceResponse::Snapshot(snapshot)) = decode(
             r#"{"kind":"snapshot","value":{"permissions":[{"permission":"contacts","status":"limited"}]}}"#,

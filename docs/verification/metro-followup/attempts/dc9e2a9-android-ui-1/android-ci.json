@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T18:21:30.273940+00:00",
+  "source": {
+    "pr": 4,
+    "head_sha": "dc9e2a94d206944023169a789539c02307dd201a",
+    "checkout_sha": "f8bed7d59a6b16b6df2caaea01d88b615c39ae0d",
+    "tree_sha": "85db8c20df19ca40e08ebef89cb086acd72eac60",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "dc9e2a94d206944023169a789539c02307dd201a"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "arm64": {
+    "run_id": 45873369940,
+    "job_id": 140094179797,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45873369940/job/140094179797",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-26T18:07:28Z",
+    "completed_at": "2026-11-26T18:19:27Z",
+    "checkout_sha_verified_in_log": true,
+    "framework_checkout_log_line": "2026-11-26T18:07:52.2686895Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 8,
+      "rust_passed": 7
+    },
+    "log_path": "/tmp/windowsphone-tooling/android-arm-dc9e2a9.log",
+    "log_sha256": "74251e3f2f067b7f0809e0c08e08fb6afa156d5fff01989ec72dc34f20e5904f",
+    "artifacts": [
+      {
+        "id": 15144532499,
+        "name": "phone-android-arm64-debug",
+        "size_bytes": 76297123,
+        "github_digest": "sha256:2a958cde3af23974af4b59acaa53478ecb67fe0224f55557f05920cf6c3d4b83",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45873369940/artifacts/15144532499",
+        "zip_downloaded": false
+      }
+    ],
+    "package_variants": [
+      "app",
+      "launcher"
+    ],
+    "package_gates": [
+      "decoded manifest",
+      "JNI entry",
+      "native ELF alignment",
+      "zipalign"
+    ]
+  },
+  "mounted_ui": {
+    "run_id": 45873369928,
+    "job_id": 140094179268,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45873369928/job/140094179268",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-26T18:07:28Z",
+    "completed_at": "2026-11-26T18:19:14Z",
+    "checkout_sha_verified_in_log": true,
+    "framework_checkout_log_line": "2026-11-26T18:07:52.5208315Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 47,
+      "rust_passed": 7
+    },
+    "log_path": "/tmp/windowsphone-tooling/android-ui-dc9e2a9-attempt1.log",
+    "log_sha256": "b065a5b92f76c2bb459014f9b37f6d45a7bd3ea66f89a552deeac84ab9c2eb60",
+    "artifacts": [
+      {
+        "id": 15145320581,
+        "name": "phone-android-x86_64-ui",
+        "size_bytes": 172,
+        "github_digest": "sha256:1c0df83e5e10ac3b1016183b9cbcdc955bdf245e8635cd1b9ad451a7006a6090",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45873369928/artifacts/15145320581",
+        "zip_downloaded": true,
+        "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt1.zip",
+        "zip_sha256": "1c0df83e5e10ac3b1016183b9cbcdc955bdf245e8635cd1b9ad451a7006a6090",
+        "zip_digest_verified": true,
+        "extracted_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt1"
+      }
+    ],
+    "failed_step": "Build x86_64 application and launcher APKs",
+    "failure": {
+      "category": "Maven Central dependency download throttling",
+      "terminal_line": "2026-11-26T18:19:08.3580353Z ##[error]Process completed with exit code 1.",
+      "first_429_line": "2026-11-26T18:19:08.0791723Z             > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.pom'. Received status code 429 from server: Too Many Requests",
+      "http_429_log_line_count": 92,
+      "retry_after_header_in_log": false,
+      "headers_not_exposed_by_gradle_log": true,
+      "source_change_required": false
+    },
+    "runtime_ui_executed": false,
+    "captures": 0,
+    "files_extracted": 1,
+    "extracted_files": [
+      "head.txt"
+    ],
+    "checkout_sha_verified_in_artifact": true,
+    "rust_native_dev_build_passed": true,
+    "apk_build_completed": false,
+    "retry": {
+      "parent_authorized_maximum_additional_attempts": 1,
+      "requested": false,
+      "source_and_assertions_unchanged": true
+    }
+  }
+}

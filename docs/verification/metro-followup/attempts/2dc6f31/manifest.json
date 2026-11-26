@@ -1,0 +1,92 @@
+{
+  "source_revision": "2dc6f31db9039600e7a6e7c5337deba17d97b88c",
+  "actual_checkout": "1e4de6d1dc3eca55fbbec45e20af703bef339d84",
+  "tree": "9f5e4794767a53099fe9056ed600d959f0fcd0d3",
+  "framework": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "files": [
+    {
+      "path": "attempts/2dc6f31/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-2dc6f31.json",
+      "bytes": 5213,
+      "sha256": "1d47050377d24f69073a4296d8b81c2727ce00a7129a514c72fb93ec5fb9bbbb"
+    },
+    {
+      "path": "attempts/2dc6f31/android-result.json",
+      "source": "target/android-ui-2dc6f31/result.json",
+      "bytes": 1916,
+      "sha256": "b21182651d6bbd46a9cd14c9398494f0ae7803853fac0186839f9718e7d1aeab"
+    },
+    {
+      "path": "attempts/2dc6f31/android-head.txt",
+      "source": "target/android-ui-2dc6f31/head.txt",
+      "bytes": 41,
+      "sha256": "c10f641bed3e431fe0eb60260ed6a47f5b4b8c4fd7c1dc621416f89d9d8de9c5"
+    },
+    {
+      "path": "attempts/2dc6f31/android-notifications-visible.json",
+      "source": "target/android-ui-2dc6f31/device-notifications-visible.json",
+      "bytes": 9512,
+      "sha256": "aadd553837eefd1f0db17fddb6c2ac3b93503147f91abd80ddaad13234f3e078"
+    },
+    {
+      "path": "attempts/2dc6f31/android-notifications-revoked.json",
+      "source": "target/android-ui-2dc6f31/device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "703a40a3160bd28aea66668c9a80aab6e141ab99484d0a31395dd4bffebdad4e"
+    },
+    {
+      "path": "attempts/2dc6f31/android-call-ended.json",
+      "source": "target/android-ui-2dc6f31/device-ended.json",
+      "bytes": 7620,
+      "sha256": "f6084cc394b9bcad98e2b0dde2c320c6ec1a008f0c2cc38de554df2b3c7bac34"
+    },
+    {
+      "path": "attempts/2dc6f31/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-2dc6f31.json",
+      "bytes": 4804,
+      "sha256": "e75a0d0bab6bbd2467dbf7636874c9e118f9b1a82d77e5b2dbe8add2892c5d0a"
+    },
+    {
+      "path": "attempts/2dc6f31/browser-results.json",
+      "source": "target/ui-verification-2dc6f31/results.json",
+      "bytes": 3944,
+      "sha256": "283c5b7c4d76a69b1a6b9a7c71584368003d9c2aaf8e213208a3dedc8f52461d"
+    },
+    {
+      "path": "attempts/2dc6f31/browser-failure.json",
+      "source": "target/ui-verification-2dc6f31/failure-view.json",
+      "bytes": 68841,
+      "sha256": "882ea2702da24c8b8ca560d258d5e7f2ccf4c3d722930566e74da534e8dea3dc"
+    },
+    {
+      "path": "attempts/2dc6f31/browser-failure.png",
+      "source": "target/ui-verification-2dc6f31/failure.png",
+      "bytes": 112775,
+      "sha256": "c7b4c0c7f6c3b32528ae50d7f293ccafbf0693d46ae3e15d8af14bc54372d2da"
+    },
+    {
+      "path": "attempts/2dc6f31/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-2dc6f31.json",
+      "bytes": 44670,
+      "sha256": "16364bb4b48a2293d9d1d4a2ad8fa30e24eb3e4f580d7f776cae9d62f754a292"
+    },
+    {
+      "path": "attempts/2dc6f31/ios-start.json",
+      "source": "/tmp/phone-ios-2dc6f31/start.json",
+      "bytes": 3194,
+      "sha256": "c035136b3ba08cf72f96c935584254f54b7599f28ed9cea15696041f1ef6c4f0"
+    },
+    {
+      "path": "attempts/2dc6f31/ios-device-tests.json",
+      "source": "/tmp/phone-ios-2dc6f31/device-tests.json",
+      "bytes": 3014,
+      "sha256": "8cb04ed6a2e32889c21229572935770433ccb3af7006323d47c3061703226ce7"
+    },
+    {
+      "path": "attempts/2dc6f31/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-2dc6f31.json",
+      "bytes": 6723,
+      "sha256": "53ce055869d80f45d74b0d19d43c4471a05748b8153597bef75d56184c5d0306"
+    }
+  ]
+}

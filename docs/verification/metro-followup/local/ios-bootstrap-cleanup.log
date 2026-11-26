@@ -1,0 +1,131 @@
+$ python3 scripts/collect_ios_failure_test.py -v
+
+test_console_observation_preserves_the_version_seen_before_late_output (__main__.OwnedProcessTests.test_console_observation_preserves_the_version_seen_before_late_output) ... ok
+test_console_rejects_restart_or_ambiguous_processes (__main__.OwnedProcessTests.test_console_rejects_restart_or_ambiguous_processes) ... ok
+test_crash_discovery_accepts_both_filename_delimiters_with_exact_ownership (__main__.OwnedProcessTests.test_crash_discovery_accepts_both_filename_delimiters_with_exact_ownership) ... ok
+test_crash_requires_exact_simulator_installation_bundle_process_and_time (__main__.OwnedProcessTests.test_crash_requires_exact_simulator_installation_bundle_process_and_time) ... ok
+test_failure_sampler_uses_cached_identity_without_core_simulator_ipc (__main__.OwnedProcessTests.test_failure_sampler_uses_cached_identity_without_core_simulator_ipc) ... ok
+test_ignores_another_simulator_and_matching_command_arguments (__main__.OwnedProcessTests.test_ignores_another_simulator_and_matching_command_arguments) ... ok
+test_launch_driver_records_do_not_sample_or_claim_a_native_process (__main__.OwnedProcessTests.test_launch_driver_records_do_not_sample_or_claim_a_native_process) ... ok
+test_rejects_wrong_bundle_and_executable_escape (__main__.OwnedProcessTests.test_rejects_wrong_bundle_and_executable_escape) ... ok
+test_failed_smoke_reaps_driver_before_sampling_and_preserves_failure (__main__.SmokeCleanupTests.test_failed_smoke_reaps_driver_before_sampling_and_preserves_failure) ... ok
+test_success_preserves_finished_marker_handshake (__main__.SmokeCleanupTests.test_success_preserves_finished_marker_handshake) ... ok
+test_unresponsive_driver_is_killed_and_reaped_before_sampling (__main__.SmokeCleanupTests.test_unresponsive_driver_is_killed_and_reaped_before_sampling) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.711s
+
+OK
+
+Exit code: 0; elapsed: 0.929s
+
+$ python3 scripts/verify_ios_smoke_test.py -v
+
+test_builtin_phone_requires_its_native_dial_uri_and_populated_control (__main__.UIKitProofTests.test_builtin_phone_requires_its_native_dial_uri_and_populated_control) ... ok
+test_provider_proof_requires_cleanup_and_no_outgoing_communication (__main__.UIKitProofTests.test_provider_proof_requires_cleanup_and_no_outgoing_communication) ... ok
+test_rejects_a_background_application_or_inactive_scene (__main__.UIKitProofTests.test_rejects_a_background_application_or_inactive_scene) ... ok
+test_rejects_closed_unarranged_or_nonfinite_observations (__main__.UIKitProofTests.test_rejects_closed_unarranged_or_nonfinite_observations) ... ok
+test_rejects_original_screen_overlapping_uikit_insets (__main__.UIKitProofTests.test_rejects_original_screen_overlapping_uikit_insets) ... ok
+test_requires_fresh_accepted_uri_and_mounted_wallet_controls (__main__.UIKitProofTests.test_requires_fresh_accepted_uri_and_mounted_wallet_controls) ... ok
+test_warm_activation_rejects_another_process_or_restarted_launch (__main__.UIKitProofTests.test_warm_activation_rejects_another_process_or_restarted_launch) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.003s
+
+OK
+
+Exit code: 0; elapsed: 0.083s
+
+$ bash -n scripts/smoke-ios.sh
+
+
+Exit code: 0; elapsed: 0.004s
+
+$ git diff --check -- scripts/smoke-ios.sh scripts/collect_ios_failure_test.py
+
+
+Exit code: 0; elapsed: 0.007s
+
+Exact assertion comparisons:
+[
+  {
+    "file": "scripts/verify-ios-smoke.py",
+    "scope": "whole file",
+    "baseline_bytes": 5950,
+    "current_bytes": 5950,
+    "baseline_sha256": "9914ac06fcf06c7bc3bd6b8d36c5ea26d137b937602e7cd6126eb427646a7811",
+    "current_sha256": "9914ac06fcf06c7bc3bd6b8d36c5ea26d137b937602e7cd6126eb427646a7811",
+    "equal": true
+  },
+  {
+    "file": "scripts/verify-ios-devices.py",
+    "scope": "whole file",
+    "baseline_bytes": 1683,
+    "current_bytes": 1683,
+    "baseline_sha256": "2ca6f951029f875b9a9bc11aa9c29f5dbd5aadcbe8afcda9b7a4b4fe46406983",
+    "current_sha256": "2ca6f951029f875b9a9bc11aa9c29f5dbd5aadcbe8afcda9b7a4b4fe46406983",
+    "equal": true
+  },
+  {
+    "file": "scripts/ios-ui-tests/PhonePromptTests.swift",
+    "scope": "whole file",
+    "baseline_bytes": 5907,
+    "current_bytes": 5907,
+    "baseline_sha256": "83f509e2b4d7833ceda0df5ea1d651a23959104ec88795bcb53fc7996a55125a",
+    "current_sha256": "83f509e2b4d7833ceda0df5ea1d651a23959104ec88795bcb53fc7996a55125a",
+    "equal": true
+  },
+  {
+    "file": ".github/workflows/ios.yml",
+    "scope": "whole file",
+    "baseline_bytes": 5511,
+    "current_bytes": 5511,
+    "baseline_sha256": "91cb769dc7e6f00a0b67e84c7662acabeb26c38cc2795a2b7ad3a8278fec931c",
+    "current_sha256": "91cb769dc7e6f00a0b67e84c7662acabeb26c38cc2795a2b7ad3a8278fec931c",
+    "equal": true
+  },
+  {
+    "file": "scripts/smoke-ios.sh",
+    "scope": "Mounted route verification including 90-second deadline, URI acceptance, original PID/launch UUID, foreground and mounted controls",
+    "start_marker": "wait_for_route() {",
+    "end_marker": "phase 'Waiting for the Start route'",
+    "baseline_bytes": 1310,
+    "current_bytes": 1310,
+    "baseline_sha256": "c1dcb219e064c6e1ab2478403a7044215b105dd086d87bf32ad27a91a2841572",
+    "current_sha256": "c1dcb219e064c6e1ab2478403a7044215b105dd086d87bf32ad27a91a2841572",
+    "equal": true
+  },
+  {
+    "file": "scripts/smoke-ios.sh",
+    "scope": "Provider verification and its 120-second deadline",
+    "start_marker": "phase 'Verifying real Contacts CRUD and simulator hardware limits'",
+    "end_marker": "phase 'Starting the fixed-URL XCTest system driver'",
+    "baseline_bytes": 701,
+    "current_bytes": 701,
+    "baseline_sha256": "cb09762fa366a3f847a20a4ce1c8176b170048532fb2a19fc2274c8963094f43",
+    "current_sha256": "cb09762fa366a3f847a20a4ce1c8176b170048532fb2a19fc2274c8963094f43",
+    "equal": true
+  },
+  {
+    "file": "scripts/smoke-ios.sh",
+    "scope": "XCTest readiness conditions and failure handling, excluding the intentionally changed bootstrap budget",
+    "start_marker": "ui_container=\n",
+    "end_marker": "url_request_sequence=0",
+    "baseline_bytes": 889,
+    "current_bytes": 889,
+    "baseline_sha256": "2168e07f6b2aaf7ad62c73f801b273842cc411c3520664802b28b6063ee0516f",
+    "current_sha256": "2168e07f6b2aaf7ad62c73f801b273842cc411c3520664802b28b6063ee0516f",
+    "equal": true
+  },
+  {
+    "file": "scripts/smoke-ios.sh",
+    "scope": "All six ordered URL requests, acknowledgment and route capture gates",
+    "start_marker": "url_request_sequence=0",
+    "end_marker": "touch \"$ui_done\"",
+    "baseline_bytes": 2384,
+    "current_bytes": 2384,
+    "baseline_sha256": "14b95b732646f43dc9a55fe66c2ddf3cd525e89beae5cd0975e78c3ef6f0aa7a",
+    "current_sha256": "14b95b732646f43dc9a55fe66c2ddf3cd525e89beae5cd0975e78c3ef6f0aa7a",
+    "equal": true
+  }
+]

@@ -3,9 +3,9 @@
 //! Geometry follows the WP8 Toolkit picker pages (148-unit cells with a 6-unit
 //! inset at the 480-unit reference width). The native presenters continue to
 //! own date coercion, culture order, clock mode and transactional confirmation.
-use crate::{FONT_FAMILY, Icon, templates as shared};
+use crate::{templates as shared, Icon, FONT_FAMILY};
 use ferroui_base::data::TemplateBinding;
-use ferroui_base::input::{InputElement, Key, KeyModifiers, NavigationMethod};
+use ferroui_base::input::{InputElement, Key};
 use ferroui_base::interactivity::RoutingStrategies;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::{
@@ -45,6 +45,10 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
         FuncControlTemplate::new(move |_, scope| {
             let page = Grid::new();
             page.set_name(Some("PhonePickerSurface".into()));
+            // Popup presses route through the owning page, but capture loss
+            // stays in the overlay's visual tree. Native wheels must own the
+            // entire contact so cancellation cannot leave a shell gesture.
+            page.classes().add("phone-native-input");
             page.set_row_definitions(RowDefinitions::parse("Auto,*,60").expect("picker rows"));
             page.set_clip_to_bounds(true);
             page.bind_binding(
@@ -66,6 +70,7 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
             wheels.set_width(370.0);
             wheels.set_clip_to_bounds(true);
             Grid::set_row(&wheels, 1);
+            let pointer_input = super::input::WheelInput::new(&wheels);
 
             let entries: &[(&str, DateTimePickerPanelType, bool)] = if date {
                 &[
@@ -81,9 +86,15 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
                     ("Period", DateTimePickerPanelType::TimePeriod, false),
                 ]
             };
-            for &(name, kind, looping) in entries {
+            for (index, &(name, kind, looping)) in entries.iter().enumerate() {
                 let host = Grid::new();
                 host.set_name(Some(format!("PART_{name}Host")));
+                // The time presenter only relocates optional seconds/period
+                // columns. Hour/minute positions are part of its template
+                // contract; leaving both at Grid's default zero overlaps the
+                // wheels and makes the hour column unreachable by pointer.
+                // The date presenter replaces these defaults for culture order.
+                Grid::set_column(&host, (index * 2) as i32);
                 host.set_background(Some(Brushes::transparent()));
                 let selector = DateTimePickerPanel::new();
                 selector.set_name(Some(format!("PART_{name}Selector")));
@@ -109,21 +120,7 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
                         selector.refresh_items();
                     }
                 });
-                let weak_wheels = wheels.downgrade();
-                let weak_selector = selector.downgrade();
-                selector.add_handler_with(
-                    InputElement::pointer_pressed_event(),
-                    move |_, _| {
-                        if let (Some(wheels), Some(selector)) =
-                            (weak_wheels.upgrade(), weak_selector.upgrade())
-                        {
-                            expand(&wheels, &selector);
-                            selector.focus_with(NavigationMethod::Pointer, KeyModifiers::NONE);
-                        }
-                    },
-                    RoutingStrategies::TUNNEL,
-                    true,
-                );
+                super::input::attach(&wheels, &selector, &pointer_input);
                 let weak_wheels = wheels.downgrade();
                 let weak_selector = selector.downgrade();
                 selector.add_handler_with(
@@ -192,9 +189,13 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
                 host.children().add(scroll);
                 wheels.children().add(host.register_in_name_scope(&**scope));
             }
-            for name in ["PART_FirstSpacer", "PART_SecondSpacer", "PART_ThirdSpacer"] {
+            for (index, name) in ["PART_FirstSpacer", "PART_SecondSpacer", "PART_ThirdSpacer"]
+                .into_iter()
+                .enumerate()
+            {
                 let spacer = Border::new();
                 spacer.set_name(Some(name.into()));
+                Grid::set_column(&spacer, (index * 2 + 1) as i32);
                 spacer.set_width(0.0);
                 spacer.set_is_hit_test_visible(false);
                 wheels
@@ -307,7 +308,7 @@ fn glyph(kind: Icon, size: f64) -> Ref<PathIcon> {
     glyph
 }
 
-fn expand(wheels: &Grid, selected: &DateTimePickerPanel) {
+pub(super) fn expand(wheels: &Grid, selected: &DateTimePickerPanel) {
     for visual in wheels.get_visual_descendants() {
         if let Some(panel) = visual.cast::<DateTimePickerPanel>() {
             panel
@@ -322,6 +323,7 @@ fn item_template() -> Rc<dyn IControlTemplate> {
         slot.get_or_init(|| {
             let template: Rc<dyn IControlTemplate> = FuncControlTemplate::new(|owner, scope| {
                 let item = owner.cast::<ListBoxItem>().expect("native picker item");
+                super::input::prepare_item(&item);
                 let cell = Border::new();
                 cell.set_name(Some("PhonePickerCell".into()));
                 cell.set_margin(Thickness::uniform(5.0));

@@ -1,0 +1,48 @@
+{
+  "consumer_pin": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "tested_pr_merge": "8a6d08d7ddb802bbbd048b49cd4a338f70410677",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "pin_sha256": "044eac7a14ad473db093957ba67ce7d12d20a5dc581654ea591dab2c62da2396",
+      "merge_sha256": "7288c8f59c7f785e48c07d67c01ca63caa9098599888e97f373bbcac35cb7758",
+      "same_bytes": false
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker.rs",
+      "pin_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+      "merge_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+      "same_bytes": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_presenter.rs",
+      "pin_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+      "merge_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+      "same_bytes": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+      "pin_sha256": "268f068144f67408211894ec0bcd2919413126358a90563dd51719c798f367a3",
+      "merge_sha256": "268f068144f67408211894ec0bcd2919413126358a90563dd51719c798f367a3",
+      "same_bytes": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker.rs",
+      "pin_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+      "merge_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+      "same_bytes": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_presenter.rs",
+      "pin_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+      "merge_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+      "same_bytes": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+      "pin_sha256": "32d1b2e194e0bdf476fecd5cd2a3b353a68b66bb349162c75deca6d8321ba137",
+      "merge_sha256": "32d1b2e194e0bdf476fecd5cd2a3b353a68b66bb349162c75deca6d8321ba137",
+      "same_bytes": true
+    }
+  ]
+}

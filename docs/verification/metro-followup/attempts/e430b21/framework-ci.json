@@ -1,0 +1,1799 @@
+{
+  "repository": "wieslawsoltes/FerroUI",
+  "pull_request": {
+    "number": 1456,
+    "url": "https://github.com/wieslawsoltes/FerroUI/pull/1456",
+    "draft": true
+  },
+  "consumer_pin": {
+    "sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+    "tree": "1c72bc71d5253dd1e1a23ca412b44d26cd45dc85",
+    "parents": [
+      "db2e8859cd4b67bac870839ea70503b8babf541f"
+    ]
+  },
+  "pr_ci_merge": {
+    "sha": "8a6d08d7ddb802bbbd048b49cd4a338f70410677",
+    "tree": "44e36dedbda977cd4d592f78c2f3681fde106aea",
+    "parents": [
+      "8af6d595d45e56e2a831903409f062dbf3a704da",
+      "cd9aeaef1fb6a80f513d577d345fac6483077966"
+    ],
+    "checkout_log_confirmed": true,
+    "checkout_log_proof_job_id": 140029848999
+  },
+  "source_boundary": "The consumer pins cd9aeaef on the previous db2e8859 framework base. Dependency PR CI tests a merge with later framework main 8af6d595. The six changed picker source/test files are byte-identical between the pin and PR merge; the surrounding framework and CI workflow differ.",
+  "source_comparison_path": "/tmp/windowsphone-tooling/framework-pr1456-source-comparison.json",
+  "run": {
+    "id": 45854683430,
+    "url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430",
+    "status": "in_progress",
+    "conclusion": null
+  },
+  "jobs": [
+    {
+      "id": 140029848999,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmm3tpw",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140029848999",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140029848999",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:00:48Z",
+      "started_at": "2026-11-26T16:00:51Z",
+      "completed_at": "2026-11-26T16:03:52Z",
+      "name": "Source conventions and packages",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T16:00:51Z",
+          "completed_at": "2026-11-26T16:00:52Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T16:00:52Z",
+          "completed_at": "2026-11-26T16:01:02Z"
+        },
+        {
+          "name": "Upstream project name stays out of the sources",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T16:01:02Z",
+          "completed_at": "2026-11-26T16:01:02Z"
+        },
+        {
+          "name": "No leftover merge conflict markers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T16:01:02Z",
+          "completed_at": "2026-11-26T16:01:02Z"
+        },
+        {
+          "name": "Generated composition code is up to date",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T16:01:02Z",
+          "completed_at": "2026-11-26T16:01:02Z"
+        },
+        {
+          "name": "Generated view builders are up to date",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-26T16:01:02Z",
+          "completed_at": "2026-11-26T16:01:33Z"
+        },
+        {
+          "name": "Generated API model and bindings are up to date",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T16:01:33Z",
+          "completed_at": "2026-11-26T16:01:37Z"
+        },
+        {
+          "name": "Tests of the binding generators",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T16:01:37Z",
+          "completed_at": "2026-11-26T16:01:42Z"
+        },
+        {
+          "name": "The designer's language schema is up to date",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T16:01:42Z",
+          "completed_at": "2026-11-26T16:01:48Z"
+        },
+        {
+          "name": "Tests of the view builder generator",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-26T16:01:48Z",
+          "completed_at": "2026-11-26T16:01:52Z"
+        },
+        {
+          "name": "Tests of the selection of the jobs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-26T16:01:52Z",
+          "completed_at": "2026-11-26T16:01:53Z"
+        },
+        {
+          "name": "Tests of the WinUI theme scripts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-26T16:01:53Z",
+          "completed_at": "2026-11-26T16:01:53Z"
+        },
+        {
+          "name": "Browser build reuse and exact compression measurements remain correct",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-26T16:01:53Z",
+          "completed_at": "2026-11-26T16:01:55Z"
+        },
+        {
+          "name": "No thread_local! outside of ferro_thread_local!",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T16:01:55Z",
+          "completed_at": "2026-11-26T16:02:01Z"
+        },
+        {
+          "name": "The patched Skia binding agrees with its users",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T16:02:01Z",
+          "completed_at": "2026-11-26T16:02:01Z"
+        },
+        {
+          "name": "No private references (home directories, local tools, other hosts, tokens)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-26T16:02:01Z",
+          "completed_at": "2026-11-26T16:02:18Z"
+        },
+        {
+          "name": "Tests of the idioms inventory",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-26T16:02:18Z",
+          "completed_at": "2026-11-26T16:02:18Z"
+        },
+        {
+          "name": "Tests of the API gate scripts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-26T16:02:18Z",
+          "completed_at": "2026-11-26T16:02:19Z"
+        },
+        {
+          "name": "No new .NET-shaped infrastructure types",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-26T16:02:19Z",
+          "completed_at": "2026-11-26T16:02:55Z"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-11-26T16:02:55Z",
+          "completed_at": "2026-11-26T16:02:55Z"
+        },
+        {
+          "name": "Package the published crates without building",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-26T16:02:55Z",
+          "completed_at": "2026-11-26T16:03:50Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 42,
+          "started_at": "2026-11-26T16:03:50Z",
+          "completed_at": "2026-11-26T16:03:50Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 43,
+          "started_at": "2026-11-26T16:03:50Z",
+          "completed_at": "2026-11-26T16:03:50Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140029848999",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000384062,
+      "runner_name": "GitHub Actions 1000384062",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140029849386,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmm3vKg",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140029849386",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140029849386",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:00:48Z",
+      "started_at": "2026-11-26T16:00:51Z",
+      "completed_at": "2026-11-26T16:01:07Z",
+      "name": "Changed areas",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T16:00:51Z",
+          "completed_at": "2026-11-26T16:00:52Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T16:00:52Z",
+          "completed_at": "2026-11-26T16:01:03Z"
+        },
+        {
+          "name": "Changed files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T16:01:03Z",
+          "completed_at": "2026-11-26T16:01:03Z"
+        },
+        {
+          "name": "A pull request above this one",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T16:01:03Z",
+          "completed_at": "2026-11-26T16:01:04Z"
+        },
+        {
+          "name": "The jobs this run needs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T16:01:04Z",
+          "completed_at": "2026-11-26T16:01:05Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-26T16:01:05Z",
+          "completed_at": "2026-11-26T16:01:05Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-26T16:01:05Z",
+          "completed_at": "2026-11-26T16:01:05Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140029849386",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000384063,
+      "runner_name": "GitHub Actions 1000384063",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030027327,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCmPw",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030027327",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030027327",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T16:01:10Z",
+      "completed_at": "2026-11-26T16:52:17Z",
+      "name": "Build and test (Linux, the workspace)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T16:01:11Z",
+          "completed_at": "2026-11-26T16:01:12Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T16:01:12Z",
+          "completed_at": "2026-11-26T16:01:25Z"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T16:01:25Z",
+          "completed_at": "2026-11-26T16:01:26Z"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T16:01:26Z",
+          "completed_at": "2026-11-26T16:01:49Z"
+        },
+        {
+          "name": "System packages",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T16:01:49Z",
+          "completed_at": "2026-11-26T16:02:16Z"
+        },
+        {
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-26T16:02:16Z",
+          "completed_at": "2026-11-26T16:32:32Z"
+        },
+        {
+          "name": "Test the compiled resource groups (ferroui-markup-xaml on its own)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T16:32:32Z",
+          "completed_at": "2026-11-26T16:34:13Z"
+        },
+        {
+          "name": "Test the detachable FerroBoard component",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T16:34:13Z",
+          "completed_at": "2026-11-26T16:52:13Z"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T16:52:13Z",
+          "completed_at": "2026-11-26T16:52:14Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-26T16:52:14Z",
+          "completed_at": "2026-11-26T16:52:14Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-26T16:52:14Z",
+          "completed_at": "2026-11-26T16:52:14Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030027327",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000384064,
+      "runner_name": "GitHub Actions 1000384064",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030027333,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCmRQ",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030027333",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030027333",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T16:01:10Z",
+      "completed_at": "2026-11-26T16:30:14Z",
+      "name": "Build, test and smoke run (Windows platform backend)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T16:01:11Z",
+          "completed_at": "2026-11-26T16:01:13Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T16:01:13Z",
+          "completed_at": "2026-11-26T16:01:24Z"
+        },
+        {
+          "name": "Changed areas",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T16:01:24Z",
+          "completed_at": "2026-11-26T16:01:39Z"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T16:01:39Z",
+          "completed_at": "2026-11-26T16:01:57Z"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T16:01:57Z",
+          "completed_at": "2026-11-26T16:02:30Z"
+        },
+        {
+          "name": "Build the backend and its example (without ANGLE)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-26T16:02:30Z",
+          "completed_at": "2026-11-26T16:05:38Z"
+        },
+        {
+          "name": "Tests of the backend",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T16:05:38Z",
+          "completed_at": "2026-11-26T16:05:58Z"
+        },
+        {
+          "name": "Smoke run of a window (software rendering)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T16:05:58Z",
+          "completed_at": "2026-11-26T16:06:01Z"
+        },
+        {
+          "name": "Smoke run with the OpenGL of the system (WGL), or its fallback",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T16:06:01Z",
+          "completed_at": "2026-11-26T16:06:05Z"
+        },
+        {
+          "name": "Accessibility, the tree of a window through the client interface of UI Automation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-26T16:06:05Z",
+          "completed_at": "2026-11-26T16:06:07Z"
+        },
+        {
+          "name": "Build with ANGLE (the default features; the time of the mozangle build)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-26T16:06:07Z",
+          "completed_at": "2026-11-26T16:08:42Z"
+        },
+        {
+          "name": "Smoke run through ANGLE with the ANGLE probe",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-26T16:08:42Z",
+          "completed_at": "2026-11-26T16:08:46Z"
+        },
+        {
+          "name": "Smoke run through ANGLE, presented through DirectComposition",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-26T16:08:46Z",
+          "completed_at": "2026-11-26T16:08:48Z"
+        },
+        {
+          "name": "The process ends after a run through DirectComposition (ten runs)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 14,
+          "started_at": "2026-11-26T16:08:48Z",
+          "completed_at": "2026-11-26T16:08:48Z"
+        },
+        {
+          "name": "Smoke run through ANGLE, presented through Windows.UI.Composition",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T16:08:48Z",
+          "completed_at": "2026-11-26T16:08:51Z"
+        },
+        {
+          "name": "The process ends after a run through Windows.UI.Composition (ten runs)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 16,
+          "started_at": "2026-11-26T16:08:51Z",
+          "completed_at": "2026-11-26T16:08:51Z"
+        },
+        {
+          "name": "Smoke run through ANGLE, presented through a DXGI swap chain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-26T16:08:51Z",
+          "completed_at": "2026-11-26T16:08:53Z"
+        },
+        {
+          "name": "Skia binaries published for Windows (informative)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-26T16:08:53Z",
+          "completed_at": "2026-11-26T16:09:10Z"
+        },
+        {
+          "name": "Build and test the desktop entry point",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-26T16:09:10Z",
+          "completed_at": "2026-11-26T16:11:28Z"
+        },
+        {
+          "name": "hello_window for two seconds",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-11-26T16:11:28Z",
+          "completed_at": "2026-11-26T16:11:36Z"
+        },
+        {
+          "name": "The HelloWorld samples for two seconds each",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 21,
+          "started_at": "2026-11-26T16:11:36Z",
+          "completed_at": "2026-11-26T16:11:36Z"
+        },
+        {
+          "name": "Build the HelloWorld sample with the Direct2D backend",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-26T16:11:36Z",
+          "completed_at": "2026-11-26T16:14:29Z"
+        },
+        {
+          "name": "Integration tests of windows on the desktop",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-26T16:14:29Z",
+          "completed_at": "2026-11-26T16:17:25Z"
+        },
+        {
+          "name": "Presented frames reach the edges of the window (software rendering and ANGLE)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-11-26T16:17:25Z",
+          "completed_at": "2026-11-26T16:17:34Z"
+        },
+        {
+          "name": "Automation tests of the IntegrationTestApp sample",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 25,
+          "started_at": "2026-11-26T16:17:34Z",
+          "completed_at": "2026-11-26T16:17:34Z"
+        },
+        {
+          "name": "The GpuInterop sample builds",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 26,
+          "started_at": "2026-11-26T16:17:34Z",
+          "completed_at": "2026-11-26T16:17:34Z"
+        },
+        {
+          "name": "The Direct3D 11 demo of the GpuInterop sample (informative)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27,
+          "started_at": "2026-11-26T16:17:34Z",
+          "completed_at": "2026-11-26T16:17:34Z"
+        },
+        {
+          "name": "Pictures of the catalog (software rendering and ANGLE)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-11-26T16:17:34Z",
+          "completed_at": "2026-11-26T16:24:19Z"
+        },
+        {
+          "name": "The accessibility tree of the catalog",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-26T16:24:19Z",
+          "completed_at": "2026-11-26T16:24:26Z"
+        },
+        {
+          "name": "WinUI integration (tests, the Windows App Runtime, the smoke runs of the samples)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30,
+          "started_at": "2026-11-26T16:24:26Z",
+          "completed_at": "2026-11-26T16:30:06Z"
+        },
+        {
+          "name": "Keep the pictures of the catalog",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31,
+          "started_at": "2026-11-26T16:30:06Z",
+          "completed_at": "2026-11-26T16:30:09Z"
+        },
+        {
+          "name": "WinUI theme gallery (capture, comparison with native WinUI 3; informative)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 32,
+          "started_at": "2026-11-26T16:30:09Z",
+          "completed_at": "2026-11-26T16:30:09Z"
+        },
+        {
+          "name": "Keep the pictures of the WinUI theme gallery",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 33,
+          "started_at": "2026-11-26T16:30:09Z",
+          "completed_at": "2026-11-26T16:30:09Z"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 65,
+          "started_at": "2026-11-26T16:30:09Z",
+          "completed_at": "2026-11-26T16:30:09Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 66,
+          "started_at": "2026-11-26T16:30:09Z",
+          "completed_at": "2026-11-26T16:30:11Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 67,
+          "started_at": "2026-11-26T16:30:11Z",
+          "completed_at": "2026-11-26T16:30:12Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030027333",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_id": 1000384067,
+      "runner_name": "GitHub Actions 1000384067",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030027357,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCmXQ",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030027357",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030027357",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T16:01:10Z",
+      "completed_at": "2026-11-26T16:20:25Z",
+      "name": "Build and test (Linux, X11 under Xvfb)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T16:01:11Z",
+          "completed_at": "2026-11-26T16:01:12Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T16:01:12Z",
+          "completed_at": "2026-11-26T16:01:21Z"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T16:01:21Z",
+          "completed_at": "2026-11-26T16:01:22Z"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T16:01:22Z",
+          "completed_at": "2026-11-26T16:01:31Z"
+        },
+        {
+          "name": "System packages",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T16:01:31Z",
+          "completed_at": "2026-11-26T16:01:53Z"
+        },
+        {
+          "name": "Skia features of the target",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-26T16:01:53Z",
+          "completed_at": "2026-11-26T16:01:54Z"
+        },
+        {
+          "name": "Skia binaries published for Linux",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T16:01:54Z",
+          "completed_at": "2026-11-26T16:01:57Z"
+        },
+        {
+          "name": "Tests of the X11 crate (no server needed)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T16:01:57Z",
+          "completed_at": "2026-11-26T16:04:30Z"
+        },
+        {
+          "name": "What the system offers for Vulkan",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T16:04:30Z",
+          "completed_at": "2026-11-26T16:04:33Z"
+        },
+        {
+          "name": "The Vulkan contracts crate against lavapipe",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-26T16:04:33Z",
+          "completed_at": "2026-11-26T16:05:37Z"
+        },
+        {
+          "name": "The Vulkan executor of 3D scenes against lavapipe",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-26T16:05:37Z",
+          "completed_at": "2026-11-26T16:06:41Z"
+        },
+        {
+          "name": "The Vulkan GPU of the Skia backend against lavapipe",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-26T16:06:41Z",
+          "completed_at": "2026-11-26T16:08:41Z"
+        },
+        {
+          "name": "Tests of the FreeDesktop crate (no bus needed)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-26T16:08:41Z",
+          "completed_at": "2026-11-26T16:10:45Z"
+        },
+        {
+          "name": "The D-Bus services against doubles on a session bus",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-26T16:10:45Z",
+          "completed_at": "2026-11-26T16:10:47Z"
+        },
+        {
+          "name": "The desktop entry point selects X11 on Linux",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-26T16:10:47Z",
+          "completed_at": "2026-11-26T16:13:09Z"
+        },
+        {
+          "name": "Build the window example",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-26T16:13:09Z",
+          "completed_at": "2026-11-26T16:15:15Z"
+        },
+        {
+          "name": "A window on a real X server (Xvfb)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-26T16:15:15Z",
+          "completed_at": "2026-11-26T16:15:19Z"
+        },
+        {
+          "name": "What the server offers for OpenGL",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-11-26T16:15:19Z",
+          "completed_at": "2026-11-26T16:15:20Z"
+        },
+        {
+          "name": "The same rendered through GLX",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-11-26T16:15:20Z",
+          "completed_at": "2026-11-26T16:15:23Z"
+        },
+        {
+          "name": "The same rendered through EGL",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-11-26T16:15:23Z",
+          "completed_at": "2026-11-26T16:15:26Z"
+        },
+        {
+          "name": "The same rendered through Vulkan",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-26T16:15:26Z",
+          "completed_at": "2026-11-26T16:15:29Z"
+        },
+        {
+          "name": "The same through the shared memory framebuffer",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-26T16:15:29Z",
+          "completed_at": "2026-11-26T16:15:32Z"
+        },
+        {
+          "name": "GLX refuses the software rasterizer and software rendering takes over",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-26T16:15:32Z",
+          "completed_at": "2026-11-26T16:15:33Z"
+        },
+        {
+          "name": "The same under a window manager (openbox)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-11-26T16:15:33Z",
+          "completed_at": "2026-11-26T16:15:37Z"
+        },
+        {
+          "name": "Text through an input method over D-Bus (a double of the IBus portal)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25,
+          "started_at": "2026-11-26T16:15:37Z",
+          "completed_at": "2026-11-26T16:15:40Z"
+        },
+        {
+          "name": "Text through the input method of the server (XIM, a compose sequence)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26,
+          "started_at": "2026-11-26T16:15:40Z",
+          "completed_at": "2026-11-26T16:15:44Z"
+        },
+        {
+          "name": "Drag and drop inside a window and to another process (XDND)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27,
+          "started_at": "2026-11-26T16:15:44Z",
+          "completed_at": "2026-11-26T16:15:48Z"
+        },
+        {
+          "name": "The window menu and a tray icon over D-Bus (doubles of the registrar and the watcher)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-11-26T16:15:48Z",
+          "completed_at": "2026-11-26T16:15:50Z"
+        },
+        {
+          "name": "The same on the main loop of GLib",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-11-26T16:15:50Z",
+          "completed_at": "2026-11-26T16:15:53Z"
+        },
+        {
+          "name": "The file dialogs of GTK (on the thread of GTK)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30,
+          "started_at": "2026-11-26T16:15:53Z",
+          "completed_at": "2026-11-26T16:16:00Z"
+        },
+        {
+          "name": "The file dialogs of GTK (on the UI thread, with the main loop of GLib)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31,
+          "started_at": "2026-11-26T16:16:00Z",
+          "completed_at": "2026-11-26T16:16:04Z"
+        },
+        {
+          "name": "The native control host and an XEmbed plug",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32,
+          "started_at": "2026-11-26T16:16:04Z",
+          "completed_at": "2026-11-26T16:16:06Z"
+        },
+        {
+          "name": "Accessibility, the tree of a window over D-Bus (a double of the registry)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 33,
+          "started_at": "2026-11-26T16:16:06Z",
+          "completed_at": "2026-11-26T16:16:07Z"
+        },
+        {
+          "name": "Accessibility with the registry of at-spi2-core",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 34,
+          "started_at": "2026-11-26T16:16:07Z",
+          "completed_at": "2026-11-26T16:16:08Z"
+        },
+        {
+          "name": "Check the ControlCatalog host and its optional F12 inspector",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 35,
+          "started_at": "2026-11-26T16:16:08Z",
+          "completed_at": "2026-11-26T16:19:04Z"
+        },
+        {
+          "name": "The GpuInterop sample compiles",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 36,
+          "started_at": "2026-11-26T16:19:04Z",
+          "completed_at": "2026-11-26T16:20:20Z"
+        },
+        {
+          "name": "The same with two monitors (xrandr --setmonitor)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 37,
+          "started_at": "2026-11-26T16:20:20Z",
+          "completed_at": "2026-11-26T16:20:23Z"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 73,
+          "started_at": "2026-11-26T16:20:23Z",
+          "completed_at": "2026-11-26T16:20:23Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 74,
+          "started_at": "2026-11-26T16:20:23Z",
+          "completed_at": "2026-11-26T16:20:23Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 75,
+          "started_at": "2026-11-26T16:20:23Z",
+          "completed_at": "2026-11-26T16:20:23Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030027357",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000384066,
+      "runner_name": "GitHub Actions 1000384066",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030027376,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCmcA",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030027376",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030027376",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T17:00:05Z",
+      "completed_at": "2026-11-26T17:00:26Z",
+      "name": "API gate (cargo-semver-checks)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T17:00:06Z",
+          "completed_at": "2026-11-26T17:00:09Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T17:00:09Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Whether the published sources changed",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Run taiki-e/install-action@1e29709c0ec63babbe8f266397a465f29a825f91",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Key of the baseline documentation",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Run actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Documentation of 0.5.0",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Run actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Signatures against 0.5.0",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:23Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-26T17:00:23Z",
+          "completed_at": "2026-11-26T17:00:24Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-26T17:00:24Z",
+          "completed_at": "2026-11-26T17:00:24Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030027376",
+      "labels": [
+        "macos-15"
+      ],
+      "runner_id": 1000384113,
+      "runner_name": "GitHub Actions 1000384113",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030027460,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCmxA",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030027460",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030027460",
+      "status": "in_progress",
+      "conclusion": null,
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T17:12:48Z",
+      "completed_at": null,
+      "name": "Build and test (macOS, the native platform)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T17:12:48Z",
+          "completed_at": "2026-11-26T17:12:50Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T17:12:50Z",
+          "completed_at": "2026-11-26T17:13:04Z"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T17:13:04Z",
+          "completed_at": "2026-11-26T17:13:05Z"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T17:13:05Z",
+          "completed_at": "2026-11-26T17:13:07Z"
+        },
+        {
+          "name": "Test the native platform",
+          "status": "in_progress",
+          "conclusion": null,
+          "number": 5,
+          "started_at": "2026-11-26T17:13:07Z",
+          "completed_at": null
+        },
+        {
+          "name": "Test the workspace",
+          "status": "pending",
+          "conclusion": null,
+          "number": 6,
+          "started_at": null,
+          "completed_at": null
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6",
+          "status": "pending",
+          "conclusion": null,
+          "number": 11,
+          "started_at": null,
+          "completed_at": null
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "pending",
+          "conclusion": null,
+          "number": 12,
+          "started_at": null,
+          "completed_at": null
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030027460",
+      "labels": [
+        "macos-15"
+      ],
+      "runner_id": 1000384149,
+      "runner_name": "GitHub Actions 1000384149",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030027500,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCm7A",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030027500",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030027500",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T16:01:10Z",
+      "completed_at": "2026-11-26T16:20:33Z",
+      "name": "Check (browser, wasm32-unknown-emscripten)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T16:01:10Z",
+          "completed_at": "2026-11-26T16:01:11Z"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-26T16:01:11Z",
+          "completed_at": "2026-11-26T16:01:16Z"
+        },
+        {
+          "name": "Run ./.github/actions/browser-toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-26T16:01:16Z",
+          "completed_at": "2026-11-26T16:01:46Z"
+        },
+        {
+          "name": "Script module (type check, lint, bundle, pixel and text input tests)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-26T16:01:46Z",
+          "completed_at": "2026-11-26T16:02:14Z"
+        },
+        {
+          "name": "Skia features of the target",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-26T16:02:14Z",
+          "completed_at": "2026-11-26T16:02:14Z"
+        },
+        {
+          "name": "Check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-26T16:02:14Z",
+          "completed_at": "2026-11-26T16:06:02Z"
+        },
+        {
+          "name": "Check the examples of the browser crate",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-26T16:06:02Z",
+          "completed_at": "2026-11-26T16:07:25Z"
+        },
+        {
+          "name": "Build the ControlCatalog site",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-26T16:07:25Z",
+          "completed_at": "2026-11-26T16:18:03Z"
+        },
+        {
+          "name": "ControlCatalog tests in headless Chrome (rendering, resize, console, drawer, navigation, click, typing)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-26T16:18:03Z",
+          "completed_at": "2026-11-26T16:20:06Z"
+        },
+        {
+          "name": "What a page switch costs in headless Chrome (the masks its frames upload, against their budget)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-26T16:20:06Z",
+          "completed_at": "2026-11-26T16:20:29Z"
+        },
+        {
+          "name": "Keep the screenshot",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-26T16:20:29Z",
+          "completed_at": "2026-11-26T16:20:31Z"
+        },
+        {
+          "name": "Post Run ./.github/actions/browser-toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-26T16:20:31Z",
+          "completed_at": "2026-11-26T16:20:31Z"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-26T16:20:31Z",
+          "completed_at": "2026-11-26T16:20:31Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-26T16:20:31Z",
+          "completed_at": "2026-11-26T16:20:31Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030027500",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000384065,
+      "runner_name": "GitHub Actions 1000384065",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 140030030362,
+      "run_id": 45854683430,
+      "workflow_name": "CI",
+      "head_branch": "codex/picker-cancel-reopen",
+      "run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/runs/45854683430",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOU8dlHs8AAAAgmnCyGg",
+      "head_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "url": "https://api.github.com/repos/wieslawsoltes/FerroUI/actions/jobs/140030030362",
+      "html_url": "https://github.com/wieslawsoltes/FerroUI/actions/runs/45854683430/job/140030030362",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-11-26T16:01:07Z",
+      "started_at": "2026-11-26T16:01:07Z",
+      "completed_at": "2026-11-26T16:01:07Z",
+      "name": "Reduced CI (the pull request above runs the full checks)",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/wieslawsoltes/FerroUI/check-runs/140030030362",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": null,
+      "runner_name": null,
+      "runner_group_id": null,
+      "runner_group_name": null
+    }
+  ],
+  "workflow_aggregate": "CI result",
+  "protection_snapshot": {
+    "main_sha": "8af6d595d45e56e2a831903409f062dbf3a704da",
+    "protected": false,
+    "required_contexts": [],
+    "rulesets": []
+  },
+  "pending": [
+    "Native macOS job not completed at the final snapshot for cd9",
+    "CI result aggregate not completed at the final snapshot for cd9"
+  ],
+  "checkout_log_proof": [
+    "2026-11-26T16:00:52.9072333Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8a6d08d7ddb802bbbd048b49cd4a338f70410677:refs/remotes/pull/1456/merge",
+    "2026-11-26T16:01:01.0276245Z  * [new ref]           8a6d08d7ddb802bbbd048b49cd4a338f70410677 -> pull/1456/merge",
+    "2026-11-26T16:01:02.1483581Z HEAD is now at 8a6d08d7 Merge cd9aeaef1fb6a80f513d577d345fac6483077966 into 8af6d595d45e56e2a831903409f062dbf3a704da",
+    "2026-11-26T16:01:02.1577255Z 8a6d08d7ddb802bbbd048b49cd4a338f70410677"
+  ],
+  "regression_tests": [
+    "window_popup_dismiss_leaves_selected_date_unchanged",
+    "window_popup_dismiss_leaves_selected_time_unchanged"
+  ],
+  "updated_at_utc": "2026-11-26 17:17:30 UTC",
+  "conventions_log": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-conventions.log",
+    "size_bytes": 104557,
+    "sha256": "793a21bdaf0ea943b3260761c13d0f986f955f195883b4fe9c23e3481ccd732f"
+  },
+  "source_comparison": {
+    "consumer_pin": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+    "tested_pr_merge": "8a6d08d7ddb802bbbd048b49cd4a338f70410677",
+    "files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "pin_sha256": "044eac7a14ad473db093957ba67ce7d12d20a5dc581654ea591dab2c62da2396",
+        "merge_sha256": "7288c8f59c7f785e48c07d67c01ca63caa9098599888e97f373bbcac35cb7758",
+        "same_bytes": false
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_picker.rs",
+        "pin_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+        "merge_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+        "same_bytes": true
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_picker_presenter.rs",
+        "pin_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+        "merge_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+        "same_bytes": true
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+        "pin_sha256": "268f068144f67408211894ec0bcd2919413126358a90563dd51719c798f367a3",
+        "merge_sha256": "268f068144f67408211894ec0bcd2919413126358a90563dd51719c798f367a3",
+        "same_bytes": true
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/time_picker.rs",
+        "pin_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+        "merge_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+        "same_bytes": true
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/time_picker_presenter.rs",
+        "pin_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+        "merge_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+        "same_bytes": true
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+        "pin_sha256": "32d1b2e194e0bdf476fecd5cd2a3b353a68b66bb349162c75deca6d8321ba137",
+        "merge_sha256": "32d1b2e194e0bdf476fecd5cd2a3b353a68b66bb349162c75deca6d8321ba137",
+        "same_bytes": true
+      }
+    ]
+  },
+  "windows_log": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-windows.log",
+    "bytes": 5147858,
+    "sha256": "9ae2eac1cce8e28245ead1f3b6367d5a0d39c171fec029f24bca52b94a4774b7",
+    "job_id": 140030027333,
+    "checkout_proof": [
+      "2026-11-26T16:01:24.6794615Z HEAD is now at 8a6d08d7 Merge cd9aeaef1fb6a80f513d577d345fac6483077966 into 8af6d595d45e56e2a831903409f062dbf3a704da",
+      "2026-11-26T16:01:24.7567869Z 8a6d08d7ddb802bbbd048b49cd4a338f70410677"
+    ],
+    "test_result_lines": [
+      "2026-11-26T16:05:54.4128232Z test result: ok. 397 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.37s",
+      "2026-11-26T16:05:58.2241949Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-26T16:11:28.4844372Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-26T16:17:25.0924765Z test result: ok. 127 passed; 0 failed; 0 filtered out",
+      "2026-11-26T16:17:26.7881249Z test result: ok. 1 passed; 0 failed; 126 filtered out",
+      "2026-11-26T16:17:28.1013251Z test result: ok. 1 passed; 0 failed; 126 filtered out",
+      "2026-11-26T16:17:29.3485233Z test result: ok. 1 passed; 0 failed; 126 filtered out",
+      "2026-11-26T16:17:30.9408910Z test result: ok. 1 passed; 0 failed; 126 filtered out",
+      "2026-11-26T16:17:32.5935532Z test result: ok. 1 passed; 0 failed; 126 filtered out",
+      "2026-11-26T16:17:34.1892578Z test result: ok. 1 passed; 0 failed; 126 filtered out",
+      "2026-11-26T16:26:46.9481198Z test result: ok. 77 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s",
+      "2026-11-26T16:26:47.7645863Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+    ]
+  },
+  "x11_log": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-x11.log",
+    "bytes": 2061405,
+    "sha256": "145246c4fd174effb81ec1aa9c9a3a52f07d42227ce1d4e1dee30ceff95b0d5c",
+    "job_id": 140030027357,
+    "checkout_proof": [
+      "2026-11-26T16:01:21.6902896Z HEAD is now at 8a6d08d7 Merge cd9aeaef1fb6a80f513d577d345fac6483077966 into 8af6d595d45e56e2a831903409f062dbf3a704da",
+      "2026-11-26T16:01:21.7079564Z 8a6d08d7ddb802bbbd048b49cd4a338f70410677"
+    ],
+    "test_result_lines": [
+      "2026-11-26T16:04:29.7176092Z test result: ok. 257 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s",
+      "2026-11-26T16:04:30.6745028Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-26T16:05:37.3872927Z test result: ok. 78 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.63s",
+      "2026-11-26T16:05:37.4698423Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-26T16:06:41.3607054Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 78 filtered out; finished in 0.99s",
+      "2026-11-26T16:08:41.8929231Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+      "2026-11-26T16:10:44.7656313Z test result: ok. 142 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.51s",
+      "2026-11-26T16:10:45.0697895Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-26T16:10:47.5044560Z test result: ok. 83 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 2.10s",
+      "2026-11-26T16:10:47.8066175Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "2026-11-26T16:13:09.6905285Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+    ]
+  },
+  "browser_log": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-browser.log",
+    "bytes": 261402,
+    "sha256": "d72757325d59969c35d481d589a75784526827f4e9bd0fd7e6ee1344cf2475b2",
+    "job_id": 140030027500,
+    "checkout_proof": [
+      "2026-11-26T16:01:16.3088550Z HEAD is now at 8a6d08d7 Merge cd9aeaef1fb6a80f513d577d345fac6483077966 into 8af6d595d45e56e2a831903409f062dbf3a704da",
+      "2026-11-26T16:01:16.3164070Z 8a6d08d7ddb802bbbd048b49cd4a338f70410677"
+    ],
+    "test_result_lines": []
+  },
+  "linux_log": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-linux.log",
+    "bytes": 6039198,
+    "sha256": "d1b346d36b45c0761e41391e856617e4550c998bea9b85e7f2d0c732f8d5dba6",
+    "job_id": 140030027327,
+    "checkout_proof": [
+      "2026-11-26T16:01:25.6404253Z HEAD is now at 8a6d08d7 Merge cd9aeaef1fb6a80f513d577d345fac6483077966 into 8af6d595d45e56e2a831903409f062dbf3a704da",
+      "2026-11-26T16:01:25.6541170Z 8a6d08d7ddb802bbbd048b49cd4a338f70410677"
+    ],
+    "native_regression_pass_lines": [
+      "2026-11-26T16:27:34.6469485Z test date_time_pickers::date_picker_tests::window_popup_dismiss_leaves_selected_date_unchanged ... ok",
+      "2026-11-26T16:27:34.7369125Z test date_time_pickers::time_picker_tests::window_popup_dismiss_leaves_selected_time_unchanged ... ok"
+    ],
+    "controls_groups": [
+      "2026-11-26T16:27:33.4500626Z ##[group]ferroui_controls (lib) [1/4]: ok, 14 s",
+      "2026-11-26T16:27:40.4279611Z ##[group]ferroui_controls (lib) [3/4]: ok, 14 s",
+      "2026-11-26T16:28:56.9039903Z ##[group]ferroui_controls (lib) [2/4]: ok, 97 s",
+      "2026-11-26T16:32:21.4221595Z ##[group]ferroui_controls (lib) [4/4]: ok, 288 s"
+    ],
+    "controls_result_lines": [
+      "2026-11-26T16:27:35.1623921Z test result: ok. 1513 passed; 0 failed; 0 ignored; 0 measured; 4539 filtered out; finished in 13.69s",
+      "2026-11-26T16:27:42.3493378Z test result: ok. 1513 passed; 0 failed; 0 ignored; 0 measured; 4539 filtered out; finished in 13.53s",
+      "2026-11-26T16:28:57.0655099Z test result: ok. 1513 passed; 0 failed; 0 ignored; 0 measured; 4539 filtered out; finished in 97.09s",
+      "2026-11-26T16:32:21.5538743Z test result: ok. 1513 passed; 0 failed; 0 ignored; 0 measured; 4539 filtered out; finished in 287.91s"
+    ],
+    "parallel_binary_count_line": "2026-11-26T16:18:58.4504159Z running 307 test binaries in 353 processes, 4 at a time"
+  },
+  "regression_results": {
+    "conclusion": "success",
+    "job_id": 140030027327,
+    "tested_merge": "8a6d08d7ddb802bbbd048b49cd4a338f70410677",
+    "exact_pass_lines": [
+      "2026-11-26T16:27:34.6469485Z test date_time_pickers::date_picker_tests::window_popup_dismiss_leaves_selected_date_unchanged ... ok",
+      "2026-11-26T16:27:34.7369125Z test date_time_pickers::time_picker_tests::window_popup_dismiss_leaves_selected_time_unchanged ... ok"
+    ],
+    "source_boundary": "The six picker source/test files are byte-identical to cd9aeaef1fb6a80f513d577d345fac6483077966; the surrounding tested PR merge includes later main changes."
+  },
+  "macos_queue_investigation": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-macos-queue.json",
+    "bytes": 352225,
+    "sha256": "18ffa658afc02ba629545a6816da5b85d482a6531519f074e889d5f264de4267",
+    "status": "queued; cause unproven",
+    "observed_at_utc": "2026-11-26 16:55:37 UTC",
+    "finding": "Both target jobs only require the already successful changed-area job. API metadata assigns neither a runner nor steps. Five other macOS jobs in this repository are actively assigned to runners (four macos-15, one macos-latest); this is evidence of simultaneous runner demand, not proof of a configured concurrency limit or causal queue failure.",
+    "active_macos_jobs": [
+      {
+        "run_id": 45858155829,
+        "workflow": "C ABI",
+        "branch": "controls/1424-grid-view-groups",
+        "job_id": 140041867558,
+        "job_name": "ABI tests and C hello world (macOS)",
+        "labels": [
+          "macos-15"
+        ],
+        "runner_id": 1000384109,
+        "runner_name": "GitHub Actions 1000384109",
+        "started_at": "2026-11-26T16:46:07Z",
+        "current_step": [
+          {
+            "name": "Rust tests of the ABI with the desktop platform",
+            "started_at": "2026-11-26T16:47:06Z"
+          }
+        ]
+      },
+      {
+        "run_id": 45853658179,
+        "workflow": "CI",
+        "branch": "gallery/418-chart-gaps",
+        "job_id": 140026759672,
+        "job_name": "Build and test (macOS, the native platform)",
+        "labels": [
+          "macos-15"
+        ],
+        "runner_id": 1000384104,
+        "runner_name": "GitHub Actions 1000384104",
+        "started_at": "2026-11-26T16:42:59Z",
+        "current_step": [
+          {
+            "name": "Test the native platform",
+            "started_at": "2026-11-26T16:43:19Z"
+          }
+        ]
+      },
+      {
+        "run_id": 45844661270,
+        "workflow": "Visual designer",
+        "branch": "controls/1424-listview-members",
+        "job_id": 139995092645,
+        "job_name": "Portable engines (macos-latest, Rust stable)",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000384112,
+        "runner_name": "GitHub Actions 1000384112",
+        "started_at": "2026-11-26T16:53:09Z",
+        "current_step": [
+          {
+            "name": "Source preservation, transaction, language, timeline and convergence regressions",
+            "started_at": "2026-11-26T16:53:36Z"
+          }
+        ]
+      },
+      {
+        "run_id": 45784202314,
+        "workflow": "Performance",
+        "branch": "main",
+        "job_id": 139786763609,
+        "job_name": "Size and start-up (macOS)",
+        "labels": [
+          "macos-15"
+        ],
+        "runner_id": 1000384078,
+        "runner_name": "GitHub Actions 1000384078",
+        "started_at": "2026-11-26T16:21:13Z",
+        "current_step": [
+          {
+            "name": "Build the baseline",
+            "started_at": "2026-11-26T16:21:48Z"
+          }
+        ]
+      },
+      {
+        "run_id": 45784202314,
+        "workflow": "Performance",
+        "branch": "main",
+        "job_id": 139786763765,
+        "job_name": "Executable sizes (macOS, dist, ref)",
+        "labels": [
+          "macos-15"
+        ],
+        "runner_id": 1000384058,
+        "runner_name": "GitHub Actions 1000384058",
+        "started_at": "2026-11-26T16:00:17Z",
+        "current_step": [
+          {
+            "name": "Build and measure",
+            "started_at": "2026-11-26T16:00:34Z"
+          }
+        ]
+      }
+    ]
+  },
+  "api_gate_log": {
+    "path": "/tmp/windowsphone-tooling/framework-pr1456-api-gate.log",
+    "size_bytes": 17616,
+    "sha256": "265c3023a1d4717b47bd17b959087cb3cdb668960099bfc0e7787d408966181b",
+    "job_id": 140030027376,
+    "job_conclusion": "success",
+    "signature_comparison_performed": false,
+    "applicability_reason": "2026-11-26T17:00:23.6925670Z The workspace is at 0.6.0-preview.1, a preview of the minor version after 0.5.0: the previews may change the API, so the gate compares nothing until that release moves the baseline (docs/release.md, \"API stability\").",
+    "checkout_proof": [
+      "2026-11-26T17:00:23.3381340Z HEAD is now at 8a6d08d7 Merge cd9aeaef1fb6a80f513d577d345fac6483077966 into 8af6d595d45e56e2a831903409f062dbf3a704da"
+    ]
+  },
+  "monitoring_boundary": {
+    "reason": "A reviewed successor dependency change is about to advance this PR. Preserve the existing run as incomplete evidence; do not wait for the obsolete source or claim macOS/aggregate completion.",
+    "snapshot_utc": "2026-11-26 17:17:30 UTC",
+    "native_macos_status": "in_progress",
+    "native_macos_conclusion": null,
+    "current_step": [
+      "Test the native platform"
+    ],
+    "successor_source_not_covered": true
+  }
+}

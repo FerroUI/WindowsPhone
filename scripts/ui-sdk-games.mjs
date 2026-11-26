@@ -1,11 +1,66 @@
 import assert from 'node:assert/strict';
 
+// Grid distributes the remainder of each star track in physical pixels. Its
+// first two columns can therefore be 44 wide and the other six 43 wide, rather
+// than every column starting at a multiple of the fractional 43.25 average.
+// Verify the observable tiling invariants instead of duplicating that allocator:
+// equal tracks within one pixel, exact gaps, shared edges and complete coverage.
+export function assertGameGridGeometry(board, cells, prefix, columns, rows, gap, scale = 1, empty = false) {
+  const name = board.name;
+  const epsilon = 0.02;
+  const near = (actual, expected, label) => assert(Math.abs(actual - expected) <= epsilon,
+    `${name}: ${label} (${actual} versus ${expected})`);
+  assert(Number.isFinite(scale) && scale > 0, `${name}: a positive native layout scale is required`);
+  assert.equal(cells.length, columns * rows, `${name}: every cell has rendered native bounds`);
+  const width = (board.width - gap * (columns - 1)) / columns;
+  const height = (board.height - gap * (rows - 1)) / rows;
+  assert(width > 0 && height > 0, `${name}: the board allocates positive cell bounds`);
+  const ordered = Array.from({length: columns * rows}, (_, index) => {
+    const matches = cells.filter(element => element.name === `${prefix}${index}`);
+    assert.equal(matches.length, 1, `${name}: cell ${index} is mounted exactly once`);
+    const cell = matches[0];
+    const actual = [cell.x - board.x, cell.y - board.y, cell.width, cell.height];
+    assert(actual.every(Number.isFinite), `${name}: cell ${index} has finite geometry`);
+    assert(cell.width > 0 && cell.height > 0, `${name}: cell ${index} has positive bounds`);
+    for (const [size, expected, axis] of [[cell.width, width, 'width'], [cell.height, height, 'height']]) {
+      assert(Math.abs(size - expected) <= 1 / scale + epsilon,
+        `${name}: cell ${index} ${axis} stays within one physical pixel of an equal star track (${size} versus ${expected})`);
+      near(size * scale, Math.round(size * scale), `cell ${index} ${axis} is pixel aligned`);
+    }
+    if (empty) assert(cell.hit && cell.enabled, `${name}: empty cell ${index} accepts native input`);
+    return actual;
+  });
+  for (let row = 0; row < rows; row++) for (let column = 0; column < columns; column++) {
+    const index = row * columns + column;
+    const [x, y, w, h] = ordered[index];
+    const columnTrack = ordered[column], rowTrack = ordered[row * columns];
+    near(x, columnTrack[0], `cell ${index} shares its column origin`);
+    near(w, columnTrack[2], `cell ${index} fills its complete column`);
+    near(y, rowTrack[1], `cell ${index} shares its row origin`);
+    near(h, rowTrack[3], `cell ${index} fills its complete row`);
+    if (column === 0) near(x, 0, `row ${row} starts at the board edge`);
+    else {
+      const previous = ordered[index - 1];
+      near(x - previous[0] - previous[2], gap, `cell ${index} keeps the exact column gap`);
+    }
+    if (row === 0) near(y, 0, `column ${column} starts at the board edge`);
+    else {
+      const previous = ordered[index - columns];
+      near(y - previous[1] - previous[3], gap, `cell ${index} keeps the exact row gap`);
+    }
+    if (column === columns - 1) near(x + w, board.width, `row ${row} reaches the board edge`);
+    if (row === rows - 1) near(y + h, board.height, `column ${column} reaches the board edge`);
+  }
+  return ordered;
+}
+
 // Native input enters independently registered game crates. All data is an
 // isolated local fixture; no account, network game service or host UI is used.
 export async function verifySdkGames(ctx) {
   const {page, check, state, snapshot, until, capture, clickName, clickLabel,
     textPresent, home, isRoute, reload, button, centre, control, reveal, edit} = ctx;
   const original = await state();
+  const layoutScale = await page.evaluate('devicePixelRatio');
   const fixture = structuredClone(original);
   Object.assign(fixture.settings, {lock_timeout: 0, reduced_motion: true, dark: true,
     high_contrast: false, accent: '#1BA1E2', brightness: 0.8});
@@ -49,22 +104,7 @@ export async function verifySdkGames(ctx) {
     const page = view.elements.find(element => element.name === 'PhonePage');
     if (!board || page?.projection !== null) return;
     const cells = view.elements.filter(element => element.name?.startsWith(prefix));
-    assert.equal(cells.length, columns * rows, `${name}: every cell has rendered native bounds`);
-    const width = (board.width - gap * (columns - 1)) / columns;
-    const height = (board.height - gap * (rows - 1)) / rows;
-    assert(width > 0 && height > 0, `${name}: the board allocates positive cell bounds`);
-    return Array.from({length: columns * rows}, (_, index) => {
-      const cell = cells.find(element => element.name === `${prefix}${index}`);
-      assert(cell, `${name}: cell ${index} is mounted`);
-      const actual = [cell.x - board.x, cell.y - board.y, cell.width, cell.height];
-      const expected = [(index % columns) * (width + gap), Math.floor(index / columns) * (height + gap), width, height];
-      // Star tracks divide the native board into physical-pixel-rounded cells.
-      // Check the complete allocation, including empty cells with no content.
-      actual.forEach((value, axis) => assert(Math.abs(value - expected[axis]) <= 1,
-        `${name}: cell ${index} fills its grid slot (${actual} versus ${expected})`));
-      if (empty) assert(cell.hit && cell.enabled, `${name}: empty cell ${index} accepts native input`);
-      return actual;
-    });
+    return assertGameGridGeometry(board, cells, prefix, columns, rows, gap, layoutScale, empty);
   }, `${name}: complete native grid geometry${empty ? ' with playable empty cells' : ''}`);
   const cellColor = async (image, name, rgb, label) => {
     const view = await snapshot();

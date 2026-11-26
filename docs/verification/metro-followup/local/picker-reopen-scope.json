@@ -1,0 +1,49 @@
+{
+  "validation": "Native picker hidden-part discovery test correction",
+  "base_consumer_commit": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+  "consumer_commit": "e430b2141eae143cca1440f6b0ade31646659332",
+  "framework_commit": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "production_changes": false,
+  "files": {
+    "crates/phone-controls/src/pickers/reopen_tests.rs": {
+      "sha256": "3f14142632a1b6bd583818166b8742895a7b157996801646c51cf0334deea6c5",
+      "changed": true
+    },
+    "crates/phone-controls/src/pickers/tests.rs": {
+      "sha256": "75c2db23dcb6939431c0e180eb4cae2f7b46dc395073b2f7a41e3d6d44a51d7f",
+      "changed": false
+    }
+  },
+  "checks": [
+    {
+      "working_directory": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+      "command": "CARGO_BUILD_JOBS=1 CARGO_INCREMENTAL=0 CARGO_PROFILE_TEST_DEBUG=0 /home/agent/.cargo/bin/cargo check --locked -p phone-controls --tests",
+      "exit_code": 0,
+      "cargo_reported_duration_seconds": 3.74,
+      "log": "/tmp/windowsphone-tooling/picker-reopen-scope-check.log",
+      "log_sha256": "e022423fde5038f280387718495c7b2df23efe0dfde5de8027a2e746caf10e9a"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "/home/agent/.cargo/bin/rustfmt --edition 2021 --check crates/phone-controls/src/pickers/reopen_tests.rs",
+      "exit_code": 0,
+      "reported_by": "/root"
+    },
+    {
+      "command": "git diff --exit-code c96a4f0 HEAD -- . ':(exclude)crates/phone-controls/src/pickers/reopen_tests.rs'",
+      "exit_code": 0,
+      "reported_by": "/root",
+      "meaning": "The successor changes only the one test file; the framework pin and all production source remain unchanged."
+    }
+  ],
+  "tests_executed": false,
+  "scope": "Type checking only. Retained presenter and panel identity, hidden state, ranges, formatted context, and accept-without-edit regression contracts are unchanged; native parts are resolved from the current public TemplateApplied NameScope.",
+  "limitations": "Runtime regressions require the successor CI gate. No full local code generation was retried after prior framework codegen memory exhaustion.",
+  "prepared_consumer_commit": "e430b2141eae143cca1440f6b0ade31646659332",
+  "prepared_consumer_tree": "6969153e1a17c0f13697e5a786f569124e8cfd48",
+  "prepared_commit_status": "Published to PR4 after the c96 desktop jobs and all new-pin cache uploads completed. Parent synchronized the local checkout to this exact commit.",
+  "consumer_tree": "6969153e1a17c0f13697e5a786f569124e8cfd48"
+}

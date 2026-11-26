@@ -29,6 +29,8 @@ void wp_ios_compose_multimedia(WPIOSOperation *operation, NSDictionary *request)
 void wp_ios_dial(WPIOSOperation *operation, NSString *number, NSString *account);
 void wp_ios_open_map(WPIOSOperation *operation, NSDictionary *request);
 void wp_ios_location_permission(WPIOSOperation *operation);
+NSString *wp_ios_location_authorization(void);
+void wp_ios_location_monitor(int enabled);
 
 #if WP_IOS_TELEPHONY
 // The Swift adapter is compiled only by the explicit ios26-telephony feature.

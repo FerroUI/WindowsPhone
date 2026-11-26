@@ -1,0 +1,77 @@
+{
+  "consumer_pin": {
+    "sha": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+    "tree": "65ac429a449083798fad37a36a47d5f65b149029",
+    "parents": [
+      "cd9aeaef1fb6a80f513d577d345fac6483077966"
+    ]
+  },
+  "pr_ci_merge": {
+    "sha": "3a6d1b76afe782a81b4ec6b755ab166dfc250f9e",
+    "tree": "a32b8922c8b5fb6ca69ebea20faf447d57e09333",
+    "parents": [
+      "21720a379c059a6a73805bf583fdd0589c933969",
+      "75bdfc3c39a5bd73b5e27651441cd29bce86eebb"
+    ]
+  },
+  "run_id": 45866630349,
+  "source_comparison_path": "/tmp/windowsphone-tooling/framework-pr1456-75bdfc3-source-comparison.json",
+  "source_files_byte_identical": true,
+  "linux": {
+    "job_id": 140071435654,
+    "conclusion": "failure",
+    "completed_at": "2026-11-26T17:50:11Z",
+    "log_path": "/tmp/windowsphone-tooling/framework-pr1456-75bdfc3-linux.log",
+    "log_bytes": 5858467,
+    "log_sha256": "5ab88c04e541957a356adcc19ae1dbf40d17c8209923f0a6847fcd9274befba4",
+    "checkout_log_proof": [
+      "2026-11-26T17:19:43.9738186Z HEAD is now at 3a6d1b76 Merge 75bdfc3c39a5bd73b5e27651441cd29bce86eebb into 21720a379c059a6a73805bf583fdd0589c933969",
+      "2026-11-26T17:19:43.9880011Z 3a6d1b76afe782a81b4ec6b755ab166dfc250f9e"
+    ],
+    "relevant_test_results": {
+      "date_time_pickers::date_picker_tests::window_popup_dismiss_leaves_selected_date_unchanged": {
+        "result": "ok",
+        "exact_log_line": "2026-11-26T17:45:09.8782416Z test date_time_pickers::date_picker_tests::window_popup_dismiss_leaves_selected_date_unchanged ... ok"
+      },
+      "scroll_viewer_tests_i_logical_scrollable::logical_metrics_transactions_only_write_genuine_final_offset_corrections": {
+        "result": "ok",
+        "exact_log_line": "2026-11-26T17:45:10.0700394Z test scroll_viewer_tests_i_logical_scrollable::logical_metrics_transactions_only_write_genuine_final_offset_corrections ... ok"
+      },
+      "virtualizing_carousel_panel_tests::gestures::viewport_fraction_swiping_backward_at_start_wraps_when_wrap_selection_true": {
+        "result": "FAILED",
+        "exact_log_line": "2026-11-26T17:45:10.1160213Z test virtualizing_carousel_panel_tests::gestures::viewport_fraction_swiping_backward_at_start_wraps_when_wrap_selection_true ... FAILED"
+      },
+      "date_time_pickers::time_picker_tests::bounded_picker_keeps_pm_and_last_year_through_layout_changes_without_selection_events": {
+        "result": "FAILED",
+        "exact_log_line": "2026-11-26T17:45:22.3466550Z test date_time_pickers::time_picker_tests::bounded_picker_keeps_pm_and_last_year_through_layout_changes_without_selection_events ... FAILED"
+      },
+      "date_time_pickers::time_picker_tests::window_popup_dismiss_leaves_selected_time_unchanged": {
+        "result": "ok",
+        "exact_log_line": "2026-11-26T17:45:22.3943881Z test date_time_pickers::time_picker_tests::window_popup_dismiss_leaves_selected_time_unchanged ... ok"
+      },
+      "date_time_pickers::time_picker_tests::bounded_picker_keyboard_and_scroll_gestures_stop_at_the_first_and_last_cells": {
+        "result": "ok",
+        "exact_log_line": "2026-11-26T17:46:39.6462549Z test date_time_pickers::time_picker_tests::bounded_picker_keyboard_and_scroll_gestures_stop_at_the_first_and_last_cells ... ok"
+      }
+    },
+    "failure_excerpts": {
+      "panicked at src/FerroUI.Controls/virtualizing_carousel_panel_tests.rs:950": [
+        "2026-11-26T17:45:10.1418384Z thread 'virtualizing_carousel_panel_tests::gestures::viewport_fraction_swiping_backward_at_start_wraps_when_wrap_selection_true' (25648) panicked at src/FerroUI.Controls/virtualizing_carousel_panel_tests.rs:950:9:",
+        "2026-11-26T17:45:10.1419480Z assertion `left == right` failed",
+        "2026-11-26T17:45:10.1419804Z   left: 2",
+        "2026-11-26T17:45:10.1420043Z  right: 0",
+        "2026-11-26T17:45:10.1420289Z stack backtrace:"
+      ],
+      "panicked at src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs:641": [
+        "2026-11-26T17:45:25.5492603Z thread 'date_time_pickers::time_picker_tests::bounded_picker_keeps_pm_and_last_year_through_layout_changes_without_selection_events' (26238) panicked at src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs:641:9:",
+        "2026-11-26T17:45:25.5494261Z selected cell stays centered, including when the viewport clips it: Rect { x: 0.0, y: 180.0, width: 120.0, height: 40.0 }",
+        "2026-11-26T17:45:25.5494977Z stack backtrace:",
+        "2026-11-26T17:45:25.5495278Z    0: __rustc::rust_begin_unwind",
+        "2026-11-26T17:45:25.5495631Z    1: core::panicking::panic_fmt"
+      ]
+    },
+    "attribution": "Two genuine runtime failures in this candidate: bounded picker resize centering and existing backward wrapping carousel. These are separate from the proven base C++ conventions failure. Generic atomic metrics, bounded keyboard/gesture, and both native cancel/reopen regressions passed."
+  },
+  "conventions_failure_is_separate": true,
+  "recorded_at_utc": "2026-11-26T17:58:54.536228+00:00"
+}
