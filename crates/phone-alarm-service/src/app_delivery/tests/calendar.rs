@@ -77,14 +77,21 @@ fn invalidate(
     let state = f.state.clone();
     let registry = f.registry.clone();
     let next_registry = calendar_registry();
+    // A replacement shell owns its session independently of the observer that
+    // publishes it. Creating it inside the unlock effect would instead make its
+    // signals children of that effect, disposed by the next locked-state run.
+    let replacement_ui = matches!(action, Invalidation::Session).then(|| {
+        let ui = Rc::new(Session::new(vm.now(), registry));
+        ui.locked.set(true);
+        ui
+    });
     Box::new(move || match action {
         Invalidation::Document => {
             let data = vm.data().clone();
             vm.replace_data(data).unwrap();
         }
         Invalidation::Session => {
-            let ui = Rc::new(Session::new(vm.now(), registry));
-            ui.locked.set(true);
+            let ui = replacement_ui.expect("the independent replacement session is prepared");
             phone_sdk::set_current_session(&ui);
             *retained_session.borrow_mut() = Some(ui);
         }

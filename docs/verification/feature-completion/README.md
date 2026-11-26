@@ -79,6 +79,13 @@ document replacement remains authoritative. Four focused regression tests
 cover retained callbacks, fourteen dismissal/unlock invalidations and both
 synchronous consumer outcomes. Their execution belongs to the successor CI.
 
+The [second candidate's records](attempts/ee85700/README.md) preserve its
+17-of-18 alarm-service result and separate Maven-rate-limit retry. Three new
+Calendar-opening regressions passed; the unlock fixture created its replacement
+session under the effect that subsequently reran and disposed it. The next
+fixture prepares that session independently before publishing it from the
+callback, retaining all invalidation and privacy assertions.
+
 ## Corrected historical assessment
 
 The [iOS screenshot correction](ios-navigation-correction.md) supersedes the

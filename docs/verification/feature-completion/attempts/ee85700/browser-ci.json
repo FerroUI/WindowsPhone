@@ -1,0 +1,374 @@
+{
+  "schema": "windowsphone-browser-ci-v1",
+  "observed_at": "2026-11-26T22:01:32.600242+00:00",
+  "source": {
+    "pr": 5,
+    "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+    "head_tree_sha": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+    "checkout_sha": "099fe673072c303205168b220e7183151a486840",
+    "checkout_tree_sha": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+    "base_sha": "6fbd96563087756a7d4afd4be3451a3fb1178549",
+    "merge_parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b"
+    ],
+    "checkout_tree_equals_head_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+    "checkout_verified_in_job_log": true,
+    "checkout_log_line": "2026-11-26T21:52:12.6808161Z 099fe673072c303205168b220e7183151a486840",
+    "framework_checkout_log_line": "2026-11-26T21:52:12.5116554Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'"
+  },
+  "run": {
+    "id": 45900992335,
+    "attempt": 1,
+    "event": "pull_request",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45900992335",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-26T21:51:47Z",
+    "updated_at": "2026-11-26T22:00:16Z"
+  },
+  "job": {
+    "id": 140186431845,
+    "run_id": 45900992335,
+    "workflow_name": "Build and publish",
+    "head_branch": "codex/feature-completion-6fbd965",
+    "run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45900992335",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOV33P9M8AAAAgo8MxZQ",
+    "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+    "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/jobs/140186431845",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45900992335/job/140186431845",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-26T21:51:48Z",
+    "started_at": "2026-11-26T21:51:51Z",
+    "completed_at": "2026-11-26T21:59:22Z",
+    "name": "build",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-26T21:51:51Z",
+        "completed_at": "2026-11-26T21:51:53Z"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-26T21:51:53Z",
+        "completed_at": "2026-11-26T21:52:12Z"
+      },
+      {
+        "name": "Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-26T21:52:12Z",
+        "completed_at": "2026-11-26T21:52:16Z"
+      },
+      {
+        "name": "Validate compiled artifact reuse",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-26T21:52:16Z",
+        "completed_at": "2026-11-26T21:52:16Z"
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-26T21:52:16Z",
+        "completed_at": "2026-11-26T21:52:16Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-26T21:52:16Z",
+        "completed_at": "2026-11-26T21:52:16Z"
+      },
+      {
+        "name": "Install pinned browser tools",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-26T21:52:16Z",
+        "completed_at": "2026-11-26T21:56:13Z"
+      },
+      {
+        "name": "Run actions/cache/save@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-26T21:56:13Z",
+        "completed_at": "2026-11-26T21:56:20Z"
+      },
+      {
+        "name": "Normalize pinned framework timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-26T21:56:20Z",
+        "completed_at": "2026-11-26T21:56:21Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-26T21:56:21Z",
+        "completed_at": "2026-11-26T21:56:52Z"
+      },
+      {
+        "name": "Verify state",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-26T21:56:52Z",
+        "completed_at": "2026-11-26T21:57:14Z"
+      },
+      {
+        "name": "Verify SDK and game contracts",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 12,
+        "started_at": "2026-11-26T21:57:14Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Verify host boundaries",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Build Windows Phone",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Save compiled framework and app",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Run actions/download-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Verify reused module links",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Verify first frame",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Verify rendered desktop and touch views",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 20,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Run actions/upload-pages-artifact@v3",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 22,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 43,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:19Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 44,
+        "started_at": "2026-11-26T21:59:19Z",
+        "completed_at": "2026-11-26T21:59:20Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 45,
+        "started_at": "2026-11-26T21:59:20Z",
+        "completed_at": "2026-11-26T21:59:20Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-runs/140186431845",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "runner_id": 1000002331,
+    "runner_name": "GitHub Actions 1000002331",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "tests": {
+    "state_domain_host": {
+      "passed": 161,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_gate_completed_packages": {
+      "phone_alarm_service": {
+        "passed": 17,
+        "failed": 1,
+        "ignored": 0
+      }
+    },
+    "alarm_test_lines": [
+      "2026-11-26T21:59:19.5681621Z test app_delivery::tests::a_provider_registry_replacement_cannot_publish_the_previous_sources_snapshot ... ok",
+      "2026-11-26T21:59:19.5683460Z test app_delivery::tests::calendar::calendar_open_preserves_the_exact_occurrence_and_rejects_retained_callbacks ... ok",
+      "2026-11-26T21:59:19.5690768Z test app_delivery::tests::calendar::calendar_activation_does_not_overwrite_a_synchronous_consumer_navigation_or_restore ... ok",
+      "2026-11-26T21:59:19.5692463Z test app_delivery::tests::closing_during_provider_collection_cannot_repopulate_the_retired_schedule ... ok",
+      "2026-11-26T21:59:19.5694009Z test app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation ... FAILED",
+      "2026-11-26T21:59:19.5710404Z test app_delivery::tests::opening_a_current_reminder_dismisses_and_navigates_once ... ok",
+      "2026-11-26T21:59:19.5711900Z test app_delivery::tests::calendar::calendar_open_rechecks_the_owner_and_occurrence_after_synchronous_dismissal ... ok",
+      "2026-11-26T21:59:19.5713469Z test app_reminders::tests::no_missed_schedule_replay_and_distinct_app_keys_keep_deterministic_order ... ok",
+      "2026-11-26T21:59:19.5714941Z test app_reminders::tests::snoozes_refresh_content_but_cancel_on_reschedule_removal_and_epoch_change ... ok",
+      "2026-11-26T21:59:19.5720596Z test app_delivery::tests::synchronous_stop_audio_cannot_open_into_a_replaced_document_session_or_host ... ok",
+      "2026-11-26T21:59:19.5722068Z test app_reminders::tests::due_minutes_use_current_offset_and_rapid_edits_do_not_redeliver ... ok",
+      "2026-11-26T21:59:19.5727805Z test lifecycle_tests::a_snooze_retains_its_deadline_and_does_not_fire_while_hidden ... ok",
+      "2026-11-26T21:59:19.5728873Z test lifecycle_tests::close_stops_before_teardown_and_old_callbacks_cannot_reopen_the_alert ... ok",
+      "2026-11-26T21:59:19.5731543Z test lifecycle_tests::suspension_stops_audio_and_resume_reconciles_the_existing_alert_once ... ok",
+      "2026-11-26T21:59:19.5733091Z test app_service_tests::epoch_replacement_clears_active_queued_and_snoozed_tasks_and_suspension_defers_reconciliation ... ok",
+      "2026-11-26T21:59:19.5734662Z test lifecycle_tests::hidden_dismiss_and_schedule_changes_cannot_recreate_an_alert_on_resume ... ok",
+      "2026-11-26T21:59:19.5736462Z test notifications::tests::host_alerts_obey_permission_app_banners_and_lock_privacy ... ok",
+      "2026-11-26T21:59:19.5742050Z test app_service_tests::app_reminders_queue_outside_the_active_app_refresh_edits_and_cancel_disabled_snoozes ... ok"
+    ],
+    "calendar_open_regression_lines": [
+      "2026-11-26T21:59:19.5683460Z test app_delivery::tests::calendar::calendar_open_preserves_the_exact_occurrence_and_rejects_retained_callbacks ... ok",
+      "2026-11-26T21:59:19.5690768Z test app_delivery::tests::calendar::calendar_activation_does_not_overwrite_a_synchronous_consumer_navigation_or_restore ... ok",
+      "2026-11-26T21:59:19.5694009Z test app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation ... FAILED",
+      "2026-11-26T21:59:19.5711900Z test app_delivery::tests::calendar::calendar_open_rechecks_the_owner_and_occurrence_after_synchronous_dismissal ... ok"
+    ],
+    "calendar_package": {
+      "status": "not_run",
+      "expected_tests": 10,
+      "observed_passed": 0
+    },
+    "sdk_provider_grouping_previews_runtime": {
+      "status": "not_run"
+    },
+    "node": {
+      "status": "skipped",
+      "expected_tests": 77,
+      "observed_tests": 0
+    }
+  },
+  "rendered": {
+    "status": "skipped",
+    "passed": null,
+    "checks": 0,
+    "captures": 0,
+    "reason": "SDK contract gate failed before the WASM build and UI runner.",
+    "new_groups_not_run": {
+      "calendar_tasks": 7,
+      "phone_calls": 2
+    }
+  },
+  "artifacts": [],
+  "log": {
+    "path": "/tmp/windowsphone-tooling/browser-build-ee85700.log",
+    "sha256": "9f9d0e66f60a5ff99c929769b4a8f8cc9d26904785e8a0915739fd72583d560a",
+    "bytes": 134099,
+    "format": "Complete decoded GitHub job log, preserving ANSI text and terminal newline."
+  },
+  "scope": "Read-only CI observation of exact PR merge checkout; no source mutation, retry, rerun, or deployment.",
+  "other_run_artifacts": [
+    {
+      "id": 15156356051,
+      "name": "original-emulator-windows-host",
+      "size_in_bytes": 1019,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15156356051",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15156356051/zip",
+      "expired": false,
+      "created_at": "2026-11-26T21:54:03Z",
+      "expires_at": "2026-12-03T21:54:03Z",
+      "updated_at": "2026-11-26T21:54:03Z",
+      "digest": "sha256:4568ec785cc8e53aebdf6a3d77c2b6f0d80d09b22e157184dff4109b431864dc",
+      "workflow_run": {
+        "id": 45900992335,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b"
+      }
+    }
+  ],
+  "artifact_note": "No compiled-app or ui-verification artifact exists; the only listed artifact belongs to the native Windows prerequisite inspection.",
+  "failure": {
+    "gate": "Verify SDK and game contracts",
+    "package": "phone-alarm-service",
+    "test": "app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation",
+    "location": "FerroUI/src/FerroUI.View/reactive.rs:275:18",
+    "message": "a signal or memo was used after its owner was disposed",
+    "exit_code": 101,
+    "invalidating_case": "Not identified in the emitted log.",
+    "diagnosis_status": "Read-only ownership/lifetime investigation assigned to the alarm owner; no fix claimed.",
+    "excerpts": [
+      "2026-11-26T21:59:19.5694009Z test app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation ... FAILED",
+      "2026-11-26T21:59:19.5743876Z ---- app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation stdout ----",
+      "2026-11-26T21:59:19.5745204Z thread 'app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation' (8211) panicked at FerroUI/src/FerroUI.View/reactive.rs:275:18:",
+      "2026-11-26T21:59:19.5746671Z a signal or memo was used after its owner was disposed",
+      "2026-11-26T21:59:19.5749266Z     app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation",
+      "2026-11-26T21:59:19.5750582Z test result: FAILED. 17 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "2026-11-26T21:59:19.5871336Z ##[error]Process completed with exit code 101."
+    ]
+  },
+  "pages_artifact_upload_conclusion": "skipped",
+  "deploy_conclusion": "skipped"
+}

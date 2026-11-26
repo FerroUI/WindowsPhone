@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "base_revision": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+  "source_changes": "One test fixture prepares its replacement Session before entering the reentrant effect. Production sources are unchanged.",
+  "source_file": "crates/phone-alarm-service/src/app_delivery/tests/calendar.rs",
+  "source_sha256": "72a48fd13d9bc63395ffe128de48ff03ab514ea9cebef964b47fb138ac43bd3a",
+  "command": "PATH=/home/agent/.cargo/bin:$PATH CARGO_BUILD_JOBS=1 cargo check --locked -p phone-app-calendar -p phone-alarm-service --tests",
+  "exit_code": 0,
+  "cargo_elapsed_seconds": 1.33,
+  "scope": "Metadata compilation including test bodies; corrected fixture execution remains pending in the successor CI.",
+  "log": {
+    "path": "successor-fixture-check.log.gz",
+    "raw_bytes": 17316,
+    "raw_sha256": "fcecbcf5272d7c24f6e46b88377edce035a3618a235c6922e6dc1cd8335d7971",
+    "compressed_sha256": "0bf6646ead33771dc2d3e3f3390b1e2c8bc4099e6447095554f787e5e5e460c2"
+  }
+}
