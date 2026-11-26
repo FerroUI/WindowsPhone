@@ -40,7 +40,9 @@ jobs:
   build:
     if: (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && (github.event_name != 'workflow_dispatch' || !inputs.verify_native) && !contains(github.event.head_commit.message, '[native-only]') && !contains(github.event.head_commit.message, '[mobile-only]')
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # The cold contract/WASM build took over 36 minutes before UI verification.
+    # Leave room for the full nine-minute UI step and its artifact cleanup.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
