@@ -1,0 +1,115 @@
+{
+  "runtime_revision": "c2f9645e0d7ddc2e60278f3f116fe08e77694ce5",
+  "actual_checkout": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+  "runtime_tree": "935e88204b6c6049c632ca0ea9124d8f7a894d71",
+  "files": [
+    {
+      "path": "attempts/c2f9645/browser-results.json",
+      "source": "target/pr4-ui/results.json",
+      "bytes": 48270,
+      "sha256": "48f6d022bfb9cc48feca9a65018ab6ee157b894996d829d63034be4ac0f86ef0"
+    },
+    {
+      "path": "attempts/c2f9645/phone-picker-failure.json",
+      "source": "target/pr4-ui/phone-picker-failure.json",
+      "bytes": 126635,
+      "sha256": "0bb78ee82001abcf20640482368ca38f1a938ce0dfd845938459fde7b23429aa"
+    },
+    {
+      "path": "attempts/c2f9645/phone-picker-failure.png",
+      "source": "target/pr4-ui/phone-picker-failure.png",
+      "bytes": 14385,
+      "sha256": "91108b4729a6d2a97fdc9c1d8fbce61807cc65abd689af91153f3a9f5bdf68ec"
+    },
+    {
+      "path": "attempts/c2f9645/system-failure.json",
+      "source": "target/pr4-ui/system-failure.json",
+      "bytes": 53701,
+      "sha256": "b6c3537a9cdaa7330cfcacefd9dc6d3cce5f4fe21c28f1228f2b2296c3d94695"
+    },
+    {
+      "path": "attempts/c2f9645/system-failure.png",
+      "source": "target/pr4-ui/system-failure.png",
+      "bytes": 24289,
+      "sha256": "f0f9d55a9c17a320e268e306029cbfa45feaeacf1e3194a027d14b37b25fd151"
+    },
+    {
+      "path": "attempts/c2f9645/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-results.json",
+      "bytes": 6202,
+      "sha256": "ded1917c882ed4149263293cf60d1c60092f3d9d022489b9020b49cdb8b0aa03"
+    },
+    {
+      "path": "attempts/c2f9645/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-results.json",
+      "bytes": 38678,
+      "sha256": "2e7c20b2680ba60478f0c7b931669f20c35137ee95efc30a55724f4745e05ff3"
+    },
+    {
+      "path": "attempts/c2f9645/ios-start.png",
+      "source": "/tmp/phone-ios-c2f9645/start.png",
+      "bytes": 490416,
+      "sha256": "bee94e889c68cddd84890d2ad55cdb1036220270ad2a2b67285f7feaf105ffd3"
+    },
+    {
+      "path": "attempts/c2f9645/ios-device-tests.json",
+      "source": "/tmp/phone-ios-c2f9645/device-tests.json",
+      "bytes": 3014,
+      "sha256": "0780d2b577a314d614d78527352d7479485ae149b127e3db369e45ed82a764d1"
+    },
+    {
+      "path": "attempts/c2f9645/ios-start.json",
+      "source": "/tmp/phone-ios-c2f9645/start.json",
+      "bytes": 3194,
+      "sha256": "61f06fba5bb0b20c4742c20984bf6fda37d26475f7fc256ddec69706ef618a4f"
+    },
+    {
+      "path": "attempts/c2f9645/android-result.json",
+      "source": "target/pr4-android-ui/result.json",
+      "bytes": 1916,
+      "sha256": "b21182651d6bbd46a9cd14c9398494f0ae7803853fac0186839f9718e7d1aeab"
+    },
+    {
+      "path": "attempts/c2f9645/android-head.txt",
+      "source": "target/pr4-android-ui/head.txt",
+      "bytes": 41,
+      "sha256": "94c9afa0ebe9b59c74666aee64902a431f39298eefb872738d68a9024daca956"
+    },
+    {
+      "path": "attempts/c2f9645/android-app-start.png",
+      "source": "target/pr4-android-ui/app-start.png",
+      "bytes": 511417,
+      "sha256": "3ff30c8d60b804d8badf26a4d644f94050454c9e29df086cbc05e404733fcd89"
+    },
+    {
+      "path": "attempts/c2f9645/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-results.json",
+      "bytes": 2871,
+      "sha256": "3c0daa4c33a1fd6f653cf1b3b7395ae7bb7ade75577384eecc010bc1dc20cd01"
+    }
+  ],
+  "android_ui_artifact": {
+    "run_id": 45820159395,
+    "job_id": 139910059648,
+    "artifact_id": 15117852538,
+    "zip_bytes": 5605498,
+    "zip_sha256": "6d40c7d8b1b164ef4710a1a2f7b8d19b5d59589fb4e85cadacb719107c75d2d3",
+    "digest_matches_github_metadata": true,
+    "result": "success",
+    "actual_checkout": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+    "platform": {
+      "api": 36,
+      "abi": "x86_64",
+      "gpu": "software"
+    }
+  },
+  "android_arm64_artifact": {
+    "run_id": 45820159396,
+    "job_id": 139910059607,
+    "artifact_id": 15117008796,
+    "zip_bytes": 76294986,
+    "github_sha256": "901401a91a07d765f582a34f97f84a556afce0688099e1e7f972af3501f03563",
+    "zip_downloaded": false,
+    "result": "success"
+  }
+}

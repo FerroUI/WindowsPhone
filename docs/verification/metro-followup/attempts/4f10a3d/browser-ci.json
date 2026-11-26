@@ -1,0 +1,748 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T14:49:46.061433+00:00",
+  "run": {
+    "id": 45838786698,
+    "job_id": 139974608502,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/job/139974608502",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-26T14:25:06Z",
+    "completed_at": "2026-11-26T14:45:57Z",
+    "deploy_conclusion": "skipped"
+  },
+  "source": {
+    "pr": 4,
+    "head_sha": "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491",
+    "checkout_sha": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+    "tree_sha": "c2b6ff9b62cbec724d1a242552c621525467f0d1",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "tests": {
+    "state": {
+      "passed": 157,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_apps_runtime_system_controls": {
+      "passed": 242,
+      "failed": 0,
+      "ignored": 0
+    },
+    "phone_controls_passed": 33,
+    "phone_sdk_unit_passed": 29,
+    "phone_sdk_integration_passed": 24,
+    "node": {
+      "tests": 77,
+      "passed": 77,
+      "failed": 0
+    }
+  },
+  "rendered_ui": {
+    "passed": false,
+    "checks_passed": 88,
+    "checks": [
+      {
+        "name": "desktop Start renders",
+        "elapsedMs": 627,
+        "passed": true
+      },
+      {
+        "name": "native tile launch and Back",
+        "elapsedMs": 1114,
+        "passed": true
+      },
+      {
+        "name": "native context menu resizes a tile",
+        "elapsedMs": 1443,
+        "passed": true
+      },
+      {
+        "name": "app list search and native note creation",
+        "elapsedMs": 4687,
+        "passed": true
+      },
+      {
+        "name": "native note edit and reload persistence",
+        "elapsedMs": 6462,
+        "passed": true
+      },
+      {
+        "name": "native secondary note tile opens its note",
+        "elapsedMs": 2413,
+        "passed": true
+      },
+      {
+        "name": "native note deletion",
+        "elapsedMs": 1028,
+        "passed": true
+      },
+      {
+        "name": "app search launches a working calculator",
+        "elapsedMs": 4956,
+        "passed": true
+      },
+      {
+        "name": "Action Center toggles and clears notifications",
+        "elapsedMs": 2147,
+        "passed": true
+      },
+      {
+        "name": "native quick-action customization updates Action Center",
+        "elapsedMs": 5835,
+        "passed": true
+      },
+      {
+        "name": "native virtualized Photos rows update and select",
+        "elapsedMs": 7162,
+        "passed": true
+      },
+      {
+        "name": "all 23 app surfaces render",
+        "elapsedMs": 23279,
+        "passed": true
+      },
+      {
+        "name": "native task switcher previews, resumes, and closes an app",
+        "elapsedMs": 3264,
+        "passed": true
+      },
+      {
+        "name": "native Word creation, editing, formatting, reload and pinned activation",
+        "elapsedMs": 6987,
+        "passed": true
+      },
+      {
+        "name": "native Excel editing calculates a range formula and preserves worksheets",
+        "elapsedMs": 4390,
+        "passed": true
+      },
+      {
+        "name": "native Excel range selection, AutoSum, sorting, find and clear preserve unrelated cells",
+        "elapsedMs": 8660,
+        "passed": true
+      },
+      {
+        "name": "native PowerPoint text and speaker notes remain in their slide",
+        "elapsedMs": 5554,
+        "passed": true
+      },
+      {
+        "name": "native Files hierarchy, multi-copy, move and rename preserve document identity",
+        "elapsedMs": 5924,
+        "passed": true
+      },
+      {
+        "name": "native Files properties report actual copies and close with Back without changing documents",
+        "elapsedMs": 2876,
+        "passed": true
+      },
+      {
+        "name": "Office binary host callbacks roundtrip real packages and reject damaged imports",
+        "elapsedMs": 826,
+        "passed": true
+      },
+      {
+        "name": "native calendar month, week, day and year views drill into appointments",
+        "elapsedMs": 3959,
+        "passed": true
+      },
+      {
+        "name": "native recurring appointment edit changes one occurrence atomically",
+        "elapsedMs": 4792,
+        "passed": true
+      },
+      {
+        "name": "native all-day recurring appointment preferences survive reload",
+        "elapsedMs": 6520,
+        "passed": true
+      },
+      {
+        "name": "native alarm editor saves repeat days and configurable snooze",
+        "elapsedMs": 3842,
+        "passed": true
+      },
+      {
+        "name": "foreground alarm preserves an unsaved form and Back snoozes two minutes",
+        "elapsedMs": 3316,
+        "passed": true
+      },
+      {
+        "name": "foreground calendar reminder snoozes and opens its exact occurrence",
+        "elapsedMs": 2519,
+        "passed": true
+      },
+      {
+        "name": "Metro application bar reveals labels without moving page content",
+        "elapsedMs": 2237,
+        "passed": true
+      },
+      {
+        "name": "native page entrances survive route cleanup and reverse on Back",
+        "elapsedMs": 6075,
+        "passed": true
+      },
+      {
+        "name": "native Metro switch thumb follows touch and persists on release",
+        "elapsedMs": 4039,
+        "passed": true
+      },
+      {
+        "name": "native Metro pivot supports touch wrapping, headers and keyboard",
+        "elapsedMs": 3740,
+        "passed": true
+      },
+      {
+        "name": "Metro controls fit 320-pixel light and dark phone surfaces",
+        "elapsedMs": 4853,
+        "passed": true
+      },
+      {
+        "name": "reduced motion keeps phone pivot headings and content usable",
+        "elapsedMs": 826,
+        "passed": true
+      },
+      {
+        "name": "dark phone text input keeps native editing, undo and fixed focus bounds",
+        "elapsedMs": 1287,
+        "passed": true
+      },
+      {
+        "name": "dark Toolkit checkbox renders exact mark geometry and native press/focus states",
+        "elapsedMs": 2034,
+        "passed": true
+      },
+      {
+        "name": "light phone text input keeps native editing, undo and fixed focus bounds",
+        "elapsedMs": 1258,
+        "passed": true
+      },
+      {
+        "name": "light Toolkit checkbox renders exact mark geometry and native press/focus states",
+        "elapsedMs": 2025,
+        "passed": true
+      },
+      {
+        "name": "phone date wheels show long months in bounded dark and light native pages",
+        "elapsedMs": 6870,
+        "passed": true
+      },
+      {
+        "name": "native time page commits keyboard selection and cancels before privacy overlays",
+        "elapsedMs": 4092,
+        "passed": true
+      },
+      {
+        "name": "native outgoing page image retires before the incoming page and blocks hidden input",
+        "elapsedMs": 3428,
+        "passed": true
+      },
+      {
+        "name": "rapid hardware Back cancels the retiring image without resurrecting the old visit",
+        "elapsedMs": 1615,
+        "passed": true
+      },
+      {
+        "name": "locking during navigation releases the private outgoing image",
+        "elapsedMs": 2135,
+        "passed": true
+      },
+      {
+        "name": "reduced_motion suppresses outgoing images and incoming projections",
+        "elapsedMs": 1747,
+        "passed": true
+      },
+      {
+        "name": "battery_saver suppresses outgoing images and incoming projections",
+        "elapsedMs": 1732,
+        "passed": true
+      },
+      {
+        "name": "native Outlook multiline editor saves drafts only after explicit save",
+        "elapsedMs": 3276,
+        "passed": true
+      },
+      {
+        "name": "Outlook Back cancellation and app switching preserve unsaved text without replacing the saved draft",
+        "elapsedMs": 4968,
+        "passed": true
+      },
+      {
+        "name": "Outlook rejects an invalid handoff and deletes a local draft only after confirmation",
+        "elapsedMs": 1948,
+        "passed": true
+      },
+      {
+        "name": "native transparent tiles share a bounded wallpaper plane across tall Start layouts",
+        "elapsedMs": 1477,
+        "passed": true
+      },
+      {
+        "name": "native tile projection responds to press location while retaining Button bounds",
+        "elapsedMs": 3575,
+        "passed": true
+      },
+      {
+        "name": "native alphabet jump, sticky push-off and search use actual app-list geometry",
+        "elapsedMs": 2368,
+        "passed": true
+      },
+      {
+        "name": "native phone date and time pickers preserve popup accept and cancel behavior",
+        "elapsedMs": 3882,
+        "passed": true
+      },
+      {
+        "name": "native hardware volume separates ringer and media with stable mute",
+        "elapsedMs": 1949,
+        "passed": true
+      },
+      {
+        "name": "native accessibility preferences and lock detail selection persist",
+        "elapsedMs": 8349,
+        "passed": true
+      },
+      {
+        "name": "native notification policy hides one app and grouped dismissal preserves others",
+        "elapsedMs": 10252,
+        "passed": true
+      },
+      {
+        "name": "native mail selection deletes and restores the selected messages",
+        "elapsedMs": 4164,
+        "passed": true
+      },
+      {
+        "name": "native message search, forwarding draft, contact selection and deletion work",
+        "elapsedMs": 6609,
+        "passed": true
+      },
+      {
+        "name": "native browser tabs retain independent navigation journals",
+        "elapsedMs": 4480,
+        "passed": true
+      },
+      {
+        "name": "native favorites and configurable address shortcut persist",
+        "elapsedMs": 2660,
+        "passed": true
+      },
+      {
+        "name": "native browser history clears independently of open tabs and favorites",
+        "elapsedMs": 2317,
+        "passed": true
+      },
+      {
+        "name": "vCard host bytes import atomically and the native People card exposes file sharing",
+        "elapsedMs": 1060,
+        "passed": true
+      },
+      {
+        "name": "iCalendar byte callbacks preserve local recurrence and native series sharing",
+        "elapsedMs": 1216,
+        "passed": true
+      },
+      {
+        "name": "native Storage Sense distinguishes observed origin quota and persistent storage",
+        "elapsedMs": 1665,
+        "passed": true
+      },
+      {
+        "name": "native notification settings distinguish unrequested and blocked host permissions",
+        "elapsedMs": 1304,
+        "passed": true
+      },
+      {
+        "name": "SDK rejects unregistered and malformed application activation without mutation",
+        "elapsedMs": 15,
+        "passed": true
+      },
+      {
+        "name": "registered Tic tac toe supports local search, native play, exact score persistence and turn undo",
+        "elapsedMs": 7330,
+        "passed": true
+      },
+      {
+        "name": "registered Minesweeper provides safe first reveal, flags, transient clock and resumable state",
+        "elapsedMs": 5631,
+        "passed": true
+      },
+      {
+        "name": "SDK app Start links, local search, and Store disable/enable preserve game progress",
+        "elapsedMs": 5560,
+        "passed": true
+      },
+      {
+        "name": "native Word undo and redo restore content and formatting independently",
+        "elapsedMs": 3744,
+        "passed": true
+      },
+      {
+        "name": "native Excel evaluates typed conditions and undoes worksheet edits",
+        "elapsedMs": 4272,
+        "passed": true
+      },
+      {
+        "name": "native OneNote notebooks, sections, checklists and page moves persist",
+        "elapsedMs": 7229,
+        "passed": true
+      },
+      {
+        "name": "Music playlists select, reorder, rename and survive a real reload without changing media files",
+        "elapsedMs": 5456,
+        "passed": true
+      },
+      {
+        "name": "Video playlists use an independent namespace and expose only video selections",
+        "elapsedMs": 1758,
+        "passed": true
+      },
+      {
+        "name": "Photos albums select, rename photos, survive restore, and remove membership without deleting originals",
+        "elapsedMs": 5850,
+        "passed": true
+      },
+      {
+        "name": "Weather searches real task fixtures, saves hourly/daily readings and preserves units across reload",
+        "elapsedMs": 4178,
+        "passed": true
+      },
+      {
+        "name": "Podcasts imports an HTTPS feed through SDK, persists played state and pins a deep route",
+        "elapsedMs": 3857,
+        "passed": true
+      },
+      {
+        "name": "Wallet creates, validates, displays Code 39, favorites and restores independently",
+        "elapsedMs": 6991,
+        "passed": true
+      },
+      {
+        "name": "native map tiles render with attribution and bounded visible images; pan and zoom preserve data",
+        "elapsedMs": 1407,
+        "passed": true
+      },
+      {
+        "name": "trusted map pinch, pointer cancellation and route cleanup stay within the map",
+        "elapsedMs": 1768,
+        "passed": true
+      },
+      {
+        "name": "native Maps saves coordinates, home shortcuts and directions preferences",
+        "elapsedMs": 8145,
+        "passed": true
+      },
+      {
+        "name": "native Maps coordinate search and recent history need no network lookup",
+        "elapsedMs": 2176,
+        "passed": true
+      },
+      {
+        "name": "Device app renders observed browser services without offering a launcher or device catalog",
+        "elapsedMs": 706,
+        "passed": true
+      },
+      {
+        "name": "browser embedding API validates platform requests and activation routes before mutation",
+        "elapsedMs": 5,
+        "passed": true
+      },
+      {
+        "name": "mounted People live tile advances one cell without input or persistence",
+        "elapsedMs": 1395,
+        "passed": true
+      },
+      {
+        "name": "six native live-card templates, capped badge and finite flip render",
+        "elapsedMs": 937,
+        "passed": true
+      },
+      {
+        "name": "queued cards rotate and scheduled expiry survives reduced motion without saving",
+        "elapsedMs": 511,
+        "passed": true
+      },
+      {
+        "name": "native tile customization, folder creation and dissolution preserve full records",
+        "elapsedMs": 6085,
+        "passed": true
+      },
+      {
+        "name": "lock screen covers an open Office form and preserves its unsaved draft",
+        "elapsedMs": 2243,
+        "passed": true
+      },
+      {
+        "name": "native live-folder cover, expansion and child activation retain tile identity",
+        "elapsedMs": 1400,
+        "passed": true
+      },
+      {
+        "name": "narrow viewport and trusted touch navigation",
+        "elapsedMs": 2849,
+        "passed": true
+      }
+    ],
+    "captures": 160,
+    "elapsed_ms": 360555,
+    "browser_errors": [],
+    "refinement_failures": [
+      {
+        "module": "verifyPhonePickers",
+        "error": "AssertionError [ERR_ASSERTION]: the native minute wheel moves while the touch contact remains down\n    at file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:266:9\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:300:3)\n    at async verifyPhonePickers (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:207:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:684:11"
+      }
+    ],
+    "error": "AssertionError [ERR_ASSERTION]: UI verification exhausted the 6-minute suite budget\n    at healthy (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:59:3)\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:89:3)\n    at isRoute (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:148:29)\n    at verifyMobileDensity (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:295:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:730:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:300:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:712:3",
+    "system_checks_passed": [
+      "native hardware volume separates ringer and media with stable mute",
+      "native accessibility preferences and lock detail selection persist",
+      "native notification policy hides one app and grouped dismissal preserves others",
+      "native mail selection deletes and restores the selected messages",
+      "native message search, forwarding draft, contact selection and deletion work"
+    ],
+    "touch_evidence": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "id": 6,
+          "x": 209.5,
+          "y": 447.5,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointercancel",
+          "id": 6,
+          "x": 209.5,
+          "y": 447.5,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointerdown",
+          "id": 7,
+          "x": 209.5,
+          "y": 349.5,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 334.03125,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 318.5625,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 303.09375,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 287.625,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 272.15625,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 256.6875,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 241.21875,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointermove",
+          "id": 7,
+          "x": 209.5,
+          "y": 225.75,
+          "trusted": true,
+          "target": "CANVAS"
+        },
+        {
+          "type": "pointercancel",
+          "id": 7,
+          "x": 209.5,
+          "y": 225.75,
+          "trusted": true,
+          "target": "CANVAS"
+        }
+      ],
+      "frames": [
+        {
+          "step": 1,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 2,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 3,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 4,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 5,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 6,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 7,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        },
+        {
+          "step": 8,
+          "value": "00",
+          "selectedY": 300,
+          "selectedHeight": 99,
+          "selectorY": 72,
+          "selectorHeight": 554
+        }
+      ]
+    }
+  },
+  "artifacts": [
+    {
+      "id": 15129541004,
+      "name": "ui-verification",
+      "size_bytes": 8307792,
+      "github_digest": "sha256:65737200774c0419bc8a85560b6112704079cc932afe062960d07ea07112a223",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/artifacts/15129541004"
+    },
+    {
+      "id": 15128146774,
+      "name": "compiled-app",
+      "size_bytes": 10229691,
+      "github_digest": "sha256:d3c838a9b08b64b9c4ff9fca0fa5c7ed50575290f456fd902c36f0d9958eb434",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/artifacts/15128146774"
+    },
+    {
+      "id": 15126933007,
+      "name": "original-emulator-windows-host",
+      "size_bytes": 1017,
+      "github_digest": "sha256:3c25df028ad42d7fc8bd146b493a4f2ff327046a2484f12bf56722258cba7a34",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45838786698/artifacts/15126933007"
+    }
+  ],
+  "evidence": {
+    "compiled": {
+      "artifact_id": 15128146774,
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-4f10a3d",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-4f10a3d.zip",
+      "sha256": "d3c838a9b08b64b9c4ff9fca0fa5c7ed50575290f456fd902c36f0d9958eb434",
+      "sha256_verified": true,
+      "file_count": 43,
+      "wasm": {
+        "phone_browser.wasm": "942db1c6250956ed980c6ee92f8d98654088f165e79294d37cb88a527764fafc"
+      },
+      "wasm_equal_to_c2f9645": true
+    },
+    "ui": {
+      "artifact_id": 15129541004,
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-4f10a3d",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-4f10a3d.zip",
+      "sha256": "65737200774c0419bc8a85560b6112704079cc932afe062960d07ea07112a223",
+      "sha256_verified": true,
+      "file_count": 331,
+      "results_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-4f10a3d/results.json",
+      "picker_failure_json": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-4f10a3d/phone-picker-failure.json",
+      "picker_failure_png": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-4f10a3d/phone-picker-failure.png"
+    },
+    "log_path": "/tmp/windowsphone-tooling/browser-build-4f10a3d.log",
+    "touch_trace_path": "/tmp/windowsphone-tooling/picker-touch-4f10a3d.json"
+  },
+  "diagnosis": {
+    "picker": "Trusted CANVAS touch down and eight moves arrive; all eight native frame samples retain minute00 at y300. The assertion fails before release; final pointercancel is failure cleanup. DOM delivery is proven; native capture/recognizer cause remains under investigation.",
+    "budget": {
+      "failed_location": "verifyMobileDensity \u2192 isRoute during mobile DPR2 check",
+      "budget_ms": 360000,
+      "common_checks": 87,
+      "common_checks_4f_ms": 326983,
+      "common_checks_c2_ms": 265630,
+      "newly_passing_message_workflow_ms": 6609,
+      "remaining_end_checks": [
+        "mobile DPR2 canvas, native layout, pixels, and input agree",
+        "emulated DPR1 on a physical DPR2 browser stays full size",
+        "offline canonical directory reload renders and accepts native input"
+      ],
+      "picker_followup_checks_not_complete": [
+        "native picker taps, double taps and touch gestures stage values until explicit confirmation",
+        "phone picker renders original signed swivel entrance and closing poses"
+      ]
+    }
+  }
+}

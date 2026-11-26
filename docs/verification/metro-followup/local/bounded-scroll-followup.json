@@ -1,0 +1,83 @@
+{
+  "validation": "Picker realized-window refresh and logical-child boundary-offset ownership follow-up",
+  "base_framework_commit": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "framework_commit": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "base_consumer_commit": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+  "consumer_commit": "dc9e2a94d206944023169a789539c02307dd201a",
+  "files": {
+    "FerroUI/src/FerroUI.Controls/date_time_pickers/date_time_picker_panel.rs": "1fedebbddd66d52c31899f2850ed10eb7fdaf1924385da80ff69809dbb50c64f",
+    "FerroUI/src/FerroUI.Controls/presenters/scroll_content_presenter.rs": "d795c407d90abae7e09ff01a285c81d064da05ea8e2bad1d4238fbba304bcf4e",
+    "FerroUI/src/FerroUI.Controls/scroll_viewer_tests_i_logical_scrollable.rs": "36ef416ea1e1c31d60a2413f07a2776a77e72791cc73a24d14d1bf833a3039a7"
+  },
+  "source_scope": "Three framework files. Existing bounded-centering, carousel-wrap, and consumer noon/reopen assertions are preserved.",
+  "parser_and_formatting": "Both source owners completed Rust parsing/scoped formatting. Framework git diff --check passed.",
+  "environment": {
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/scratch/ac02e890bf90/WindowsPhone/target"
+  },
+  "metadata_checks": {
+    "status": "success",
+    "commands": [
+      {
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+        "command": "/home/agent/.cargo/bin/cargo check --locked -p phone-controls --tests"
+      },
+      {
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone/FerroUI",
+        "command": "/home/agent/.cargo/bin/cargo check --locked -p ferroui-controls --tests"
+      }
+    ],
+    "results_path": "/tmp/windowsphone-tooling/bounded-scroll-followup-check-results.json",
+    "results": [
+      {
+        "check": "consumer",
+        "command": [
+          "/home/agent/.cargo/bin/cargo",
+          "check",
+          "--locked",
+          "-p",
+          "phone-controls",
+          "--tests"
+        ],
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone",
+        "exit_code": 0,
+        "duration_seconds": 149.736,
+        "log": "/tmp/windowsphone-tooling/bounded-scroll-followup-consumer-check.log",
+        "tests_executed": false,
+        "log_sha256": "08fd60e0342d6908c92c4258776ac64eec115da22b071a0f15f07673b74e0dc4",
+        "cargo_result_lines": [
+          "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 29s"
+        ]
+      },
+      {
+        "check": "framework",
+        "command": [
+          "/home/agent/.cargo/bin/cargo",
+          "check",
+          "--locked",
+          "-p",
+          "ferroui-controls",
+          "--tests"
+        ],
+        "cwd": "/workspace/scratch/ac02e890bf90/WindowsPhone/FerroUI",
+        "exit_code": 0,
+        "duration_seconds": 146.866,
+        "log": "/tmp/windowsphone-tooling/bounded-scroll-followup-framework-check.log",
+        "tests_executed": false,
+        "log_sha256": "76785d77e4c9c3a74aa39e22be32d646669125ce6837caf103d9f599c126600b",
+        "cargo_result_lines": [
+          "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 26s"
+        ]
+      }
+    ]
+  },
+  "tests_executed": false,
+  "limitations": "Local metadata checks do not execute test bodies. The dependency regressions and complete consumer CI must run on the new published source.",
+  "framework_tree": "3dd0893539c85b3179cc9cc2001fc56a8d12c86f",
+  "consumer_tree": "85db8c20df19ca40e08ebef89cb086acd72eac60",
+  "publication_note": "Parent published and synchronized identical framework source bytes during sequential checks. Consumer successor changes the framework pin and only the outer browser-job timeout; these Rust checks do not validate workflow configuration.",
+  "source_hashes_match_after_checks": true,
+  "local_tests_executed": false
+}

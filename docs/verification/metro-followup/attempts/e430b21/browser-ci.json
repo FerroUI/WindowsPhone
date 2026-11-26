@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T16:59:13.400Z",
+  "run": {
+    "id": 45862218399,
+    "job_id": 140055874605,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45862218399",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45862218399/job/140055874605",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "failed_step": "Verify SDK and game contracts",
+    "started_at": "2026-11-26T16:49:02Z",
+    "completed_at": "2026-11-26T16:57:21Z",
+    "deploy_conclusion": "skipped"
+  },
+  "source": {
+    "pr": 4,
+    "head_sha": "e430b2141eae143cca1440f6b0ade31646659332",
+    "checkout_sha": "677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "tree_sha": "6969153e1a17c0f13697e5a786f569124e8cfd48",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "e430b2141eae143cca1440f6b0ade31646659332"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+    "checkout_sha_verified_in_log": true,
+    "framework_checkout_log_line": "2026-11-26T16:49:17.7588086Z Submodule path 'FerroUI': checked out 'cd9aeaef1fb6a80f513d577d345fac6483077966'"
+  },
+  "tests": {
+    "state": {
+      "passed": 157,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_apps_runtime_system_controls": {
+      "passed": 110,
+      "failed": 1,
+      "ignored": 0
+    },
+    "sdk_group_complete": false,
+    "phone_controls": {
+      "passed": 34,
+      "failed": 1,
+      "ignored": 0,
+      "exact_result_line": "2026-11-26T16:57:19.2998741Z test result: FAILED. 34 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.51s",
+      "reopen_tests": [
+        {
+          "name": "pickers::tests::reopen_tests::native_date_reopen_restores_ranges_formats_hidden_fields_and_full_committed_date",
+          "result": "passed",
+          "exact_log_line": "2026-11-26T16:57:19.1833868Z test pickers::tests::reopen_tests::native_date_reopen_restores_ranges_formats_hidden_fields_and_full_committed_date ... ok"
+        },
+        {
+          "name": "pickers::tests::reopen_tests::native_time_reopen_preserves_clock_increments_seconds_and_retained_parts",
+          "result": "failed",
+          "exact_log_line": "2026-11-26T16:57:19.2992074Z test pickers::tests::reopen_tests::native_time_reopen_preserves_clock_increments_seconds_and_retained_parts ... FAILED",
+          "panic_location": "crates/phone-controls/src/pickers/reopen_tests.rs:255:21",
+          "assertion": "initial native selected values equal expected values for each clock/seconds configuration",
+          "actual": [
+            12,
+            5,
+            30,
+            0
+          ],
+          "expected": [
+            12,
+            5,
+            30,
+            1
+          ],
+          "exact_panic_lines": [
+            "2026-11-26T16:57:19.2994812Z thread 'HeadlessUnitTestSession' (8142) panicked at crates/phone-controls/src/pickers/reopen_tests.rs:255:21:",
+            "2026-11-26T16:57:19.2995517Z assertion `left == right` failed",
+            "2026-11-26T16:57:19.2995849Z   left: [12, 5, 30, 0]",
+            "2026-11-26T16:57:19.2996156Z  right: [12, 5, 30, 1]"
+          ]
+        }
+      ]
+    },
+    "phone_sdk_executed": false,
+    "phone_system_executed": false,
+    "picker_shell_regression_executed": false,
+    "node": {
+      "executed": false
+    }
+  },
+  "rendered_ui": {
+    "executed": false,
+    "reason": "SDK/control tests failed before browser compilation and rendered verification",
+    "checks": 0,
+    "captures": 0,
+    "touch_trace_available": false
+  },
+  "artifacts": [
+    {
+      "id": 15139161164,
+      "name": "original-emulator-windows-host",
+      "size_bytes": 1019,
+      "github_digest": "sha256:a02b81d566acac01878d0e38387d96f59f5db234f5ecc2512d0f41462e81d9ee",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45862218399/artifacts/15139161164"
+    }
+  ],
+  "evidence": {
+    "log_path": "/tmp/windowsphone-tooling/browser-build-e430b21.log",
+    "compiled_app_available": false,
+    "ui_artifact_available": false
+  },
+  "diagnosis": {
+    "proven": "The NameScope lookup correction lets the complete DatePicker hidden-field/reopen matrix pass. TimePicker reaches the initial noon case and reports period 0 (AM), while the expected 12:05:30 PM has period 1. All 33 preexisting phone-controls tests and the new DatePicker matrix pass.",
+    "source_supported_inference": "The pinned native init_picker already assigns period 1 for hr >= 12. The observed value therefore requires tracing later initialization or the fixture; the exact cause is not yet established.",
+    "runtime_reopen_status": "DatePicker mounted reopen coverage passes. The TimePicker matrix does not complete, and the trusted browser pointer/reopen/confirmation/swivel suite is unexecuted for this head."
+  }
+}

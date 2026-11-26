@@ -1,0 +1,147 @@
+{
+  "source_revision": "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491",
+  "actual_checkout": "d30cd0ccad75bab0067e0b342f04c5f5e40e62dd",
+  "tree": "c2b6ff9b62cbec724d1a242552c621525467f0d1",
+  "framework": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "verification_status": "browser_failed_other_gates_passed",
+  "files": [
+    {
+      "path": "attempts/4f10a3d/source.json",
+      "source": "/tmp/windowsphone-tooling/source-4f10a3d.json",
+      "bytes": 479,
+      "sha256": "9771f02558453925c7bae7e4038b66661042a456f4efa974566c8f8deef07702"
+    },
+    {
+      "path": "attempts/4f10a3d/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-4f10a3d.json",
+      "bytes": 6236,
+      "sha256": "8d32fbb2bf9add4557fd6654a18250d94a7a92e4bc16f4911231f24d2e2434af"
+    },
+    {
+      "path": "attempts/4f10a3d/android-result.json",
+      "source": "target/android-ui-4f10a3d/result.json",
+      "bytes": 2082,
+      "sha256": "81883b45b1dc34466f4e53280a31ec4db306d2e7be0cf0c102e7301c94396ec9"
+    },
+    {
+      "path": "attempts/4f10a3d/android-head.txt",
+      "source": "target/android-ui-4f10a3d/head.txt",
+      "bytes": 41,
+      "sha256": "4fa7612d15bd3a71972f1099ea2a9b7533ecd1fcaa7b64f2ace23b2d0606451a"
+    },
+    {
+      "path": "attempts/4f10a3d/android-notifications-visible.json",
+      "source": "target/android-ui-4f10a3d/device-notifications-visible.json",
+      "bytes": 9508,
+      "sha256": "4de67ae58a8797e0c796ea7b62ed207735dc116ce84fc6f698ecea4c67f9d081"
+    },
+    {
+      "path": "attempts/4f10a3d/android-notifications-revoked.json",
+      "source": "target/android-ui-4f10a3d/device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "cad35e278cef46ce07adfd72fe1ef5e15a5303a90759a2f3d71db74bb71841cd"
+    },
+    {
+      "path": "attempts/4f10a3d/android-call-ended.json",
+      "source": "target/android-ui-4f10a3d/device-ended.json",
+      "bytes": 7621,
+      "sha256": "eb834114dc2f37ea2de103a45dc1004824350189cd2e4550f15c37a74f695c63"
+    },
+    {
+      "path": "attempts/4f10a3d/android-start.png",
+      "source": "target/android-ui-4f10a3d/app-start.png",
+      "bytes": 325779,
+      "sha256": "8c7bf6608eccc8620865e142b133495d1e07dbad5b0e2e10b02ba3619ad31306"
+    },
+    {
+      "path": "attempts/4f10a3d/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-4f10a3d.json",
+      "bytes": 45311,
+      "sha256": "bebe9013d5fee11e31e34a1269b9f95948991c3fc179f1bcd366291571e74fe6"
+    },
+    {
+      "path": "attempts/4f10a3d/ios-start.json",
+      "source": "/tmp/phone-ios-4f10a3d/start.json",
+      "bytes": 3195,
+      "sha256": "2895cabd9801c9fe108db97f52c5a32dc6e6840eca0445b5c9bb2fb2bcf030e2"
+    },
+    {
+      "path": "attempts/4f10a3d/ios-start.png",
+      "source": "/tmp/phone-ios-4f10a3d/start.png",
+      "bytes": 663903,
+      "sha256": "657d930f2245264bd106edf7617c0d0156fc53aa6bbcbb259a9985f6fa08a004"
+    },
+    {
+      "path": "attempts/4f10a3d/ios-device-tests.json",
+      "source": "/tmp/phone-ios-4f10a3d/device-tests.json",
+      "bytes": 3014,
+      "sha256": "f6aa70b8bb4b5ccd80bbf90ef9e71cffe407bbd0fe7902a5e6ab3abc6df6f7c4"
+    },
+    {
+      "path": "attempts/4f10a3d/ios-wallet-after-location.json",
+      "source": "/tmp/phone-ios-4f10a3d/wallet.json",
+      "bytes": 3293,
+      "sha256": "9edbb1da7ba483483afbcf10336fde203649a8e589ef9377655e44f000f102c6"
+    },
+    {
+      "path": "attempts/4f10a3d/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-4f10a3d.json",
+      "bytes": 24357,
+      "sha256": "c8920255d8eee2923f765dd45878480a74b4a88e8bee0aeed09a0a9450f3b3d8"
+    },
+    {
+      "path": "attempts/4f10a3d/browser-results.json",
+      "source": "target/ui-verification-4f10a3d/results.json",
+      "bytes": 47567,
+      "sha256": "a03647245c5f7eb39bb94ddd202700b8c84bc63000c05e19525a136b117ecf0d"
+    },
+    {
+      "path": "attempts/4f10a3d/picker-touch.json",
+      "source": "/tmp/windowsphone-tooling/picker-touch-4f10a3d.json",
+      "bytes": 2993,
+      "sha256": "6e8ec4eafc4bb16e349d8583b26ec8fb1b22cba4dd0577401b2f816ed9c3b590"
+    },
+    {
+      "path": "attempts/4f10a3d/picker-failure.json",
+      "source": "target/ui-verification-4f10a3d/phone-picker-failure.json",
+      "bytes": 126635,
+      "sha256": "d9c1841fad5a5717b684b0b1bac8c642cf2fcc480d679026a34a0d653371de85"
+    },
+    {
+      "path": "attempts/4f10a3d/picker-failure.png",
+      "source": "target/ui-verification-4f10a3d/phone-picker-failure.png",
+      "bytes": 14390,
+      "sha256": "8c0bb1f03e3ba4740b1929c5a63488ce2035bf49f240bb3837595a08d169971f"
+    },
+    {
+      "path": "attempts/4f10a3d/suite-deadline-failure.json",
+      "source": "target/ui-verification-4f10a3d/failure-view.json",
+      "bytes": 69446,
+      "sha256": "10c8f2434a40b6431f30732e10d4bdd55af888971413383df1f707113af8c298"
+    },
+    {
+      "path": "attempts/4f10a3d/suite-deadline-failure.png",
+      "source": "target/ui-verification-4f10a3d/failure.png",
+      "bytes": 86525,
+      "sha256": "31ceea4ce46efc9959b197e8a9b289e1f4f93535e55836eb0f40c947c5df926f"
+    },
+    {
+      "path": "attempts/4f10a3d/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-4f10a3d.json",
+      "bytes": 9056,
+      "sha256": "13f00ff36243a32e3141678a431d29f334622e8f51a048a038630fc96eea694f"
+    },
+    {
+      "path": "attempts/4f10a3d/messaging-contact-recipient-form.json",
+      "source": "target/ui-verification-4f10a3d/messaging-contact-recipient-form.json",
+      "bytes": 95544,
+      "sha256": "f2cdc70b0c73d33ba2981689a0b511591e51ee1c32e3930cd1940254f9bf9566"
+    },
+    {
+      "path": "attempts/4f10a3d/messaging-contact-recipient-form.png",
+      "source": "target/ui-verification-4f10a3d/messaging-contact-recipient-form.png",
+      "bytes": 22475,
+      "sha256": "8a93373386558df78e8435ffe171c3ceabd2db6c46e1c99dd50bc6779ce7eaca"
+    }
+  ]
+}

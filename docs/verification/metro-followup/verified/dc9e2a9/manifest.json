@@ -1,0 +1,281 @@
+{
+  "schema": 1,
+  "source_revision": "dc9e2a94d206944023169a789539c02307dd201a",
+  "actual_checkout": "f8bed7d59a6b16b6df2caaea01d88b615c39ae0d",
+  "tree": "85db8c20df19ca40e08ebef89cb086acd72eac60",
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "framework_ci_merge": "50786219e3cce60940743823361866a2834325b0",
+  "framework_ci_actual_base": "21720a379c059a6a73805bf583fdd0589c933969",
+  "verification_status": "consumer_all_gates_passed_framework_runtime_all_passed_with_preexisting_conventions_failure",
+  "consumer_candidate_accepted": true,
+  "framework_runtime_jobs_passed": 5,
+  "framework_aggregate": "failure",
+  "framework_aggregate_reason": "The conventions job rejects two stale generated C++ headers. The identical failure was independently reproduced on unchanged actual merge base 21720a379. All runtime jobs and seven targeted regressions passed; the API gate was an applicability skip without signature comparison.",
+  "android_ui_attempt": 2,
+  "android_ui_failed_attempt_record": "attempts/dc9e2a9-android-ui-1/manifest.json",
+  "android_ui_retry_scope": "One unchanged-source rerun after Maven Central HTTP 429 prevented APK packaging; the first attempt did not execute emulator UI.",
+  "files": [
+    {
+      "path": "verified/dc9e2a9/source.json",
+      "source": "/tmp/windowsphone-tooling/source-dc9e2a9.json",
+      "bytes": 517,
+      "sha256": "49be4b1d27b5d754fe8a4b512099c3d2ffca0911cdf5225182ec799461edb4f9"
+    },
+    {
+      "path": "verified/dc9e2a9/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-dc9e2a9.json",
+      "bytes": 23267,
+      "sha256": "3aa70fda4a3dfedb13d66871c1b34273d94e478a0c79a78d3e1ca7b224de929e"
+    },
+    {
+      "path": "verified/dc9e2a9/android-result.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt2/result.json",
+      "bytes": 1916,
+      "sha256": "b21182651d6bbd46a9cd14c9398494f0ae7803853fac0186839f9718e7d1aeab"
+    },
+    {
+      "path": "verified/dc9e2a9/android-head.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt2/head.txt",
+      "bytes": 41,
+      "sha256": "f31abd56d80ac51741304fe0e970dc32e4d75fcf313b2afd87df7bc7f964dc75"
+    },
+    {
+      "path": "verified/dc9e2a9/android-notifications-visible.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt2/device-notifications-visible.json",
+      "bytes": 9512,
+      "sha256": "d1c5a388b1585d91c61a588c9786a11b4225d0f301d7243cb897893dca88efaf"
+    },
+    {
+      "path": "verified/dc9e2a9/android-notifications-revoked.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt2/device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "f29be35ee7a383d84fd2e3cf943dd87de224ebd6f065fc1801c45d2db03fac10"
+    },
+    {
+      "path": "verified/dc9e2a9/android-call-ended.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt2/device-ended.json",
+      "bytes": 7620,
+      "sha256": "12e3e270a29936a1ca8b1cb3f1e98101bfa8539a23e98d8c26fd459c31ced01b"
+    },
+    {
+      "path": "verified/dc9e2a9/android-start.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt2/app-start.png",
+      "bytes": 427946,
+      "sha256": "9b6a80ead4eed31e84465361d336330151ca35f6306d1dedf6a508544f9118b9"
+    },
+    {
+      "path": "verified/dc9e2a9/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-dc9e2a9.json",
+      "bytes": 27847,
+      "sha256": "0313c6660037fa7d7543075dc54d20c273d37e52465168cc2eb7bddf0ed45bf4"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-dc9e2a9.json",
+      "bytes": 52674,
+      "sha256": "ff59d819fd5a442d7fb933d810a4de51f5b6a7ed21d1318efe0b6e253d099fb3"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-start.json",
+      "source": "/tmp/phone-ios-dc9e2a9/start.json",
+      "bytes": 3195,
+      "sha256": "5f5d89501d76d4a27394f3dd71aef08682665f59c65ec0a583f5d5e1d079b1d2"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-start.png",
+      "source": "/tmp/phone-ios-dc9e2a9/start.png",
+      "bytes": 779223,
+      "sha256": "92b177e93c665cd4b30edd36c95bad68db866886bb7e25ce6da6489dfbe8a5d1"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-device-tests.json",
+      "source": "/tmp/phone-ios-dc9e2a9/device-tests.json",
+      "bytes": 3014,
+      "sha256": "1fd810e7f46246d79772aeb216a68d67532f1d99981e0d0edc7a1e0959554509"
+    },
+    {
+      "path": "verified/dc9e2a9/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-dc9e2a9.json",
+      "bytes": 59014,
+      "sha256": "f535fe79abc0551dd4f5f003f197b359574aff8547be09a305332e02128a58d2"
+    },
+    {
+      "path": "verified/dc9e2a9/browser-results.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/results.json",
+      "bytes": 47444,
+      "sha256": "708d4024e8db7993d0a61fa575c2b3126e86f95d9e78579296ef73d671eb4a82"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-date-picker-320-dark.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-date-picker-320-dark.json",
+      "bytes": 180420,
+      "sha256": "d349bc8066f3b81df5c1597b5d8f89b636fb8e8fc1c18e5234b15675ee56092d"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-date-picker-320-dark.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-date-picker-320-dark.png",
+      "bytes": 19038,
+      "sha256": "284bfe7bb45b7ff01bf399479814cb857837e1645d4d56ab6bb8b8c268670062"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-date-picker-320-light.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-date-picker-320-light.json",
+      "bytes": 180421,
+      "sha256": "3fae1859788b8a53019bcbbb338832c2d1e322052c4179a29162b7cbe4885ca9"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-date-picker-320-light.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-date-picker-320-light.png",
+      "bytes": 18988,
+      "sha256": "07b1abf922bdc896fcd59785df370925585b811feb9674493439b5d455e53b3a"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-time-picker-320-accessibility.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-time-picker-320-accessibility.json",
+      "bytes": 142028,
+      "sha256": "13b7c7f070bc796ce48daa6eae813311cf516986710b43aebc82eabcfca8f521"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-time-picker-320-accessibility.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-time-picker-320-accessibility.png",
+      "bytes": 12856,
+      "sha256": "5f291b4a9c608c20afa0c9a73cccdaa6f871bfa482dfca53ada8840c90211590"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-picker-native-pointer-staging.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-picker-native-pointer-staging.json",
+      "bytes": 126635,
+      "sha256": "f09f9fb0ce57d9f4bd9c891e9391a4d2e4a593c8cb25a33f4f1c54ce8c49bbf9"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-picker-native-pointer-staging.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-picker-native-pointer-staging.png",
+      "bytes": 14487,
+      "sha256": "f7df1cc5abe3f5b86e85357aa6106753741609b382858a4f7070169fed8e35a5"
+    },
+    {
+      "path": "verified/dc9e2a9/metro-app-bar-labels-overlay.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/metro-app-bar-labels-overlay.json",
+      "bytes": 50273,
+      "sha256": "5686ab9fb1d670685290343795e5770fd5b62edd6b37a67353aaa52b47f1a6d9"
+    },
+    {
+      "path": "verified/dc9e2a9/metro-app-bar-labels-overlay.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/metro-app-bar-labels-overlay.png",
+      "bytes": 25199,
+      "sha256": "d1c45818f311a73bdeb3d012544ce9ec6a178adc37c777a4f0a254bedaad30af"
+    },
+    {
+      "path": "verified/dc9e2a9/sdk-minesweeper-empty-playable-board.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/sdk-minesweeper-empty-playable-board.json",
+      "bytes": 178300,
+      "sha256": "401cbd417326cb71af05b89d5c24979dcc4184c8e1cf09e0d2691d2cdaf2a92d"
+    },
+    {
+      "path": "verified/dc9e2a9/sdk-minesweeper-empty-playable-board.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/sdk-minesweeper-empty-playable-board.png",
+      "bytes": 30549,
+      "sha256": "319e722ec8e2d56516af5c61e344e1395f1036f2eaa14411221b3d244b4a59ca"
+    },
+    {
+      "path": "verified/dc9e2a9/messaging-contact-recipient-form.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/messaging-contact-recipient-form.json",
+      "bytes": 95544,
+      "sha256": "d1442e58e5799775333e247f3397e729bae38414f15c8c06f5bf0f4c5de5fcdc"
+    },
+    {
+      "path": "verified/dc9e2a9/messaging-contact-recipient-form.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/messaging-contact-recipient-form.png",
+      "bytes": 22475,
+      "sha256": "8a93373386558df78e8435ffe171c3ceabd2db6c46e1c99dd50bc6779ce7eaca"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-wallet-after-location.json",
+      "source": "/tmp/phone-ios-dc9e2a9/wallet.json",
+      "bytes": 3294,
+      "sha256": "e33bb62aaa1aa3ee91a767fe4c6fb438f91fa9b81378911044bb3e0b0aabdfdf"
+    },
+    {
+      "path": "verified/dc9e2a9/picker-touch.json",
+      "source": "/tmp/windowsphone-tooling/picker-touch-dc9e2a9.json",
+      "bytes": 2989,
+      "sha256": "804a6ef1fe76cc1521d11154a0cb015423cb41ea331d6393d724f9aa9c89dc14"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-picker-swivel-restored-editor.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-picker-swivel-restored-editor.json",
+      "bytes": 54771,
+      "sha256": "0bb526260b23b2ea6f1a699a9830b67981fb83f6a45b9c3f97bdbbce4b3ce1f2"
+    },
+    {
+      "path": "verified/dc9e2a9/phone-picker-swivel-restored-editor.png",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-dc9e2a9/phone-picker-swivel-restored-editor.png",
+      "bytes": 18510,
+      "sha256": "26525ea5ef510536c0108224371ce2833fb367f4bc325f030bed588d26760b95"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-home-restored.json",
+      "source": "/tmp/phone-ios-dc9e2a9/home-restored.json",
+      "bytes": 3243,
+      "sha256": "92519e191289fcfd95136ee63437c19991d980cdcbd31e807c174bd32b0a1ba5"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-home-restored.png",
+      "source": "/tmp/phone-ios-dc9e2a9/home-restored.png",
+      "bytes": 664379,
+      "sha256": "8317c759b9073ad6e6df9077083fc75ba5bc7cf868867097f536895adbea9f2b"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-navigation-capture-comparison.json",
+      "source": "/tmp/windowsphone-tooling/ios-navigation-capture-comparison.json",
+      "bytes": 5185,
+      "sha256": "22e6aca24f69b6c1587841c6331da3fad7d8a6793a83646cd5f73bade42b7dd0"
+    },
+    {
+      "path": "verified/dc9e2a9/ios-earlier-home-restored-e430.png",
+      "source": "/tmp/phone-ios-e430b21/home-restored.png",
+      "bytes": 707131,
+      "sha256": "4c67130b18d9d0a8368bddc5f6e2eb71d6bbfac7125f42122547d24e92f92141",
+      "role": "historical_comparison_only",
+      "source_revision": "e430b2141eae143cca1440f6b0ade31646659332",
+      "description": "Earlier capture retained to establish that the blank lower navigation strip predates the bounded-scrolling revisions; this is not a dc9e2a9 capture."
+    },
+    {
+      "path": "verified/dc9e2a9/framework-ci.json",
+      "source": "/tmp/windowsphone-tooling/framework-pr1456-ci-ec86b9c.json",
+      "bytes": 114015,
+      "sha256": "422747eafa6043c69b1d2c6a354087a43e699b99b663fcd75d839c012b89b7eb"
+    },
+    {
+      "path": "verified/dc9e2a9/framework-linux-test-results.json",
+      "source": "/tmp/windowsphone-tooling/framework-pr1456-ec86b9c-linux-test-results.json",
+      "bytes": 168708,
+      "sha256": "6a2ee1e620e6661c72db0b07a097c7580432ff58f5a16e0546f17f83862ce1e1"
+    },
+    {
+      "path": "verified/dc9e2a9/framework-linux.log.gz",
+      "source": "/tmp/windowsphone-tooling/framework-pr1456-ec86b9c-linux.log",
+      "bytes": 1047983,
+      "sha256": "5fded229cb6c40f748860de5d22504ac53f23e3801a8210da79f123f2329aedf",
+      "encoding": "gzip",
+      "uncompressed_bytes": 6047872,
+      "uncompressed_sha256": "4b9aa4fafc4c88a1d3a378a8904dd3ca7d757f7e710fba7bb53048e1eb572f72"
+    }
+  ],
+  "findings": {
+    "consumer_contracts": "402 reported Rust passes with one ignored fixture in the browser job; 77 JavaScript passes. Native matrix counts remain separate.",
+    "browser": "93 rendered checks and 163 captures passed in 358,511 ms, with no browser errors. Trusted cancellation followed by a fresh press, eight moves and release changed the native minute from 00 to 01; staged 09:01 retained owner 07:00. Back/reopen restored 07:00, native Accept/save persisted 08:00, and signed swivel, all five System checks, DPR2/DPR1 and offline passed.",
+    "platforms": "All three full desktop builds passed and saved caches. Android ARM passed attempt 1. Mounted Android passed attempt 2 with 20 captures, a real active call, notification revocation and all four state restorations. iOS passed both bundles, seven same-process observations and six exact warm activations.",
+    "framework": "All seven targeted cases passed, including both prior failures. Linux reported 37,272 passes, zero failures and 130 ignored across 520 harness invocations: 36,093 main-workspace passes, 60 compiled-resource passes and 1,119 component passes. The main workspace contains 6,060 Controls passes across four disjoint shards. These are execution totals across invocations, not deduplicated logical test names."
+  },
+  "boundaries": {
+    "test_source": "App CI merge and code head have identical trees. The evidence-only commit adds documentation afterward and does not constitute a new compiled/tested code revision.",
+    "framework_source": "All ten changed files match the focused pin and the later-main CI merge. Their surrounding full framework trees differ.",
+    "swivel": "Angle arrays are asserted in memory and not persisted. The passing result and restored-editor JSON/PNG are retained.",
+    "desktop": "Full build/link and native adapter checks do not constitute WindowsPhone desktop GUI captures.",
+    "ios_navigation": "The current restored-Start navigation strip is blank. Earlier e430 shows the same capture state, before both scroll corrections; cause and interactive correctness remain unproven.",
+    "ios_cleanup": "Owned launch-child completion was verified. App process and simulator XCTest runner termination and simulator deletion were not independently verified.",
+    "original_device": "This is not complete original Windows Phone device pixel/motion certification.",
+    "publication": "Pages artifact upload and deployment were skipped; main and published site remain unchanged."
+  }
+}

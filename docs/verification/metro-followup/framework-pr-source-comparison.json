@@ -1,0 +1,190 @@
+{
+  "consumer_pin": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "ci_merge": "50786219e3cce60940743823361866a2834325b0",
+  "ci_merge_tree": "d24fba6e5f17ed36857e0a10cb280d31a3e93f2e",
+  "ci_merge_parents": [
+    "21720a379c059a6a73805bf583fdd0589c933969",
+    "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  ],
+  "changed_source_file_count": 10,
+  "all_changed_sources_identical": true,
+  "files": [
+    {
+      "path": "src/FerroUI.Controls/scroll_viewer_tests_i_logical_scrollable.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 9433,
+      "merge_bytes": 9433,
+      "pin_sha256": "36ef416ea1e1c31d60a2413f07a2776a77e72791cc73a24d14d1bf833a3039a7",
+      "merge_sha256": "36ef416ea1e1c31d60a2413f07a2776a77e72791cc73a24d14d1bf833a3039a7",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_time_picker_panel.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 36386,
+      "merge_bytes": 36386,
+      "pin_sha256": "1fedebbddd66d52c31899f2850ed10eb7fdaf1924385da80ff69809dbb50c64f",
+      "merge_sha256": "1fedebbddd66d52c31899f2850ed10eb7fdaf1924385da80ff69809dbb50c64f",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_presenter.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 25762,
+      "merge_bytes": 25762,
+      "pin_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+      "merge_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 37618,
+      "merge_bytes": 37618,
+      "pin_sha256": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad",
+      "merge_sha256": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_presenter.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 20014,
+      "merge_bytes": 20014,
+      "pin_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+      "merge_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 23605,
+      "merge_bytes": 23605,
+      "pin_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+      "merge_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/presenters/scroll_content_presenter.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 70237,
+      "merge_bytes": 70237,
+      "pin_sha256": "d795c407d90abae7e09ff01a285c81d064da05ea8e2bad1d4238fbba304bcf4e",
+      "merge_sha256": "d795c407d90abae7e09ff01a285c81d064da05ea8e2bad1d4238fbba304bcf4e",
+      "identical": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "changed_from_original_pin": false,
+      "pin_bytes": 78153,
+      "merge_bytes": 79080,
+      "pin_sha256": "044eac7a14ad473db093957ba67ce7d12d20a5dc581654ea591dab2c62da2396",
+      "merge_sha256": "1038c194816877f8e43ed01138fcba8ffb279e5bfc0c5ccd82fd8ab06d4bc284",
+      "identical": false
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 24484,
+      "merge_bytes": 24484,
+      "pin_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+      "merge_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/test_support_scrolling.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 7144,
+      "merge_bytes": 7144,
+      "pin_sha256": "2d3bc09a00a3b17ee727e1d636e845f48bfd4751be2dec0a9be12ce1a6f5d1b6",
+      "merge_sha256": "2d3bc09a00a3b17ee727e1d636e845f48bfd4751be2dec0a9be12ce1a6f5d1b6",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 41030,
+      "merge_bytes": 41030,
+      "pin_sha256": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4",
+      "merge_sha256": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4",
+      "identical": true
+    }
+  ],
+  "boundary": "All ten changed source/test files are byte-identical; CI executes the merge with later main 21720a379, while WindowsPhone pins ec86b9c based on 75/cd9/db2. This does not equate the surrounding framework or workflow.",
+  "base_to_merge": {
+    "status": "ahead",
+    "base_commit": "21720a379c059a6a73805bf583fdd0589c933969",
+    "merge_base_commit": "21720a379c059a6a73805bf583fdd0589c933969",
+    "files": [
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_picker.rs",
+        "sha": "5f9823ac001dd32967d4922514f7a9b96a691abf",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_picker_presenter.rs",
+        "sha": "001bfbde356f0801525dd71986fcb18118ade122",
+        "status": "modified",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+        "sha": "eb60bd86b7d39afb19eaf94bdc88617f89877edf",
+        "status": "modified",
+        "additions": 88,
+        "deletions": 15
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/date_time_picker_panel.rs",
+        "sha": "38d54750ed6c55bffa1791c6b21fd8bc81fe46e5",
+        "status": "modified",
+        "additions": 34,
+        "deletions": 4
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/time_picker.rs",
+        "sha": "7ccda30887eec1cb711d32917292e73e75a45b43",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/time_picker_presenter.rs",
+        "sha": "90282e78ff36a070c68c10cd2c8bffa9f677d353",
+        "status": "modified",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+        "sha": "75db0191d84e133c04f4e7b7af72d157a90e78e7",
+        "status": "modified",
+        "additions": 305,
+        "deletions": 9
+      },
+      {
+        "path": "src/FerroUI.Controls/presenters/scroll_content_presenter.rs",
+        "sha": "26488e231678a2f773d5117092aa5f800088f7b3",
+        "status": "modified",
+        "additions": 98,
+        "deletions": 6
+      },
+      {
+        "path": "src/FerroUI.Controls/scroll_viewer_tests_i_logical_scrollable.rs",
+        "sha": "9a6ba0dffaac1cd11e7afc532570b51e3e2f9e69",
+        "status": "modified",
+        "additions": 154,
+        "deletions": 1
+      },
+      {
+        "path": "src/FerroUI.Controls/test_support_scrolling.rs",
+        "sha": "5c62c41e6d5cefcfe70561272b9718afd8f61a68",
+        "status": "modified",
+        "additions": 16,
+        "deletions": 0
+      }
+    ]
+  }
+}

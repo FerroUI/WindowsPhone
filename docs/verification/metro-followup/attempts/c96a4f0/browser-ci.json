@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T16:21:45.145Z",
+  "run": {
+    "id": 45855597511,
+    "job_id": 140032998474,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597511",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597511/job/140032998474",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "failed_step": "Verify SDK and game contracts",
+    "started_at": "2026-11-26T16:06:26Z",
+    "completed_at": "2026-11-26T16:17:38Z",
+    "deploy_conclusion": "skipped"
+  },
+  "source": {
+    "pr": 4,
+    "head_sha": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+    "checkout_sha": "96f214d4b36203f38b03b70f9eb62f09bdd27f3b",
+    "tree_sha": "ed06b217572976f4c03bacaa6dba276307c0ff4a",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "c96a4f0043bd80137997fcd34dbb4b407414af00"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+    "checkout_sha_verified_in_log": true,
+    "framework_checkout_log_line": "2026-11-26T16:06:42.0833491Z Submodule path 'FerroUI': checked out 'cd9aeaef1fb6a80f513d577d345fac6483077966'"
+  },
+  "tests": {
+    "state": {
+      "passed": 157,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_apps_runtime_system_controls": {
+      "passed": 109,
+      "failed": 2,
+      "ignored": 0
+    },
+    "sdk_group_complete": false,
+    "phone_controls": {
+      "passed": 33,
+      "failed": 2,
+      "ignored": 0,
+      "exact_result_line": "2026-11-26T16:17:36.1963263Z test result: FAILED. 33 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.69s",
+      "failures": [
+        {
+          "name": "pickers::tests::reopen_tests::native_time_reopen_preserves_clock_increments_seconds_and_retained_parts",
+          "result": "failed",
+          "exact_log_line": "2026-11-26T16:17:35.7590664Z test pickers::tests::reopen_tests::native_time_reopen_preserves_clock_increments_seconds_and_retained_parts ... FAILED",
+          "panic_location": "crates/phone-controls/src/pickers/tests.rs:36:28",
+          "panic": "missing native picker part PART_SecondSelector",
+          "exact_panic_line": "2026-11-26T16:17:36.1955524Z missing native picker part PART_SecondSelector"
+        },
+        {
+          "name": "pickers::tests::reopen_tests::native_date_reopen_restores_ranges_formats_hidden_fields_and_full_committed_date",
+          "result": "failed",
+          "exact_log_line": "2026-11-26T16:17:36.1951158Z test pickers::tests::reopen_tests::native_date_reopen_restores_ranges_formats_hidden_fields_and_full_committed_date ... FAILED",
+          "panic_location": "crates/phone-controls/src/pickers/tests.rs:36:28",
+          "panic": "missing native picker part PART_DaySelector",
+          "exact_panic_line": "2026-11-26T16:17:36.1960093Z missing native picker part PART_DaySelector"
+        }
+      ]
+    },
+    "phone_sdk_executed": false,
+    "phone_system_executed": false,
+    "picker_shell_regression_executed": false,
+    "node": {
+      "executed": false
+    }
+  },
+  "rendered_ui": {
+    "executed": false,
+    "reason": "SDK/control tests failed before browser compilation and rendered verification",
+    "checks": 0,
+    "captures": 0,
+    "touch_trace_available": false
+  },
+  "artifacts": [
+    {
+      "id": 15136316826,
+      "name": "original-emulator-windows-host",
+      "size_bytes": 1936,
+      "github_digest": "sha256:8e526b628b48917b3987ac89d7b2eb622a36494d272b2842639d19dddc99b2b4",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597511/artifacts/15136316826"
+    }
+  ],
+  "evidence": {
+    "log_path": "/tmp/windowsphone-tooling/browser-build-c96a4f0.log",
+    "compiled_app_available": false,
+    "ui_artifact_available": false
+  },
+  "diagnosis": {
+    "proven": "Both new reopen regressions panic in the shared test part lookup: PART_SecondSelector and PART_DaySelector are missing from template visual descendants. They do not complete their assertions. All 33 existing phone-controls tests pass.",
+    "source_supported_inference": "The missing parts correspond to hidden fields. Their ScrollViewer content is not materialized into visual descendants while the host is hidden, although it remains registered in the template name scope. Metro controls owns the test lookup correction.",
+    "runtime_reopen_status": "No passing claim: the browser build and trusted pointer/reopen/confirmation/swivel suite were not executed for this head."
+  }
+}

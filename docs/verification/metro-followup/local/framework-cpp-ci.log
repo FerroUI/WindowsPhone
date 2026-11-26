@@ -1,0 +1,223 @@
+﻿2026-11-26T17:19:07.4456100Z Current runner version: '2.338.2'
+2026-11-26T17:19:07.4477780Z ##[group]Runner Image Provisioner
+2026-11-26T17:19:07.4478573Z Hosted Compute Agent
+2026-11-26T17:19:07.4479078Z Version: 20261111.635
+2026-11-26T17:19:07.4479644Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-26T17:19:07.4480296Z Build Date: 2026-11-11T01:49:01Z
+2026-11-26T17:19:07.4480892Z Worker ID: {bacfc5a1-52cd-474f-acf7-c3b974bbcd66}
+2026-11-26T17:19:07.4481547Z Region: westus3
+2026-11-26T17:19:07.4482021Z Cloud: Azure
+2026-11-26T17:19:07.4482542Z ##[endgroup]
+2026-11-26T17:19:07.4483628Z ##[group]Operating System
+2026-11-26T17:19:07.4484158Z Ubuntu
+2026-11-26T17:19:07.4484699Z 26.04.1
+2026-11-26T17:19:07.4485152Z LTS
+2026-11-26T17:19:07.4485583Z ##[endgroup]
+2026-11-26T17:19:07.4486149Z ##[group]Runner Image
+2026-11-26T17:19:07.4486896Z Image: ubuntu-26.04
+2026-11-26T17:19:07.4487507Z Version: 20261116.202.1
+2026-11-26T17:19:07.4488567Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261116.202/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-26T17:19:07.4489877Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261116.202
+2026-11-26T17:19:07.4490717Z ##[endgroup]
+2026-11-26T17:19:07.4491672Z ##[group]GITHUB_TOKEN Permissions
+2026-11-26T17:19:07.4493271Z Contents: read
+2026-11-26T17:19:07.4493846Z Metadata: read
+2026-11-26T17:19:07.4494334Z ##[endgroup]
+2026-11-26T17:19:07.4495964Z Secret source: Actions
+2026-11-26T17:19:07.4497086Z Cache mode: write
+2026-11-26T17:19:07.4497707Z Prepare workflow directory
+2026-11-26T17:19:07.4841242Z Prepare all required actions
+2026-11-26T17:19:07.4879338Z Getting action download info
+2026-11-26T17:19:07.7956559Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-26T17:19:07.8646340Z Download action repository 'dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d' (SHA:89b12181fb390509a0842a86cc55eeb8eb928c1d)
+2026-11-26T17:19:08.2007412Z Complete job name: Source conventions and packages
+2026-11-26T17:19:08.2742708Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-26T17:19:08.2743853Z with:
+2026-11-26T17:19:08.2744277Z   repository: wieslawsoltes/FerroUI
+2026-11-26T17:19:08.2747730Z   token: ***
+2026-11-26T17:19:08.2748151Z   ssh-strict: true
+2026-11-26T17:19:08.2748559Z   ssh-user: git
+2026-11-26T17:19:08.2748967Z   persist-credentials: true
+2026-11-26T17:19:08.2749414Z   clean: true
+2026-11-26T17:19:08.2749830Z   sparse-checkout-cone-mode: true
+2026-11-26T17:19:08.2750299Z   fetch-depth: 1
+2026-11-26T17:19:08.2750695Z   fetch-tags: false
+2026-11-26T17:19:08.2751095Z   show-progress: true
+2026-11-26T17:19:08.2751493Z   lfs: false
+2026-11-26T17:19:08.2751878Z   submodules: false
+2026-11-26T17:19:08.2752288Z   set-safe-directory: true
+2026-11-26T17:19:08.2752743Z   allow-unsafe-pr-checkout: false
+2026-11-26T17:19:08.2753486Z env:
+2026-11-26T17:19:08.2753869Z   CARGO_TERM_COLOR: always
+2026-11-26T17:19:08.2754312Z   CARGO_INCREMENTAL: 0
+2026-11-26T17:19:08.2754777Z   RUST_BACKTRACE: 1
+2026-11-26T17:19:08.2755172Z ##[endgroup]
+2026-11-26T17:19:08.4658323Z Syncing repository: wieslawsoltes/FerroUI
+2026-11-26T17:19:08.4660481Z ##[group]Getting Git version info
+2026-11-26T17:19:08.4661370Z Working directory is '/home/runner/work/FerroUI/FerroUI'
+2026-11-26T17:19:08.4662607Z [command]/usr/bin/git version
+2026-11-26T17:19:08.4666937Z git version 2.56.1
+2026-11-26T17:19:08.4681585Z ##[endgroup]
+2026-11-26T17:19:08.4691619Z Temporarily overriding HOME='/home/runner/work/_temp/6535712c-6db8-4eb3-b0ba-5d90637b812d' before making global git config changes
+2026-11-26T17:19:08.4694951Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-26T17:19:08.4774362Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/FerroUI/FerroUI
+2026-11-26T17:19:08.4776700Z Deleting the contents of '/home/runner/work/FerroUI/FerroUI'
+2026-11-26T17:19:08.4778050Z ##[group]Initializing the repository
+2026-11-26T17:19:08.4778905Z [command]/usr/bin/git init /home/runner/work/FerroUI/FerroUI
+2026-11-26T17:19:08.4817449Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-26T17:19:08.4818637Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-26T17:19:08.4819481Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-26T17:19:08.4820085Z hint: call:
+2026-11-26T17:19:08.4820423Z hint:
+2026-11-26T17:19:08.4820857Z hint: 	git config --global init.defaultBranch <name>
+2026-11-26T17:19:08.4821380Z hint:
+2026-11-26T17:19:08.4821861Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-26T17:19:08.4822615Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-26T17:19:08.4823205Z hint:
+2026-11-26T17:19:08.4823557Z hint: 	git branch -m <name>
+2026-11-26T17:19:08.4823958Z hint:
+2026-11-26T17:19:08.4824490Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-26T17:19:08.4832151Z Initialized empty Git repository in /home/runner/work/FerroUI/FerroUI/.git/
+2026-11-26T17:19:08.4840346Z [command]/usr/bin/git remote add origin https://github.com/wieslawsoltes/FerroUI
+2026-11-26T17:19:08.4880348Z ##[endgroup]
+2026-11-26T17:19:08.4881302Z ##[group]Disabling automatic garbage collection
+2026-11-26T17:19:08.4883775Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-26T17:19:08.4909992Z ##[endgroup]
+2026-11-26T17:19:08.4910616Z ##[group]Setting up auth
+2026-11-26T17:19:08.4914394Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-26T17:19:08.4940858Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-26T17:19:08.5263732Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-26T17:19:08.5292521Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-26T17:19:08.5528726Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-26T17:19:08.5555446Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-26T17:19:08.5781368Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-26T17:19:08.5814368Z ##[endgroup]
+2026-11-26T17:19:08.5815160Z ##[group]Fetching the repository
+2026-11-26T17:19:08.5823484Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +3a6d1b76afe782a81b4ec6b755ab166dfc250f9e:refs/remotes/pull/1456/merge
+2026-11-26T17:19:16.3228423Z From https://github.com/wieslawsoltes/FerroUI
+2026-11-26T17:19:16.3230027Z  * [new ref]           3a6d1b76afe782a81b4ec6b755ab166dfc250f9e -> pull/1456/merge
+2026-11-26T17:19:16.3232743Z ##[endgroup]
+2026-11-26T17:19:16.3233952Z ##[group]Determining the checkout info
+2026-11-26T17:19:16.3235197Z ##[endgroup]
+2026-11-26T17:19:16.3240050Z [command]/usr/bin/git sparse-checkout disable
+2026-11-26T17:19:16.3284727Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-26T17:19:16.3309937Z ##[group]Checking out the ref
+2026-11-26T17:19:16.3312206Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/1456/merge
+2026-11-26T17:19:17.3599018Z Updating files:  78% (14909/19075)
+2026-11-26T17:19:17.3711090Z Updating files:  79% (15070/19075)
+2026-11-26T17:19:17.3807983Z Updating files:  80% (15260/19075)
+2026-11-26T17:19:17.3957034Z Updating files:  81% (15451/19075)
+2026-11-26T17:19:17.4066524Z Updating files:  82% (15642/19075)
+2026-11-26T17:19:17.4205688Z Updating files:  83% (15833/19075)
+2026-11-26T17:19:17.5367193Z Updating files:  84% (16023/19075)
+2026-11-26T17:19:17.5481668Z Updating files:  85% (16214/19075)
+2026-11-26T17:19:17.5608126Z Updating files:  86% (16405/19075)
+2026-11-26T17:19:17.5727507Z Updating files:  87% (16596/19075)
+2026-11-26T17:19:17.5797344Z Updating files:  88% (16786/19075)
+2026-11-26T17:19:17.5919178Z Updating files:  89% (16977/19075)
+2026-11-26T17:19:17.6000810Z Updating files:  90% (17168/19075)
+2026-11-26T17:19:17.6088175Z Updating files:  91% (17359/19075)
+2026-11-26T17:19:17.6191218Z Updating files:  92% (17549/19075)
+2026-11-26T17:19:17.6294675Z Updating files:  93% (17740/19075)
+2026-11-26T17:19:17.6358388Z Updating files:  94% (17931/19075)
+2026-11-26T17:19:17.6430947Z Updating files:  95% (18122/19075)
+2026-11-26T17:19:17.6647515Z Updating files:  96% (18312/19075)
+2026-11-26T17:19:17.6781336Z Updating files:  97% (18503/19075)
+2026-11-26T17:19:17.6862029Z Updating files:  98% (18694/19075)
+2026-11-26T17:19:17.6944589Z Updating files:  99% (18885/19075)
+2026-11-26T17:19:17.6945038Z Updating files: 100% (19075/19075)
+2026-11-26T17:19:17.6945496Z Updating files: 100% (19075/19075), done.
+2026-11-26T17:19:17.7091470Z Note: switching to 'refs/remotes/pull/1456/merge'.
+2026-11-26T17:19:17.7091718Z 
+2026-11-26T17:19:17.7091917Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-26T17:19:17.7092305Z changes and commit them, and you can discard any commits you make in this
+2026-11-26T17:19:17.7092683Z state without impacting any branches by switching back to a branch.
+2026-11-26T17:19:17.7092904Z 
+2026-11-26T17:19:17.7093060Z If you want to create a new branch to retain commits you create, you may
+2026-11-26T17:19:17.7093420Z do so (now or later) by using -c with the switch command. Example:
+2026-11-26T17:19:17.7093700Z 
+2026-11-26T17:19:17.7093802Z   git switch -c <new-branch-name>
+2026-11-26T17:19:17.7093943Z 
+2026-11-26T17:19:17.7094046Z Or undo this operation with:
+2026-11-26T17:19:17.7094178Z 
+2026-11-26T17:19:17.7094262Z   git switch -
+2026-11-26T17:19:17.7094372Z 
+2026-11-26T17:19:17.7094785Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-26T17:19:17.7095036Z 
+2026-11-26T17:19:17.7095314Z HEAD is now at 3a6d1b76 Merge 75bdfc3c39a5bd73b5e27651441cd29bce86eebb into 21720a379c059a6a73805bf583fdd0589c933969
+2026-11-26T17:19:17.7157582Z ##[endgroup]
+2026-11-26T17:19:17.7201163Z [command]/usr/bin/git log -1 --format=%H
+2026-11-26T17:19:17.7222440Z 3a6d1b76afe782a81b4ec6b755ab166dfc250f9e
+2026-11-26T17:19:17.7427572Z ##[group]Run if grep -rIli -E "avalonia|axaml|avares|\bavn" \
+2026-11-26T17:19:17.7428221Z [36;1mif grep -rIli -E "avalonia|axaml|avares|\bavn" \[0m
+2026-11-26T17:19:17.7428854Z [36;1m    src external tests samples native Cargo.toml --exclude=NOTICE.md; then[0m
+2026-11-26T17:19:17.7429357Z [36;1m  echo "::error::the files above name the upstream project; only docs/, scripts/ and NOTICE.md may"[0m
+2026-11-26T17:19:17.7429737Z [36;1m  exit 1[0m
+2026-11-26T17:19:17.7429951Z [36;1mfi[0m
+2026-11-26T17:19:17.7462086Z shell: /usr/bin/bash -e {0}
+2026-11-26T17:19:17.7462352Z env:
+2026-11-26T17:19:17.7462552Z   CARGO_TERM_COLOR: always
+2026-11-26T17:19:17.7462796Z   CARGO_INCREMENTAL: 0
+2026-11-26T17:19:17.7462997Z   RUST_BACKTRACE: 1
+2026-11-26T17:19:17.7463196Z ##[endgroup]
+2026-11-26T17:19:18.0289444Z ##[group]Run if git grep -n -I -E '^(<<<<<<< |>>>>>>> |=======$)'; then
+2026-11-26T17:19:18.0289865Z [36;1mif git grep -n -I -E '^(<<<<<<< |>>>>>>> |=======$)'; then[0m
+2026-11-26T17:19:18.0290204Z [36;1m  echo "::error::the lines above are merge conflict markers"[0m
+2026-11-26T17:19:18.0290492Z [36;1m  exit 1[0m
+2026-11-26T17:19:18.0290669Z [36;1mfi[0m
+2026-11-26T17:19:18.0319732Z shell: /usr/bin/bash -e {0}
+2026-11-26T17:19:18.0319958Z env:
+2026-11-26T17:19:18.0320132Z   CARGO_TERM_COLOR: always
+2026-11-26T17:19:18.0320334Z   CARGO_INCREMENTAL: 0
+2026-11-26T17:19:18.0320522Z   RUST_BACKTRACE: 1
+2026-11-26T17:19:18.0320696Z ##[endgroup]
+2026-11-26T17:19:18.3490701Z ##[group]Run python3 scripts/generate_composition.py --check
+2026-11-26T17:19:18.3491218Z [36;1mpython3 scripts/generate_composition.py --check[0m
+2026-11-26T17:19:18.3521025Z shell: /usr/bin/bash -e {0}
+2026-11-26T17:19:18.3521236Z env:
+2026-11-26T17:19:18.3521418Z   CARGO_TERM_COLOR: always
+2026-11-26T17:19:18.3521629Z   CARGO_INCREMENTAL: 0
+2026-11-26T17:19:18.3521817Z   RUST_BACKTRACE: 1
+2026-11-26T17:19:18.3521995Z ##[endgroup]
+2026-11-26T17:19:18.4276333Z generated files are up to date
+2026-11-26T17:19:18.4827609Z ##[group]Run python3 scripts/generate_view_builders.py --check
+2026-11-26T17:19:18.4828014Z [36;1mpython3 scripts/generate_view_builders.py --check[0m
+2026-11-26T17:19:18.4857445Z shell: /usr/bin/bash -e {0}
+2026-11-26T17:19:18.4857674Z env:
+2026-11-26T17:19:18.4857854Z   CARGO_TERM_COLOR: always
+2026-11-26T17:19:18.4858062Z   CARGO_INCREMENTAL: 0
+2026-11-26T17:19:18.4858251Z   RUST_BACKTRACE: 1
+2026-11-26T17:19:18.4858436Z ##[endgroup]
+2026-11-26T17:20:03.5244838Z ##[group]Run python3 scripts/generate_api_model.py --check
+2026-11-26T17:20:03.5245224Z [36;1mpython3 scripts/generate_api_model.py --check[0m
+2026-11-26T17:20:03.5245556Z [36;1mpython3 scripts/generate_osprey_bindings.py --check[0m
+2026-11-26T17:20:03.5245879Z [36;1mpython3 scripts/generate_cpp_bindings.py --check[0m
+2026-11-26T17:20:03.5246182Z [36;1mpython3 scripts/generate_go_bindings.py --check[0m
+2026-11-26T17:20:03.5246497Z [36;1mpython3 scripts/generate_dart_bindings.py --check[0m
+2026-11-26T17:20:03.5247008Z [36;1mpython3 scripts/generate_csharp_bindings.py --check[0m
+2026-11-26T17:20:03.5276370Z shell: /usr/bin/bash -e {0}
+2026-11-26T17:20:03.5276585Z env:
+2026-11-26T17:20:03.5276917Z   CARGO_TERM_COLOR: always
+2026-11-26T17:20:03.5277210Z   CARGO_INCREMENTAL: 0
+2026-11-26T17:20:03.5277478Z   RUST_BACKTRACE: 1
+2026-11-26T17:20:03.5277732Z ##[endgroup]
+2026-11-26T17:20:10.1665513Z stale: bindings/cpp/full/ferroui.hpp
+2026-11-26T17:20:10.1666151Z stale: samples/CApi/cpp/hello_world/ferroui/ferroui.hpp
+2026-11-26T17:20:10.1744486Z ##[error]Process completed with exit code 1.
+2026-11-26T17:20:10.1913700Z Post job cleanup.
+2026-11-26T17:20:10.2581101Z [command]/usr/bin/git version
+2026-11-26T17:20:10.2643918Z git version 2.56.1
+2026-11-26T17:20:10.2673170Z Temporarily overriding HOME='/home/runner/work/_temp/d430e6a5-f437-413d-96e3-4d6f950edf46' before making global git config changes
+2026-11-26T17:20:10.2674471Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-26T17:20:10.2677965Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/FerroUI/FerroUI
+2026-11-26T17:20:10.2709442Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-26T17:20:10.2738120Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-26T17:20:10.2998868Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-26T17:20:10.3018970Z http.https://github.com/.extraheader
+2026-11-26T17:20:10.3027547Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-26T17:20:10.3055116Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-26T17:20:10.3304231Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-26T17:20:10.3331156Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-26T17:20:10.3715641Z Cleaning up orphan processes
+2026-11-26T17:20:10.4029091Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

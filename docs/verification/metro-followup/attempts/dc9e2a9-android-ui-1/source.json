@@ -1,0 +1,13 @@
+{
+  "head": "dc9e2a94d206944023169a789539c02307dd201a",
+  "head_tree": "85db8c20df19ca40e08ebef89cb086acd72eac60",
+  "merge": "f8bed7d59a6b16b6df2caaea01d88b615c39ae0d",
+  "merge_tree": "85db8c20df19ca40e08ebef89cb086acd72eac60",
+  "merge_parents": [
+    "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "dc9e2a94d206944023169a789539c02307dd201a"
+  ],
+  "checkout_tree_equals_head_tree": true,
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "framework_tree": "3dd0893539c85b3179cc9cc2001fc56a8d12c86f"
+}

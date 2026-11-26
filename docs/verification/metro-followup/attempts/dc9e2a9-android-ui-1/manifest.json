@@ -1,0 +1,53 @@
+{
+  "source_revision": "dc9e2a94d206944023169a789539c02307dd201a",
+  "actual_checkout": "f8bed7d59a6b16b6df2caaea01d88b615c39ae0d",
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "run": 45873369928,
+  "job": 140094179268,
+  "attempt": 1,
+  "conclusion": "failure",
+  "failed_stage": "Build x86_64 application and launcher APKs",
+  "runtime_ui_executed": false,
+  "captures": 0,
+  "cause_observed": "Maven Central dependency download requests returned HTTP 429. The complete log contains 92 explicit HTTP 429 lines; Gradle did not expose a Retry-After header.",
+  "assertions_weakened": false,
+  "source_changed": false,
+  "rerun": {
+    "maximum_additional_attempts_authorized": 1,
+    "requested_at": "2026-11-26T18:21:31Z",
+    "after_terminal_failure_seconds_at_least": 140,
+    "attempt": 2,
+    "job": 140100751272,
+    "same_source_and_assertions": true,
+    "outcome": "recorded separately after completion"
+  },
+  "files": [
+    {
+      "path": "attempts/dc9e2a9-android-ui-1/source.json",
+      "source": "/tmp/windowsphone-tooling/source-dc9e2a9.json",
+      "bytes": 517,
+      "sha256": "49be4b1d27b5d754fe8a4b512099c3d2ffca0911cdf5225182ec799461edb4f9"
+    },
+    {
+      "path": "attempts/dc9e2a9-android-ui-1/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-dc9e2a9-attempt1.json",
+      "bytes": 4574,
+      "sha256": "d5084d07dca570a980fabfdc6e1cee90fc2e80fd77b59a7612a29f7978e25723"
+    },
+    {
+      "path": "attempts/dc9e2a9-android-ui-1/head.txt",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-dc9e2a9-attempt1/head.txt",
+      "bytes": 41,
+      "sha256": "f31abd56d80ac51741304fe0e970dc32e4d75fcf313b2afd87df7bc7f964dc75"
+    },
+    {
+      "path": "attempts/dc9e2a9-android-ui-1/packaging.log.gz",
+      "source": "/tmp/windowsphone-tooling/android-ui-dc9e2a9-attempt1.log",
+      "bytes": 38648,
+      "sha256": "de1a5ba8f64c63034a802e8f75e72ef9b505cc6c4637e31030ded43c7b315e5f",
+      "encoding": "gzip",
+      "uncompressed_bytes": 240687,
+      "uncompressed_sha256": "b065a5b92f76c2bb459014f9b37f6d45a7bd3ea66f89a552deeac84ab9c2eb60"
+    }
+  ]
+}

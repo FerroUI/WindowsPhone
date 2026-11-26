@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T15:21:03.726060+00:00",
+  "source": {
+    "pr": 4,
+    "head_sha": "f6c3d20d865018ccb960b7720b1f6c4b873c6519",
+    "checkout_sha": "2a8c05fbef96825b296494364eed03b774af91e9",
+    "tree_sha": "959927d17c6fc6c2e46de0ccc37851f0dc7161b0",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "f6c3d20d865018ccb960b7720b1f6c4b873c6519"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "arm64": {
+    "run_id": 45846537529,
+    "job_id": 140001562591,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45846537529",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "checkout_sha_verified_in_log": true,
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 8,
+      "rust_passed": 7
+    },
+    "package_variants": [
+      "app",
+      "launcher"
+    ],
+    "package_gates": [
+      "decoded manifest",
+      "JNI entry",
+      "native ELF alignment",
+      "zipalign"
+    ],
+    "artifacts": [
+      {
+        "id": 15131883759,
+        "name": "phone-android-arm64-debug",
+        "size_bytes": 76296512,
+        "github_digest": "sha256:1234fd49bc1ee10626e43051223df109890a73665a20bc1ac61d337f689e1d7d",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45846537529/artifacts/15131883759"
+      }
+    ],
+    "log_path": "/tmp/windowsphone-tooling/android-arm-f6c3d20.log"
+  },
+  "mounted_ui": {
+    "run_id": 45846537479,
+    "job_id": 140001562681,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45846537479",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "checkout_sha_verified_in_log": true,
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 47,
+      "python_groups": [
+        8,
+        9,
+        8,
+        3,
+        19
+      ],
+      "rust_passed": 7,
+      "mms_codec_assertions": 13,
+      "rf_requests": 0
+    },
+    "evidence": {
+      "artifact_id": 15131243954,
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-f6c3d20",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-f6c3d20.zip",
+      "zip_sha256": "cb97098d9faf4007df237c009091da94e4bb7f5d8d2dc1c5cb69569ce9699160",
+      "sha256_verified": true,
+      "file_count": 205,
+      "captures": 21,
+      "head_sha": "2a8c05fbef96825b296494364eed03b774af91e9",
+      "result": {
+        "result": "passed",
+        "exit_code": 0,
+        "phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+        "target": {
+          "platform": "android",
+          "api": 36,
+          "abi": "x86_64",
+          "gpu": "software"
+        },
+        "expected_routes": [
+          "Start",
+          "org.ferroui.wallet",
+          "Start"
+        ],
+        "expected_variants": [
+          "app",
+          "launcher"
+        ],
+        "captures": [
+          "app-back.png",
+          "app-home-restored.png",
+          "app-start.png",
+          "app-wallet.png",
+          "device-action-center-revoked.png",
+          "device-action-center.png",
+          "device-active-call.png",
+          "device-ended-call.png",
+          "device-messaging.png",
+          "device-notifications-scroll-0.png",
+          "device-notifications-scroll-1.png",
+          "device-ringing.png",
+          "device-start-unread.png",
+          "home-role-back-start.png",
+          "home-role-returned.png",
+          "home-role-start.png",
+          "home-role-wallet.png",
+          "launcher-back.png",
+          "launcher-home-restored.png",
+          "launcher-start.png",
+          "launcher-wallet.png"
+        ],
+        "observations": [
+          "app-back.json",
+          "app-home-restored.json",
+          "app-start.json",
+          "app-wallet.json",
+          "bootstrap-current.json",
+          "device-active.json",
+          "device-after-answer.json",
+          "device-baseline.json",
+          "device-current.json",
+          "device-ended.json",
+          "device-notifications-admitted.json",
+          "device-notifications-revoked.json",
+          "device-notifications-scroll-0.json",
+          "device-notifications-scroll-1.json",
+          "device-notifications-visible.json",
+          "device-ringing.json",
+          "device-roles.json",
+          "device-sms-ui.json",
+          "device-sms.json",
+          "device-start-restored.json",
+          "device-start-unread.json",
+          "home-role-back-start.json",
+          "home-role-returned.json",
+          "home-role-start.json",
+          "home-role-wallet.json",
+          "launcher-back.json",
+          "launcher-home-restored.json",
+          "launcher-start.json",
+          "launcher-wallet.json"
+        ]
+      },
+      "exact_restoration": {
+        "home": true,
+        "user": true,
+        "DIALER": true,
+        "SMS": true,
+        "listener": true
+      },
+      "notification_fixture_visible_then_revoked": true,
+      "call_identity_preserved_ringing_to_active": true,
+      "ended_call_foreground_service_cleared": true,
+      "log_path": "/tmp/windowsphone-tooling/android-ui-f6c3d20.log"
+    },
+    "artifacts": [
+      {
+        "id": 15131243954,
+        "name": "phone-android-x86_64-ui",
+        "size_bytes": 5624707,
+        "github_digest": "sha256:cb97098d9faf4007df237c009091da94e4bb7f5d8d2dc1c5cb69569ce9699160",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45846537479/artifacts/15131243954"
+      },
+      {
+        "id": 15130778961,
+        "name": "phone-android-x86_64-debug",
+        "size_bytes": 83552389,
+        "github_digest": "sha256:266433c9cfd9b7c75051cf22cb73040425c4fc983ffd7455560a1b644218f2bb",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45846537479/artifacts/15130778961"
+      }
+    ]
+  }
+}

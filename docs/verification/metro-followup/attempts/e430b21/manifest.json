@@ -1,0 +1,134 @@
+{
+  "source_revision": "e430b2141eae143cca1440f6b0ade31646659332",
+  "actual_checkout": "677202a7a5569f69bcb83ae263a4148a73d98b0b",
+  "tree": "6969153e1a17c0f13697e5a786f569124e8cfd48",
+  "framework": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "verification_status": "time_noon_period_failed_all_desktop_android_ios_gates_passed",
+  "files": [
+    {
+      "path": "attempts/e430b21/source.json",
+      "source": "/tmp/windowsphone-tooling/source-e430b21.json",
+      "bytes": 631,
+      "sha256": "543a505581fd46460926b3340f4881e959301c84b8e3bc32139eafe61f5ebdbb"
+    },
+    {
+      "path": "attempts/e430b21/browser-ci.json",
+      "source": "/tmp/windowsphone-tooling/browser-ci-e430b21.json",
+      "bytes": 4937,
+      "sha256": "dca1558f04892e6273d61327eff5f07c78eb4f8c253c8002d8452c11380ca90a"
+    },
+    {
+      "path": "attempts/e430b21/native-ci.json",
+      "source": "/tmp/windowsphone-tooling/native-ci-e430b21.json",
+      "bytes": 26548,
+      "sha256": "61bc7857f4904368b2bd796bf2dab852b3f6a867e5dfbe1fca8189187f303c9f"
+    },
+    {
+      "path": "attempts/e430b21/android-ci.json",
+      "source": "/tmp/windowsphone-tooling/android-ci-e430b21.json",
+      "bytes": 4970,
+      "sha256": "7b0a3966f68a7a018fe82a683bdf9a4ddbd01147042fcb65ba8f84e9a22e1376"
+    },
+    {
+      "path": "attempts/e430b21/android-result.json",
+      "source": "target/android-ui-e430b21/result.json",
+      "bytes": 1999,
+      "sha256": "91300ac944bc013d6346c27dc30ac8330a5d3831ddfdf00376bb3f47dc369d10"
+    },
+    {
+      "path": "attempts/e430b21/android-head.txt",
+      "source": "target/android-ui-e430b21/head.txt",
+      "bytes": 41,
+      "sha256": "1b2eeadc620ae4e5d89c07eed47d6fa760bcf68fe2f4fd91b72ef1d86bc3f050"
+    },
+    {
+      "path": "attempts/e430b21/android-notifications-visible.json",
+      "source": "target/android-ui-e430b21/device-notifications-visible.json",
+      "bytes": 9511,
+      "sha256": "18536e7bb7edecadbf9826ecfcf771d467c08fda065b71e2eec58518cb1fc837"
+    },
+    {
+      "path": "attempts/e430b21/android-notifications-revoked.json",
+      "source": "target/android-ui-e430b21/device-notifications-revoked.json",
+      "bytes": 8416,
+      "sha256": "4cf4f5f076044d7a808ec3339cbfc3bc6548aae6816b884b92dbc4dcdb84d108"
+    },
+    {
+      "path": "attempts/e430b21/android-call-ended.json",
+      "source": "target/android-ui-e430b21/device-ended.json",
+      "bytes": 7620,
+      "sha256": "6ea3273262101d0bdcc34d20e4ff2d547e16e19a5fb12aa028a99b64047d074e"
+    },
+    {
+      "path": "attempts/e430b21/android-start.png",
+      "source": "target/android-ui-e430b21/app-start.png",
+      "bytes": 428084,
+      "sha256": "0623b205e992c76206f3a15d9b49a74a72b97827acaf13c159e3efa7e60f713f"
+    },
+    {
+      "path": "attempts/e430b21/ios-ci.json",
+      "source": "/tmp/windowsphone-tooling/ios-ci-e430b21.json",
+      "bytes": 50413,
+      "sha256": "81b9edf0e956c39a86d6582794d25a9168cc5f1157dc6f91ecca564500b1d881"
+    },
+    {
+      "path": "attempts/e430b21/ios-start.json",
+      "source": "/tmp/phone-ios-e430b21/start.json",
+      "bytes": 3194,
+      "sha256": "2faf4dceaf7972524cc525421e1641aa6a41d8917ac2e00a0c8fa001217014c3"
+    },
+    {
+      "path": "attempts/e430b21/ios-start.png",
+      "source": "/tmp/phone-ios-e430b21/start.png",
+      "bytes": 489722,
+      "sha256": "5325124d209f0203785880ec27796e9e551fef45deea8cb24d5732fbfec15aec"
+    },
+    {
+      "path": "attempts/e430b21/ios-device-tests.json",
+      "source": "/tmp/phone-ios-e430b21/device-tests.json",
+      "bytes": 3014,
+      "sha256": "8faf8f6383ac0dc928e417e469868cc337358981c8fc59d2b367427778d37672"
+    },
+    {
+      "path": "attempts/e430b21/ios-wallet-after-location.json",
+      "source": "/tmp/phone-ios-e430b21/wallet.json",
+      "bytes": 3294,
+      "sha256": "299d66f4137eb76269943042fee850c7741996429b7ba90673d0ce567013b402"
+    },
+    {
+      "path": "attempts/e430b21/framework-dependency.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/docs/verification/metro-followup/framework-dependency.json",
+      "bytes": 2006,
+      "sha256": "1e3dabaf08df7e7b2c0db0ba23c2410e3251f42de7582aed28a4a35e225cc3d7"
+    },
+    {
+      "path": "attempts/e430b21/framework-pr-source-comparison.json",
+      "source": "/workspace/scratch/ac02e890bf90/WindowsPhone/docs/verification/metro-followup/framework-pr-source-comparison.json",
+      "bytes": 2160,
+      "sha256": "b9b62b942e5343641b14057f4b0a544862eefd2bb8c592c23c1cdd6c6e013a27"
+    },
+    {
+      "path": "attempts/e430b21/framework-ci.json",
+      "source": "/tmp/windowsphone-tooling/framework-pr1456-ci-cd9aeaef.json",
+      "bytes": 68878,
+      "sha256": "574f69dcd6a2250afa40fd7d6911a64222adb4577e2e46132a832c508846a637"
+    }
+  ],
+  "findings": {
+    "state": "157 tests passed and one was ignored.",
+    "sdk_group": "110 tests passed and one failed; control tests were 34 passed, one failed.",
+    "date_matrix": "The complete mounted DatePicker reopen matrix passed, including hidden fields, calendar ranges, formats, and full committed time and offset.",
+    "failure": "The TimePicker matrix reached initial noon selection before cancellation: actual [12, 5, 30, 0], expected [12, 5, 30, 1]. The period changed from expected PM to AM.",
+    "not_reached": [
+      "phone-sdk package tests",
+      "phone-system integration tests",
+      "JavaScript test gate",
+      "WASM build",
+      "rendered browser verification"
+    ],
+    "native": "All three desktop jobs passed their native contracts and full application builds; all primary framework caches hit.",
+    "android": "Both first-attempt workflows passed. The mounted archive digest matches locally; all five restoration snapshots match and notification, call, and codec contracts passed.",
+    "ios": "Both UIKit builds and all simulator runtime gates passed: seven same-process/launch/scene snapshots, six accepted warm URLs, six provider checks, and no sends. The first captured frame already observed Prompt. The owned XCTest launch child exited successfully; independent native app/XCTest runner termination and simulator deletion are not proven.",
+    "framework": "The previous six-file dependency correction passed Linux, Windows, browser, X11 and conventions. The API gate succeeded by the existing preview-policy applicability skip, with no signature comparison. Native macOS was in progress when the necessary successor source superseded this snapshot; overall completion is not claimed."
+  }
+}

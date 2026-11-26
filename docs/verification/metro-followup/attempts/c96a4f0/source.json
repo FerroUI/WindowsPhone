@@ -1,0 +1,14 @@
+{
+  "head_sha": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+  "actual_checkout": "96f214d4b36203f38b03b70f9eb62f09bdd27f3b",
+  "head_tree": "ed06b217572976f4c03bacaa6dba276307c0ff4a",
+  "checkout_tree": "ed06b217572976f4c03bacaa6dba276307c0ff4a",
+  "checkout_tree_equals_pr_head_tree": true,
+  "merge_parents": [
+    "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "c96a4f0043bd80137997fcd34dbb4b407414af00"
+  ],
+  "framework_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "framework_previous_pin": "db2e8859cd4b67bac870839ea70503b8babf541f",
+  "framework_pull_request": "https://github.com/wieslawsoltes/FerroUI/pull/1456"
+}

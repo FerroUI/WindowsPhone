@@ -1,0 +1,94 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "pull_request": 4,
+  "run_id": 45820159686,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686",
+  "source": {
+    "head": "c2f9645e0d7ddc2e60278f3f116fe08e77694ce5",
+    "base": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+    "head_tree": "935e88204b6c6049c632ca0ea9124d8f7a894d71",
+    "merge_tree": "935e88204b6c6049c632ca0ea9124d8f7a894d71"
+  },
+  "scope": "Build/link and automated boundary tests. No desktop GUI/device behavior verification implied.",
+  "jobs": {
+    "linux": {
+      "job_id": 139910061765,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686/job/139910061765",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+      "started_at": "2026-11-26T12:29:48Z",
+      "completed_at": "2026-11-26T12:34:17Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 33,
+          "ignored_in_first_run": 1
+        },
+        "phone_platform_desktop": {
+          "passed": 9,
+          "ignored": 1
+        },
+        "phone_native": {
+          "passed": 17
+        },
+        "private_bus_mpris": {
+          "passed": 1,
+          "separate_ignored_test_invocation": true
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success"
+    },
+    "macos": {
+      "job_id": 139910061626,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686/job/139910061626",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+      "started_at": "2026-11-26T12:29:50Z",
+      "completed_at": "2026-11-26T12:38:54Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 29
+        },
+        "phone_platform_desktop": {
+          "passed": 5
+        },
+        "phone_native": {
+          "passed": 17
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success"
+    },
+    "windows": {
+      "job_id": 139910061582,
+      "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686/job/139910061582",
+      "status": "completed",
+      "conclusion": "success",
+      "actual_checkout": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+      "started_at": "2026-11-26T12:29:48Z",
+      "completed_at": "2026-11-26T13:05:40Z",
+      "rust_tests": {
+        "phone_host": {
+          "passed": 30
+        },
+        "phone_platform_desktop": {
+          "passed": 6
+        },
+        "phone_native": {
+          "passed": 16
+        }
+      },
+      "python_packaging_tests": {
+        "passed": 6
+      },
+      "full_desktop_build_link": "success"
+    }
+  }
+}

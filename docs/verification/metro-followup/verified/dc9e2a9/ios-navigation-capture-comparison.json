@@ -1,0 +1,140 @@
+{
+  "reviewed_at_utc": "2026-11-26T18:30:49.946053+00:00",
+  "method": "Read-only visual inspection of original retained images; image hashes checked against their existing artifact manifests. No rerun, source edit, crop or image transformation.",
+  "observations": [
+    {
+      "head": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+      "framework_pin": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+      "run_id": 45866715333,
+      "path": "/tmp/phone-ios-8749c8a/settings.png",
+      "bytes": 130375,
+      "sha256": "7bf4703541329bebebfe3080ac4c078682031b617354645e3456ace7cc357d38",
+      "matches_frozen_artifact_manifest": true,
+      "sequence": 221,
+      "observed_at_unix_ms": 1795714875815,
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "visual_observation": "Lower navigation strip has no visible Back/Start/Search icons."
+    },
+    {
+      "head": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+      "framework_pin": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+      "run_id": 45866715333,
+      "path": "/tmp/phone-ios-8749c8a/home-restored.png",
+      "bytes": 628880,
+      "sha256": "753f965ac3d676b8f0e978dd59f2a3c77fe2eab5295c2ba4c2e4d2068b1fb375",
+      "matches_frozen_artifact_manifest": true,
+      "sequence": 226,
+      "observed_at_unix_ms": 1795714877327,
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "visual_observation": "Back/Start/Search icons are visible."
+    },
+    {
+      "head": "dc9e2a94d206944023169a789539c02307dd201a",
+      "framework_pin": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+      "run_id": 45873369912,
+      "path": "/tmp/phone-ios-dc9e2a9/settings.png",
+      "bytes": 131621,
+      "sha256": "a7611d0d2c948c08bc18d515c3b4afbf4836a77bb9dee96fb1246c468c3de287",
+      "matches_frozen_artifact_manifest": true,
+      "sequence": 249,
+      "observed_at_unix_ms": 1795717534547,
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "visual_observation": "Lower navigation strip has no visible Back/Start/Search icons."
+    },
+    {
+      "head": "dc9e2a94d206944023169a789539c02307dd201a",
+      "framework_pin": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+      "run_id": 45873369912,
+      "path": "/tmp/phone-ios-dc9e2a9/home-restored.png",
+      "bytes": 664379,
+      "sha256": "8317c759b9073ad6e6df9077083fc75ba5bc7cf868867097f536895adbea9f2b",
+      "matches_frozen_artifact_manifest": true,
+      "sequence": 254,
+      "observed_at_unix_ms": 1795717536101,
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "visual_observation": "Lower navigation strip has no visible Back/Start/Search icons."
+    },
+    {
+      "head": "e430b2141eae143cca1440f6b0ade31646659332",
+      "framework_pin": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "run_id": 45862218491,
+      "path": "/tmp/phone-ios-e430b21/home-restored.png",
+      "bytes": 707131,
+      "sha256": "4c67130b18d9d0a8368bddc5f6e2eb71d6bbfac7125f42122547d24e92f92141",
+      "matches_frozen_artifact_manifest": true,
+      "sequence": 267,
+      "observed_at_unix_ms": 1795712800671,
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "visual_observation": "Lower navigation strip has no visible Back/Start/Search icons."
+    },
+    {
+      "head": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+      "framework_pin": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+      "run_id": 45855597407,
+      "path": "/tmp/phone-ios-c96a4f0/home-restored.png",
+      "bytes": 489520,
+      "sha256": "586f493351cf9d0374903952d45b3a4a998e13fac34bcbbd6bbf7d350ac84df8",
+      "matches_frozen_artifact_manifest": true,
+      "sequence": 92,
+      "observed_at_unix_ms": 1795709616674,
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "visual_observation": "Back/Start/Search icons are visible."
+    }
+  ],
+  "conclusion": "The blank lower navigation strip predates the dc9/ec86 change: it appears in Settings at 8749 and in restored Start at e430, which pins cd9 before both bounded-scrolling revisions. Restored Start at 8749 and c96 has visible icons, so the retained runs demonstrate differing capture states; these artifacts do not prove the reason for the intermittent visibility or verify interactive hardware-button behavior.",
+  "scope": "This rules out the claim that this observed blank-strip state first appeared with ec86. It does not establish that navigation chrome is correct, deterministic, or fixed."
+}

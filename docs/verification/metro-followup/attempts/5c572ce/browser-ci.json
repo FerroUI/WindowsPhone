@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T13:36:31.834243+00:00",
+  "run": {
+    "id": 45826014320,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45826014320",
+    "event": "pull_request",
+    "attempt": 1,
+    "build_job_id": 139930221633,
+    "build_job_conclusion": "failure",
+    "deploy_conclusion": "skipped"
+  },
+  "source": {
+    "pr": 4,
+    "head_sha": "5c572ce3534659f753eb6e02f6be16a1130bda8f",
+    "checkout_sha": "9fc07972c42c858e08a7f767d61a7feac8c75e71",
+    "tree_sha": "173a265cfbbc47e2ba1af33e529025c01987aad4",
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "tests": {
+    "state": {
+      "passed": 157,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_apps_controls": {
+      "passed": 242,
+      "failed": 0,
+      "ignored": 0
+    },
+    "phone_controls": {
+      "unit_passed": 33
+    },
+    "phone_sdk": {
+      "unit_passed": 29,
+      "integration_passed": 24,
+      "passed": 53
+    },
+    "javascript": {
+      "passed": 73,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "rendered_ui": {
+    "passed": false,
+    "completed_passing_checks": 3,
+    "captures": 3,
+    "elapsed_ms": 27094,
+    "browser_errors": [],
+    "failure": "Error: Timed out: FormField0\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:89:9)\n    at async click (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:114:30)\n    at async edit (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:154:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:450:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:289:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:447:3",
+    "failed_check": "app list search and native note creation",
+    "phone_picker_module_exercised": false,
+    "system_refinements_module_exercised": false
+  },
+  "artifacts": [
+    {
+      "artifact_id": 15120779373,
+      "name": "compiled-app",
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-5c572ce",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-5c572ce.zip",
+      "github_sha256": "865789065d587986b0214304dd15e9ea5a4a1887d608ca8e7d8369ddd851fb62",
+      "observed_sha256": "865789065d587986b0214304dd15e9ea5a4a1887d608ca8e7d8369ddd851fb62",
+      "sha256_verified": true,
+      "size_bytes": 10229693,
+      "file_count": 43,
+      "wasm_sha256": "942db1c6250956ed980c6ee92f8d98654088f165e79294d37cb88a527764fafc",
+      "files_changed_from_c2f9645_artifact": [
+        "app-sw.js",
+        "index.html"
+      ]
+    },
+    {
+      "artifact_id": 15121826127,
+      "name": "ui-verification",
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-5c572ce",
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-5c572ce.zip",
+      "github_sha256": "2a80c4d458ba478eddd0912790fba3a5b6f91f3ee78879b0cdba599603c28aee",
+      "observed_sha256": "2a80c4d458ba478eddd0912790fba3a5b6f91f3ee78879b0cdba599603c28aee",
+      "sha256_verified": true,
+      "file_count": 10
+    }
+  ],
+  "evidence": {
+    "build_log": "/tmp/windowsphone-tooling/browser-build-5c572ce.log",
+    "results": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-5c572ce/results.json",
+    "failure_view": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-5c572ce/failure-view.json",
+    "failure_image": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/ui-verification-5c572ce/failure.png"
+  },
+  "diagnosis": {
+    "proven": "FormField0 was never mounted after the normal new command. The final native tree and screenshot show the OneNote hub with NoteSearch and AppBarAction-new, not an editor.",
+    "inference": "The shared clickLabel helper acquired coordinates during native page entrance; it only checked hit even though x/y and logical sizes do not define the transformed native centre during a turnstile.",
+    "local_patch": "Shared stable acquisition in normal click/clickLabel/reveal requires settled page surfaces and reacquires identical target geometry after rendered frames. Raw snapshot/presence/control remain available to motion tests.",
+    "regression_fixture": "Captured retiring, hittable incoming, settled, lock, and OneNote hub native geometry from CI runs45820159686 and45826014320."
+  }
+}

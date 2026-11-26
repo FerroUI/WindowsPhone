@@ -1,0 +1,228 @@
+CallsManager: 
+  mCalls: 
+  mCallAudioManager:
+    All calls:
+    Active dialing, or connecting calls:
+    Ringing calls:
+    Holding calls:
+    Foreground call:
+    null
+    CallAudioModeStateMachine:
+      History:
+      2026-11-26T17:29:34.654744 - Enter UNFOCUSED
+      2026-11-26T17:31:21.742395 - Enter RINGING
+      2026-11-26T17:31:21.771924 - Mode MODE_RINGTONE
+      2026-11-26T17:31:26.120780 - Enter SIM_CALL
+      2026-11-26T17:31:26.121177 - Mode MODE_IN_CALL
+      2026-11-26T17:31:26.193211 - Enter UNFOCUSED
+      2026-11-26T17:31:26.652222 - Mode MODE_NORMAL
+      Pending Msg:
+      Looper (CallAudioModeStateMachine, tid 225) {79adf11}
+        (MessageQueue is using Concurrent implementation)
+        State: android.os.MessageQueue$StateNode@5ac1504
+        PriorityQueue Messages: 
+        AsyncPriorityQueue Messages: 
+        (Total messages: 1, polling=true, quitting=false)
+    mCallAudioRouteAdapter:
+    BluetoothDeviceManager:
+      2026-11-26T17:29:36.210158 - Got BluetoothHearingAid: android.bluetooth.BluetoothHearingAid@69d9a61
+      2026-11-26T17:29:36.210238 - Got BluetoothHeadset: android.bluetooth.BluetoothHeadset@37599c8
+  mTtyManager:
+    mCurrentTtyMode: 0
+  mInCallController:
+    combinedInCallServiceMap (InCalls registered):
+    ServiceConnections (InCalls bound):
+    CarModeTracker:
+      Current car mode apps:
+      Car mode history:
+  mCallDiagnosticServiceController:
+    activeCallDiagnosticService: 
+    isConnected: false
+  mCallAnomalyWatchdog:
+    Anomaly log:
+    Pending timeouts: 
+    Pending destruction: 
+  mEmergencyCallDiagnosticLogger:
+      PERSISTED DIAGNOSTIC DATA FROM DROP BOX
+      Exception was thrown while dumping diagnostic data from DropBox
+    mDefaultDialerCache:
+      User 0: org.ferroui.windowsphone.launcher
+    mConnectionServiceRepository:
+      mServiceCache:
+    mRoleManager:
+      DefaultCallRedirectionApp: null
+      DefaultCallScreeningApp: null
+      DefaultCallCompanionApps: 
+    mConnectionSvrFocusMgr:
+      Call Focus History:
+      2026-11-26T17:31:26.044557 - TC@1
+      2026-11-26T17:31:26.127868 - <none>
+    CallAudioWatchdog:
+      Active Sessions:
+      Audio sessions Sessions:
+  PhoneAccountRegistrar: 
+    xmlVersion: 0
+    defaultOutgoing: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}
+    outgoingPhoneAccountForTelScheme: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}
+    defaultVoiceSubId: 1
+    simCallManager: null
+    phoneAccounts:
+      [[X] PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0} Capabilities: CallProvider MultiUser PlaceEmerg SimSub  Audio Routes: BESW Schemes: tel voicemail  Extras: Bundle[{android.telecom.extra.SUPPORTS_VIDEO_CALLING_FALLBACK=true}] GroupId: *** SC Restrictions: [ ]]
+      test emergency PhoneAccount filter: []
+  Analytics:
+    Call TC@1: {
+        startTime: 0
+        endTime: 1795714286175
+        direction: INCOMING
+        isAdditionalCall: false
+        isInterrupted: false
+        isEmergency: false
+        callTechnologies: [GSM ]
+        callTerminationReason: DisconnectCause [ Code: (MISSED) Label: () Description: () Reason: (INCOMING_MISSED) Tone: (27)  TelephonyCause: 1/-1 ImsReasonInfo: null]
+        missedReason: []
+        connectionService: com.android.phone/com.android.services.telephony.TelephonyConnectionService
+        isVideoCall: false
+        inCallServices: [
+        name: com.google.android.bluetooth/com.android.bluetooth.telephony.BluetoothInCallService type: 6 is crashed: false service last time in ms: 6532
+        name: org.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneInCallService type: 1 is crashed: false service last time in ms: 6555
+        name: android/com.android.ecm.EnhancedConfirmationCallTrackerService type: 4 is crashed: false service last time in ms: 6547
+        name: com.google.android.as/com.google.android.apps.miphone.aiai.captions.tulip.audiosource.impl.CIS type: 4 is crashed: false service last time in ms: 6545
+        name: com.google.android.gms/.bankscamwarning.services.BankScamCallDetectionService type: 4 is crashed: false service last time in ms: 6546
+    ]
+        callProperties: []
+        callSource: UNSPECIFIED
+    }
+    
+    CSW.sDc: 2018.00
+    CSW.rC: 2039.00
+    Hardware Version: 
+    Past analytics dumps: 
+  Flag Configurations: 
+    	[✅]: addCallUriForMissedCalls                            add_call_uri_for_missed_calls
+    	[✅]: allowSystemAppsResolveVoipCalls                     allow_system_apps_resolve_voip_calls
+    	[✅]: associatedUserRefactorForWorkProfile                associated_user_refactor_for_work_profile
+    	[✅]: availableRoutesNeverUpdatedAfterSetSystemAudioState available_routes_never_updated_after_set_system_audio_state
+    	[✅]: busDeviceIsASpeaker                                 bus_device_is_aspeaker
+    	[✅]: businessCallComposer                                business_call_composer
+    	[✅]: cacheCallAudioCallbacks                             cache_call_audio_callbacks
+    	[✅]: cacheCallEvents                                     cache_call_events
+    	[✅]: callAudioCommunicationDeviceRefactor                call_audio_communication_device_refactor
+    	[❌]: callAudioRoutingPerformanceImprovemenent            call_audio_routing_performance_improvemenent
+    	[✅]: callDetailsIdChanges                                call_details_id_changes
+    	[❌]: callSequencingCallResumeFailed                      call_sequencing_call_resume_failed
+    	[✅]: cancelRemovalOnEmergencyRedial                      cancel_removal_on_emergency_redial
+    	[✅]: checkCompletedFiltersOnTimeout                      check_completed_filters_on_timeout
+    	[❌]: checkDeviceTypeOnRouteChange                        check_device_type_on_route_change
+    	[✅]: clearCommunicationDeviceAfterAudioOpsComplete       clear_communication_device_after_audio_ops_complete
+    	[✅]: communicationDeviceProtectedByLock                  communication_device_protected_by_lock
+    	[✅]: cswServiceInterfaceIsNull                           csw_service_interface_is_null
+    	[✅]: disconnectSelfManagedStuckStartupCalls              disconnect_self_managed_stuck_startup_calls
+    	[✅]: doNotSendCallToNullIcs                              do_not_send_call_to_null_ics
+    	[❌]: dontTimeoutDestroyedCalls                           dont_timeout_destroyed_calls
+    	[✅]: dontUseCommunicationDeviceTracker                   dont_use_communication_device_tracker
+    	[✅]: earlyBindingToIncallService                         early_binding_to_incall_service
+    	[✅]: earlyUpdateInternalCallAudioState                   early_update_internal_call_audio_state
+    	[✅]: eccKeyguard                                         ecc_keyguard
+    	[✅]: enableCallAudioWatchdog                             enable_call_audio_watchdog
+    	[✅]: enableCallExceptionAnomReports                      enable_call_exception_anom_reports
+    	[✅]: enableCallSequencing                                enable_call_sequencing
+    	[❌]: enableRespondViaSmsManagerAsync                     enable_respond_via_sms_manager_async
+    	[✅]: endSessionImprovements                              end_session_improvements
+    	[❌]: enforceTransactionalExclusivity                     enforce_transactional_exclusivity
+    	[✅]: ensureAudioModeUpdatesOnForegroundCallChange        ensure_audio_mode_updates_on_foreground_call_change
+    	[✅]: ensureInCarRinging                                  ensure_in_car_ringing
+    	[✅]: fixAudioFlickerForOutgoingCalls                     fix_audio_flicker_for_outgoing_calls
+    	[✅]: fixUserRequestBaselineRouteVideoCall                fix_user_request_baseline_route_video_call
+    	[✅]: genAnomReportOnFocusTimeout                         gen_anom_report_on_focus_timeout
+    	[❌]: getLastKnownCellIdentity                            get_last_known_cell_identity
+    	[✅]: getRegisteredPhoneAccounts                          get_registered_phone_accounts
+    	[✅]: getRingerModeAnomReport                             get_ringer_mode_anom_report
+    	[✅]: ignoreAutoRouteToWatchDevice                        ignore_auto_route_to_watch_device
+    	[✅]: isNewOutgoingCallBroadcastUnblocking                is_new_outgoing_call_broadcast_unblocking
+    	[✅]: keepBluetoothDevicesCacheUpdated                    keep_bluetooth_devices_cache_updated
+    	[✅]: maybeDefaultSpeakerAfterUnhold                      maybe_default_speaker_after_unhold
+    	[✅]: newAudioPathSpeakerBroadcastAndUnfocusedRouting     new_audio_path_speaker_broadcast_and_unfocused_routing
+    	[✅]: onCallEndpointChangedIcsOnConnected                 on_call_endpoint_changed_ics_on_connected
+    	[✅]: onlyClearCommunicationDeviceOnInactive              only_clear_communication_device_on_inactive
+    	[✅]: onlyUpdateTelephonyOnValidSubIds                    only_update_telephony_on_valid_sub_ids
+    	[✅]: postponeRegisterToLeaudio                           postpone_register_to_leaudio
+    	[❌]: preventRedundantLocationPermissionGrantAndRevoke    prevent_redundant_location_permission_grant_and_revoke
+    	[✅]: profileUserSupport                                  profile_user_support
+    	[✅]: remapTransactionalCapabilities                      remap_transactional_capabilities
+    	[✅]: resetMuteWhenEnteringQuiescentBtRoute               reset_mute_when_entering_quiescent_bt_route
+    	[✅]: resolveActiveBtRoutingAndBtTimingIssue              resolve_active_bt_routing_and_bt_timing_issue
+    	[✅]: resolveSwitchingBtDevicesComputation                resolve_switching_bt_devices_computation
+    	[✅]: separatelyBindToBtIncallService                     separately_bind_to_bt_incall_service
+    	[✅]: setAudioModeBeforeAbandonFocus                      set_audio_mode_before_abandon_focus
+    	[✅]: setMuteState                                        set_mute_state
+    	[❌]: setRemoteConnectionCallId                           set_remote_connection_call_id
+    	[✅]: skipBaselineSwitchWhenRouteNotBluetooth             skip_baseline_switch_when_route_not_bluetooth
+    	[✅]: skipFilterPhoneAccountPerformDndFilter              skip_filter_phone_account_perform_dnd_filter
+    	[❌]: telecomAppLabelProxyHsumAware                       telecom_app_label_proxy_hsum_aware
+    	[✅]: telecomLogExternalWearableCalls                     telecom_log_external_wearable_calls
+    	[✅]: telecomMainUserInBlockCheck                         telecom_main_user_in_block_check
+    	[✅]: telecomMainUserInGetRespondMessageApp               telecom_main_user_in_get_respond_message_app
+    	[❌]: telecomMainlineBlockedNumbersManager                telecom_mainline_blocked_numbers_manager
+    	[✅]: telecomMetricsSupport                               telecom_metrics_support
+    	[❌]: telecomResolveHiddenDependencies                    telecom_resolve_hidden_dependencies
+    	[✅]: telecomSkipLogBasedOnExtra                          telecom_skip_log_based_on_extra
+    	[✅]: telephonyHasDefaultButTelecomDoesNot                telephony_has_default_but_telecom_does_not
+    	[✅]: transactionalCsVerifier                             transactional_cs_verifier
+    	[✅]: transactionalHoldDisconnectsUnholdable              transactional_hold_disconnects_unholdable
+    	[✅]: transactionalVideoState                             transactional_video_state
+    	[✅]: transitRouteBeforeAudioDisconnectBt                 transit_route_before_audio_disconnect_bt
+    	[✅]: unregisterUnresolvableAccounts                      unregister_unresolvable_accounts
+    	[✅]: updatePreferredAudioDeviceLogic                     update_preferred_audio_device_logic
+    	[❌]: updateRouteMaskWhenBtConnected                      update_route_mask_when_bt_connected
+    	[✅]: updatedRcsCallCountTracking                         updated_rcs_call_count_tracking
+    	[✅]: useActualAddressToEnterConnectingState              use_actual_address_to_enter_connecting_state
+    	[✅]: useDeviceProvidedSerializedRingerVibration          use_device_provided_serialized_ringer_vibration
+    	[✅]: useImprovedListenerOrder                            use_improved_listener_order
+    	[✅]: useRefactoredAudioRouteSwitching                    use_refactored_audio_route_switching
+    	[✅]: useStreamVoiceCallTones                             use_stream_voice_call_tones
+    	[✅]: voipAppActionsSupport                               voip_app_actions_support
+    	[✅]: voipCallMonitorRefactor                             voip_call_monitor_refactor
+  TransactionManager: 
+    Pending Transactions:
+    Ongoing Transaction:
+    Completed Transactions:
+      [2026-11-26T17:31:26.083568] VerifyCallStateChangeTransaction: (result=[TIMED OUT]), (created -> started : [+0] mS), (started -> completed : [+5004] mS)
+  Historical Events:
+    CallTC@1 [Nov 26, 2026 5:31:21 PM](MT - incoming)(User=UserHandle{0})
+    	>>>Target PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0} (T-Mobile)
+    	>>>Conn mgr: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}
+    	To address: tel:*****02 Verstat: not Presentation: Allowed
+      17:31:21.610 - CREATED (null;null):TSI.aNIC(cap)@AsM
+      17:31:21.616 - BIND_CS (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}):TSI.aNIC(cap)@AsM
+      17:31:21.627 - CS_BOUND (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}):SBC.oSC(cap)@AsQ
+      17:31:21.627 - START_CONNECTION (tel:*****02 via:com.android.phone):SBC.oSC(cap)@AsQ
+      17:31:21.634 - CAPABILITY_CHANGE (Current: [[ sup_hld mut !v2a spd_aud]], Removed [[]], Added [[ sup_hld mut !v2a spd_aud]]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-AsQ
+      17:31:21.638 - FILTERING_INITIATED:(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC(cap/cast)@E-E-AsQ
+      17:31:21.640 - DIRECT_TO_VM_INITIATED:(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF(cap/cast)@E-E-AsQ
+      17:31:21.640 - DND_PRE_CHECK_INITIATED:(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF(cap/cast)@E-E-AsQ
+      17:31:21.645 - DND_PRE_CHECK_COMPLETED (false):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF(cap/cast)@E-E-AsQ
+      17:31:21.645 - BLOCK_CHECK_INITIATED:(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF(cap/cast)@E-E-AsQ
+      17:31:21.649 - DIRECT_TO_VM_FINISHED:(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF->CILH.sL->CILH.oQC(cap/cast)@E-E-AsQ
+      17:31:21.656 - BLOCK_CHECK_FINISHED (not blocked [Allow, logged, notified]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF->CILH.sL->CILH.oQC->BCF.gBS->BCF.gBS(cap/cast)@E-E-AsQ
+      17:31:21.665 - SET_RINGING (successful incoming call):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF->CILH.sL->CILH.oQC->BCF.gBS->BCF.gBS->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF(cap/cast)@E-E-AsQ
+      17:31:21.714 - FILTERING_COMPLETED ([Allow, logged, notified]):(...->CS.crCo->H.CS.crCo->H.CS.crCo.pICR)->CSW.hCCC->ICFG.sF->ICFG.sF->CILH.sL->CILH.oQC->BCF.gBS->BCF.gBS->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF->ICFG.sF(cap/cast)@E-E-AsQ
+      17:31:21.748 - FLASH_NOTIFICATION_START:ICSBC.oSC->CAM.oCER->CAMSM.pM_2002(cgab)@AsY
+      17:31:21.748 - START_RINGER:ICSBC.oSC->CAM.oCER->CAMSM.pM_2002(cgab)@AsY
+      17:31:21.776 - AUDIO_ROUTE (Entering audio route: AudioRoute[Type=TYPE_SPEAKER, Address=invalid] (active=true)):ICSBC.oSC->CAM.oCER->CAMSM.pM_2002->CARC.pM_SWITCH_FOCUS->CARC.pM_EXIT_PENDING_ROUTE(cgab)@AsY
+      17:31:22.212 - START_VIBRATOR (hasVibrator=true, userRequestsVibrate=true, ringerMode=2, isVibrating=false):ICSBC.oSC->CAM.oCER->CAMSM.pM_2002->ARP.hP(cgab)@AsY
+      17:31:26.050 - FLASH_NOTIFICATION_STOP:ICA.aC->CSC.aC->CSFM.rF(ofwl)@Avk
+      17:31:26.050 - STOP_RINGER:ICA.aC->CSC.aC->CSFM.rF(ofwl)@Avk
+      17:31:26.067 - STOP_VIBRATOR:ICA.aC->CSC.aC->CSFM.rF(ofwl)@Avk
+      17:31:26.074 - REQUEST_ACCEPT:ICA.aC->CSC.aC->CSFM.rF(ofwl)@Avk
+      17:31:26.084 - SET_ANSWERED (answered):ICA.aC->CSC.aC->CSFM.rF(ofwl)@Avk
+      17:31:26.176 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (MISSED) Label: () Description: () Reason: (INCOMING_MISSED) Tone: (27)  TelephonyCause: 1/-1 ImsReasonInfo: null]):CSW.sDc(cap)@Avs
+      17:31:26.190 - LOG_CALL (number=*****02,postDial=,pres=1):CSW.sDc(cap)@Avs
+      17:31:26.196 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Av0
+      17:31:26.196 - CONF_CALLS_CHANGED ():CSW.sCC(cap)@Av4
+      17:31:26.232 - DESTROYED:CSW.rC->CM.pR(cap)@AwA
+      Timings (average for this call, milliseconds):
+        bind_cs: 11.00
+        block_check_finished: 11.00
+        direct_to_vm_finished: 9.00
+        dnd_pre_check_completed: 5.00
+        filtering_completed: 76.00

@@ -1,0 +1,96 @@
+{
+  "schema": "framework-cpp-baseline-attribution/v1",
+  "repository": "wieslawsoltes/FerroUI",
+  "consumer_head": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+  "consumer_framework_pin": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "framework_ci_merge": "3a6d1b76afe782a81b4ec6b755ab166dfc250f9e",
+  "framework_ci_base": "21720a379c059a6a73805bf583fdd0589c933969",
+  "framework_ci_run": 45866630349,
+  "framework_ci_job": 140071228208,
+  "conclusion": "pre_existing_generated_cpp_bindings_mismatch_on_merge_base",
+  "generator_inputs_and_outputs": [
+    {
+      "path": "scripts/generate_cpp_bindings.py",
+      "base_and_merge_bytes": 25214,
+      "base_and_merge_sha256": "8f49532b574d17f1a61948d7a6bf12720700d9cd4550907af283dc351125546c",
+      "byte_identical": true
+    },
+    {
+      "path": "scripts/generate_osprey_bindings.py",
+      "base_and_merge_bytes": 37606,
+      "base_and_merge_sha256": "effdfed063f6a875a27b20d6057eb6a4093c9e967a1616cccd5b234b8fbe60c5",
+      "byte_identical": true
+    },
+    {
+      "path": "scripts/ferroui_selection.py",
+      "base_and_merge_bytes": 4700,
+      "base_and_merge_sha256": "04aebda4538689ab10ba8c0b5d2fe8a6a1e6286c21f8f7133fe22ce217d58d2e",
+      "byte_identical": true
+    },
+    {
+      "path": "bindings/model/ferroui-api.json",
+      "base_and_merge_bytes": 1219335,
+      "base_and_merge_sha256": "f4ed54b61e50a2cc33903aa0af63673fac2ecce2d9d67c249b469b39401f0295",
+      "byte_identical": true
+    },
+    {
+      "path": "samples/CApi/cpp/hello_world/ferroui.json",
+      "base_and_merge_bytes": 65,
+      "base_and_merge_sha256": "2afda14240a9ebb0050be0c16c725b82d87a18452c1d52d760744c3ab4aeb20a",
+      "byte_identical": true
+    },
+    {
+      "path": "bindings/cpp/full/ferroui.hpp",
+      "base_and_merge_bytes": 884995,
+      "base_and_merge_sha256": "235f2d8d0124542408bfeb208dbdc91b4612bfeeab4a8cf12574ae50044e7ad6",
+      "byte_identical": true
+    },
+    {
+      "path": "samples/CApi/cpp/hello_world/ferroui/ferroui.hpp",
+      "base_and_merge_bytes": 83076,
+      "base_and_merge_sha256": "f956877e1a371b98bee5f262dc7507b32b809337a45255ad5344456a8f929dff",
+      "byte_identical": true
+    }
+  ],
+  "all_scripts_models_cpp_trees_unchanged": true,
+  "local_python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "base_only_check": {
+    "command": "python3 scripts/generate_cpp_bindings.py --check",
+    "exit_code": 1,
+    "output": "stale: bindings/cpp/full/ferroui.hpp\nstale: samples/CApi/cpp/hello_world/ferroui/ferroui.hpp\n"
+  },
+  "base_only_regeneration": {
+    "command": "python3 scripts/generate_cpp_bindings.py",
+    "exit_code": 0,
+    "output": "wrote bindings/cpp/full/ferroui.hpp (898575 bytes)\nwrote samples/CApi/cpp/hello_world/ferroui/ferroui.hpp (83078 bytes)\n",
+    "recheck_exit_code": 0,
+    "changed_files": [
+      "3140\t2953\tbindings/cpp/full/ferroui.hpp",
+      "215\t215\tsamples/CApi/cpp/hello_world/ferroui/ferroui.hpp"
+    ]
+  },
+  "source_attribution": "The merge changes only the ten picker/scroll source and test files. The API model check passed in CI. The C++ generator, its selection code, API model, manifest and stored outputs are byte-identical in base and merge. The exact base alone fails the same check before any picker delta is present.",
+  "scope": "No generator or generated header was changed in the consumer pin or dependency PR. Base-only regeneration in an isolated worktree establishes the mismatch, not a complete validation or publication of unrelated bindings. Later language/conventions steps were not reached by the failed job.",
+  "logs": [
+    {
+      "path": "/tmp/windowsphone-tooling/framework-cpp-base-check.log",
+      "bytes": 93,
+      "sha256": "c9ac3ff29eec0cae4edb08348a908dbb6d726350c9fe0e39e7168fb1ed18c075"
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/framework-cpp-base-generate.log",
+      "bytes": 120,
+      "sha256": "72c84e22f01e28876e24a3de4b2f288705d3da4bbe24a247373aa0d1f78769af"
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/framework-cpp-base-recheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/framework-pr1456-75bdfc3-conventions.log",
+      "bytes": 16455,
+      "sha256": "75d1933f6dc679fc3cdab98c835aee3dc4e4442842ef1c090ce255ed7da36ae9"
+    }
+  ]
+}

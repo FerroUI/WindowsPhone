@@ -1,0 +1,22 @@
+{
+  "path": ".github/workflows/pages.yml",
+  "before_sha256": "91f3b8b2866bcdfaf308b02a4e16e216562dfec80f5b403471ba0c39baaf4cfb",
+  "after_sha256": "753fdbd2ffc23379914044588d4ff92c7799f365a30b77fa649ff406122bc24f",
+  "parsed_semantic_change": {
+    "jobs.build.timeout-minutes": {
+      "before": 45,
+      "after": 60
+    }
+  },
+  "all_other_parsed_workflow_fields_equal": true,
+  "inner_ui_step_minutes": 9,
+  "inner_script_budget_seconds": 480,
+  "measured_prior_run": 45866715401,
+  "measured_job": 140071310166,
+  "measured_job_total_seconds": 2545,
+  "measured_pre_ui_seconds": 2182,
+  "configured_ui_step_seconds": 540,
+  "pre_ui_plus_full_step_seconds": 2722,
+  "old_job_limit_seconds": 2700,
+  "rationale": "The measured cold preparation plus the existing full UI step already exceeds the old job cap before artifact cleanup. Preserve every inner assertion and its deadline while allowing the configured step to finish."
+}

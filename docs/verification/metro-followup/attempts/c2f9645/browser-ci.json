@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T12:52:17.236781+00:00",
+  "run": {
+    "id": 45820159686,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686",
+    "event": "pull_request",
+    "attempt": 1,
+    "build_job_id": 139910061096,
+    "build_job_conclusion": "failure",
+    "deploy_conclusion": "skipped"
+  },
+  "source": {
+    "pr": 4,
+    "head_sha": "c2f9645e0d7ddc2e60278f3f116fe08e77694ce5",
+    "checkout_sha": "9183a0ee8b31c9d7d4840e872753c9380f773a52",
+    "tree_sha": "935e88204b6c6049c632ca0ea9124d8f7a894d71",
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "db2e8859cd4b67bac870839ea70503b8babf541f"
+  },
+  "tests": {
+    "state": {
+      "passed": 157,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_apps_controls": {
+      "passed": 242,
+      "failed": 0,
+      "ignored": 0
+    },
+    "phone_controls": {
+      "unit_passed": 33
+    },
+    "phone_sdk": {
+      "unit_passed": 29,
+      "integration_passed": 24,
+      "passed": 53
+    },
+    "javascript": {
+      "passed": 73,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "rendered_ui": {
+    "passed": false,
+    "completed_passing_checks": 90,
+    "captures": 161,
+    "elapsed_ms": 311773,
+    "browser_errors": [],
+    "failures": [
+      {
+        "module": "verifyPhonePickers",
+        "error": "Error: Timed out: native touch scrolling advances and snaps the minute wheel\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:89:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:236:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:289:3)\n    at async verifyPhonePickers (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:206:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:656:11"
+      },
+      {
+        "module": "verifySystemRefinements",
+        "error": "Error: Timed out: MessageSearch\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:89:9)\n    at async click (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:114:30)\n    at async edit (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:154:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:168:34\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:289:3)\n    at async verifySystemRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:166:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:656:11"
+      }
+    ],
+    "selected_passing_checks": [
+      "Metro application bar reveals labels without moving page content",
+      "native Metro switch thumb follows touch and persists on release",
+      "native Metro pivot supports touch wrapping, headers and keyboard",
+      "native phone date and time pickers preserve popup accept and cancel behavior",
+      "registered Minesweeper provides safe first reveal, flags, transient clock and resumable state",
+      "SDK app Start links, local search, and Store disable/enable preserve game progress",
+      "narrow viewport and trusted touch navigation"
+    ]
+  },
+  "artifacts": [
+    {
+      "name": "compiled-app",
+      "id": 15116899544,
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-compiled-app.zip",
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-compiled",
+      "size_bytes": 10229693,
+      "github_sha256": "6c9fdcf906b054204b37f032c3fa8e805d412e11ae46799708f3437445a5a13e",
+      "observed_sha256": "6c9fdcf906b054204b37f032c3fa8e805d412e11ae46799708f3437445a5a13e",
+      "sha256_verified": true,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686/artifacts/15116899544"
+    },
+    {
+      "name": "ui-verification",
+      "id": 15117829387,
+      "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui-verification.zip",
+      "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui",
+      "size_bytes": 8548829,
+      "github_sha256": "d540a8e29f5decd10f798c2187b71f61e97ec055b1e66d5c135cdb9510623d24",
+      "observed_sha256": "d540a8e29f5decd10f798c2187b71f61e97ec055b1e66d5c135cdb9510623d24",
+      "sha256_verified": true,
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45820159686/artifacts/15117829387"
+    }
+  ],
+  "compiled_wasm_sha256": "942db1c6250956ed980c6ee92f8d98654088f165e79294d37cb88a527764fafc",
+  "evidence": {
+    "build_log": "/tmp/windowsphone-tooling/pr4-browser-build.log",
+    "results": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui/results.json",
+    "picker_failure_json": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui/phone-picker-failure.json",
+    "picker_failure_png": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui/phone-picker-failure.png",
+    "system_failure_json": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui/system-failure.json",
+    "system_failure_png": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/pr4-ui/system-failure.png"
+  },
+  "diagnosis": {
+    "system_refinements": {
+      "observed_route": {
+        "Conversation": 1055
+      },
+      "proven": "The MessageSearch timeout snapshot is the second fixture conversation, not the Messaging search page. The search handler itself only toggles searching; it cannot open a conversation.",
+      "inference": "The native click used coordinates during the app entrance. app() waited only for the route, while centre() combines transformed origin with untransformed logical dimensions.",
+      "local_change": "scripts/ui-system-refinements.mjs app() waits current and retiring page transforms to detach and the outgoing snapshot to clear before pointer input.",
+      "validation": "node --check and git diff --check pass; all 73 JavaScript tests pass. Rendered successor still required."
+    },
+    "picker": "Under separate native-controls investigation; contract retained."
+  }
+}

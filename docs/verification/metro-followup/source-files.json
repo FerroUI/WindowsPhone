@@ -1,0 +1,226 @@
+{
+  "base": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+  "implementation_commit": "c2f9645e0d7ddc2e60278f3f116fe08e77694ce5",
+  "touch_harness_commit": "5c572ce3534659f753eb6e02f6be16a1130bda8f",
+  "verification_commit": "dc9e2a94d206944023169a789539c02307dd201a",
+  "verification_tree": "85db8c20df19ca40e08ebef89cb086acd72eac60",
+  "files": [
+    {
+      "path": ".github/workflows/android-ui.yml",
+      "bytes": 7286,
+      "sha256": "caad1ca05d3fa67abf74d23efdc176e4d3163943414bf365604885943d5c2979"
+    },
+    {
+      "path": ".github/workflows/android.yml",
+      "bytes": 6178,
+      "sha256": "1d9ae1ad392658f9e03b22db2402c3b4d0b263c9345a8abfd6b3b2eb7cbb4b9b"
+    },
+    {
+      "path": ".github/workflows/ios.yml",
+      "bytes": 5511,
+      "sha256": "91cb769dc7e6f00a0b67e84c7662acabeb26c38cc2795a2b7ad3a8278fec931c"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "bytes": 14986,
+      "sha256": "753fdbd2ffc23379914044588d4ff92c7799f365a30b77fa649ff406122bc24f"
+    },
+    {
+      "path": "FerroUI",
+      "mode": "160000",
+      "type": "commit",
+      "sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+    },
+    {
+      "path": "crates/phone-controls/src/application_bar.rs",
+      "bytes": 20460,
+      "sha256": "a33e0af771f15ff2239aa61df6e06e28cf570b67f4ce08669204eda839a0856e"
+    },
+    {
+      "path": "crates/phone-controls/src/application_bar/layout_tests.rs",
+      "bytes": 4466,
+      "sha256": "68cf1d1772f3ab6837e11742a590802c3c96338448cb54d07ee79acba0ffd75a"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers.rs",
+      "bytes": 7160,
+      "sha256": "172db08fb6d9fff1480b128ee94a9f72cd5ee8b75353e5afc69a137d1983b4e8"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers/input.rs",
+      "bytes": 10587,
+      "sha256": "c36b434dd848886059ada58e8449a1c9e5913ae4b5a2c466c78bd0871bcdc8d8"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers/input_tests.rs",
+      "bytes": 7965,
+      "sha256": "1f460c468d3c1efc7af5894c524b2b5ca6c2cffc2935f17cea00086041c302ef"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers/reopen_tests.rs",
+      "bytes": 15341,
+      "sha256": "3f14142632a1b6bd583818166b8742895a7b157996801646c51cf0334deea6c5"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers/templates.rs",
+      "bytes": 26712,
+      "sha256": "b2a08abe4ae38bcaf6fd546b1c33042319b7572ec8ddd7e61e4f55d557fc865a"
+    },
+    {
+      "path": "crates/phone-controls/src/pickers/tests.rs",
+      "bytes": 16577,
+      "sha256": "75c2db23dcb6939431c0e180eb4cae2f7b46dc395073b2f7a41e3d6d44a51d7f"
+    },
+    {
+      "path": "crates/phone-host/src/platform/device.rs",
+      "bytes": 41084,
+      "sha256": "96db36fd0aadd6f30378e31752d03baf54087796aa0c380b63fa060fc639615e"
+    },
+    {
+      "path": "crates/phone-ios/README.md",
+      "bytes": 16464,
+      "sha256": "65463e9a4cbd35cdfa3e3aa3b848bcb376772978524d71b94622c7ecd275cde3"
+    },
+    {
+      "path": "crates/phone-ios/native/device.h",
+      "bytes": 2268,
+      "sha256": "2d5574d57b6758e683d2c1970b1be7b496e259c25e0ef4a34fc4eef6ecda96a5"
+    },
+    {
+      "path": "crates/phone-ios/native/device.m",
+      "bytes": 16595,
+      "sha256": "28fb726e3a13122e05498e47bc1441e87ed3660802fe25a946cde6afd759502d"
+    },
+    {
+      "path": "crates/phone-ios/native/location.m",
+      "bytes": 6869,
+      "sha256": "d8542a8112448370790b4752e6445d6030a9d76481d5dbbf95d97aef18c2299b"
+    },
+    {
+      "path": "crates/phone-ios/src/device.rs",
+      "bytes": 5552,
+      "sha256": "5371f388acbe82596125d648b1b2e294cba769b795b789edb8b1c79145bc2a12"
+    },
+    {
+      "path": "crates/phone-ios/src/smoke_devices.rs",
+      "bytes": 8826,
+      "sha256": "9ba52659898416942e122869f7e5ea28a325d875fb440facef85cee82574ec10"
+    },
+    {
+      "path": "crates/phone-sdk/src/device.rs",
+      "bytes": 14161,
+      "sha256": "7c9e233bce291d99413a98f48039730c2fe2343ae2681c23df102e691a99c9de"
+    },
+    {
+      "path": "crates/phone-state/src/device.rs",
+      "bytes": 18011,
+      "sha256": "ca5e5be02b64d9f0f2efd4b10d26fd14a65b1894cfad052c9e0a6909d766bf53"
+    },
+    {
+      "path": "crates/phone-system/src/gestures/controller_tests.rs",
+      "bytes": 12046,
+      "sha256": "f2e1652247dda2a997384c646589a42fc3474c1ce29f42f831adaa900c0c5a90"
+    },
+    {
+      "path": "scripts/collect_ios_failure_test.py",
+      "bytes": 19091,
+      "sha256": "a77a99b01f5cfa050c05f9de0a8304a4677286a0bbf50f16636cfd8e55b4a0e6"
+    },
+    {
+      "path": "scripts/fixtures/ui-native-input-frames.json",
+      "bytes": 8560,
+      "sha256": "09cd45b8099d6c6c9210c3f0b9cbe4f02c9aa72b48d1875a3aa02ce237aa04e8"
+    },
+    {
+      "path": "scripts/smoke-ios.sh",
+      "bytes": 11964,
+      "sha256": "d457dece8dd537d07a41b8c1c32389cd1f7b223eef3b79c5deace2a4a3d08682"
+    },
+    {
+      "path": "scripts/ui-alarm-refinements.mjs",
+      "bytes": 11685,
+      "sha256": "7bf6e5d3a9a991299602449a6f15c0cf9cb28a642cb1d20b9e78ca7e71df402b"
+    },
+    {
+      "path": "scripts/ui-calendar-refinements.mjs",
+      "bytes": 9316,
+      "sha256": "3bdbb793a9e41390829988d9bf46ef72e17bfa92edcb50156837af2f7db22ce1"
+    },
+    {
+      "path": "scripts/ui-grid-geometry.test.mjs",
+      "bytes": 2363,
+      "sha256": "965b43696ac9c78b1f643e7ae487aa0ec8be360c3d8649e3afb90c2326bee226"
+    },
+    {
+      "path": "scripts/ui-input-geometry.mjs",
+      "bytes": 2198,
+      "sha256": "6b66163f6f2102fcb3d44161299311dff37d4597c3c51f61dccad8293157fbae"
+    },
+    {
+      "path": "scripts/ui-input-geometry.test.mjs",
+      "bytes": 3099,
+      "sha256": "048306d105c0215d5dd23e8667c3e6cba44304c122de350117c5b35629245686"
+    },
+    {
+      "path": "scripts/ui-metro-controls.mjs",
+      "bytes": 22301,
+      "sha256": "4267c36e048984c91f57b5d69581b833436b70d4bc0eaf29e15b0897b2c4e550"
+    },
+    {
+      "path": "scripts/ui-phone-pickers.mjs",
+      "bytes": 22198,
+      "sha256": "2c2052670fb39a5d7b1dabd649bcd221c196e88ce1a5ee2873d6db5ac1e3a43c"
+    },
+    {
+      "path": "scripts/ui-picker-geometry.test.mjs",
+      "bytes": 1442,
+      "sha256": "a8f44790aab0ab59de0f17f12252306e70a5db0e002d08f59cbe9b6cf344a61f"
+    },
+    {
+      "path": "scripts/ui-sdk-games.mjs",
+      "bytes": 17875,
+      "sha256": "b5939dbd112b0457d1cf69233d3277151052631678b1eed85a5f944849301d0b"
+    },
+    {
+      "path": "scripts/ui-shell-parity.mjs",
+      "bytes": 15255,
+      "sha256": "f0986f4171967a37d4f7cca41a56f6bc42ac7dcc34a7132a86297505cfa95037"
+    },
+    {
+      "path": "scripts/ui-smoke.mjs",
+      "bytes": 39636,
+      "sha256": "5eb48df0532e7386aee91d644a70954a9080c462706a97ed233259624d9c9ad0"
+    },
+    {
+      "path": "scripts/ui-start-customization.mjs",
+      "bytes": 10014,
+      "sha256": "35b4b0c283899bb4abff1067efa5b99925b17879c01ad6df2550075d77fffce3"
+    },
+    {
+      "path": "scripts/ui-system-refinements.mjs",
+      "bytes": 12830,
+      "sha256": "64e254ae7b4fad913e0efa51f2df70494579d3218cfd5d8ab9acbe7047c0c291"
+    },
+    {
+      "path": "scripts/verify-ios-devices.py",
+      "bytes": 1683,
+      "sha256": "2ca6f951029f875b9a9bc11aa9c29f5dbd5aadcbe8afcda9b7a4b4fe46406983"
+    },
+    {
+      "path": "scripts/verify_ios_smoke_test.py",
+      "bytes": 6848,
+      "sha256": "323e1458512cc5db56e43b891796ead10d1dca533b112e03aaf6244fec8e151e"
+    }
+  ],
+  "shared_input_commit": "2dc6f31db9039600e7a6e7c5337deba17d97b88c",
+  "ci_checkout": "f8bed7d59a6b16b6df2caaea01d88b615c39ae0d",
+  "input_path_commit": "4f10a3d6c1ce4adc53aaf8621a9f33244bb1f491",
+  "picker_ownership_commit": "f6c3d20d865018ccb960b7720b1f6c4b873c6519",
+  "actual_checkout": "f8bed7d59a6b16b6df2caaea01d88b615c39ae0d",
+  "framework_commit": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "framework_dependency_record": "framework-dependency.json",
+  "native_reopen_and_xctest_commit": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+  "hidden_part_test_lookup_commit": "e430b2141eae143cca1440f6b0ade31646659332",
+  "bounded_scroll_commit": "8749c8a60cb7eb854f641d772eb662c2afaf8064",
+  "picker_resize_and_scroll_ownership_commit": "dc9e2a94d206944023169a789539c02307dd201a"
+}

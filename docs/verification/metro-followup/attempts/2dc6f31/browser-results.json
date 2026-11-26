@@ -1,0 +1,140 @@
+{
+  "site": "/home/runner/work/WindowsPhone/WindowsPhone/target/browser/phone-browser",
+  "viewport": [
+    1280,
+    936
+  ],
+  "checks": [
+    {
+      "name": "desktop Start renders",
+      "elapsedMs": 530,
+      "passed": true
+    },
+    {
+      "name": "native tile launch and Back",
+      "elapsedMs": 1016,
+      "passed": true
+    },
+    {
+      "name": "native context menu resizes a tile",
+      "elapsedMs": 1151,
+      "passed": true
+    },
+    {
+      "name": "app list search and native note creation",
+      "elapsedMs": 4617,
+      "passed": true
+    },
+    {
+      "name": "native note edit and reload persistence",
+      "elapsedMs": 5674,
+      "passed": true
+    },
+    {
+      "name": "native secondary note tile opens its note",
+      "elapsedMs": 1912,
+      "passed": true
+    },
+    {
+      "name": "native note deletion",
+      "elapsedMs": 936,
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "name": "01-start-desktop",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3943
+    },
+    {
+      "name": "02-phone-history",
+      "route": {
+        "App": "Phone"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 180
+    },
+    {
+      "name": "03-start-resized",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3377
+    },
+    {
+      "name": "04-native-note-form",
+      "route": {
+        "App": "OneNote"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 174
+    },
+    {
+      "name": "05-note-created",
+      "route": {
+        "Note": 1048
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 198
+    },
+    {
+      "name": "06-note-restored",
+      "route": {
+        "Note": 1048
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 202
+    },
+    {
+      "name": "06b-note-pinned",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 342
+    }
+  ],
+  "passed": false,
+  "error": "AssertionError [ERR_ASSERTION]: Start scroll viewer is not hit-testable\n    at openApps (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:317:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:510:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:297:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:509:3",
+  "elapsedMs": 26963,
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:33987/index.html?nooffline=1",
+    "http://127.0.0.1:33987/app.css",
+    "http://127.0.0.1:33987/icon.svg",
+    "http://127.0.0.1:33987/main.js",
+    "http://127.0.0.1:33987/manifest.webmanifest",
+    "http://127.0.0.1:33987/ferroui.js",
+    "http://127.0.0.1:33987/ferroui-loader.js",
+    "http://127.0.0.1:33987/host.js",
+    "http://127.0.0.1:33987/canvas-sizing.js",
+    "http://127.0.0.1:33987/environment.js",
+    "http://127.0.0.1:33987/updates.js",
+    "http://127.0.0.1:33987/platform-bridge.js",
+    "http://127.0.0.1:33987/browser-lifecycle.js",
+    "http://127.0.0.1:33987/sdk-tasks.js",
+    "http://127.0.0.1:33987/http-tasks.js",
+    "http://127.0.0.1:33987/map-tiles.js",
+    "http://127.0.0.1:33987/phone-storage.js",
+    "http://127.0.0.1:33987/urls.js",
+    "http://127.0.0.1:33987/media.js",
+    "http://127.0.0.1:33987/backup.js",
+    "http://127.0.0.1:33987/documents.js",
+    "http://127.0.0.1:33987/document-share.js",
+    "http://127.0.0.1:33987/alarm-alert.js",
+    "http://127.0.0.1:33987/system-notifications.js",
+    "http://127.0.0.1:33987/storage-environment.js",
+    "http://127.0.0.1:33987/pim.js",
+    "http://127.0.0.1:33987/file-picker.js",
+    "http://127.0.0.1:33987/backup-format.js",
+    "http://127.0.0.1:33987/media-session.js",
+    "http://127.0.0.1:33987/phone-browser.js",
+    "http://127.0.0.1:33987/phone_browser.wasm"
+  ]
+}

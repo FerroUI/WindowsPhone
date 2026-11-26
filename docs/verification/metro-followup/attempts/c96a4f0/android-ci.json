@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T16:28:15.791500+00:00",
+  "source": {
+    "pr": 4,
+    "head_sha": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+    "checkout_sha": "96f214d4b36203f38b03b70f9eb62f09bdd27f3b",
+    "tree_sha": "ed06b217572976f4c03bacaa6dba276307c0ff4a",
+    "base_sha": "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "merge_parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "c96a4f0043bd80137997fcd34dbb4b407414af00"
+    ],
+    "checkout_tree_equals_pr_head_tree": true,
+    "framework_sha": "cd9aeaef1fb6a80f513d577d345fac6483077966"
+  },
+  "arm64": {
+    "run_id": 45855597424,
+    "job_id": 140032997776,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597424",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "checkout_sha_verified_in_log": true,
+    "framework_checkout_log_line": "2026-11-26T16:06:49.4101135Z Submodule path 'FerroUI': checked out 'cd9aeaef1fb6a80f513d577d345fac6483077966'",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 8,
+      "rust_passed": 7
+    },
+    "package_variants": [
+      "app",
+      "launcher"
+    ],
+    "package_gates": [
+      "decoded manifest",
+      "JNI entry",
+      "native ELF alignment",
+      "zipalign"
+    ],
+    "artifacts": [
+      {
+        "id": 15136715978,
+        "name": "phone-android-arm64-debug",
+        "size_bytes": 76297185,
+        "github_digest": "sha256:117c937f04a779f627a22034d288c59a9acee6c4d9f853b15622062125e436ff",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597424/artifacts/15136715978"
+      }
+    ],
+    "log_path": "/tmp/windowsphone-tooling/android-arm-c96a4f0.log"
+  },
+  "mounted_ui": {
+    "run_id": 45855597450,
+    "job_id": 140032998313,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597450",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "completed_at": "2026-11-26T16:23:34Z",
+    "checkout_sha_verified_in_log": true,
+    "artifact_head_txt": "96f214d4b36203f38b03b70f9eb62f09bdd27f3b",
+    "framework_checkout_log_line": "2026-11-26T16:06:45.3981632Z Submodule path 'FerroUI': checked out 'cd9aeaef1fb6a80f513d577d345fac6483077966'",
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_passed": 47,
+      "python_groups": [
+        8,
+        9,
+        8,
+        3,
+        19
+      ],
+      "rust_passed": 7
+    },
+    "result": "passed",
+    "exit_code": 0,
+    "target": {
+      "platform": "android",
+      "api": 36,
+      "abi": "x86_64",
+      "gpu": "software"
+    },
+    "capture_count": 21,
+    "observation_count": 29,
+    "restoration_byte_equal": {
+      "home": true,
+      "user": true,
+      "DIALER": true,
+      "SMS": true,
+      "listener": true
+    },
+    "notification_bootstrap": {
+      "rendered_fixture_labels": 2,
+      "all_fixture_labels_fully_visible": true,
+      "revoked_count": 0,
+      "revoked_fixture_empty": true,
+      "revoked_rendered_labels_empty": true
+    },
+    "carrier_call": {
+      "same_call_id_through_ringing_and_active": true,
+      "states": [
+        "ringing",
+        "active"
+      ],
+      "ongoing_presentation": {
+        "service_type": 4,
+        "foreground_notification": true,
+        "call_style": true
+      },
+      "ended_calls_empty": true,
+      "ended_presentation": {
+        "service_type": 0,
+        "foreground_notification": false,
+        "call_style": false
+      },
+      "ended_page_remains_visible": true
+    },
+    "codec": {
+      "result": "passed",
+      "assertions": 13,
+      "encoded_bytes": 266,
+      "rf_requests": 0
+    },
+    "artifacts": [
+      {
+        "id": 15136961568,
+        "name": "phone-android-x86_64-ui",
+        "size_bytes": 5980627,
+        "github_digest": "sha256:b87245edabdfa53864d928a81c1f789b01fa16e20f0885725679a41d31a8b15a",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597450/artifacts/15136961568",
+        "local_sha256": "b87245edabdfa53864d928a81c1f789b01fa16e20f0885725679a41d31a8b15a",
+        "github_digest_matches": true,
+        "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-c96a4f0.zip",
+        "extracted_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-c96a4f0",
+        "extracted_file_count": 205
+      },
+      {
+        "id": 15135979396,
+        "name": "phone-android-x86_64-debug",
+        "size_bytes": 83555192,
+        "github_digest": "sha256:823076e6d7c7a455d6c0547276c7e64f606fceb1c54f062f9d9815359331e1f5",
+        "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45855597450/artifacts/15135979396"
+      }
+    ],
+    "log_path": "/tmp/windowsphone-tooling/android-ui-c96a4f0.log"
+  }
+}

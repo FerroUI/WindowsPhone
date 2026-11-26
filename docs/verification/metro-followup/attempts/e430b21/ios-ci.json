@@ -1,0 +1,1383 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "head_sha": "e430b2141eae143cca1440f6b0ade31646659332",
+  "tree_sha": "6969153e1a17c0f13697e5a786f569124e8cfd48",
+  "expected_pr_merge": {
+    "sha": "677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "tree": "6969153e1a17c0f13697e5a786f569124e8cfd48",
+    "checkout_log_confirmed": true
+  },
+  "framework_pin": "cd9aeaef1fb6a80f513d577d345fac6483077966",
+  "status": "completed",
+  "conclusion": "success",
+  "run_id": 45862218491,
+  "job_id": 140055875245,
+  "prior_attempts_preserved": [
+    "/tmp/windowsphone-tooling/ios-ci-c96a4f0.json",
+    "/tmp/windowsphone-tooling/ios-ci-f6c3d20-attempt1.json"
+  ],
+  "pending": [],
+  "run": {
+    "id": 45862218491,
+    "workflow": "Verify iOS host",
+    "event": "pull_request",
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45862218491",
+    "created_at": "2026-11-26T16:48:59Z",
+    "updated_at": "2026-11-26T17:07:10Z",
+    "head_sha": "e430b2141eae143cca1440f6b0ade31646659332"
+  },
+  "job": {
+    "id": 140055875245,
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-26T16:49:03Z",
+    "completed_at": "2026-11-26T17:07:09Z",
+    "runner_name": "GitHub Actions 1000002295",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-26T16:49:04Z",
+        "completed_at": "2026-11-26T16:49:05Z"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-26T16:49:05Z",
+        "completed_at": "2026-11-26T16:49:27Z"
+      },
+      {
+        "name": "Read pinned toolchain",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-26T16:49:27Z",
+        "completed_at": "2026-11-26T16:49:27Z"
+      },
+      {
+        "name": "Install pinned Rust and iOS standard library",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-26T16:49:27Z",
+        "completed_at": "2026-11-26T16:49:35Z"
+      },
+      {
+        "name": "Normalize framework source timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-26T16:49:35Z",
+        "completed_at": "2026-11-26T16:49:37Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-26T16:49:37Z",
+        "completed_at": "2026-11-26T16:50:12Z"
+      },
+      {
+        "name": "Verify portable iOS completion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-26T16:50:12Z",
+        "completed_at": "2026-11-26T16:50:29Z"
+      },
+      {
+        "name": "Type check the optional carrier provider for physical iPhone",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-26T16:50:29Z",
+        "completed_at": "2026-11-26T16:50:41Z"
+      },
+      {
+        "name": "Check all native bridge files against the simulator SDK",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-26T16:50:41Z",
+        "completed_at": "2026-11-26T16:50:54Z"
+      },
+      {
+        "name": "Build and bundle the standard UIKit application",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-26T16:50:54Z",
+        "completed_at": "2026-11-26T16:52:21Z"
+      },
+      {
+        "name": "Build and bundle the optional carrier provider",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-26T16:52:21Z",
+        "completed_at": "2026-11-26T16:52:56Z"
+      },
+      {
+        "name": "Cache the successfully built UIKit application",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-26T16:52:56Z",
+        "completed_at": "2026-11-26T16:53:47Z"
+      },
+      {
+        "name": "Verify native UI, device roundtrips and activation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-26T16:53:47Z",
+        "completed_at": "2026-11-26T17:06:50Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-26T17:06:50Z",
+        "completed_at": "2026-11-26T17:06:53Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-26T17:06:53Z",
+        "completed_at": "2026-11-26T17:07:02Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 30,
+        "started_at": "2026-11-26T17:07:02Z",
+        "completed_at": "2026-11-26T17:07:03Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31,
+        "started_at": "2026-11-26T17:07:03Z",
+        "completed_at": "2026-11-26T17:07:07Z"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 15139512535,
+      "name": "ios-verification",
+      "size_bytes": 1673141,
+      "sha256": "2be6add5eb624a33f56099752077c94ab386984ca73ef5fcca0d120b68df85c1",
+      "created_at": "2026-11-26T17:06:53Z",
+      "expires_at": "2026-12-03T17:06:51Z",
+      "workflow_run": {
+        "id": 45862218491,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/metro-picker-ios-continuation",
+        "head_sha": "e430b2141eae143cca1440f6b0ade31646659332"
+      },
+      "official_digest_matched_download": true,
+      "zip_path": "/tmp/phone-ios-e430b21.zip",
+      "extracted_path": "/tmp/phone-ios-e430b21"
+    },
+    {
+      "id": 15139387686,
+      "name": "phone-ios-simulator",
+      "size_bytes": 53228901,
+      "sha256": "05b5c03652ac09229f615d5661761b3d95820e290476277bbf6da8dee83e04a5",
+      "created_at": "2026-11-26T17:07:02Z",
+      "expires_at": "2026-11-29T17:06:54Z",
+      "workflow_run": {
+        "id": 45862218491,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/metro-picker-ios-continuation",
+        "head_sha": "e430b2141eae143cca1440f6b0ade31646659332"
+      },
+      "downloaded": false,
+      "official_digest_matched_download": false
+    }
+  ],
+  "merge_commit": {
+    "sha": "677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "tree": "6969153e1a17c0f13697e5a786f569124e8cfd48",
+    "parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "e430b2141eae143cca1440f6b0ade31646659332"
+    ]
+  },
+  "checkout_log_proof": [
+    "2026-11-26T16:49:06.4126360Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +677202a7a5569f69bcb83ae263a4148a73d98b0b:refs/remotes/pull/4/merge",
+    "2026-11-26T16:49:09.5143200Z  * [new ref]         677202a7a5569f69bcb83ae263a4148a73d98b0b -> pull/4/merge",
+    "2026-11-26T16:49:09.8439020Z HEAD is now at 677202a Merge e430b2141eae143cca1440f6b0ade31646659332 into a4a7b851048a151db66f9f4404b0c5ed8672c812",
+    "2026-11-26T16:49:27.1696620Z 677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "2026-11-26T16:49:27.2724400Z 677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "2026-11-26T16:49:38.0672670Z   key: phone-ios-v1-macOS-ARM64-1.99.0-cd9aeaef1fb6a80f513d577d345fac6483077966-98aebacd10a65e128787ef213680c316bbae117debe4be1f20c9fd9f4cb5b85f-677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "2026-11-26T16:52:56.3857060Z   key: phone-ios-v1-macOS-ARM64-1.99.0-cd9aeaef1fb6a80f513d577d345fac6483077966-98aebacd10a65e128787ef213680c316bbae117debe4be1f20c9fd9f4cb5b85f-677202a7a5569f69bcb83ae263a4148a73d98b0b",
+    "2026-11-26T16:53:47.0003850Z Cache saved with key: phone-ios-v1-macOS-ARM64-1.99.0-cd9aeaef1fb6a80f513d577d345fac6483077966-98aebacd10a65e128787ef213680c316bbae117debe4be1f20c9fd9f4cb5b85f-677202a7a5569f69bcb83ae263a4148a73d98b0b"
+  ],
+  "observations": [
+    {
+      "sequence": 5,
+      "observed_at_unix_ms": 1795712673998,
+      "route": "Start",
+      "activation": null,
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "device_fields": {},
+      "file": "start.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ]
+    },
+    {
+      "sequence": 192,
+      "observed_at_unix_ms": 1795712767849,
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "WalletSearch"
+      ],
+      "device_fields": {},
+      "file": "wallet.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ],
+      "request": {
+        "sequence": 1,
+        "uri": "ferroui-phone://app/org.ferroui.wallet",
+        "issued_at_unix_ms": 1795712765724
+      }
+    },
+    {
+      "sequence": 224,
+      "observed_at_unix_ms": 1795712782960,
+      "route": {
+        "App": "Phone"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3"
+      },
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DevicePhoneNumber"
+      ],
+      "device_fields": {
+        "DevicePhoneNumber": "+1 202 555 0147"
+      },
+      "file": "phone.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ],
+      "request": {
+        "sequence": 2,
+        "uri": "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+        "issued_at_unix_ms": 1795712781787
+      }
+    },
+    {
+      "sequence": 248,
+      "observed_at_unix_ms": 1795712794092,
+      "route": {
+        "App": "People"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.people?path=device"
+      },
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DevicePeopleSearch"
+      ],
+      "device_fields": {},
+      "file": "people.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ],
+      "request": {
+        "sequence": 3,
+        "uri": "ferroui-phone://app/phone.people?path=device",
+        "issued_at_unix_ms": 1795712793241
+      }
+    },
+    {
+      "sequence": 257,
+      "observed_at_unix_ms": 1795712797641,
+      "route": {
+        "App": "Messaging"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.messaging?path=compose"
+      },
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DeviceMessageRecipients",
+        "DeviceMessageBody"
+      ],
+      "device_fields": {
+        "DeviceMessageBody": "",
+        "DeviceMessageRecipients": ""
+      },
+      "file": "messages.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ],
+      "request": {
+        "sequence": 4,
+        "uri": "ferroui-phone://app/phone.messaging?path=compose",
+        "issued_at_unix_ms": 1795712796694
+      }
+    },
+    {
+      "sequence": 262,
+      "observed_at_unix_ms": 1795712799156,
+      "route": {
+        "Setting": "device services"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.settings?path=device"
+      },
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DeviceSettingsRoot"
+      ],
+      "device_fields": {},
+      "file": "settings.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ],
+      "request": {
+        "sequence": 5,
+        "uri": "ferroui-phone://app/phone.settings?path=device",
+        "issued_at_unix_ms": 1795712798547
+      }
+    },
+    {
+      "sequence": 267,
+      "observed_at_unix_ms": 1795712800671,
+      "route": "Start",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "ready": true,
+      "closed": false,
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+        "pid": 25619,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC"
+          }
+        ]
+      },
+      "client": {
+        "height": 896.0,
+        "width": 414.0
+      },
+      "safe_area": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "inner": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "screen": {
+        "height": 814.0,
+        "width": 414.0,
+        "x": 0.0,
+        "y": 48.0
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "device_fields": {},
+      "file": "home-restored.json",
+      "device_permissions": [
+        {
+          "permission": "contacts",
+          "status": "granted"
+        },
+        {
+          "permission": "camera",
+          "status": "prompt"
+        },
+        {
+          "permission": "location",
+          "status": "prompt"
+        },
+        {
+          "permission": "notifications",
+          "status": "prompt"
+        },
+        {
+          "permission": "phone",
+          "status": "unsupported"
+        },
+        {
+          "permission": "callLog",
+          "status": "unsupported"
+        },
+        {
+          "permission": "readSms",
+          "status": "unsupported"
+        },
+        {
+          "permission": "sendSms",
+          "status": "unsupported"
+        }
+      ],
+      "request": {
+        "sequence": 6,
+        "uri": "ferroui-phone://home",
+        "issued_at_unix_ms": 1795712800060
+      }
+    }
+  ],
+  "device_test_report": {
+    "checks": [
+      {
+        "name": "location_authorization_observed",
+        "passed": true,
+        "status": "prompt"
+      },
+      {
+        "name": "observed_simulator_capabilities",
+        "passed": true,
+        "snapshot": {
+          "controls": [
+            {
+              "access": "readOnly",
+              "control": "brightness",
+              "detail": "The simulator reports a brightness value but has no writable physical backlight.",
+              "value": {
+                "kind": "level",
+                "value": 0.5
+              }
+            },
+            {
+              "access": "unavailable",
+              "control": "flashlight",
+              "detail": "This device has no rear torch.",
+              "value": {
+                "kind": "unknown"
+              }
+            },
+            {
+              "access": "panel",
+              "control": "mediaVolume",
+              "detail": "Use the native volume panel. iOS does not provide a general writable system volume property.",
+              "value": {
+                "kind": "level",
+                "value": 0.6000000238418579
+              }
+            },
+            {
+              "access": "panel",
+              "control": "audioOutput",
+              "detail": "Choose an available output in the system route picker.",
+              "value": {
+                "kind": "choice",
+                "value": "Speaker"
+              }
+            },
+            {
+              "access": "panel",
+              "control": "cast",
+              "detail": "The native route picker chooses compatible audio/video destinations for the app; it does not enable system screen mirroring.",
+              "value": {
+                "kind": "choice",
+                "value": "Speaker"
+              }
+            },
+            {
+              "access": "readOnly",
+              "control": "batterySaver",
+              "detail": "Low Power Mode is observed from iOS. Change it in the system Settings app.",
+              "value": {
+                "kind": "toggle",
+                "value": false
+              }
+            }
+          ],
+          "detail": "Public UIKit device integrations. Contacts respect the selected access scope; message composition reports the actual system composer outcome. Device controls reflect observed hardware and permissions.",
+          "operations": [
+            "readContacts",
+            "writeContacts",
+            "maps"
+          ],
+          "permissions": [
+            {
+              "permission": "contacts",
+              "status": "granted"
+            },
+            {
+              "permission": "camera",
+              "status": "prompt"
+            },
+            {
+              "permission": "location",
+              "status": "prompt"
+            },
+            {
+              "permission": "notifications",
+              "status": "prompt"
+            },
+            {
+              "permission": "phone",
+              "status": "unsupported"
+            },
+            {
+              "permission": "callLog",
+              "status": "unsupported"
+            },
+            {
+              "permission": "readSms",
+              "status": "unsupported"
+            },
+            {
+              "permission": "sendSms",
+              "status": "unsupported"
+            }
+          ],
+          "phone_accounts": [],
+          "roles": [
+            {
+              "detail": "The running device/build does not have an eligible signed Default Dialer entitlement. The standard calling handoff remains available.",
+              "role": "dialer",
+              "status": "unsupported"
+            },
+            {
+              "detail": "Carrier messaging requires the signed entitlement, an eligible iPhone/region and selection as default. The normal message composer remains separate.",
+              "role": "sms",
+              "status": "unsupported"
+            }
+          ],
+          "settings": [
+            "application",
+            "permissions",
+            "privacy",
+            "notifications",
+            "sound",
+            "audioOutput",
+            "cast",
+            "defaultApps"
+          ],
+          "sms_subscriptions": []
+        }
+      },
+      {
+        "before": 0.5,
+        "name": "brightness_read_only",
+        "observed": 0.5,
+        "passed": true,
+        "refusal": "Screen brightness is read-only in iOS Simulator.",
+        "requested": 0.67
+      },
+      {
+        "name": "contact_create_and_query",
+        "passed": true,
+        "provider_id": "43E58CAE-59B1-41D8-AD97-673E15A26CAF:ABPerson"
+      },
+      {
+        "name": "contact_update_and_query",
+        "passed": true,
+        "provider_id": "43E58CAE-59B1-41D8-AD97-673E15A26CAF:ABPerson"
+      },
+      {
+        "name": "contact_delete_and_query",
+        "passed": true
+      }
+    ],
+    "cleanup_errors": [],
+    "error": null,
+    "physical_brightness": "requires_device_qualification",
+    "platform": "ios",
+    "schema": 1,
+    "sent_calls": 0,
+    "sent_messages": 0,
+    "simulator_only": true,
+    "status": "passed"
+  },
+  "prompt_handler": {
+    "accepted": 0,
+    "observed_at_unix_ms": 1795712801835,
+    "opened": [
+      "ferroui-phone://app/org.ferroui.wallet",
+      "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+      "ferroui-phone://app/phone.people?path=device",
+      "ferroui-phone://app/phone.messaging?path=compose",
+      "ferroui-phone://app/phone.settings?path=device",
+      "ferroui-phone://home"
+    ],
+    "driver": "XCUIDevice.shared.system.open",
+    "requested_uri": "ferroui-phone://home",
+    "phase": "complete"
+  },
+  "passed_gates": [
+    "Verify portable iOS completion contracts",
+    "Type check the optional carrier provider for physical iPhone",
+    "Check all native bridge files against the simulator SDK",
+    "Build and bundle the standard UIKit application",
+    "Build and bundle the optional carrier provider",
+    "Verify native UI, device roundtrips and activation"
+  ],
+  "portable_test_counts": {
+    "python_verifier": 7,
+    "python_diagnostics_and_cleanup": 11,
+    "rust_standard": 8,
+    "rust_ios26_telephony": 8
+  },
+  "runtime_log_evidence": [
+    "2026-11-26T16:50:43.9336530Z   212 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *items, NSError *failure) {",
+    "2026-11-26T16:50:43.9340040Z   212 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *items, NSError *failure) {",
+    "2026-11-26T16:50:48.2217020Z    17 |     else complete(UNNotificationPresentationOptionAlert);",
+    "2026-11-26T16:50:48.6135320Z    21 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *returned, NSError *error) {",
+    "2026-11-26T16:50:48.6440130Z    21 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *returned, NSError *error) {",
+    "2026-11-26T16:50:49.0814710Z   212 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *items, NSError *failure) {",
+    "2026-11-26T16:50:49.0834900Z   212 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *items, NSError *failure) {",
+    "2026-11-26T16:50:53.8195400Z    17 |     else complete(UNNotificationPresentationOptionAlert);",
+    "2026-11-26T16:50:54.1965720Z    21 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *returned, NSError *error) {",
+    "2026-11-26T16:50:54.1967790Z    21 |     sheet.completionWithItemsHandler = ^(UIActivityType type, BOOL completed, NSArray *returned, NSError *error) {",
+    "2026-11-26T16:53:47.1683710Z Building the public XCTest system URL driver",
+    "2026-11-26T17:04:25.9920630Z Waiting for the Start route",
+    "2026-11-26T17:04:56.3906250Z Starting the fixed-URL XCTest system driver",
+    "2026-11-26T17:06:05.7853960Z Waiting for the Wallet route",
+    "2026-11-26T17:06:40.0808740Z Waiting for the restored Start route"
+  ],
+  "cleanup": {
+    "begin": {
+      "schema": 1,
+      "event": "cleanup-begin",
+      "observed_at_unix_ms": 1795712803362,
+      "driver_pid": 25568,
+      "driver_state": "running",
+      "observed_exit_code": null,
+      "liveness_source": "Shell kill -0 of its direct simctl launch child; not native application liveness.",
+      "console": {
+        "observed_at_unix_ms": 1795712803362,
+        "maximum_read_bytes": 1048576,
+        "parsed_pid": 25619,
+        "exists": true,
+        "bytes": 47942,
+        "modified_at_unix_ns": 1795712801024795943,
+        "read_bytes": 47942,
+        "stable_during_read": true,
+        "truncated": false,
+        "read_sha256": "df6de066ff4604b474921a8631b5b7de9664506df7e880605906c0e6d433989d"
+      }
+    },
+    "end": {
+      "schema": 1,
+      "event": "cleanup-end",
+      "observed_at_unix_ms": 1795712810175,
+      "driver_pid": 25568,
+      "driver_state": "not_running",
+      "observed_exit_code": null,
+      "liveness_source": "Shell kill -0 of its direct simctl launch child; not native application liveness.",
+      "console": {
+        "observed_at_unix_ms": 1795712810175,
+        "maximum_read_bytes": 1048576,
+        "parsed_pid": 25619,
+        "exists": true,
+        "bytes": 47974,
+        "modified_at_unix_ns": 1795712804101812985,
+        "read_bytes": 47974,
+        "stable_during_read": true,
+        "truncated": false,
+        "read_sha256": "9b5ee5601ce9f9dd70efe16a36ce2179dc13dec0b84144740d64e7428698b089"
+      }
+    },
+    "simulator_deletion_independently_verified": false,
+    "boundary": "The artifact measures kill -0 of the direct simctl launch driver. It does not independently prove native application termination or simulator deletion: inherited cleanup suppresses simctl terminate/shutdown/delete failures.",
+    "native_application_termination_independently_verified": false,
+    "xctest_simulator_runner_termination_independently_verified": false,
+    "xctest_launch_driver_wait_succeeded": true,
+    "xctest_launch_driver_wait_basis": "The XCTest artifact reports TEST EXECUTE SUCCEEDED, and the shell reaches its final passed phase only after a successful wait for the owned xcodebuild launch child. This is distinct from the direct simctl console-driver kill -0 records.",
+    "failure_shutdown_path_exercised_in_simulator_run": false,
+    "failure_shutdown_control_flow_covered_by_portable_process_tests": true
+  },
+  "simulator_runtime_and_type": [
+    "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "com.apple.CoreSimulator.SimDeviceType.iPhone-11"
+  ],
+  "artifact_file_hashes": {
+    "console.log": "9b5ee5601ce9f9dd70efe16a36ce2179dc13dec0b84144740d64e7428698b089",
+    "device-tests.json": "8faf8f6383ac0dc928e417e469868cc337358981c8fc59d2b367427778d37672",
+    "home-restored.json": "8ed16d02bb43b381d9bd7e6fb3d2b90a364f7d91332162dde91b49b3168370f7",
+    "home-restored.png": "4c67130b18d9d0a8368bddc5f6e2eb71d6bbfac7125f42122547d24e92f92141",
+    "last-observation.json": "0166df638663811d064e2ff8603e9b7d6d6239d00b7a40c81e9c24285b879716",
+    "launch-driver-cleanup-begin.json": "779d3215461baf5ee76e5efe5c04a1f53622eb9778aa9cd6d3aa25454ba1de68",
+    "launch-driver-cleanup-end.json": "3ccdc4e38ca8c5ea12e59263b81ed572ba98729b0b804dca44497a932df312ce",
+    "launch-driver-started.json": "253c7cf1dd4ee9fc2dc9c070f48391f3798963cec54cbc28d298a525b5df48b0",
+    "messages.json": "e82275dccc8f8788c72a6f1e35d6eec231e2968a465bd9a0a3fa2bc49d5a0939",
+    "messages.png": "00dfbb59d5178d64503483e82adf413ad7e32cf2245b0301bab523bcd6f1fe7e",
+    "owned-installation.json": "a15d32c8b8020f9dda6e1dd0e17c8b26c3c8176d7b9b75ea8081dd8c05dfef0b",
+    "people.json": "75f539726d44d81ab7ed7488540b7b914e6ea72cd436957e02e126079751fa65",
+    "people.png": "661f2ad4bca716a0d3dc0f55f30b3a9bc4c8aaa2c97a6cb0f2af80367e94ab20",
+    "phase.txt": "fe27af6c53438c17ad9e3a81bba7dbd5d7f7728eb160a9e8807fbc0e08e543d2",
+    "phone.json": "9d646192c501049bb1538389d3a1d374aa1e8988630803a51e05f415afaa35c0",
+    "phone.png": "7e82048876e27f1f77fa3ac2877d7100a8983d795b186409dc40e5c17e9afec6",
+    "prompt-handler.json": "11a943d33afc8d17514f3e74048debed0c7e70dae4fc354d2b30c7bbb9cf34b7",
+    "prompt-ui.xcresult/Data/data.0~4VqMqsI5lOfxRppnud6-VDWcNsU8J7VgFCJfW2dXPwOcAkvU-I8Um5yp9n0Zv6nr3VmcxYggaVMDFfR0U_vjKw==": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "prompt-ui.xcresult/Data/data.0~91NRZK3NW3GZsjJOJBAYNNJOkRscV3SJxxyAO1rtEZ9L1f9J80YJ5Y_qP1p0rNqRoqlAN59ov905vr402xzWiA==": "4e6d1816967cfade4ade8ac5a454a90746b244b8d1508e6776d2b95408fdaa1c",
+    "prompt-ui.xcresult/Data/data.0~Er9y4H3lX3eysx_FXIhwYlfCQAFHfWZk9We77qJKzhvBGsVcRm_rs6p5kc2RPgUJjVuXA1lVxmw5WyY5NJSIyg==": "b3c17fc5b956005cf1d6dca1790cde466dd332bd26ab43f6954ef0ff38601234",
+    "prompt-ui.xcresult/Data/data.0~Jw-Wo2cLpi7iQFrl3bLznnLBb_wXYTuFw88oPRLfWjMQUlHZGqlM2gtSbMrqJd_NyyBMXDvH9dOCqyKrSiSwVw==": "47f5d6024b031c572090ffe591a604d20388682e3773a21ef04c6239779038ea",
+    "prompt-ui.xcresult/Data/data.0~PzT6y5qINIrWl0vV2RtT55nL3N_PBqnLp1GljEVrcD4ZwkLjT2CvB_2OlOi3MHpSyLtXH32T6XanhTrCZRHP1A==": "9b4d54c8e7f847eeaf558fd8fb52e081cda172a3c675575c16e02c5985fcfd9f",
+    "prompt-ui.xcresult/Data/data.0~QfO3hk7sOliUyuomq6BXL_GuyhewJL1uEHK4Mb4U3TB78ycsOPu41-zuyL6HjgfGoo101uNRMPm7N5USKjLVMw==": "17a3cd5c70d28d1915f5b93217f667894b4835fe9b165e1be759032cf307bca9",
+    "prompt-ui.xcresult/Data/data.0~cAuD7SVTroz9f8YWuuNAHEF_F06r3pbcqfXRxH2_8qI69YOiwy7BIo5tt2rQ9f83f6CVrpyU9-4u5HbheHI3DQ==": "0a3e38a7ee2f4a7971fb4853eb1fdbd6acbeae91d43fcf4a6e70f65e3371434d",
+    "prompt-ui.xcresult/Data/data.0~gxnuMGdfLCwaTmA7-CLgO3bTwC839RLe5eszrzxnS81reDz7iToT-Jjf5UPXmYB5TNEJNd5ffDM1hZyJSX44aw==": "37cd0a5338d9d7cc83f023ea1ebbb4e585c9e2a1c1bda23faf3e44a9aa9778cc",
+    "prompt-ui.xcresult/Data/data.0~iaFXuZ7GPcHGU-11p4qpmhzqtWl0XctSohwNSmCgsG9gAFHixcuHJ5iVRMCZZDyawbOj4O2FwBRXkY2Xt5pQ2g==": "911775c371d1cbf3a741a7e73aa6ca26d184987dcc31f9c4424e0525eb70637f",
+    "prompt-ui.xcresult/Data/data.0~k4Cy7d0X3piH_1-qA6PJAlhZXqxGx1CQPGcNw5N-dZ7FBvZvOe1ZxJf0hlHOdhuv5bhmz1_KSTb-T0Bdz7-jpw==": "d30ae7d5f8f08ab63a54d3cc038d4504975df0a260fa77218c8281d5e3477557",
+    "prompt-ui.xcresult/Data/data.0~k5hteb0wY23UnmBTrbMjScUFcP8oCDqjVAC6OFYRNCXJPiMfoxy1mB3xIu7dmhoXV3MPWyGH06nq1_Iekmmc8A==": "0e0a606caa76b737ac4ab6505b20b63caaa1baaa9d09ff5b6c779ccba2765e6e",
+    "prompt-ui.xcresult/Data/data.0~uD4WIQ_VASjgZ1igSygFAYtJtWGrZQuX8udE3an1-WWxpeSv7g4ub0uyCI7grTdOQU0yQweeAS4hlG9AMRbdzw==": "388412098526025226c78c54f0adb91150e13d0bbfc846c606764715bc6d18ba",
+    "prompt-ui.xcresult/Data/data.0~xPK6XB2hQ01I-4OLsgiF_rqnWiuMxhXA5DKbfTtW7XGguvTvtPYMBpgkKg9v3ZrvBUW2JjXPN4Q6y7hfOaG26w==": "cadb114e30c45649ae4cfc2c34bd60f3807e97f578e214abc7a595ea3403646c",
+    "prompt-ui.xcresult/Data/data.0~zuzcS8lfj4EphAL5oa5eRRuOvLXVxJcYDIYmQ98fG7DW1IkmcbptOakrxlH3bTI_mKRaavrCo2LmqWkkR5qv2w==": "189450451bab8ee0382e1c7ba3ce7f4e6b49d5dd78beee84c878c55550723ed1",
+    "prompt-ui.xcresult/Data/refs.0~4VqMqsI5lOfxRppnud6-VDWcNsU8J7VgFCJfW2dXPwOcAkvU-I8Um5yp9n0Zv6nr3VmcxYggaVMDFfR0U_vjKw==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~91NRZK3NW3GZsjJOJBAYNNJOkRscV3SJxxyAO1rtEZ9L1f9J80YJ5Y_qP1p0rNqRoqlAN59ov905vr402xzWiA==": "cda3e932be91664e6021771f548a80575ddad4822b30f24d81bf06af92a9e7d1",
+    "prompt-ui.xcresult/Data/refs.0~Er9y4H3lX3eysx_FXIhwYlfCQAFHfWZk9We77qJKzhvBGsVcRm_rs6p5kc2RPgUJjVuXA1lVxmw5WyY5NJSIyg==": "26c4e2bec98f955948ddea9420e658322a4b69a9a272f0ac9ab035f8edeb200d",
+    "prompt-ui.xcresult/Data/refs.0~Jw-Wo2cLpi7iQFrl3bLznnLBb_wXYTuFw88oPRLfWjMQUlHZGqlM2gtSbMrqJd_NyyBMXDvH9dOCqyKrSiSwVw==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~PzT6y5qINIrWl0vV2RtT55nL3N_PBqnLp1GljEVrcD4ZwkLjT2CvB_2OlOi3MHpSyLtXH32T6XanhTrCZRHP1A==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~QfO3hk7sOliUyuomq6BXL_GuyhewJL1uEHK4Mb4U3TB78ycsOPu41-zuyL6HjgfGoo101uNRMPm7N5USKjLVMw==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~cAuD7SVTroz9f8YWuuNAHEF_F06r3pbcqfXRxH2_8qI69YOiwy7BIo5tt2rQ9f83f6CVrpyU9-4u5HbheHI3DQ==": "5e8de5fe8dd1f3659de2255367797ef923a1bbeb57a406afa1aa24406d119ac8",
+    "prompt-ui.xcresult/Data/refs.0~gxnuMGdfLCwaTmA7-CLgO3bTwC839RLe5eszrzxnS81reDz7iToT-Jjf5UPXmYB5TNEJNd5ffDM1hZyJSX44aw==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~iaFXuZ7GPcHGU-11p4qpmhzqtWl0XctSohwNSmCgsG9gAFHixcuHJ5iVRMCZZDyawbOj4O2FwBRXkY2Xt5pQ2g==": "61ec6fb3c66f39079f511b806a78c946e0f56b4a65e19178556992e45cc5bca0",
+    "prompt-ui.xcresult/Data/refs.0~k4Cy7d0X3piH_1-qA6PJAlhZXqxGx1CQPGcNw5N-dZ7FBvZvOe1ZxJf0hlHOdhuv5bhmz1_KSTb-T0Bdz7-jpw==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~k5hteb0wY23UnmBTrbMjScUFcP8oCDqjVAC6OFYRNCXJPiMfoxy1mB3xIu7dmhoXV3MPWyGH06nq1_Iekmmc8A==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~uD4WIQ_VASjgZ1igSygFAYtJtWGrZQuX8udE3an1-WWxpeSv7g4ub0uyCI7grTdOQU0yQweeAS4hlG9AMRbdzw==": "2abc9421f14871c65007e9f3fc3277b63b2191310f57b9eade3f99a1336607bf",
+    "prompt-ui.xcresult/Data/refs.0~xPK6XB2hQ01I-4OLsgiF_rqnWiuMxhXA5DKbfTtW7XGguvTvtPYMBpgkKg9v3ZrvBUW2JjXPN4Q6y7hfOaG26w==": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+    "prompt-ui.xcresult/Data/refs.0~zuzcS8lfj4EphAL5oa5eRRuOvLXVxJcYDIYmQ98fG7DW1IkmcbptOakrxlH3bTI_mKRaavrCo2LmqWkkR5qv2w==": "2f013a061b451d78a812ac126a087d3f40ff82526db7b84c0b7d5430b2eaa196",
+    "prompt-ui.xcresult/Info.plist": "54c818ecfb38185d4c670d74fd0c7a56faaf9e849bf8d42b665fadb8361e1ec3",
+    "request-1.json": "e5d51e2787653851cec0c4c702d6f4e646053415feadddc4aded507c77703c05",
+    "request-2.json": "67d9eb1ac1ea8dfb687c53e912fee674703b3742ad55dedc49aea1453ed91858",
+    "request-3.json": "558252d23e60b8d1603ec9c8b0421f3371348980ab542156ed7e6875713d8285",
+    "request-4.json": "34283f853b22203f0cd0b075aa16e40c3415583c1f2f107a8621a6d03b4e8015",
+    "request-5.json": "8f7f3575a0855eb963b6001d0ec7bb2a13b2a73ac447432d0d7f84a3db972b90",
+    "request-6.json": "696219169bbc31323225c0b9e889662f5697cfff9e24c2535f11a24c4c2ccd96",
+    "settings.json": "36fff1dd34f06de2b93d5c2dbbb38843e0f46f4d798ef22e08062acbfb1b59eb",
+    "settings.png": "479d3d8d19f76cb7e28167b222894da093b4f100063d851e7654f5f70f46ebb6",
+    "simulator.txt": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281",
+    "start.json": "2faf4dceaf7972524cc525421e1641aa6a41d8917ac2e00a0c8fa001217014c3",
+    "start.png": "5325124d209f0203785880ec27796e9e551fef45deea8cb24d5732fbfec15aec",
+    "wallet.json": "299d66f4137eb76269943042fee850c7741996429b7ba90673d0ce567013b402",
+    "wallet.png": "6cbba5e9728d64b6c04e6a28e2980e008e9eb96df9bd5c573bb4cdd6248afaef",
+    "xctest-build.log": "bd08595a8e4cf7270b24b8d95784cbd8159e84a10669b49b248669e7f5eb01fd",
+    "xctest.log": "6485a74c291b9b5e05a515a744608c2a59c4067be4a73c02c8c4da40e3c2ae19"
+  },
+  "local_reverification": "Passed unchanged verify-ios-smoke.py for all seven sequential snapshots using original Start baseline and each exact URI; additionally each warm snapshot timestamp follows its request. Unchanged verify-ios-devices.py passed real provider evidence.",
+  "verifier_provenance": {
+    "scripts/verify-ios-smoke.py": {
+      "sha256": "9914ac06fcf06c7bc3bd6b8d36c5ea26d137b937602e7cd6126eb427646a7811",
+      "matches_tested_head": true
+    },
+    "scripts/verify-ios-devices.py": {
+      "sha256": "2ca6f951029f875b9a9bc11aa9c29f5dbd5aadcbe8afcda9b7a4b4fe46406983",
+      "matches_tested_head": true
+    }
+  },
+  "runtime_build": {
+    "cargo_feature": "ios26-telephony",
+    "source": "Smoke uses steps.bundle.outputs.app, produced by the optional carrier build after the standard build.",
+    "qualification": "Simulator evidence does not qualify entitled physical-device carrier operations."
+  },
+  "authorization_summary": {
+    "initial_ready_location": "prompt",
+    "initial_ready_sequence": 5,
+    "initial_unknown_observed": false,
+    "provider_observed_location": "prompt",
+    "warm_snapshot_location_statuses": [
+      "prompt",
+      "prompt",
+      "prompt",
+      "prompt",
+      "prompt",
+      "prompt"
+    ],
+    "interpretation": "This attempt records Prompt in the first captured ready Start observation, the real provider report and every warm snapshot. It does not capture an initial Unknown state; earlier preserved attempts do. Prompt is authorization status, not a displayed location modal."
+  },
+  "runtime_summary": {
+    "snapshots": 7,
+    "warm_activations": 6,
+    "sequences": [
+      5,
+      192,
+      224,
+      248,
+      257,
+      262,
+      267
+    ],
+    "same_native_pid": true,
+    "native_pid": 25619,
+    "same_launch_id": true,
+    "launch_id": "00DF2D00-6BF0-4D43-A788-9CA3DCC04847",
+    "same_scene_session": true,
+    "scene_session_id": "0C06E8F6-2AF2-44B5-99B1-2AA7A85A63DC",
+    "all_ready_and_open": true,
+    "all_foreground_active": true,
+    "all_warm_activations_accepted": true,
+    "provider_checks_passed": 6,
+    "calls_sent": 0,
+    "messages_sent": 0,
+    "system_confirmation_prompts_accepted": 0,
+    "system_url_open_requests": 6
+  },
+  "bootstrap_timing": {
+    "readiness_budget_seconds": 240,
+    "logged_phase_start_utc": "2026-11-26T17:04:56.390625+00:00",
+    "xctest_method_entry_utc": "2026-11-26T17:06:03.104000+00:00",
+    "method_entry_seconds_after_logged_phase": 66.713375,
+    "first_url_request_utc": "2026-11-26T17:06:05.724000+00:00",
+    "readiness_observed_upper_bound_seconds": 69.333375,
+    "basis": "The first URL request is written only after the shell observes phase=ready. Its timestamp bounds readiness observation from above; it is not the exact time the test published ready. All times use runner UTC logs.",
+    "xctest_case_duration_seconds": 38.809,
+    "xctest_launch_driver_pid": 26073,
+    "xctest_simulator_runner_pid": 27491,
+    "successful_test_execution_marker_observed": true
+  },
+  "runtime_startup_observations": {
+    "log_messages": {
+      "Monitoring boot status": {
+        "observations": 1,
+        "first": "2026-11-26T16:55:01.6388430Z Monitoring boot status for WindowsPhone-CI-45862218491 (DFA61C24-4F6B-4EF1-8C0A-A0667EAE85D4).",
+        "last": "2026-11-26T16:55:01.6388430Z Monitoring boot status for WindowsPhone-CI-45862218491 (DFA61C24-4F6B-4EF1-8C0A-A0667EAE85D4)."
+      },
+      "Waiting on Data Migration": {
+        "observations": 403,
+        "first": "2026-11-26T16:55:01.8831170Z \tWaiting on Data Migration",
+        "last": "2026-11-26T17:02:00.7220030Z \tWaiting on Data Migration"
+      },
+      "Waiting on System App": {
+        "observations": 11,
+        "first": "2026-11-26T17:02:04.6563960Z \tWaiting on System App",
+        "last": "2026-11-26T17:02:15.6278990Z \tWaiting on System App"
+      },
+      "Waiting for the Start route": {
+        "observations": 1,
+        "first": "2026-11-26T17:04:25.9920630Z Waiting for the Start route",
+        "last": "2026-11-26T17:04:25.9920630Z Waiting for the Start route"
+      }
+    },
+    "boundary": "These records show prolonged simulator boot/migration and system-app readiness before the app and XCTest phases. The lower-level reason for the simulator delay is unproven; XCTest readiness itself completed within both the previous 120-second and current 240-second allowance."
+  },
+  "framework_pin_log_proof": [
+    "2026-11-26T16:49:26.5133660Z Submodule path 'FerroUI': checked out 'cd9aeaef1fb6a80f513d577d345fac6483077966'"
+  ],
+  "portable_test_log_evidence": [
+    "2026-11-26T16:50:13.1193130Z Ran 7 tests in 0.002s",
+    "2026-11-26T16:50:14.5176390Z Ran 11 tests in 1.102s",
+    "2026-11-26T16:50:27.9459720Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-11-26T16:50:29.2750950Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ],
+  "source_comparison": {
+    "previous_head": "c96a4f0043bd80137997fcd34dbb4b407414af00",
+    "changed_files": [
+      "crates/phone-controls/src/pickers/reopen_tests.rs"
+    ],
+    "ios_host_source_unchanged": true,
+    "framework_pin_changed": false,
+    "smoke_changes": "None. Only test-only hidden native picker part lookup changed from c96."
+  },
+  "smoke_script_provenance": {
+    "scripts/smoke-ios.sh": {
+      "sha256": "d457dece8dd537d07a41b8c1c32389cd1f7b223eef3b79c5deace2a4a3d08682",
+      "matches_tested_head": true,
+      "matches_validated_cleanup_patch": true
+    },
+    "scripts/collect_ios_failure_test.py": {
+      "sha256": "a77a99b01f5cfa050c05f9de0a8304a4677286a0bbf50f16636cfd8e55b4a0e6",
+      "matches_tested_head": true,
+      "matches_validated_cleanup_patch": true
+    }
+  },
+  "visual_review": {
+    "reviewed": [
+      "start.png",
+      "settings.png"
+    ],
+    "start": "Native Start tiles, status area and hardware navigation are visibly mounted in the safe-area viewport.",
+    "settings": "The native Settings device-services page and settings rows are visibly rendered in the mounted viewport."
+  },
+  "job_log": {
+    "path": "/tmp/windowsphone-tooling/ios-ci-e430b21-job.log",
+    "size_bytes": 319613,
+    "sha256": "d20991bc947a4c395676493268c71925cab906fa6a6dc6c9dc5b46dc4451dbd4"
+  },
+  "cache": {
+    "restored": true,
+    "saved": true,
+    "log_evidence": [
+      "2026-11-26T16:50:12.7974670Z Cache restored from key: phone-ios-v1-macOS-ARM64-1.99.0-cd9aeaef1fb6a80f513d577d345fac6483077966-98aebacd10a65e128787ef213680c316bbae117debe4be1f20c9fd9f4cb5b85f-96f214d4b36203f38b03b70f9eb62f09bdd27f3b",
+      "2026-11-26T16:53:47.0003850Z Cache saved with key: phone-ios-v1-macOS-ARM64-1.99.0-cd9aeaef1fb6a80f513d577d345fac6483077966-98aebacd10a65e128787ef213680c316bbae117debe4be1f20c9fd9f4cb5b85f-677202a7a5569f69bcb83ae263a4148a73d98b0b"
+    ]
+  }
+}

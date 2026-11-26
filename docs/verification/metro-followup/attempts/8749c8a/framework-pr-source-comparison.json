@@ -1,0 +1,113 @@
+{
+  "consumer_pin": "75bdfc3c39a5bd73b5e27651441cd29bce86eebb",
+  "ci_merge": "3a6d1b76afe782a81b4ec6b755ab166dfc250f9e",
+  "ci_merge_tree": "a32b8922c8b5fb6ca69ebea20faf447d57e09333",
+  "ci_merge_parents": [
+    "21720a379c059a6a73805bf583fdd0589c933969",
+    "75bdfc3c39a5bd73b5e27651441cd29bce86eebb"
+  ],
+  "changed_source_file_count": 10,
+  "all_changed_sources_identical": true,
+  "files": [
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 23605,
+      "merge_bytes": 23605,
+      "pin_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+      "merge_sha256": "93916c3f2e6a6dfac5629f1e4d5a9b549d3ee2d64f59bb62f7a26e2da99e1ab3",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_presenter.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 25762,
+      "merge_bytes": 25762,
+      "pin_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+      "merge_sha256": "7ca1b6838cf2b488a51041d98d16a2dcd22dc9fb2ad3a29115413d267bbcdf22",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_picker_tests.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 37618,
+      "merge_bytes": 37618,
+      "pin_sha256": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad",
+      "merge_sha256": "d6bc564d12e1baa2bedd233036afd937f408935257f91585552fd43fb22789ad",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/date_time_picker_panel.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 35804,
+      "merge_bytes": 35804,
+      "pin_sha256": "8e6d83e73662fdb191009819b5a96f98f73863b0c16a534e48a7cac0431f7129",
+      "merge_sha256": "8e6d83e73662fdb191009819b5a96f98f73863b0c16a534e48a7cac0431f7129",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 24484,
+      "merge_bytes": 24484,
+      "pin_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+      "merge_sha256": "101e8f2521b357766ca212b44520307c39598d71d52c0b8eca276cc87a3a19cc",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_presenter.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 20014,
+      "merge_bytes": 20014,
+      "pin_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+      "merge_sha256": "be82004c3b4d20ec55658e10091fd5faa20de4072b6cc57fab1e646ee49caa8e",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/date_time_pickers/time_picker_tests.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 41030,
+      "merge_bytes": 41030,
+      "pin_sha256": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4",
+      "merge_sha256": "34ceeb7de72a69bd33f95bb7753c234b7bb42ce43cd42a0056b5636cd25732f4",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/presenters/scroll_content_presenter.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 69999,
+      "merge_bytes": 69999,
+      "pin_sha256": "7bc4ca766489396f9d2e5581d5ad3bb5e69db01bb3e7c28350a32ec0a1ec5d05",
+      "merge_sha256": "7bc4ca766489396f9d2e5581d5ad3bb5e69db01bb3e7c28350a32ec0a1ec5d05",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/scroll_viewer_tests_i_logical_scrollable.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 6221,
+      "merge_bytes": 6221,
+      "pin_sha256": "aa55d098d77a99e57dc014026f5b7bc59d9768181bfaa4848f2b5f51f7d9b232",
+      "merge_sha256": "aa55d098d77a99e57dc014026f5b7bc59d9768181bfaa4848f2b5f51f7d9b232",
+      "identical": true
+    },
+    {
+      "path": "src/FerroUI.Controls/test_support_scrolling.rs",
+      "changed_from_original_pin": true,
+      "pin_bytes": 7144,
+      "merge_bytes": 7144,
+      "pin_sha256": "2d3bc09a00a3b17ee727e1d636e845f48bfd4751be2dec0a9be12ce1a6f5d1b6",
+      "merge_sha256": "2d3bc09a00a3b17ee727e1d636e845f48bfd4751be2dec0a9be12ce1a6f5d1b6",
+      "identical": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "changed_from_original_pin": false,
+      "pin_bytes": 78153,
+      "merge_bytes": 79080,
+      "pin_sha256": "044eac7a14ad473db093957ba67ce7d12d20a5dc581654ea591dab2c62da2396",
+      "merge_sha256": "1038c194816877f8e43ed01138fcba8ffb279e5bfc0c5ccd82fd8ab06d4bc284",
+      "identical": false
+    }
+  ],
+  "boundary": "All ten changed source/test files are byte-identical; CI executes the merge with later main 21720a379, while WindowsPhone pins 75bdfc3 based on cd9/db2. This does not equate the surrounding framework or workflow."
+}
