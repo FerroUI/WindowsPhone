@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "source_revision": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+  "tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+  "run": {
+    "id": 45882926545,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45882926545",
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-26T19:20:33Z",
+    "updated_at": "2026-11-26T19:57:21Z"
+  },
+  "job": {
+    "id": 140141464804,
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45882926545/job/140141464804",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-26T19:57:07Z",
+    "completed_at": "2026-11-26T19:57:20Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T19:57:08Z",
+        "completed_at": "2026-11-26T19:57:10Z"
+      },
+      {
+        "name": "Run actions/configure-pages@v5",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T19:57:10Z",
+        "completed_at": "2026-11-26T19:57:11Z"
+      },
+      {
+        "name": "Run actions/deploy-pages@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T19:57:11Z",
+        "completed_at": "2026-11-26T19:57:19Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T19:57:19Z",
+        "completed_at": "2026-11-26T19:57:19Z"
+      }
+    ]
+  },
+  "site": "https://ferroui.com/WindowsPhone/",
+  "pages_artifact_id": 15150266389,
+  "merge_verification_flags": [
+    "[verify-ui]",
+    "[verify-native]",
+    "[verify-mobile]",
+    "[verify-android-ui]"
+  ],
+  "log": {
+    "path": "deployment.log",
+    "bytes": 4995,
+    "sha256": "77f46569244b39be74e65384558b32ad5bb5ce70c8ef7b235ef41d9d6872b08a"
+  },
+  "evidence": [
+    "2026-11-26T19:57:12.0132869Z \t\"artifact_id\": 15150266389,",
+    "2026-11-26T19:57:13.7871463Z Created deployment for 81fabb3fdfdeaae81792771a5c448c99b3e93fba, ID: 81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+    "2026-11-26T19:57:19.0528881Z Reported success!"
+  ],
+  "live_site_evidence": "publication-http.json"
+}

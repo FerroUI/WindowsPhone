@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "source_revision": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+  "scope": "Files in this publication directory, excluding this manifest. JSON CI records are byte-preserved copies; publication-http.json changes retained-response paths only.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 8150,
+      "sha256": "b1911e99557fab34ceac0f0cc9bf6a54713fb44800b4e51ae3ce6ec431eb25fa"
+    },
+    {
+      "path": "android-arm-ci.json",
+      "bytes": 7683,
+      "sha256": "d93eb101fe0b5de70011e4313867f8ced5c65ed5be2111dfbd788b974d661b31"
+    },
+    {
+      "path": "android-ci.json",
+      "bytes": 8684,
+      "sha256": "97841a7f6d4a5d0e60810622d439edb3b6719126c11d70691d40dc51efd745f5"
+    },
+    {
+      "path": "android-ui-attempt1-head.txt",
+      "bytes": 41,
+      "sha256": "a6e3cab1032105e37ee431878f920039ed7862b129b404a8b19956b6add3a50d"
+    },
+    {
+      "path": "android-ui-attempt1.json",
+      "bytes": 2711,
+      "sha256": "b603565aa4c072daffc9de604d3609ca6ee65f8b87b2374a7187ca534d0e2fde"
+    },
+    {
+      "path": "android-ui-attempt1.log.gz",
+      "bytes": 39054,
+      "sha256": "799b9a41d914d792c5995168c35b42a5fce07278898ecd6c1fec7494eef224e2",
+      "uncompressed": {
+        "bytes": 242448,
+        "sha256": "e283bf2beb620df26cbfe96cd06c6fac62a87a653893561ad750fedd2d637b98"
+      }
+    },
+    {
+      "path": "android-ui-retry.json",
+      "bytes": 670,
+      "sha256": "b51e58af62d3476614e0a1b1c421795fc529bc8566a0cf2f903f396e2d09528f"
+    },
+    {
+      "path": "browser-ci.json",
+      "bytes": 8572,
+      "sha256": "a3e829f233bcd3349b204cb1d7fcd852a919ad359367f4533dfe7aa48efbda7b"
+    },
+    {
+      "path": "browser-results.json",
+      "bytes": 47445,
+      "sha256": "a0f17cd129e30e33615fc3c8f8040e56fcfc350a27945087b097c9d38d118f71"
+    },
+    {
+      "path": "compiled-artifact.json",
+      "bytes": 674,
+      "sha256": "c113e5ee8e9eb1668c4ea0257b16eec65c141cb707aa05f658c9ca4b040c3a12"
+    },
+    {
+      "path": "compiled-comparison.json",
+      "bytes": 4499,
+      "sha256": "1b9433a08a101d4125b88c152cd33ad59353d062047d8de1e06c1a3ccc27c3fd"
+    },
+    {
+      "path": "deployment.json",
+      "bytes": 2284,
+      "sha256": "f024eafc0def058f2e646eb30eaf2cf660e0abbbe158d12b4262c39b064fb0ed"
+    },
+    {
+      "path": "deployment.log",
+      "bytes": 4995,
+      "sha256": "77f46569244b39be74e65384558b32ad5bb5ce70c8ef7b235ef41d9d6872b08a"
+    },
+    {
+      "path": "ios-ci.json",
+      "bytes": 52668,
+      "sha256": "0c5c832526f1e90239bb7005901cfeefd9d977c56ef42b09e02d55615ccd794d"
+    },
+    {
+      "path": "native-ci.json",
+      "bytes": 17711,
+      "sha256": "00cde7d9cb4829ed7f18f16df7f5975e090cbb07da885986c3a6acda621057b1"
+    },
+    {
+      "path": "picker-touch.json",
+      "bytes": 2989,
+      "sha256": "804a6ef1fe76cc1521d11154a0cb015423cb41ea331d6393d724f9aa9c89dc14"
+    },
+    {
+      "path": "publication/app-sw.js",
+      "bytes": 2604,
+      "sha256": "5c5735d5bfb38d3287d4f7a7f0a7d14ac44ab3af3a996f123e1918f6334545a6"
+    },
+    {
+      "path": "publication/index.html",
+      "bytes": 1359,
+      "sha256": "b45f9095d2f9de004ca18ecac46eaac7b0b0df70ba0e8f93e53716facf30f8cb"
+    },
+    {
+      "path": "publication/root-document.html",
+      "bytes": 1359,
+      "sha256": "b45f9095d2f9de004ca18ecac46eaac7b0b0df70ba0e8f93e53716facf30f8cb"
+    },
+    {
+      "path": "publication-http.json",
+      "bytes": 49888,
+      "sha256": "a13b4737b2f40367d66dbab0046d8e9e1baf5339a9901d9f4d74f03b8226fae5"
+    },
+    {
+      "path": "release.json",
+      "bytes": 10628,
+      "sha256": "550fc02cdfe53834c726125b639ebc1d05e18af61022acabc7d0680c99905b35"
+    },
+    {
+      "path": "source.json",
+      "bytes": 493,
+      "sha256": "1e41e11b2955ab567759b1bb931ccdf3ded734b8e1b7b1200883158276f3bf57"
+    },
+    {
+      "path": "verify-publication.py",
+      "bytes": 8020,
+      "sha256": "9ae65024c3aded8dafe0e9a1414a16051983a5d8735603d2b8ab8e877ab5f566"
+    }
+  ]
+}

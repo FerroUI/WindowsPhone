@@ -8,7 +8,9 @@ Review: [PR #4](https://github.com/FerroUI/WindowsPhone/pull/4).
 The [implementation and harness diff](https://github.com/FerroUI/WindowsPhone/compare/a4a7b851048a151db66f9f4404b0c5ed8672c812...dc9e2a94d206944023169a789539c02307dd201a)
 contains the 41 changed source, test, workflow and dependency entries without this dossier.
 The retained historical evidence is unchanged; fresh results are recorded
-separately. These verification runs do not publish a Pages deployment.
+separately. These verification runs do not publish a Pages deployment. The later
+approved main release, including fresh main CI and direct public asset verification,
+is recorded in [the `81fabb3` publication report](published/81fabb3/README.md).
 
 ## Source boundary
 
@@ -41,8 +43,9 @@ are frozen. Its parent is the tested `dc9e2a9` code commit, and its complete dif
 must remain under `docs/verification/metro-followup/`. The PR body identifies that
 documentation head separately. A subsequent approved merge/publication must
 use an explicit clean message, without inheriting the documentation skip marker;
-`[verify-ui] [verify-mobile]` requests the existing full rendered/mobile checks
-on main.
+`[verify-ui] [verify-native] [verify-mobile] [verify-android-ui]` requests the
+rendered browser, full desktop builds, ARM/iOS and mounted Android UI checks on
+main. The approved `81fabb3` merge used all four markers.
 
 ## What failed and what changed
 
@@ -543,8 +546,9 @@ The Windows native job now has a 60-minute limit. The
 was cancelled during Win32/Skia compilation; the full build and link gate
 remains required.
 
-Main and the published site were not changed by this verification. The proposed
-runtime changes remain reviewable in PR #4.
+This pre-merge verification left main and the published site unchanged. PR #4
+was subsequently approved and merged; the fresh main checks and live publication
+are recorded in [the `81fabb3` release report](published/81fabb3/README.md).
 
 ## Evidence and scope
 

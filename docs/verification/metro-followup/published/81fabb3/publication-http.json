@@ -1,0 +1,1150 @@
+{
+  "schema": 1,
+  "source_revision": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+  "expected_build_marker": "81fabb3",
+  "site": "https://ferroui.com/WindowsPhone/",
+  "observed_at_utc": "2026-11-26T19:58:32.250582+00:00",
+  "asset_selection": "Every generated service-worker precache asset plus the worker itself; the public root document is additionally checked against index.html.",
+  "asset_count": 39,
+  "matched_assets": 39,
+  "http_request_count": 40,
+  "passed_http_requests": 40,
+  "success": true,
+  "observations": [
+    {
+      "path": "",
+      "kind": "entry_document",
+      "artifact_path": "index.html",
+      "url": "https://ferroui.com/WindowsPhone/",
+      "request_url": "https://ferroui.com/WindowsPhone/?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1359,
+      "expected_sha256": "b45f9095d2f9de004ca18ecac46eaac7b0b0df70ba0e8f93e53716facf30f8cb",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-54f\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "AAC6:17E719:37B29F:3E6415:6B088F6E",
+        "age": "0"
+      },
+      "observed_bytes": 1359,
+      "observed_sha256": "b45f9095d2f9de004ca18ecac46eaac7b0b0df70ba0e8f93e53716facf30f8cb",
+      "duration_seconds": 6.452,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "text/html"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true,
+      "retained_response": "publication/root-document.html",
+      "build_marker": "81fabb3"
+    },
+    {
+      "path": "Selawik-LICENSE.txt",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "Selawik-LICENSE.txt",
+      "url": "https://ferroui.com/WindowsPhone/Selawik-LICENSE.txt",
+      "request_url": "https://ferroui.com/WindowsPhone/Selawik-LICENSE.txt?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 4508,
+      "expected_sha256": "37759b799556a6b46c7e540fb7b2fb31d91b43d6943717099065f27f96c276d7",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/Selawik-LICENSE.txt?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-119c\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "79F2:2ADEB2:1F1CB3:278D3C:6B088F6D",
+        "age": "0"
+      },
+      "observed_bytes": 4508,
+      "observed_sha256": "37759b799556a6b46c7e540fb7b2fb31d91b43d6943717099065f27f96c276d7",
+      "duration_seconds": 6.412,
+      "matches_compiled_artifact": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "alarm-alert.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "alarm-alert.js",
+      "url": "https://ferroui.com/WindowsPhone/alarm-alert.js",
+      "request_url": "https://ferroui.com/WindowsPhone/alarm-alert.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 3809,
+      "expected_sha256": "59c1f93cafb6123e2016215d82d515ae502cd61d92a1081ae442feb3781284da",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/alarm-alert.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-ee1\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "8ACA:26C9AA:20D308:29431A:6B088F6E",
+        "age": "0"
+      },
+      "observed_bytes": 3809,
+      "observed_sha256": "59c1f93cafb6123e2016215d82d515ae502cd61d92a1081ae442feb3781284da",
+      "duration_seconds": 6.41,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "app-sw.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "app-sw.js",
+      "url": "https://ferroui.com/WindowsPhone/app-sw.js",
+      "request_url": "https://ferroui.com/WindowsPhone/app-sw.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2604,
+      "expected_sha256": "5c5735d5bfb38d3287d4f7a7f0a7d14ac44ab3af3a996f123e1918f6334545a6",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/app-sw.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-a2c\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "66F4:44F34:39D134:4084B5:6B088F6E",
+        "age": "0"
+      },
+      "observed_bytes": 2604,
+      "observed_sha256": "5c5735d5bfb38d3287d4f7a7f0a7d14ac44ab3af3a996f123e1918f6334545a6",
+      "duration_seconds": 6.449,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true,
+      "retained_response": "publication/app-sw.js",
+      "build_marker": "81fabb3"
+    },
+    {
+      "path": "app.css",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "app.css",
+      "url": "https://ferroui.com/WindowsPhone/app.css",
+      "request_url": "https://ferroui.com/WindowsPhone/app.css?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2201,
+      "expected_sha256": "8f6f75a5639dea3baca1a7f1cbf313ee2e43ac4158930e74dcf1f6b300800133",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/app.css?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "text/css; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-899\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "5AE8:2F5D73:38A0AE:3F5449:6B088F71",
+        "age": "0"
+      },
+      "observed_bytes": 2201,
+      "observed_sha256": "8f6f75a5639dea3baca1a7f1cbf313ee2e43ac4158930e74dcf1f6b300800133",
+      "duration_seconds": 4.053,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "text/css"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "backup-format.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "backup-format.js",
+      "url": "https://ferroui.com/WindowsPhone/backup-format.js",
+      "request_url": "https://ferroui.com/WindowsPhone/backup-format.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 5431,
+      "expected_sha256": "5466529f27da8532c21202024cc15316eb485915ae10c85d663e2c9d3ed77f56",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/backup-format.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-1537\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "8EEA:B7B37:2308D7:2B77B5:6B088F72",
+        "age": "0"
+      },
+      "observed_bytes": 5431,
+      "observed_sha256": "5466529f27da8532c21202024cc15316eb485915ae10c85d663e2c9d3ed77f56",
+      "duration_seconds": 3.988,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "backup.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "backup.js",
+      "url": "https://ferroui.com/WindowsPhone/backup.js",
+      "request_url": "https://ferroui.com/WindowsPhone/backup.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2705,
+      "expected_sha256": "ef88e847f54ebfe573941b39d23e0339af033d81137aadc23229e617d332b2ec",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/backup.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-a91\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "C858:BDF3F:2009DF:287A19:6B088F71",
+        "age": "0"
+      },
+      "observed_bytes": 2705,
+      "observed_sha256": "ef88e847f54ebfe573941b39d23e0339af033d81137aadc23229e617d332b2ec",
+      "duration_seconds": 4.01,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "browser-lifecycle.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "browser-lifecycle.js",
+      "url": "https://ferroui.com/WindowsPhone/browser-lifecycle.js",
+      "request_url": "https://ferroui.com/WindowsPhone/browser-lifecycle.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1950,
+      "expected_sha256": "357865f759f744e3473f8dc6809ffafe7e361969374ef7df665335bde3464fc1",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/browser-lifecycle.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-79e\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "E5FA:9EDAC:41D2A3:4886AD:6B088F72",
+        "age": "0"
+      },
+      "observed_bytes": 1950,
+      "observed_sha256": "357865f759f744e3473f8dc6809ffafe7e361969374ef7df665335bde3464fc1",
+      "duration_seconds": 3.958,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "canvas-sizing.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "canvas-sizing.js",
+      "url": "https://ferroui.com/WindowsPhone/canvas-sizing.js",
+      "request_url": "https://ferroui.com/WindowsPhone/canvas-sizing.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2032,
+      "expected_sha256": "b49813a7efb22287b7fc598df812ec9030eb46df2debd35954db2eb3061493b9",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/canvas-sizing.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-7f0\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "0A9C:21184F:216ADC:29DAE3:6B088F76",
+        "age": "0"
+      },
+      "observed_bytes": 2032,
+      "observed_sha256": "b49813a7efb22287b7fc598df812ec9030eb46df2debd35954db2eb3061493b9",
+      "duration_seconds": 4.125,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "document-share.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "document-share.js",
+      "url": "https://ferroui.com/WindowsPhone/document-share.js",
+      "request_url": "https://ferroui.com/WindowsPhone/document-share.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1618,
+      "expected_sha256": "11ccd67a7f9eeb9ba57ebeedae645dd10f2f616c54d5e8d6449d696d200e5a54",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/document-share.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-652\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "CBEA:24C31A:22D315:2B4834:6B088F76",
+        "age": "0"
+      },
+      "observed_bytes": 1618,
+      "observed_sha256": "11ccd67a7f9eeb9ba57ebeedae645dd10f2f616c54d5e8d6449d696d200e5a54",
+      "duration_seconds": 4.009,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "documents.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "documents.js",
+      "url": "https://ferroui.com/WindowsPhone/documents.js",
+      "request_url": "https://ferroui.com/WindowsPhone/documents.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1276,
+      "expected_sha256": "2c03df5c4aef89cd2035da441183cf269353f11495bb37154e72f28c1f31a5b5",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/documents.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-4fc\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "CD70:176D8F:4129BD:47DDA4:6B088F75",
+        "age": "0"
+      },
+      "observed_bytes": 1276,
+      "observed_sha256": "2c03df5c4aef89cd2035da441183cf269353f11495bb37154e72f28c1f31a5b5",
+      "duration_seconds": 3.657,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "environment.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "environment.js",
+      "url": "https://ferroui.com/WindowsPhone/environment.js",
+      "request_url": "https://ferroui.com/WindowsPhone/environment.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 3085,
+      "expected_sha256": "03cd4bd4b78f8d369c6d80ed577b9f4eed8e9839d21ed771ecb743b84112fb51",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/environment.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-c0d\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "3014:34157A:21188D:298B71:6B088F74",
+        "age": "0"
+      },
+      "observed_bytes": 3085,
+      "observed_sha256": "03cd4bd4b78f8d369c6d80ed577b9f4eed8e9839d21ed771ecb743b84112fb51",
+      "duration_seconds": 3.633,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "ferroui-loader.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "ferroui-loader.js",
+      "url": "https://ferroui.com/WindowsPhone/ferroui-loader.js",
+      "request_url": "https://ferroui.com/WindowsPhone/ferroui-loader.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 16165,
+      "expected_sha256": "817aa151802ca2aa17c25861fac1271538edeaac4161b198e461d2e306fe5db6",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/ferroui-loader.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-3f25\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "4264:2D6E8A:38D03A:3F83B6:6B088F79",
+        "age": "0"
+      },
+      "observed_bytes": 16165,
+      "observed_sha256": "817aa151802ca2aa17c25861fac1271538edeaac4161b198e461d2e306fe5db6",
+      "duration_seconds": 3.554,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "ferroui-sw.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "ferroui-sw.js",
+      "url": "https://ferroui.com/WindowsPhone/ferroui-sw.js",
+      "request_url": "https://ferroui.com/WindowsPhone/ferroui-sw.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1528,
+      "expected_sha256": "339767474c06dc15f8230f690701a6b5e915cbeea68ff1dce53a830e71d8bbbb",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/ferroui-sw.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-5f8\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "4CA0:25C8C:38B1E3:3F6513:6B088F78",
+        "age": "0"
+      },
+      "observed_bytes": 1528,
+      "observed_sha256": "339767474c06dc15f8230f690701a6b5e915cbeea68ff1dce53a830e71d8bbbb",
+      "duration_seconds": 3.49,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "ferroui.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "ferroui.js",
+      "url": "https://ferroui.com/WindowsPhone/ferroui.js",
+      "request_url": "https://ferroui.com/WindowsPhone/ferroui.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 63171,
+      "expected_sha256": "78c0510f61dc1086059de6f687f87d58bbef571b8f2c403d50a3948c9ff286f5",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/ferroui.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-f6c3\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "DD5C:6CA22:3ED1FE:44C7ED:6B088F78",
+        "age": "0"
+      },
+      "observed_bytes": 63171,
+      "observed_sha256": "78c0510f61dc1086059de6f687f87d58bbef571b8f2c403d50a3948c9ff286f5",
+      "duration_seconds": 3.247,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "file-picker.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "file-picker.js",
+      "url": "https://ferroui.com/WindowsPhone/file-picker.js",
+      "request_url": "https://ferroui.com/WindowsPhone/file-picker.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 675,
+      "expected_sha256": "2195792306bb4423b3925b33c85cea0b6c4978c968c6faefd649ca7060b55d67",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/file-picker.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-2a3\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "58A8:19CFF7:3AEDC1:41A073:6B088F79",
+        "age": "0"
+      },
+      "observed_bytes": 675,
+      "observed_sha256": "2195792306bb4423b3925b33c85cea0b6c4978c968c6faefd649ca7060b55d67",
+      "duration_seconds": 3.09,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "host.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "host.js",
+      "url": "https://ferroui.com/WindowsPhone/host.js",
+      "request_url": "https://ferroui.com/WindowsPhone/host.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 11364,
+      "expected_sha256": "f657736305a62ba6903366b984c1f2df4a6041cb206151cd4cd9133bb7ae4ba2",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/host.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-2c64\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "9ED4:151925:398D54:4042C7:6B088F7D",
+        "age": "0"
+      },
+      "observed_bytes": 11364,
+      "observed_sha256": "f657736305a62ba6903366b984c1f2df4a6041cb206151cd4cd9133bb7ae4ba2",
+      "duration_seconds": 3.948,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "http-tasks.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "http-tasks.js",
+      "url": "https://ferroui.com/WindowsPhone/http-tasks.js",
+      "request_url": "https://ferroui.com/WindowsPhone/http-tasks.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 3564,
+      "expected_sha256": "29a4bc959d36fca7a8050b72c3f9e92ab1e1eba16bce31727cfcfddc0e255c72",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/http-tasks.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-dec\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "0D28:199ED4:3A1415:40CA64:6B088F7C",
+        "age": "0"
+      },
+      "observed_bytes": 3564,
+      "observed_sha256": "29a4bc959d36fca7a8050b72c3f9e92ab1e1eba16bce31727cfcfddc0e255c72",
+      "duration_seconds": 3.832,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "icon-192.png",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "icon-192.png",
+      "url": "https://ferroui.com/WindowsPhone/icon-192.png",
+      "request_url": "https://ferroui.com/WindowsPhone/icon-192.png?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1942,
+      "expected_sha256": "c69c24e3dfe33b86f675218645b224f07edeb6942d3c16239d8181b555a4fb0b",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/icon-192.png?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "image/png",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-796\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "EAD6:5523:34BE93:3B0151:6B088F7D",
+        "age": "0"
+      },
+      "observed_bytes": 1942,
+      "observed_sha256": "c69c24e3dfe33b86f675218645b224f07edeb6942d3c16239d8181b555a4fb0b",
+      "duration_seconds": 3.82,
+      "matches_compiled_artifact": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "icon-512.png",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "icon-512.png",
+      "url": "https://ferroui.com/WindowsPhone/icon-512.png",
+      "request_url": "https://ferroui.com/WindowsPhone/icon-512.png?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 5763,
+      "expected_sha256": "e3659e769a7bc3e3532bf7aefae9be3f27410fdd67c7e3abedeee8a1cd649dd0",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/icon-512.png?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "image/png",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-1683\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "790C:1F306F:3DB8E1:43AF12:6B088F7D",
+        "age": "0"
+      },
+      "observed_bytes": 5763,
+      "observed_sha256": "e3659e769a7bc3e3532bf7aefae9be3f27410fdd67c7e3abedeee8a1cd649dd0",
+      "duration_seconds": 3.815,
+      "matches_compiled_artifact": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "icon.svg",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "icon.svg",
+      "url": "https://ferroui.com/WindowsPhone/icon.svg",
+      "request_url": "https://ferroui.com/WindowsPhone/icon.svg?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 212,
+      "expected_sha256": "b4c3cb89b3d27ebc04b70404bd27a0d03aa6326773593c6b5d1a7958e829964a",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/icon.svg?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "image/svg+xml",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-d4\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "1CAC:29DE72:39D72F:4089A6:6B088F80",
+        "age": "0"
+      },
+      "observed_bytes": 212,
+      "observed_sha256": "b4c3cb89b3d27ebc04b70404bd27a0d03aa6326773593c6b5d1a7958e829964a",
+      "duration_seconds": 3.611,
+      "matches_compiled_artifact": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "index.html",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "index.html",
+      "url": "https://ferroui.com/WindowsPhone/index.html",
+      "request_url": "https://ferroui.com/WindowsPhone/index.html?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1359,
+      "expected_sha256": "b45f9095d2f9de004ca18ecac46eaac7b0b0df70ba0e8f93e53716facf30f8cb",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/index.html?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-54f\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "96C2:21F8D:36CAB1:3D7FDE:6B088F81",
+        "age": "0"
+      },
+      "observed_bytes": 1359,
+      "observed_sha256": "b45f9095d2f9de004ca18ecac46eaac7b0b0df70ba0e8f93e53716facf30f8cb",
+      "duration_seconds": 3.551,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "text/html"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true,
+      "retained_response": "publication/index.html",
+      "build_marker": "81fabb3"
+    },
+    {
+      "path": "main.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "main.js",
+      "url": "https://ferroui.com/WindowsPhone/main.js",
+      "request_url": "https://ferroui.com/WindowsPhone/main.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 4786,
+      "expected_sha256": "c2e3bebb36aa78916f826acccfea3af8a621d4ec0c054d06c2f4f9c6d8070811",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/main.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-12b2\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "551E:333A90:389767:3F4B37:6B088F81",
+        "age": "0"
+      },
+      "observed_bytes": 4786,
+      "observed_sha256": "c2e3bebb36aa78916f826acccfea3af8a621d4ec0c054d06c2f4f9c6d8070811",
+      "duration_seconds": 3.541,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "manifest.webmanifest",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "manifest.webmanifest",
+      "url": "https://ferroui.com/WindowsPhone/manifest.webmanifest",
+      "request_url": "https://ferroui.com/WindowsPhone/manifest.webmanifest?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 685,
+      "expected_sha256": "595fd0067fbc1967d8ea4fbe6c5c37217147f5657ea3e71d374959203c60b04f",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/manifest.webmanifest?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/manifest+json; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-2ad\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "810A:3009C5:3A834D:413A12:6B088F81",
+        "age": "0"
+      },
+      "observed_bytes": 685,
+      "observed_sha256": "595fd0067fbc1967d8ea4fbe6c5c37217147f5657ea3e71d374959203c60b04f",
+      "duration_seconds": 3.503,
+      "matches_compiled_artifact": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "map-tiles.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "map-tiles.js",
+      "url": "https://ferroui.com/WindowsPhone/map-tiles.js",
+      "request_url": "https://ferroui.com/WindowsPhone/map-tiles.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 7672,
+      "expected_sha256": "3d1e24dd520213cb25ea04b91a272fbe09de02f0474c795820e9ed424d2faf12",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/map-tiles.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-1df8\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "C0C0:AE545:3CE35C:42DB83:6B088F83",
+        "age": "0"
+      },
+      "observed_bytes": 7672,
+      "observed_sha256": "3d1e24dd520213cb25ea04b91a272fbe09de02f0474c795820e9ed424d2faf12",
+      "duration_seconds": 3.506,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "media-session.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "media-session.js",
+      "url": "https://ferroui.com/WindowsPhone/media-session.js",
+      "request_url": "https://ferroui.com/WindowsPhone/media-session.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 3152,
+      "expected_sha256": "ee84b679b21e082e8541c689467a4b65a6767d9c101cb8e3b11add6c3543172d",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/media-session.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-c50\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "7CEA:1A97D9:406C99:46637F:6B088F84",
+        "age": "0"
+      },
+      "observed_bytes": 3152,
+      "observed_sha256": "ee84b679b21e082e8541c689467a4b65a6767d9c101cb8e3b11add6c3543172d",
+      "duration_seconds": 3.403,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "media.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "media.js",
+      "url": "https://ferroui.com/WindowsPhone/media.js",
+      "request_url": "https://ferroui.com/WindowsPhone/media.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 10354,
+      "expected_sha256": "c83a6a2169526e1740c96a755de9ede63470d92bf746f7b344e583e39f7af90c",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/media.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-2872\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "B5C6:154F35:3F9104:4694D8:6B088F83",
+        "age": "0"
+      },
+      "observed_bytes": 10354,
+      "observed_sha256": "c83a6a2169526e1740c96a755de9ede63470d92bf746f7b344e583e39f7af90c",
+      "duration_seconds": 3.465,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "phone-browser.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "phone-browser.js",
+      "url": "https://ferroui.com/WindowsPhone/phone-browser.js",
+      "request_url": "https://ferroui.com/WindowsPhone/phone-browser.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 207871,
+      "expected_sha256": "ee0365f3c433170dc563315e66e213b301e61851fe3f133d4a128186b1873cbb",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/phone-browser.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-32bff\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "E764:355D4:3EE2B9:44D8F0:6B088F83",
+        "age": "0"
+      },
+      "observed_bytes": 207871,
+      "observed_sha256": "ee0365f3c433170dc563315e66e213b301e61851fe3f133d4a128186b1873cbb",
+      "duration_seconds": 3.575,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "phone-storage.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "phone-storage.js",
+      "url": "https://ferroui.com/WindowsPhone/phone-storage.js",
+      "request_url": "https://ferroui.com/WindowsPhone/phone-storage.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2253,
+      "expected_sha256": "521ca91866869fd0aeb30f57eef5064b27e78648997f58d7611b55128715d09c",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/phone-storage.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-8cd\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "A310:346830:3CAD24:43652C:6B088F86",
+        "age": "0"
+      },
+      "observed_bytes": 2253,
+      "observed_sha256": "521ca91866869fd0aeb30f57eef5064b27e78648997f58d7611b55128715d09c",
+      "duration_seconds": 3.509,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "phone_browser.wasm",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "phone_browser.wasm",
+      "url": "https://ferroui.com/WindowsPhone/phone_browser.wasm",
+      "request_url": "https://ferroui.com/WindowsPhone/phone_browser.wasm?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 23514339,
+      "expected_sha256": "4c613d29097a228e2e603f0fb9229d190590dd21a5ae9271fc16512cfc1feba0",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/phone_browser.wasm?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/wasm",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-166cce3\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "FA8E:6CA22:3EE585:44DD3F:6B088F87",
+        "age": "0"
+      },
+      "observed_bytes": 23514339,
+      "observed_sha256": "4c613d29097a228e2e603f0fb9229d190590dd21a5ae9271fc16512cfc1feba0",
+      "duration_seconds": 3.938,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/wasm"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true,
+      "wasm_mime_type_correct": true
+    },
+    {
+      "path": "pim.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "pim.js",
+      "url": "https://ferroui.com/WindowsPhone/pim.js",
+      "request_url": "https://ferroui.com/WindowsPhone/pim.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2686,
+      "expected_sha256": "1cc03b22781ba95c6b6baaa05669a7e65a340e2d1e3d676bdbb96c7ed365991f",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/pim.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-a7e\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "A25A:3132C5:38E172:3F98EB:6B088F87",
+        "age": "0"
+      },
+      "observed_bytes": 2686,
+      "observed_sha256": "1cc03b22781ba95c6b6baaa05669a7e65a340e2d1e3d676bdbb96c7ed365991f",
+      "duration_seconds": 3.411,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "platform-bridge.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "platform-bridge.js",
+      "url": "https://ferroui.com/WindowsPhone/platform-bridge.js",
+      "request_url": "https://ferroui.com/WindowsPhone/platform-bridge.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 12132,
+      "expected_sha256": "705c9477e0e31438cd71c9528abe8dad4d111c8e74ea51e92f0ef647638544d3",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/platform-bridge.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-2f64\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "65C8:AD175:3B79D1:42313A:6B088F87",
+        "age": "0"
+      },
+      "observed_bytes": 12132,
+      "observed_sha256": "705c9477e0e31438cd71c9528abe8dad4d111c8e74ea51e92f0ef647638544d3",
+      "duration_seconds": 3.343,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "qr-worker.LICENSE.txt",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "qr-worker.LICENSE.txt",
+      "url": "https://ferroui.com/WindowsPhone/qr-worker.LICENSE.txt",
+      "request_url": "https://ferroui.com/WindowsPhone/qr-worker.LICENSE.txt?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 11358,
+      "expected_sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/qr-worker.LICENSE.txt?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-2c5e\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "26C6:29A46A:3ED0DB:44CAA6:6B088F8B",
+        "age": "0"
+      },
+      "observed_bytes": 11358,
+      "observed_sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+      "duration_seconds": 3.56,
+      "matches_compiled_artifact": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "qr-worker.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "qr-worker.js",
+      "url": "https://ferroui.com/WindowsPhone/qr-worker.js",
+      "request_url": "https://ferroui.com/WindowsPhone/qr-worker.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 133157,
+      "expected_sha256": "76872c4f5c209d3d7594c0ffe652f42afc3e1fe32b6c8c7b23c6380ce6f18ce6",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/qr-worker.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-20825\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "AB4E:5F969:3A6364:411C2F:6B088F8B",
+        "age": "0"
+      },
+      "observed_bytes": 133157,
+      "observed_sha256": "76872c4f5c209d3d7594c0ffe652f42afc3e1fe32b6c8c7b23c6380ce6f18ce6",
+      "duration_seconds": 3.563,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "sdk-tasks.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "sdk-tasks.js",
+      "url": "https://ferroui.com/WindowsPhone/sdk-tasks.js",
+      "request_url": "https://ferroui.com/WindowsPhone/sdk-tasks.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 3064,
+      "expected_sha256": "1f75a00e5d090ec731ad13d3abcb74addf69841fa25cd188a184b76c870a7bb1",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/sdk-tasks.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-bf8\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "2CA8:802DA:3C82BE:433BD4:6B088F8B",
+        "age": "0"
+      },
+      "observed_bytes": 3064,
+      "observed_sha256": "1f75a00e5d090ec731ad13d3abcb74addf69841fa25cd188a184b76c870a7bb1",
+      "duration_seconds": 3.423,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "storage-environment.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "storage-environment.js",
+      "url": "https://ferroui.com/WindowsPhone/storage-environment.js",
+      "request_url": "https://ferroui.com/WindowsPhone/storage-environment.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 1342,
+      "expected_sha256": "c3f0828246a3a64f00602b037b7b04fb5c27f07a965bff5d5d08285b9474b97d",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/storage-environment.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-53e\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "365C:7E6C8:3CB122:436650:6B088F8B",
+        "age": "0"
+      },
+      "observed_bytes": 1342,
+      "observed_sha256": "c3f0828246a3a64f00602b037b7b04fb5c27f07a965bff5d5d08285b9474b97d",
+      "duration_seconds": 2.862,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "storage.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "storage.js",
+      "url": "https://ferroui.com/WindowsPhone/storage.js",
+      "request_url": "https://ferroui.com/WindowsPhone/storage.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 27573,
+      "expected_sha256": "a0c9d1ba7aef2a9e7cba10a79d61a99ba61db9faaa9290224ab07d39112d61fb",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/storage.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-6bb5\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "AAD0:1D2494:3AA772:415CC4:6B088F91",
+        "age": "0"
+      },
+      "observed_bytes": 27573,
+      "observed_sha256": "a0c9d1ba7aef2a9e7cba10a79d61a99ba61db9faaa9290224ab07d39112d61fb",
+      "duration_seconds": 6.537,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "system-notifications.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "system-notifications.js",
+      "url": "https://ferroui.com/WindowsPhone/system-notifications.js",
+      "request_url": "https://ferroui.com/WindowsPhone/system-notifications.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2290,
+      "expected_sha256": "e0bcc46572f01132bc77a79abee9c191c80ebb42d71458349937eefe000022b5",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/system-notifications.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:15 GMT",
+        "etag": "\"6b088f1b-8f2\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "8F9C:355D4:3EF490:44EC8D:6B088F91",
+        "age": "0"
+      },
+      "observed_bytes": 2290,
+      "observed_sha256": "e0bcc46572f01132bc77a79abee9c191c80ebb42d71458349937eefe000022b5",
+      "duration_seconds": 6.473,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "updates.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "updates.js",
+      "url": "https://ferroui.com/WindowsPhone/updates.js",
+      "request_url": "https://ferroui.com/WindowsPhone/updates.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 2535,
+      "expected_sha256": "c745a2bdfd4db227c240de88cc10289784ff6146f2e00b22487ee18adf127fdb",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/updates.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-9e7\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "7D36:1FD558:4124CE:47202E:6B088F91",
+        "age": "0"
+      },
+      "observed_bytes": 2535,
+      "observed_sha256": "c745a2bdfd4db227c240de88cc10289784ff6146f2e00b22487ee18adf127fdb",
+      "duration_seconds": 6.317,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    },
+    {
+      "path": "urls.js",
+      "kind": "precache_asset_or_worker",
+      "artifact_path": "urls.js",
+      "url": "https://ferroui.com/WindowsPhone/urls.js",
+      "request_url": "https://ferroui.com/WindowsPhone/urls.js?release_verify=81fabb3-1795723112250599591",
+      "expected_bytes": 991,
+      "expected_sha256": "439ec155863b50f92c7ac341eb16deb9b46907f5f34eca4ee0cac335871a5ae0",
+      "status": 200,
+      "final_url": "https://ferroui.com/WindowsPhone/urls.js?release_verify=81fabb3-1795723112250599591",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "last-modified": "Thu, 26 Nov 2026 19:57:14 GMT",
+        "etag": "\"6b088f1a-3df\"",
+        "cache-control": "max-age=600",
+        "x-github-request-id": "1B62:1A7F46:238945:2C0116:6B088F91",
+        "age": "0"
+      },
+      "observed_bytes": 991,
+      "observed_sha256": "439ec155863b50f92c7ac341eb16deb9b46907f5f34eca4ee0cac335871a5ae0",
+      "duration_seconds": 6.383,
+      "matches_compiled_artifact": true,
+      "required_content_types": [
+        "application/javascript",
+        "text/javascript"
+      ],
+      "content_type_verified": true,
+      "delivery_verified": true
+    }
+  ],
+  "qualification": "Direct public HTTP identity checks against the verified compiled artifact. Rendered UI behavior is supplied by the separately recorded exact-source CI run; this check does not claim another live-site browser interaction run.",
+  "retained_response_path_note": "Only retained-response paths were changed from the local observation record to repository-relative paths; response bodies, hashes and all HTTP observations are unchanged."
+}

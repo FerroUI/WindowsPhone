@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "source_revision": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+  "run_id": 45882926591,
+  "failed_job_id": 140126445615,
+  "retry_requested_at_utc": "2026-11-26T19:38:10Z",
+  "operation": "rerun one failed job",
+  "connector_success": true,
+  "reason": "Maven Central HTTP 429 during Gradle classpath resolution; Rust compilation and portable gates had passed. No emulator runtime step started.",
+  "retry_after_header_observed": false,
+  "wait_after_first_failure_seconds_at_least": 375,
+  "arm_job_completed_at_utc": "2026-11-26T19:36:38Z",
+  "source_changes_for_retry": false,
+  "previous_failure_record": "android-ui-attempt1-main-81fabb3.json"
+}

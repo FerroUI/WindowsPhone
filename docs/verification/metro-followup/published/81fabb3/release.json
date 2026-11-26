@@ -1,0 +1,283 @@
+{
+  "schema": 1,
+  "recorded_at_utc": "2026-11-26T20:02:53.239791+00:00",
+  "site": "https://ferroui.com/WindowsPhone/",
+  "published_runtime_revision": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+  "source": {
+    "main_sha": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+    "tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+    "parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "7fbde4e1e8af91d23e939867914e18152fbceaa4"
+    ],
+    "reviewed_pr": 4,
+    "reviewed_head_sha": "7fbde4e1e8af91d23e939867914e18152fbceaa4",
+    "reviewed_tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+    "main_tree_equals_reviewed_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "publication": {
+    "run_id": 45882926545,
+    "job_id": 140141464804,
+    "completed_at_utc": "2026-11-26T19:57:20Z",
+    "conclusion": "success",
+    "http_observed_at_utc": "2026-11-26T19:58:32.250582+00:00",
+    "asset_count": 39,
+    "matched_assets": 39,
+    "http_requests": 40,
+    "passed_http_requests": 40,
+    "record": "publication-http.json",
+    "response_bodies": "publication/",
+    "build_marker": "81fabb3"
+  },
+  "compiled_artifact": {
+    "id": 15149083448,
+    "zip_sha256": "7ddbb76c1819a78f8b4cd3188356aae82ef40b62efeb3b275373b16482aa8e79",
+    "files": 43,
+    "wasm_bytes": 23514339,
+    "wasm_sha256": "4c613d29097a228e2e603f0fb9229d190590dd21a5ae9271fc16512cfc1feba0",
+    "reviewed_artifact_comparison": "compiled-comparison.json",
+    "byte_identical_files_to_reviewed_artifact": 41,
+    "other_files_change_only_checkout_stamps": true
+  },
+  "verification": {
+    "browser": {
+      "record": "browser-ci.json",
+      "rust_passed": 402,
+      "rust_ignored": 1,
+      "javascript_passed": 77,
+      "rendered_checks_passed": 93,
+      "captures": 163,
+      "elapsed_ms": 340125,
+      "browser_errors": 0,
+      "results": "browser-results.json",
+      "trusted_pointer_trace": "picker-touch.json"
+    },
+    "native": {
+      "record": "native-ci.json",
+      "platforms": {
+        "linux": {
+          "conclusion": "success",
+          "tests": {
+            "phone_host": {
+              "passed": 33,
+              "failed": 0,
+              "ignored": 1
+            },
+            "phone_platform_desktop": {
+              "passed": 9,
+              "failed": 0,
+              "ignored": 1
+            },
+            "phone_native": {
+              "passed": 17,
+              "failed": 0,
+              "ignored": 0
+            },
+            "private_bus_mpris": {
+              "passed": 1,
+              "failed": 0,
+              "ignored": 0
+            },
+            "python": 6,
+            "ignored_test_log_lines": [
+              "2026-11-26T19:22:43.9426201Z test native::media_session::linux::tests::private_bus_media_controls ... ignored, requires a dedicated dbus-run-session",
+              "2026-11-26T19:22:43.9461504Z test linux::tests::gio_fixture_child ... ignored, run only by the isolated parent fixture with its temporary XDG directories"
+            ]
+          },
+          "full_application_link": {
+            "command": "cargo build --locked -p phone-desktop",
+            "success": true,
+            "duration_seconds": 347
+          },
+          "cache_saved": true
+        },
+        "macos": {
+          "conclusion": "success",
+          "tests": {
+            "phone_host": {
+              "passed": 29,
+              "failed": 0,
+              "ignored": 0
+            },
+            "phone_platform_desktop": {
+              "passed": 5,
+              "failed": 0,
+              "ignored": 0
+            },
+            "phone_native": {
+              "passed": 17,
+              "failed": 0,
+              "ignored": 0
+            },
+            "python": 6
+          },
+          "full_application_link": {
+            "command": "cargo build --locked -p phone-desktop",
+            "success": true,
+            "duration_seconds": 452
+          },
+          "cache_saved": true
+        },
+        "windows": {
+          "conclusion": "success",
+          "tests": {
+            "phone_host": {
+              "passed": 30,
+              "failed": 0,
+              "ignored": 0
+            },
+            "phone_platform_desktop": {
+              "passed": 6,
+              "failed": 0,
+              "ignored": 0
+            },
+            "phone_native": {
+              "passed": 16,
+              "failed": 0,
+              "ignored": 0
+            },
+            "python": 6,
+            "windows_shell_helper_parse": "passed"
+          },
+          "full_application_link": {
+            "command": "cargo build --locked -p phone-desktop",
+            "success": true,
+            "duration_seconds": 982
+          },
+          "cache_saved": true
+        }
+      }
+    },
+    "android_arm": {
+      "record": "android-arm-ci.json",
+      "conclusion": "success",
+      "tests": {
+        "java_contract_assertions": 111,
+        "pinned_aosp_sources": 24,
+        "python_tests": 8,
+        "rust_tests_passed": 7,
+        "rust_failed": 0
+      },
+      "packaging_passed": true,
+      "apk_zip_downloaded_locally": false
+    },
+    "android_ui": {
+      "record": "android-ci.json",
+      "conclusion": "success",
+      "successful_attempt": 2,
+      "tests": {
+        "java_assertions": 111,
+        "aosp_sources_verified": 24,
+        "python_groups": [
+          8,
+          9,
+          8,
+          3,
+          19
+        ],
+        "rust_passed": 7,
+        "python_passed": 47
+      },
+      "captures": 21,
+      "artifact_files": 205,
+      "restoration_pairs_byte_equal": 4,
+      "first_failure_record": "android-ui-attempt1.json",
+      "first_failure_log": "android-ui-attempt1.log.gz",
+      "retry_record": "android-ui-retry.json",
+      "source_or_assertions_changed_for_retry": false
+    },
+    "ios": {
+      "record": "ios-ci.json",
+      "conclusion": "success",
+      "portable_tests": {
+        "python_verifier": 7,
+        "python_diagnostics_and_cleanup": 11,
+        "rust_standard": 8,
+        "rust_ios26_telephony": 8
+      },
+      "runtime_summary": {
+        "snapshots": 7,
+        "warm_activations": 6,
+        "sequences": [
+          2,
+          204,
+          230,
+          239,
+          244,
+          249,
+          259
+        ],
+        "same_native_pid": true,
+        "native_pid": 23004,
+        "same_launch_id": true,
+        "launch_id": "0D21D669-DB10-43FB-ABFC-0A71266DA9B6",
+        "same_scene_session": true,
+        "scene_session_id": "BC8474E8-6624-4ACC-9517-ADC82AD1B364",
+        "all_ready_and_open": true,
+        "all_foreground_active": true,
+        "all_warm_activations_accepted": true,
+        "provider_checks_passed": 6,
+        "calls_sent": 0,
+        "messages_sent": 0,
+        "system_confirmation_prompts_accepted": 0,
+        "system_url_open_requests": 6
+      },
+      "authorization_observation": {
+        "first_capture_sequence": 2,
+        "first_start_location": "unknown",
+        "warm_snapshot_location_statuses": [
+          "prompt",
+          "prompt",
+          "prompt",
+          "prompt",
+          "prompt",
+          "prompt"
+        ],
+        "provider_location_status": "prompt",
+        "observed_unknown_to_prompt": true,
+        "boundary": "The first retained mounted Start observation is sequence 2 and reports Unknown; all six later warm captures report Prompt. This directly records the observed transition in this main run, not the exact first application frame or delegate callback time, and does not grant location authorization."
+      },
+      "visual_review": {
+        "reviewed": [
+          "start.png",
+          "home-restored.png",
+          "settings.png"
+        ],
+        "main_capture_independently_reviewed": true,
+        "start": "Native Start tiles, status area and bottom Back/Start/Search icons are visibly rendered, without a system notification overlay.",
+        "home_restored": "Native Start tiles are visibly rendered, without a system notification overlay; the lower navigation strip has no visible Back/Start/Search icons.",
+        "settings": "The device-services page is visibly rendered; the lower navigation strip has no visible Back/Start/Search icons.",
+        "navigation_capture_limitation_persists_in_this_run": true,
+        "boundary": "These descriptions come from the newly downloaded main captures. The prior blank-navigation-strip capture limitation persists in restored Start and Settings. This is an appearance observation and does not determine its cause or establish interactive hardware-button correctness.",
+        "prior_comparison_context": {
+          "path": "/tmp/windowsphone-tooling/ios-navigation-capture-comparison.json",
+          "bytes": 5185,
+          "sha256": "22e6aca24f69b6c1587841c6331da3fad7d8a6793a83646cd5f73bade42b7dd0"
+        },
+        "image_sha256": {
+          "start.png": "950e662c088fc7c906676f39f6e0131a52aa4e56855bc579aad0524869c7958e",
+          "home-restored.png": "57f51320e90fff663d3ce0678bdb79d9e6e1b10c224a80fabb2e4b7043e879b4",
+          "settings.png": "608dd08e6b8f47aa910e0cd5a6e9baa518b550bbf2bbcab69c7eed3834053bb6"
+        }
+      }
+    }
+  },
+  "framework": {
+    "pin": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+    "pr": "https://github.com/wieslawsoltes/FerroUI/pull/1456",
+    "pr_state": "open",
+    "pr_draft": false,
+    "runtime_ci_record": "../../verified/dc9e2a9/framework-ci.json",
+    "known_aggregate_failure": "Unrelated stale generated C++ headers, reproduced on the unchanged actual CI base.",
+    "baseline_proof": "../../local/framework-cpp-baseline.json"
+  },
+  "scope": [
+    "The main tree equals reviewed PR head 7fbde4e. Changes from verified code dc9e2a9 to main81fabb3 are confined to the earlier evidence dossier.",
+    "A later documentation-only commit records this publication and does not change the deployed runtime revision.",
+    "Public HTTP observations verify artifact identity and content types; rendered interactions come from the exact-source CI browser run.",
+    "Metadata records retain original local log/extraction paths for provenance. Archived records and selected payloads are indexed by the adjacent manifest and README.",
+    "Native desktop results include full builds and links, not desktop GUI captures. Emulator/simulator evidence does not establish signed physical-device or original Windows Phone parity.",
+    "The original Windows Phone emulator workflow was skipped. Fresh main iOS captures still show a blank lower navigation strip after returning home and in Settings; its cause and interactive correctness remain unproven."
+  ]
+}

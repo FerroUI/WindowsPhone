@@ -1,0 +1,12 @@
+{
+  "artifact_id": 15149083448,
+  "github_digest": "sha256:7ddbb76c1819a78f8b4cd3188356aae82ef40b62efeb3b275373b16482aa8e79",
+  "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-main-81fabb3.zip",
+  "sha256_verified": true,
+  "zip_sha256": "7ddbb76c1819a78f8b4cd3188356aae82ef40b62efeb3b275373b16482aa8e79",
+  "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-main-81fabb3",
+  "files": 43,
+  "wasm_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/compiled-app-main-81fabb3/phone_browser.wasm",
+  "wasm_sha256": "4c613d29097a228e2e603f0fb9229d190590dd21a5ae9271fc16512cfc1feba0",
+  "wasm_bytes": 23514339
+}

@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "observed_at": "2026-11-26T19:33:50.096536+00:00",
+  "source": {
+    "main_sha": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+    "tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+    "parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "7fbde4e1e8af91d23e939867914e18152fbceaa4"
+    ],
+    "reviewed_pr": 4,
+    "reviewed_head_sha": "7fbde4e1e8af91d23e939867914e18152fbceaa4",
+    "reviewed_tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+    "main_tree_equals_reviewed_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "run_id": 45882926591,
+  "job_id": 140126445615,
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45882926591/job/140126445615",
+  "attempt": 1,
+  "conclusion": "failure",
+  "started_at": "2026-11-26T19:20:37Z",
+  "completed_at": "2026-11-26T19:31:58Z",
+  "failed_step": "Build x86_64 application and launcher APKs",
+  "checkout_verified_in_log_and_artifact": true,
+  "framework_checkout_log_line": "2026-11-26T19:20:54.9630924Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+  "failure": {
+    "category": "Maven Central HTTP429 during Gradle classpath resolution",
+    "first_http_429_line": "2026-11-26T19:31:54.3100507Z             > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.pom'. Received status code 429 from server: Too Many Requests",
+    "http_429_log_line_count": 92,
+    "terminal_error_line": "2026-11-26T19:31:54.6096986Z ##[error]Process completed with exit code 1.",
+    "retry_after_exposed_in_log": false,
+    "response_headers_not_exposed_by_gradle_log": true
+  },
+  "completed_before_failure": {
+    "java_assertions": 111,
+    "aosp_sources_verified": 24,
+    "python_tests": 47,
+    "rust_tests": 7,
+    "rust_native_dev_build": true
+  },
+  "apk_build_completed": false,
+  "runtime_ui_executed": false,
+  "captures": 0,
+  "log": {
+    "path": "/tmp/windowsphone-tooling/android-ui-attempt1-main-81fabb3.log",
+    "sha256": "e283bf2beb620df26cbfe96cd06c6fac62a87a653893561ad750fedd2d637b98"
+  },
+  "artifact": {
+    "id": 15147933156,
+    "size_bytes": 171,
+    "github_digest": "sha256:9d6a40effa5a97b579e7bed5d84fbb8d245ed14be1a7a37896c4c9d229adaf9a",
+    "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-attempt1-main-81fabb3.zip",
+    "zip_sha256": "9d6a40effa5a97b579e7bed5d84fbb8d245ed14be1a7a37896c4c9d229adaf9a",
+    "zip_digest_verified": true,
+    "extracted_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-attempt1-main-81fabb3",
+    "files": [
+      "head.txt"
+    ]
+  },
+  "retry_performed": false
+}

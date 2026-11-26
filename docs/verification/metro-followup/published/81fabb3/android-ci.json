@@ -1,0 +1,234 @@
+{
+  "schema": "windowsphone-main-android-release-verification-v1",
+  "observed_at": "2026-11-26T19:57:44.434409+00:00",
+  "source": {
+    "main_sha": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+    "tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+    "parents": [
+      "a4a7b851048a151db66f9f4404b0c5ed8672c812",
+      "7fbde4e1e8af91d23e939867914e18152fbceaa4"
+    ],
+    "reviewed_pr": 4,
+    "reviewed_head_sha": "7fbde4e1e8af91d23e939867914e18152fbceaa4",
+    "reviewed_tree_sha": "9bd934a790b56b980b7b3bb1a14dcdf1381478b2",
+    "main_tree_equals_reviewed_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "arm": {
+    "record": "/tmp/windowsphone-tooling/android-arm-main-81fabb3.json",
+    "sha256": "d93eb101fe0b5de70011e4313867f8ced5c65ed5be2111dfbd788b974d661b31",
+    "conclusion": "success"
+  },
+  "mounted_ui": {
+    "run_id": 45882926591,
+    "attempt": 2,
+    "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45882926591",
+    "job": {
+      "id": 140133769716,
+      "name": "android-ui",
+      "head_sha": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-26T19:38:15Z",
+      "completed_at": "2026-11-26T19:56:25Z",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45882926591/job/140133769716"
+    },
+    "framework_checkout_log_line": "2026-11-26T19:38:34.8402131Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+    "artifact_head_matches_main": true,
+    "tests": {
+      "java_assertions": 111,
+      "aosp_sources_verified": 24,
+      "python_groups": [
+        8,
+        9,
+        8,
+        3,
+        19
+      ],
+      "rust_passed": 7,
+      "python_passed": 47
+    },
+    "runtime_result": "passed",
+    "exit_code": 0,
+    "phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+    "target": {
+      "platform": "android",
+      "api": 36,
+      "abi": "x86_64",
+      "gpu": "software"
+    },
+    "captures": 21,
+    "capture_manifest": [
+      "app-back.png",
+      "app-home-restored.png",
+      "app-start.png",
+      "app-wallet.png",
+      "device-action-center-revoked.png",
+      "device-action-center.png",
+      "device-active-call.png",
+      "device-ended-call.png",
+      "device-messaging.png",
+      "device-notifications-scroll-0.png",
+      "device-notifications-scroll-1.png",
+      "device-ringing.png",
+      "device-start-unread.png",
+      "home-role-back-start.png",
+      "home-role-returned.png",
+      "home-role-start.png",
+      "home-role-wallet.png",
+      "launcher-back.png",
+      "launcher-home-restored.png",
+      "launcher-start.png",
+      "launcher-wallet.png"
+    ],
+    "files_extracted": 205,
+    "result_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-attempt2-main-81fabb3/result.json",
+    "result_sha256": "91300ac944bc013d6346c27dc30ac8330a5d3831ddfdf00376bb3f47dc369d10",
+    "call_evidence": {
+      "same_call_id_ringing_to_active": true,
+      "ringing": [
+        {
+          "id": "call:3bc5e243-e56b-4534-bbc7-7f94827dcd49",
+          "number": "5550102",
+          "name": "",
+          "state": "ringing",
+          "incoming": true,
+          "muted": false,
+          "speaker": true,
+          "can_hold": false,
+          "account": "phone-account:Y29tLmFuZHJvaWQucGhvbmUvY29tLmFuZHJvaWQuc2VydmljZXMudGVsZXBob255LlRlbGVwaG9ueUNvbm5lY3Rpb25TZXJ2aWNlCjE"
+        }
+      ],
+      "active": [
+        {
+          "id": "call:3bc5e243-e56b-4534-bbc7-7f94827dcd49",
+          "number": "5550102",
+          "name": "",
+          "state": "active",
+          "incoming": true,
+          "muted": false,
+          "speaker": true,
+          "can_hold": true,
+          "connected_at": 1795722954038,
+          "account": "phone-account:Y29tLmFuZHJvaWQucGhvbmUvY29tLmFuZHJvaWQuc2VydmljZXMudGVsZXBob255LlRlbGVwaG9ueUNvbm5lY3Rpb25TZXJ2aWNlCjE"
+        }
+      ],
+      "ended": [],
+      "active_presentation": {
+        "service_type": 4,
+        "foreground_notification": true,
+        "call_style": true
+      },
+      "ended_presentation": {
+        "service_type": 0,
+        "foreground_notification": false,
+        "call_style": false
+      },
+      "native_call_page_remains_visible_after_end": true,
+      "critical_log_lines": [
+        "11-26 19:55:53.938  1191  1191 D RILJ    : [0205]> ANSWER [PHONE0]",
+        "11-26 19:55:53.949  1191  1330 D RILJ    : [0205]< ANSWER  [PHONE0]",
+        "11-26 19:55:54.038   669  2701 I Telecom : Event: RecordEntry TC@1: SET_ACTIVE, active set explicitly: CSW.sA(cap)@A20\ud83d\udd12",
+        "11-26 19:55:58.103   669  1413 I Telecom : Event: RecordEntry TC@1: SET_DISCONNECTED, disconnected set explicitly> DisconnectCause [ Code: (REMOTE) Label: () Description: () Reason: (NORMAL) Tone: (27)  TelephonyCause: 2/-1 ImsReasonInfo: null]: CSW.sDc(cap)@A44\ud83d\udd12"
+      ]
+    },
+    "notifications": {
+      "visible_fixture_labels": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 79.5,
+            "width": 324.0,
+            "x": 18.0,
+            "y": 398.5
+          },
+          "text": "FerroUI-bootstrap-873b99a107fce3bb1d1f0baf0368257c"
+        },
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 61.5,
+            "width": 324.0,
+            "x": 18.0,
+            "y": 482.0
+          },
+          "text": "Native-listener-873b99a107fce3bb1d1f0baf0368257c"
+        }
+      ],
+      "count_before_revocation": 3,
+      "count_after_revocation": 0,
+      "fixture_and_labels_cleared": true
+    },
+    "codec": {
+      "result": "passed",
+      "assertions": 13,
+      "encoded_bytes": 266,
+      "rf_requests": 0
+    },
+    "role_and_listener_restoration": [
+      {
+        "before": "home-before.txt",
+        "after": "home-restored.txt",
+        "byte_equal": true,
+        "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+      },
+      {
+        "before": "DIALER-before.txt",
+        "after": "DIALER-after.txt",
+        "byte_equal": true,
+        "sha256": "f71c5270f4eafa717a8a7dcb5ad8adb55a78e4ee990187980af83953f3746fbc"
+      },
+      {
+        "before": "SMS-before.txt",
+        "after": "SMS-after.txt",
+        "byte_equal": true,
+        "sha256": "b60e00051573bf4683b72920768b86df0e954aa055a791e8df2c7b58b22f2d98"
+      },
+      {
+        "before": "listener-before.txt",
+        "after": "listener-after.txt",
+        "byte_equal": true,
+        "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+      }
+    ],
+    "log": {
+      "path": "/tmp/windowsphone-tooling/android-ui-attempt2-main-81fabb3.log",
+      "sha256": "dc06878f5637a6d7bbd76fb92afc52374d4e9ea6abf53d3bc827f4b6c3f6af90",
+      "bytes": 215922
+    },
+    "artifacts": [
+      {
+        "id": 15150615875,
+        "name": "phone-android-x86_64-ui",
+        "github_digest": "sha256:9f3f5478c1338115a7e2aa0e13f9b0a376b2a9c89c3840a2dfce89942447cc9e",
+        "bytes": 5280983,
+        "locally_downloaded": true,
+        "sha256_verified": true,
+        "zip_sha256": "9f3f5478c1338115a7e2aa0e13f9b0a376b2a9c89c3840a2dfce89942447cc9e",
+        "zip_path": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-attempt2-main-81fabb3.zip",
+        "directory": "/workspace/scratch/ac02e890bf90/WindowsPhone/target/android-ui-attempt2-main-81fabb3"
+      },
+      {
+        "id": 15150441144,
+        "name": "phone-android-x86_64-debug",
+        "github_digest": "sha256:94496abbbd8e4d484a8d9f735f8710c80b17956d384bae97c38bacc2f72d30f2",
+        "bytes": 83558955,
+        "locally_downloaded": false,
+        "note": "APK artifact digest is API metadata; the large package ZIP was not downloaded locally."
+      }
+    ]
+  },
+  "attempt_history": {
+    "first_attempt_preserved": {
+      "path": "/tmp/windowsphone-tooling/android-ui-attempt1-main-81fabb3.json",
+      "sha256": "b603565aa4c072daffc9de604d3609ca6ee65f8b87b2374a7187ca534d0e2fde"
+    },
+    "authorized_retry_record": {
+      "path": "/tmp/windowsphone-tooling/android-ui-retry-main-81fabb3.json",
+      "sha256": "b51e58af62d3476614e0a1b1c421795fc529bc8566a0cf2f903f396e2d09528f"
+    },
+    "reason": "Attempt 1 stopped on dependency-download HTTP 429 after native compilation and before emulator startup. One unchanged-source targeted retry was authorized and issued by the release owner after ARM finished.",
+    "source_or_assertion_changes_for_retry": false,
+    "further_retries": 0
+  }
+}
