@@ -39,6 +39,18 @@ export async function verifySystemRefinements(ctx) {
   const app=async (label,id=label)=>{
     await page.evaluate(`phoneApp.openApp(${JSON.stringify(label)})`);
     await isRoute({App:id});
+    // Publishing the route precedes its turnstile entrance. The input helper
+    // derives centres from logical sizes, so wait for both page transforms and
+    // the retiring snapshot to detach before capturing pointer coordinates.
+    await until(async()=>{
+      const view=await snapshot();
+      const current=view.elements.find(element=>element.name==="PhonePage");
+      const outgoing=view.elements.find(element=>element.name==="PhoneOutgoingPage");
+      const image=view.elements.find(element=>element.name==="PhoneOutgoingImage");
+      return current?.projection===null&&current.opacity===1&&
+        (!outgoing||(outgoing.projection===null&&outgoing.opacity===0))&&!image?.imageSource;
+    },`${label} entrance settles before native input`);
+    await isRoute({App:id});
   };
   const scrollMatch=element=>/ScrollViewer$/.test(element.type)&&element.width>220&&element.height>160;
   const setting=async name=>{

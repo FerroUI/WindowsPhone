@@ -219,24 +219,65 @@ export async function verifyPhonePickers(ctx) {
 
       let minute=await selectedValue("PART_MinuteSelector","00");
       await rawClick(minute.selected);await frame();minute=await wheel("PART_MinuteSelector");
-      await touch("touchStart",centre(nextCell(minute)));
-      await touch("touchCancel");await frame();
-      await selectedValue("PART_MinuteSelector","00");
-      assert.deepEqual(await state(),document,"canceling a touch does not synthesize selection or a value commit");
-
-      const from=centre(minute.selected),distance=minute.selected.height*1.25;
-      await touch("touchStart",from);
-      let released=false;
+      const touchEvidence={events:[],frames:[]};
+      let touchActive=false;
+      const observedTouch=async()=>{
+        touchEvidence.events=await page.evaluate("globalThis.__phonePickerTouchProbe.events");
+        return touchEvidence.events;
+      };
+      await page.send("Emulation.setTouchEmulationEnabled",{enabled:true,maxTouchPoints:5});
       try{
+        // Observe trusted browser delivery separately from native selection so
+        // a missing touch stream cannot make the cancellation assertion pass.
+        await page.evaluate(`(()=>{
+          const events=[],types=['pointerdown','pointermove','pointerup','pointercancel'];
+          const observe=event=>{
+            if(event.pointerType==='touch')events.push({type:event.type,id:event.pointerId,
+              x:event.clientX,y:event.clientY,trusted:event.isTrusted,target:event.target?.tagName});
+          };
+          for(const type of types)document.addEventListener(type,observe,true);
+          globalThis.__phonePickerTouchProbe={events,dispose:()=>{
+            for(const type of types)document.removeEventListener(type,observe,true);
+          }};
+        })()`);
+        await touch("touchStart",centre(nextCell(minute)));touchActive=true;
+        const cancelDown=(await observedTouch()).find(event=>event.type==="pointerdown");
+        assert(cancelDown?.trusted,"cancel fixture delivers a trusted DOM touch press");
+        await touch("touchCancel");touchActive=false;await frame();
+        assert((await observedTouch()).some(event=>event.type==="pointercancel"&&event.id===cancelDown.id&&event.trusted),
+          "cancel fixture terminates that same native touch contact");
+        await selectedValue("PART_MinuteSelector","00");
+        assert.deepEqual(await state(),document,"canceling a touch does not synthesize selection or a value commit");
+
+        const from=centre(minute.selected),distance=minute.selected.height*1.25;
+        const firstDragEvent=touchEvidence.events.length;
+        await touch("touchStart",from);touchActive=true;
+        const dragDown=(await observedTouch()).slice(firstDragEvent).find(event=>event.type==="pointerdown");
+        assert(dragDown?.trusted,"drag starts a fresh trusted DOM touch contact after cancellation");
         for(let step=1;step<=8;step++){
           await touch("touchMove",[from[0],from[1]-distance*step/8]);await frame();
+          const current=await wheel("PART_MinuteSelector");
+          touchEvidence.frames.push({step,value:current.value,selectedY:current.selected.y,
+            selectedHeight:current.selected.height,selectorY:current.selector.y,selectorHeight:current.selector.height});
         }
-        await touch("touchEnd");released=true;
-      }finally{if(!released)await touch("touchCancel").catch(()=>{});}
-      await until(async()=>{
-        const current=await wheel("PART_MinuteSelector");
-        return current.value!=="00"&&Math.abs(current.selected.y+current.selected.height/2-current.selector.y-current.selector.height/2)<0.7;
-      },"native touch scrolling advances and snaps the minute wheel");
+        assert((await observedTouch()).some(event=>event.type==="pointermove"&&event.id===dragDown.id&&event.trusted),
+          "the browser forwards touch movement to the native canvas");
+        assert(touchEvidence.frames.some(current=>current.value!==minute.value||Math.abs(current.selectedY-minute.selected.y)>8),
+          "the native minute wheel moves while the touch contact remains down");
+        await touch("touchEnd");touchActive=false;
+        assert((await observedTouch()).some(event=>event.type==="pointerup"&&event.id===dragDown.id&&event.trusted),
+          "the native drag receives a matching touch release");
+        await until(async()=>{
+          const current=await wheel("PART_MinuteSelector");
+          return current.value!=="00"&&Math.abs(current.selected.y+current.selected.height/2-current.selector.y-current.selector.height/2)<0.7;
+        },"native touch scrolling advances and snaps the minute wheel");
+      }finally{
+        if(touchActive)await touch("touchCancel").catch(()=>{});
+        await observedTouch().catch(()=>{});
+        console.log("Phone picker touch evidence",JSON.stringify(touchEvidence));
+        await page.evaluate("globalThis.__phonePickerTouchProbe?.dispose();delete globalThis.__phonePickerTouchProbe").catch(()=>{});
+        await page.send("Emulation.setTouchEmulationEnabled",{enabled:false});
+      }
       assert.deepEqual(await state(),document,"dragging and snapping do not persist staged picker values");
       await capture("phone-picker-native-pointer-staging",{picker:"TimePickerPresenter"});
       await clickName("HardwareBack");await gone();
