@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "recorded_at_utc": "2026-11-26T22:19:04.566Z",
+  "repository": "FerroUI/WindowsPhone",
+  "pull_request": 5,
+  "head": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+  "parent": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+  "pr_merge": "1afd9e85f3c251c260157ff4d21c60c903615849",
+  "head_and_merge_tree": "e5e052c56545ca8babd408ef844b9218747409bd",
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "runs": [
+    {
+      "id": 45903697254,
+      "name": "Verify Android hosts",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697254",
+      "event": "pull_request",
+      "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+    },
+    {
+      "id": 45903697269,
+      "name": "Build and publish",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697269",
+      "event": "pull_request",
+      "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+    },
+    {
+      "id": 45903697318,
+      "name": "Verify iOS host",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697318",
+      "event": "pull_request",
+      "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+    },
+    {
+      "id": 45903697261,
+      "name": "Verify Android mounted UI",
+      "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697261",
+      "event": "pull_request",
+      "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+    }
+  ],
+  "jobs": {
+    "browser": 140195288759,
+    "linux": 140195288618,
+    "macos": 140195288765,
+    "windows": 140195288787,
+    "android_arm": 140195288655,
+    "android_ui": 140195288821,
+    "ios": 140195288702
+  },
+  "note": "Source identity snapshot; terminal results belong to per-lane records."
+}

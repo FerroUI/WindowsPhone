@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "candidate": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2332,
+      "sha256": "047ba144fa151a8be8a25145d4fcd39d97f1ac93804219897e522d00f7f6d96e"
+    },
+    {
+      "path": "android-arm-ci.json",
+      "bytes": 11541,
+      "sha256": "9f9661827e7b3b52673d30bf9fd59f5abfdea55e9cecc3a3afe47d30de32f9d7"
+    },
+    {
+      "path": "browser-build.log.gz",
+      "bytes": 30948,
+      "sha256": "78dc4dc37a2af782321d033aa43bbcc7256f35512e45d063419bc241fcfaf302"
+    },
+    {
+      "path": "browser-ci.json",
+      "bytes": 33886,
+      "sha256": "5b729d204de477bceb7f8b5150f13f9e5f8bdcbf2c26b92002b6b1f962cef71a"
+    },
+    {
+      "path": "source.json",
+      "bytes": 1735,
+      "sha256": "f0af589cd0b9b320d93db81121c918d86a5168f8af59897c4c885d7aac7ead02"
+    },
+    {
+      "path": "successor-location-check.json",
+      "bytes": 1095,
+      "sha256": "b87152bddf19b76862e467fe4fcb4df7298be9845f3bbc52b81bc28054657778"
+    },
+    {
+      "path": "successor-location-check.log.gz",
+      "bytes": 4087,
+      "sha256": "b152559b34ce8dfff12ad1482354cd7b2e75b32c765af23da9f4a4492f69bc97"
+    }
+  ]
+}

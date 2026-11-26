@@ -1,0 +1,301 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "run_id": 45903697254,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697254",
+  "event": "pull_request",
+  "attempt": 1,
+  "source": {
+    "head": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+    "head_tree": "e5e052c56545ca8babd408ef844b9218747409bd",
+    "actual_checkout": "1afd9e85f3c251c260157ff4d21c60c903615849",
+    "checkout_tree": "e5e052c56545ca8babd408ef844b9218747409bd",
+    "checkout_parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+    ],
+    "trees_identical": true,
+    "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "job": {
+    "id": 140195288655,
+    "name": "android",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-26T22:16:20Z",
+    "completed_at": "2026-11-26T22:21:59Z",
+    "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697254/job/140195288655"
+  },
+  "counts": {
+    "java_contract_assertions": 126,
+    "pinned_aosp_sources": 24,
+    "python_tests": 8,
+    "rust_tests_passed": 7,
+    "rust_failed": 0,
+    "rust_ignored": 0
+  },
+  "commands": [
+    "bash scripts/test-android-contracts.sh",
+    "cargo test --locked -p phone-android --lib",
+    "bash scripts/build-android.sh",
+    "cargo check --locked -p phone-android --no-default-features --target aarch64-linux-android",
+    "python3 scripts/verify-android-package.py \"$phone_outputs/app/debug\" --manifest-out target/android/verification/app-manifest.xml",
+    "python3 scripts/verify-android-package.py \"$phone_outputs/launcher/debug\" --launcher --manifest-out target/android/verification/launcher-manifest.xml"
+  ],
+  "native_build_and_packaging": {
+    "native_rust_application_build_passed": true,
+    "application_apk_built": true,
+    "home_launcher_apk_built": true,
+    "embedding_library_check_passed": true,
+    "manifest_jni_and_alignment_checks_passed": true,
+    "apk_artifact_produced": true,
+    "native_cache_saved": true
+  },
+  "cache": {
+    "restored_from_previous_candidate": true,
+    "restored_checkout": "099fe673072c303205168b220e7183151a486840",
+    "new_current_checkout_cache_saved": true,
+    "proof": [
+      "2026-11-26T22:17:29.4361789Z Cache hit for restore-key: phone-android-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-099fe673072c303205168b220e7183151a486840",
+      "2026-11-26T22:18:05.6883331Z Cache restored from key: phone-android-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-099fe673072c303205168b220e7183151a486840",
+      "2026-11-26T22:21:48.2859773Z Cache saved with key: phone-android-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-1afd9e85f3c251c260157ff4d21c60c903615849"
+    ]
+  },
+  "scope": "First-attempt ARM64 package and embedding compile verification plus portable Java/Python/Rust contracts. Both APKs passed CI merged-manifest, JNI entry and alignment checks. No ARM-device installation or runtime/UI result is claimed. Artifact digest agrees between GitHub metadata and the upload log; archive bytes were not downloaded or independently rehashed locally.",
+  "log": {
+    "path": "/tmp/windowsphone-tooling/android-arm-b59ed8a.log",
+    "sha256": "ccd8c10cdfafbf50b8d9c951328e478f24bb69c0ee40cbea3d4be8710fee0db8",
+    "bytes": 201151
+  },
+  "source_proof": [
+    "2026-11-26T22:16:38.0049083Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+    "2026-11-26T22:16:38.1356666Z 1afd9e85f3c251c260157ff4d21c60c903615849",
+    "2026-11-26T22:16:38.1752544Z 1afd9e85f3c251c260157ff4d21c60c903615849"
+  ],
+  "result_proof": [
+    "2026-11-26T22:18:09.6989775Z Android pure contract assertions: 126",
+    "2026-11-26T22:18:09.7375569Z Pinned Apache-licensed AOSP MMS sources verified: 24",
+    "2026-11-26T22:18:09.8257375Z Ran 8 tests in 0.016s",
+    "2026-11-26T22:18:14.0396627Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-11-26T22:19:47.5866595Z     Finished `dev` profile [unoptimized] target(s) in 1m 33s",
+    "2026-11-26T22:21:00.5428121Z BUILD SUCCESSFUL in 1m 12s",
+    "2026-11-26T22:21:22.7931820Z BUILD SUCCESSFUL in 21s",
+    "2026-11-26T22:21:33.9971895Z     Finished `dev` profile [unoptimized] target(s) in 10.92s",
+    "2026-11-26T22:21:51.3062361Z Verification successful",
+    "2026-11-26T22:21:51.3128298Z Verification successful",
+    "2026-11-26T22:21:56.2659015Z SHA256 digest of uploaded artifact zip is 6c050799d7736b3fa5cff43c9c1824e006b617c435135383034d536f0d8178b2",
+    "2026-11-26T22:21:56.6235630Z Artifact phone-android-arm64-debug.zip successfully finalized. Artifact ID 15157121365"
+  ],
+  "artifacts": [
+    {
+      "id": 15157121365,
+      "name": "phone-android-arm64-debug",
+      "size_in_bytes": 77098187,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15157121365",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15157121365/zip",
+      "expired": false,
+      "created_at": "2026-11-26T22:21:56Z",
+      "expires_at": "2026-11-29T22:21:51Z",
+      "updated_at": "2026-11-26T22:21:56Z",
+      "digest": "sha256:6c050799d7736b3fa5cff43c9c1824e006b617c435135383034d536f0d8178b2",
+      "workflow_run": {
+        "id": 45903697254,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+      }
+    }
+  ],
+  "artifact_archive_downloaded": false,
+  "supporting_records": [
+    {
+      "path": "/tmp/windowsphone-tooling/android-arm-jobs-final-b59ed8a.json",
+      "sha256": "2e257cb45114b4fa5fd39be709dca95baf7f50d1b507a40e33c13cfd45551546",
+      "bytes": 6488
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/android-arm-artifacts-b59ed8a.json",
+      "sha256": "bb7f0fd2712f6ba9da94ddadbd57e5e1e36a7612ee64b00718ffa49ed0a55bea",
+      "bytes": 858
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/android-arm-run-b59ed8a.json",
+      "sha256": "80aea9f2986151b721324d7c7b8ff825e617cbdf21bb4d5633767233ed60ea29",
+      "bytes": 14854
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/source-merge-b59ed8a.json",
+      "sha256": "81126d32aa68df855eec783fcff8b5b6591df6e369fe1caac1d65e5061dcd23c",
+      "bytes": 2876
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/source-head-b59ed8a.json",
+      "sha256": "169435ba997d50bea2c65ffd4a4ee1f34d02222b61b40d1152e573cfd8339f66",
+      "bytes": 1901
+    }
+  ],
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-11-26T22:16:21Z",
+      "completed_at": "2026-11-26T22:16:23Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-11-26T22:16:23Z",
+      "completed_at": "2026-11-26T22:16:38Z"
+    },
+    {
+      "name": "Read framework tool pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-11-26T22:16:38Z",
+      "completed_at": "2026-11-26T22:16:38Z"
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-11-26T22:16:38Z",
+      "completed_at": "2026-11-26T22:16:38Z"
+    },
+    {
+      "name": "Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-11-26T22:16:38Z",
+      "completed_at": "2026-11-26T22:16:46Z"
+    },
+    {
+      "name": "Run android-actions/setup-android@v3",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6,
+      "started_at": "2026-11-26T22:16:46Z",
+      "completed_at": "2026-11-26T22:16:52Z"
+    },
+    {
+      "name": "Install the pinned Android SDK and NDK",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7,
+      "started_at": "2026-11-26T22:16:52Z",
+      "completed_at": "2026-11-26T22:17:18Z"
+    },
+    {
+      "name": "Install pinned Rust and Android standard library",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-11-26T22:17:18Z",
+      "completed_at": "2026-11-26T22:17:27Z"
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9,
+      "started_at": "2026-11-26T22:17:27Z",
+      "completed_at": "2026-11-26T22:17:28Z"
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-11-26T22:17:28Z",
+      "completed_at": "2026-11-26T22:18:05Z"
+    },
+    {
+      "name": "Verify portable Android completion and media contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11,
+      "started_at": "2026-11-26T22:18:05Z",
+      "completed_at": "2026-11-26T22:18:14Z"
+    },
+    {
+      "name": "Build native application and HOME launcher APKs",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12,
+      "started_at": "2026-11-26T22:18:14Z",
+      "completed_at": "2026-11-26T22:21:23Z"
+    },
+    {
+      "name": "Check the Android embedding library",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13,
+      "started_at": "2026-11-26T22:21:23Z",
+      "completed_at": "2026-11-26T22:21:34Z"
+    },
+    {
+      "name": "Cache the successfully built native packages",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 14,
+      "started_at": "2026-11-26T22:21:34Z",
+      "completed_at": "2026-11-26T22:21:48Z"
+    },
+    {
+      "name": "Verify merged manifests, JNI entry and native alignment",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 15,
+      "started_at": "2026-11-26T22:21:48Z",
+      "completed_at": "2026-11-26T22:21:51Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 16,
+      "started_at": "2026-11-26T22:21:51Z",
+      "completed_at": "2026-11-26T22:21:56Z"
+    },
+    {
+      "name": "Post Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 30,
+      "started_at": "2026-11-26T22:21:56Z",
+      "completed_at": "2026-11-26T22:21:56Z"
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 31,
+      "started_at": "2026-11-26T22:21:56Z",
+      "completed_at": "2026-11-26T22:21:57Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 32,
+      "started_at": "2026-11-26T22:21:57Z",
+      "completed_at": "2026-11-26T22:21:57Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 33,
+      "started_at": "2026-11-26T22:21:57Z",
+      "completed_at": "2026-11-26T22:21:57Z"
+    }
+  ],
+  "finalized": true
+}

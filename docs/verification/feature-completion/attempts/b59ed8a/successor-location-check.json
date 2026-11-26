@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "base_revision": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+  "sources": [
+    {
+      "path": "crates/phone-runtime/src/observation_tests.rs",
+      "sha256": "307d5a5ae19097441054f1f4dbc1d79ccf5192d104cbfd6326d199e70cac0ef2"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "23d15fdaf502599e1b8aeaec39df730474cd779dc7b18f0f31bb12f2ab93f855"
+    }
+  ],
+  "cargo_command": "PATH=/home/agent/.cargo/bin:$PATH CARGO_BUILD_JOBS=1 cargo check --locked -p phone-runtime --tests",
+  "cargo_exit_code": 0,
+  "cargo_elapsed_seconds": 10.33,
+  "boundary": "Metadata compilation including test bodies; corrected fixture execution remains pending in successor CI.",
+  "workflow": {
+    "yaml_parses": true,
+    "same_packages_and_order": true,
+    "package_count": 25,
+    "command_addition": "--no-fail-fast",
+    "step_environment": {
+      "RUST_BACKTRACE": "1"
+    },
+    "failure_gate_preserved": true
+  },
+  "log": {
+    "path": "successor-location-check.log.gz",
+    "raw_sha256": "dfb98e84f7814f391d7634e1c1dc3882d72de84b99b2193cdf71c86543aa4455"
+  }
+}

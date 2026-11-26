@@ -809,10 +809,19 @@ fn missed_calls_bootstrap_on_start_and_refresh_receipts_after_role_change() {
 #[test]
 fn location_and_missed_call_channels_complete_independently() {
     let (runtime, provider) = fixture(vec![HostFeature::Telephony, HostFeature::Location]);
+    // Exercise two admitted requests; the separate settings-policy test keeps
+    // proving that a disabled location setting blocks provider dispatch.
+    let mut settings = runtime.vm.data().settings.clone();
+    settings.location = true;
+    runtime.vm.set_settings(settings);
     provider.reply(
         0,
         Ok(response(DeviceResponse::Snapshot(DeviceSnapshot {
             operations: vec![DeviceOperation::ReadMissedCalls],
+            permissions: vec![DevicePermissionState {
+                permission: DevicePermission::Location,
+                status: PermissionState::Granted,
+            }],
             ..Default::default()
         }))),
     );

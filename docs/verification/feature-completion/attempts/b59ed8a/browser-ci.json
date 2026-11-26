@@ -1,0 +1,679 @@
+{
+  "schema": "windowsphone-browser-ci-v1",
+  "observed_at": "2026-11-26T22:22:50.013634+00:00",
+  "source": {
+    "pr": 5,
+    "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+    "head_tree_sha": "e5e052c56545ca8babd408ef844b9218747409bd",
+    "checkout_sha": "1afd9e85f3c251c260157ff4d21c60c903615849",
+    "checkout_tree_sha": "e5e052c56545ca8babd408ef844b9218747409bd",
+    "base_sha": "6fbd96563087756a7d4afd4be3451a3fb1178549",
+    "merge_parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+    ],
+    "checkout_tree_equals_head_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+    "checkout_verified_in_job_log": true,
+    "checkout_log_line": "2026-11-26T22:16:38.5679804Z 1afd9e85f3c251c260157ff4d21c60c903615849",
+    "framework_checkout_log_line": "2026-11-26T22:16:38.4278938Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'"
+  },
+  "run": {
+    "id": 45903697269,
+    "attempt": 1,
+    "event": "pull_request",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697269",
+    "status": "in_progress",
+    "conclusion": null,
+    "created_at": "2026-11-26T22:16:17Z",
+    "updated_at": "2026-11-26T22:16:21Z"
+  },
+  "job": {
+    "id": 140195288759,
+    "run_id": 45903697269,
+    "workflow_name": "Build and publish",
+    "head_branch": "codex/feature-completion-6fbd965",
+    "run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45903697269",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOV33P9M8AAAAgpEpWtw",
+    "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be",
+    "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/jobs/140195288759",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45903697269/job/140195288759",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-26T22:16:18Z",
+    "started_at": "2026-11-26T22:16:20Z",
+    "completed_at": "2026-11-26T22:20:21Z",
+    "name": "build",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-26T22:16:21Z",
+        "completed_at": "2026-11-26T22:16:23Z"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-26T22:16:23Z",
+        "completed_at": "2026-11-26T22:16:38Z"
+      },
+      {
+        "name": "Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-26T22:16:38Z",
+        "completed_at": "2026-11-26T22:16:39Z"
+      },
+      {
+        "name": "Validate compiled artifact reuse",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-26T22:16:39Z",
+        "completed_at": "2026-11-26T22:16:39Z"
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-26T22:16:39Z",
+        "completed_at": "2026-11-26T22:16:39Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-26T22:16:39Z",
+        "completed_at": "2026-11-26T22:16:46Z"
+      },
+      {
+        "name": "Install pinned browser tools",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-26T22:16:46Z",
+        "completed_at": "2026-11-26T22:16:59Z"
+      },
+      {
+        "name": "Run actions/cache/save@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 8,
+        "started_at": "2026-11-26T22:16:59Z",
+        "completed_at": "2026-11-26T22:16:59Z"
+      },
+      {
+        "name": "Normalize pinned framework timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-26T22:16:59Z",
+        "completed_at": "2026-11-26T22:17:00Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-26T22:17:00Z",
+        "completed_at": "2026-11-26T22:17:48Z"
+      },
+      {
+        "name": "Verify state",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-26T22:17:48Z",
+        "completed_at": "2026-11-26T22:18:13Z"
+      },
+      {
+        "name": "Verify SDK and game contracts",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 12,
+        "started_at": "2026-11-26T22:18:13Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Verify host boundaries",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Build Windows Phone",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Save compiled framework and app",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Run actions/download-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Verify reused module links",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Verify first frame",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Verify rendered desktop and touch views",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 20,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Run actions/upload-pages-artifact@v3",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 22,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 43,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 44,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 45,
+        "started_at": "2026-11-26T22:20:19Z",
+        "completed_at": "2026-11-26T22:20:19Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-runs/140195288759",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "runner_id": 1000002341,
+    "runner_name": "GitHub Actions 1000002341",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "tests": {
+    "state_domain_host": {
+      "passed": 161,
+      "failed": 0,
+      "ignored": 1
+    },
+    "sdk_gate_executed_tests": {
+      "passed": 172,
+      "failed": 1,
+      "ignored": 0
+    },
+    "sdk_gate_unit_packages": {
+      "phone_alarm_service": {
+        "counts": {
+          "passed": 18,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.4078421Z test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+      },
+      "phone_app_calendar": {
+        "counts": {
+          "passed": 10,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.5713478Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s"
+      },
+      "phone_app_cortana": {
+        "counts": {
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.5762804Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_device": {
+        "counts": {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.5816141Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_maps": {
+        "counts": {
+          "passed": 13,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.5897559Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_messaging": {
+        "counts": {
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.5949251Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_minesweeper": {
+        "counts": {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6318700Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+      },
+      "phone_app_onenote": {
+        "counts": {
+          "passed": 6,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6345896Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_outlook": {
+        "counts": {
+          "passed": 8,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6672203Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s"
+      },
+      "phone_app_people": {
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6686717Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_phone": {
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6697246Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_photos": {
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6722548Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_podcasts": {
+        "counts": {
+          "passed": 11,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6805529Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+      },
+      "phone_app_sdk_example": {
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6814287Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_settings": {
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6824475Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_support": {
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.6839447Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_tic_tac_toe": {
+        "counts": {
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.8218788Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s"
+      },
+      "phone_app_wallet": {
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.8295824Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_app_weather": {
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:16.8315997Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_controls": {
+        "counts": {
+          "passed": 40,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:19.1245207Z test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.29s"
+      },
+      "phone_media_support": {
+        "counts": {
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:19.1312078Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_office_support": {
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:19.1324555Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "phone_runtime": {
+        "counts": {
+          "passed": 28,
+          "failed": 1,
+          "ignored": 0
+        },
+        "result_line": "2026-11-26T22:20:19.1459349Z test result: FAILED. 28 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+      }
+    },
+    "named_regression_groups": {
+      "calendar": {
+        "expected_names": [
+          "typed_task_paths_and_activation_do_not_alias_deleted_or_noncanonical_identifiers",
+          "unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks",
+          "provider_uses_persisted_tasks_while_calendar_is_inactive_and_tracks_completion_edits_and_epoch",
+          "reminder_editor_defaults_cross_midnight_without_scheduling_in_the_past",
+          "filtering_search_and_sort_preserve_task_identity_and_completion_order",
+          "rescheduling_uses_calendar_days_across_leap_months_and_preserves_reminder_lead_time",
+          "malformed_or_future_data_is_rejected_without_normalizing_user_content",
+          "full_task_lifecycle_round_trips_without_changing_calendar_events_or_other_namespaces",
+          "concurrent_edit_completion_bulk_delete_and_document_replacement_fail_without_partial_writes",
+          "malformed_namespace_and_storage_budget_preserve_the_authoritative_document"
+        ],
+        "observed_test_lines": {
+          "typed_task_paths_and_activation_do_not_alias_deleted_or_noncanonical_identifiers": "2026-11-26T22:20:16.4158076Z test tasks::tests::typed_task_paths_and_activation_do_not_alias_deleted_or_noncanonical_identifiers ... ok",
+          "unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks": "2026-11-26T22:20:16.4159484Z test tasks::tests::unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks ... ok",
+          "provider_uses_persisted_tasks_while_calendar_is_inactive_and_tracks_completion_edits_and_epoch": "2026-11-26T22:20:16.4156289Z test tasks::tests::provider_uses_persisted_tasks_while_calendar_is_inactive_and_tracks_completion_edits_and_epoch ... ok",
+          "reminder_editor_defaults_cross_midnight_without_scheduling_in_the_past": "2026-11-26T22:20:16.4139756Z test tasks::tests::reminder_editor_defaults_cross_midnight_without_scheduling_in_the_past ... ok",
+          "filtering_search_and_sort_preserve_task_identity_and_completion_order": "2026-11-26T22:20:16.4113138Z test tasks::model::tests::filtering_search_and_sort_preserve_task_identity_and_completion_order ... ok",
+          "rescheduling_uses_calendar_days_across_leap_months_and_preserves_reminder_lead_time": "2026-11-26T22:20:16.4128621Z test tasks::model::tests::rescheduling_uses_calendar_days_across_leap_months_and_preserves_reminder_lead_time ... ok",
+          "malformed_or_future_data_is_rejected_without_normalizing_user_content": "2026-11-26T22:20:16.4111903Z test tasks::model::tests::malformed_or_future_data_is_rejected_without_normalizing_user_content ... ok",
+          "full_task_lifecycle_round_trips_without_changing_calendar_events_or_other_namespaces": "2026-11-26T22:20:16.4161131Z test tasks::store::tests::full_task_lifecycle_round_trips_without_changing_calendar_events_or_other_namespaces ... ok",
+          "concurrent_edit_completion_bulk_delete_and_document_replacement_fail_without_partial_writes": "2026-11-26T22:20:16.4131829Z test tasks::store::tests::concurrent_edit_completion_bulk_delete_and_document_replacement_fail_without_partial_writes ... ok",
+          "malformed_namespace_and_storage_budget_preserve_the_authoritative_document": "2026-11-26T22:20:16.5712707Z test tasks::store::tests::malformed_namespace_and_storage_budget_preserve_the_authoritative_document ... ok"
+        },
+        "not_observed": []
+      },
+      "provider": {
+        "expected_names": [
+          "all_enabled_providers_run_outside_the_active_route_in_stable_owner_key_order",
+          "providers_without_notification_capability_and_uninstalled_builtins_are_excluded",
+          "duplicate_invalid_or_oversized_provider_schedules_are_rejected_atomically",
+          "builtin_reminder_paths_pass_the_existing_typed_activation_boundary",
+          "reentrant_document_replacement_invalidates_the_entire_collected_snapshot"
+        ],
+        "observed_test_lines": {},
+        "not_observed": [
+          "all_enabled_providers_run_outside_the_active_route_in_stable_owner_key_order",
+          "providers_without_notification_capability_and_uninstalled_builtins_are_excluded",
+          "duplicate_invalid_or_oversized_provider_schedules_are_rejected_atomically",
+          "builtin_reminder_paths_pass_the_existing_typed_activation_boundary",
+          "reentrant_document_replacement_invalidates_the_entire_collected_snapshot"
+        ]
+      },
+      "calendar_open": {
+        "expected_names": [
+          "calendar_open_preserves_the_exact_occurrence_and_rejects_retained_callbacks",
+          "calendar_open_rechecks_the_owner_and_occurrence_after_synchronous_dismissal",
+          "calendar_open_rechecks_reentrant_unlock_before_publishing_activation",
+          "calendar_activation_does_not_overwrite_a_synchronous_consumer_navigation_or_restore"
+        ],
+        "observed_test_lines": {
+          "calendar_open_preserves_the_exact_occurrence_and_rejects_retained_callbacks": "2026-11-26T22:20:16.4026939Z test app_delivery::tests::calendar::calendar_open_preserves_the_exact_occurrence_and_rejects_retained_callbacks ... ok",
+          "calendar_open_rechecks_the_owner_and_occurrence_after_synchronous_dismissal": "2026-11-26T22:20:16.4062795Z test app_delivery::tests::calendar::calendar_open_rechecks_the_owner_and_occurrence_after_synchronous_dismissal ... ok",
+          "calendar_open_rechecks_reentrant_unlock_before_publishing_activation": "2026-11-26T22:20:16.4065446Z test app_delivery::tests::calendar::calendar_open_rechecks_reentrant_unlock_before_publishing_activation ... ok",
+          "calendar_activation_does_not_overwrite_a_synchronous_consumer_navigation_or_restore": "2026-11-26T22:20:16.4028975Z test app_delivery::tests::calendar::calendar_activation_does_not_overwrite_a_synchronous_consumer_navigation_or_restore ... ok"
+        },
+        "not_observed": []
+      },
+      "previews": {
+        "expected_names": [
+          "extension_previews_share_the_builtin_departure_and_privacy_contract",
+          "builtin_and_extension_previews_use_one_bounded_identity_safe_cache",
+          "extension_switcher_card_renders_its_snapshot_resumes_its_detail_and_releases_on_close",
+          "preview_bitmap_budget_preserves_full_page_geometry"
+        ],
+        "observed_test_lines": {},
+        "not_observed": [
+          "extension_previews_share_the_builtin_departure_and_privacy_contract",
+          "builtin_and_extension_previews_use_one_bounded_identity_safe_cache",
+          "extension_switcher_card_renders_its_snapshot_resumes_its_detail_and_releases_on_close",
+          "preview_bitmap_budget_preserves_full_page_geometry"
+        ]
+      },
+      "runtime_network": {
+        "expected_names": [
+          "network_owner_retires_stale_vm_state_and_waits_for_a_fresh_foreground_observation",
+          "providers_without_network_ownership_keep_the_optional_measurement_merge_policy"
+        ],
+        "observed_test_lines": {
+          "network_owner_retires_stale_vm_state_and_waits_for_a_fresh_foreground_observation": "2026-11-26T22:20:19.1360231Z test environment_tests::network_owner_retires_stale_vm_state_and_waits_for_a_fresh_foreground_observation ... ok",
+          "providers_without_network_ownership_keep_the_optional_measurement_merge_policy": "2026-11-26T22:20:19.1358776Z test environment_tests::providers_without_network_ownership_keep_the_optional_measurement_merge_policy ... ok"
+        },
+        "not_observed": []
+      },
+      "grouped_list": {
+        "expected_names": [
+          "native_group_jumps_stick_push_and_restore_without_materializing_the_catalog"
+        ],
+        "observed_test_lines": {
+          "native_group_jumps_stick_push_and_restore_without_materializing_the_catalog": "2026-11-26T22:20:17.2258735Z test grouped_list::tests::native_group_jumps_stick_push_and_restore_without_materializing_the_catalog ... ok"
+        },
+        "not_observed": []
+      },
+      "alarm_app_delivery": {
+        "expected_names": [
+          "opening_a_current_reminder_dismisses_and_navigates_once",
+          "synchronous_stop_audio_cannot_open_into_a_replaced_document_session_or_host",
+          "a_provider_registry_replacement_cannot_publish_the_previous_sources_snapshot",
+          "closing_during_provider_collection_cannot_repopulate_the_retired_schedule"
+        ],
+        "observed_test_lines": {
+          "opening_a_current_reminder_dismisses_and_navigates_once": "2026-11-26T22:20:16.4038417Z test app_delivery::tests::opening_a_current_reminder_dismisses_and_navigates_once ... ok",
+          "synchronous_stop_audio_cannot_open_into_a_replaced_document_session_or_host": "2026-11-26T22:20:16.4066969Z test app_delivery::tests::synchronous_stop_audio_cannot_open_into_a_replaced_document_session_or_host ... ok",
+          "a_provider_registry_replacement_cannot_publish_the_previous_sources_snapshot": "2026-11-26T22:20:16.4050771Z test app_delivery::tests::a_provider_registry_replacement_cannot_publish_the_previous_sources_snapshot ... ok",
+          "closing_during_provider_collection_cannot_repopulate_the_retired_schedule": "2026-11-26T22:20:16.4030841Z test app_delivery::tests::closing_during_provider_collection_cannot_repopulate_the_retired_schedule ... ok"
+        },
+        "not_observed": []
+      },
+      "runtime_observation": {
+        "expected_names": [
+          "cold_start_initializes_authorized_private_rows_without_visiting_an_app",
+          "newer_private_events_during_initial_reads_require_one_fresh_seed",
+          "newer_empty_events_during_initial_reads_cannot_leave_deleted_rows_restored",
+          "a_current_snapshot_event_retires_an_older_owned_snapshot_before_delivery",
+          "newer_events_during_an_equivalent_explicit_refresh_require_one_fresh_read",
+          "display_notifications_alone_and_ungranted_capabilities_never_read_private_data",
+          "equivalent_reads_coalesce_but_page_limits_and_callbacks_keep_their_ownership",
+          "revoke_regrant_discards_old_queries_and_unsolicited_rows_until_fresh_initialization",
+          "contacts_cancel_across_regrant_and_retire_the_old_granted_subset_on_limited_access",
+          "every_private_read_channel_is_cancelled_and_attachment_authority_is_independent",
+          "a_smaller_explicit_thread_page_does_not_complete_the_shells_initial_page",
+          "suspension_cancels_reads_rejects_delayed_reads_and_keeps_side_effect_tasks_independent",
+          "restore_and_feature_withdrawal_require_fresh_capabilities_without_retaining_private_rows",
+          "failed_automatic_reads_back_off_and_preserve_user_status_then_recover",
+          "reentrant_restore_and_close_cannot_launch_or_admit_a_former_bootstrap",
+          "missed_calls_bootstrap_on_start_and_refresh_receipts_after_role_change",
+          "location_and_missed_call_channels_complete_independently"
+        ],
+        "observed_test_lines": {
+          "cold_start_initializes_authorized_private_rows_without_visiting_an_app": "2026-11-26T22:20:19.1385001Z test observation_tests::cold_start_initializes_authorized_private_rows_without_visiting_an_app ... ok",
+          "newer_private_events_during_initial_reads_require_one_fresh_seed": "2026-11-26T22:20:19.1419122Z test observation_tests::newer_private_events_during_initial_reads_require_one_fresh_seed ... ok",
+          "newer_empty_events_during_initial_reads_cannot_leave_deleted_rows_restored": "2026-11-26T22:20:19.1417968Z test observation_tests::newer_empty_events_during_initial_reads_cannot_leave_deleted_rows_restored ... ok",
+          "a_current_snapshot_event_retires_an_older_owned_snapshot_before_delivery": "2026-11-26T22:20:19.1386391Z test observation_tests::a_current_snapshot_event_retires_an_older_owned_snapshot_before_delivery ... ok",
+          "newer_events_during_an_equivalent_explicit_refresh_require_one_fresh_read": "2026-11-26T22:20:19.1421286Z test observation_tests::newer_events_during_an_equivalent_explicit_refresh_require_one_fresh_read ... ok",
+          "display_notifications_alone_and_ungranted_capabilities_never_read_private_data": "2026-11-26T22:20:19.1387912Z test observation_tests::display_notifications_alone_and_ungranted_capabilities_never_read_private_data ... ok",
+          "equivalent_reads_coalesce_but_page_limits_and_callbacks_keep_their_ownership": "2026-11-26T22:20:19.1390424Z test observation_tests::equivalent_reads_coalesce_but_page_limits_and_callbacks_keep_their_ownership ... ok",
+          "revoke_regrant_discards_old_queries_and_unsolicited_rows_until_fresh_initialization": "2026-11-26T22:20:19.1422855Z test observation_tests::revoke_regrant_discards_old_queries_and_unsolicited_rows_until_fresh_initialization ... ok",
+          "contacts_cancel_across_regrant_and_retire_the_old_granted_subset_on_limited_access": "2026-11-26T22:20:19.1382880Z test observation_tests::contacts_cancel_across_regrant_and_retire_the_old_granted_subset_on_limited_access ... ok",
+          "every_private_read_channel_is_cancelled_and_attachment_authority_is_independent": "2026-11-26T22:20:19.1389224Z test observation_tests::every_private_read_channel_is_cancelled_and_attachment_authority_is_independent ... ok",
+          "a_smaller_explicit_thread_page_does_not_complete_the_shells_initial_page": "2026-11-26T22:20:19.1384004Z test observation_tests::a_smaller_explicit_thread_page_does_not_complete_the_shells_initial_page ... ok",
+          "suspension_cancels_reads_rejects_delayed_reads_and_keeps_side_effect_tasks_independent": "2026-11-26T22:20:19.1422072Z test observation_tests::suspension_cancels_reads_rejects_delayed_reads_and_keeps_side_effect_tasks_independent ... ok",
+          "restore_and_feature_withdrawal_require_fresh_capabilities_without_retaining_private_rows": "2026-11-26T22:20:19.1438328Z test observation_tests::restore_and_feature_withdrawal_require_fresh_capabilities_without_retaining_private_rows ... ok",
+          "failed_automatic_reads_back_off_and_preserve_user_status_then_recover": "2026-11-26T22:20:19.1391715Z test observation_tests::failed_automatic_reads_back_off_and_preserve_user_status_then_recover ... ok",
+          "reentrant_restore_and_close_cannot_launch_or_admit_a_former_bootstrap": "2026-11-26T22:20:19.1420199Z test observation_tests::reentrant_restore_and_close_cannot_launch_or_admit_a_former_bootstrap ... ok",
+          "missed_calls_bootstrap_on_start_and_refresh_receipts_after_role_change": "2026-11-26T22:20:19.1416597Z test observation_tests::missed_calls_bootstrap_on_start_and_refresh_receipts_after_role_change ... ok",
+          "location_and_missed_call_channels_complete_independently": "2026-11-26T22:20:19.1393957Z test observation_tests::location_and_missed_call_channels_complete_independently ... FAILED"
+        },
+        "not_observed": []
+      }
+    },
+    "sdk_and_system_packages": {
+      "status": "not_run",
+      "note": "Cargo stopped after phone-runtime failed; SDK provider, SDK integration, and System preview tests were not reached."
+    },
+    "node": {
+      "status": "skipped",
+      "expected_tests": 77,
+      "observed_tests": 0
+    }
+  },
+  "rendered": {
+    "status": "skipped",
+    "passed": null,
+    "checks": 0,
+    "captures": 0,
+    "reason": "SDK contract gate failed before the WASM build and UI runner.",
+    "new_groups_not_run": {
+      "calendar_tasks": 7,
+      "phone_calls": 2
+    }
+  },
+  "artifacts": [],
+  "log": {
+    "path": "/tmp/windowsphone-tooling/browser-build-b59ed8a.log",
+    "sha256": "4fe742ca40401dbb32e98b2a5cbee24070b8cf160e1fb86a0671040481b9d13d",
+    "bytes": 135127,
+    "format": "Complete decoded GitHub job log, preserving ANSI text and terminal newline."
+  },
+  "scope": "Read-only CI observation of exact PR merge checkout; no source mutation, retry, rerun, or deployment.",
+  "other_run_artifacts": [
+    {
+      "id": 15157600589,
+      "name": "original-emulator-windows-host",
+      "size_in_bytes": 1018,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15157600589",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15157600589/zip",
+      "expired": false,
+      "created_at": "2026-11-26T22:18:31Z",
+      "expires_at": "2026-12-03T22:18:30Z",
+      "updated_at": "2026-11-26T22:18:31Z",
+      "digest": "sha256:aea817de8bcc3d91b23191dcebde6a058c7a40f71d4e0daca240a625d8d9c1a2",
+      "workflow_run": {
+        "id": 45903697269,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "b59ed8a041e2b53217de5eb93b7eb580beada3be"
+      }
+    }
+  ],
+  "artifact_note": "No compiled-app or ui-verification artifact exists; the only listed artifact belongs to the native Windows prerequisite inspection.",
+  "failure": {
+    "gate": "Verify SDK and game contracts",
+    "package": "phone-runtime",
+    "test": "observation_tests::location_and_missed_call_channels_complete_independently",
+    "location": "crates/phone-runtime/src/observation_tests.rs:822:10",
+    "message": "called Result::unwrap() on Err: Turn on location in the phone's Settings first.",
+    "exit_code": 101,
+    "diagnosis": "The fixture creates PhoneData::demo with default settings.location=false, then dispatches Locate without enabling location. The existing runtime admission guard rejects the request before the provider channel is created. No source changes or reruns were made during this observation.",
+    "excerpts": [
+      "2026-11-26T22:20:19.1393957Z test observation_tests::location_and_missed_call_channels_complete_independently ... FAILED",
+      "2026-11-26T22:20:19.1454791Z ---- observation_tests::location_and_missed_call_channels_complete_independently stdout ----",
+      "2026-11-26T22:20:19.1455726Z thread 'observation_tests::location_and_missed_call_channels_complete_independently' (5385) panicked at crates/phone-runtime/src/observation_tests.rs:822:10:",
+      "2026-11-26T22:20:19.1456596Z called `Result::unwrap()` on an `Err` value: \"Turn on location in the phone's Settings first.\"",
+      "2026-11-26T22:20:19.1458483Z     observation_tests::location_and_missed_call_channels_complete_independently",
+      "2026-11-26T22:20:19.1459349Z test result: FAILED. 28 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+      "2026-11-26T22:20:19.1568648Z ##[error]Process completed with exit code 101."
+    ]
+  },
+  "pages_artifact_upload_conclusion": "skipped",
+  "deploy_conclusion": "skipped"
+}

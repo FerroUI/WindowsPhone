@@ -86,6 +86,14 @@ session under the effect that subsequently reran and disposed it. The next
 fixture prepares that session independently before publishing it from the
 callback, retaining all invalidation and privacy assertions.
 
+The [third candidate's records](attempts/b59ed8a/README.md) confirm all 18
+alarm-service, 10 Calendar and 40 controls tests passed, including the mounted
+3,000-row grouping fixture. A runtime channel-isolation fixture then reached the
+existing location policy guard with its location setting disabled. Its successor
+explicitly supplies the intended authorized setup and retains both independent
+completion assertions. CI now reports every SDK package with `--no-fail-fast`
+and backtraces while preserving the failing exit status.
+
 ## Corrected historical assessment
 
 The [iOS screenshot correction](ios-navigation-correction.md) supersedes the
