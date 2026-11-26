@@ -18,6 +18,8 @@ use std::time::Duration;
 
 #[path = "input_tests.rs"]
 mod input_tests;
+#[path = "reopen_tests.rs"]
+mod reopen_tests;
 
 fn frame() {
     Dispatcher::ui_thread().run_jobs(None);

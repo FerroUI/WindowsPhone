@@ -2,8 +2,11 @@
 """Check the ownership boundary before a failed simulator process is sampled."""
 import importlib.util
 import json
+import os
 import pathlib
 import plistlib
+import shlex
+import signal
 import subprocess
 import sys
 import tempfile
@@ -216,6 +219,100 @@ class OwnedProcessTests(unittest.TestCase):
             self.assertEqual(len(retained), 2)
             self.assertCountEqual([(root / item["file"]).read_bytes() for item in retained], expected)
             self.assertTrue(all(item["pid"] == 42 for item in retained))
+
+
+class SmokeCleanupTests(unittest.TestCase):
+    def exercise_cleanup(self, result, mode):
+        # Execute the production EXIT-trap function with real owned children.
+        # Only simulator/diagnostic commands and the poll delay are substituted.
+        source = pathlib.Path(__file__).with_name("smoke-ios.sh").read_text()
+        cleanup = source[source.index("cleanup() {\n"):source.index("\ntrap cleanup EXIT\n")]
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "scripts").mkdir()
+            (root / "phase.txt").write_text("Starting the XCTest driver\n")
+            (root / "driver.py").write_text('''import os, pathlib, signal, sys, time
+root, mode = pathlib.Path(sys.argv[1]), sys.argv[2]
+def record(event):
+    with (root / "events").open("a") as stream: stream.write(event + "\\n")
+def terminated(signum, frame):
+    record("driver-terminated")
+    raise SystemExit(0)
+signal.signal(signal.SIGTERM, signal.SIG_IGN if mode == "ignore" else terminated)
+(root / "driver.pid").write_text(str(os.getpid()))
+if mode == "graceful":
+    while not (root / "finished").exists(): time.sleep(0.005)
+    record("driver-finished")
+else:
+    while True: signal.pause()
+''')
+            (root / "scripts" / "collect-ios-failure.py").write_text('''import json, os, pathlib, sys
+root = pathlib.Path(sys.argv[3])
+def alive(pid):
+    try: os.kill(pid, 0); return True
+    except ProcessLookupError: return False
+(root / "diagnostics.json").write_text(json.dumps({
+    "driver_running": alive(int((root / "driver.pid").read_text())),
+    "native_running": alive(int(os.environ["SMOKE_TEST_NATIVE_PID"]))}))
+with (root / "events").open("a") as stream: stream.write("diagnostics\\n")
+''')
+            native = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+            script = "\n".join([
+                "set -uo pipefail", cleanup,
+                "root=" + shlex.quote(str(root)), "out=$root",
+                "udid=owned-simulator", "bundle_id=org.ferroui.windowsphone",
+                'ui_done="$root/finished"',
+                'record_launch_driver() { printf "%s\\n" "$1" >> "$root/events"; }',
+                "save_observations() { :; }",
+                'xcrun() { printf "simctl:%s\\n" "$*" >> "$root/events"; }',
+                "sleep() { command sleep 0.01; }",
+                shlex.quote(sys.executable) + ' "$root/driver.py" "$root" ' + shlex.quote(mode) + " &",
+                "ui_test=$!",
+                'while [ ! -f "$root/driver.pid" ]; do sleep 0.01; done',
+                "(exit " + str(result) + ")", "cleanup", "cleanup_result=$?",
+                'printf "%s" "$ui_test" > "$root/remaining-driver"',
+                'exit "$cleanup_result"',
+            ])
+            process = subprocess.Popen(
+                ["bash", "-c", script], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                text=True, start_new_session=True,
+                env={**os.environ, "SMOKE_TEST_NATIVE_PID": str(native.pid)})
+            try:
+                stdout, stderr = process.communicate(timeout=8)
+                self.assertEqual(process.returncode, result, stderr)
+                self.assertIsNone(native.poll(), "cleanup must stop its XCTest child, not the native process")
+                self.assertEqual((root / "remaining-driver").read_text(), "")
+                diagnostics = root / "diagnostics.json"
+                return (root / "events").read_text().splitlines(), (
+                    json.loads(diagnostics.read_text()) if diagnostics.exists() else None), stdout
+            finally:
+                # Keep even a broken regression from leaving its fixture children.
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                process.communicate()
+                native.terminate()
+                native.wait(timeout=2)
+
+    def test_failed_smoke_reaps_driver_before_sampling_and_preserves_failure(self):
+        events, diagnostics, stdout = self.exercise_cleanup(37, "terminate")
+        self.assertEqual(diagnostics, {"driver_running": False, "native_running": True})
+        self.assertLess(events.index("driver-terminated"), events.index("diagnostics"))
+        self.assertIn("Owned XCTest launch driver", stdout)
+
+    def test_unresponsive_driver_is_killed_and_reaped_before_sampling(self):
+        events, diagnostics, stdout = self.exercise_cleanup(37, "ignore")
+        self.assertEqual(diagnostics, {"driver_running": False, "native_running": True})
+        self.assertNotIn("driver-terminated", events)
+        self.assertIn("exited with status 137", stdout)
+
+    def test_success_preserves_finished_marker_handshake(self):
+        events, diagnostics, stdout = self.exercise_cleanup(0, "graceful")
+        self.assertIsNone(diagnostics)
+        self.assertIn("driver-finished", events)
+        self.assertNotIn("driver-terminated", events)
+        self.assertIn("exited with status 0", stdout)
 
 
 if __name__ == "__main__":
