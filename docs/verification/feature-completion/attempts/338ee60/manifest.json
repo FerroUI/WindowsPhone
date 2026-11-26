@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "candidate": "338ee603df73190cb71ed78bbd97bb22be9b88a6",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3746,
+      "sha256": "04c4a166c028343126384ebc61834aa1653d2e27c8ab3295444647b755dfd84d"
+    },
+    {
+      "path": "android-arm-ci.json",
+      "bytes": 9913,
+      "sha256": "ae21cbe589acc0ba8ac244f5d69720572e16b833454215239e70f0be95422ba8"
+    },
+    {
+      "path": "android-call-fixture-verification.txt",
+      "bytes": 138,
+      "sha256": "668c4a6d6bf754a4c12ac15dc5b7db42e1f1c67d95137bbdf6cf0342bcf28e43"
+    },
+    {
+      "path": "android-call-fixture.json",
+      "bytes": 2662,
+      "sha256": "8e5107b8846f60ed0f437bfc9e978146ebd5469e7acfde39ff48379c0bac3af7"
+    },
+    {
+      "path": "android-ui-ci.json",
+      "bytes": 57833,
+      "sha256": "6c680c8093dc9b47126ea40ec366095cec1c758b3fcdfdf9339ae83004678a84"
+    },
+    {
+      "path": "browser-build.log.gz",
+      "bytes": 29648,
+      "sha256": "85a4a798cc54d4fe8911a931f92d35634d458adc6b953c693c5d457f9b09977b"
+    },
+    {
+      "path": "browser-ci.json",
+      "bytes": 17630,
+      "sha256": "d4980e0d96999045156e4e2fecea743366bdd0d7c79b55d710efbcd2cb13d13f"
+    },
+    {
+      "path": "ios/device-tests.json",
+      "bytes": 3142,
+      "sha256": "4b9104bbdcd11a56c12f9331eb0c2cc3a3299ca9fed04a1fe3878233f9754b3d"
+    },
+    {
+      "path": "ios/home-restored.json",
+      "bytes": 4059,
+      "sha256": "8c28292d8a37354f7dffebbccf7481f034b126dbc74ecd5d4da3bfd8d67a6bfc"
+    },
+    {
+      "path": "ios/launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "75abad3b6fc1ba7a69b65a0daaca97c28c0942c0eef6f636a3908ffc89322192"
+    },
+    {
+      "path": "ios/messages.json",
+      "bytes": 4169,
+      "sha256": "d4c736185bb2f942c9e5dab480f4429853bb8de45b9bb389e32808a92e6fc92f"
+    },
+    {
+      "path": "ios/navigation-1-button.png",
+      "bytes": 1914,
+      "sha256": "4608d39d1a1a1e2c6766c22abddb4bb08c1004f5febb0e7f41780d900d538d57"
+    },
+    {
+      "path": "ios/navigation-1-driver.json",
+      "bytes": 798,
+      "sha256": "78b4c8500b534e44f4587fb4361860228802a733618d861aeaf3626fa2ca237a"
+    },
+    {
+      "path": "ios/navigation-2-button.png",
+      "bytes": 1574,
+      "sha256": "6fa96a3fb5cc3d23f3323aa7005fd200e8f84550efacc81d09f40e9a0324d223"
+    },
+    {
+      "path": "ios/navigation-2-driver.json",
+      "bytes": 1084,
+      "sha256": "5c547c101fb043f3b390802dee44a47ad72ee71c40645aaf2e19b0a6b248115a"
+    },
+    {
+      "path": "ios/navigation-3-button.png",
+      "bytes": 1914,
+      "sha256": "4608d39d1a1a1e2c6766c22abddb4bb08c1004f5febb0e7f41780d900d538d57"
+    },
+    {
+      "path": "ios/navigation-3-driver.json",
+      "bytes": 1376,
+      "sha256": "692b09ccab63ef0fdd8d0c8848c9fbd9ff596ed41f572a0a8da0a9fc5ee3c49a"
+    },
+    {
+      "path": "ios/navigation-4-button.png",
+      "bytes": 1691,
+      "sha256": "582c278a96f6fa51a89eea4d0043ac89f71a340c90c598ad1adffc50eeda80c4"
+    },
+    {
+      "path": "ios/navigation-4-driver.json",
+      "bytes": 1667,
+      "sha256": "a03a5657767ac967cd90dd0a018f31320cdd1d54b63e88c7a737e95548c9ea99"
+    },
+    {
+      "path": "ios/navigation-back.json",
+      "bytes": 4059,
+      "sha256": "5d28e53885ab7c2ad97ddf5834aa74b122cb70b8aecfe2347d9e98efcb9ef6a2"
+    },
+    {
+      "path": "ios/navigation-search-again.json",
+      "bytes": 4048,
+      "sha256": "6cb9cf01a7c1a6e8ba7cecb4bee6ec6b2452b7da13ac3eb55877e2b737d08392"
+    },
+    {
+      "path": "ios/navigation-search.json",
+      "bytes": 4048,
+      "sha256": "89851e869f495933ceeccc9cbaf61605c74944e88b33479c9cc69d2a8db23b9c"
+    },
+    {
+      "path": "ios/navigation-start.json",
+      "bytes": 4059,
+      "sha256": "51b7257d32cc0c215ca3115c121144f762c9feeb3faa20ae8761b9ac64f64d39"
+    },
+    {
+      "path": "ios/people.json",
+      "bytes": 4086,
+      "sha256": "92fe5c4300a4509f34ffb0ca01e0b07589027b6cc3baf3acbd65a6aea71e4324"
+    },
+    {
+      "path": "ios/phone.json",
+      "bytes": 4139,
+      "sha256": "c3aa562d50f247b35fbd2af6636d7e82b2a668c0b92d6cb04413cdf90ecc01b2"
+    },
+    {
+      "path": "ios/prompt-handler.json",
+      "bytes": 1670,
+      "sha256": "cca1f4465e5f5c9b795b7b6173a33c9beb712a5679cfcdbaf06fedb115287bfe"
+    },
+    {
+      "path": "ios/settings.json",
+      "bytes": 4101,
+      "sha256": "d37343dc59d2b80b36c0d036a149c34413e78361be06c447694846ef4c23ae8f"
+    },
+    {
+      "path": "ios/start.json",
+      "bytes": 4010,
+      "sha256": "37865ecabb6c11b01803423c0a8fbca639c83bed9fae50b383047c89e3bcbc75"
+    },
+    {
+      "path": "ios/wallet.json",
+      "bytes": 4110,
+      "sha256": "ac03e681637a526652abb4492757f877e07cbb1255eb655c0d7fe94cb02c4b71"
+    },
+    {
+      "path": "ios-ci.json",
+      "bytes": 64579,
+      "sha256": "20295744cfc13384de4ce45742d2e5f16a980226ccdfc96740c63ce7878cc7bd"
+    },
+    {
+      "path": "native-ci.json",
+      "bytes": 27346,
+      "sha256": "62deeee36d20725236b852acabd5148025efc56ae1fe7184d328bb9744d2c741"
+    },
+    {
+      "path": "source.json",
+      "bytes": 969,
+      "sha256": "ef5bfea0ffd060a8349d157139b80736f53121496ba4e44b6c93f7f3cdc7e33f"
+    }
+  ]
+}

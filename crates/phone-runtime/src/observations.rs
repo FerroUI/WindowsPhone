@@ -12,6 +12,7 @@ pub(crate) enum Seed {
     Snapshot,
     Messages,
     Notifications,
+    MissedCalls,
 }
 impl Seed {
     pub fn request(self) -> DeviceRequest {
@@ -19,6 +20,7 @@ impl Seed {
             Self::Snapshot => DeviceRequest::Snapshot,
             Self::Messages => DeviceRequest::MessageThreads { limit: 200 },
             Self::Notifications => DeviceRequest::Notifications,
+            Self::MissedCalls => DeviceRequest::MissedCalls,
         }
     }
     pub fn channel(self) -> u8 {
@@ -26,6 +28,7 @@ impl Seed {
             Self::Snapshot => 2,
             Self::Messages => 6,
             Self::Notifications => 8,
+            Self::MissedCalls => 11,
         }
     }
     pub fn for_event(response: &DeviceResponse) -> Option<Self> {
@@ -34,6 +37,7 @@ impl Seed {
                 Some(Self::Messages)
             }
             DeviceResponse::Notifications(_) => Some(Self::Notifications),
+            DeviceResponse::MissedCalls(_) => Some(Self::MissedCalls),
             _ => None,
         }
     }
@@ -46,6 +50,7 @@ pub(crate) enum ReadKey {
     Snapshot,
     Messages(u16),
     Notifications,
+    MissedCalls,
 }
 impl ReadKey {
     pub fn of(request: &DeviceRequest) -> Option<Self> {
@@ -53,6 +58,7 @@ impl ReadKey {
             DeviceRequest::Snapshot => Some(Self::Snapshot),
             DeviceRequest::MessageThreads { limit } => Some(Self::Messages(*limit)),
             DeviceRequest::Notifications => Some(Self::Notifications),
+            DeviceRequest::MissedCalls => Some(Self::MissedCalls),
             _ => None,
         }
     }
@@ -61,6 +67,7 @@ impl ReadKey {
             Self::Snapshot => Some(Seed::Snapshot),
             Self::Messages(limit) => (limit >= 200).then_some(Seed::Messages),
             Self::Notifications => Some(Seed::Notifications),
+            Self::MissedCalls => Some(Seed::MissedCalls),
         }
     }
 }
@@ -115,11 +122,14 @@ pub(crate) struct Observations {
     pub foreground: bool,
     messages_usable: bool,
     notifications_usable: bool,
-    authorities: [PermissionState; 8],
+    missed_calls_usable: bool,
+    acknowledge_calls_usable: bool,
+    authorities: [PermissionState; 9],
     clock: Option<i64>,
     snapshot: Bootstrap,
     messages: Bootstrap,
     notifications: Bootstrap,
+    missed_calls: Bootstrap,
 }
 impl Observations {
     pub fn new(epoch: u64) -> Self {
@@ -128,11 +138,14 @@ impl Observations {
             foreground: true,
             messages_usable: false,
             notifications_usable: false,
-            authorities: [PermissionState::Unsupported; 8],
+            missed_calls_usable: false,
+            acknowledge_calls_usable: false,
+            authorities: [PermissionState::Unsupported; 9],
             clock: None,
             snapshot: Bootstrap::default(),
             messages: Bootstrap::default(),
             notifications: Bootstrap::default(),
+            missed_calls: Bootstrap::default(),
         }
     }
     pub fn synchronize_epoch(&mut self, epoch: u64) -> bool {
@@ -182,6 +195,7 @@ impl Observations {
             ),
             usable(HostFeature::AppShortcuts, DeviceOperation::AppShortcuts),
             usable(HostFeature::Messaging, DeviceOperation::MessageAttachments),
+            usable(HostFeature::Telephony, DeviceOperation::ReadMissedCalls),
         ];
         next[0] = if next[0] == PermissionState::Granted
             && matches!(
@@ -200,6 +214,17 @@ impl Observations {
                 invalidated.push(index as u8 + 3);
             }
         }
+        let missed_calls = next[8] == PermissionState::Granted;
+        let acknowledge = missed_calls && value.supports(DeviceOperation::AcknowledgeMissedCalls);
+        if self.missed_calls_usable != missed_calls || self.acknowledge_calls_usable != acknowledge
+        {
+            self.missed_calls_usable = missed_calls;
+            self.acknowledge_calls_usable = acknowledge;
+            self.missed_calls = Bootstrap::default();
+            if !invalidated.contains(&11) {
+                invalidated.push(11);
+            }
+        }
         self.authorities = next;
         if self.messages_usable != messages {
             self.messages_usable = messages;
@@ -216,6 +241,7 @@ impl Observations {
             self.snapshot.clock_changed(old, now);
             self.messages.clock_changed(old, now);
             self.notifications.clock_changed(old, now);
+            self.missed_calls.clock_changed(old, now);
         }
         if !self.foreground || !platform.supports_device_snapshot() {
             return Vec::new();
@@ -235,6 +261,9 @@ impl Observations {
         if self.notifications_usable && self.notifications.due(now) {
             due.push(Seed::Notifications);
         }
+        if self.missed_calls_usable && self.missed_calls.due(now) {
+            due.push(Seed::MissedCalls);
+        }
         due
     }
     pub fn settled(&mut self, seed: Seed, success: bool, now: i64) {
@@ -242,6 +271,7 @@ impl Observations {
             Seed::Snapshot => &mut self.snapshot,
             Seed::Messages => &mut self.messages,
             Seed::Notifications => &mut self.notifications,
+            Seed::MissedCalls => &mut self.missed_calls,
         }
         .settled(success, now);
     }
@@ -252,6 +282,7 @@ impl Observations {
             Seed::Snapshot => &mut self.snapshot,
             Seed::Messages => &mut self.messages,
             Seed::Notifications => &mut self.notifications,
+            Seed::MissedCalls => &mut self.missed_calls,
         }
         .dirty = false;
     }
@@ -259,6 +290,11 @@ impl Observations {
     /// read completes. Providers additionally invalidate their queued old work.
     pub fn admits_event(&mut self, response: &DeviceResponse, refreshing: bool) -> bool {
         match response {
+            DeviceResponse::MissedCalls(value) => self.missed_calls.admits_rows(
+                self.foreground && self.missed_calls_usable,
+                value.count == 0,
+                refreshing,
+            ),
             DeviceResponse::MessageThreads(rows) => self.messages.admits_rows(
                 self.foreground && self.messages_usable,
                 rows.is_empty(),
@@ -287,7 +323,10 @@ pub(crate) fn restrict_snapshot(value: &mut DeviceSnapshot, platform: &PlatformS
     value.operations.retain(|operation| {
         let feature = match operation {
             DeviceOperation::ReadContacts => HostFeature::Contacts,
-            DeviceOperation::CallHistory | DeviceOperation::ActiveCalls => HostFeature::Telephony,
+            DeviceOperation::CallHistory
+            | DeviceOperation::ActiveCalls
+            | DeviceOperation::ReadMissedCalls
+            | DeviceOperation::AcknowledgeMissedCalls => HostFeature::Telephony,
             DeviceOperation::ReadMessages | DeviceOperation::MessageAttachments => {
                 HostFeature::Messaging
             }

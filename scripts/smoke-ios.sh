@@ -132,8 +132,12 @@ wait_for_route() {
   local expected="$1"
   local after_sequence="${2:-0}"
   local expected_uri="${3:-}"
+  local navigation_request="${4:-}"
   local baseline=
   if [ -n "$expected_uri" ]; then baseline="$out/start.json"; fi
+  if [ -n "$navigation_request" ]; then
+    baseline="$out/home-restored.json"
+  fi
   # A first boot on a hosted runner can spend over a minute scheduling UIKit.
   # Use a wall-clock bound; never treat a received URL alone as route success.
   local deadline=$((SECONDS + 90))
@@ -147,7 +151,16 @@ wait_for_route() {
       cat "$out/console.log" >&2
       return 1
     fi
-    if python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline"; then
+    if [ -n "${ui_test:-}" ] && ! kill -0 "$ui_test" 2>/dev/null; then
+      local ui_result=0
+      wait "$ui_test" || ui_result=$?
+      ui_test=
+      printf 'The XCTest driver exited with code %s before verifying %s.\n' "$ui_result" "$expected" >&2
+      tail -80 "$out/xctest.log" >&2
+      return 1
+    fi
+    if python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline" \
+      --navigation-request "$navigation_request" --driver "${ui_status:-}"; then
       if [ -n "$expected_uri" ]; then acknowledge_url; fi
       return 0
     fi
@@ -155,7 +168,8 @@ wait_for_route() {
   done
   record_launch_driver mount-failed
   printf 'Timed out waiting for the mounted route %s.\n' "$expected" >&2
-  python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline" --explain || true
+  python3 "$root/scripts/verify-ios-smoke.py" "$status" "$expected" "$after_sequence" "$expected_uri" --baseline "$baseline" \
+    --navigation-request "$navigation_request" --driver "${ui_status:-}" --explain || true
   cat "$out/console.log" >&2
   return 1
 }
@@ -266,6 +280,33 @@ phase 'Waiting for the restored Start route'
 wait_for_route home "$sequence" 'ferroui-phone://home'
 cp "$status" "$out/home-restored.json"
 xcrun simctl io "$udid" screenshot "$out/home-restored.png"
+navigation_sequence=0
+for spec in \
+  'search|search|HardwareSearch' \
+  'back|home|HardwareBack' \
+  'search-again|search|HardwareSearch' \
+  'start|home|HardwareStart'; do
+  IFS='|' read -r capture route control <<< "$spec"
+  navigation_sequence=$((navigation_sequence + 1))
+  sequence="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sequence"])' "$status")"
+  navigation_request="$out/navigation-request-$navigation_sequence.json"
+  phase "Tapping the native $control button after warm activation"
+  python3 - "$ui_container/Documents/phone-navigation-request.json" "$navigation_request" "$navigation_sequence" "$control" "$sequence" <<'PY'
+import json,pathlib,sys,time
+path=pathlib.Path(sys.argv[1])
+request=json.dumps({'sequence':int(sys.argv[3]), 'control':sys.argv[4],
+                    'after_sequence':int(sys.argv[5]), 'issued_at_unix_ms':time.time_ns()//1_000_000})
+pathlib.Path(sys.argv[2]).write_text(request)
+temporary=path.with_suffix('.tmp')
+temporary.write_text(request)
+temporary.replace(path)
+PY
+  wait_for_route "$route" "$sequence" '' "$navigation_request"
+  cp "$status" "$out/navigation-$capture.json"
+  cp "$ui_status" "$out/navigation-$navigation_sequence-driver.json"
+  cp "$ui_container/Documents/navigation-$navigation_sequence-button.png" "$out/"
+  xcrun simctl io "$udid" screenshot "$out/navigation-$capture.png"
+done
 touch "$ui_done"
 if ! wait "$ui_test"; then
   ui_test=
@@ -274,4 +315,4 @@ if ! wait "$ui_test"; then
 fi
 ui_test=
 cp "$ui_status" "$out/prompt-handler.json"
-phase 'UIKit mounting, six native activations, Contacts CRUD and simulator hardware limits passed.'
+phase 'UIKit mounting, six native activations, four real navigation taps, Contacts CRUD and simulator hardware limits passed.'

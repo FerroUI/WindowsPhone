@@ -1,0 +1,366 @@
+{
+  "schema": "windowsphone-browser-feature-ci-v1",
+  "observed_at": "2026-11-26T21:36:51.906444+00:00",
+  "source": {
+    "pr": 5,
+    "head_sha": "338ee603df73190cb71ed78bbd97bb22be9b88a6",
+    "head_tree_sha": "165803ec12be0c0527657ad56189b77ece79ba64",
+    "checkout_sha": "f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+    "checkout_tree_sha": "165803ec12be0c0527657ad56189b77ece79ba64",
+    "base_sha": "6fbd96563087756a7d4afd4be3451a3fb1178549",
+    "merge_parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "338ee603df73190cb71ed78bbd97bb22be9b88a6"
+    ],
+    "checkout_tree_equals_head_tree": true,
+    "framework_sha": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+    "checkout_verified_in_job_log": true,
+    "checkout_log_line": "2026-11-26T21:20:47.4418818Z f2a75acc656bfc47a5a4aeed41cdc033945ce4b5",
+    "framework_checkout_log_line": "2026-11-26T21:20:47.3373021Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'"
+  },
+  "run": {
+    "id": 45897444145,
+    "attempt": 1,
+    "event": "pull_request",
+    "url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45897444145",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-26T21:20:25Z",
+    "updated_at": "2026-11-26T21:30:57Z"
+  },
+  "job": {
+    "id": 140174735453,
+    "name": "build",
+    "head_sha": "338ee603df73190cb71ed78bbd97bb22be9b88a6",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-26T21:20:28Z",
+    "completed_at": "2026-11-26T21:26:39Z",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45897444145/job/140174735453",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-26T21:20:29Z",
+        "completed_at": "2026-11-26T21:20:32Z"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-26T21:20:32Z",
+        "completed_at": "2026-11-26T21:20:47Z"
+      },
+      {
+        "name": "Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-26T21:20:47Z",
+        "completed_at": "2026-11-26T21:20:52Z"
+      },
+      {
+        "name": "Validate compiled artifact reuse",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-26T21:20:52Z",
+        "completed_at": "2026-11-26T21:20:52Z"
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-26T21:20:52Z",
+        "completed_at": "2026-11-26T21:20:52Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-26T21:20:52Z",
+        "completed_at": "2026-11-26T21:20:52Z"
+      },
+      {
+        "name": "Install pinned browser tools",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-26T21:20:52Z",
+        "completed_at": "2026-11-26T21:24:04Z"
+      },
+      {
+        "name": "Run actions/cache/save@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-26T21:24:04Z",
+        "completed_at": "2026-11-26T21:24:08Z"
+      },
+      {
+        "name": "Normalize pinned framework timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-26T21:24:08Z",
+        "completed_at": "2026-11-26T21:24:09Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-26T21:24:09Z",
+        "completed_at": "2026-11-26T21:24:46Z"
+      },
+      {
+        "name": "Verify state",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-26T21:24:46Z",
+        "completed_at": "2026-11-26T21:25:02Z"
+      },
+      {
+        "name": "Verify SDK and game contracts",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 12,
+        "started_at": "2026-11-26T21:25:02Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Verify host boundaries",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Build Windows Phone",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Save compiled framework and app",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Run actions/download-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Verify reused module links",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Verify first frame",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Verify rendered desktop and touch views",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 20,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Run actions/upload-pages-artifact@v3",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 22,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v4",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 43,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:37Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 44,
+        "started_at": "2026-11-26T21:26:37Z",
+        "completed_at": "2026-11-26T21:26:38Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 45,
+        "started_at": "2026-11-26T21:26:38Z",
+        "completed_at": "2026-11-26T21:26:38Z"
+      }
+    ]
+  },
+  "tests": {
+    "state_domain_host": {
+      "passed": 161,
+      "failed": 0,
+      "ignored": 1,
+      "gate": "success",
+      "completed_test_result_blocks": 26
+    },
+    "sdk_apps_runtime_system_controls": {
+      "gate": "failure",
+      "alarm_service": {
+        "passed": 14,
+        "failed": 0,
+        "ignored": 0,
+        "result_line": "2026-11-26T21:26:37.2880550Z test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      },
+      "calendar": {
+        "announced": 10,
+        "observed_passing_cases": 6,
+        "passing_case_lines": [
+          "2026-11-26T21:26:37.2903757Z test tasks::model::tests::malformed_or_future_data_is_rejected_without_normalizing_user_content ... ok",
+          "2026-11-26T21:26:37.2904715Z test tasks::model::tests::filtering_search_and_sort_preserve_task_identity_and_completion_order ... ok",
+          "2026-11-26T21:26:37.2905767Z test tasks::model::tests::rescheduling_uses_calendar_days_across_leap_months_and_preserves_reminder_lead_time ... ok",
+          "2026-11-26T21:26:37.2919346Z test tasks::store::tests::concurrent_edit_completion_bulk_delete_and_document_replacement_fail_without_partial_writes ... ok",
+          "2026-11-26T21:26:37.2924062Z test tasks::tests::provider_uses_persisted_tasks_while_calendar_is_inactive_and_tracks_completion_edits_and_epoch ... ok",
+          "2026-11-26T21:26:37.2930316Z test tasks::tests::reminder_editor_defaults_cross_midnight_without_scheduling_in_the_past ... ok"
+        ],
+        "terminal_result": "process aborted during named test thread teardown; no package summary",
+        "failed_test": "tasks::tests::unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks",
+        "process_signal": "SIGABRT (6)"
+      },
+      "new_test_evidence": {
+        "calendar": {
+          "typed_task_paths_and_activation_do_not_alias_deleted_or_noncanonical_identifiers": null,
+          "unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks": null,
+          "provider_uses_persisted_tasks_while_calendar_is_inactive_and_tracks_completion_edits_and_epoch": "2026-11-26T21:26:37.2924062Z test tasks::tests::provider_uses_persisted_tasks_while_calendar_is_inactive_and_tracks_completion_edits_and_epoch ... ok",
+          "reminder_editor_defaults_cross_midnight_without_scheduling_in_the_past": "2026-11-26T21:26:37.2930316Z test tasks::tests::reminder_editor_defaults_cross_midnight_without_scheduling_in_the_past ... ok",
+          "full_task_lifecycle_round_trips_without_changing_calendar_events_or_other_namespaces": null,
+          "concurrent_edit_completion_bulk_delete_and_document_replacement_fail_without_partial_writes": "2026-11-26T21:26:37.2919346Z test tasks::store::tests::concurrent_edit_completion_bulk_delete_and_document_replacement_fail_without_partial_writes ... ok",
+          "malformed_namespace_and_storage_budget_preserve_the_authoritative_document": null,
+          "filtering_search_and_sort_preserve_task_identity_and_completion_order": "2026-11-26T21:26:37.2904715Z test tasks::model::tests::filtering_search_and_sort_preserve_task_identity_and_completion_order ... ok",
+          "rescheduling_uses_calendar_days_across_leap_months_and_preserves_reminder_lead_time": "2026-11-26T21:26:37.2905767Z test tasks::model::tests::rescheduling_uses_calendar_days_across_leap_months_and_preserves_reminder_lead_time ... ok",
+          "malformed_or_future_data_is_rejected_without_normalizing_user_content": "2026-11-26T21:26:37.2903757Z test tasks::model::tests::malformed_or_future_data_is_rejected_without_normalizing_user_content ... ok"
+        },
+        "provider": {
+          "all_enabled_providers_run_outside_the_active_route_in_stable_owner_key_order": null,
+          "providers_without_notification_capability_and_uninstalled_builtins_are_excluded": null,
+          "duplicate_invalid_or_oversized_provider_schedules_are_rejected_atomically": null,
+          "builtin_reminder_paths_pass_the_existing_typed_activation_boundary": null,
+          "reentrant_document_replacement_invalidates_the_entire_collected_snapshot": null
+        },
+        "alarm": {
+          "due_minutes_use_current_offset_and_rapid_edits_do_not_redeliver": "2026-11-26T21:26:37.2871972Z test app_reminders::tests::due_minutes_use_current_offset_and_rapid_edits_do_not_redeliver ... ok",
+          "snoozes_refresh_content_but_cancel_on_reschedule_removal_and_epoch_change": "2026-11-26T21:26:37.2873484Z test app_reminders::tests::snoozes_refresh_content_but_cancel_on_reschedule_removal_and_epoch_change ... ok",
+          "no_missed_schedule_replay_and_distinct_app_keys_keep_deterministic_order": "2026-11-26T21:26:37.2872780Z test app_reminders::tests::no_missed_schedule_replay_and_distinct_app_keys_keep_deterministic_order ... ok",
+          "opening_a_current_reminder_dismisses_and_navigates_once": "2026-11-26T21:26:37.2867000Z test app_delivery::tests::opening_a_current_reminder_dismisses_and_navigates_once ... ok",
+          "synchronous_stop_audio_cannot_open_into_a_replaced_document_session_or_host": "2026-11-26T21:26:37.2875764Z test app_delivery::tests::synchronous_stop_audio_cannot_open_into_a_replaced_document_session_or_host ... ok",
+          "a_provider_registry_replacement_cannot_publish_the_previous_sources_snapshot": "2026-11-26T21:26:37.2856571Z test app_delivery::tests::a_provider_registry_replacement_cannot_publish_the_previous_sources_snapshot ... ok",
+          "closing_during_provider_collection_cannot_repopulate_the_retired_schedule": "2026-11-26T21:26:37.2876982Z test app_delivery::tests::closing_during_provider_collection_cannot_repopulate_the_retired_schedule ... ok",
+          "app_reminders_queue_outside_the_active_app_refresh_edits_and_cancel_disabled_snoozes": "2026-11-26T21:26:37.2875052Z test app_service_tests::app_reminders_queue_outside_the_active_app_refresh_edits_and_cancel_disabled_snoozes ... ok",
+          "epoch_replacement_clears_active_queued_and_snoozed_tasks_and_suspension_defers_reconciliation": "2026-11-26T21:26:37.2874226Z test app_service_tests::epoch_replacement_clears_active_queued_and_snoozed_tasks_and_suspension_defers_reconciliation ... ok"
+        }
+      },
+      "remaining_packages": "Not executed after Calendar process abort, including standalone SDK provider, grouped-list and preview tests."
+    },
+    "javascript": {
+      "status": "not_run",
+      "tests": 0,
+      "reason": "Verify host boundaries is after the failed SDK gate."
+    }
+  },
+  "rendered": {
+    "status": "not_run",
+    "passed": false,
+    "checks_executed": 0,
+    "captures": 0,
+    "browser_errors": null,
+    "reason": "WASM build, first frame and rendered verification were skipped after SDK test abort.",
+    "required_new_checks": {
+      "Calendar_tasks": 7,
+      "Phone_call_activity": 2
+    }
+  },
+  "artifacts": [],
+  "failure": {
+    "gate": "Verify SDK and game contracts",
+    "test": "tasks::tests::unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks",
+    "kind": "thread-local destructor AccessError / SIGABRT",
+    "exact_log_lines": [
+      "2026-11-26T21:26:37.2928850Z thread 'tasks::tests::unsaved_editor_survives_app_switch_and_cancel_until_explicit_discard_and_reset_invalidates_callbacks' (8090) panicked at /rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/std/src/thread/local.rs:429:25:",
+      "2026-11-26T21:26:37.2931279Z cannot access a Thread Local Storage value during or after destruction: AccessError",
+      "2026-11-26T21:26:37.2932463Z fatal runtime error: thread local panicked on drop, aborting",
+      "2026-11-26T21:26:37.7988241Z   process didn't exit successfully: `/home/runner/work/WindowsPhone/WindowsPhone/target/debug/deps/phone_app_calendar-a6f55511616b3e04` (signal: 6, SIGABRT: process abort signal)"
+    ],
+    "diagnosis": "The direct-callback fixture retains its successful final Dialog in ui.dialog. Its save closure captures the same Rc<Session>; the cycle remains until reactive TLS teardown. Production DialogAction and existing Outlook test clear the dialog after a successful callback.",
+    "followup": "Assigned test-only cleanup mirrors successful DialogAction dispatch, asserts empty form_error and clears ui.dialog; all task behavior/generation assertions are retained. This correction is not part of candidate338ee60 and has not run in this attempt.",
+    "diagnosis_basis": "Source inspection of Calendar tasks/tests.rs and phone-system/dialogs.rs, corroborated by existing Outlook fixture cleanup; runtime confirmation of the correction is pending successor CI."
+  },
+  "other_run_artifacts": [
+    {
+      "id": 15154377377,
+      "name": "original-emulator-windows-host",
+      "digest": "sha256:9125d9a884d9a34638f7361d2dc910fe7e0a1370264919bb11490310f4eefb85",
+      "size_in_bytes": 1018,
+      "workflow_run": {
+        "id": 45897444145,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "338ee603df73190cb71ed78bbd97bb22be9b88a6"
+      }
+    }
+  ],
+  "artifact_note": "No compiled-app or ui-verification artifact exists for this attempt. The only artifact belongs to the separate native Windows emulator prerequisite check.",
+  "log": {
+    "path": "/tmp/windowsphone-tooling/browser-build-338ee60.log",
+    "sha256": "f3e639c89fa751210d09044455907d87a8f2d00f99bacdc44208eeb4af35f635",
+    "bytes": 135069,
+    "decoded_connector_text_preserved": true
+  },
+  "pages_artifact_upload_conclusion": "skipped",
+  "deploy_conclusion": "skipped",
+  "scope": "Frozen failed-attempt evidence for remote candidate338ee60. No rerun or remote mutation was performed. The separately assigned local test-only correction is not included in this source or its results."
+}

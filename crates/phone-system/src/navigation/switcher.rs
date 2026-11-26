@@ -62,9 +62,11 @@ fn card(
     } else {
         app.accent.into()
     };
-    let preview = app
+    let identity = app
         .builtin
-        .and_then(|id| ui.state::<crate::previews::PreviewCache>().get(id));
+        .map(RecentApp::Builtin)
+        .unwrap_or_else(|| RecentApp::Extension(app.id.into()));
+    let preview = ui.state::<crate::previews::PreviewCache>().get(&identity);
     let ratio = preview
         .as_ref()
         .map(|preview| preview.logical_size.height / preview.logical_size.width)
@@ -89,17 +91,18 @@ fn card(
     rsx! {StackPanel{width:width,spacing:10.0,
         Grid{height:44.0,column_definitions:"*,40",clip_to_bounds:true,
             TextBlock{text:app.title,font_size:20.0,foreground:"White",vertical_alignment:V::Center},
-            Button{Grid.column:1,class:"phone-flat",automation_properties_name:format!("Close {}",app.title),on_click:move |_|{
+            Button{name:format!("AppClose-{}",app.id),Grid.column:1,class:"phone-flat",automation_properties_name:format!("Close {}",app.title),on_click:move |_|{
                 let active=close_ui.registry().for_route(&close_vm.route()).is_some_and(|current|current.manifest.id==app.id);
                 close_ui.registry().close(&close_vm,&close_ui,app.id);
                 if active {close_ui.selected.set(None);close_ui.pivot.set(0);}
                 let key=app.builtin.map(|id|id.label()).unwrap_or(app.id);
                 close_ui.app_selections.borrow_mut().remove(key);close_ui.app_pivots.borrow_mut().remove(key);
-                if let Some(id)=app.builtin {close_ui.state::<crate::previews::PreviewCache>().remove(id);close_vm.close_app(id);}
+                close_ui.state::<crate::previews::PreviewCache>().remove(&identity);
+                if let Some(id)=app.builtin {close_vm.close_app(id);}
                 else {close_vm.close_extension(app.id);}
             },{icon(Icon::Close,18.0,"White")}}
         },
-        Button{class:"phone-flat",height:height,min_height:0.0,padding:0.0,horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
+        Button{name:format!("AppResume-{}",app.id),class:"phone-flat",height:height,min_height:0.0,padding:0.0,horizontal_content_alignment:H::Stretch,vertical_content_alignment:V::Stretch,
             automation_properties_name:format!("Switch to {}",app.title),on_click:move |_|{
                 if let Some(id)=app.builtin {open_ui.open_app(&open_vm,id);} else {
                     open_ui.folder.set(None);open_ui.edit_tile.set(None);open_ui.switcher_open.set(false);open_vm.resume_extension(app.id);

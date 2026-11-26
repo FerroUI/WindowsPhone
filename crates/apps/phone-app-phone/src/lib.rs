@@ -12,6 +12,13 @@ use phone_state::PhoneViewModel;
 pub use state::PhoneSession;
 use std::rc::Rc;
 
+fn acknowledgement_label(count: usize) -> String {
+    format!(
+        "acknowledge {count} missed call{}",
+        if count == 1 { "" } else { "s" }
+    )
+}
+
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if vm
         .device_state()
@@ -42,6 +49,18 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             content = content.child(device::history(vm.clone()));
         } else if mode == 0 {
             let calls = vm.data().call_history.clone();
+            let selected = calls
+                .iter()
+                .filter(|call| call.missed && !call.acknowledged)
+                .take(500)
+                .map(|call| call.id)
+                .collect::<Vec<_>>();
+            if !selected.is_empty() {
+                let model = vm.clone();
+                content = content.child(flat(&acknowledgement_label(selected.len()), move || {
+                    model.dispatch(phone_domain::Action::AcknowledgeCalls(selected.clone()));
+                }));
+            }
             if calls.is_empty() {
                 content = content.child(empty(
                     "No calls yet",

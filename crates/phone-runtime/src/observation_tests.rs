@@ -61,6 +61,9 @@ impl PlatformPlugin for Provider {
                 request: DeviceRequest::Notifications,
             } => "notifications".into(),
             PlatformRequest::Device {
+                request: DeviceRequest::MissedCalls,
+            } => "missedCalls".into(),
+            PlatformRequest::Device {
                 request: DeviceRequest::Contacts { query, limit },
             } => format!("contacts:{query}:{limit}"),
             _ => format!("{request:?}"),
@@ -608,11 +611,9 @@ fn suspension_cancels_reads_rejects_delayed_reads_and_keeps_side_effect_tasks_in
         !provider.dropped(3),
         "an already requested side effect retains its own completion"
     );
-    assert!(
-        runtime
-            .dispatch_platform(device(DeviceRequest::Notifications), None)
-            .is_err()
-    );
+    assert!(runtime
+        .dispatch_platform(device(DeviceRequest::Notifications), None)
+        .is_err());
     for _ in 0..20 {
         runtime.observe();
     }
@@ -651,21 +652,17 @@ fn restore_and_feature_withdrawal_require_fresh_capabilities_without_retaining_p
         .retain(|feature| *feature != HostFeature::Messaging);
     runtime.observe();
     assert!(runtime.vm.device_state().threads.is_empty());
-    assert!(
-        !runtime
-            .vm
-            .device_state()
-            .snapshot
-            .supports(DeviceOperation::ReadMessages)
-    );
+    assert!(!runtime
+        .vm
+        .device_state()
+        .snapshot
+        .supports(DeviceOperation::ReadMessages));
     assert_eq!(provider.keys()[6], "snapshot");
     provider.reply(6, Ok(response(DeviceResponse::Snapshot(granted()))));
     pump();
-    assert!(
-        !provider.keys()[7..]
-            .iter()
-            .any(|key| key.starts_with("threads:"))
-    );
+    assert!(!provider.keys()[7..]
+        .iter()
+        .any(|key| key.starts_with("threads:")));
     close(&runtime);
 }
 
@@ -729,12 +726,10 @@ fn reentrant_restore_and_close_cannot_launch_or_admit_a_former_bootstrap() {
     subscription.dispose();
     assert!(changed.get());
     assert!(runtime.vm.device_state().threads.is_empty());
-    assert!(
-        !provider
-            .keys()
-            .iter()
-            .any(|key| key.starts_with("threads:"))
-    );
+    assert!(!provider
+        .keys()
+        .iter()
+        .any(|key| key.starts_with("threads:")));
     runtime.observe();
     assert_eq!(provider.keys().last().unwrap(), "snapshot");
     close(&runtime);
@@ -743,4 +738,116 @@ fn reentrant_restore_and_close_cannot_launch_or_admit_a_former_bootstrap() {
     runtime.observe();
     runtime.lifecycle(HostLifecycle::Resumed);
     assert_eq!(provider.keys().len(), count);
+}
+
+#[test]
+fn missed_calls_bootstrap_on_start_and_refresh_receipts_after_role_change() {
+    let (runtime, provider) = fixture(vec![HostFeature::Telephony]);
+    let mut snapshot = DeviceSnapshot {
+        operations: vec![
+            DeviceOperation::ReadMissedCalls,
+            DeviceOperation::AcknowledgeMissedCalls,
+        ],
+        ..Default::default()
+    };
+    provider.reply(0, Ok(response(DeviceResponse::Snapshot(snapshot.clone()))));
+    pump();
+    assert_eq!(provider.keys(), ["snapshot", "missedCalls"]);
+    runtime.vm.request_device(DeviceRequest::MissedCalls);
+    pump();
+    assert_eq!(
+        provider.keys().len(),
+        2,
+        "Equivalent foreground reads coalesce with bootstrap"
+    );
+    provider.reply(
+        1,
+        Ok(response(DeviceResponse::MissedCalls(MissedCallActivity {
+            revision: 1,
+            count: 601,
+            acknowledgement: Some(MissedCallAcknowledgement {
+                token: "receipt-1".into(),
+                count: 500,
+            }),
+        }))),
+    );
+    pump();
+    assert_eq!(runtime.vm.route(), Route::Start);
+    assert_eq!(runtime.vm.app_badge(phone_domain::AppId::Phone), 601);
+    snapshot
+        .operations
+        .retain(|op| *op != DeviceOperation::AcknowledgeMissedCalls);
+    provider
+        .events
+        .borrow_mut()
+        .push(response(DeviceResponse::Snapshot(snapshot.clone())));
+    runtime.observe();
+    pump();
+    assert!(runtime
+        .vm
+        .device_state()
+        .missed_calls
+        .unwrap()
+        .acknowledgement
+        .is_none());
+    assert_eq!(provider.keys(), ["snapshot", "missedCalls", "missedCalls"]);
+    snapshot.operations.clear();
+    provider
+        .events
+        .borrow_mut()
+        .push(response(DeviceResponse::Snapshot(snapshot)));
+    runtime.observe();
+    pump();
+    assert!(
+        provider.dropped(2),
+        "Read permission loss cancels the pending count refresh"
+    );
+    assert_eq!(runtime.vm.app_badge(phone_domain::AppId::Phone), 0);
+    close(&runtime);
+}
+
+#[test]
+fn location_and_missed_call_channels_complete_independently() {
+    let (runtime, provider) = fixture(vec![HostFeature::Telephony, HostFeature::Location]);
+    // Exercise two admitted requests; the separate settings-policy test keeps
+    // proving that a disabled location setting blocks provider dispatch.
+    let mut settings = runtime.vm.data().settings.clone();
+    settings.location = true;
+    runtime.vm.set_settings(settings);
+    provider.reply(
+        0,
+        Ok(response(DeviceResponse::Snapshot(DeviceSnapshot {
+            operations: vec![DeviceOperation::ReadMissedCalls],
+            permissions: vec![DevicePermissionState {
+                permission: DevicePermission::Location,
+                status: PermissionState::Granted,
+            }],
+            ..Default::default()
+        }))),
+    );
+    pump();
+    runtime
+        .dispatch_platform(PlatformRequest::Locate, None)
+        .unwrap();
+    pump();
+    assert_eq!(provider.keys().len(), 3);
+    provider.reply(
+        1,
+        Ok(response(DeviceResponse::MissedCalls(MissedCallActivity {
+            revision: 1,
+            count: 2,
+            acknowledgement: None,
+        }))),
+    );
+    provider.reply(
+        2,
+        Ok(PlatformResponse::Location {
+            latitude: 52.2,
+            longitude: 21.0,
+        }),
+    );
+    pump();
+    assert_eq!(runtime.vm.app_badge(phone_domain::AppId::Phone), 2);
+    assert_eq!(runtime.vm.device_state().location, Some((52.2, 21.0)));
+    close(&runtime);
 }

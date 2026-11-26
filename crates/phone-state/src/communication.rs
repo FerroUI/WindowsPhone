@@ -4,6 +4,20 @@ use std::collections::HashSet;
 
 pub(crate) fn mutate(data: &mut PhoneData, action: Action) -> Result<bool, String> {
     match action {
+        Action::AcknowledgeCalls(ids) => {
+            if ids.len() > 500 {
+                return Err("Too many selected calls.".into());
+            }
+            let ids = ids.into_iter().collect::<HashSet<_>>();
+            let mut changed = false;
+            for call in &mut data.call_history {
+                if call.missed && !call.acknowledged && ids.contains(&call.id) {
+                    call.acknowledged = true;
+                    changed = true;
+                }
+            }
+            Ok(changed)
+        }
         Action::MailBatch { ids, operation } => mail(data, ids, operation),
         Action::ConversationBatch { ids, delete } => conversations(data, ids, delete),
         Action::DeleteMessage {

@@ -54,6 +54,7 @@ public class PhoneActivity extends FerroMainActivity {
 
     @Override protected void onPause() {
         resumed = false;
+        PhoneDevice.suspended();
         backKey.cancel();
         super.onPause();
     }

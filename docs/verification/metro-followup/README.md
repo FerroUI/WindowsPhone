@@ -317,12 +317,15 @@ identity `E6CC8F52-78CE-45D0-B5FB-8E3299BA5C06`. Their sequences are
 The [first screenshot](verified/dc9e2a9/ios-start.png) contains a simulator
 Apple Intelligence notification over the top of the live Start tiles. The
 [restored Start screenshot](verified/dc9e2a9/ios-home-restored.png) has no
-notification overlay but its lower navigation strip is blank. The same blank
-strip already appears in the [earlier e430 capture](verified/dc9e2a9/ios-earlier-home-restored-e430.png),
-before either scroll correction; other retained runs show the icons. The
-[capture comparison](verified/dc9e2a9/ios-navigation-capture-comparison.json)
-records artifact provenance and hashes. It establishes a pre-existing differing
-capture state, not its cause or the interactive correctness of that strip.
+notification overlay. **Correction, 26 November 2026:** the earlier description
+of blank navigation icons was a mistaken image interpretation. All three glyphs
+are visible. Independent decoding of 16 retained captures across `81fabb3`,
+`dc9e2a9`, `8749c8a` and `e430b21` found the same opaque navigation-row pixels.
+The [correction and its limits](../feature-completion/ios-navigation-correction.md)
+supersede the visual assessment in the earlier capture-comparison and publication
+records; their original bytes and provenance remain preserved. This establishes
+icon visibility in those frames. Actual button interaction is covered by the
+new qualification work and must be attributed to its own revision.
 The lifecycle gate is not a complete iOS chrome or original-device parity test.
 
 ### Pixel-rounded game layout

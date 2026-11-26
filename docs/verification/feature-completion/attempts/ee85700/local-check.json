@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "recorded_at_utc": "2026-11-26T21:57:20.694158+00:00",
+  "head": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+  "tree": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+  "command": "PATH=/home/agent/.cargo/bin:$PATH CARGO_BUILD_JOBS=1 cargo check --locked -p phone-app-calendar -p phone-alarm-service --tests",
+  "result": "passed",
+  "exit_code": 0,
+  "cargo_elapsed_seconds": 681,
+  "scope": "Rust metadata compilation, including test bodies; no test execution or UI/native linking. Incremental mode used its default and rebuilt framework metadata. No concurrent local Cargo operation.",
+  "initial_invocation": {
+    "exit_code": 127,
+    "reason": "cargo was absent from shell PATH; no Rust compiler was invoked before correction"
+  },
+  "sources": [
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/tests.rs",
+      "sha256": "a6aefca7807374f6f8114c4e8303e934f5ea0160bba1c5852e79f61860d753a6"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_delivery.rs",
+      "sha256": "598e9587ab6fdcc0cb854971390d342d7b2901e9cd05eda07d3b8a71af924999"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_delivery/tests.rs",
+      "sha256": "b1661ba9889e4439584f6fffd1ae9d3e25195babd1045c62687d40f6193d7ee9"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_delivery/tests/calendar.rs",
+      "sha256": "7e579abefd881ad380ac320c183ffdba3aefcf17c6bc007ecec049fa8f516038"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/lib.rs",
+      "sha256": "593755c0b32fd1bf9c525c95b5c1c8cfeb246bb2d41f28b4761418953a45633a"
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/windowsphone-tooling/feature-followup-check.log",
+      "bytes": 44,
+      "sha256": "a326558a932a2a67436a997ada30bbb04a637812287a7435cac205a7a51c6e71"
+    },
+    {
+      "path": "/tmp/windowsphone-tooling/feature-followup-check-rust.log",
+      "bytes": 21246,
+      "sha256": "d88346b7b1ffe77f2f8506ab5d08cd435a5a65ecd868255ddb55eee03c1f614d"
+    }
+  ]
+}

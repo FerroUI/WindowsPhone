@@ -1,6 +1,6 @@
 //! Transient OS data, deliberately excluded from PhoneData and its backups.
 use crate::PhoneViewModel;
-use phone_host::{HostRequest, platform::*};
+use phone_host::{platform::*, HostRequest};
 use std::collections::BTreeMap;
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -10,6 +10,7 @@ pub struct DeviceStore {
     pub snapshot: DeviceSnapshot,
     pub contacts: Vec<DeviceContact>,
     pub call_history: Vec<DeviceCallRecord>,
+    pub missed_calls: Option<MissedCallActivity>,
     pub calls: Vec<ActiveCall>,
     pub threads: Vec<DeviceMessageThread>,
     pub message_thread: Option<String>,
@@ -55,6 +56,12 @@ impl PhoneViewModel {
     }
     pub fn device_revision(&self) -> u64 {
         self.device_revision.get()
+    }
+    pub fn clear_device_call_activity(&self) {
+        let changed = self.device_state.borrow_mut().missed_calls.take().is_some();
+        if changed {
+            self.notify();
+        }
     }
     pub fn request_device(&self, request: DeviceRequest) {
         if let Err(error) = request.validate() {
@@ -104,6 +111,13 @@ impl PhoneViewModel {
                 if !snapshot.supports(DeviceOperation::CallHistory) {
                     state.call_history.clear();
                 }
+                if !snapshot.supports(DeviceOperation::ReadMissedCalls) {
+                    state.missed_calls = None;
+                } else if !snapshot.supports(DeviceOperation::AcknowledgeMissedCalls) {
+                    if let Some(value) = &mut state.missed_calls {
+                        value.acknowledgement = None;
+                    }
+                }
                 if !snapshot.supports(DeviceOperation::ActiveCalls) {
                     state.calls.clear();
                 }
@@ -135,6 +149,16 @@ impl PhoneViewModel {
             DeviceResponse::CallHistory(mut rows) => {
                 rows.sort_by_key(|v| std::cmp::Reverse(v.timestamp));
                 state.call_history = rows;
+            }
+            DeviceResponse::MissedCalls(value) => {
+                if state
+                    .missed_calls
+                    .as_ref()
+                    .is_some_and(|old| old.revision >= value.revision)
+                {
+                    return Ok(());
+                }
+                state.missed_calls = Some(value);
             }
             DeviceResponse::Calls(rows) => {
                 state.calls = rows;
@@ -412,23 +436,21 @@ mod tests {
         vm.set_device_response(DeviceResponse::Contacts(vec![contact.clone()]))
             .unwrap();
         let revision = vm.device_revision();
-        assert!(
-            vm.set_device_response(DeviceResponse::Contacts(vec![contact.clone(), contact]))
-                .is_err()
-        );
+        assert!(vm
+            .set_device_response(DeviceResponse::Contacts(vec![contact.clone(), contact]))
+            .is_err());
         assert_eq!(vm.device_revision(), revision);
         assert_eq!(vm.data().to_json().unwrap(), original);
         assert_eq!(saves.get(), 0);
         vm.set_device_response(DeviceResponse::Snapshot(DeviceSnapshot::default()))
             .unwrap();
         assert!(vm.device_state().contacts.is_empty());
-        assert!(
-            vm.set_device_response(DeviceResponse::Contacts(vec![DeviceContact {
+        assert!(vm
+            .set_device_response(DeviceResponse::Contacts(vec![DeviceContact {
                 id: "late".into(),
                 ..Default::default()
             }]))
-            .is_err()
-        );
+            .is_err());
         vm.set_device_response(DeviceResponse::Snapshot(permitted))
             .unwrap();
         vm.set_device_response(DeviceResponse::Contacts(vec![DeviceContact {

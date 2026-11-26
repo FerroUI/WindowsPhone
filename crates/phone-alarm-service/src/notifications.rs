@@ -2,22 +2,30 @@ use super::Alert;
 use phone_domain::{AppId, Settings};
 use phone_state::{HostPermission, HostRequest, PhoneViewModel};
 
-fn allowed(settings: &Settings, permission: HostPermission, app: AppId, locked: bool) -> bool {
+fn allowed(
+    settings: &Settings,
+    permission: HostPermission,
+    app: Option<AppId>,
+    locked: bool,
+) -> bool {
     permission == HostPermission::Granted
         && settings.notifications
-        && settings.notification_preference(app).banners
+        && app
+            .map(|app| settings.notification_preference(app))
+            .unwrap_or_default()
+            .banners
         && (!locked || settings.notifications_on_lock)
 }
 
 pub(super) fn deliver(vm: &PhoneViewModel, alert: &Alert) {
     let (app, title, body) = match alert {
         Alert::Alarm(alarm) => (
-            AppId::Alarms,
+            Some(AppId::Alarms),
             "alarm".to_owned(),
             format!("{} · {}", alarm.time_text(), alarm.label),
         ),
         Alert::Calendar(reminder) => (
-            AppId::Calendar,
+            Some(AppId::Calendar),
             reminder.title.clone(),
             if reminder.location.is_empty() {
                 "Calendar reminder".into()
@@ -25,8 +33,18 @@ pub(super) fn deliver(vm: &PhoneViewModel, alert: &Alert) {
                 reminder.location.clone()
             },
         ),
+        Alert::App(item) => (
+            item.builtin,
+            item.reminder.title.clone(),
+            if item.reminder.detail.is_empty() {
+                format!("{} reminder", item.app_title)
+            } else {
+                item.reminder.detail.clone()
+            },
+        ),
     };
-    let locked = phone_sdk::current_session().is_some_and(|ui| ui.locked.get_untracked());
+    let locked = vm.route() == phone_domain::Route::Lock
+        || phone_sdk::current_session().is_some_and(|ui| ui.locked.get_untracked());
     let permitted = allowed(
         &vm.data().settings,
         vm.environment().notification_permission,
@@ -47,20 +65,20 @@ mod tests {
         assert!(!allowed(
             &settings,
             HostPermission::Prompt,
-            AppId::Calendar,
+            Some(AppId::Calendar),
             false
         ));
         assert!(allowed(
             &settings,
             HostPermission::Granted,
-            AppId::Calendar,
+            Some(AppId::Calendar),
             false
         ));
         settings.notifications_on_lock = false;
         assert!(!allowed(
             &settings,
             HostPermission::Granted,
-            AppId::Calendar,
+            Some(AppId::Calendar),
             true
         ));
         settings
@@ -71,7 +89,7 @@ mod tests {
         assert!(!allowed(
             &settings,
             HostPermission::Granted,
-            AppId::Calendar,
+            Some(AppId::Calendar),
             false
         ));
     }

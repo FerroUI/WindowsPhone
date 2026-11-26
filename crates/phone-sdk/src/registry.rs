@@ -5,7 +5,11 @@ use phone_state::PhoneViewModel;
 use std::{collections::BTreeMap, rc::Rc};
 
 mod events;
+mod reminders;
 mod search;
+pub use reminders::{
+    AppReminder, AppReminderSnapshot, ScopedAppReminder, MAX_APP_REMINDERS, MAX_PROVIDER_REMINDERS,
+};
 pub use search::LocalSearchResult;
 
 /// Immutable, validated composition. Lookup is logarithmic and registration

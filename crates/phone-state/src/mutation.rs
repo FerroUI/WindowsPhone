@@ -5,6 +5,7 @@ pub(crate) fn mutate(data: &mut PhoneData, action: Action, now: i64) -> Result<b
         Action::Document(action) => crate::documents::mutate(data, action, now),
         Action::Browser(action) => data.browser.apply(action, now),
         action @ (Action::MailBatch { .. }
+        | Action::AcknowledgeCalls(_)
         | Action::ConversationBatch { .. }
         | Action::DeleteMessage { .. }) => crate::communication::mutate(data, action),
         action @ (Action::Pin(_)

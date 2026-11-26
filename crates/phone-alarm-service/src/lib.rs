@@ -1,10 +1,14 @@
 //! Shared native alarm/reminder presentation; hosts supply only sound/vibration.
+mod app_delivery;
+mod app_reminders;
+#[cfg(test)]
+mod app_service_tests;
 pub mod editor;
 mod lifecycle;
-mod notifications;
-mod pickers;
 #[cfg(test)]
 mod lifecycle_tests;
+mod notifications;
+mod pickers;
 use editor::AlarmEditor;
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
@@ -17,18 +21,35 @@ use std::{
     cell::{Cell, RefCell},
     collections::VecDeque,
     rc::Rc,
+    rc::Weak,
 };
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum Alert {
     Alarm(Alarm),
     Calendar(CalendarReminder),
+    App(phone_sdk::ScopedAppReminder),
+}
+
+#[derive(PartialEq, Eq)]
+enum AlertKey {
+    Alarm(Id),
+    Calendar(Id, i64),
+    App(&'static str, String, i64, u64),
 }
 impl Alert {
-    fn key(&self) -> (u8, Id, i64) {
+    fn key(&self) -> AlertKey {
         match self {
-            Self::Alarm(item) => (0, item.id, 0),
-            Self::Calendar(item) => (1, item.occurrence.event_id, item.occurrence.start),
+            Self::Alarm(item) => AlertKey::Alarm(item.id),
+            Self::Calendar(item) => {
+                AlertKey::Calendar(item.occurrence.event_id, item.occurrence.start)
+            }
+            Self::App(item) => AlertKey::App(
+                item.app_id,
+                item.reminder.key.clone(),
+                item.reminder.scheduled_local,
+                item.document_epoch,
+            ),
         }
     }
     fn current(&self, vm: &PhoneViewModel) -> bool {
@@ -42,6 +63,9 @@ impl Alert {
                     && alarm.weekdays == item.weekdays
             }),
             Self::Calendar(item) => reminder_is_current(item, &data.events),
+            // App reminders are reconciled against the fresh scoped provider
+            // snapshot by AlarmState::current_alert, not against PhoneData fields.
+            Self::App(_) => false,
         }
     }
 }
@@ -54,6 +78,9 @@ pub struct AlarmState {
     queue: RefCell<VecDeque<Alert>>,
     alarms: RefCell<AlarmSchedule>,
     reminders: RefCell<ReminderSchedule>,
+    app_reminders: RefCell<app_reminders::Schedule>,
+    app_registry: RefCell<Weak<phone_sdk::AppRegistry>>,
+    refreshing_app_reminders: Cell<bool>,
     last_audio: Cell<Option<(bool, u8, bool)>>,
     schedule_revision: Cell<Option<u64>>,
     host_visible: Cell<bool>,
@@ -69,6 +96,9 @@ impl AlarmState {
             queue: RefCell::new(VecDeque::new()),
             alarms: RefCell::new(AlarmSchedule::default()),
             reminders: RefCell::new(ReminderSchedule::default()),
+            app_reminders: RefCell::new(app_reminders::Schedule::default()),
+            app_registry: RefCell::new(Weak::new()),
+            refreshing_app_reminders: Cell::new(false),
             last_audio: Cell::new(None),
             schedule_revision: Cell::new(None),
             host_visible: Cell::new(true),
@@ -81,6 +111,7 @@ impl AlarmState {
         self.queue.borrow_mut().clear();
         self.alarms.borrow_mut().clear();
         self.reminders.borrow_mut().clear();
+        self.app_reminders.borrow_mut().clear();
         self.choosing_snooze.set(false);
         self.editor.close();
         self.last_audio.set(None);
@@ -106,13 +137,21 @@ impl AlarmState {
                 if previous.occurrence.event_id == reminder.occurrence.event_id)
             });
         }
-        if queue.len() >= phone_domain::MAX_ALARMS + phone_domain::MAX_CALENDAR_EVENTS {
+        if queue.len()
+            >= phone_domain::MAX_ALARMS
+                + phone_domain::MAX_CALENDAR_EVENTS
+                + phone_sdk::MAX_APP_REMINDERS
+        {
             queue.pop_front();
         }
         queue.push_back(item);
     }
     fn next(&self, vm: &PhoneViewModel) {
-        if !self.can_deliver() || self.active.get_untracked().is_some() {
+        if !self.can_deliver() || !self.refresh_app_reminders(vm) {
+            return;
+        }
+        self.reconcile_alerts(vm);
+        if self.active.get_untracked().is_some() {
             return;
         }
         let item = self.queue.borrow_mut().pop_front();
@@ -129,20 +168,24 @@ impl AlarmState {
         }
     }
     fn audio(&self, vm: &PhoneViewModel) {
-        if !self.can_deliver() {
+        if !self.can_deliver() || !self.refresh_app_reminders(vm) {
             return;
         }
+        self.reconcile_alerts(vm);
         let active = self.active.get_untracked().is_some();
-        let settings = &vm.data().settings;
-        let next = (
-            active,
-            if active && settings.sounds {
-                settings.ringer_volume
-            } else {
-                0
-            },
-            active && settings.vibration,
-        );
+        let next = {
+            let data = vm.data();
+            let settings = &data.settings;
+            (
+                active,
+                if active && settings.sounds {
+                    settings.ringer_volume
+                } else {
+                    0
+                },
+                active && settings.vibration,
+            )
+        };
         if self.last_audio.replace(Some(next)) != Some(next) {
             vm.request(HostRequest::AlarmAlert {
                 active: next.0,
@@ -178,7 +221,7 @@ impl AlarmState {
         }
     }
     pub fn tick(&self, vm: &PhoneViewModel) {
-        if !self.can_deliver() {
+        if !self.can_deliver() || !self.refresh_app_reminders(vm) {
             return;
         }
         if self.schedule_revision.replace(Some(vm.schedule_revision()))
@@ -187,14 +230,7 @@ impl AlarmState {
             self.alarms.borrow_mut().invalidate();
             self.reminders.borrow_mut().invalidate();
         }
-        if self
-            .active
-            .get_untracked()
-            .is_some_and(|item| !item.current(vm))
-        {
-            self.active.set(None);
-        }
-        self.queue.borrow_mut().retain(|item| item.current(vm));
+        self.reconcile_alerts(vm);
         let data = vm.data();
         let alarms = self
             .alarms
@@ -214,14 +250,25 @@ impl AlarmState {
         for reminder in reminders {
             self.enqueue(Alert::Calendar(reminder));
         }
+        let app_reminders = self
+            .app_reminders
+            .borrow_mut()
+            .poll(vm.now(), vm.utc_offset());
+        for reminder in app_reminders {
+            self.enqueue(Alert::App(reminder));
+        }
         self.next(vm);
         self.audio(vm);
     }
     pub fn dismiss(&self, vm: &PhoneViewModel) {
+        if self.refresh_app_reminders(vm) {
+            self.reconcile_alerts(vm);
+        }
         if let Some(item) = self.active.get_untracked() {
             match item {
                 Alert::Alarm(alarm) => self.alarms.borrow_mut().cancel(alarm.id),
                 Alert::Calendar(reminder) => self.reminders.borrow_mut().cancel(&reminder),
+                Alert::App(reminder) => self.app_reminders.borrow_mut().cancel(&reminder),
             }
         }
         self.active.set(None);
@@ -240,6 +287,9 @@ impl AlarmState {
         self.audio(vm);
     }
     pub fn snooze(&self, vm: &PhoneViewModel, minutes: u8) {
+        if self.refresh_app_reminders(vm) {
+            self.reconcile_alerts(vm);
+        }
         if let Some(item) = self.active.get_untracked() {
             match item {
                 Alert::Alarm(alarm) => self.alarms.borrow_mut().snooze(alarm, vm.now(), minutes),
@@ -247,6 +297,11 @@ impl AlarmState {
                     self.reminders
                         .borrow_mut()
                         .snooze(reminder, vm.now(), minutes)
+                }
+                Alert::App(reminder) => {
+                    self.app_reminders
+                        .borrow_mut()
+                        .snooze(&reminder, vm.now(), minutes)
                 }
             }
         }
@@ -279,39 +334,77 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         return rsx! {Border{}};
     };
     let calendar = matches!(&item, Alert::Calendar(_));
-    let (label, time, details) = match &item {
-        Alert::Alarm(alarm) => (
-            alarm.label.clone(),
-            phone_domain::time_text(
-                i64::from(alarm.hour) * 3600 + i64::from(alarm.minute) * 60,
-                vm.data().settings.time_24h,
-            ),
+    let reminder = !matches!(&item, Alert::Alarm(_));
+    // Match the existing host-banner privacy preference in the in-phone
+    // reminder too. Keep the actionable reminder, but never mount its private
+    // caption, occurrence time, location or app detail while locked.
+    let private = reminder
+        && (ui.locked.get() || vm.route() == phone_domain::Route::Lock)
+        && !vm.data().settings.notifications_on_lock;
+    let (label, time, details) = if private {
+        (
+            "New reminder".to_owned(),
             String::new(),
-        ),
-        Alert::Calendar(reminder) => {
-            let (_, month, day) = phone_domain::date_parts(reminder.occurrence.start);
-            let all_day = vm
-                .data()
-                .events
-                .iter()
-                .any(|event| event.id == reminder.occurrence.event_id && event.all_day);
-            (
-                reminder.title.clone(),
-                if all_day {
-                    "all day".into()
-                } else {
-                    phone_domain::time_text(reminder.occurrence.start, vm.data().settings.time_24h)
-                },
-                format!(
-                    "{day} {}{}",
-                    phone_domain::month_name(month),
-                    if reminder.location.is_empty() {
-                        String::new()
-                    } else {
-                        format!(" · {}", reminder.location)
-                    }
+            "Unlock to view this reminder.".to_owned(),
+        )
+    } else {
+        match &item {
+            Alert::Alarm(alarm) => (
+                alarm.label.clone(),
+                phone_domain::time_text(
+                    i64::from(alarm.hour) * 3600 + i64::from(alarm.minute) * 60,
+                    vm.data().settings.time_24h,
                 ),
-            )
+                String::new(),
+            ),
+            Alert::Calendar(reminder) => {
+                let (_, month, day) = phone_domain::date_parts(reminder.occurrence.start);
+                let all_day = vm
+                    .data()
+                    .events
+                    .iter()
+                    .any(|event| event.id == reminder.occurrence.event_id && event.all_day);
+                (
+                    reminder.title.clone(),
+                    if all_day {
+                        "all day".into()
+                    } else {
+                        phone_domain::time_text(
+                            reminder.occurrence.start,
+                            vm.data().settings.time_24h,
+                        )
+                    },
+                    format!(
+                        "{day} {}{}",
+                        phone_domain::month_name(month),
+                        if reminder.location.is_empty() {
+                            String::new()
+                        } else {
+                            format!(" · {}", reminder.location)
+                        }
+                    ),
+                )
+            }
+            Alert::App(item) => {
+                let (_, month, day) = phone_domain::date_parts(item.reminder.scheduled_local);
+                (
+                    item.reminder.title.clone(),
+                    phone_domain::time_text(
+                        item.reminder.scheduled_local,
+                        vm.data().settings.time_24h,
+                    ),
+                    format!(
+                        "{day} {} · {}{}",
+                        phone_domain::month_name(month),
+                        item.app_title,
+                        if item.reminder.detail.is_empty() {
+                            String::new()
+                        } else {
+                            format!("\n{}", item.reminder.detail)
+                        }
+                    ),
+                )
+            }
         }
     };
     let toggle = ui.clone();
@@ -322,24 +415,31 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let open = ui.clone();
     let open_vm = vm.clone();
     let open_item = item.clone();
+    // Calendar occurrences do not carry an epoch. Retain the rendered source
+    // boundary so an old native callback cannot target an equal ID after restore.
+    let open_epoch = vm.document_epoch();
+    let reminder_label = if reminder {
+        rsx! {Button{name:"AppReminderOpen",class:"phone-flat",padding:0.0,horizontal_content_alignment:H::Left,
+        automation_properties_name:if calendar{"Open reminder appointment"}else{"Open reminder item"},
+        on_click:move |_|match &open_item {
+            Alert::Calendar(reminder)=>open.state::<AlarmState>().open_calendar_reminder(&open_vm,&open,open_epoch,reminder),
+            Alert::App(item)=>open.state::<AlarmState>().open_app_reminder(&open_vm,&open,item),
+            Alert::Alarm(_)=>{}
+        },{common::text(&label,28.0)}}}
+    } else {
+        common::text(&label, 28.0)
+    };
     let choices=phone_domain::ALARM_SNOOZE_MINUTES.into_iter().map(|minutes| {
         let choose=ui.clone();rsx!{Button{class:"phone-flat",content:format!("{minutes} minutes"),min_height:44.0,font_size:23.0,
             automation_properties_name:format!("Remind in {minutes} minutes"),on_click:move |_|{choose.state::<AlarmState>().snooze_minutes.set(minutes);choose.state::<AlarmState>().choosing_snooze.set(false);}}}
     }).collect::<Vec<_>>();
-    rsx! {Grid{name:"PhoneAlarm",focusable:true,background:common::bg(&vm).as_str(),row_definitions:"Auto,*,Auto",automation_properties_name:if calendar{"Calendar reminder"}else{"Alarm ringing"},
+    rsx! {Grid{name:"PhoneAlarm",focusable:true,background:common::bg(&vm).as_str(),row_definitions:"Auto,*,Auto",automation_properties_name:if calendar{"Calendar reminder"}else if reminder{"App reminder"}else{"Alarm ringing"},
         on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<ferroui_controls::Control>()) {pickers::dismiss_phone_pickers(&control);control.focus();},
-        TextBlock{text:if calendar{"reminder"}else{"alarm"},font_size:42.0,font_weight:ferroui_base::media::FontWeight::Light,margin:(20.0,24.0,20.0,12.0)},
+        TextBlock{text:if reminder{"reminder"}else{"alarm"},font_size:42.0,font_weight:ferroui_base::media::FontWeight::Light,margin:(20.0,24.0,20.0,12.0)},
         ScrollViewer{Grid.row:1,vertical_scroll_bar_visibility:ferroui_controls::primitives::ScrollBarVisibility::Hidden,
             StackPanel{margin:(20.0,8.0,20.0,12.0),spacing:14.0,
-                TextBlock{text:time,font_size:56.0,font_weight:ferroui_base::media::FontWeight::Light},
-                if calendar {Button{class:"phone-flat",padding:0.0,horizontal_content_alignment:H::Left,automation_properties_name:"Open reminder appointment",
-                    on_click:move |_|if let Alert::Calendar(reminder)=&open_item{
-                        open.state::<AlarmState>().dismiss(&open_vm);open.locked.set(false);let route=phone_domain::Route::App(phone_domain::AppId::Calendar);
-                        if let Ok(value)=serde_json::to_value(&reminder.occurrence){
-                            if let Err(error)=open.queue_activation("phone.calendar",value){open_vm.set_status(error);return;}
-                        }
-                        open_vm.navigate(route);
-                    },{common::text(&label,28.0)}}}else{{common::text(&label,28.0)}}
+                if !private {TextBlock{name:"ReminderTime",text:time,font_size:56.0,font_weight:ferroui_base::media::FontWeight::Light}}
+                {reminder_label}
                 if !details.is_empty(){{common::muted(&details,18.0)}}
                 Button{class:"phone-flat",horizontal_content_alignment:H::Stretch,padding:(0.0,10.0),automation_properties_name:"Change reminder snooze time",
                     on_click:move |_|toggle.state::<AlarmState>().choosing_snooze.update(|value|*value=!*value),
@@ -351,8 +451,8 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             }
         }
         Grid{Grid.row:2,column_definitions:"*,*",column_spacing:12.0,margin:(20.0,12.0,20.0,20.0),
-            Button{name:"AlarmSnooze",class:"phone-button",content:"snooze",horizontal_alignment:H::Stretch,automation_properties_name:if calendar{"Snooze reminder"}else{"Snooze alarm"},on_click:move |_|snooze.state::<AlarmState>().snooze(&snooze_vm,snooze.state::<AlarmState>().snooze_minutes.get_untracked())}
-            Button{name:"AlarmDismiss",Grid.column:1,class:"phone-button",content:"dismiss",horizontal_alignment:H::Stretch,automation_properties_name:if calendar{"Dismiss reminder"}else{"Dismiss alarm"},on_click:move |_|dismiss.state::<AlarmState>().dismiss(&dismiss_vm)}
+            Button{name:"AlarmSnooze",class:"phone-button",content:"snooze",horizontal_alignment:H::Stretch,automation_properties_name:if reminder{"Snooze reminder"}else{"Snooze alarm"},on_click:move |_|snooze.state::<AlarmState>().snooze(&snooze_vm,snooze.state::<AlarmState>().snooze_minutes.get_untracked())}
+            Button{name:"AlarmDismiss",Grid.column:1,class:"phone-button",content:"dismiss",horizontal_alignment:H::Stretch,automation_properties_name:if reminder{"Dismiss reminder"}else{"Dismiss alarm"},on_click:move |_|dismiss.state::<AlarmState>().dismiss(&dismiss_vm)}
         }
     }}
 }

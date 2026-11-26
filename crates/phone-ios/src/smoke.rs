@@ -1,9 +1,9 @@
 //! Explicit simulator-only observation hook; production launches create no timer.
 use ferroui_base::{
-    Point,
     threading::{DispatcherPriority, DispatcherTimer},
+    Point, Visual,
 };
-use ferroui_controls::{Control, TextBox, TopLevel};
+use ferroui_controls::{Button, Control, PathIcon, TextBox, TopLevel};
 use phone_native::NativeHost;
 use std::{
     cell::{Cell, RefCell},
@@ -93,6 +93,7 @@ fn write_status(host: &NativeHost) {
                     | "DeviceMessageSubject"
                     | "DeviceSettingsRoot"
                     | "DeviceCommunicationsSettings"
+                    | "CortanaInput"
             )
         })
         .take(16)
@@ -115,6 +116,42 @@ fn write_status(host: &NativeHost) {
             serde_json::json!({"x": point.x, "y": point.y, "width": bounds.width, "height": bounds.height})
         })
     };
+    // Observe the real controls, including disabled/hidden ones. Route state
+    // alone cannot establish that the navigation row is visible or interactive.
+    let navigation = view
+        .get_visual_descendants()
+        .filter_map(|visual| visual.cast::<Button>())
+        .filter(|button| {
+            matches!(button.name().as_deref(), Some("HardwareBack" | "HardwareStart" | "HardwareSearch"))
+        })
+        .map(|button| {
+            let bounds = button.bounds();
+            let hit = button
+                .translate_point(Point::new(bounds.width / 2.0, bounds.height / 2.0), &top)
+                .and_then(|point| top.input_hit_test_with(point, false))
+                .is_some_and(|hit| {
+                    let hit: &Visual = &hit;
+                    let target: &Visual = &button;
+                    std::ptr::eq(hit, target) || button.is_visual_ancestor_of(hit)
+                });
+            let glyph = button
+                .get_visual_descendants()
+                .find_map(|visual| visual.cast::<PathIcon>())
+                .map(|glyph| serde_json::json!({
+                    "bounds": rectangle(&glyph),
+                    "visible": glyph.is_effectively_visible(),
+                    "opacity": glyph.get_self_and_visual_ancestors().map(|visual| visual.opacity()).product::<f64>(),
+                    "has_geometry": glyph.data().is_some(),
+                }));
+            serde_json::json!({
+                "name": button.name(), "bounds": rectangle(&button),
+                "visible": button.is_effectively_visible(),
+                "enabled": button.is_effectively_enabled(), "hit": hit,
+                "opacity": button.get_self_and_visual_ancestors().map(|visual| visual.opacity()).product::<f64>(),
+                "glyph": glyph,
+            })
+        })
+        .collect::<Vec<_>>();
     let bounds = view.bounds();
     let client = top.client_size();
     let viewport = host.vm().viewport();
@@ -149,6 +186,8 @@ fn write_status(host: &NativeHost) {
         "screen": screen.as_ref().and_then(|control| rectangle(control)),
         "viewport": {"width": viewport.0, "height": viewport.1},
         "mounted_controls": controls,
+        "navigation_controls": navigation,
+        "network_path_online": host.runtime().platform().environment().online,
         "device_fields": fields,
         "device": host.vm().device_state().snapshot,
     });

@@ -90,6 +90,7 @@ jobs:
           python3 scripts/verify_android_home_test.py
           python3 scripts/verify_android_ui_test.py
           python3 scripts/verify_android_device_test.py
+          python3 scripts/verify_android_calls_test.py
           python3 scripts/verify_android_bootstrap_test.py
           cargo test --locked -p phone-android --lib
       - name: Build x86_64 application and launcher APKs

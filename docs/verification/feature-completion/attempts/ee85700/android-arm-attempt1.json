@@ -1,0 +1,248 @@
+{
+  "repository": "FerroUI/WindowsPhone",
+  "run_id": 45900992470,
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45900992470",
+  "event": "pull_request",
+  "attempt": 1,
+  "source": {
+    "head": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+    "head_tree": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+    "actual_checkout": "099fe673072c303205168b220e7183151a486840",
+    "checkout_tree": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+    "checkout_parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b"
+    ],
+    "trees_identical": true,
+    "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3"
+  },
+  "job": {
+    "id": 140186432041,
+    "name": "android",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-26T21:51:51Z",
+    "completed_at": "2026-11-26T21:57:03Z",
+    "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45900992470/job/140186432041"
+  },
+  "counts": {
+    "java_contract_assertions": 126,
+    "pinned_aosp_sources": 24,
+    "python_tests": 8,
+    "rust_tests_passed": 7,
+    "rust_failed": 0,
+    "rust_ignored": 0
+  },
+  "native_rust_application_build": {
+    "passed": true,
+    "proof": [
+      "2026-11-26T21:54:51.6057987Z     Finished `dev` profile [unoptimized] target(s) in 1m 20s"
+    ]
+  },
+  "native_build_and_packaging": {
+    "passed": false,
+    "apk_artifact_produced": false,
+    "native_cache_saved": false
+  },
+  "failure": {
+    "classification": "dependency_repository_rate_limit",
+    "step": "Build native application and HOME launcher APKs",
+    "stage": "Gradle root-project classpath configuration",
+    "http_429_count": 92,
+    "repository": "https://repo.maven.apache.org/maven2/",
+    "sample_lines": [
+      "2026-11-26T21:57:01.1490951Z             > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.pom'. Received status code 429 from server: Too Many Requests",
+      "2026-11-26T21:57:01.1552856Z             > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.pom'. Received status code 429 from server: Too Many Requests",
+      "2026-11-26T21:57:01.1732683Z             > Could not GET 'https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpmime/4.5.6/httpmime-4.5.6.pom'. Received status code 429 from server: Too Many Requests"
+    ],
+    "summary_lines": [
+      "2026-11-26T21:57:01.1083014Z FAILURE: Build failed with an exception.",
+      "2026-11-26T21:57:01.1085134Z A problem occurred configuring root project 'WindowsPhoneAndroid'.",
+      "2026-11-26T21:57:01.1202750Z > Could not resolve all artifacts for configuration 'classpath'.",
+      "2026-11-26T21:57:01.3105894Z BUILD FAILED in 2m 9s"
+    ]
+  },
+  "scope": "Portable contract gates and ARM Rust application build passed. Gradle dependency resolution failed before APK packaging; no APK package, embedding-library check, manifest/JNI/alignment verification or ARM-device runtime result is claimed. No retry was initiated by this agent.",
+  "log": {
+    "path": "/tmp/windowsphone-tooling/android-arm-ee85700-attempt1.log",
+    "sha256": "1850718dc9a91c10353391daac41bce28782ec2d33290a5d7db36f96c4607074",
+    "bytes": 192145
+  },
+  "source_proof": [
+    "2026-11-26T21:52:11.8610300Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+    "2026-11-26T21:52:11.9593443Z 099fe673072c303205168b220e7183151a486840",
+    "2026-11-26T21:52:12.1712206Z 099fe673072c303205168b220e7183151a486840",
+    "2026-11-26T21:52:54.5436847Z   key: phone-android-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-099fe673072c303205168b220e7183151a486840"
+  ],
+  "result_proof": [
+    "2026-11-26T21:53:26.1060853Z Android pure contract assertions: 126",
+    "2026-11-26T21:53:26.1910782Z Pinned Apache-licensed AOSP MMS sources verified: 24",
+    "2026-11-26T21:53:26.2911719Z Ran 8 tests in 0.016s",
+    "2026-11-26T21:53:30.8237232Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ],
+  "artifacts": [],
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-11-26T21:51:51Z",
+      "completed_at": "2026-11-26T21:51:54Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-11-26T21:51:54Z",
+      "completed_at": "2026-11-26T21:52:11Z"
+    },
+    {
+      "name": "Read framework tool pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-11-26T21:52:11Z",
+      "completed_at": "2026-11-26T21:52:12Z"
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-11-26T21:52:12Z",
+      "completed_at": "2026-11-26T21:52:12Z"
+    },
+    {
+      "name": "Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-11-26T21:52:12Z",
+      "completed_at": "2026-11-26T21:52:16Z"
+    },
+    {
+      "name": "Run android-actions/setup-android@v3",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6,
+      "started_at": "2026-11-26T21:52:16Z",
+      "completed_at": "2026-11-26T21:52:23Z"
+    },
+    {
+      "name": "Install the pinned Android SDK and NDK",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7,
+      "started_at": "2026-11-26T21:52:23Z",
+      "completed_at": "2026-11-26T21:52:42Z"
+    },
+    {
+      "name": "Install pinned Rust and Android standard library",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-11-26T21:52:42Z",
+      "completed_at": "2026-11-26T21:52:52Z"
+    },
+    {
+      "name": "Normalize framework source timestamps",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9,
+      "started_at": "2026-11-26T21:52:52Z",
+      "completed_at": "2026-11-26T21:52:54Z"
+    },
+    {
+      "name": "Run actions/cache/restore@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-11-26T21:52:54Z",
+      "completed_at": "2026-11-26T21:53:25Z"
+    },
+    {
+      "name": "Verify portable Android completion and media contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11,
+      "started_at": "2026-11-26T21:53:25Z",
+      "completed_at": "2026-11-26T21:53:30Z"
+    },
+    {
+      "name": "Build native application and HOME launcher APKs",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 12,
+      "started_at": "2026-11-26T21:53:30Z",
+      "completed_at": "2026-11-26T21:57:01Z"
+    },
+    {
+      "name": "Check the Android embedding library",
+      "status": "completed",
+      "conclusion": "skipped",
+      "number": 13,
+      "started_at": "2026-11-26T21:57:01Z",
+      "completed_at": "2026-11-26T21:57:01Z"
+    },
+    {
+      "name": "Cache the successfully built native packages",
+      "status": "completed",
+      "conclusion": "skipped",
+      "number": 14,
+      "started_at": "2026-11-26T21:57:01Z",
+      "completed_at": "2026-11-26T21:57:01Z"
+    },
+    {
+      "name": "Verify merged manifests, JNI entry and native alignment",
+      "status": "completed",
+      "conclusion": "skipped",
+      "number": 15,
+      "started_at": "2026-11-26T21:57:01Z",
+      "completed_at": "2026-11-26T21:57:01Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "skipped",
+      "number": 16,
+      "started_at": "2026-11-26T21:57:01Z",
+      "completed_at": "2026-11-26T21:57:01Z"
+    },
+    {
+      "name": "Post Run gradle/actions/setup-gradle@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 30,
+      "started_at": "2026-11-26T21:57:01Z",
+      "completed_at": "2026-11-26T21:57:01Z"
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 31,
+      "started_at": "2026-11-26T21:57:01Z",
+      "completed_at": "2026-11-26T21:57:02Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 32,
+      "started_at": "2026-11-26T21:57:02Z",
+      "completed_at": "2026-11-26T21:57:02Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 33,
+      "started_at": "2026-11-26T21:57:02Z",
+      "completed_at": "2026-11-26T21:57:02Z"
+    }
+  ],
+  "finalized": true
+}

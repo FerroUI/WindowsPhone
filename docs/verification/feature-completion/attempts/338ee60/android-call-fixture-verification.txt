@@ -1,0 +1,1 @@
+Real CallLog fixture passed: count 3→1, two captured NEW flags only, IS_READ unchanged, stale token rejected, three owned rows removed.

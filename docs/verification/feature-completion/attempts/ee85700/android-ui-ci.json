@@ -1,0 +1,1606 @@
+{
+  "schema": 1,
+  "observed_at_utc": "2026-11-26T22:01:59.916339+00:00",
+  "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+  "tree_sha": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+  "framework_pin": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "checkout": {
+    "sha": "099fe673072c303205168b220e7183151a486840",
+    "tree": "5c4ce3f99e0377e7a43e08f3f41a11e284e52e9e",
+    "parents": [
+      "6fbd96563087756a7d4afd4be3451a3fb1178549",
+      "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b"
+    ],
+    "actual_checkout_log_confirmed": true,
+    "head_tree_identical": true,
+    "artifact_head_file_confirmed": true
+  },
+  "run": {
+    "id": 45900992417,
+    "name": "Verify Android mounted UI",
+    "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+    "event": "pull_request",
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-26T21:51:47Z",
+    "updated_at": "2026-11-26T22:00:26Z",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45900992417"
+  },
+  "job": {
+    "id": 140186431603,
+    "run_id": 45900992417,
+    "workflow_name": "Verify Android mounted UI",
+    "head_branch": "codex/feature-completion-6fbd965",
+    "run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45900992417",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOV33P9M8AAAAgo8Mwcw",
+    "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b",
+    "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/jobs/140186431603",
+    "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45900992417/job/140186431603",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-26T21:51:48Z",
+    "started_at": "2026-11-26T21:51:51Z",
+    "completed_at": "2026-11-26T22:00:26Z",
+    "name": "android-ui",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-26T21:51:52Z",
+        "completed_at": "2026-11-26T21:51:55Z"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-26T21:51:55Z",
+        "completed_at": "2026-11-26T21:52:14Z"
+      },
+      {
+        "name": "Read framework tool pins",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-26T21:52:14Z",
+        "completed_at": "2026-11-26T21:52:14Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-26T21:52:14Z",
+        "completed_at": "2026-11-26T21:52:14Z"
+      },
+      {
+        "name": "Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-26T21:52:14Z",
+        "completed_at": "2026-11-26T21:52:24Z"
+      },
+      {
+        "name": "Run android-actions/setup-android@v3",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-26T21:52:24Z",
+        "completed_at": "2026-11-26T21:52:30Z"
+      },
+      {
+        "name": "Install the pinned Android tools and API 36 x86_64 image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-26T21:52:30Z",
+        "completed_at": "2026-11-26T21:53:25Z"
+      },
+      {
+        "name": "Enable KVM for this ephemeral runner",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-26T21:53:25Z",
+        "completed_at": "2026-11-26T21:53:25Z"
+      },
+      {
+        "name": "Install pinned Rust and the Android emulator target",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-26T21:53:25Z",
+        "completed_at": "2026-11-26T21:53:34Z"
+      },
+      {
+        "name": "Normalize framework source timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-26T21:53:34Z",
+        "completed_at": "2026-11-26T21:53:35Z"
+      },
+      {
+        "name": "Run actions/cache/restore@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-26T21:53:35Z",
+        "completed_at": "2026-11-26T21:54:14Z"
+      },
+      {
+        "name": "Reset per-run observation artifacts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-26T21:54:14Z",
+        "completed_at": "2026-11-26T21:54:15Z"
+      },
+      {
+        "name": "Verify package and mounted-layout contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-26T21:54:15Z",
+        "completed_at": "2026-11-26T21:54:21Z"
+      },
+      {
+        "name": "Build x86_64 application and launcher APKs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-26T21:54:21Z",
+        "completed_at": "2026-11-26T21:56:55Z"
+      },
+      {
+        "name": "Save successfully built native outputs before runtime verification",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-26T21:56:55Z",
+        "completed_at": "2026-11-26T21:57:11Z"
+      },
+      {
+        "name": "Verify the actual emulator packages",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-26T21:57:11Z",
+        "completed_at": "2026-11-26T21:57:13Z"
+      },
+      {
+        "name": "Verify native geometry, HOME, cold-Start unread badge, notification bootstrap/revocation and carrier call ownership",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-26T21:57:13Z",
+        "completed_at": "2026-11-26T22:00:10Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-26T22:00:10Z",
+        "completed_at": "2026-11-26T22:00:19Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-11-26T22:00:19Z",
+        "completed_at": "2026-11-26T22:00:22Z"
+      },
+      {
+        "name": "Post Run gradle/actions/setup-gradle@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 36,
+        "started_at": "2026-11-26T22:00:22Z",
+        "completed_at": "2026-11-26T22:00:22Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 37,
+        "started_at": "2026-11-26T22:00:22Z",
+        "completed_at": "2026-11-26T22:00:22Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 38,
+        "started_at": "2026-11-26T22:00:22Z",
+        "completed_at": "2026-11-26T22:00:22Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 39,
+        "started_at": "2026-11-26T22:00:22Z",
+        "completed_at": "2026-11-26T22:00:22Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-runs/140186431603",
+    "labels": [
+      "ubuntu-24.04"
+    ],
+    "runner_id": 1000002330,
+    "runner_name": "GitHub Actions 1000002330",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "run_payload": {
+    "path": "/tmp/windowsphone-tooling/android-run-ee85700.json",
+    "bytes": 14849,
+    "sha256": "0b5b5cf85ffdce8e3ac549b6447b7c9e33f3daf2fa96f621073d1475f8982f1b"
+  },
+  "job_payload": {
+    "path": "/tmp/windowsphone-tooling/android-jobs-ee85700.json",
+    "bytes": 7380,
+    "sha256": "220e0a5ef402fee902d4094f2a0c26fed28356c1873fdd36983085dc93e7921f"
+  },
+  "full_decoded_job_log": {
+    "path": "/tmp/windowsphone-tooling/android-log-ee85700.log",
+    "bytes": 178257,
+    "sha256": "5df86c0b1ba002c0986211fc07b93c4fa0110412adbb0df7c8ad3066ba13df4a"
+  },
+  "checkout_log_proof": [
+    "2026-11-26T21:51:58.6984410Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +099fe673072c303205168b220e7183151a486840:refs/remotes/pull/5/merge",
+    "2026-11-26T21:52:14.0509385Z Submodule path 'FerroUI': checked out 'ec86b9c0204b8dee243eb300135cb0834f0a84b3'",
+    "2026-11-26T21:52:14.1470837Z 099fe673072c303205168b220e7183151a486840",
+    "2026-11-26T21:53:35.4767891Z   key: phone-android-ui-x86-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-099fe673072c303205168b220e7183151a486840",
+    "2026-11-26T21:56:55.1021045Z   key: phone-android-ui-x86-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-099fe673072c303205168b220e7183151a486840",
+    "2026-11-26T21:57:11.4976045Z Cache saved with key: phone-android-ui-x86-v1-Linux-1.99.0-ec86b9c0204b8dee243eb300135cb0834f0a84b3-8ea21eb4866a8066f38640582d18ba1f05c9570e49061a967dca870ecdd321f9-099fe673072c303205168b220e7183151a486840"
+  ],
+  "artifacts": [
+    {
+      "id": 15156680756,
+      "name": "phone-android-x86_64-debug",
+      "size_in_bytes": 84491202,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15156680756",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15156680756/zip",
+      "expired": false,
+      "created_at": "2026-11-26T22:00:19Z",
+      "expires_at": "2026-11-29T22:00:11Z",
+      "updated_at": "2026-11-26T22:00:19Z",
+      "digest": "sha256:2489ca5cf96cdcef1c1c873552ac3cb7a13ede8595bdba64fa635c80bbb8dfd2",
+      "workflow_run": {
+        "id": 45900992417,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b"
+      },
+      "downloaded": false,
+      "official_digest_matched_download": false
+    },
+    {
+      "id": 15156566584,
+      "name": "phone-android-x86_64-ui",
+      "size_in_bytes": 5477841,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15156566584",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15156566584/zip",
+      "expired": false,
+      "created_at": "2026-11-26T22:00:22Z",
+      "expires_at": "2026-11-29T22:00:19Z",
+      "updated_at": "2026-11-26T22:00:22Z",
+      "digest": "sha256:ce4b9f4c0d9559d465a0318a3d016252921dcfe9e5db29311043729ed223a6f7",
+      "workflow_run": {
+        "id": 45900992417,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/feature-completion-6fbd965",
+        "head_sha": "ee85700f905a5dc5644bfe58f8c0dc5edc44fd1b"
+      },
+      "downloaded": true,
+      "archive": {
+        "path": "/tmp/phone-android-ui-ee85700.zip",
+        "bytes": 5477841,
+        "sha256": "ce4b9f4c0d9559d465a0318a3d016252921dcfe9e5db29311043729ed223a6f7"
+      },
+      "extracted_path": "/tmp/phone-android-ui-ee85700",
+      "official_digest_matched_download": true
+    }
+  ],
+  "artifact_files": [
+    {
+      "path": "/tmp/phone-android-ui-ee85700/DIALER-after.txt",
+      "bytes": 26,
+      "sha256": "f71c5270f4eafa717a8a7dcb5ad8adb55a78e4ee990187980af83953f3746fbc"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/DIALER-before.txt",
+      "bytes": 26,
+      "sha256": "f71c5270f4eafa717a8a7dcb5ad8adb55a78e4ee990187980af83953f3746fbc"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/DIALER-restore-add.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/DIALER-restore-remove.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/DIALER-select.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/DIALER-selected.txt",
+      "bytes": 34,
+      "sha256": "24ab1edb76e054bd2ad3e303782f971f9f71a03a8042b590b9514981edc74099"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/SMS-after.txt",
+      "bytes": 34,
+      "sha256": "b60e00051573bf4683b72920768b86df0e954aa055a791e8df2c7b58b22f2d98"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/SMS-before.txt",
+      "bytes": 34,
+      "sha256": "b60e00051573bf4683b72920768b86df0e954aa055a791e8df2c7b58b22f2d98"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/SMS-restore-add.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/SMS-restore-remove.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/SMS-select.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/SMS-selected.txt",
+      "bytes": 34,
+      "sha256": "24ab1edb76e054bd2ad3e303782f971f9f71a03a8042b590b9514981edc74099"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/acceleration.txt",
+      "bytes": 57,
+      "sha256": "4484bdd6d5e16c817d4dfc5cda05334055c86428c861c1d22e8cf67ce42fee49"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/activities.txt",
+      "bytes": 25773,
+      "sha256": "b3783ee0450f453c98434bbcfe5ab2dc1cef5c9e4f663471c8465eb818c526d0"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-back.json",
+      "bytes": 7809,
+      "sha256": "a22f8ff203077db3ea46b09e6a0ccbd3d696af1c8ee779e101e2cd5b89d2dc66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-back.png",
+      "bytes": 452803,
+      "sha256": "df26a486b84aebfd14594c2e901aa6f8d896a1fbfe85e2cd2c1d46c5a50fdf22"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-home-restored-activation.txt",
+      "bytes": 383,
+      "sha256": "b41a349fa2f772796b1402100b181b5839e0899ee1303e893f752aa8fb1f40c8"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-home-restored-window.txt",
+      "bytes": 53218,
+      "sha256": "5b14085a477ccaba84cff525b6fd273af809b7f063f62d5977ac7c57692222b8"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-home-restored.json",
+      "bytes": 7815,
+      "sha256": "bee20ac451aca756fdfe4333c6838cfb94d22440ba252f8ab18ea1a8adecaba7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-home-restored.png",
+      "bytes": 452803,
+      "sha256": "df26a486b84aebfd14594c2e901aa6f8d896a1fbfe85e2cd2c1d46c5a50fdf22"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-start-activation.txt",
+      "bytes": 278,
+      "sha256": "d76f9f95eb0ae97500e5455392537f8586aab8d9654784bdc5ac8b072b56c584"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-start-window.txt",
+      "bytes": 53218,
+      "sha256": "a595fea5a5557898fd96d10b07f1bf2a20aa6b5664c8b72e84b1049c7994063f"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-start.json",
+      "bytes": 7790,
+      "sha256": "9e3eee0333bb802abadb45bedfb8bf81af42812edcf46a66eb5fff3e90c17ed2"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-start.png",
+      "bytes": 426910,
+      "sha256": "d253f3ae6162f47cf2b5ad4c8ea8e075d6eacba6e69da6c09bd68f3a9e2a05ca"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-wallet-activation.txt",
+      "bytes": 377,
+      "sha256": "b367f0348f3e8d9f7b32a1a16c754174d6cf9c02942b0979c5a83089e91047a6"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-wallet-reopen.txt",
+      "bytes": 376,
+      "sha256": "fa40e6c1b2ea432f5bbd9573bd4fef1c84f124ea94e701ef11d9dc0648a5729c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-wallet-window.txt",
+      "bytes": 53218,
+      "sha256": "48d804d7b13a2a1a61fb444d3e294293682663cf9a62c78d7d422005c1ed806a"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-wallet.json",
+      "bytes": 7713,
+      "sha256": "c1e5f01e7255fd4f909d5c6c48bc6db076add228ce750d6e2c9af78568cd871a"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/app-wallet.png",
+      "bytes": 94530,
+      "sha256": "591e17e0b92a4793c2a39c3cb42f50a21dbcbe88ed008a09fa4be8116f34a4e2"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/avd-config.ini",
+      "bytes": 3524,
+      "sha256": "9e3e99f0936d5bc86835c05795033bb91e24658b897c5fe5571c42ad589b5ad6"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/avd-create.txt",
+      "bytes": 994,
+      "sha256": "45edc589e36ca78a3ea1c55794a34956e17c22ed61afa496963bc56a10daa358"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/bootstrap-current.json",
+      "bytes": 8395,
+      "sha256": "0d6a792c684b71cb7414b75b359afbb6574cdecd85e9ac9e9db32b7d0be287b1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/bootstrap-last-error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-active-observations.jsonl",
+      "bytes": 31858,
+      "sha256": "61fa7b079ccee46f58714517eaadd3e222a3888c51caddc992e78389cfa24225"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-answer-input.txt",
+      "bytes": 8,
+      "sha256": "d64fc58e8d92a390e04a94d582513b1faf237cbc71154f5a603e7453ce173501"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-before-answer-window.txt",
+      "bytes": 56186,
+      "sha256": "a2ac2648174a18aae140251f3873c038423e9e1494688b1f759c4d01da4dff2a"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-ended-observations.jsonl",
+      "bytes": 23306,
+      "sha256": "900ef647d19935d4b3aab7479524213c48f204ef0f706394445986dec13bb574"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture-current.json",
+      "bytes": 2662,
+      "sha256": "cd54f3b7884117aba79a4bde81b81a33fa502d7922c55bbb4d4d9c508f77654b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture-last-error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture-observations.jsonl",
+      "bytes": 2739,
+      "sha256": "d83dcab83fc390cd35a7a9d9cdc1a7811d4d96af4ebca4ca3753acd7dac95490"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture-request.json",
+      "bytes": 166,
+      "sha256": "59639b8dbcf5ec7a61f63a5565a81b0edcfda8433d465d37b317d79b1ad1b231"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture-verification.txt",
+      "bytes": 138,
+      "sha256": "668c4a6d6bf754a4c12ac15dc5b7db42e1f1c67d95137bbdf6cf0342bcf28e43"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture.json",
+      "bytes": 2662,
+      "sha256": "cd54f3b7884117aba79a4bde81b81a33fa502d7922c55bbb4d4d9c508f77654b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-logcat-exit.txt",
+      "bytes": 4,
+      "sha256": "9d9b18720961e9b4689fd763b85e7b6f36160ccd3a8a1c9ddc5103bb0f66c396"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-logcat-limits.txt",
+      "bytes": 70,
+      "sha256": "2b1624c38c05ee9b60233ea5f98c9c3841aadc37602cc248b36a654ae91975e7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-logcat.txt",
+      "bytes": 513045,
+      "sha256": "6132c2b758b3c6948a549f6dd8928670422db7e19ce5814c7a9c60a299b7c0d5"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-ringing-observations.jsonl",
+      "bytes": 31232,
+      "sha256": "0b578d3a53865e2cf1277d88dfd38f86b6f8a00e41e5149ec63fe059a29c3247"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-tree.xml",
+      "bytes": 3795,
+      "sha256": "8793ea0c0ed727d0354f556988993bf8f4cc1d96c250af776793000ef0bb643d"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/call-uiautomator.txt",
+      "bytes": 54,
+      "sha256": "b4dd4e1b2171aff46c2f9664b2433ace7f0fe091def768abb931019539fdfd82"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/crash.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/current.json",
+      "bytes": 7870,
+      "sha256": "72fd9b01045aa76361ba9dd953641541482ca02058a634d61565d63b241581ba"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-action-center-revoked.png",
+      "bytes": 77490,
+      "sha256": "7670df42b33de6d0d4c34f162dbce15acd8bfc9feac91c1c5dc966e27c9f00ea"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-action-center.png",
+      "bytes": 89808,
+      "sha256": "e19d7e578361ca2761e42eb9fa77139ade548ed0c93c55cd2d0a4f150a67dee7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-active-call.png",
+      "bytes": 46866,
+      "sha256": "c1029eb27955d250bab71c8de1a49770e22f04c937e44bce5128423866846116"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-active.json",
+      "bytes": 7977,
+      "sha256": "989e7ddf8ca95e084287f9f472dc5aa300dc48c790737d8abed70155441d331c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-after-answer.json",
+      "bytes": 7950,
+      "sha256": "f8d1b5790e960dee33c93642a5dda84a061570957a75e83c83fb4dfb4e8faafd"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-baseline-activation.txt",
+      "bytes": 296,
+      "sha256": "92e3267fd0640d5c1f8280333396d9d576c8f1c6baa08ff786dcd7107d5547e4"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-baseline.json",
+      "bytes": 6430,
+      "sha256": "a7ebaba494eb6fc27064208de3e8b64a2ff443bc21d4e762b3e078dbae339e5c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-current.json",
+      "bytes": 7663,
+      "sha256": "5bd53438fb00d8f6653046da3e1ce42d79c24f379d6912f3cfca40708bd2fd78"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-ended-call.png",
+      "bytes": 24702,
+      "sha256": "d57876d3a898d892babcef1b3e10f5bc5017931dff29b7e28729d99bc9b80a6b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-ended.json",
+      "bytes": 7663,
+      "sha256": "5bd53438fb00d8f6653046da3e1ce42d79c24f379d6912f3cfca40708bd2fd78"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-last-error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-messaging.png",
+      "bytes": 75404,
+      "sha256": "71de606a95bd1a60635769b8ff9e3d16af24d6ef7705976fdbf041ccba05e796"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-admitted.json",
+      "bytes": 8762,
+      "sha256": "1835b375739ebba55e0cbce28b7832b0da11f6117ba8cb3d635f8a7c093c09ef"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-revoked.json",
+      "bytes": 8459,
+      "sha256": "9b785ba83ccca418053c1055b5e943fb76fa58ca744386c056181091eacfa137"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-scroll-0-error.txt",
+      "bytes": 69,
+      "sha256": "4b2209f0901f7417a0cf8b3bfd9d030c0415b4fcf5f08f94797b39523e5a73b2"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-scroll-0-input.txt",
+      "bytes": 13,
+      "sha256": "1db3264bf3ec9ff152bb26e7548d226bad5afc25615d91ec4334ebae867bdcc5"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-scroll-0.json",
+      "bytes": 9261,
+      "sha256": "524d945a87d3c344768970fcda7ac867cb54b50a64df9ddf5875e8ced407a463"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-scroll-0.png",
+      "bytes": 79749,
+      "sha256": "f6d96e4a1e52a5648a72ab05f478b67b48fa1897de65a376578a5a539815ed86"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-notifications-visible.json",
+      "bytes": 9555,
+      "sha256": "de5c07a7e52cf7f6b39bceeb59304478a8cd7e2a4dbcb93053781222b55ecf90"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-permission-grants.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-ringing.json",
+      "bytes": 7950,
+      "sha256": "af9f3349490ebf59833bdb6742c523b45089c6bbb5b4883f31daf504349d6844"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-ringing.png",
+      "bytes": 46448,
+      "sha256": "f1ae0eebe9ec4763a1ff90c03df29b5a10def05d9b71f34932cb03b0eecf6690"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-roles.json",
+      "bytes": 6941,
+      "sha256": "3c5d8bcf2afb635bc09d47ce430971c2a54494852f278905f87eb10fdc1e9e95"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-sms-activation.txt",
+      "bytes": 394,
+      "sha256": "8060a2fe99483ed42cf30b5dd33e7d0270b6f1f4dc4a0fa769877f7423723756"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-sms-ui.json",
+      "bytes": 8306,
+      "sha256": "cfa1299bceb00e4c9a34c3c022d46f0160b764c729104c9c6d6a245824b2c16a"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-sms.json",
+      "bytes": 7664,
+      "sha256": "9c76b7ffccad6037c1403827395a09d940f32033084c42dc3aca29a94c7b9e1c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-start-restored.json",
+      "bytes": 8395,
+      "sha256": "0d6a792c684b71cb7414b75b359afbb6574cdecd85e9ac9e9db32b7d0be287b1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-start-unread.json",
+      "bytes": 8395,
+      "sha256": "d69b674d840a31e4dbc729ba03b69b22bcb154185a476f4f9717ba04ef492efc"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device-start-unread.png",
+      "bytes": 427440,
+      "sha256": "7d85820b142d7572b9fe6e68f3406899cb1acd3ee4903e9356d4638a3dc7f494"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/device.json",
+      "bytes": 66,
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/display-density.txt",
+      "bytes": 22,
+      "sha256": "d4282d3761f8524b0cb8905313ff65090c77b3b72f366c9676fdaf8fb2b4ad4c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/display-size.txt",
+      "bytes": 24,
+      "sha256": "0b51346d0204e745ac1baddf51d9e93d9ae8a1e3ac0a73ccb2abef77cfd8ff1d"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/emulator-version.txt",
+      "bytes": 185,
+      "sha256": "3ff97565dc43f47ef8751d5e1f25224e7f12a6283ebd43cd574071a26064e6e1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/emulator.log",
+      "bytes": 10307,
+      "sha256": "27b507ae025fa16bf3295b619840d2a44b5415233c7caa7ec7ea1ca2ba252c6f"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/head.txt",
+      "bytes": 41,
+      "sha256": "743a7dc7cdf59e3f8288bd5481e1d40872a9088c8e58ca863cd3f9fdea65b599"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-after.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-before.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/activities.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/activities.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/activities.txt",
+      "bytes": 96,
+      "sha256": "ab87ab64c5401d851287d2450c882b04345a27a0bcfaf64ba5e4cb8e6d30006b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/device-provisioned.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/device-provisioned.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/device-provisioned.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/holders-after.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/holders-after.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/holders-after.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/holders.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/holders.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/holders.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/observed-at.txt",
+      "bytes": 21,
+      "sha256": "b767bc3f9593b3187a06e4e92948e7f5e91c01af7605b073bdbe0ea9bfa15db4"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/resolved.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/resolved.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/resolved.txt",
+      "bytes": 61,
+      "sha256": "51cf72a94a99897ea4cc45cd0e578f1e729eb4ea2bea5f9f9a250be0e59c142d"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user-after.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user-after.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user-after.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user-setup-complete.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user-setup-complete.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user-setup-complete.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/1/user.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/activities.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/activities.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/activities.txt",
+      "bytes": 96,
+      "sha256": "ab87ab64c5401d851287d2450c882b04345a27a0bcfaf64ba5e4cb8e6d30006b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/device-provisioned.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/device-provisioned.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/device-provisioned.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/holders-after.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/holders-after.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/holders-after.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/holders.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/holders.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/holders.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/observed-at.txt",
+      "bytes": 21,
+      "sha256": "3ecbd0a3b7983cefb926ae58d4c6b5172fc5e60161155dc2d955b36297aa83ba"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/resolved.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/resolved.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/resolved.txt",
+      "bytes": 61,
+      "sha256": "51cf72a94a99897ea4cc45cd0e578f1e729eb4ea2bea5f9f9a250be0e59c142d"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user-after.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user-after.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user-after.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user-setup-complete.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user-setup-complete.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user-setup-complete.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user.error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness/2/user.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness-accepted.txt",
+      "bytes": 4,
+      "sha256": "a6e2b7a040683432de03a18fd8a1939a2fdf82585b364bfc874bdd4095c4cae1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-readiness-error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-restore-add.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-restore-remove.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-restored.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-back-start-window.txt",
+      "bytes": 53438,
+      "sha256": "e7a802292ccd732da98d2c92ee0abacc7dd1f3ff5663e8f5457fc0020d50d552"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-back-start.json",
+      "bytes": 7870,
+      "sha256": "72fd9b01045aa76361ba9dd953641541482ca02058a634d61565d63b241581ba"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-back-start.png",
+      "bytes": 324618,
+      "sha256": "dc8f371c8c7f9315c3e24184fce1bae5730fd05bfdcc9d31e49e79860228bbe3"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-returned-window.txt",
+      "bytes": 53438,
+      "sha256": "1a36cb6c94091c1f407deee5a8d7038f7ef0fb811ca25b87924c759f2230414b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-returned.json",
+      "bytes": 7894,
+      "sha256": "8948ba2b72755c263f728c566aacdbb5a21211b18185f01c0b0430dc28787de4"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-returned.png",
+      "bytes": 324618,
+      "sha256": "dc8f371c8c7f9315c3e24184fce1bae5730fd05bfdcc9d31e49e79860228bbe3"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-start-activation.txt",
+      "bytes": 232,
+      "sha256": "acc9df0f74de7949724f5d3651b1b4d328a35c82ebbfe89dca83f5c10ec4dbb0"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-start-window.txt",
+      "bytes": 53392,
+      "sha256": "4679c1017a0cefda6d7d5733bd4864e84d19b42c727cf41156e6d7658926c9a0"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-start.json",
+      "bytes": 7869,
+      "sha256": "a00fad84b0d571e65673224e65634c10dced4f72bc9c4d826c968ed14eeda04c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-start.png",
+      "bytes": 324625,
+      "sha256": "cbb07060a288a77c74b87ec473c402252cea9537f994fff0f97024a344892757"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-wallet-activation.txt",
+      "bytes": 394,
+      "sha256": "c32a1b589b30208c5930c18f2769afce5cac000da3ef9572fc20c75bf3dfc9c4"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-wallet-window.txt",
+      "bytes": 53392,
+      "sha256": "22f902ac8ad5ce72b354d5080c11c7d308b8d36c61676077b4f3826591cf1b4c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-wallet.json",
+      "bytes": 7792,
+      "sha256": "2f6ae1bce4edb3efbeb4f99ea7d34fb34dcfccf68046c31e394c70ba8143cf88"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-role-wallet.png",
+      "bytes": 93761,
+      "sha256": "1df130237d124a3bcca29dee0d44c86a7e83027463252906bf18bc7517880575"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-select.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/home-selected.txt",
+      "bytes": 34,
+      "sha256": "24ab1edb76e054bd2ad3e303782f971f9f71a03a8042b590b9514981edc74099"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/last-observation-error.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-back.json",
+      "bytes": 7874,
+      "sha256": "18977cbf20e816cb9eacfa45ec0eebfa7d1b842207448f5de71f80258874379f"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-back.png",
+      "bytes": 511447,
+      "sha256": "0be13de4e67d3e9531ca61b49fd935da473a7209798ee9b9086f5e8e1bfbce62"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-home-restored-activation.txt",
+      "bytes": 401,
+      "sha256": "f0b3809f7a8c61f73b68ac179e135c8d75441b38dc0668b73386bc728d13e7f9"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-home-restored-window.txt",
+      "bytes": 53446,
+      "sha256": "67f6ca91120b573b27c11ad635d271bae75f9ff70ead1cb8cbc61442731b4fbe"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-home-restored.json",
+      "bytes": 7856,
+      "sha256": "afadefae42dbec281b4180b01a8875d35bae984db4df00c6d5d5a9ba16e45456"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-home-restored.png",
+      "bytes": 509542,
+      "sha256": "0a6225c642f183fed37a6efb91031ad2d8fb8cb6260613f99081ba7a8c09e076"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-start-activation.txt",
+      "bytes": 296,
+      "sha256": "cc4d9c33e657cac513b97bf064f9a17dd39112e97646d73f7d32246d42e32ba9"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-start-window.txt",
+      "bytes": 53446,
+      "sha256": "3782d1f8e79defb44883261e0ff9ee4891f27d5ba55878f8313dbd4799cea18b"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-start.json",
+      "bytes": 7855,
+      "sha256": "4df2aa799c6d6319c0b4335c24caa27ea569e8a706ccc9d83e45b96002f9993f"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-start.png",
+      "bytes": 510351,
+      "sha256": "86d545de66117a51f07157d668ca5f806a79ac95d39f3e9ec5f2589513e168a9"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-wallet-activation.txt",
+      "bytes": 394,
+      "sha256": "62d4c21a1f757790120e96283d066a808b6f255151a979f533d17aed32bd217c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-wallet-reopen.txt",
+      "bytes": 395,
+      "sha256": "b1aa12b338bf6ff8876754d7d18669b6402d4de96adc4c742c97c11088bc0451"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-wallet-window.txt",
+      "bytes": 53445,
+      "sha256": "dfb520bc16e31d8c0c54426ec2d52406a47e9e81f0257a3eba12be07eb3f7963"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-wallet.json",
+      "bytes": 7778,
+      "sha256": "e53611d0e3b378c3da5c199bb7b3efefb658ac9f79223e3b93f2e0d21d39a72c"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/launcher-wallet.png",
+      "bytes": 93818,
+      "sha256": "02b97416a53d2f86d4063195d16d37c392996df373a2989066e59f7ff13279e8"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-after.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-before.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-current-raw.txt",
+      "bytes": 213,
+      "sha256": "a05da38c9dc88cf643265529f5a9dbcf1ed967c04068e7225d83ebaacb6aec51"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-grant-observations.jsonl",
+      "bytes": 664,
+      "sha256": "18c482be50bb1a0d00dbea4c89c87d2289ee227fbc9a021da421ef6219b21149"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-grant-raw.txt",
+      "bytes": 291,
+      "sha256": "03a81679b1b888ef70df9a8ebc29985553e44a65cba30f04e989fed57677f971"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-grant.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-granted.txt",
+      "bytes": 291,
+      "sha256": "05dffa952dda49ff8991906359a7dc12fbaadb3ed1ac1370b29059d045450844"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-observed.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-restore-observations.jsonl",
+      "bytes": 291,
+      "sha256": "2904c85ef3c8fd0b683fcd7ff5027c5f98c23d8ce7c7528f183b3d02f23812e3"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-restore-raw.txt",
+      "bytes": 213,
+      "sha256": "a05da38c9dc88cf643265529f5a9dbcf1ed967c04068e7225d83ebaacb6aec51"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-restore.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-revoke-observations.jsonl",
+      "bytes": 664,
+      "sha256": "255628cbfcec0b8815d6006fb31523febc33dfcaece01365888c77628e20444e"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-revoke-raw.txt",
+      "bytes": 213,
+      "sha256": "a05da38c9dc88cf643265529f5a9dbcf1ed967c04068e7225d83ebaacb6aec51"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-revoke.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/listener-revoked.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/logcat.txt",
+      "bytes": 3999855,
+      "sha256": "1184d48261c66f3837985b4f1e68be3b0deaae0f8a03a9264a74236a3aa1d356"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-active-calls.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-after-answer-calls.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-before-call.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-call-end.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-call.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-ringing-calls.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/modem-sms.txt",
+      "bytes": 4,
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/notification-help-exit.txt",
+      "bytes": 4,
+      "sha256": "ce8bafb38615aeb5d44ebbabe78ec14ac35a5de87bdc5ad5ea82a72656024ce4"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/notification-help.txt",
+      "bytes": 1086,
+      "sha256": "b0d8d783cb8dea5d9e876356bc83009c66c64b70d14b586003dfc9591bbf8561"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/notification-post-help.txt",
+      "bytes": 645,
+      "sha256": "686f56e59dccef65e770ea5d7d6fb5ce95b56b114c1c981687ee0340044ff0ca"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/notification-post.txt",
+      "bytes": 146,
+      "sha256": "bda8e99099d4d3ff881b6c7badd33f5d1c438fd5304f45412c797675315e10db"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/phase.txt",
+      "bytes": 164,
+      "sha256": "411cfe9b9809bcc44ea1e6f234c8dd70fd1e9fd1cd6c3ac441c270e78d0806b9"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/result.json",
+      "bytes": 2007,
+      "sha256": "3c3027366022c947665e92a1fa5aa174dc721ad97b7e809ad0a75c037c19098e"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/user-after.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/user-before.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "/tmp/phone-android-ui-ee85700/windows.txt",
+      "bytes": 52131,
+      "sha256": "2fa30ba04c050b9ab4d8cd2f6ab295fa72306f60f0653db0f6c4f2a591030760"
+    }
+  ],
+  "pending": [],
+  "tests": {
+    "pure_java_contract_assertions": 126,
+    "pinned_aosp_sources_verified": 24,
+    "python_suites": [
+      {
+        "suite": "package",
+        "passed": 8
+      },
+      {
+        "suite": "home",
+        "passed": 9
+      },
+      {
+        "suite": "ui",
+        "passed": 8
+      },
+      {
+        "suite": "device",
+        "passed": 3
+      },
+      {
+        "suite": "calls",
+        "passed": 8
+      },
+      {
+        "suite": "bootstrap",
+        "passed": 19
+      }
+    ],
+    "python_total": 55,
+    "phone_android_rust_tests_passed": 7
+  },
+  "runtime_result": {
+    "result": "passed",
+    "exit_code": 0,
+    "phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+    "target": {
+      "platform": "android",
+      "api": 36,
+      "abi": "x86_64",
+      "gpu": "software"
+    },
+    "expected_routes": [
+      "Start",
+      "org.ferroui.wallet",
+      "Start"
+    ],
+    "expected_variants": [
+      "app",
+      "launcher"
+    ],
+    "captures": [
+      "app-back.png",
+      "app-home-restored.png",
+      "app-start.png",
+      "app-wallet.png",
+      "device-action-center-revoked.png",
+      "device-action-center.png",
+      "device-active-call.png",
+      "device-ended-call.png",
+      "device-messaging.png",
+      "device-notifications-scroll-0.png",
+      "device-ringing.png",
+      "device-start-unread.png",
+      "home-role-back-start.png",
+      "home-role-returned.png",
+      "home-role-start.png",
+      "home-role-wallet.png",
+      "launcher-back.png",
+      "launcher-home-restored.png",
+      "launcher-start.png",
+      "launcher-wallet.png"
+    ],
+    "observations": [
+      "app-back.json",
+      "app-home-restored.json",
+      "app-start.json",
+      "app-wallet.json",
+      "bootstrap-current.json",
+      "call-fixture-current.json",
+      "call-fixture-request.json",
+      "call-fixture.json",
+      "device-active.json",
+      "device-after-answer.json",
+      "device-baseline.json",
+      "device-current.json",
+      "device-ended.json",
+      "device-notifications-admitted.json",
+      "device-notifications-revoked.json",
+      "device-notifications-scroll-0.json",
+      "device-notifications-visible.json",
+      "device-ringing.json",
+      "device-roles.json",
+      "device-sms-ui.json",
+      "device-sms.json",
+      "device-start-restored.json",
+      "device-start-unread.json",
+      "home-role-back-start.json",
+      "home-role-returned.json",
+      "home-role-start.json",
+      "home-role-wallet.json",
+      "launcher-back.json",
+      "launcher-home-restored.json",
+      "launcher-start.json",
+      "launcher-wallet.json"
+    ]
+  },
+  "call_fixture": {
+    "source_file": {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture.json",
+      "bytes": 2662,
+      "sha256": "cd54f3b7884117aba79a4bde81b81a33fa502d7922c55bbb4d4d9c508f77654b"
+    },
+    "request_file": {
+      "path": "/tmp/phone-android-ui-ee85700/call-fixture-request.json",
+      "bytes": 166,
+      "sha256": "59639b8dbcf5ec7a61f63a5565a81b0edcfda8433d465d37b317d79b1ad1b231"
+    },
+    "independent_local_artifact_verifier_passed": true,
+    "verifier_result": "Real CallLog fixture passed: count 3\u21921, two captured NEW flags only, IS_READ unchanged, stale token rejected, three owned rows removed.",
+    "kind": "real_calllog_provider_fixture",
+    "nonce": "27cd23522757235cc4348fc25a0ab57b",
+    "guards": {
+      "debug": true,
+      "emulator": true,
+      "foreground": true,
+      "dialer": true,
+      "writable": true,
+      "nonce_marker": true,
+      "hardware": "ranchu",
+      "product": "sdk_gphone64_x86_64",
+      "abis": [
+        "x86_64",
+        "arm64-v8a"
+      ]
+    },
+    "history_limit": 1,
+    "history_row": [
+      {
+        "id": "call-log:2",
+        "number": "5550142",
+        "name": "FerroUI CallLog 27cd23522757235cc4348fc25a0ab57b",
+        "timestamp": 1795730366988,
+        "duration": 0,
+        "direction": "missed"
+      }
+    ],
+    "counts": {
+      "initial": 0,
+      "captured": 2,
+      "before_ack": 3,
+      "after_ack": 1,
+      "after_repeat": 1,
+      "cleanup": 0
+    },
+    "rows_before_ack": [
+      {
+        "id": 1,
+        "timestamp": 1795730364988,
+        "type": 3,
+        "new": 1,
+        "is_read": 0
+      },
+      {
+        "id": 2,
+        "timestamp": 1795730366988,
+        "type": 3,
+        "new": 1,
+        "is_read": 1
+      },
+      {
+        "id": 3,
+        "timestamp": 1795730368988,
+        "type": 3,
+        "new": 1,
+        "is_read": 0
+      }
+    ],
+    "rows_after_ack": [
+      {
+        "id": 1,
+        "timestamp": 1795730364988,
+        "type": 3,
+        "new": 0,
+        "is_read": 0
+      },
+      {
+        "id": 2,
+        "timestamp": 1795730366988,
+        "type": 3,
+        "new": 0,
+        "is_read": 1
+      },
+      {
+        "id": 3,
+        "timestamp": 1795730368988,
+        "type": 3,
+        "new": 1,
+        "is_read": 0
+      }
+    ],
+    "repeat_receipt": {
+      "kind": "error",
+      "message": "This missed-call selection expired. Refresh the history and try again."
+    },
+    "repeat_rows_unchanged": true,
+    "cleanup": {
+      "deleted_ids": [
+        1,
+        2,
+        3
+      ],
+      "remaining_ids": [],
+      "errors": []
+    },
+    "initial_rows": [],
+    "final_rows": [],
+    "started_at_unix_ms": 1795730370981,
+    "completed_at_unix_ms": 1795730371188,
+    "rf_requests": 0,
+    "scope": "Actual CallLog provider APIs on the owned fresh AVD. This fixture initiated no RF call and does not claim a Phone UI tap. Separate existing smoke phases exercised emulator SMS/Telecom traffic."
+  },
+  "authority_restoration": {
+    "DIALER": {
+      "before": "com.google.android.dialer",
+      "after": "com.google.android.dialer",
+      "matched": true
+    },
+    "SMS": {
+      "before": "com.google.android.apps.messaging",
+      "after": "com.google.android.apps.messaging",
+      "matched": true
+    },
+    "home": {
+      "before": "com.google.android.apps.nexuslauncher",
+      "after": "com.google.android.apps.nexuslauncher",
+      "matched": true
+    },
+    "listener": {
+      "before": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService",
+      "after": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService",
+      "matched": true
+    },
+    "user": {
+      "before": "0",
+      "after": "0",
+      "matched": true
+    }
+  },
+  "retained_unsuccessful_visibility_probes": [
+    "2026-11-26T21:59:51.4099740Z Shared notifications-visible observation failed: The fixture title and body are not visibly rendered in Action Center"
+  ],
+  "cleanup_boundary": "CallLog deletion and initial-row restoration are explicitly observed, as are original HOME/dialer/SMS/listener/user restoration. The log records emulator shutdown; runner storage after AVD deletion was not independently inspected."
+}

@@ -17,10 +17,10 @@ public final class PhoneContractTest {
         check(!epoch.current(granted), "Regrant never revives a query from before revocation");
         long regranted = epoch.lease(); epoch.invalidate();
         check(!epoch.current(regranted), "An own-app authority callback invalidates reads even if a revoke/regrant occurred between snapshots");
-        check(epoch.reconcile(PhoneObservationEpoch.ALL) == PhoneObservationEpoch.NOTIFICATIONS, "Listener connection has its own authority bit");
+        check(epoch.reconcile(PhoneObservationEpoch.MESSAGES | PhoneObservationEpoch.NOTIFICATIONS) == PhoneObservationEpoch.NOTIFICATIONS, "Listener connection has its own authority bit");
         long connected = epoch.lease();
         check(epoch.reconcile(PhoneObservationEpoch.MESSAGES) == PhoneObservationEpoch.NOTIFICATIONS && !epoch.current(connected), "Listener disconnection invalidates the prior read epoch");
-        for (String kind : new String[]{"messageThreads", "messages", "notifications"})
+        for (String kind : new String[]{"messageThreads", "messages", "notifications", "missedCalls", "callHistory"})
             check(PhoneObservationEpoch.privateRow(kind, PhoneObservationEpoch.ALL), "Queued private rows are purged: " + kind);
         for (String kind : new String[]{"messageSent", "sendFailed", "messageDownloaded", "composeDraft", "calls", "snapshot"})
             check(!PhoneObservationEpoch.privateRow(kind, PhoneObservationEpoch.ALL), "Authority invalidation preserves accepted side effects: " + kind);
@@ -31,6 +31,7 @@ public final class PhoneContractTest {
         check(!epoch.usable(beforeBinder, () -> { throw new AssertionError("Stale lease queried authority"); }), "Stale reads do not query authority again");
         check(!epoch.usable(epoch.lease(), () -> false), "Current epoch does not override an actual denied operation");
         check(epoch.usable(epoch.lease(), () -> true), "A fresh authorized read remains usable");
+        assertions += PhoneCallReceiptsTest.run();
         PhoneBackKey back = new PhoneBackKey();
         check(!back.up(1, 10, false), "An orphan Back release cannot navigate");
         back.down(1, 10, 0);
@@ -55,9 +56,9 @@ public final class PhoneContractTest {
         check(back.up(1, 71, false), "The replacement press has exactly one callback");
         back.down(1, 72, 0);
         check(back.up(1, 72, false), "A distinct next press reaches App exit or HOME handling normally");
-        for (String read : new String[]{"snapshot", "contacts", "callHistory", "calls", "messageThreads", "messages", "messageAttachments", "notifications", "shortcuts"})
+        for (String read : new String[]{"snapshot", "contacts", "callHistory", "missedCalls", "calls", "messageThreads", "messages", "messageAttachments", "notifications", "shortcuts"})
             check(!PhoneDeviceAccess.requiresForeground(read), "Warm activation can start the permission-gated read: " + read);
-        for (String command : new String[]{"setControl", "openControl", "requestRole", "requestPermission", "saveContact", "deleteContact", "dial", "callAction", "composeMessage", "composeMultimediaMessage", "pickMessageAttachments", "discardMessageAttachments", "openMessageAttachment", "downloadMessage", "sendMessage", "sendMultimediaMessage", "markMessagesRead", "deleteMessages", "notificationAction", "dismissNotification", "dismissNotifications", "launchShortcut", "openApplicationSettings", "requestUninstallApplication", "openMap"})
+        for (String command : new String[]{"acknowledgeMissedCalls", "setControl", "openControl", "requestRole", "requestPermission", "saveContact", "deleteContact", "dial", "callAction", "composeMessage", "composeMultimediaMessage", "pickMessageAttachments", "discardMessageAttachments", "openMessageAttachment", "downloadMessage", "sendMessage", "sendMultimediaMessage", "markMessagesRead", "deleteMessages", "notificationAction", "dismissNotification", "dismissNotifications", "launchShortcut", "openApplicationSettings", "requestUninstallApplication", "openMap"})
             check(PhoneDeviceAccess.requiresForeground(command), "Consent, UI and mutations retain foreground ownership: " + command);
         check(PhoneDeviceAccess.requiresForeground("futureUnknownCommand"), "New commands default to requiring foreground ownership");
         check(PhoneDeviceAccess.requiresForeground(null), "Missing commands cannot bypass foreground ownership");

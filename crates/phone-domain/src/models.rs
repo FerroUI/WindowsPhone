@@ -155,6 +155,8 @@ pub struct CallRecord {
     pub timestamp: i64,
     pub incoming: bool,
     pub missed: bool,
+    #[serde(default)]
+    pub acknowledged: bool,
 }
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Bookmark {

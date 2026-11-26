@@ -4,6 +4,7 @@ mod application;
 #[cfg(any(target_os = "ios", test))]
 mod device;
 mod native;
+mod network;
 #[cfg_attr(not(target_os = "ios"), allow(dead_code))]
 mod pending;
 mod platform;

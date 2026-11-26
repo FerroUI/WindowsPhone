@@ -1,0 +1,523 @@
+{
+  "schema": 1,
+  "observed_at_utc": "2026-11-26T21:14:49.754426+00:00",
+  "base_revision": "6fbd96563087756a7d4afd4be3451a3fb1178549",
+  "framework_revision": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "scope": "Local preflight of the current feature implementation. Metadata checks compile test bodies but do not execute framework-dependent UI tests. Native SDK and rendered execution require candidate CI.",
+  "results": {
+    "domain_library_tests": {
+      "passed": 37,
+      "failed": 0
+    },
+    "host_library_tests": {
+      "passed": 35,
+      "failed": 0,
+      "ignored": 1
+    },
+    "ios_portable_library_tests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "ios_carrier_portable_library_tests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "javascript_unit_tests": {
+      "passed": 77,
+      "failed": 0
+    },
+    "java_receipt_assertions": {
+      "passed": 11,
+      "failed": 0,
+      "boundary": "Production receipt policy compiled/executed on the JVM; not Android SDK resolution."
+    },
+    "android_call_fixture_python_tests": {
+      "passed": 8,
+      "failed": 0
+    },
+    "existing_android_device_python_tests": {
+      "passed": 3,
+      "failed": 0
+    },
+    "existing_android_bootstrap_python_tests": {
+      "passed": 19,
+      "failed": 0
+    },
+    "ios_verifier_python_tests": {
+      "passed": 11,
+      "failed": 0,
+      "reported_by": "ios_lifecycle"
+    },
+    "ios_cleanup_python_tests": {
+      "passed": 11,
+      "failed": 0,
+      "reported_by": "ios_lifecycle"
+    },
+    "grouped_layout_rust_tests": {
+      "passed": 4,
+      "failed": 0,
+      "reported_by": "metro_controls",
+      "boundary": "Standalone execution of production geometry module; mounted native fixture is not executed locally."
+    },
+    "consumer_tests_metadata": {
+      "result": "passed",
+      "packages": [
+        "phone-state",
+        "phone-controls",
+        "phone-sdk",
+        "phone-app-calendar",
+        "phone-alarm-service",
+        "phone-system",
+        "phone-runtime",
+        "phone-app-phone",
+        "phone-ios"
+      ],
+      "initial_failure": "CalendarTaskSearch used an unsupported watermark DSL property. Corrected to placeholder_text; failed attempt retained.",
+      "final_calendar_refresh": "Passed after pin navigation and lock privacy predicate corrections."
+    },
+    "java_syntax": {
+      "result": "passed",
+      "files": 8,
+      "boundary": "Java 8 syntax parse only; no Android SDK symbol resolution."
+    },
+    "shell_and_node_syntax": "passed",
+    "git_diff_check": "passed"
+  },
+  "sources": [
+    {
+      "path": ".github/workflows/android-ui.yml",
+      "sha256": "4a5800da81832476ca74a4427867d3ec09781bed2467b4e1b1771eaa109fa8ed"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "4c16fd6ca8cff311b64b96f0a7b23e0766620f15f7271f90fd6c4e60d530466d"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "fa7fdef6f7ec36b034b82d60ea069784cd74e73dd674decca7a1e271ac686ba9"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/Cargo.toml",
+      "sha256": "554396c3881f8ec8b1546fbd19da8fc50d2383d7ac09d020e1a9f632fdcc4de9"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/lib.rs",
+      "sha256": "2d5ff3860828820e9ddb6a1067e8769829be5784d3a25667410d58c5a73dd75f"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/registration.rs",
+      "sha256": "31a13f6370630d75e1176edcc8cc7b76e1f22b679459ece8d0f29ead372cfb69"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/commands.rs",
+      "sha256": "ea57f40105f464483c05278473c0d0ff45c6dc8021a019965d2940a20daba8ed"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/editor.rs",
+      "sha256": "2545bd18bbc7913909e1561c280cafe83480457ada5d2057cca349b61a84f8c5"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/list.rs",
+      "sha256": "aff7b9ef5b725d1c07a4b02181bb4d5555578749bdb92aab6e461fb56acf7d26"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/mod.rs",
+      "sha256": "72ae393c11488d273dc455863d16d5fa1069b28924d403da09c35f4eab051a7f"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/model.rs",
+      "sha256": "a4335fe3a16762825e991abca801db0a77f6b0eba8ed6738bd321aeb1d93e178"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/model/tests.rs",
+      "sha256": "f0956790e34c9589d7eb72c921c5e18d40ec6a6b0a3c8e5c0bb5dc455c1dee52"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/state.rs",
+      "sha256": "17219aad482fd78395db7cb9e333913bd252d168cd7e25231d1c196b628addca"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/store.rs",
+      "sha256": "2be5a10e7d63d0396231cdaa9767efeb4e13a8720851cacca6d3d420ad7f0fac"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/store/tests.rs",
+      "sha256": "5414e38d03d88c6c1487e215a42e38b2dbe917c875612aa746812608614e6eed"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/tests.rs",
+      "sha256": "5b25f3be388b9399e709ee84304d644e224700bcf140209b35e7b8c48b15c9b5"
+    },
+    {
+      "path": "crates/apps/phone-app-calendar/src/tasks/view.rs",
+      "sha256": "7c8845c325a59e52d992ae2880bb5e95dae95e6d90af98931f07f614326c1b96"
+    },
+    {
+      "path": "crates/apps/phone-app-phone/src/device.rs",
+      "sha256": "23907aee0ecc1042f730030065eb3391a63e618f0edcf6dddac4488752cc0c94"
+    },
+    {
+      "path": "crates/apps/phone-app-phone/src/lib.rs",
+      "sha256": "171d9d69ef98727488e69972951581224e17d495aa85f4123d72cbcf1bb5620f"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_delivery.rs",
+      "sha256": "62a2ccd26614b214c0c67dba8658655903a5980184ecc638826890b142b3ca07"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_delivery/tests.rs",
+      "sha256": "869d2158be040970572afa8fc83d2c11168baf9c48a7c4e0d7677b5c92d2d810"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_reminders.rs",
+      "sha256": "57db0fab3ac38ef9977916e8d6ff99b5ddfc84bb2657c5db73aae395eb1a87f3"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_reminders/tests.rs",
+      "sha256": "333b16985bf0c336101d3234fe32790e7c7aca858389b452953099d67de7ea9c"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/app_service_tests.rs",
+      "sha256": "5ba481bf1894d31492271a617faef92e60b511f9ddd1721f16cb9da8c0386bf2"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/lib.rs",
+      "sha256": "9403ba10bf7e1ca7142a3658896e293c157dd5e705ba15db2f324df5256332d5"
+    },
+    {
+      "path": "crates/phone-alarm-service/src/notifications.rs",
+      "sha256": "fa58ba158ab931beac23062dc858ba4ed5b9d53204ddb3c001a299355285752a"
+    },
+    {
+      "path": "crates/phone-android/platform/AndroidManifest.xml",
+      "sha256": "df10eace36cdbe8a2c0454edf7deee6bbf9f6e288d0e7d90e3d229a2a591bd8d"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneActivity.java",
+      "sha256": "fb8852526a67a3d6c7ce3f5297ebcf9014fbe012fc1a9853684e4bf21e41fa64"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallFixtures.java",
+      "sha256": "cb6dd4772f11d3149c93cb6fb8e4dfeeffabb7fa9524e093be5c668965a808b5"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallHistory.java",
+      "sha256": "46ac34ea87c730d4d426aa5ccd1330dceac96596e9a939ca240ad6939c6620fc"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneCallReceipts.java",
+      "sha256": "9a251ea114ff28ce6f15556b101dbb19a2e37d7c99584cac862329ab35049187"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneDevice.java",
+      "sha256": "deb458dab4a0c6ca950ce414e904fe67f1c14acb9ef45919eb81d19e6f9a2ba9"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneDeviceAccess.java",
+      "sha256": "5ba884e1ef7fcdcfdfabfdd9249edc02f85d67f55abd46116fd57c8324b7348b"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneDeviceSmoke.java",
+      "sha256": "f0a53e9b833b4d17da0d726890d8268091c08d6b361c8c5bda27156081beff73"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhoneObservationEpoch.java",
+      "sha256": "6e5eccca640b4c4b068d442276978a0dab4f1f4a32322402f1c21b4457bd5a21"
+    },
+    {
+      "path": "crates/phone-android/platform/java/org/ferroui/phone/PhonePermissions.java",
+      "sha256": "7c28354b5f268cfaaff558f04908099538e87c4acde9bbb030d534673270b95b"
+    },
+    {
+      "path": "crates/phone-android/tests/java/org/ferroui/phone/PhoneCallReceiptsTest.java",
+      "sha256": "98a3d57f6468025642cd679a66419c775705fbaf2cdce05795b39a2fc3033a0d"
+    },
+    {
+      "path": "crates/phone-android/tests/java/org/ferroui/phone/PhoneContractTest.java",
+      "sha256": "794187394d6c14c94695d75e09874784c86127daadb371eb44e65df75f33f675"
+    },
+    {
+      "path": "crates/phone-controls/src/grouped_list.rs",
+      "sha256": "b9512a4a8fb7957775b745e7fea1f6b2fb032e4840d5dbd9a65f96eddf3c64ab"
+    },
+    {
+      "path": "crates/phone-controls/src/grouped_list/layout.rs",
+      "sha256": "5a2ce753c878ac54374fa1fbff9c38456a4e7edbdf0c084f2111b455709c8bfb"
+    },
+    {
+      "path": "crates/phone-controls/src/grouped_list/tests.rs",
+      "sha256": "48730eaf507f5d6052d699d3959f4f17bce6c63b352f7a521caa1db6411d3cea"
+    },
+    {
+      "path": "crates/phone-controls/src/lib.rs",
+      "sha256": "67b1f1d02f1a275ac82f2fddbe562ae7fc15a77bc65f2665184fe569f7bff3c6"
+    },
+    {
+      "path": "crates/phone-domain/src/action.rs",
+      "sha256": "2e6d32b5b3ac27ff21b07b53863a2348a3bd820a2fb751af872880c2429ce702"
+    },
+    {
+      "path": "crates/phone-domain/src/data.rs",
+      "sha256": "b059f68fab77a3a32b78db0fa25c4c381a8eb7cd50f7d247385fe2770f2fd9d8"
+    },
+    {
+      "path": "crates/phone-domain/src/models.rs",
+      "sha256": "1597611ec4b8519bd4804224f3a2cba32b7253416d3005fde3c2943852ce0767"
+    },
+    {
+      "path": "crates/phone-domain/src/seed.rs",
+      "sha256": "814580cd16017ed81f4a2ecc8131424f6280ffc7d402cfdc596f204dad9b7db4"
+    },
+    {
+      "path": "crates/phone-host/src/platform.rs",
+      "sha256": "a21198eb45eed4401cf5cc8fc2fe7555dced18749de72515f6ae1760c22ed6bf"
+    },
+    {
+      "path": "crates/phone-host/src/platform/device.rs",
+      "sha256": "e9de00c78fc44e38f60f39f680a666dfd1d22ac416b86c8613492c958be9e47c"
+    },
+    {
+      "path": "crates/phone-host/src/platform/device/admission.rs",
+      "sha256": "7834603da7d92404341f00fb146f81ca0e00c78ee542b88d521ad5f300bb1883"
+    },
+    {
+      "path": "crates/phone-host/src/platform/device/calls.rs",
+      "sha256": "4b566b1c01add4ad2cdb4b9e0481d4938163dec1a4b5d2b333efba0730d2b5d1"
+    },
+    {
+      "path": "crates/phone-ios/build.rs",
+      "sha256": "11cb5aa8236095b93b869f2914a1c02da2a2dd2db371f88764d2566c416dd4ea"
+    },
+    {
+      "path": "crates/phone-ios/native/network.m",
+      "sha256": "5c48b3ef35deb5abba74a92548da6030381dbce30024cf10be14e307581158ee"
+    },
+    {
+      "path": "crates/phone-ios/src/lib.rs",
+      "sha256": "cf500b074d58a81ce9ffb2539be09b45acdfc5bf35b633d9352131c194e3dc40"
+    },
+    {
+      "path": "crates/phone-ios/src/network.rs",
+      "sha256": "25bcf249ceecb2c2532dc056acb9008a452b577efc06c4541ae64594ffcee156"
+    },
+    {
+      "path": "crates/phone-ios/src/platform.rs",
+      "sha256": "e4aa6f4e664a80bbb81467d2e7d3f8af16065fe7fcf9a73f5cfe7c5ed793f786"
+    },
+    {
+      "path": "crates/phone-ios/src/smoke.rs",
+      "sha256": "ad04eca6a33d2a5195a415e6f8df17002e514c7945e7458c32eb9b85d9f32687"
+    },
+    {
+      "path": "crates/phone-ios/src/smoke_devices.rs",
+      "sha256": "6ba2e1882d4966eb5e67516425671f04a7a3ddd4d1bddfb5e223a151cc035d76"
+    },
+    {
+      "path": "crates/phone-runtime/src/environment_tests.rs",
+      "sha256": "8cdfcb119c3004d4ffc1c6acad75f2625c93852bb0bb4585a586ef171a37ebab"
+    },
+    {
+      "path": "crates/phone-runtime/src/lib.rs",
+      "sha256": "de1a6dcc42ee9b88543ba284a0501c2f8456305a44337daeeb2e4ec030343764"
+    },
+    {
+      "path": "crates/phone-runtime/src/observation_tests.rs",
+      "sha256": "c8dcd772895ade196b1ed97015ff5aa25da7010b5658f2b1b15ed6731ff3c1c8"
+    },
+    {
+      "path": "crates/phone-runtime/src/observations.rs",
+      "sha256": "9831ab3c3e276f879911f6f874ba6a81ac057cd59c09d1a8aabb8b38d28e2ce3"
+    },
+    {
+      "path": "crates/phone-sdk/src/device.rs",
+      "sha256": "6bb5d05fe227797827926107613c5b352975d5797b9e8b7fdf945056f3703571"
+    },
+    {
+      "path": "crates/phone-sdk/src/registration.rs",
+      "sha256": "f144fa56ecd7526fdf99bd964d674707a8671ab64e8c05a53dd09091981a71fb"
+    },
+    {
+      "path": "crates/phone-sdk/src/registry.rs",
+      "sha256": "9e94ebbeca52476a6817cf098434101c0faa51f28eb065a5d33da63809f72533"
+    },
+    {
+      "path": "crates/phone-sdk/src/registry/reminders.rs",
+      "sha256": "76a973ac525e8e0355dfe9fc97b6efdba8b684453dcbaf302be835a346edf3e8"
+    },
+    {
+      "path": "crates/phone-sdk/src/registry/reminders/tests.rs",
+      "sha256": "f383232e5bd5963b027ff6ea513b772a401f59cca6269b3b18b4fd9788658219"
+    },
+    {
+      "path": "crates/phone-state/src/badges.rs",
+      "sha256": "fda16ed5a7cf2cfaf4a24b56ef32e47b0a15be71e1a21891af70ef8242bceec3"
+    },
+    {
+      "path": "crates/phone-state/src/communication.rs",
+      "sha256": "3864e4234f113570aeb4981476d1bd49ed39593864cf921d5477805e5c2e0437"
+    },
+    {
+      "path": "crates/phone-state/src/convenience.rs",
+      "sha256": "4f375afc512ce54ad47f2a2cfa4c213d8eb91c1e5ebd55acbd0c27855db798b8"
+    },
+    {
+      "path": "crates/phone-state/src/device.rs",
+      "sha256": "12903b6d23cac6ab95a5420e07d32e99171e8288aeb608e02d27cfef8bf6874a"
+    },
+    {
+      "path": "crates/phone-state/src/lib.rs",
+      "sha256": "5e0b3ed96fbd2c0aa3abac2075755b1f128e9ceadb6b616eb705996a21666fa0"
+    },
+    {
+      "path": "crates/phone-state/src/mutation.rs",
+      "sha256": "e198dc39e385569d080b40c509fbd729f3b588d4759da82a4d4bb2d1099fd6a6"
+    },
+    {
+      "path": "crates/phone-state/tests/call_activity.rs",
+      "sha256": "f89a878a9078553e88f230ccea6032f0ba29dc44c709d5e7d3a4dd8ea0de9d69"
+    },
+    {
+      "path": "crates/phone-system/src/app_list.rs",
+      "sha256": "c308598b5b385e002739d6a0c34984879a19db54ea980d2fcbb040d4655daaac"
+    },
+    {
+      "path": "crates/phone-system/src/app_list/native.rs",
+      "sha256": "93fd2982c29f1362aea6bfa5e6515b555fea53fe0c73ab303a62505bf4eb9a08"
+    },
+    {
+      "path": "crates/phone-system/src/lib.rs",
+      "sha256": "6a4a5c4cdd917c1964e2cb590994a930567a9dbffdfe014ff3e2f8e1d9c7a1f2"
+    },
+    {
+      "path": "crates/phone-system/src/lockscreen.rs",
+      "sha256": "c50fb3102aa23b0c84e9f0cd83ce3840e0ff3d286615364eaa858a2cef8924cd"
+    },
+    {
+      "path": "crates/phone-system/src/navigation/switcher.rs",
+      "sha256": "ed5cd4a82cf6d3fdf37246cafc6c5288bacd2e69a0aa427d7697ea325d77d34a"
+    },
+    {
+      "path": "crates/phone-system/src/previews.rs",
+      "sha256": "40e6bf073cc64e14d6021d5f4319af0c672a54cf9fa36b71ceeea262a33ea8f3"
+    },
+    {
+      "path": "crates/phone-system/src/previews/tests.rs",
+      "sha256": "8881cb0f195ae64979b1dd1d85fe736f0631fde3e9766ac9703cc60ded35b667"
+    },
+    {
+      "path": "crates/phone-system/src/session.rs",
+      "sha256": "5a5b5eae3f5f93ee3e8d8cb3731e619ba447c3ce8b18daa1d89eec35eadd4398"
+    },
+    {
+      "path": "crates/phone-system/src/shell.rs",
+      "sha256": "e9969ac33fe5ccc2aed439cc719d069d33a821c03d6cbf7aac52132b996684cf"
+    },
+    {
+      "path": "crates/phone-system/src/start/tile.rs",
+      "sha256": "ba11b6c7977df983d79237dbe32801c9c740d310d53c72bd4474e54913087567"
+    },
+    {
+      "path": "scripts/ios-ui-tests/PhonePromptTests.swift",
+      "sha256": "080ee0ab1c8be80b771419b187fa7a068642c89a1f3d863aaf5577d3bef67509"
+    },
+    {
+      "path": "scripts/smoke-android-calls.sh",
+      "sha256": "a0d08e8cca45c400e47d63e4aa566eea8a71db239381ba84d88b9da3d4162973"
+    },
+    {
+      "path": "scripts/smoke-android-device.sh",
+      "sha256": "09ccbcaf39e76bcc570f0974c1ea1a6263b8e911b29488a2096c463f6603ca6f"
+    },
+    {
+      "path": "scripts/smoke-ios.sh",
+      "sha256": "14d191211680b72922338626cdb4f09916477c734404faa7ae11de7b7676f043"
+    },
+    {
+      "path": "scripts/test-android-contracts.sh",
+      "sha256": "41a65aaf2dbae370cbbf108a6e69a1fce304bfe7fe280a9cf83cca2df12a19c3"
+    },
+    {
+      "path": "scripts/ui-calendar-tasks.mjs",
+      "sha256": "727887e27c044aa853ad1bca627aabcbcc15a5e9d6ceabade8ec3146730509d5"
+    },
+    {
+      "path": "scripts/ui-phone-calls.mjs",
+      "sha256": "0f6ce932cb0c59989748e90534f2e9cce7cabc30ead8c9b285f19e076feaf73a"
+    },
+    {
+      "path": "scripts/ui-smoke.mjs",
+      "sha256": "1883436b81e2cdf4278962ab7a1eb1ccbc2963b01176e6ca79a794aa8d1059ea"
+    },
+    {
+      "path": "scripts/verify-ios-devices.py",
+      "sha256": "313995041d2c4f67266a31f1a31c0759bfdfa4321be7ef7a486ea6291d2cefb7"
+    },
+    {
+      "path": "scripts/verify-ios-smoke.py",
+      "sha256": "420b2397164c7ea7af920d827bac519d26e2542c7e12689e36205c7e675785dd"
+    },
+    {
+      "path": "scripts/verify_android_calls.py",
+      "sha256": "ea41cdc51e274892602973136e4962e5d77e1f4dad481075e6f2cf550433787b"
+    },
+    {
+      "path": "scripts/verify_android_calls_test.py",
+      "sha256": "2e4911f3c7dc8cd64ece5c30d3a70e21024b71f4a18c379f56d4f2dedc2f9b0d"
+    },
+    {
+      "path": "scripts/verify_ios_smoke_test.py",
+      "sha256": "941b16b3d818b8cdd1e201bb69da58f846eccb7917fd17700e598cf1fb0573ec"
+    }
+  ],
+  "logs": [
+    {
+      "path": "local/domain-host-tests.txt.gz",
+      "bytes": 2947,
+      "sha256": "41562d7fd8040ad4ac1dd271d6f90d0042f3db17a6d85b71f2fceb45fbb8179c",
+      "uncompressed_sha256": "e4bda5b81dd3c3f6deaeef2bce311a00223ef64f39943a5de0df8dff62f67f1a"
+    },
+    {
+      "path": "local/ios-portable-tests.txt.gz",
+      "bytes": 889,
+      "sha256": "1e52cf661e9a51955916f916abfb1404dd94c99679373ebbeb7a21c6f0467a8e",
+      "uncompressed_sha256": "9cbf4401776fdbb84eda57ef5f68e92eaaaf828cc06286c7a9ba571e770f437e"
+    },
+    {
+      "path": "local/ios-carrier-portable-tests.txt.gz",
+      "bytes": 881,
+      "sha256": "e1eeed33beb7baf1655439b8a32cdb2dcceb93367729d40beb37be80f9b72535",
+      "uncompressed_sha256": "5e8efef4f40575665f287949367274bf2d877c32631ee33be6e103c855752955"
+    },
+    {
+      "path": "local/javascript-tests.txt.gz",
+      "bytes": 3293,
+      "sha256": "062f902c509d0c71ae3531ab88f0780ad46f6f6b451f34f4bc77fc0940fa80a2",
+      "uncompressed_sha256": "4732c30c846e09bf24ad92c7574a02782f1fdaa5eddbdb095bb3fb56d5d5a3de"
+    },
+    {
+      "path": "local/consumer-check-attempt1.log.gz",
+      "bytes": 4710,
+      "sha256": "d266245910c2506534b80425d4587028607133700acb2e722d6c3155853e6628",
+      "uncompressed_sha256": "46035e422027761179a03e38c00f786db0a9c6c5d0efd1871f233fd9857c5162"
+    },
+    {
+      "path": "local/consumer-check-attempt2.log.gz",
+      "bytes": 4229,
+      "sha256": "a84156c3e5596ed6c76e05db7ba7e3d0f779557c590f9ca72ee0d4f653d91aa8",
+      "uncompressed_sha256": "ecb1e3aec01bbbf02e37d06be16fadee6ed7de8fc9be669c175d4ff398542e68"
+    },
+    {
+      "path": "local/consumer-check-final.log.gz",
+      "bytes": 4176,
+      "sha256": "079979a5f72f90a1bf824311abdfc2a714187b06ceedb84582bd066026b2b42e",
+      "uncompressed_sha256": "8e0067e62f2fe819db14526d6b138b7fe41b5207b2bb9340532b85d69e1373d8"
+    },
+    {
+      "path": "local/calendar-final-check.log.gz",
+      "bytes": 4076,
+      "sha256": "fe890ef646677cbed13e18f7457108d4a4a411e0cca9550e8e8af022b1ef5efc",
+      "uncompressed_sha256": "36c79eda8e0c2472d0409078c34cd5c2761dc69835045d0fe6d2aa3d63441854"
+    }
+  ],
+  "ios_assessment": "The separate correction verifies all 16 original PNG and raw navigation-region hashes; historical source artifacts and frozen publication records remain unchanged."
+}

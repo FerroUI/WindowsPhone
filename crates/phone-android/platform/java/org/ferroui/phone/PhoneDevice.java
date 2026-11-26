@@ -14,6 +14,7 @@ import android.os.CancellationSignal;
 import android.os.Looper;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
+import android.provider.CallLog;
 import android.telecom.TelecomManager;
 import java.util.ArrayDeque;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BooleanSupplier;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,19 +33,21 @@ final class PhoneDevice {
     private static final String[] PERMISSIONS = {"contacts", "callLog", "readSms", "sendSms", "phone", "camera", "bluetooth", "location", "notifications"};
     private static final ArrayDeque<JSONObject> EVENTS = new ArrayDeque<>();
     private static final ExecutorService OBSERVATIONS = Executors.newSingleThreadExecutor(r -> { Thread t = new Thread(r, "phone-device-observations"); t.setDaemon(true); return t; });
-    private static final AtomicBoolean messageDirty = new AtomicBoolean(), catalogDirty = new AtomicBoolean(true), refreshing = new AtomicBoolean();
+    private static final AtomicBoolean messageDirty = new AtomicBoolean(), callDirty = new AtomicBoolean(), catalogDirty = new AtomicBoolean(true), refreshing = new AtomicBoolean();
     private static final PhoneObservationEpoch observationEpoch = new PhoneObservationEpoch();
     private static final AtomicInteger authorityHints = new AtomicInteger();
+    private static final AtomicLong callRetryAt = new AtomicLong();
+    private static final AtomicInteger callFailures = new AtomicInteger();
     private static final AtomicBoolean notificationRefresh = new AtomicBoolean();
     private static volatile Context application;
     private static AppOpsManager appOps;
     private static AppOpsManager.OnOpChangedListener smsAuthority;
     private static BroadcastReceiver packages;
-    private static ContentObserver messages;
+    private static ContentObserver messages, calls;
     private static volatile CancellationSignal observationSignal;
     private static String lastSnapshot, currentThread, catalogResult;
     private static int threadLimit = 100, listLimit = 100;
-    private static boolean observeList, observeNotifications;
+    private static boolean observeList, observeNotifications, observeCalls;
     private static volatile boolean closed;
     private PhoneDevice() {}
 
@@ -56,12 +60,17 @@ final class PhoneDevice {
                 // Public own-UID watcher; no OBSERVE_GRANT_REVOKE_PERMISSIONS/WATCH_APPOPS grant.
                 smsAuthority = (op, packageName) -> {
                     Context app = application;
-                    if (AppOpsManager.OPSTR_READ_SMS.equals(op) && app != null
-                            && (packageName == null || app.getPackageName().equals(packageName)))
-                        invalidateObservations(PhoneObservationEpoch.MESSAGES);
+                    if (app == null || packageName != null && !app.getPackageName().equals(packageName)) return;
+                    if (AppOpsManager.OPSTR_READ_SMS.equals(op)) invalidateObservations(PhoneObservationEpoch.MESSAGES);
+                    if (AppOpsManager.OPSTR_READ_CALL_LOG.equals(op) || AppOpsManager.OPSTR_WRITE_CALL_LOG.equals(op))
+                        invalidateObservations(PhoneObservationEpoch.CALLS | PhoneObservationEpoch.CALL_WRITE);
                 };
-                try { appOps.startWatchingMode(AppOpsManager.OPSTR_READ_SMS, application.getPackageName(), smsAuthority); }
-                catch (RuntimeException unavailable) { appOps = null; } // Polling still reconciles actual authority.
+                try {
+                    appOps.startWatchingMode(AppOpsManager.OPSTR_READ_SMS, application.getPackageName(), smsAuthority);
+                    appOps.startWatchingMode(AppOpsManager.OPSTR_READ_CALL_LOG, application.getPackageName(), smsAuthority);
+                    appOps.startWatchingMode(AppOpsManager.OPSTR_WRITE_CALL_LOG, application.getPackageName(), smsAuthority);
+                }
+                catch (RuntimeException unavailable) { } // Keep the cleanup owner for any earlier successful registration; polling reconciles every authority.
             }
         }
         if (packages == null) {
@@ -76,8 +85,10 @@ final class PhoneDevice {
     static void resumed(Context context) {
         attach(context); lastSnapshot = null; catalogDirty.set(true);
         if (observeList || currentThread != null) messageDirty.set(true);
+        if (observeCalls) callsChanged();
         PhoneMessageJobService.wake(context);
     }
+    static void suspended() { invalidateObservations(PhoneObservationEpoch.CALLS | PhoneObservationEpoch.CALL_WRITE); }
     static JSONObject snapshot(Context context) {
         JSONObject state = PhoneJson.put(new JSONObject(), "controls", PhoneHardware.observe(context));
         JSONArray roles = new JSONArray(), permissions = new JSONArray(), operations = new JSONArray();
@@ -94,7 +105,8 @@ final class PhoneDevice {
         PhoneJson.put(state, "settings", PhoneSettings.supported(context));
         if (PhonePermissions.granted(context, Manifest.permission.READ_CONTACTS)) operations.put("readContacts");
         if (PhoneContactEditor.available(context)) operations.put("writeContacts");
-        if (PhonePermissions.granted(context, Manifest.permission.READ_CALL_LOG)) operations.put("callHistory");
+        if (PhoneCallHistory.readable(context)) { operations.put("callHistory"); operations.put("readMissedCalls"); }
+        if (PhoneCallHistory.writable(context)) operations.put("acknowledgeMissedCalls");
         if (PhoneRoles.held(context, "dialer")) { operations.put("activeCalls"); operations.put("callControl"); }
         TelecomManager telecom = context.getSystemService(TelecomManager.class);
         if (telecom != null && (PhoneRoles.held(context, "dialer") && PhonePermissions.granted(context, Manifest.permission.CALL_PHONE)
@@ -137,7 +149,14 @@ final class PhoneDevice {
                 case "deleteContact":
                     if (!PhoneContactEditor.canDelete(activity)) return completed(PhoneJson.deviceAccepted("Android opened contacts write consent. After granting it, choose Delete again to confirm the deletion."));
                     return PhoneTasks.work(() -> PhoneContactEditor.delete(app, request.optString("id")));
-                case "callHistory": return PhoneTasks.query(signal -> PhoneCallHistory.read(app, request.optInt("limit"), signal));
+                case "callHistory": return PhoneTasks.query(signal -> PhoneCallHistory.read(app, request.optInt("limit"), signal), callLease(app, false));
+                case "missedCalls":
+                    observeCalls = true; observeCalls(app);
+                    return PhoneTasks.query(signal -> PhoneCallHistory.missed(app, signal), callLease(app, false));
+                case "acknowledgeMissedCalls":
+                    // The command is never coalesced. Its returned private observation
+                    // still belongs to the current permission/role/lifecycle lease.
+                    return PhoneTasks.query(signal -> PhoneCallHistory.acknowledge(app, request.optString("token"), signal), callLease(app, true));
                 case "calls": return completed(PhoneJson.device("calls", PhoneInCallService.snapshot(app)));
                 case "dial": return completed(PhoneInCallService.dial(activity, request.optString("number"), nullable(request, "account")));
                 case "callAction": return completed(PhoneInCallService.action(request.optString("id"), request.optJSONObject("action")));
@@ -187,6 +206,12 @@ final class PhoneDevice {
         BooleanSupplier authority = () -> notifications ? PhoneNotificationListener.available(app) : PhoneMessageProvider.readable(app);
         return () -> !closed && observationEpoch.usable(lease, authority) && !closed;
     }
+    private static BooleanSupplier callLease(Context app, boolean writing) {
+        final long lease;
+        synchronized (PhoneDevice.class) { lease = observationEpoch.lease(); }
+        return () -> !closed && observationEpoch.usable(lease,
+                () -> writing ? PhoneCallHistory.writable(app) : PhoneCallHistory.readable(app)) && !closed;
+    }
     private static long completed(JSONObject result) {
         if ("accepted".equals(result.optString("kind"))) result = PhoneJson.deviceAccepted(result.optString("message"));
         long id = PhoneTasks.create(); if (id != 0) PhoneTasks.complete(id, result); return id;
@@ -195,13 +220,21 @@ final class PhoneDevice {
     static synchronized void event(JSONObject response) {
         if (closed || response == null || PhoneJson.bytes(response) > 900000) return;
         String key = eventKey(response);
-        for (Iterator<JSONObject> it = EVENTS.iterator(); it.hasNext();) if (key.equals(eventKey(it.next()))) it.remove();
+        for (Iterator<JSONObject> it = EVENTS.iterator(); it.hasNext();) {
+            JSONObject previous = it.next();
+            if (!key.equals(eventKey(previous))) continue;
+            if ("missedCalls".equals(response.optString("kind")) && previous.optJSONObject("value") != null
+                    && response.optJSONObject("value") != null
+                    && previous.optJSONObject("value").optLong("revision") >= response.optJSONObject("value").optLong("revision")) return;
+            it.remove();
+        }
         if (EVENTS.size() == 32) EVENTS.removeFirst(); EVENTS.addLast(response);
     }
     private static String eventKey(JSONObject response) {
         JSONObject value = response.optJSONObject("value"); String kind = response.optString("kind");
         return kind + ":" + (value == null ? "" : value.optString("client_id", value.optString("thread_id", value.optString("message_id", ""))));
     }
+    static void callsChanged() { callDirty.set(true); callRetryAt.set(0); callFailures.set(0); }
     static void messagesChanged() { messageDirty.set(true); }
     static void notificationAuthorityChanged() { invalidateObservations(PhoneObservationEpoch.NOTIFICATIONS); }
     private static void removePrivateRows(int changed) {
@@ -214,6 +247,7 @@ final class PhoneDevice {
             if (closed) return;
             observationEpoch.invalidate();
             removePrivateRows(changed);
+            if ((changed & (PhoneObservationEpoch.CALLS | PhoneObservationEpoch.CALL_WRITE)) != 0) PhoneCallHistory.invalidate();
             authorityHints.getAndUpdate(previous -> previous | changed);
             signal = observationSignal;
         }
@@ -221,8 +255,9 @@ final class PhoneDevice {
         PhoneTasks.invalidateReads();
     }
     private static void reconcileAuthority(Context context) {
-        boolean read = PhoneMessageProvider.readable(context), notices = PhoneNotificationListener.available(context);
-        int next = (read ? PhoneObservationEpoch.MESSAGES : 0) | (notices ? PhoneObservationEpoch.NOTIFICATIONS : 0);
+        boolean read = PhoneMessageProvider.readable(context), notices = PhoneNotificationListener.available(context), callRead = PhoneCallHistory.readable(context);
+        int next = (read ? PhoneObservationEpoch.MESSAGES : 0) | (notices ? PhoneObservationEpoch.NOTIFICATIONS : 0)
+                | (callRead ? PhoneObservationEpoch.CALLS : 0) | (PhoneCallHistory.writable(context) ? PhoneObservationEpoch.CALL_WRITE : 0);
         final int changed;
         final CancellationSignal signal;
         synchronized (PhoneDevice.class) {
@@ -230,6 +265,7 @@ final class PhoneDevice {
             changed = observed | authorityHints.getAndSet(0);
             if (changed == 0) return;
             removePrivateRows(changed);
+            if ((changed & (PhoneObservationEpoch.CALLS | PhoneObservationEpoch.CALL_WRITE)) != 0) PhoneCallHistory.invalidate();
             signal = observationSignal;
         }
         if (signal != null) signal.cancel();
@@ -242,6 +278,11 @@ final class PhoneDevice {
                 if (messages != null) { context.getContentResolver().unregisterContentObserver(messages); messages = null; }
             } else if (observeList || currentThread != null) observeMessages(context);
         }
+        if ((changed & (PhoneObservationEpoch.CALLS | PhoneObservationEpoch.CALL_WRITE)) != 0) {
+            if (!callRead && calls != null) { context.getContentResolver().unregisterContentObserver(calls); calls = null; }
+            else if (callRead && observeCalls) observeCalls(context);
+        }
+        if (callRead && observeCalls) callsChanged();
         if (read && (observeList || currentThread != null)) messageDirty.set(true);
         if ((changed & PhoneObservationEpoch.NOTIFICATIONS) != 0) notificationRefresh.set(true);
     }
@@ -251,6 +292,12 @@ final class PhoneDevice {
         context.getContentResolver().registerContentObserver(Telephony.MmsSms.CONTENT_URI, true, messages);
         context.getContentResolver().registerContentObserver(Telephony.Sms.CONTENT_URI, true, messages);
         context.getContentResolver().registerContentObserver(Telephony.Mms.CONTENT_URI, true, messages);
+    }
+    private static void observeCalls(Context context) {
+        if (calls != null || !PhoneCallHistory.readable(context)) return;
+        ContentObserver observer = new ContentObserver(PhoneTasks.MAIN) { @Override public void onChange(boolean self, Uri uri) { callsChanged(); } };
+        context.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, true, observer);
+        calls = observer;
     }
     static String events(Context context) {
         if (Looper.myLooper() != Looper.getMainLooper()) return "[]";
@@ -280,17 +327,20 @@ final class PhoneDevice {
     }
     private static void refresh(Context context) {
         boolean readMessages = messageDirty.get() && (observeList || currentThread != null) && PhoneMessageProvider.readable(context);
-        if (!(catalogDirty.get() || readMessages) || !refreshing.compareAndSet(false, true)) return;
+        boolean readCalls = callDirty.get() && observeCalls && android.os.SystemClock.elapsedRealtime() >= callRetryAt.get() && PhoneCallHistory.readable(context);
+        if (!(catalogDirty.get() || readMessages || readCalls) || !refreshing.compareAndSet(false, true)) return;
         final boolean catalog = catalogDirty.getAndSet(false), lists = readMessages && observeList;
         final String thread = readMessages ? currentThread : null;
         final int threads = listLimit, messages = threadLimit;
         if (readMessages) messageDirty.set(false);
+        if (readCalls) callDirty.set(false);
         final long lease;
         final CancellationSignal signal = new CancellationSignal();
         synchronized (PhoneDevice.class) { lease = observationEpoch.lease(); observationSignal = signal; }
         Context app = context.getApplicationContext();
         OBSERVATIONS.execute(() -> {
             try {
+                if (readCalls) refreshCalls(app, lease, signal);
                 if (catalog) { JSONObject response = PhoneLauncher.applications(app); synchronized (PhoneDevice.class) { if (!closed && observationEpoch.current(lease)) catalogResult = response.toString(); } }
                 if (lists) observed(lease, PhoneMessageProvider.threads(app, threads, signal).optJSONObject("response"));
                 if (thread != null) observed(lease, PhoneMessageProvider.messages(app, thread, messages, signal).optJSONObject("response"));
@@ -300,6 +350,22 @@ final class PhoneDevice {
                 refreshing.set(false);
             }
         });
+    }
+    private static void refreshCalls(Context context, long lease, CancellationSignal signal) {
+        try {
+            JSONObject result = PhoneCallHistory.missed(context, signal).optJSONObject("response");
+            if (result == null) throw new IllegalStateException("Missed-call observation unavailable.");
+            observed(lease, result);
+            callFailures.set(0); callRetryAt.set(0);
+        } catch (RuntimeException unavailable) {
+            synchronized (PhoneDevice.class) {
+                if (!closed && observationEpoch.current(lease)) {
+                    int failures = callFailures.getAndUpdate(value -> Math.min(5, value + 1));
+                    callRetryAt.set(android.os.SystemClock.elapsedRealtime() + Math.min(30000L, 1000L << failures));
+                    callDirty.set(true);
+                }
+            }
+        }
     }
     private static synchronized void observed(long lease, JSONObject response) {
         // Compare and enqueue under the same monitor as revocation/queue invalidation.
@@ -311,7 +377,7 @@ final class PhoneDevice {
         synchronized (PhoneDevice.class) {
             closed = true; observationEpoch.invalidate(); authorityHints.set(0);
             signal = observationSignal; observationSignal = null;
-            EVENTS.clear(); catalogResult = null;
+            EVENTS.clear(); catalogResult = null; PhoneCallHistory.invalidate();
         }
         if (signal != null) signal.cancel();
         PhoneTasks.invalidateReads();
@@ -319,6 +385,8 @@ final class PhoneDevice {
         appOps = null; smsAuthority = null;
         if (packages != null) { try { context.getApplicationContext().unregisterReceiver(packages); } catch (RuntimeException ignored) { } packages = null; }
         if (messages != null) { context.getContentResolver().unregisterContentObserver(messages); messages = null; }
+        if (calls != null) { context.getContentResolver().unregisterContentObserver(calls); calls = null; }
+        observeCalls = false; callDirty.set(false); callRetryAt.set(0); callFailures.set(0);
         observeList = false; observeNotifications = false; currentThread = null; lastSnapshot = null;
         PhoneMessagePicker.close(); PhoneMessageFiles.discardDrafts(context); PhoneTorch.close(); PhoneNotificationListener.clearObserved();
         // InCallService and accepted carrier requests are Android-owned and outlive the shell.

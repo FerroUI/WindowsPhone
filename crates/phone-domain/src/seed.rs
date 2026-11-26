@@ -215,6 +215,7 @@ pub fn demo() -> PhoneData {
             timestamp: NOW - 1800,
             incoming: true,
             missed: true,
+            acknowledged: false,
         },
         CallRecord {
             id: 902,
@@ -223,6 +224,7 @@ pub fn demo() -> PhoneData {
             timestamp: NOW - 86400,
             incoming: false,
             missed: false,
+            acknowledged: false,
         },
     ];
     data.bookmarks = vec![Bookmark {
