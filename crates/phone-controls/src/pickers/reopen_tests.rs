@@ -1,6 +1,56 @@
 //! A new popup transaction must discard every unconfirmed native selector,
 //! including the DatePickerPresenter's private staged date.
 use super::*;
+use ferroui_base::controls::NameScopeRef;
+use ferroui_base::interactivity::RoutedEventHandlerToken;
+use std::{cell::RefCell, rc::Rc};
+
+/// Hidden selectors are registered native template parts, but their enclosing
+/// ScrollViewer need not materialize a visual ContentPresenter. Observe the
+/// real template scope instead of forcing hidden controls into the visual tree.
+struct NativePickerParts {
+    presenter: Ref<TemplatedControl>,
+    scope: Rc<RefCell<Option<NameScopeRef>>>,
+    handler: RoutedEventHandlerToken,
+}
+
+impl NativePickerParts {
+    fn new(picker: &TemplatedControl) -> Self {
+        let presenter = part::<Popup>(picker, "PART_Popup")
+            .child()
+            .and_then(|child| child.cast::<TemplatedControl>())
+            .expect("the native popup declares its presenter before first open");
+        assert!(
+            presenter.get_template_descendants().is_empty(),
+            "observe the native scope before the presenter's first template application"
+        );
+        let scope = Rc::new(RefCell::new(None));
+        let observed = scope.clone();
+        let handler = presenter.template_applied(move |_, event| {
+            *observed.borrow_mut() = Some(event.name_scope().clone());
+        });
+        Self {
+            presenter,
+            scope,
+            handler,
+        }
+    }
+
+    fn get<T: ObjectType>(&self, name: &str) -> Ref<T> {
+        self.scope
+            .borrow()
+            .as_ref()
+            .expect("first opening applies the native presenter template")
+            .get_as::<T>(name)
+    }
+}
+
+impl Drop for NativePickerParts {
+    fn drop(&mut self) {
+        self.presenter
+            .remove_handler(TemplatedControl::template_applied_event(), self.handler);
+    }
+}
 
 fn selected_text(panel: &DateTimePickerPanel) -> Option<String> {
     panel
@@ -63,10 +113,11 @@ fn native_date_reopen_restores_ranges_formats_hidden_fields_and_full_committed_d
             window.show();
             frame();
             let picker = root.find_descendant_of_type::<DatePicker>(false).unwrap();
+            let parts = NativePickerParts::new(&picker);
             let presenter = open(&window, &picker);
-            let year = part::<DateTimePickerPanel>(&presenter, "PART_YearSelector");
-            let month = part::<DateTimePickerPanel>(&presenter, "PART_MonthSelector");
-            let day = part::<DateTimePickerPanel>(&presenter, "PART_DaySelector");
+            let year = parts.get::<DateTimePickerPanel>("PART_YearSelector");
+            let month = parts.get::<DateTimePickerPanel>("PART_MonthSelector");
+            let day = parts.get::<DateTimePickerPanel>("PART_DaySelector");
             let panels = [&year, &month, &day];
             let baseline = panels.map(|panel| (panel.selected_value(), panel.minimum_value(), panel.maximum_value(), selected_text(panel)));
             for (index, name) in ["Year", "Month", "Day"].iter().enumerate() {
@@ -92,7 +143,7 @@ fn native_date_reopen_restores_ranges_formats_hidden_fields_and_full_committed_d
                 let reopened = open(&window, &picker);
                 assert!(Ref::ptr_eq(&presenter, &reopened), "{mode} reuses the native presenter, hidden={hidden}");
                 for (index, name) in ["Year", "Month", "Day"].iter().enumerate() {
-                    let current = part::<DateTimePickerPanel>(&reopened, &format!("PART_{name}Selector"));
+                    let current = parts.get::<DateTimePickerPanel>(&format!("PART_{name}Selector"));
                     assert!(Ref::ptr_eq(panels[index], &current));
                     assert_eq!((current.selected_value(), current.minimum_value(), current.maximum_value(), selected_text(&current)), baseline[index],
                         "{mode} restores native range and formatted date context for {name}, hidden={hidden}");
@@ -194,11 +245,12 @@ fn native_time_reopen_preserves_clock_increments_seconds_and_retained_parts() {
                     window.show();
                     frame();
                     let picker = root.find_descendant_of_type::<TimePicker>(false).unwrap();
+                    let parts = NativePickerParts::new(&picker);
                     let presenter = open(&window, &picker);
-                    let hour = part::<DateTimePickerPanel>(&presenter, "PART_HourSelector");
-                    let minute = part::<DateTimePickerPanel>(&presenter, "PART_MinuteSelector");
-                    let second = part::<DateTimePickerPanel>(&presenter, "PART_SecondSelector");
-                    let period = part::<DateTimePickerPanel>(&presenter, "PART_PeriodSelector");
+                    let hour = parts.get::<DateTimePickerPanel>("PART_HourSelector");
+                    let minute = parts.get::<DateTimePickerPanel>("PART_MinuteSelector");
+                    let second = parts.get::<DateTimePickerPanel>("PART_SecondSelector");
+                    let period = parts.get::<DateTimePickerPanel>("PART_PeriodSelector");
                     let panels = [&hour, &minute, &second, &period];
                     assert_eq!(panels.map(|panel| panel.selected_value()), expected);
 
@@ -221,10 +273,7 @@ fn native_time_reopen_preserves_clock_increments_seconds_and_retained_parts() {
                         {
                             assert!(Ref::ptr_eq(
                                 panels[index],
-                                &part::<DateTimePickerPanel>(
-                                    &reopened,
-                                    &format!("PART_{name}Selector")
-                                )
+                                &parts.get::<DateTimePickerPanel>(&format!("PART_{name}Selector"))
                             ));
                         }
                         assert_eq!(
