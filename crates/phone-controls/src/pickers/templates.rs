@@ -45,6 +45,10 @@ pub(super) fn presenter_template(date: bool) -> Rc<dyn IControlTemplate> {
         FuncControlTemplate::new(move |_, scope| {
             let page = Grid::new();
             page.set_name(Some("PhonePickerSurface".into()));
+            // Popup presses route through the owning page, but capture loss
+            // stays in the overlay's visual tree. Native wheels must own the
+            // entire contact so cancellation cannot leave a shell gesture.
+            page.classes().add("phone-native-input");
             page.set_row_definitions(RowDefinitions::parse("Auto,*,60").expect("picker rows"));
             page.set_clip_to_bounds(true);
             page.bind_binding(

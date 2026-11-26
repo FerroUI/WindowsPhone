@@ -35,9 +35,10 @@ import { inputGeometryReady, inputTarget, stableInputTarget } from "./ui-input-g
 const site = path.resolve(process.argv[2] || "artifacts/site");
 const output = path.resolve(process.argv[3] || "artifacts/ui-smoke");
 const started = Date.now();
-// The expanded rendered suite reached its offline reload after roughly 270s
-// in CI. Reserve completion margin without extending any individual UI wait.
-const deadline = started + 360000;
+// The settled-input suite completed 88 checks before its former 360s budget
+// expired during the final DPR checks. Allow 8 minutes for the full workload
+// and CI variation without extending any individual UI wait.
+const deadline = started + 480000;
 const results = { site, viewport: [1280, 936], checks: [], captures: [] };
 const apps = [
   ["Phone", "Phone"], ["Messaging", "Messaging"], ["People", "People"],
@@ -56,7 +57,7 @@ const snapshot = async () => JSON.parse(await page.evaluate("phoneApp.inspectVie
 const state = async () => JSON.parse(await page.evaluate("phoneApp.exportData()"));
 const route = async () => JSON.parse(await page.evaluate("phoneApp.currentRoute()"));
 const healthy = () => {
-  assert(Date.now() < deadline, "UI verification exhausted the 6-minute suite budget");
+  assert(Date.now() < deadline, "UI verification exhausted the 8-minute suite budget");
   assert.equal(page.errors.length, 0, page.errors.join("\n"));
 };
 const button = element => /(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type);
