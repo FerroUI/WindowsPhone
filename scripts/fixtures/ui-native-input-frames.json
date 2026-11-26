@@ -5,7 +5,9 @@
     "lock_file": "system-personalized-lock-screen.json",
     "hub_run": 45826014320,
     "hub_file": "failure-view.json",
-    "selection": "Only native geometry/input fields retained; values copied unchanged."
+    "selection": "Only native geometry/input fields retained; values copied unchanged.",
+    "start_run": 45832927821,
+    "start_file": "failure-view.json"
   },
   "outgoing": {
     "elements": [
@@ -265,6 +267,80 @@
           "width": 76,
           "x": 564,
           "y": 767
+        },
+        "projection": null,
+        "opacity": 1,
+        "hit": true,
+        "enabled": true,
+        "hitTestVisible": true,
+        "imageSource": null
+      },
+      {
+        "type": "Border",
+        "name": "PhoneOutgoingPage",
+        "automationName": null,
+        "x": 440,
+        "y": 87,
+        "width": 400,
+        "height": 740,
+        "renderedBounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "projection": null,
+        "opacity": 0,
+        "hit": false,
+        "enabled": false,
+        "hitTestVisible": false,
+        "imageSource": null
+      }
+    ]
+  },
+  "startEntrance": {
+    "elements": [
+      {
+        "type": "Border",
+        "name": "PhonePage",
+        "automationName": null,
+        "x": 440.0000305175781,
+        "y": 86.99999237060547,
+        "width": 400,
+        "height": 740,
+        "renderedBounds": {
+          "height": 740.000129699707,
+          "width": 398.2604675292969,
+          "x": 440.0000305175781,
+          "y": 86.99999237060547
+        },
+        "projection": {
+          "angleX": 0,
+          "angleY": 0.5424010460624231,
+          "centerX": -200,
+          "centerY": 0,
+          "depth": 833.3333333333334,
+          "kind": "turnstile"
+        },
+        "opacity": 1,
+        "hit": true,
+        "enabled": true,
+        "hitTestVisible": true,
+        "imageSource": null
+      },
+      {
+        "type": "ScrollViewer",
+        "name": "StartScroll",
+        "automationName": null,
+        "x": 440.0000305175781,
+        "y": 86.99999237060547,
+        "width": 400,
+        "height": 740,
+        "renderedBounds": {
+          "height": 740.000129699707,
+          "width": 398.2604675292969,
+          "x": 440.0000305175781,
+          "y": 86.99999237060547
         },
         "projection": null,
         "opacity": 1,

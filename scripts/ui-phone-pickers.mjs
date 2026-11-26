@@ -55,7 +55,8 @@ export async function verifyPhonePickers(ctx) {
   const scroll=element=>/ScrollViewer$/.test(element.type)&&element.width>220&&element.height>160;
   const revealName=async name=>{
     const existing=(await snapshot()).elements.find(element=>element.name===name&&element.hit);
-    return existing||reveal(element=>element.name===name,name,scroll,"native editor scroll viewer");
+    return existing?control(element=>element.name===name,name):
+      reveal(element=>element.name===name,name,scroll,"native editor scroll viewer");
   };
   const open=async name=>{
     await page.click(...centre(await revealName(name)));

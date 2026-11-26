@@ -90,7 +90,7 @@ async function until(check, label, timeout = 10000) {
   throw new Error(`Timed out: ${label}${lastError ? ` (${lastError.message})` : ""}`);
 }
 
-async function control(match, label) {
+async function rawControl(match, label) {
   return until(async () => {
     const found = (await snapshot())?.elements.filter(element => element.hit && match(element)) || [];
     assert(found.length <= 1, `Ambiguous control: ${label} (${found.length})`);
@@ -117,6 +117,9 @@ async function click(match, label) {
 const inputControl = (match, label) => until(() => stableInputTarget({
   snapshot, frame: renderedFrame, match, label,
 }), label);
+// Normal callers use controls as pointer coordinates. Motion observers can
+// explicitly request rawControl, presence or snapshot without waiting for rest.
+const control = inputControl;
 const clickName = name => click(element => element.name === name, name);
 const clickLabel = async label => {
   const match=element=>button(element)&&element.automationName===label;
@@ -307,12 +310,24 @@ async function home() {
   // overlay/layout changes commit before using that route as a completion cue.
   await renderedFrame();
   await isRoute("Start");
+  await control(element => element.name === "StartScroll", "settled Start scroll viewer");
+}
+
+async function settledPage(label) {
+  const ready = view => inputGeometryReady(view) &&
+    view.elements.some(element => element.name === "PhonePage");
+  return until(async () => {
+    if (!ready(await snapshot())) return;
+    await renderedFrame();
+    const current = await snapshot();
+    return ready(current) ? current : undefined;
+  }, label);
 }
 
 async function openApps() {
   await home();
   for (let attempt = 0; attempt < 12; attempt++) {
-    const view = await snapshot();
+    const view = await settledPage("Start entrance finishes before app-list navigation");
     const scroll = view.elements.find(element => element.name === "StartScroll" && element.hit);
     assert(scroll, "Start scroll viewer is not hit-testable");
     const allApps = view.elements.find(element => element.name === "AllApps" && element.hit &&
@@ -322,9 +337,12 @@ async function openApps() {
       // the actual All apps command (not the edit-mode Done command) to keep
       // its fully visible, hittable geometry across rendered frames.
       const settled = await until(async () => {
-        const first = (await snapshot()).elements.find(element => element.name === "AllApps");
+        const firstView = await snapshot();
+        if (!inputGeometryReady(firstView)) return;
+        const first = firstView.elements.find(element => element.name === "AllApps");
         await renderedFrame();
         const current = await snapshot();
+        if (!inputGeometryReady(current)) return;
         const second = current.elements.find(element => element.name === "AllApps");
         const viewport = current.elements.find(element => element.name === "StartScroll");
         if (!first || !second || !viewport || !second.hit || !boundsInside(second, viewport)) return;
@@ -355,7 +373,7 @@ async function openApps() {
       await control(element => element.name === "AppSearch", "app search field");
       return;
     }
-    await page.wheel(...centre(scroll), 0, 550);
+    await page.wheel(...centre(await control(element => element.name === "StartScroll", "Start scroll viewer")), 0, 550);
   }
   throw new Error("All apps did not become visible after scrolling Start");
 }
@@ -365,6 +383,7 @@ async function launchFromSearch(label, id) {
   await edit("AppSearch", label);
   await clickLabel(label);
   await isRoute({ App: id });
+  await settledPage(`${label} entrance finishes before app content inspection`);
 }
 
 async function reload() {
@@ -614,6 +633,7 @@ try {
       await isRoute({ App: id });
       await until(async () => JSON.stringify((await snapshot()).elements.map(element =>
         [element.name, element.text])) !== before, `${label} native view committed`);
+      await settledPage(`${label} gallery entrance finishes before its reference capture`);
       await capture(`app-${id.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`);
     }
   });
@@ -651,7 +671,7 @@ try {
     await until(async () => !(await snapshot()).elements.some(element => element.name === "AppSwitcher"),
       "hardware Back dismisses task switcher");
   });
-  const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control, output,
+  const refinementContext = { page, check, state, snapshot, until, capture, button, centre, control, rawControl, output,
     clickName, clickLabel, clickText, textPresent, reveal, edit, home, isRoute, reload };
   // These modules restore isolated fixtures in finally. Collect their independent
   // failures in one opt-in run, while keeping every assertion a publication gate.

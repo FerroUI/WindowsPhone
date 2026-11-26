@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { sleep } from "../FerroUI/scripts/browser/harness.mjs";
+import { inputGeometryReady } from "./ui-input-geometry.mjs";
 
 function motionDiagnostic(frames) {
   const firstProjected = frames.findIndex(frame => frame.page && frame.page.projection !== null);
@@ -81,7 +82,13 @@ export async function verifyMetroControls(ctx) {
     let previous;
     let observations = 0;
     return until(async () => {
-      const matches = (await snapshot()).elements.filter(element => (!requireHit || element.hit) && match(element));
+      const view = await snapshot();
+      if (!inputGeometryReady(view)) {
+        previous = undefined;
+        observations = 0;
+        return;
+      }
+      const matches = view.elements.filter(element => (!requireHit || element.hit) && match(element));
       assert(matches.length <= 1, `Ambiguous native target: ${label}`);
       const current = matches[0];
       if (!current) return;

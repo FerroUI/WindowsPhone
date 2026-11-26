@@ -22,10 +22,12 @@ export async function verifyAlarmRefinements(ctx) {
   const settled=()=>page.evaluate("new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))))");
   const scroller=element=>/ScrollViewer$/.test(element.type)&&element.width>220&&element.height>160;
   const choose=async label=>{
-    let target=(await snapshot()).elements.find(element=>element.hit&&button(element)&&element.automationName===label);
-    if(!target){
+    const match=element=>button(element)&&element.automationName===label;
+    let target=(await snapshot()).elements.find(element=>element.hit&&match(element));
+    if(target)target=await control(match,label);
+    else{
       await page.wheel(...centre(await control(scroller,"alarm editor scroll viewer")),0,-10000);
-      target=await reveal(element=>button(element)&&element.automationName===label,label,scroller,"alarm editor scroll viewer");
+      target=await reveal(match,label,scroller,"alarm editor scroll viewer");
     }
     await page.click(...centre(target));
   };

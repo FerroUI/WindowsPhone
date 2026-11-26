@@ -144,7 +144,7 @@ export async function verifyShellParity(ctx) {
         const groups=(await snapshot()).elements.filter(element=>element.hit&&element.name?.startsWith("AppGroup-"));
         return groups.sort((a,b)=>a.y-b.y)[0];
       },"first visible native alphabet header");
-      await page.click(...centre(group));
+      await page.click(...centre(await control(element=>element.name===group.name,group.name)));
       await control(element=>element.name==="AppJump-m","M jump cell");
       const alphabet=await snapshot();
       const cells=alphabet.elements.filter(element=>element.name?.startsWith("AppJump-"));

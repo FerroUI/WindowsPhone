@@ -30,7 +30,7 @@ export async function verifyCalendarRefinements(ctx) {
   const visible=async(match,label)=>{
     const matches=(await snapshot()).elements.filter(element=>element.hit&&match(element));
     assert(matches.length<=1,`Ambiguous calendar control: ${label}`);
-    if(matches[0])return matches[0];
+    if(matches[0])return control(match,label);
     await page.wheel(...centre(await control(scroller,"calendar scroll viewer")),0,-10000);
     return reveal(match,label,scroller,"calendar scroll viewer");
   };

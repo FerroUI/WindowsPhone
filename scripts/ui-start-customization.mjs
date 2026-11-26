@@ -34,11 +34,18 @@ export async function verifyStartCustomization(ctx) {
   const named=async name=>(await snapshot()).elements.filter(element=>element.name===name);
   const text=async(name,value)=>until(async()=>{const found=await named(name);return found.length===1&&found[0].text===value;},`${name}: ${value}`);
   const menuClick=async match=>{
+    const targetMatch=element=>/(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type)&&match(element);
     const item=await until(async()=>{
-      const view=await snapshot();const candidates=view.elements.filter(element=>/(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type)&&match(element));
-      const visible=candidates.filter(element=>element.hit);assert(visible.length<=1,"Tile command must be unique");if(visible[0])return visible[0];
+      const view=await snapshot();const candidates=view.elements.filter(targetMatch);
+      const visible=candidates.filter(element=>element.hit);assert(visible.length<=1,"Tile command must be unique");
+      if(visible[0])return control(targetMatch,"reachable tile command");
       const menu=view.elements.find(element=>element.name==="TileMenuSurface");
-      if(menu){const target=candidates[0];await page.wheel(menu.x+menu.width/2,menu.y+menu.height/2,0,target&&target.y<menu.y?-240:240);await settled();}
+      if(menu){
+        const scroll=await control(element=>element.name==="TileMenuSurface","tile command menu");
+        const target=candidates[0];
+        await page.wheel(scroll.x+scroll.width/2,scroll.y+scroll.height/2,0,target&&target.y<scroll.y?-240:240);
+        await settled();
+      }
       return false;
     },"reachable tile command");
     await page.click(item.x+item.width/2,item.y+item.height/2);

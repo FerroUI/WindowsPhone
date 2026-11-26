@@ -9,7 +9,9 @@ const create = element => element.name === "AppBarAction-new";
 
 test("real native retiring and hittable incoming frames cannot supply normal pointer coordinates", async () => {
   assert(captured.incoming.elements.find(page).hit, "the regression frame passes the old hit-only lookup");
-  for (const view of [captured.outgoing, captured.incoming]) {
+  assert(Math.abs(captured.startEntrance.elements.find(page).projection.angleY) < 1,
+    "the observed Start failure still had an attached transform below one degree");
+  for (const view of [captured.outgoing, captured.incoming, captured.startEntrance]) {
     assert.equal(inputGeometryReady(view), false);
     let frames = 0;
     assert.equal(await stableInputTarget({view, match: page, label: "page",
