@@ -47,7 +47,7 @@ pub fn list<T: Clone + PartialEq + 'static>(
     rows: Vec<T>,
     render: Rc<dyn Fn(T) -> Element>,
 ) -> Element {
-    list_inner(name, rows, render, None)
+    list_inner(name, rows, render, None, None)
 }
 pub fn list_with_node<T: Clone + PartialEq + 'static>(
     name: &'static str,
@@ -55,13 +55,27 @@ pub fn list_with_node<T: Clone + PartialEq + 'static>(
     render: Rc<dyn Fn(T) -> Element>,
     node: NodeRef<ListBox>,
 ) -> Element {
-    list_inner(name, rows, render, Some(node))
+    list_inner(name, rows, render, Some(node), None)
 }
+
+/// A recycled native list with measured sticky-group navigation. Render the
+/// header overlay separately from `groups.current_group()` and its translation.
+pub fn grouped_list<T: Clone + PartialEq + 'static>(
+    name: &'static str,
+    rows: Vec<T>,
+    render: Rc<dyn Fn(T) -> Element>,
+    node: NodeRef<ListBox>,
+    groups: Rc<phone_controls::GroupedListState>,
+) -> Element {
+    list_inner(name, rows, render, Some(node), Some(groups))
+}
+
 fn list_inner<T: Clone + PartialEq + 'static>(
     name: &'static str,
     rows: Vec<T>,
     render: Rc<dyn Fn(T) -> Element>,
     node: Option<NodeRef<ListBox>>,
+    groups: Option<Rc<phone_controls::GroupedListState>>,
 ) -> Element {
     use ferroui_base::BoxedValue;
     use ferroui_controls::ItemsSource;
@@ -88,11 +102,15 @@ fn list_inner<T: Clone + PartialEq + 'static>(
         cache.source.clone()
     };
     let template = use_hook(move || template(move |value: T| render(value)));
-    match node {
-        Some(node) => {
+    match (node, groups) {
+        (Some(node), Some(groups)) => {
+            rsx! {ListBox{name:name,class:"phone-list",node_ref:node,items_source:source,item_template:template,
+            with:move |list|phone_controls::attach_grouped_list(list,groups.clone())}}
+        }
+        (Some(node), None) => {
             rsx! {ListBox{name:name,class:"phone-list",node_ref:node,items_source:source,item_template:template}}
         }
-        None => {
+        (None, _) => {
             rsx! {ListBox{name:name,class:"phone-list",items_source:source,item_template:template}}
         }
     }

@@ -4,8 +4,13 @@
 //! Native timestamps are Unix milliseconds; call durations are whole seconds.
 use super::{HostFeature, HostRole, SystemSettingsPage};
 mod admission;
+mod calls;
+pub use calls::*;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
+
+/// Runtime observation channels 2 through this value are reserved for device reads.
+pub const LAST_DEVICE_OBSERVATION_CHANNEL: u8 = 11;
 
 pub const MAX_DEVICE_CONTACTS: usize = 1000;
 pub const MAX_DEVICE_MESSAGES: usize = 500;
@@ -304,6 +309,8 @@ pub enum DeviceOperation {
     ReadContacts,
     WriteContacts,
     CallHistory,
+    ReadMissedCalls,
+    AcknowledgeMissedCalls,
     ActiveCalls,
     CallControl,
     Dial,
@@ -553,6 +560,10 @@ pub enum DeviceRequest {
     CallHistory {
         limit: u16,
     },
+    MissedCalls,
+    AcknowledgeMissedCalls {
+        token: String,
+    },
     Calls,
     Dial {
         number: String,
@@ -674,6 +685,8 @@ impl DeviceRequest {
                 F::Contacts
             }
             Self::CallHistory { .. }
+            | Self::MissedCalls
+            | Self::AcknowledgeMissedCalls { .. }
             | Self::Calls
             | Self::Dial { .. }
             | Self::CallAction { .. } => F::Telephony,
@@ -713,6 +726,7 @@ impl DeviceRequest {
             Self::Notifications => 8,
             Self::Shortcuts { .. } => 9,
             Self::MessageAttachments { .. } => 10,
+            Self::MissedCalls => 11,
             _ => return None,
         })
     }
@@ -732,6 +746,7 @@ impl DeviceRequest {
                         .all(|v| line(v, 512, false) && v.contains('@'))
             }
             Self::DeleteContact { id } => identity(id),
+            Self::AcknowledgeMissedCalls { token } => identity(token) && token.len() <= 128,
             Self::CallHistory { limit } | Self::MessageThreads { limit } => {
                 (1..=500).contains(limit)
             }
@@ -836,6 +851,7 @@ pub enum DeviceResponse {
     Snapshot(DeviceSnapshot),
     Contacts(Vec<DeviceContact>),
     CallHistory(Vec<DeviceCallRecord>),
+    MissedCalls(MissedCallActivity),
     Calls(Vec<ActiveCall>),
     MessageThreads(Vec<DeviceMessageThread>),
     Messages {
@@ -883,7 +899,7 @@ impl DeviceResponse {
     pub fn validate(&self) -> Result<(), String> {
         let valid = match self {
             Self::Snapshot(v) => {
-                v.operations.len() <= 20
+                v.operations.len() <= 22
                     && unique(&v.operations, |v| *v)
                     && v.settings.len() <= 48
                     && unique(&v.settings, |v| *v)
@@ -928,6 +944,7 @@ impl DeviceResponse {
                             && v.emails.iter().all(|v| line(v, 512, false))
                     })
             }
+            Self::MissedCalls(v) => v.valid(),
             Self::CallHistory(v) => {
                 v.len() <= 500
                     && unique(v, |v| v.id.as_str())

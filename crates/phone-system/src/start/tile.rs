@@ -5,7 +5,6 @@ use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
 use phone_controls::{icon, Icon};
 use phone_domain::{AppId, Tile, TileBackground, TileBadge, TileNotification, TileSize};
-use phone_host::platform::{DevicePermission, DeviceRole, HostRole, PermissionState};
 use phone_state::PhoneViewModel;
 use std::rc::Rc;
 
@@ -104,29 +103,7 @@ fn badge(vm: &PhoneViewModel, tile: &Tile, card: Option<&TileNotification>) -> O
     if tile.is_folder() || tile.target.is_some() {
         return None;
     }
-    let local = || vm.data().badge(tile.app).min(u32::MAX as usize) as u32;
-    let count = if matches!(tile.app, AppId::Messaging | AppId::Phone) {
-        let device = vm.device_state();
-        if tile.app == AppId::Messaging
-            && (device.snapshot.permission(DevicePermission::ReadSms) == PermissionState::Granted
-                || device.snapshot.role(DeviceRole::Sms) == HostRole::Active)
-        {
-            device
-                .threads
-                .iter()
-                .fold(0u32, |sum, thread| sum.saturating_add(thread.unread))
-        } else if tile.app == AppId::Phone
-            && device.snapshot.role(DeviceRole::Dialer) == HostRole::Active
-        {
-            // Call history has no read acknowledgement. Historical missed calls
-            // must not masquerade as a fresh notification count.
-            0
-        } else {
-            local()
-        }
-    } else {
-        local()
-    };
+    let count = vm.app_badge(tile.app);
     (count > 0).then_some(TileBadge::Count(count))
 }
 

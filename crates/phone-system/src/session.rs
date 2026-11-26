@@ -106,6 +106,7 @@ impl SystemSessionExt for Session {
         self.live_clock.set(vm.now());
         self.state::<AlarmState>().clear();
         self.state::<AppListState>().reset();
+        crate::app_list::reset_native(self);
         crate::gestures::cancel();
         self.clear_overlays();
         self.state::<PreviewCache>().clear();

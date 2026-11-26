@@ -1,6 +1,8 @@
 mod native;
 mod sticky;
-pub(crate) use native::{dismiss as dismiss_native, has_overlay as has_native_overlay};
+pub(crate) use native::{
+    dismiss as dismiss_native, has_overlay as has_native_overlay, reset as reset_native,
+};
 
 pub(crate) use sticky::AppListState;
 

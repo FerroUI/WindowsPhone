@@ -26,7 +26,7 @@ final class PhonePermissions {
     static String[] names(String permission) {
         switch (permission) {
             case "contacts": return new String[]{Manifest.permission.READ_CONTACTS};
-            case "callLog": return new String[]{Manifest.permission.READ_CALL_LOG};
+            case "callLog": return new String[]{Manifest.permission.READ_CALL_LOG, Manifest.permission.WRITE_CALL_LOG};
             case "phone": return new String[]{Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE};
             case "readSms": return new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
                     Manifest.permission.RECEIVE_MMS, Manifest.permission.RECEIVE_WAP_PUSH};
@@ -45,6 +45,8 @@ final class PhonePermissions {
         if ("notifications".equals(permission)) { String state = PhoneServices.notificationPermission(context); return "unavailable".equals(state) ? "unsupported" : state; }
         String[] names = names(permission);
         if (names == null) return "unsupported";
+        if ("callLog".equals(permission) && granted(context, Manifest.permission.READ_CALL_LOG)
+                && !granted(context, Manifest.permission.WRITE_CALL_LOG)) return "limited";
         if ("location".equals(permission) && granted(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 && !granted(context, Manifest.permission.ACCESS_FINE_LOCATION)) return "limited";
         String state = "granted";

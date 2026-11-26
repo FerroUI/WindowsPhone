@@ -13,6 +13,7 @@ impl DeviceRequest {
                 Q::Contacts { .. } | Q::SaveContact { .. } | Q::DeleteContact { .. }
             ),
             A::CallHistory(_) => matches!(self, Q::CallHistory { .. }),
+            A::MissedCalls(_) => matches!(self, Q::MissedCalls | Q::AcknowledgeMissedCalls { .. }),
             A::Calls(_) => matches!(self, Q::Calls | Q::CallAction { .. } | Q::Dial { .. }),
             A::MessageThreads(_) => matches!(
                 self,
@@ -82,6 +83,13 @@ impl DeviceResponse {
                 (O::ReadContacts, !rows.is_empty())
             }
             Self::CallHistory(rows) => (O::CallHistory, !rows.is_empty()),
+            Self::MissedCalls(value) => {
+                if value.acknowledgement.is_some() && !snapshot.supports(O::AcknowledgeMissedCalls)
+                {
+                    return Err("Call acknowledgement access is no longer granted.".into());
+                }
+                (O::ReadMissedCalls, value.count > 0)
+            }
             Self::Calls(rows) => (O::ActiveCalls, !rows.is_empty()),
             Self::MessageThreads(rows) => (O::ReadMessages, !rows.is_empty()),
             Self::Messages { messages, .. } => (O::ReadMessages, !messages.is_empty()),

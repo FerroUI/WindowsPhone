@@ -90,10 +90,11 @@ for phone_role in DIALER SMS; do
     adb_shell cmd role get-role-holders --user "$phone_user" "android.app.role.$phone_role" | tr -d '\r' > "$phone_out/$phone_role-selected.txt"
     [ "$(cat "$phone_out/$phone_role-selected.txt")" = "$phone_package" ]
 done
-for phone_permission in READ_PHONE_STATE CALL_PHONE READ_CALL_LOG READ_SMS SEND_SMS RECEIVE_SMS RECEIVE_MMS RECEIVE_WAP_PUSH POST_NOTIFICATIONS; do
+for phone_permission in READ_PHONE_STATE CALL_PHONE READ_CALL_LOG WRITE_CALL_LOG READ_SMS SEND_SMS RECEIVE_SMS RECEIVE_MMS RECEIVE_WAP_PUSH POST_NOTIFICATIONS; do
     adb_shell pm grant "$phone_package" "android.permission.$phone_permission" >> "$phone_out/device-permission-grants.txt" 2>&1
 done
 wait_device roles
+source "$phone_repo/scripts/smoke-android-calls.sh"
 
 phase 'Receiving a modem SMS through the protected receiver, native job and Android provider'
 adb_do emu sms send 5550101 "FerroUI SMS $phone_device_nonce" > "$phone_out/modem-sms.txt" 2>&1

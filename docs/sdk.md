@@ -220,11 +220,43 @@ Use `command` for a standalone text command, or `command_button` when a native `
 | `with_launch_path` | Parse a built-in app's nonempty launch path into bounded activation JSON before navigation or pinning. Pair it with `with_activation`. |
 | `with_tile` | Render a retained tile surface from the registered app context, saved launch path, size and system cadence. |
 | `with_tick` | Receive foreground clock ticks for the active app. Keep work bounded; no background wake-up guarantee follows from this hook. |
+| `with_reminders` | Supply a complete current foreground-reminder schedule independently of the active route. Requires `Notifications` or `All`; the shared alert service owns scheduling, snooze, dismissal and typed activation. |
 | `with_media_event` | Observe the current library player's source-bound progress, pause/checkpoint and completion while any app is visible. Requires an enabled registration declaring `Media` or `All`. |
 | `with_host_navigation` | Receive the browser host's acknowledgement of app-requested navigation. |
 | `with_host_weather` | Receive a host weather result. This is observed external data, not generated weather. |
 
 A callback must not retain a borrowed view-model document across a mutation, await point or host callback. Snapshot IDs/values, release the borrow, then dispatch. Use stable automation names on important controls so rendered tests can drive actual input.
+
+## Foreground reminder providers
+
+`AppRegistration::with_reminders` accepts a `ReminderProvider`, a pure function
+from `&PhoneViewModel` to `Result<Vec<AppReminder>, String>`. Calendar tasks are a
+complete implementation in `crates/apps/phone-app-calendar/src/tasks`: their
+versioned app namespace stays authoritative, and the provider derives eligible
+reminders from unfinished tasks. A provider must not mutate the document or
+invoke host services while collecting its schedule.
+
+Each reminder supplies a stable app-local `key`, positive content `revision`,
+minute-aligned `scheduled_local` timestamp, title, detail and typed launch path.
+The registry scopes identity to the registered app and document epoch; validates
+paths, text, dates and unique keys; and collects enabled/installed providers in
+deterministic order. Capacity is **512 reminders per provider** and **4,096 in
+total**. Invalid providers are excluded as a unit and reported in
+`AppReminderSnapshot.errors`, preserving other valid providers and stored data.
+
+The alarm service retains the registry weakly. It revalidates its source and
+current document after callbacks, when advancing the queue, and before opening
+a reminder. Edits replace current content; completion, deletion, disablement or
+document replacement retire obsolete active, queued and snoozed items.
+Delivery deduplicates owner/key/scheduled time, so changing unrelated task data
+does not replay that instant. Snooze deadlines use UTC; scheduled reminders use
+the current local wall-clock offset, matching the existing Calendar model.
+
+This is a foreground service. It does not register an OS background agent,
+wake a closed application, promise delivery while suspended, or replay every
+missed interval. App notification preferences control host banners. The alert
+surface applies lock-screen detail privacy to appointment and app reminders.
+The normal open command uses the app's validated activation path.
 
 ## App discovery, Start tiles and recent apps
 

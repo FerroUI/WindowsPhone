@@ -7,6 +7,7 @@ mod month;
 mod pickers;
 mod scroll;
 mod session;
+mod tasks;
 mod week;
 
 use ferroui_base::{
@@ -23,6 +24,9 @@ pub use session::{CalendarSession, CalendarView};
 use std::rc::Rc;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    if ui.state::<tasks::State>().active.get() {
+        return tasks::view(vm, ui);
+    }
     if let Some(picker) = ui.state::<crate::CalendarSession>().picker.get() {
         return pickers::view(ui, picker);
     }
@@ -52,7 +56,11 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let next_ui = ui.clone();
     let jump = ui.clone();
     let jump_date = calendar_date(day);
+    let tasks_ui = ui.clone();
     let mut more = vec![
+        // Windows Phone 8.1 exposes tasks in Calendar's overflow menu,
+        // independently of the day/week/month/year view selector.
+        flat("tasks", move || tasks::open(&tasks_ui)),
         flat(&format!("previous {}", mode.label()), move || {
             previous_ui.menu.set(false);
             move_period(&previous_vm, &previous_ui, -1);
@@ -156,10 +164,12 @@ pub fn selected_day(vm: &PhoneViewModel, ui: &Session) -> i64 {
 }
 
 pub fn can_swipe(ui: &Session) -> bool {
-    ui.state::<crate::CalendarSession>()
-        .editor
-        .get_untracked()
-        .is_none()
+    !ui.state::<tasks::State>().active.get_untracked()
+        && ui
+            .state::<crate::CalendarSession>()
+            .editor
+            .get_untracked()
+            .is_none()
         && ui
             .state::<crate::CalendarSession>()
             .picker

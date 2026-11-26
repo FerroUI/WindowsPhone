@@ -1,6 +1,7 @@
 //! Retained ReactiveUI view model with granular DynamicData collection projections.
 //! Navigation and clock updates never write persisted application data.
 mod app_data;
+mod badges;
 mod calendar;
 mod commands;
 mod communication;

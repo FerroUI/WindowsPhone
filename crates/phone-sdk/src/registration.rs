@@ -13,6 +13,9 @@ pub type ActivationHandler =
     fn(&Rc<PhoneViewModel>, &Rc<Session>, serde_json::Value) -> Result<(), String>;
 pub type LaunchPathHandler = fn(&str) -> Result<serde_json::Value, String>;
 pub type TickHandler = fn(&Rc<PhoneViewModel>, &Rc<Session>, i64);
+/// Return this application's complete current foreground-reminder schedule.
+/// Providers read their own validated data without changing state or using hosts.
+pub type ReminderProvider = fn(&PhoneViewModel) -> Result<Vec<crate::AppReminder>, String>;
 pub type MediaEventHandler = fn(AppContext, &crate::media::PlaybackEvent);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -41,6 +44,7 @@ pub struct AppRegistration {
     pub(crate) host_navigation: Option<fn(&PhoneViewModel, &Session, &str)>,
     pub(crate) host_weather: Option<fn(&Session, String, f64, String)>,
     pub(crate) tick: Option<TickHandler>,
+    pub(crate) reminders: Option<ReminderProvider>,
     pub(crate) activate: Option<ActivationHandler>,
     pub(crate) launch_path: Option<LaunchPathHandler>,
     pub(crate) tile: Option<fn(crate::AppTileContext) -> Element>,
@@ -65,6 +69,7 @@ impl AppRegistration {
             host_navigation: None,
             host_weather: None,
             tick: None,
+            reminders: None,
             lifecycle: None,
             media_event: None,
             activate: None,
@@ -154,6 +159,13 @@ impl AppRegistration {
     }
     pub fn with_tick(mut self, value: TickHandler) -> Self {
         self.tick = Some(value);
+        self
+    }
+    /// Opt into the shared foreground reminder service. Providers are collected
+    /// independently of the active route, and require Notifications or All.
+    /// This does not register an OS background agent or wake-up alarm.
+    pub fn with_reminders(mut self, value: ReminderProvider) -> Self {
+        self.reminders = Some(value);
         self
     }
     pub fn with_lifecycle(mut self, value: fn(AppContext, AppLifecycle)) -> Self {

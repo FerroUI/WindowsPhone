@@ -23,14 +23,37 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let details = settings
         .lock_app(&settings.lock_detail_app)
         .filter(|_| settings.notifications_on_lock)
-        .and_then(|app| detail(&data, app, date.naive_utc()));
+        .and_then(|app| {
+            if app == AppId::Phone
+                && vm
+                    .platform_state()
+                    .supports(phone_host::platform::HostFeature::Telephony)
+            {
+                let count = vm.app_badge(app);
+                (count > 0).then(|| {
+                    (
+                        "phone".into(),
+                        format!(
+                            "{count} new missed call{}",
+                            if count == 1 { "" } else { "s" }
+                        ),
+                    )
+                })
+            } else {
+                detail(&data, app, date.naive_utc())
+            }
+        });
     let mut status = Vec::new();
     if settings.notifications_on_lock {
         for name in &settings.lock_quick_apps {
             let Some(app) = settings.lock_app(name) else {
                 continue;
             };
-            let count = quick_count(&data, app, &today);
+            let count = if matches!(app, AppId::Phone | AppId::Messaging) {
+                vm.app_badge(app) as usize
+            } else {
+                quick_count(&data, app, &today)
+            };
             if count == 0 {
                 continue;
             }
@@ -135,7 +158,7 @@ fn detail(data: &PhoneData, app: AppId, now: chrono::NaiveDateTime) -> Option<(S
         AppId::Phone => data
             .call_history
             .iter()
-            .filter(|item| item.missed)
+            .filter(|item| item.missed && !item.acknowledged)
             .max_by_key(|item| item.timestamp)
             .map(|item| (item.name.clone(), "missed call".into())),
         AppId::Alarms => data

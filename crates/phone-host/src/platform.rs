@@ -273,6 +273,14 @@ pub trait PlatformPlugin {
             ..Default::default()
         }
     }
+    /// Own the validity of `environment().online`, including `None` while a
+    /// fresh network-path observation is pending or unavailable. The runtime
+    /// clears this owner's previous value on suspension. Other providers keep
+    /// the existing optional-observation merge behavior. This reports network
+    /// path availability, not successful access to an Internet service.
+    fn owns_network_observation(&self) -> bool {
+        false
+    }
     /// Optional native handoff for a caller-validated app-owned file. This is
     /// deliberately not an SDK request accepting arbitrary filesystem paths.
     /// Providers independently check their sandbox and issue temporary grants.

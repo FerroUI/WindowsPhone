@@ -112,7 +112,11 @@ impl PhoneData {
         match app {
             AppId::Messaging => self.unread_messages(),
             AppId::Outlook => self.unread_mail(),
-            AppId::Phone => self.call_history.iter().filter(|c| c.missed).count(),
+            AppId::Phone => self
+                .call_history
+                .iter()
+                .filter(|c| c.missed && !c.acknowledged)
+                .count(),
             _ => 0,
         }
     }
@@ -227,9 +231,25 @@ impl PhoneData {
                 "location",
                 "brightness",
                 "camera",
-                "cellular", "auto_brightness", "flashlight", "ringer_volume", "media_volume", "alarm_volume",
-                "ringer_mode", "do_not_disturb", "battery_saver", "hotspot", "nfc", "screen_timeout", "night_light",
-                "cast", "nearby_share", "vpn", "audio_output", "sync", "data_saver",
+                "cellular",
+                "auto_brightness",
+                "flashlight",
+                "ringer_volume",
+                "media_volume",
+                "alarm_volume",
+                "ringer_mode",
+                "do_not_disturb",
+                "battery_saver",
+                "hotspot",
+                "nfc",
+                "screen_timeout",
+                "night_light",
+                "cast",
+                "nearby_share",
+                "vpn",
+                "audio_output",
+                "sync",
+                "data_saver",
             ]
             .contains(&key.as_str())
                 || !quick.insert(key.clone())

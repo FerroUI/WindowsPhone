@@ -8,6 +8,7 @@ mod button_styles;
 mod buttons;
 mod checked_state;
 mod choices;
+mod grouped_list;
 mod icons;
 mod inputs;
 mod motion;
@@ -24,14 +25,15 @@ mod typography;
 
 pub use application_bar::*;
 pub use buttons::*;
-pub use checked_state::{CheckedState, checked_state};
+pub use checked_state::{checked_state, CheckedState};
 pub use choices::{check, radio};
-pub use icons::{Icon, icon};
+pub use grouped_list::{attach_grouped_list, GroupedListState, ListGroup};
+pub use icons::{icon, Icon};
 pub use motion::{live_tile_enter, motion_enabled, page_enter, reveal, set_motion_enabled, settle};
 pub use pickers::{
     attach_picker_focus, close_phone_pickers, dismiss_phone_picker, has_open_phone_picker,
 };
-pub use pivot_host::{PivotPage, pivot_pages};
+pub use pivot_host::{pivot_pages, PivotPage};
 pub use theme::{install_theme, set_palette};
 pub use tilt::attach_press_tilt;
 pub use tokens::*;

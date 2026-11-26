@@ -3,7 +3,7 @@
 use ferroui_base::threading::{Dispatcher, DispatcherPriority, DispatcherTimer};
 use phone_host::platform::*;
 use phone_native::NativeHost;
-use serde_json::{Value, json};
+use serde_json::{json, Value};
 use std::{
     rc::Rc,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -83,6 +83,10 @@ async fn roundtrip(platform: Rc<dyn PlatformPlugin>) -> Value {
     let name = format!("FerroUISimulatorCheck{unique}");
     let mut created_id = None::<String>;
     let result = async {
+        let online = platform.environment().online
+            .ok_or("The native network path monitor has not produced a usable observation.")?;
+        checks.push(json!({"name":"network_path_observed","passed":true,"online":online,
+            "semantics":"network path availability, not Internet reachability"}));
         let initial = snapshot(&platform).await?;
         if initial.permission(DevicePermission::Contacts) != PermissionState::Granted {
             return Err("The isolated simulator must grant Contacts before launch.".into());
@@ -159,14 +163,15 @@ pub fn install(host: &Rc<NativeHost>) {
     DispatcherTimer::run(move || {
         attempts.set(attempts.get() + 1);
         let Some(host) = weak.upgrade() else { return false };
+        let platform = host.runtime().platform();
         let authorization = host.vm().device_state().snapshot.permission(DevicePermission::Location);
         if !host.view().is_attached_to_visual_tree()
             || matches!(authorization, PermissionState::Unknown | PermissionState::Unsupported)
+            || platform.environment().online.is_none()
         {
-            if attempts.get() >= 40 { report(&json!({"schema":1,"platform":"ios","status":"failed","error":"The native host did not mount and asynchronously observe location authorization for device roundtrips."})); return false; }
+            if attempts.get() >= 40 { report(&json!({"schema":1,"platform":"ios","status":"failed","error":"The native host did not mount and asynchronously observe location authorization and network path availability for device roundtrips."})); return false; }
             return true;
         }
-        let platform = host.runtime().platform();
         report(&json!({"schema":1,"platform":"ios","status":"running"}));
         drop(Dispatcher::current_dispatcher().spawn_local(async move {
             let value = roundtrip(platform).await;

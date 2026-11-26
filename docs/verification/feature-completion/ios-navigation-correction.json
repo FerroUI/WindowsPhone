@@ -1,0 +1,364 @@
+{
+  "schema": 1,
+  "observed_at_utc": "2026-11-26T20:30:16.246417+00:00",
+  "source_main": "81fabb3fdfdeaae81792771a5c448c99b3e93fba",
+  "correction": "Earlier prose incorrectly described blank navigation icons. Retained screenshots contain opaque visible Back/Start/Search glyphs; the original artifacts and hashes were not changed.",
+  "method": "Decode retained PNGs as RGBA; derive the 54-point shell navigation row from each observation screen bounds and render scaling; compare raw RGBA and count pixels with every RGB channel >100 and alpha >100 independently in each third. Inspect a full-resolution crop.",
+  "result": "All 16 inspected navigation regions are byte-identical and contain all three icons. No rendering/lifecycle fix is justified by these artifacts.",
+  "boundary": "This pixel comparison proves icon visibility in these retained frames, not successful input interaction, every possible lifecycle, or original Windows Phone visual parity.",
+  "captures": [
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "start",
+      "image_sha256": "950e662c088fc7c906676f39f6e0131a52aa4e56855bc579aad0524869c7958e",
+      "observation_sequence": 2,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "wallet",
+      "image_sha256": "2ce4a596a2cf8d2c67e16c233e6814dc0060931de506e5334c55031aadb7eae4",
+      "observation_sequence": 204,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "phone",
+      "image_sha256": "c6f01a5b87970ccf84eabfd4e5f734141a2069f162400cb4fdada9fdd1a2cb94",
+      "observation_sequence": 230,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "people",
+      "image_sha256": "be9798562cebe91bfe111168e9eea01ea43a95375c2ff246998dcf537706d089",
+      "observation_sequence": 239,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "messages",
+      "image_sha256": "aea5084ed5121c96c74d3cd913ca587a4fb961499d58a04427e5652b370aac8d",
+      "observation_sequence": 244,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "settings",
+      "image_sha256": "608dd08e6b8f47aa910e0cd5a6e9baa518b550bbf2bbcab69c7eed3834053bb6",
+      "observation_sequence": 249,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-main-81fabb3",
+      "capture": "home-restored",
+      "image_sha256": "57f51320e90fff663d3ce0678bdb79d9e6e1b10c224a80fabb2e4b7043e879b4",
+      "observation_sequence": 259,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-dc9e2a9",
+      "capture": "start",
+      "image_sha256": "92b177e93c665cd4b30edd36c95bad68db866886bb7e25ce6da6489dfbe8a5d1",
+      "observation_sequence": 1,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-dc9e2a9",
+      "capture": "settings",
+      "image_sha256": "a7611d0d2c948c08bc18d515c3b4afbf4836a77bb9dee96fb1246c468c3de287",
+      "observation_sequence": 249,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-dc9e2a9",
+      "capture": "home-restored",
+      "image_sha256": "8317c759b9073ad6e6df9077083fc75ba5bc7cf868867097f536895adbea9f2b",
+      "observation_sequence": 254,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-8749c8a",
+      "capture": "start",
+      "image_sha256": "66574f199bbba8ab01c1fd629cad638ecb09df8d9c076386aa1cdfc7ba4dc8c0",
+      "observation_sequence": 4,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-8749c8a",
+      "capture": "settings",
+      "image_sha256": "7bf4703541329bebebfe3080ac4c078682031b617354645e3456ace7cc357d38",
+      "observation_sequence": 221,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-8749c8a",
+      "capture": "home-restored",
+      "image_sha256": "753f965ac3d676b8f0e978dd59f2a3c77fe2eab5295c2ba4c2e4d2068b1fb375",
+      "observation_sequence": 226,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-e430b21",
+      "capture": "start",
+      "image_sha256": "5325124d209f0203785880ec27796e9e551fef45deea8cb24d5732fbfec15aec",
+      "observation_sequence": 5,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-e430b21",
+      "capture": "settings",
+      "image_sha256": "479d3d8d19f76cb7e28167b222894da093b4f100063d851e7654f5f70f46ebb6",
+      "observation_sequence": 262,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "directory": "/tmp/phone-ios-e430b21",
+      "capture": "home-restored",
+      "image_sha256": "4c67130b18d9d0a8368bddc5f6e2eb71d6bbfac7125f42122547d24e92f92141",
+      "observation_sequence": 267,
+      "navigation_rectangle_pixels": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "Back": 535,
+        "Start": 1860,
+        "Search": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ]
+    }
+  ],
+  "diagnostic_crop": "/tmp/windowsphone-tooling/ios-main-navigation-inspection.png"
+}

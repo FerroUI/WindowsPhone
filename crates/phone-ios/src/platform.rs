@@ -1,11 +1,12 @@
 use crate::{native, pending::Session};
 #[cfg(target_os = "ios")]
 use phone_host::HostPermission;
-use phone_host::{HostEnvironment, HostPlatform, platform::*};
+use phone_host::{platform::*, HostEnvironment, HostPlatform};
 use std::rc::Rc;
 
 pub struct IosPlatform {
     session: Rc<Session>,
+    network: crate::network::NetworkMonitor,
     mode: HostMode,
 }
 
@@ -19,8 +20,11 @@ impl IosPlatform {
     pub fn new() -> Self {
         native::monitor_power(true);
         native::monitor_device(true);
+        let network = crate::network::NetworkMonitor::default();
+        network.set_enabled(true);
         Self {
             session: Rc::new(Session::default()),
+            network,
             mode: HostMode::App,
         }
     }
@@ -138,11 +142,16 @@ impl PlatformPlugin for IosPlatform {
             charging,
             external_power: charging,
             power_saver,
+            online: self.network.online(),
             notification_permission: native::notification_permission(),
             storage_persisted: cfg!(target_os = "ios").then_some(true),
             persistent_storage_supported: Some(false),
             ..Default::default()
         }
+    }
+
+    fn owns_network_observation(&self) -> bool {
+        cfg!(target_os = "ios")
     }
 
     fn dispatch(&self, request: PlatformRequest) -> PlatformTask {
@@ -181,6 +190,7 @@ impl PlatformPlugin for IosPlatform {
     fn lifecycle(&self, event: HostLifecycle) {
         match event {
             HostLifecycle::Resumed => {
+                self.network.set_enabled(true);
                 native::monitor_power(true);
                 native::monitor_device(true);
                 #[cfg(target_os = "ios")]
@@ -197,12 +207,14 @@ impl PlatformPlugin for IosPlatform {
                 }
             }
             HostLifecycle::Suspended => {
+                self.network.set_enabled(false);
                 self.session.cancel_locations();
                 self.session.cancel_device_reads();
                 native::monitor_power(false);
                 native::monitor_device(false);
             }
             HostLifecycle::Closing => {
+                self.network.set_enabled(false);
                 self.session.close();
                 native::monitor_power(false);
                 native::close_device();

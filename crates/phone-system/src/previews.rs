@@ -7,7 +7,8 @@ use ferroui_base::platform::IPlatformRenderInterface;
 use ferroui_base::{FerroLocator, LocatorExtensions, PixelSize, Ref, Size, Visual, WeakRef};
 use ferroui_controls::{Grid, TopLevel};
 use ferroui_view::untrack;
-use phone_domain::{AppId, Route};
+use phone_domain::Route;
+use phone_state::RecentApp;
 use std::{
     cell::{Cell, RefCell},
     collections::VecDeque,
@@ -46,7 +47,7 @@ struct Presented {
 pub(crate) struct PreviewCache {
     screen: RefCell<Option<WeakRef<Grid>>>,
     presented: RefCell<Option<Presented>>,
-    entries: RefCell<VecDeque<(AppId, Preview)>>,
+    entries: RefCell<VecDeque<(RecentApp, Preview)>>,
     capturing: Cell<bool>,
 }
 
@@ -57,42 +58,56 @@ impl PreviewCache {
     pub fn clear(&self) {
         self.entries.borrow_mut().clear();
     }
-    pub fn remove(&self, app: AppId) {
-        self.entries.borrow_mut().retain(|(key, _)| *key != app);
+    pub fn remove(&self, app: &RecentApp) {
+        self.entries.borrow_mut().retain(|(key, _)| key != app);
     }
-    pub fn get(&self, app: AppId) -> Option<Preview> {
+    pub fn get(&self, app: &RecentApp) -> Option<Preview> {
         self.entries
             .borrow()
             .iter()
-            .find(|(key, _)| *key == app)
+            .find(|(key, _)| key == app)
             .map(|(_, preview)| preview.clone())
     }
 
     /// The caller has not changed the old tree yet. The incoming switcher flag
     /// may already be true, while the previous screen still shows the app.
-    pub fn before_render(&self, next: &Route, switcher: bool, recent: &[AppId]) {
-        self.entries
-            .borrow_mut()
-            .retain(|(app, _)| recent.contains(app));
+    pub fn before_render(&self, next: &Route, switcher: bool, recent: &[RecentApp]) {
+        let Some(app) = self.capture_candidate(next, switcher, recent) else {
+            return;
+        };
         if !ENABLED.with(Cell::get) || self.capturing.get() {
-            return;
-        }
-        let previous = self.presented.borrow().clone();
-        let Some(previous) = previous else {
-            return;
-        };
-        let Some(app) = previous.route.app() else {
-            return;
-        };
-        if previous.obscured
-            || !recent.contains(&app)
-            || (previous.route == *next && (!switcher || previous.switcher))
-        {
             return;
         }
         let Some(preview) = untrack(|| self.capture()) else {
             return;
         };
+        self.record(app, preview);
+    }
+
+    fn capture_candidate(
+        &self,
+        next: &Route,
+        switcher: bool,
+        recent: &[RecentApp],
+    ) -> Option<RecentApp> {
+        self.entries
+            .borrow_mut()
+            .retain(|(app, _)| recent.contains(app));
+        let previous = self.presented.borrow().clone()?;
+        let app = match &previous.route {
+            Route::Extension { app, .. } => RecentApp::Extension(app.clone()),
+            route => RecentApp::Builtin(route.app()?),
+        };
+        if previous.obscured
+            || !recent.contains(&app)
+            || (previous.route == *next && (!switcher || previous.switcher))
+        {
+            return None;
+        }
+        Some(app)
+    }
+
+    fn record(&self, app: RecentApp, preview: Preview) {
         let mut entries = self.entries.borrow_mut();
         entries.retain(|(key, _)| *key != app);
         entries.push_front((app, preview));
@@ -139,6 +154,9 @@ impl PreviewCache {
         })
     }
 }
+
+#[cfg(test)]
+mod tests;
 
 struct CaptureGuard<'a>(&'a Cell<bool>);
 impl Drop for CaptureGuard<'_> {

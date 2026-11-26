@@ -12,6 +12,7 @@ final class PhoneDeviceAccess {
             case "snapshot":
             case "contacts":
             case "callHistory":
+            case "missedCalls":
             case "calls":
             case "messageThreads":
             case "messages":

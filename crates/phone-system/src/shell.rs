@@ -59,7 +59,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     ui.state::<crate::previews::PreviewCache>().before_render(
         &route,
         ui.switcher_open.get_untracked() || route == Route::Switcher,
-        &vm.recent_apps(),
+        &vm.recent_entries(),
     );
     ui.route_changed(&vm, &route);
     let registry = ui.registry();

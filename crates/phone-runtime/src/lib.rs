@@ -1,5 +1,7 @@
 //! UI-thread runtime and replaceable service routing, independent of app crates.
 pub mod activation;
+#[cfg(test)]
+mod environment_tests;
 mod gate;
 #[cfg(test)]
 mod observation_tests;
@@ -9,7 +11,7 @@ mod tests;
 use ferroui_base::{reactive::IDisposable, threading::Dispatcher};
 use ferroui_reactive::ObservableExt;
 use ferroui_reactiveui::IReactiveNotifyPropertyChanged;
-use phone_host::{HostEnvironment, HostPermission, HostRequest, platform::*};
+use phone_host::{platform::*, HostEnvironment, HostPermission, HostRequest};
 use phone_state::{HostServices, PhoneViewModel};
 use std::{
     cell::{Cell, RefCell},
@@ -210,7 +212,7 @@ impl PhoneRuntime {
         let channel = match &request {
             PlatformRequest::Refresh => Some(0),
             PlatformRequest::ListApplications => Some(1),
-            PlatformRequest::Locate => Some(11),
+            PlatformRequest::Locate => Some(LAST_DEVICE_OBSERVATION_CHANNEL + 1),
             PlatformRequest::Device { request } => request.observation_channel(),
             _ => None,
         };
@@ -439,12 +441,19 @@ impl PhoneRuntime {
                 self.cancel_reads(&[2]);
             }
             let refreshing = observations::Seed::for_event(response).is_some_and(|seed| {
-                self.reads.borrow().get(&seed.channel()).is_some_and(|read| {
-                    read.coalescible
-                        && read.key.and_then(observations::ReadKey::seed) == Some(seed)
-                })
+                self.reads
+                    .borrow()
+                    .get(&seed.channel())
+                    .is_some_and(|read| {
+                        read.coalescible
+                            && read.key.and_then(observations::ReadKey::seed) == Some(seed)
+                    })
             });
-            if !self.observations.borrow_mut().admits_event(response, refreshing) {
+            if !self
+                .observations
+                .borrow_mut()
+                .admits_event(response, refreshing)
+            {
                 return Ok(());
             }
         }
@@ -475,6 +484,11 @@ impl PhoneRuntime {
         // An owning provider may revoke or become unable to observe permission.
         if self.platform.state().supports(HostFeature::Notifications) {
             current.notification_permission = observation.notification_permission;
+        }
+        // The network-path owner can retire a stale known value while a new
+        // observation is pending. Other optional measurements still merge.
+        if self.platform.owns_network_observation() {
+            current.online = observation.online;
         }
         merge_environment(&mut current, observation);
         self.vm.set_environment(current);
@@ -520,10 +534,22 @@ impl PhoneRuntime {
             .borrow_mut()
             .visibility(event == HostLifecycle::Resumed);
         if changed {
-            self.cancel_reads(&(2..=10).collect::<Vec<_>>());
+            self.cancel_reads(&(2..=LAST_DEVICE_OBSERVATION_CHANNEL).collect::<Vec<_>>());
         }
         phone_system::host_visibility(event == HostLifecycle::Resumed);
         self.platform.lifecycle(event);
+        if event == HostLifecycle::Suspended {
+            self.vm.clear_device_call_activity();
+        }
+        if event == HostLifecycle::Suspended
+            && !self.closed.get()
+            && !self.closing.get()
+            && self.platform.owns_network_observation()
+        {
+            let mut environment = self.vm.environment();
+            environment.online = None;
+            self.vm.set_environment(environment);
+        }
         if event == HostLifecycle::Resumed {
             self.observe();
         }
@@ -544,6 +570,7 @@ impl PhoneRuntime {
         self.reads.borrow_mut().clear();
         self.channels.borrow_mut().clear();
         self.platform.lifecycle(HostLifecycle::Closing);
+        self.vm.clear_device_call_activity();
     }
 
     fn synchronize_observations(&self) {
@@ -552,7 +579,7 @@ impl PhoneRuntime {
             .borrow_mut()
             .synchronize_epoch(self.vm.document_epoch());
         if changed {
-            self.cancel_reads(&(2..=10).collect::<Vec<_>>());
+            self.cancel_reads(&(2..=LAST_DEVICE_OBSERVATION_CHANNEL).collect::<Vec<_>>());
         }
     }
     fn accept_platform_state(&self, state: PlatformState) -> Result<(), String> {
@@ -573,7 +600,7 @@ impl PhoneRuntime {
         let epoch = self.vm.document_epoch();
         if changed {
             self.observations.borrow_mut().invalidate();
-            self.cancel_reads(&(2..=10).collect::<Vec<_>>());
+            self.cancel_reads(&(2..=LAST_DEVICE_OBSERVATION_CHANNEL).collect::<Vec<_>>());
         }
         self.vm.set_platform_state(state.clone())?;
         if changed && !self.closed.get() && !self.closing.get() && self.vm.document_epoch() == epoch

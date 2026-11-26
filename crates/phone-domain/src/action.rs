@@ -19,11 +19,23 @@ pub enum Action {
     Unpin(Id),
     ResizeTile(Id),
     SetTileSize(Id, TileSize),
-    SetTileAppearance { id: Id, appearance: TileAppearance },
-    PublishTileNotification { id: Id, notification: TileNotification },
-    ClearTileNotifications { id: Id, tag: Option<String> },
+    SetTileAppearance {
+        id: Id,
+        appearance: TileAppearance,
+    },
+    PublishTileNotification {
+        id: Id,
+        notification: TileNotification,
+    },
+    ClearTileNotifications {
+        id: Id,
+        tag: Option<String>,
+    },
     DissolveFolder(Id),
-    MoveIntoFolder { tile: Id, folder: Id },
+    MoveIntoFolder {
+        tile: Id,
+        folder: Id,
+    },
     MoveTile {
         id: Id,
         before: Option<Id>,
@@ -99,6 +111,7 @@ pub enum Action {
         text: String,
     },
     AddCall(CallRecord),
+    AcknowledgeCalls(Vec<Id>),
     SaveBookmark(Bookmark),
     DeleteBookmark(Id),
     SaveTrack(MediaTrack),

@@ -122,6 +122,36 @@ pub fn history(vm: Rc<PhoneViewModel>) -> Element {
     let state = vm.device_state();
     let refresh = vm.clone();
     let mut body = stack_panel().spacing(12.0);
+    if let Some(activity) = state.missed_calls {
+        if activity.count > 0 {
+            body = body.child(muted(
+                &format!(
+                    "{} new missed call{}",
+                    activity.count,
+                    if activity.count == 1 { "" } else { "s" }
+                ),
+                20.0,
+            ));
+            if let Some(receipt) = activity.acknowledgement {
+                let model = vm.clone();
+                body = body.child(flat(
+                    &super::acknowledgement_label(usize::from(receipt.count)),
+                    move || {
+                        model.request_device(DeviceRequest::AcknowledgeMissedCalls {
+                            token: receipt.token.clone(),
+                        });
+                    },
+                ));
+            } else {
+                body = body.child(device::role(vm.clone(), DeviceRole::Dialer));
+                body = body.child(device::permission(
+                    vm.clone(),
+                    DevicePermission::CallLog,
+                    "acknowledge missed calls",
+                ));
+            }
+        }
+    }
     if !state.snapshot.supports(DeviceOperation::CallHistory) {
         body = body.child(device::permission(
             vm.clone(),
@@ -166,8 +196,7 @@ pub fn history(vm: Rc<PhoneViewModel>) -> Element {
         }
     }
     body.child(flat("refresh call history", move || {
-        refresh.refresh_device();
-        refresh.request_device(DeviceRequest::CallHistory { limit: 200 });
+        self::refresh(&refresh);
     }))
     .into()
 }
@@ -198,5 +227,8 @@ pub fn refresh(vm: &PhoneViewModel) {
     }
     if snapshot.supports(DeviceOperation::CallHistory) {
         vm.request_device(DeviceRequest::CallHistory { limit: 200 });
+    }
+    if snapshot.supports(DeviceOperation::ReadMissedCalls) {
+        vm.request_device(DeviceRequest::MissedCalls);
     }
 }

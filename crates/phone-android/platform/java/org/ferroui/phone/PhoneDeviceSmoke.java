@@ -40,6 +40,7 @@ final class PhoneDeviceSmoke {
             PhoneJson.put(proof, "call_presentation", PhoneInCallService.presentation(context));
             PhoneSmsReceiver.INCOMING.execute(() -> {
                 try {
+                    PhoneCallFixtures.runIfRequested(context, directory, nonce);
                     if (codec == null) codec = PhoneCodecFixtures.run(context);
                     PhoneJson.put(proof, "codec", codec);
                     if (PhoneMessageProvider.readable(context)) {

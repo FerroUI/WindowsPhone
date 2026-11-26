@@ -247,6 +247,7 @@ impl PhoneViewModel {
             timestamp: self.now(),
             incoming: false,
             missed: false,
+            acknowledged: false,
         }));
         self.request(HostRequest::Dial { number });
     }

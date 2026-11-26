@@ -239,7 +239,8 @@ pub fn alarm_tick(vm: &Rc<PhoneViewModel>) {
     SESSION.with(|slot| {
         if let Some(ui) = slot.borrow().upgrade() {
             ui.reconcile_document(&vm);
-            ui.state::<phone_alarm_service::AlarmState>().tick(vm);
+            ui.state::<phone_alarm_service::AlarmState>()
+                .tick_with_registry(vm, &ui.registry());
         }
     });
 }
