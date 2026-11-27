@@ -1,14 +1,14 @@
 //! Live native control geometry and state for end-to-end input verification.
 use ferroui_base::media::{IBrush, Rotate3DTransform, TranslateTransform};
 use ferroui_base::rendering::composition::CompositionVisual;
-use ferroui_base::{Matrix, Point, Rect, Visual, input::InputElement};
+use ferroui_base::{input::InputElement, Matrix, Point, Rect, Visual};
 use ferroui_controls::{
-    Application, Border, Button, Image, ListBox, ListBoxItem, Pivot, PivotHeaderItem, ScrollViewer,
-    TextBlock, TextBox, ToggleSwitch,
-    automation::{AutomationProperties, peers::ControlAutomationPeer},
+    automation::{peers::ControlAutomationPeer, AutomationProperties},
     presenters::ContentPresenter,
     primitives::{TemplatedControl, ToggleButton},
     shapes::Shape,
+    Application, Border, Button, Image, ListBox, ListBoxItem, Pivot, PivotHeaderItem, ScrollViewer,
+    TextBlock, TextBox, ToggleSwitch,
 };
 use serde_json::json;
 use wasm_bindgen::prelude::*;
@@ -161,6 +161,10 @@ pub fn inspect_view() -> String {
                 "renderedBounds":{"x":rendered.x,"y":rendered.y,"width":rendered.width,"height":rendered.height},
                 "checked":checked,
                 "selectedIndex":visual.cast::<Pivot>().map(|pivot|pivot.selected_index()),
+                "scrollOffset":visual.cast::<ScrollViewer>().map(|scroll| {
+                    let offset = scroll.offset();
+                    json!({"x":offset.x,"y":offset.y})
+                }),
                 "projection":projection,
                 // Keep logical sizes: motion assertions derive the projection
                 // hinge and camera distance from the page's unprojected width.

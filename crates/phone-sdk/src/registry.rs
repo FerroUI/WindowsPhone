@@ -1,4 +1,4 @@
-use crate::{session::Session, AppLifecycle, AppManifest, AppRegistration};
+use crate::{AppLifecycle, AppManifest, AppRegistration, session::Session};
 use ferroui_view::prelude::Element;
 use phone_domain::{AppId, Route};
 use phone_state::PhoneViewModel;
@@ -8,7 +8,7 @@ mod events;
 mod reminders;
 mod search;
 pub use reminders::{
-    AppReminder, AppReminderSnapshot, ScopedAppReminder, MAX_APP_REMINDERS, MAX_PROVIDER_REMINDERS,
+    AppReminder, AppReminderSnapshot, MAX_APP_REMINDERS, MAX_PROVIDER_REMINDERS, ScopedAppReminder,
 };
 pub use search::LocalSearchResult;
 
@@ -185,8 +185,13 @@ impl AppRegistry {
     }
     pub fn pivot_count(&self, route: &Route, ui: &Session) -> usize {
         self.for_route(route)
-            .and_then(|app| app.pivot_count)
-            .map(|callback| callback(ui))
+            .map(|app| {
+                if let Some(callback) = app.route_pivot_count {
+                    callback(route, ui)
+                } else {
+                    app.pivot_count.map_or(0, |callback| callback(ui))
+                }
+            })
             .unwrap_or(0)
     }
     pub fn can_swipe(&self, route: &Route, ui: &Session) -> bool {

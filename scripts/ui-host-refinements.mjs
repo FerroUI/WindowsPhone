@@ -22,9 +22,9 @@ export async function verifyHostRefinements(ctx) {
     await page.evaluate('phoneApp.openApp("Settings")');
     await isRoute({App: 'Settings'});
     await clickLabel('system');
-    await page.wheel(...centre(await control(scrollMatch, 'Settings scroll viewer')), 0, -100000);
+    await page.wheel(...centre(await control(element => element.name === 'SettingsSystemScroll', 'Settings system pane')), 0, -100000);
     const row = await reveal(element => button(element) && element.automationName === name,
-      `${name} settings entry`, scrollMatch, 'Settings scroll viewer');
+      `${name} settings entry`, element => element.name === 'SettingsSystemScroll', 'Settings system pane');
     await page.click(...centre(row));
     await isRoute({Setting: name});
     await page.wheel(...centre(await control(scrollMatch, `${name} scroll viewer`)), 0, 100000);

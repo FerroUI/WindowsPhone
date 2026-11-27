@@ -105,9 +105,9 @@ export async function verifyMetroControls(ctx) {
     await app("Settings");
     await stable(element => button(element) && element.automationName === "system", "system pivot");
     await clickLabel("system");
-    await page.wheel(...centre(await control(scrollMatch, "Settings scroll viewer")), 0, -100000);
+    await page.wheel(...centre(await control(element => element.name === "SettingsSystemScroll", "Settings system pane")), 0, -100000);
     return reveal(element => button(element) && element.automationName === name,
-      name, scrollMatch, "Settings scroll viewer");
+      name, element => element.name === "SettingsSystemScroll", "Settings system pane");
   };
   const setting = async name => {
     const row = await settingRow(name);

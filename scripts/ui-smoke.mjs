@@ -29,6 +29,9 @@ import { verifyPhoneControlStates } from "./ui-phone-control-states.mjs";
 import { verifyPhonePickers } from "./ui-phone-pickers.mjs";
 import { verifyOutlookDrafts } from "./ui-outlook-drafts.mjs";
 import { verifyPhoneCalls } from "./ui-phone-calls.mjs";
+import { verifyHubPivots } from "./ui-hub-pivots.mjs";
+import { verifyMetroProgress } from "./ui-metro-progress.mjs";
+import { verifyNotificationGroups } from "./ui-notification-groups.mjs";
 import { inputGeometryReady, inputTarget, stableInputTarget } from "./ui-input-geometry.mjs";
 
 // Input goes through Chromium and FerroUI's retained native control tree.
@@ -680,7 +683,7 @@ try {
   // failures in one opt-in run, while keeping every assertion a publication gate.
   const refinementFailures = [];
   for (const verify of [verifyOfficeRefinements, verifyCalendarRefinements, verifyCalendarTasks,
-    verifyAlarmRefinements, verifyMetroControls, verifyPhoneControlStates, verifyPhonePickers, verifyNavigationMotion, verifyOutlookDrafts, verifyPhoneCalls, verifyShellParity, verifySystemRefinements,
+    verifyAlarmRefinements, verifyMetroControls, verifyHubPivots, verifyMetroProgress, verifyNotificationGroups, verifyPhoneControlStates, verifyPhonePickers, verifyNavigationMotion, verifyOutlookDrafts, verifyPhoneCalls, verifyShellParity, verifySystemRefinements,
     verifyBrowserRefinements, verifyPimRefinements, verifyHostRefinements, verifySdkGames,
     verifyOfficeExpansion, verifyMediaLibraries, verifyConnectedApps, verifyMapsExpansion, verifyPlatformRefinements,
     verifyLiveTiles, verifyStartCustomization, verifyLockscreenDraft, verifyLiveFolder]) {
