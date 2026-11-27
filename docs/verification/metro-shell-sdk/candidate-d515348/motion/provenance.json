@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "archived_at_utc": "2026-11-27T07:59:48.637865+00:00",
+  "repository": "FerroUI/WindowsPhone",
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "artifact_checkout_head": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "checkout_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "trees_equal_verified_locally": true,
+  "checkout_parents": [
+    "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+    "d515348c699c22110def2dded8f7b8aea4b9cd03"
+  ],
+  "run_id": "45959413873",
+  "job_id": "140373412884",
+  "artifact_id": "15180379881",
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873/job/140373412884",
+  "archive_source": "target/metro-candidate-ui.zip",
+  "archive_sha256": "1582850c76a9d11b892dfa01a783b9d4d6bf2b28b56cce9ef2126d9273f93211",
+  "archive_sha256_verified_locally": true,
+  "binding": "Run/job/artifact identifiers and checkout association supplied by parent and its archived CI metadata. Downloaded ZIP digest, every copied member, and full source/check-out tree equality independently checked locally. The UI ZIP has no embedded head marker.",
+  "preservation": "Every raw file is an unmodified member of the identified ZIP. No JSON rewriting, PNG cropping or image recompression was performed.",
+  "source_assertion_module": {
+    "path": "scripts/ui-navigation-motion.mjs",
+    "sha256": "31604c4ebf1c422ceca9b13cc80b8a9bc12ce8edc9701a7ee7d937cd9c1fffde"
+  },
+  "source_inspection_module": {
+    "path": "crates/phone-browser/src/inspection.rs",
+    "sha256": "d73467b65dd152a1b9c7605fe0252df4d2fd85f451b6ece92c7467f41c463712"
+  },
+  "copied_file_count": 16,
+  "copied_bytes": 1531012,
+  "copied_files": [
+    {
+      "path": "raw/metro-shell-paging-apps-frames.json",
+      "archive_member": "metro-shell-paging-apps-frames.json",
+      "bytes": 107572,
+      "sha256": "9d19baed74cc91388f05e6edad2b5ad5d9e1eb724c0d389e4b9f2ea6d95d6b87",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-shell-paging-start-frames.json",
+      "archive_member": "metro-shell-paging-start-frames.json",
+      "bytes": 110879,
+      "sha256": "036665f05e6a6858356d133125940d9662e3f3ce7a8dd48a7fc2b6ea46df96fd",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-forward-frames.json",
+      "archive_member": "metro-navigation-forward-frames.json",
+      "bytes": 111549,
+      "sha256": "a9760b522f018177a9c259e40362aff4b445a746b0ed55ac671d19e64960ed2f",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-backward-frames.json",
+      "archive_member": "metro-navigation-backward-frames.json",
+      "bytes": 103382,
+      "sha256": "5e501b892342bf38b77a3edb8054b1725f38a9c634df08bfd0cd531ce7199960",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-interrupted-frames.json",
+      "archive_member": "metro-navigation-interrupted-frames.json",
+      "bytes": 99657,
+      "sha256": "9d4f001323e707a914d519d534f454bb1be5ee58014c755f4d09405d039b5ad4",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-lock-frames.json",
+      "archive_member": "metro-navigation-lock-frames.json",
+      "bytes": 58828,
+      "sha256": "ad0d0f55c3e95924fdbeaf3c4c3f79fb6207b7362ca329e9ca223d249cb676d7",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-reduced_motion-frames.json",
+      "archive_member": "metro-navigation-reduced_motion-frames.json",
+      "bytes": 95569,
+      "sha256": "0932a255953340ce7f6f7c5f6594a96d0d6145ab4cbbe215c3ef99d90eeed153",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-battery_saver-frames.json",
+      "archive_member": "metro-navigation-battery_saver-frames.json",
+      "bytes": 95558,
+      "sha256": "613f8d42bd81af13a2b682c87fb63d4d44905dbd9709d20901048f86bb66dd5a",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-shell-paging-restored.json",
+      "archive_member": "metro-shell-paging-restored.json",
+      "bytes": 71391,
+      "sha256": "5cd44f223676a1da955ca24f86df349f6055d231fbd7e76c264aaab137bb3d42",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-shell-paging-restored.png",
+      "archive_member": "metro-shell-paging-restored.png",
+      "bytes": 149846,
+      "sha256": "88fcbb671330df4f1855286587d884ed8943dda964f4494045dbf2c9128c8e8a",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-restored.json",
+      "archive_member": "metro-navigation-restored.json",
+      "bytes": 75647,
+      "sha256": "c587ff5a119858f6686697053df961994da5dfdd570f3346085d46379029368d",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-restored.png",
+      "archive_member": "metro-navigation-restored.png",
+      "bytes": 38063,
+      "sha256": "5e5a5a7161a4b6bf55401d3fdc1faca2f6499dad51b1b47c98ccbc8c9684a9d9",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-lock-cancelled.json",
+      "archive_member": "metro-navigation-lock-cancelled.json",
+      "bytes": 37109,
+      "sha256": "7f9db6d67bf4e0526d6b8d20ccf02882ffb12b1027634005c5ae0a628a5c2c74",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-navigation-lock-cancelled.png",
+      "archive_member": "metro-navigation-lock-cancelled.png",
+      "bytes": 262108,
+      "sha256": "846fe2f395750448b6fa45896af8e7e66d821e508d17c6fcba1a03d381f809c2",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-turnstile-navigation-settled.json",
+      "archive_member": "metro-turnstile-navigation-settled.json",
+      "bytes": 75647,
+      "sha256": "df544594200addeb44ae96654825ec90dc2c2b892c29a6002e48370a3ac97af9",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-turnstile-navigation-settled.png",
+      "archive_member": "metro-turnstile-navigation-settled.png",
+      "bytes": 38207,
+      "sha256": "c2c4d8b42df00b25841bcfdf8f5dfeaaef6f2d4e864501d8eb808ca2736ba8a2",
+      "matches_zip_member": true
+    }
+  ]
+}

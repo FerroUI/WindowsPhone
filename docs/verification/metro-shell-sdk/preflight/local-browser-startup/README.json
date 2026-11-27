@@ -1,0 +1,21 @@
+{
+  "scope": "Environment startup diagnostics, not application test results",
+  "attempts": [
+    {
+      "attempt": "installed-launcher",
+      "log_sha256": "58dc21c20efba1be44473bd82081cf638ace9831b392d50e6c0cd2f52cccec96",
+      "checks_executed": 0,
+      "captures": 0
+    },
+    {
+      "attempt": "downloaded-chromium",
+      "log_sha256": "26067a1b3d9f964f831f9c5d180070671fb679336a71eeb47718a845d37a6b6c",
+      "checks_executed": 0,
+      "captures": 0
+    }
+  ],
+  "installed_launcher": "/usr/bin/chromium pointed at an absent binary",
+  "downloaded_binary": "Chrome for Testing 158.0.8127.88",
+  "second_failure": "Process singleton socket() denied by workspace runtime; Chromium aborted before opening the application",
+  "verification_fallback": "Existing GitHub Actions browser workflow and unmodified artifacts"
+}

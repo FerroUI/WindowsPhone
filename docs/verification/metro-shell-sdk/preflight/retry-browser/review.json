@@ -1,0 +1,858 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-11-27T07:31:03.521905+00:00",
+  "purpose": "Review of original retry-browser appearance and fixture cleanup for candidate 019ad836; preserve selected raw evidence before subsequent runtime polish. This is intermediate evidence, not a release acceptance record.",
+  "provenance": {
+    "repository": "FerroUI/WindowsPhone",
+    "candidate_head": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+    "synthetic_checkout_head": "48d41e420e1d159c1294da19580a08c8d35081d9",
+    "synthetic_checkout_parents": [
+      "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+      "019ad836070d53edf86fbbc1eb7a42235ed75831"
+    ],
+    "candidate_tree": "d7ff330c91e8437f63de3435901b5c9d626eeca8",
+    "checkout_tree": "d7ff330c91e8437f63de3435901b5c9d626eeca8",
+    "trees_equal_verified_locally": true,
+    "run_id": "45955246510",
+    "job_id": "140360120590",
+    "artifact_id": "15179632537",
+    "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45955246510",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45955246510/job/140360120590",
+    "archive": "target/metro-retry-ui.zip",
+    "archive_sha256": "d557d4677abb76d2338e5b7e2a491236058b0ebfa157581b59b7fecb7d2cf571",
+    "expected_archive_sha256": "d557d4677abb76d2338e5b7e2a491236058b0ebfa157581b59b7fecb7d2cf571",
+    "archive_digest_verified_locally": true,
+    "parent_archived_ci_metadata": {
+      "path": "target/metro-local-evidence/retry-ci.json",
+      "sha256": "a3c243abfd7bb72e540aebf1364535ba4fe8ae5886f71cab2cd92d31b6bbbd6e",
+      "bytes": 61456
+    },
+    "binding_boundary": "The parent supplied GitHub artifact/run/job identity and reported compiled index marker 48d41e4. This UI ZIP has no standalone checkout marker. This review independently verified the ZIP digest, selected member bytes, synthetic merge parents and exact tree equality; the original parent API metadata is referenced above."
+  },
+  "overall_run_result": {
+    "passed": false,
+    "check_count": 106,
+    "capture_count": 196,
+    "refinement_failure_count": 1,
+    "refinement_failure_modules": [
+      "verifyNavigationMotion"
+    ],
+    "error": "Error: 1 native refinement module(s) failed: verifyNavigationMotion\n    at file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:751:11",
+    "browser_errors": [],
+    "elapsed_ms": 402356,
+    "qualification": "Overall run remains failed because verifyNavigationMotion reports a missing outgoing shell surface. Relevant hub/progress/notification checks passed. Elapsed execution time is not a performance benchmark. Shell paging diagnosis belongs to the separately assigned review."
+  },
+  "reviewed_checks_as_recorded": [
+    {
+      "name": "Settings retains independent pane scrolling with fixed native Pivot headers",
+      "elapsedMs": 2223,
+      "passed": true
+    },
+    {
+      "name": "Office retains both native panes and keeps search editing outside Pivot gestures",
+      "elapsedMs": 3031,
+      "passed": true
+    },
+    {
+      "name": "Settings and Office native headings stay reachable at 320 pixels in both themes",
+      "elapsedMs": 4672,
+      "passed": true
+    },
+    {
+      "name": "reduced motion preserves Settings and Office hub commands without native paging animation",
+      "elapsedMs": 977,
+      "passed": true
+    },
+    {
+      "name": "Weather loading renders original five-dot motion and releases it after the real SDK response",
+      "elapsedMs": 6828,
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion podcast activity stays static, survives app switching and clears on completion",
+      "elapsedMs": 2425,
+      "passed": true
+    },
+    {
+      "name": "Action Center sorts groups by newest item and cancels native dismissal cleanly",
+      "elapsedMs": 1039,
+      "passed": true
+    },
+    {
+      "name": "native group swipe and parallel two-finger clear preserve unrelated notifications",
+      "elapsedMs": 1933,
+      "passed": true
+    },
+    {
+      "name": "private lock-screen Action Center cannot clear hidden notification content",
+      "elapsedMs": 1684,
+      "passed": true
+    }
+  ],
+  "inspected_original_captures": [
+    {
+      "name": "metro-settings-applications-native",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-settings-applications-native.png",
+        "sha256": "28f4b71078df4d5f4d0b23bb55c2ec5eef0645ab103ba113e673d5529e84bde1",
+        "bytes": 35779,
+        "archive_member": "metro-settings-applications-native.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-settings-applications-native.json",
+        "sha256": "c5d01583cf7fc63bfbdf9e514c841fa43e0b290eb7ae5950cbce98eaa700e69b",
+        "bytes": 58941,
+        "archive_member": "metro-settings-applications-native.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": false,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Settings"
+      }
+    },
+    {
+      "name": "metro-settings-320-dark",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-settings-320-dark.png",
+        "sha256": "c88b627192acd480add45ec20f806f4fafb6eb9b33cad0ba0f6feb59c75fd82d",
+        "bytes": 26527,
+        "archive_member": "metro-settings-320-dark.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-settings-320-dark.json",
+        "sha256": "d0ab7f82e267ed4f4330b8ab8eaeb0eca8be841f31c568b862a9b89db4b55d1c",
+        "bytes": 50315,
+        "archive_member": "metro-settings-320-dark.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": false,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Settings"
+      }
+    },
+    {
+      "name": "metro-settings-320-light",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-settings-320-light.png",
+        "sha256": "3154b0f40b922ec850795fe624fbca879d4fbbeb67f53750b9c8de89321c1141",
+        "bytes": 26675,
+        "archive_member": "metro-settings-320-light.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-settings-320-light.json",
+        "sha256": "e4f76e89ef4099d7ed7ea937520259a7d1983f291a36e7fd47503b1113a696f7",
+        "bytes": 50315,
+        "archive_member": "metro-settings-320-light.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Settings"
+      }
+    },
+    {
+      "name": "metro-settings-system-scrolled",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-settings-system-scrolled.png",
+        "sha256": "d48122bcf027ac3bb3ca8093d2c53ee38894d299264962f5e51f1315cf045e99",
+        "bytes": 39845,
+        "archive_member": "metro-settings-system-scrolled.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-settings-system-scrolled.json",
+        "sha256": "08336fd4c5fd2e2128e0b9b7dad1d222dd29813ffe8ce7f3339ce158887a1033",
+        "bytes": 85390,
+        "archive_member": "metro-settings-system-scrolled.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Settings"
+      }
+    },
+    {
+      "name": "metro-office-places-native",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-office-places-native.png",
+        "sha256": "5d63852de428a9442e2966072fed7c8ec7288fec8097d5465c74dcaeaebe492c",
+        "bytes": 32786,
+        "archive_member": "metro-office-places-native.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-office-places-native.json",
+        "sha256": "47df055e6fef08003627f6c388599161e8bdc621dc9b8d4d6328b1297eb485a7",
+        "bytes": 75565,
+        "archive_member": "metro-office-places-native.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": false,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Office"
+      }
+    },
+    {
+      "name": "metro-office-320-light",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-office-320-light.png",
+        "sha256": "a0f0f05ee10ab8749ef0bd7e1a0d2a5b2b06922019ec85e2757e27dbd1b906f1",
+        "bytes": 24051,
+        "archive_member": "metro-office-320-light.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-office-320-light.json",
+        "sha256": "ebb4027df9dd1d3313d599aad56f9a44750438a4b17332a39c05a04a9f056843",
+        "bytes": 66929,
+        "archive_member": "metro-office-320-light.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Office"
+      }
+    },
+    {
+      "name": "metro-office-search-page",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-office-search-page.png",
+        "sha256": "c9fe122f334f615eaf0610bbafc948fcc906c307e52567d056c598fe54f65dca",
+        "bytes": 27532,
+        "archive_member": "metro-office-search-page.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-office-search-page.json",
+        "sha256": "8c3d84a62881c5ab273b6f0845ef4f2ba3d5ed48acc60ad4ab69ae983b25e59a",
+        "bytes": 56856,
+        "archive_member": "metro-office-search-page.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Office"
+      }
+    },
+    {
+      "name": "metro-progress-weather-moving",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-progress-weather-moving.png",
+        "sha256": "6a57b9973b9029cf7d10d4af213e465c42bec693abd7304155365cfb8db20d81",
+        "bytes": 37112,
+        "archive_member": "metro-progress-weather-moving.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-progress-weather-moving.json",
+        "sha256": "bcabaf0aa2a6fd4d0e6ff475c52a3b34a87979c8f841c78d734df9cb3b57d69f",
+        "bytes": 72331,
+        "archive_member": "metro-progress-weather-moving.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Weather"
+      }
+    },
+    {
+      "name": "metro-progress-podcast-reduced-motion",
+      "original_png": {
+        "path": "target/metro-retry-ui/metro-progress-podcast-reduced-motion.png",
+        "sha256": "10f01206d0b2fa3bdc9851141f256503681593c3ca1fea81f4fdfe129950dce6",
+        "bytes": 38807,
+        "archive_member": "metro-progress-podcast-reduced-motion.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/metro-progress-podcast-reduced-motion.json",
+        "sha256": "37962cc2d88ac141a6873c3a6edf621d8ca68f65662d77434dd220bebaf20dde",
+        "bytes": 57745,
+        "archive_member": "metro-progress-podcast-reduced-motion.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.podcasts",
+          "path": ""
+        }
+      }
+    },
+    {
+      "name": "action-center-chronological-groups",
+      "original_png": {
+        "path": "target/metro-retry-ui/action-center-chronological-groups.png",
+        "sha256": "e2103f1c263c1548ed8df4475c676687371ae07673ee2bda70b1857df29365bf",
+        "bytes": 38404,
+        "archive_member": "action-center-chronological-groups.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/action-center-chronological-groups.json",
+        "sha256": "c7fdbc593583a1fe7b2cb9a845e5330c361dcb757fcb8cac5663c00cde38f57d",
+        "bytes": 128157,
+        "archive_member": "action-center-chronological-groups.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start"
+    },
+    {
+      "name": "action-center-native-group-dismissal",
+      "original_png": {
+        "path": "target/metro-retry-ui/action-center-native-group-dismissal.png",
+        "sha256": "4260ad977be3c2df55a538c8d19c3439959875d3bc32310e86d92880264075fe",
+        "bytes": 29242,
+        "archive_member": "action-center-native-group-dismissal.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/action-center-native-group-dismissal.json",
+        "sha256": "8d754cf0ff89cc315f1b96aee03cb1de8c4709041221f3c41072675c28ce88e9",
+        "bytes": 115545,
+        "archive_member": "action-center-native-group-dismissal.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start"
+    },
+    {
+      "name": "action-center-parallel-clear",
+      "original_png": {
+        "path": "target/metro-retry-ui/action-center-parallel-clear.png",
+        "sha256": "32ca942b892d855df4fca7362a5c1d83fd5b003cf76f9a3fed9e643b4fa905fb",
+        "bytes": 19632,
+        "archive_member": "action-center-parallel-clear.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/action-center-parallel-clear.json",
+        "sha256": "ff74874a7a3af84fdcf5cb9a0f429ff1b21fdd5bd5b1aad252b8777eaa3fcb14",
+        "bytes": 99429,
+        "archive_member": "action-center-parallel-clear.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start"
+    },
+    {
+      "name": "action-center-private-lock-content",
+      "original_png": {
+        "path": "target/metro-retry-ui/action-center-private-lock-content.png",
+        "sha256": "fd69900279c90d753f7f2f705c57c83e5917ae9a162f3f96286a7029e602d406",
+        "bytes": 20896,
+        "archive_member": "action-center-private-lock-content.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-retry-ui/action-center-private-lock-content.json",
+        "sha256": "162fe6338fa6eafa6569fdc5415d2ce3fbf3e9ebe1faffa2a1e991421587dc98",
+        "bytes": 61014,
+        "archive_member": "action-center-private-lock-content.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "selected_for_raw_copy": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start"
+    }
+  ],
+  "appearance_findings": [
+    {
+      "area": "Settings",
+      "observation": "At the 400-pixel shell width and 320-pixel dark/light captures, the selected applications header, adjacent system header and settings rows are readable without overlapping. The system-scrolled capture retains the header row above scrolling content.",
+      "boundary": "This visual inspection plus recorded interaction checks covers the supplied fixtures and widths; no original-device font or pixel comparison was performed."
+    },
+    {
+      "area": "Office",
+      "observation": "Places rows, accent folder icons, subtitles and command bar remain readable at 400 and 320 pixels. The light-theme app bar uses dark glyphs on a light surface. Search is rendered as a separate page with a focused input and one matching result.",
+      "boundary": "Fixture document counts and titles are test data. The retained-pane and search routing assertions are recorded checks; these static frames do not prove every Office editor or provider integration."
+    },
+    {
+      "area": "Progress",
+      "observation": "Weather inspection contains five native 4-by-4 dot elements. Podcast reduced-motion inspection contains five centered 4-by-4 dot elements and a readable loading label. Recorded checks pass activity completion cleanup and reduced-motion/app-switch behavior.",
+      "boundary": "The Weather PNG is one animation phase and is not atomic with its JSON inspection. The original wording of the recorded test name is preserved but does not establish private WP8.1 timing or complete original OS parity."
+    },
+    {
+      "area": "Action Center",
+      "observation": "Chronological fixture shows Outlook newest item followed by Messaging and Phone groups; group headings, item title/body/time hierarchy and group close controls remain readable. Dismissal capture retains unrelated groups; the parallel-clear capture displays the empty state. Private lock capture hides the notification groups and disables Clear all.",
+      "boundary": "Browser fixtures contain document notifications and exercise real input against retained native controls. The word native in a capture/test name does not mean provider-backed Android/iOS notification authority was synthesized or verified here."
+    }
+  ],
+  "remaining_visual_issues_observed_at_this_revision": [
+    {
+      "id": "weather-loading-footer-gutter",
+      "severity": "visual_polish",
+      "capture": "metro-progress-weather-moving",
+      "observation": "Loading label and current-location command begin at phone edge x440 while city, empty-state body and get-forecast command begin at x460, a 20-pixel content inset. Loading label is 12 px, versus the Podcast loading label at 18 px. This creates a visible gutter/readability discontinuity.",
+      "measurement": {
+        "phone_left_x": 440,
+        "main_content_left_x": 460,
+        "weather_progress": [
+          {
+            "name": "WeatherProgress",
+            "automationName": "Loading weather",
+            "type": "ProgressBar",
+            "text": null,
+            "x": 440,
+            "y": 383,
+            "width": 400,
+            "height": 4,
+            "renderedBounds": {
+              "height": 4,
+              "width": 400,
+              "x": 440,
+              "y": 383
+            },
+            "enabled": true,
+            "hit": false,
+            "opacity": 1,
+            "selectedIndex": null,
+            "scrollOffset": null
+          }
+        ],
+        "footer_elements": [
+          {
+            "name": null,
+            "automationName": null,
+            "type": "TextBlock",
+            "text": "loading weather\u2026",
+            "x": 440,
+            "y": 387,
+            "width": 400,
+            "height": 15,
+            "renderedBounds": {
+              "height": 15,
+              "width": 400,
+              "x": 440,
+              "y": 387
+            },
+            "enabled": true,
+            "hit": false,
+            "opacity": 1,
+            "selectedIndex": null,
+            "scrollOffset": null
+          },
+          {
+            "name": null,
+            "automationName": null,
+            "type": "TextBlock",
+            "text": "use my current location",
+            "x": 440,
+            "y": 410,
+            "width": 228,
+            "height": 27,
+            "renderedBounds": {
+              "height": 27,
+              "width": 228,
+              "x": 440,
+              "y": 410
+            },
+            "enabled": true,
+            "hit": true,
+            "opacity": 1,
+            "selectedIndex": null,
+            "scrollOffset": null
+          }
+        ],
+        "reference_body": [
+          {
+            "name": null,
+            "automationName": null,
+            "type": "TextBlock",
+            "text": "No weather has been downloaded for this city yet.",
+            "x": 460,
+            "y": 254,
+            "width": 360,
+            "height": 49,
+            "renderedBounds": {
+              "height": 49,
+              "width": 360,
+              "x": 460,
+              "y": 254
+            },
+            "enabled": true,
+            "hit": false,
+            "opacity": 1,
+            "selectedIndex": null,
+            "scrollOffset": null
+          },
+          {
+            "name": null,
+            "automationName": null,
+            "type": "TextBlock",
+            "text": "get forecast",
+            "x": 460,
+            "y": 327,
+            "width": 116,
+            "height": 27,
+            "renderedBounds": {
+              "height": 27,
+              "width": 116,
+              "x": 460,
+              "y": 327
+            },
+            "enabled": true,
+            "hit": true,
+            "opacity": 1,
+            "selectedIndex": null,
+            "scrollOffset": null
+          }
+        ]
+      },
+      "recommendation": "Align the loading/footer group with the established content inset and choose readable busy-status typography. Preserve full-width strip behavior only if deliberately justified.",
+      "status_at_capture": "Present. Root assigned a subsequent small fix to sdk_controls; this evidence does not claim that later fix has passed."
+    },
+    {
+      "id": "podcast-hover-capture",
+      "severity": "capture_qualification",
+      "capture": "metro-progress-podcast-reduced-motion",
+      "observation": "The original screenshot includes a subscribe hover tooltip over the left app-bar command. It is not a clean resting mobile frame.",
+      "recommendation": "Move the mouse away and wait for the tooltip to close before capturing the reduced-motion state.",
+      "status_at_capture": "Present. Root assigned the capture adjustment to sdk_controls."
+    }
+  ],
+  "notification_fixture_cleanup": {
+    "private_capture_index_zero_based": 103,
+    "private_capture": "target/metro-retry-ui/action-center-private-lock-content.json",
+    "clear_all_control": {
+      "name": null,
+      "automationName": "Clear all notifications",
+      "type": "Button",
+      "text": null,
+      "x": 458,
+      "y": 205,
+      "width": 182,
+      "height": 21,
+      "renderedBounds": {
+        "height": 21,
+        "width": 182,
+        "x": 458,
+        "y": 205
+      },
+      "enabled": false,
+      "hit": true,
+      "opacity": 0.35,
+      "selectedIndex": null,
+      "scrollOffset": null
+    },
+    "mounted_private_notification_group_count": 0,
+    "immediately_following_capture": {
+      "path": "target/metro-retry-ui/phone-input-dark-focused.json",
+      "sha256": "9fea64fd9f9d5d090072eeccb96d076e88ea89002629f82fefcee6e90a50be4c",
+      "bytes": 65180,
+      "archive_member": "phone-input-dark-focused.json",
+      "matches_archive_member_bytes": true
+    },
+    "following_route": {
+      "App": "Alarms"
+    },
+    "following_lock_layer_count": 0,
+    "following_action_center_count": 0,
+    "notification_module_failed": false,
+    "conclusion": "The following Alarms fixture is unlocked with no Action Center. The notification module returned without a reported cleanup failure. The exact candidate cleanup source closes Action Center, uses mounted Unlock, verifies no LockScreen, restores original document data and verifies unlocked Start before returning.",
+    "boundary": "Original document restore is established by the executed source path and successful module return, not by a separately persisted before/after document export."
+  },
+  "source_references_at_candidate": [
+    {
+      "path": "scripts/ui-notification-groups.mjs",
+      "commit": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+      "sha256": "0c5dfc0277631d92568e32d2975c600b1ac43697c64204167fada21235726dad"
+    },
+    {
+      "path": "scripts/ui-hub-pivots.mjs",
+      "commit": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+      "sha256": "1087aa042d8207e4bb80eadef42c29c825729f3084cdaa29e3744460855b7b1d"
+    },
+    {
+      "path": "scripts/ui-metro-progress.mjs",
+      "commit": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+      "sha256": "0b84ecdc091b0ec3399be383bce59f4031c1813e4b720ba8b56f0c8cf6d3a3f0"
+    },
+    {
+      "path": "crates/apps/phone-app-weather/src/lib.rs",
+      "commit": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+      "sha256": "c11205739397f6262038a741eb5856c3589dd78f888e5ea3658bb83997b054d2"
+    },
+    {
+      "path": "crates/apps/phone-app-podcasts/src/views.rs",
+      "commit": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+      "sha256": "25738e37bdad5770fdabd797129473cd894aa43e5474c13bd563089f14e46e4b"
+    }
+  ],
+  "scope_qualifications": [
+    "This is a failed overall browser run with passing relevant modules; do not publish it as a full green verification.",
+    "Only the 13 listed original screenshots were visually reviewed here. Ten selected image/JSON pairs plus results and the cleanup-followup JSON are copied unchanged.",
+    "No original Windows Phone screenshot corpus, font metric comparison or reference-device measurement was part of this review.",
+    "Document-backed notification gestures are separate from native provider key ownership and revocation tests. Those require their separately identified Rust/Android evidence.",
+    "Current Weather gutter and Podcast tooltip observations belong to 019ad836. A later runtime or fixture fix requires new evidence.",
+    "No runtime source or verification gate was changed by this review."
+  ],
+  "copied_raw_files": [
+    {
+      "path": "target/metro-retry-ui/results.json",
+      "sha256": "c6e1cac231627b3313f8a7e1426ce1fa02d9810c367c336e40c3a327bad557e5",
+      "bytes": 72284,
+      "archive_member": "results.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/results.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/phone-input-dark-focused.json",
+      "sha256": "9fea64fd9f9d5d090072eeccb96d076e88ea89002629f82fefcee6e90a50be4c",
+      "bytes": 65180,
+      "archive_member": "phone-input-dark-focused.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/phone-input-dark-focused.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-settings-320-light.png",
+      "sha256": "3154b0f40b922ec850795fe624fbca879d4fbbeb67f53750b9c8de89321c1141",
+      "bytes": 26675,
+      "archive_member": "metro-settings-320-light.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-settings-320-light.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-settings-320-light.json",
+      "sha256": "e4f76e89ef4099d7ed7ea937520259a7d1983f291a36e7fd47503b1113a696f7",
+      "bytes": 50315,
+      "archive_member": "metro-settings-320-light.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-settings-320-light.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-settings-system-scrolled.png",
+      "sha256": "d48122bcf027ac3bb3ca8093d2c53ee38894d299264962f5e51f1315cf045e99",
+      "bytes": 39845,
+      "archive_member": "metro-settings-system-scrolled.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-settings-system-scrolled.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-settings-system-scrolled.json",
+      "sha256": "08336fd4c5fd2e2128e0b9b7dad1d222dd29813ffe8ce7f3339ce158887a1033",
+      "bytes": 85390,
+      "archive_member": "metro-settings-system-scrolled.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-settings-system-scrolled.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-office-320-light.png",
+      "sha256": "a0f0f05ee10ab8749ef0bd7e1a0d2a5b2b06922019ec85e2757e27dbd1b906f1",
+      "bytes": 24051,
+      "archive_member": "metro-office-320-light.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-office-320-light.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-office-320-light.json",
+      "sha256": "ebb4027df9dd1d3313d599aad56f9a44750438a4b17332a39c05a04a9f056843",
+      "bytes": 66929,
+      "archive_member": "metro-office-320-light.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-office-320-light.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-office-search-page.png",
+      "sha256": "c9fe122f334f615eaf0610bbafc948fcc906c307e52567d056c598fe54f65dca",
+      "bytes": 27532,
+      "archive_member": "metro-office-search-page.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-office-search-page.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-office-search-page.json",
+      "sha256": "8c3d84a62881c5ab273b6f0845ef4f2ba3d5ed48acc60ad4ab69ae983b25e59a",
+      "bytes": 56856,
+      "archive_member": "metro-office-search-page.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-office-search-page.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-progress-weather-moving.png",
+      "sha256": "6a57b9973b9029cf7d10d4af213e465c42bec693abd7304155365cfb8db20d81",
+      "bytes": 37112,
+      "archive_member": "metro-progress-weather-moving.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-progress-weather-moving.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-progress-weather-moving.json",
+      "sha256": "bcabaf0aa2a6fd4d0e6ff475c52a3b34a87979c8f841c78d734df9cb3b57d69f",
+      "bytes": 72331,
+      "archive_member": "metro-progress-weather-moving.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-progress-weather-moving.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-progress-podcast-reduced-motion.png",
+      "sha256": "10f01206d0b2fa3bdc9851141f256503681593c3ca1fea81f4fdfe129950dce6",
+      "bytes": 38807,
+      "archive_member": "metro-progress-podcast-reduced-motion.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-progress-podcast-reduced-motion.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/metro-progress-podcast-reduced-motion.json",
+      "sha256": "37962cc2d88ac141a6873c3a6edf621d8ca68f65662d77434dd220bebaf20dde",
+      "bytes": 57745,
+      "archive_member": "metro-progress-podcast-reduced-motion.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/metro-progress-podcast-reduced-motion.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-chronological-groups.png",
+      "sha256": "e2103f1c263c1548ed8df4475c676687371ae07673ee2bda70b1857df29365bf",
+      "bytes": 38404,
+      "archive_member": "action-center-chronological-groups.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-chronological-groups.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-chronological-groups.json",
+      "sha256": "c7fdbc593583a1fe7b2cb9a845e5330c361dcb757fcb8cac5663c00cde38f57d",
+      "bytes": 128157,
+      "archive_member": "action-center-chronological-groups.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-chronological-groups.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-native-group-dismissal.png",
+      "sha256": "4260ad977be3c2df55a538c8d19c3439959875d3bc32310e86d92880264075fe",
+      "bytes": 29242,
+      "archive_member": "action-center-native-group-dismissal.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-native-group-dismissal.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-native-group-dismissal.json",
+      "sha256": "8d754cf0ff89cc315f1b96aee03cb1de8c4709041221f3c41072675c28ce88e9",
+      "bytes": 115545,
+      "archive_member": "action-center-native-group-dismissal.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-native-group-dismissal.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-parallel-clear.png",
+      "sha256": "32ca942b892d855df4fca7362a5c1d83fd5b003cf76f9a3fed9e643b4fa905fb",
+      "bytes": 19632,
+      "archive_member": "action-center-parallel-clear.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-parallel-clear.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-parallel-clear.json",
+      "sha256": "ff74874a7a3af84fdcf5cb9a0f429ff1b21fdd5bd5b1aad252b8777eaa3fcb14",
+      "bytes": 99429,
+      "archive_member": "action-center-parallel-clear.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-parallel-clear.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-private-lock-content.png",
+      "sha256": "fd69900279c90d753f7f2f705c57c83e5917ae9a162f3f96286a7029e602d406",
+      "bytes": 20896,
+      "archive_member": "action-center-private-lock-content.png",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-private-lock-content.png",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-retry-ui/action-center-private-lock-content.json",
+      "sha256": "162fe6338fa6eafa6569fdc5415d2ce3fbf3e9ebe1faffa2a1e991421587dc98",
+      "bytes": 61014,
+      "archive_member": "action-center-private-lock-content.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/retry-browser/raw/action-center-private-lock-content.json",
+      "copy_matches_original_bytes": true
+    }
+  ]
+}

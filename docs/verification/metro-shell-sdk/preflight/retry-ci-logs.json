@@ -1,0 +1,49 @@
+{
+  "candidate": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+  "checkout": "48d41e420e1d159c1294da19580a08c8d35081d9",
+  "description": "GitHub connector job log text, UTF-8; browser failed paired shell snapshot requirement, other jobs passed",
+  "logs": [
+    {
+      "file": "retry-android-arm-logs.log.gz",
+      "uncompressed_bytes": 205199,
+      "uncompressed_sha256": "ce60c0ed53b43063462aa59192989d23665c3903b61dfbc5586c6fedeb300c1a",
+      "gzip_sha256": "beb87008eca63cd0336f0a87034d74e879b5b57750136f7b446dfe697ef5966c"
+    },
+    {
+      "file": "retry-android-ui-logs.log.gz",
+      "uncompressed_bytes": 179508,
+      "uncompressed_sha256": "8d9e608052a0358cad44e7d63bdbe81b5b25b55c5d08e20d05461844c9960ca8",
+      "gzip_sha256": "be798bcfa4bbae01fb948f0c690bd1da42d2ca1ef0aeb61999b5871fbc6b5416"
+    },
+    {
+      "file": "retry-browser-log.log.gz",
+      "uncompressed_bytes": 300115,
+      "uncompressed_sha256": "6e01ceb96b6a8eefae02472f5ef8cc875dc2b8d42987660588a8518028c86ffa",
+      "gzip_sha256": "935a752694058b26cb4b7113d626ee709713b5029af67300cbd6b03f16bdb78d"
+    },
+    {
+      "file": "retry-ios-logs.log.gz",
+      "uncompressed_bytes": 322192,
+      "uncompressed_sha256": "8a535bd71519bd4378974564951810752dc5037e511cddf11705b24629605770",
+      "gzip_sha256": "af28570cd16928df2c7f9765efa1a776f663f6ecd128abddccdf195e48ac42e5"
+    },
+    {
+      "file": "retry-linux-logs.log.gz",
+      "uncompressed_bytes": 197547,
+      "uncompressed_sha256": "277dbca1f7f619c5f19fd8c5a5bf30bbde526262b56bb2ac8c4da8b23a2c24c8",
+      "gzip_sha256": "711a5572302b5ec5eb7c50654675c58a0e9c9e44536bf91704e0639052188cfa"
+    },
+    {
+      "file": "retry-macos-logs.log.gz",
+      "uncompressed_bytes": 155317,
+      "uncompressed_sha256": "ad3c8262d0560d9b131a7aeb6d1653570489fd898a178e23f486a6c0c8688107",
+      "gzip_sha256": "4b781e3da034faf3cf821eb9381873ba9e8267b672ab5a733b623900f45d8e13"
+    },
+    {
+      "file": "retry-windows-logs.log.gz",
+      "uncompressed_bytes": 177476,
+      "uncompressed_sha256": "a07eec515069d5ffea1654a0bd6634ccf1e3a9c95ee7e10ecac66ba82ca2ebea",
+      "gzip_sha256": "d92547855bb9fde9cd3f5f092e9cafa5481b87b3fff56156e39cf8185fceaf3d"
+    }
+  ]
+}

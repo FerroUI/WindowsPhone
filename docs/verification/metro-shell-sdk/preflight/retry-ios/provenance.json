@@ -1,0 +1,171 @@
+{
+  "candidate": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+  "checkout": "48d41e420e1d159c1294da19580a08c8d35081d9",
+  "run_id": 45955246534,
+  "job_id": 140360120109,
+  "artifact_id": 15179726004,
+  "artifact_sha256": "c955fe14958f95f648bb49ccf0885373f02584b1697d2488b18ee25d08c65d05",
+  "files": [
+    {
+      "name": "device-tests.json",
+      "bytes": 3142,
+      "sha256": "e78543abcc6851ae7f71657dfc900b6152e9a4d8fd01f7130ed92074f0680fbc"
+    },
+    {
+      "name": "home-restored.json",
+      "bytes": 4059,
+      "sha256": "0eaf4b52b7f1ac98035b4a3de23b25b34be4f4c6ce0390ac41408bbf66d2edad"
+    },
+    {
+      "name": "last-observation.json",
+      "bytes": 4059,
+      "sha256": "c9412aa2518d8420eb37d01b907e2c875873946e8be4860b43515e6d8cbcc45a"
+    },
+    {
+      "name": "launch-driver-cleanup-begin.json",
+      "bytes": 651,
+      "sha256": "7b9934d6254eafc3e11b20dda97be970dcf0e9082ec03a8cf5802de1fbb26870"
+    },
+    {
+      "name": "launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "cbab5a5d8ada09d04c1be65477165bb85f5df7e05d91e2d61333a129843d9d14"
+    },
+    {
+      "name": "launch-driver-started.json",
+      "bytes": 636,
+      "sha256": "523fa6ae1cc0d359d1fd05324e5e1c8ca2c02ee84ca0227aeafb663bb58b8b40"
+    },
+    {
+      "name": "messages.json",
+      "bytes": 4169,
+      "sha256": "3cc71cf032c7ab4c1018c3caa6daf8ecd2d81603d561549552edf97966618933"
+    },
+    {
+      "name": "navigation-1-driver.json",
+      "bytes": 798,
+      "sha256": "baa6d5d1f7392bef356cc688448d60633ec60444b363d6342e6ae9734219420f"
+    },
+    {
+      "name": "navigation-2-driver.json",
+      "bytes": 1084,
+      "sha256": "6e4f947e54874926cd53326feda5fa778b1244add32ba1b536ea531f0d3e2045"
+    },
+    {
+      "name": "navigation-3-driver.json",
+      "bytes": 1376,
+      "sha256": "c5c7ff176c58d1304d5334d6a4acd8570951bc8a570328de4c96f76c8fb38b5c"
+    },
+    {
+      "name": "navigation-4-driver.json",
+      "bytes": 1667,
+      "sha256": "740952f329382b1f8f5386a6415f0b23346c7a4f7d49f1c05d4dfc133d81632b"
+    },
+    {
+      "name": "navigation-back.json",
+      "bytes": 4059,
+      "sha256": "3095f193d125387a0e83eca2ad8496d0492d5008efb82f86997f6b8a60c12cac"
+    },
+    {
+      "name": "navigation-request-1.json",
+      "bytes": 103,
+      "sha256": "efd869076bcd40f2d11363e4b912e0ced9f45947c20f94404f2e3c96740bd2ff"
+    },
+    {
+      "name": "navigation-request-2.json",
+      "bytes": 101,
+      "sha256": "77dc2570d60333d989a941c06da8f9d0c4b932e7977aa7674ce52659edcb5011"
+    },
+    {
+      "name": "navigation-request-3.json",
+      "bytes": 103,
+      "sha256": "c0eba8114417dc0a63bb025b92de0f341920ae5fb37c6c040f5f7a89ea16d9a4"
+    },
+    {
+      "name": "navigation-request-4.json",
+      "bytes": 102,
+      "sha256": "a9e3287d31ae046ff127f2fca41cfec0cab19724972eb6e9e10ae3d03132757f"
+    },
+    {
+      "name": "navigation-search-again.json",
+      "bytes": 4048,
+      "sha256": "63b60749ecd27b0cb33594be2198972e2ffb83715486ffc030f48e4288e0114a"
+    },
+    {
+      "name": "navigation-search.json",
+      "bytes": 4048,
+      "sha256": "b687de35e5a142ecd615883bcb55e53b0f3a253d68bef9c89119b3f6eac9cb08"
+    },
+    {
+      "name": "navigation-start.json",
+      "bytes": 4059,
+      "sha256": "6b003e560c4fce34e523bac4d606e4f1a9753cb5864ba87039a084e66091da61"
+    },
+    {
+      "name": "owned-installation.json",
+      "bytes": 404,
+      "sha256": "90e130baf528d8293acbad01b537223ada4c50cae5cb0adf449d7925cea7d90d"
+    },
+    {
+      "name": "people.json",
+      "bytes": 4086,
+      "sha256": "d78f7d864c654b9c0a930fbb742b886a8e2975daa5e6e45e62589fed8338c806"
+    },
+    {
+      "name": "phone.json",
+      "bytes": 4139,
+      "sha256": "7de0093eeec6dce2bf5cc13143845565e0d61ec2e666ab3b421fc4b189710875"
+    },
+    {
+      "name": "prompt-handler.json",
+      "bytes": 1670,
+      "sha256": "d92be3c2610c160986a04cc94a29074e6eaf24dfc7ee78272ebda2eb8fecafff"
+    },
+    {
+      "name": "request-1.json",
+      "bytes": 100,
+      "sha256": "b0376dd7aa8c03e1f629e07088eda7f01ed38c17d1dca84b72655cd9be1705a6"
+    },
+    {
+      "name": "request-2.json",
+      "bytes": 124,
+      "sha256": "511b0962faaae6d872dda5a7a3ff7ae839401aaf1c8a5889bc0ee0583b72fe4a"
+    },
+    {
+      "name": "request-3.json",
+      "bytes": 106,
+      "sha256": "54a6ff5a65fe388e5f5b99ba63af0287482e7e2fecb4580f4df882ccb5723da9"
+    },
+    {
+      "name": "request-4.json",
+      "bytes": 110,
+      "sha256": "a5101991fcc3f9107a45d7f1fbd15db206429d31e560842681a809986be1438f"
+    },
+    {
+      "name": "request-5.json",
+      "bytes": 108,
+      "sha256": "7516cf99629cd6822371399f767822076171d4211f880c02837206cad71ee66a"
+    },
+    {
+      "name": "request-6.json",
+      "bytes": 82,
+      "sha256": "7e2b851f4bbca002184f8e0a8f688b11e017978fc84effe3b577ceffab954385"
+    },
+    {
+      "name": "settings.json",
+      "bytes": 4101,
+      "sha256": "0a288ff84ec27e92dd69bec33ff8fc4c49d4df6501338260030d91c1c2021b78"
+    },
+    {
+      "name": "start.json",
+      "bytes": 4010,
+      "sha256": "b114d1d938197fb9d3e87acc83fa1cf0ddcd59ffea349780ae4faecc052a50f6"
+    },
+    {
+      "name": "wallet.json",
+      "bytes": 4110,
+      "sha256": "640de8e1f4549e5985d76029253012ba26f016b5e95756da250a2bcf8cbe3852"
+    }
+  ],
+  "qualification": "Unchanged top-level observation and driver JSON from the passed simulator artifact. Visual inspection of the prior runtime-identical candidate is recorded separately; this copy does not claim a new full image review."
+}

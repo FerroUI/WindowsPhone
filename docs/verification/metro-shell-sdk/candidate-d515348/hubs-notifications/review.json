@@ -1,0 +1,1370 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-11-27T07:59:31.819630+00:00",
+  "provenance": "provenance.json",
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "status": "browser_passed_no_concrete_hub_or_notification_regression_found_in_inspected_scope",
+  "browser_result": {
+    "passed": true,
+    "passing_checks": 112,
+    "captures": 198,
+    "errors": [],
+    "elapsed_ms": 406780,
+    "duration_boundary": "Suite execution time, not application performance."
+  },
+  "reviewed_checks": [
+    {
+      "name": "Settings retains independent pane scrolling with fixed native Pivot headers",
+      "elapsedMs": 2284,
+      "passed": true
+    },
+    {
+      "name": "Office retains both native panes and keeps search editing outside Pivot gestures",
+      "elapsedMs": 2961,
+      "passed": true
+    },
+    {
+      "name": "Settings and Office native headings stay reachable at 320 pixels in both themes",
+      "elapsedMs": 4768,
+      "passed": true
+    },
+    {
+      "name": "reduced motion preserves Settings and Office hub commands without native paging animation",
+      "elapsedMs": 914,
+      "passed": true
+    },
+    {
+      "name": "Action Center sorts groups by newest item and cancels native dismissal cleanly",
+      "elapsedMs": 954,
+      "passed": true
+    },
+    {
+      "name": "native group swipe and parallel two-finger clear preserve unrelated notifications",
+      "elapsedMs": 1864,
+      "passed": true
+    },
+    {
+      "name": "private lock-screen Action Center cannot clear hidden notification content",
+      "elapsedMs": 1655,
+      "passed": true
+    }
+  ],
+  "inspected_captures": [
+    {
+      "name": "metro-settings-applications-native",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-settings-applications-native.png",
+        "archive_member": "metro-settings-applications-native.png",
+        "bytes": 35751,
+        "sha256": "6c77e5c31982b5280276758c5511781ec31a62a59db387988553c88df30fc90e",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "inspection": "raw/metro-settings-applications-native.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "pivots": [
+        {
+          "name": "SettingsPivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 440,
+          "y": 125,
+          "width": 400,
+          "height": 702,
+          "renderedBounds": {
+            "height": 702,
+            "width": 400,
+            "x": 440,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 1,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "system",
+          "x": 658,
+          "y": 125,
+          "width": 124,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 124,
+            "x": 658,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "applications",
+          "x": 460,
+          "y": 125,
+          "width": 198,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 198,
+            "x": 460,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "SettingsApplicationsScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 440,
+          "y": 189,
+          "width": 400,
+          "height": 638,
+          "renderedBounds": {
+            "height": 638,
+            "width": 400,
+            "x": 440,
+            "y": 189
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-settings-system-scrolled",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-settings-system-scrolled.png",
+        "archive_member": "metro-settings-system-scrolled.png",
+        "bytes": 39814,
+        "sha256": "2b26e8edcb3634a61d2949460c6148731dfb485b1c0d2dc707e2fba2a6f8881c",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "inspection": "raw/metro-settings-system-scrolled.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "pivots": [
+        {
+          "name": "SettingsPivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 440,
+          "y": 125,
+          "width": 400,
+          "height": 702,
+          "renderedBounds": {
+            "height": 702,
+            "width": 400,
+            "x": 440,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 0,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "system",
+          "x": 460,
+          "y": 125,
+          "width": 124,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 124,
+            "x": 460,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "applications",
+          "x": 584,
+          "y": 125,
+          "width": 198,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 198,
+            "x": 584,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "SettingsSystemScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 440,
+          "y": 189,
+          "width": 400,
+          "height": 638,
+          "renderedBounds": {
+            "height": 638,
+            "width": 400,
+            "x": 440,
+            "y": 189
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 430
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-settings-320-dark",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-settings-320-dark.png",
+        "archive_member": "metro-settings-320-dark.png",
+        "bytes": 26482,
+        "sha256": "ba1e24d41f02c7cbcd39884b5d0c5a2861e76955108c7c286ef80511369d932a",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "inspection": "raw/metro-settings-320-dark.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "pivots": [
+        {
+          "name": "SettingsPivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 622,
+          "renderedBounds": {
+            "height": 622,
+            "width": 320,
+            "x": 0,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 1,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "system",
+          "x": 218,
+          "y": 64,
+          "width": 124,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 124,
+            "x": 218,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "applications",
+          "x": 20,
+          "y": 64,
+          "width": 198,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 198,
+            "x": 20,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "SettingsApplicationsScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 558,
+          "renderedBounds": {
+            "height": 558,
+            "width": 320,
+            "x": 0,
+            "y": 128
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-settings-320-light",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-settings-320-light.png",
+        "archive_member": "metro-settings-320-light.png",
+        "bytes": 26651,
+        "sha256": "e3efb29a1c276285c6974dafa9b0a0972e4d822abfafc460abb830e5c7b2b665",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/metro-settings-320-light.png",
+      "inspection": "raw/metro-settings-320-light.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "pivots": [
+        {
+          "name": "SettingsPivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 622,
+          "renderedBounds": {
+            "height": 622,
+            "width": 320,
+            "x": 0,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 1,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "system",
+          "x": 218,
+          "y": 64,
+          "width": 124,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 124,
+            "x": 218,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "applications",
+          "x": 20,
+          "y": 64,
+          "width": 198,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 198,
+            "x": 20,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "SettingsApplicationsScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 558,
+          "renderedBounds": {
+            "height": 558,
+            "width": 320,
+            "x": 0,
+            "y": 128
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-office-places-native",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-office-places-native.png",
+        "archive_member": "metro-office-places-native.png",
+        "bytes": 32757,
+        "sha256": "d53c9fbeb6ed4d58af889c9d7af8624e733757ff9eec67b7d764f7b73cacf68c",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/metro-office-places-native.png",
+      "inspection": "raw/metro-office-places-native.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Office"
+      },
+      "pivots": [
+        {
+          "name": "OfficePivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 440,
+          "y": 125,
+          "width": 400,
+          "height": 642,
+          "renderedBounds": {
+            "height": 642,
+            "width": 400,
+            "x": 440,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 1,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "recent",
+          "x": 575,
+          "y": 125,
+          "width": 116,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 116,
+            "x": 575,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "places",
+          "x": 460,
+          "y": 125,
+          "width": 115,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 115,
+            "x": 460,
+            "y": 125
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "OfficePlacesScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 440,
+          "y": 189,
+          "width": 400,
+          "height": 578,
+          "renderedBounds": {
+            "height": 578,
+            "width": 400,
+            "x": 440,
+            "y": 189
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-office-320-dark",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-office-320-dark.png",
+        "archive_member": "metro-office-320-dark.png",
+        "bytes": 24050,
+        "sha256": "9e91def189dbd777dc99002211b91cf1829d630d83fcedc9a251f367ce4743b1",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "inspection": "raw/metro-office-320-dark.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Office"
+      },
+      "pivots": [
+        {
+          "name": "OfficePivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 562,
+          "renderedBounds": {
+            "height": 562,
+            "width": 320,
+            "x": 0,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 1,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "recent",
+          "x": 135,
+          "y": 64,
+          "width": 116,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 116,
+            "x": 135,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "places",
+          "x": 20,
+          "y": 64,
+          "width": 115,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 115,
+            "x": 20,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "OfficePlacesScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 498,
+          "renderedBounds": {
+            "height": 498,
+            "width": 320,
+            "x": 0,
+            "y": 128
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-office-320-light",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-office-320-light.png",
+        "archive_member": "metro-office-320-light.png",
+        "bytes": 24031,
+        "sha256": "8544eda3386151a9ce2727cc42ffcb3741578a20a16b3a4410da904bf9ca5744",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "inspection": "raw/metro-office-320-light.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Office"
+      },
+      "pivots": [
+        {
+          "name": "OfficePivot",
+          "automationName": null,
+          "type": "Pivot",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 562,
+          "renderedBounds": {
+            "height": 562,
+            "width": 320,
+            "x": 0,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": 1,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "recent",
+          "x": 135,
+          "y": 64,
+          "width": 116,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 116,
+            "x": 135,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": null,
+          "automationName": "",
+          "type": "PivotHeaderItem",
+          "text": "places",
+          "x": 20,
+          "y": 64,
+          "width": 115,
+          "height": 64,
+          "renderedBounds": {
+            "height": 64,
+            "width": 115,
+            "x": 20,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "pane_scrollers": [
+        {
+          "name": "OfficePlacesScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 498,
+          "renderedBounds": {
+            "height": 498,
+            "width": 320,
+            "x": 0,
+            "y": 128
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-office-reduced-motion-320",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-office-reduced-motion-320.png",
+        "archive_member": "metro-office-reduced-motion-320.png",
+        "bytes": 24053,
+        "sha256": "a171f5a10606a7ea43fd3b41592955f5ec2aafb2946465556bffb905ec5109d0",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/metro-office-reduced-motion-320.png",
+      "inspection": "raw/metro-office-reduced-motion-320.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Office"
+      },
+      "pivots": [
+        {
+          "name": "OfficePivot",
+          "automationName": null,
+          "type": "Grid",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 562,
+          "renderedBounds": {
+            "height": 562,
+            "width": 320,
+            "x": 0,
+            "y": 64
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "headers": [],
+      "pane_scrollers": [
+        {
+          "name": "OfficePlacesScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 498,
+          "renderedBounds": {
+            "height": 498,
+            "width": 320,
+            "x": 0,
+            "y": 128
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "metro-office-search-page",
+      "png": {
+        "source": "target/metro-candidate-ui/metro-office-search-page.png",
+        "archive_member": "metro-office-search-page.png",
+        "bytes": 27500,
+        "sha256": "88dfaf7fce3caaef5f6d15c7cc01c9727e26ebcf7cf3185b36cfc7dd539dd9fb",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/metro-office-search-page.png",
+      "inspection": "raw/metro-office-search-page.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Office"
+      },
+      "pivots": [],
+      "headers": [],
+      "pane_scrollers": [
+        {
+          "name": "OfficeRecentScroll",
+          "automationName": null,
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 440,
+          "y": 272,
+          "width": 400,
+          "height": 495,
+          "renderedBounds": {
+            "height": 495,
+            "width": 400,
+            "x": 440,
+            "y": 272
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "text_editors": [
+        {
+          "name": "OfficeSearchInput",
+          "automationName": "search documents",
+          "type": "TextBox",
+          "text": "Pivot document 04",
+          "x": 460,
+          "y": 216,
+          "width": 360,
+          "height": 44,
+          "renderedBounds": {
+            "height": 44,
+            "width": 360,
+            "x": 460,
+            "y": 216
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": true,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "lock_layers": 0,
+      "action_centers": 0,
+      "notification_groups": [],
+      "clear_all": []
+    },
+    {
+      "name": "action-center-chronological-groups",
+      "png": {
+        "source": "target/metro-candidate-ui/action-center-chronological-groups.png",
+        "archive_member": "action-center-chronological-groups.png",
+        "bytes": 38148,
+        "sha256": "06ac949635975c34bd01998a6d6bfbf095810fdb4959a2afb6d770be322e1dd8",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/action-center-chronological-groups.png",
+      "inspection": "raw/action-center-chronological-groups.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start",
+      "pivots": [],
+      "headers": [],
+      "pane_scrollers": [],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 1,
+      "notification_groups": [
+        {
+          "name": "Notification-1051",
+          "automationName": null,
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 254,
+          "width": 364,
+          "height": 210,
+          "renderedBounds": {
+            "height": 210,
+            "width": 364,
+            "x": 458,
+            "y": 254
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": "Notification-1053",
+          "automationName": null,
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 484,
+          "width": 364,
+          "height": 115,
+          "renderedBounds": {
+            "height": 115,
+            "width": 364,
+            "x": 458,
+            "y": 484
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": "Notification-1054",
+          "automationName": null,
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 619,
+          "width": 364,
+          "height": 115,
+          "renderedBounds": {
+            "height": 115,
+            "width": 364,
+            "x": 458,
+            "y": 619
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "clear_all": [
+        {
+          "name": null,
+          "automationName": "Clear all notifications",
+          "type": "Button",
+          "text": null,
+          "x": 458,
+          "y": 205,
+          "width": 182,
+          "height": 21,
+          "renderedBounds": {
+            "height": 21,
+            "width": 182,
+            "x": 458,
+            "y": 205
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ]
+    },
+    {
+      "name": "action-center-native-group-dismissal",
+      "png": {
+        "source": "target/metro-candidate-ui/action-center-native-group-dismissal.png",
+        "archive_member": "action-center-native-group-dismissal.png",
+        "bytes": 29105,
+        "sha256": "bf3e09f1a1cd2392033373dc28056c6eb084b17a9cb4ae31e5c7a4ad40fa6938",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/action-center-native-group-dismissal.png",
+      "inspection": "raw/action-center-native-group-dismissal.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start",
+      "pivots": [],
+      "headers": [],
+      "pane_scrollers": [],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 1,
+      "notification_groups": [
+        {
+          "name": "Notification-1053",
+          "automationName": null,
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 254,
+          "width": 364,
+          "height": 115,
+          "renderedBounds": {
+            "height": 115,
+            "width": 364,
+            "x": 458,
+            "y": 254
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        },
+        {
+          "name": "Notification-1054",
+          "automationName": null,
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 389,
+          "width": 364,
+          "height": 115,
+          "renderedBounds": {
+            "height": 115,
+            "width": 364,
+            "x": 458,
+            "y": 389
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ],
+      "clear_all": [
+        {
+          "name": null,
+          "automationName": "Clear all notifications",
+          "type": "Button",
+          "text": null,
+          "x": 458,
+          "y": 205,
+          "width": 182,
+          "height": 21,
+          "renderedBounds": {
+            "height": 21,
+            "width": 182,
+            "x": 458,
+            "y": 205
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ]
+    },
+    {
+      "name": "action-center-parallel-clear",
+      "png": {
+        "source": "target/metro-candidate-ui/action-center-parallel-clear.png",
+        "archive_member": "action-center-parallel-clear.png",
+        "bytes": 19623,
+        "sha256": "4d5937c9f5410b43b6faca7489c3122412bad2330daa380280a980dce58e1c58",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "inspection": "raw/action-center-parallel-clear.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start",
+      "pivots": [],
+      "headers": [],
+      "pane_scrollers": [],
+      "text_editors": [],
+      "lock_layers": 0,
+      "action_centers": 1,
+      "notification_groups": [],
+      "clear_all": [
+        {
+          "name": null,
+          "automationName": "Clear all notifications",
+          "type": "Button",
+          "text": null,
+          "x": 458,
+          "y": 205,
+          "width": 182,
+          "height": 21,
+          "renderedBounds": {
+            "height": 21,
+            "width": 182,
+            "x": 458,
+            "y": 205
+          },
+          "hit": true,
+          "enabled": true,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ]
+    },
+    {
+      "name": "action-center-private-lock-content",
+      "png": {
+        "source": "target/metro-candidate-ui/action-center-private-lock-content.png",
+        "archive_member": "action-center-private-lock-content.png",
+        "bytes": 20886,
+        "sha256": "4a4ac8c0c34d1419980f0dace94a6837adfb78ad7a7766fd415a587756051072",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/action-center-private-lock-content.png",
+      "inspection": "raw/action-center-private-lock-content.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        1280,
+        936
+      ],
+      "route": "Start",
+      "pivots": [],
+      "headers": [],
+      "pane_scrollers": [],
+      "text_editors": [],
+      "lock_layers": 1,
+      "action_centers": 1,
+      "notification_groups": [],
+      "clear_all": [
+        {
+          "name": null,
+          "automationName": "Clear all notifications",
+          "type": "Button",
+          "text": null,
+          "x": 458,
+          "y": 205,
+          "width": 182,
+          "height": 21,
+          "renderedBounds": {
+            "height": 21,
+            "width": 182,
+            "x": 458,
+            "y": 205
+          },
+          "hit": true,
+          "enabled": false,
+          "focused": false,
+          "selectedIndex": null,
+          "scrollOffset": null
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "area": "Settings",
+      "observation": "Native applications/system headings and rows remain readable at the 400-pixel shell width and at 320 pixels in dark and light themes. The scrolled System pane has offset y430 while header y125 remains above the pane at y189. Both header targets remain hittable at 320 pixels.",
+      "evidence": "Original images/inspections plus passed independent-scroll and native-header input checks."
+    },
+    {
+      "area": "Office",
+      "observation": "Native Places headings, accent folder icons, row subtitles and app-bar commands fit at 400 and 320 pixels. Both dark and light narrow images remain readable. Search is a separate surface with a focused TextBox and no OfficePivot mounted.",
+      "evidence": "Original images/inspections plus passed pane-retention, search editing and Back-to-hub selection check."
+    },
+    {
+      "area": "Reduced motion",
+      "observation": "The 320-pixel Office screenshot uses static section commands with Places selected; content and app-bar commands remain reachable without native Pivot paging animation.",
+      "boundary": "The recorded test also exercises Settings commands in reduced motion, but this artifact has no separate Settings reduced-motion screenshot. Do not claim an independent visual review of that absent frame."
+    },
+    {
+      "area": "Action Center",
+      "observation": "The chronological frame groups the newest Outlook item before Messaging and Phone. Completed group dismissal removes Outlook and retains both unrelated groups. Parallel clear yields the empty state. Private lock removes all notification groups and disables Clear all.",
+      "evidence": "Original before/dismissed/empty/private inspections and seven relevant passing hub/notification checks; source fixture asserts data preservation after cancellation and a stationary second contact."
+    }
+  ],
+  "fixture_cleanup": {
+    "private_capture_index_zero_based": 103,
+    "immediate_next_capture": "raw/phone-input-dark-focused.json",
+    "next_route": {
+      "App": "Alarms"
+    },
+    "next_lock_layer_count": 0,
+    "next_action_center_count": 0,
+    "conclusion": "The immediate following Alarms fixture is unlocked. The successful notification module includes mounted Close/Unlock cleanup, original document import and an explicit no-LockScreen assertion before returning.",
+    "boundary": "The original document export is not separately persisted in this visual subset; restore is supported by executed fixture assertions and successful module completion."
+  },
+  "qualifications": [
+    "Thirteen original PNGs were visually inspected. Seven PNGs and all corresponding 13 inspection JSONs, plus the immediate cleanup-followup JSON, are preserved here. Other original PNGs remain identified by hash in the source artifact.",
+    "Browser notification fixtures are document-backed local data. Real browser touch input operates the retained native control tree; native-provider keys, operating-system notification permission and provider revocation are not synthesized by this fixture. Those have separate Rust/Android evidence.",
+    "Static images do not establish complete original-device animation, font or raster parity. The header adjacent-section clipping and reduced-motion static presentation are observed behavior, not original Windows Phone measurements.",
+    "Office search returns the selected hub section; these checks do not claim every destroyed ScrollViewer offset survives reconstructing the hub.",
+    "Native shell paging/motion and progress capture reviews are owned by separate reviewers and are not requalified by this scoped review.",
+    "The browser suite passed for the identified candidate. This scoped review is not an all-platform publication or acceptance record by itself."
+  ]
+}

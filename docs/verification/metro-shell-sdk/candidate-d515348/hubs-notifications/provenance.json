@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "archived_at_utc": "2026-11-27T07:59:31.818485+00:00",
+  "repository": "FerroUI/WindowsPhone",
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "synthetic_checkout_head": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "checkout_parents": [
+    "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+    "d515348c699c22110def2dded8f7b8aea4b9cd03"
+  ],
+  "candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "checkout_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "trees_equal_verified_locally": true,
+  "run_id": "45959413873",
+  "job_id": "140373412884",
+  "artifact_id": "15180379881",
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873/job/140373412884",
+  "archive_source": "target/metro-candidate-ui.zip",
+  "archive_sha256": "1582850c76a9d11b892dfa01a783b9d4d6bf2b28b56cce9ef2126d9273f93211",
+  "archive_sha256_verified_locally": true,
+  "binding": "GitHub identities and checkout binding supplied by parent. ZIP digest, selected original member bytes, candidate/synthetic tree equality and merge parents independently verified.",
+  "original_results": {
+    "source": "target/metro-candidate-ui/results.json",
+    "archive_member": "results.json",
+    "bytes": 56720,
+    "sha256": "4e12482340989de8420467df420756367d7b5c601aad99884b55a9148f04d2dc",
+    "matches_zip_member": true
+  },
+  "full_results_archive_owner": "Parent; not duplicated in this scoped evidence subset.",
+  "source_references": [
+    {
+      "path": "scripts/ui-hub-pivots.mjs",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "1087aa042d8207e4bb80eadef42c29c825729f3084cdaa29e3744460855b7b1d"
+    },
+    {
+      "path": "scripts/ui-notification-groups.mjs",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "0c5dfc0277631d92568e32d2975c600b1ac43697c64204167fada21235726dad"
+    }
+  ],
+  "preservation": "Every raw/ JSON or PNG is byte-identical to its downloaded ZIP member. Images were not cropped or recompressed.",
+  "copied_files": [
+    {
+      "source": "target/metro-candidate-ui/metro-settings-applications-native.json",
+      "archive_member": "metro-settings-applications-native.json",
+      "bytes": 58941,
+      "sha256": "3210e8dce3ed0683fd4044c6d7a26204ed6ac9bba121520bf37e8aa57b0e768f",
+      "matches_zip_member": true,
+      "path": "raw/metro-settings-applications-native.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-settings-system-scrolled.json",
+      "archive_member": "metro-settings-system-scrolled.json",
+      "bytes": 85390,
+      "sha256": "9c5e5310eefa9c34d5fb0b6a2455bf315fcde69037aeb952b5d39ddb910a26a1",
+      "matches_zip_member": true,
+      "path": "raw/metro-settings-system-scrolled.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-settings-320-dark.json",
+      "archive_member": "metro-settings-320-dark.json",
+      "bytes": 50315,
+      "sha256": "ea0269319288cd2a0c85ba18bde6318108aaf7471d402dccf57f0febbb77891e",
+      "matches_zip_member": true,
+      "path": "raw/metro-settings-320-dark.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-settings-320-light.json",
+      "archive_member": "metro-settings-320-light.json",
+      "bytes": 50315,
+      "sha256": "a58e834bbc6825cf34ac8ed8f48972ae442e1d11facd2da9536fbb17f878e082",
+      "matches_zip_member": true,
+      "path": "raw/metro-settings-320-light.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-places-native.json",
+      "archive_member": "metro-office-places-native.json",
+      "bytes": 75565,
+      "sha256": "51fe8217e8544ae4f39f129e3c1b02c7d3b44dd83a098690e780905f424ddc62",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-places-native.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-320-dark.json",
+      "archive_member": "metro-office-320-dark.json",
+      "bytes": 66929,
+      "sha256": "0a195bbe947cac8c6c50e01cc6cfa58b4e7a86584279347e0c55a58cc09db23e",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-320-dark.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-320-light.json",
+      "archive_member": "metro-office-320-light.json",
+      "bytes": 66929,
+      "sha256": "226337d6bb4de3ee4cc02f48e093d8144cc48a64bf73d52da353b674afc82831",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-320-light.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-reduced-motion-320.json",
+      "archive_member": "metro-office-reduced-motion-320.json",
+      "bytes": 62114,
+      "sha256": "4915ad5ebfa26de51b6db9731b037627ff66491e39e73e2da2f679714eab356f",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-reduced-motion-320.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-search-page.json",
+      "archive_member": "metro-office-search-page.json",
+      "bytes": 56856,
+      "sha256": "8acf9be291b5a41dd016f75eeea50439fb7686d68c9365ecb694c2772285426f",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-search-page.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-chronological-groups.json",
+      "archive_member": "action-center-chronological-groups.json",
+      "bytes": 128157,
+      "sha256": "4545a4dfcc62aebf2aaa0ceab03996d8afa8bed7c5b302916cb08b65834b71fc",
+      "matches_zip_member": true,
+      "path": "raw/action-center-chronological-groups.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-native-group-dismissal.json",
+      "archive_member": "action-center-native-group-dismissal.json",
+      "bytes": 115545,
+      "sha256": "539c16dcdae273f0f9f1a311be1c0c1f8cce1fecd2a3969b653c7679a8653655",
+      "matches_zip_member": true,
+      "path": "raw/action-center-native-group-dismissal.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-parallel-clear.json",
+      "archive_member": "action-center-parallel-clear.json",
+      "bytes": 99429,
+      "sha256": "49c30ae6eb6a7dc179e4aea95fea14871e78aefb7ec314a3480b8ab5b7fc0bb6",
+      "matches_zip_member": true,
+      "path": "raw/action-center-parallel-clear.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-private-lock-content.json",
+      "archive_member": "action-center-private-lock-content.json",
+      "bytes": 61014,
+      "sha256": "d92ff0e1938af4701373c786f1910a33002ccb2f854ef18955cacfcb4c1eb53b",
+      "matches_zip_member": true,
+      "path": "raw/action-center-private-lock-content.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/phone-input-dark-focused.json",
+      "archive_member": "phone-input-dark-focused.json",
+      "bytes": 65180,
+      "sha256": "e0adf46713ee3fb98f4569ce92a78d19f4478458f7c3c03c526426b33fdbf0c1",
+      "matches_zip_member": true,
+      "path": "raw/phone-input-dark-focused.json"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-settings-320-light.png",
+      "archive_member": "metro-settings-320-light.png",
+      "bytes": 26651,
+      "sha256": "e3efb29a1c276285c6974dafa9b0a0972e4d822abfafc460abb830e5c7b2b665",
+      "matches_zip_member": true,
+      "path": "raw/metro-settings-320-light.png"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-places-native.png",
+      "archive_member": "metro-office-places-native.png",
+      "bytes": 32757,
+      "sha256": "d53c9fbeb6ed4d58af889c9d7af8624e733757ff9eec67b7d764f7b73cacf68c",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-places-native.png"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-reduced-motion-320.png",
+      "archive_member": "metro-office-reduced-motion-320.png",
+      "bytes": 24053,
+      "sha256": "a171f5a10606a7ea43fd3b41592955f5ec2aafb2946465556bffb905ec5109d0",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-reduced-motion-320.png"
+    },
+    {
+      "source": "target/metro-candidate-ui/metro-office-search-page.png",
+      "archive_member": "metro-office-search-page.png",
+      "bytes": 27500,
+      "sha256": "88dfaf7fce3caaef5f6d15c7cc01c9727e26ebcf7cf3185b36cfc7dd539dd9fb",
+      "matches_zip_member": true,
+      "path": "raw/metro-office-search-page.png"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-chronological-groups.png",
+      "archive_member": "action-center-chronological-groups.png",
+      "bytes": 38148,
+      "sha256": "06ac949635975c34bd01998a6d6bfbf095810fdb4959a2afb6d770be322e1dd8",
+      "matches_zip_member": true,
+      "path": "raw/action-center-chronological-groups.png"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-native-group-dismissal.png",
+      "archive_member": "action-center-native-group-dismissal.png",
+      "bytes": 29105,
+      "sha256": "bf3e09f1a1cd2392033373dc28056c6eb084b17a9cb4ae31e5c7a4ad40fa6938",
+      "matches_zip_member": true,
+      "path": "raw/action-center-native-group-dismissal.png"
+    },
+    {
+      "source": "target/metro-candidate-ui/action-center-private-lock-content.png",
+      "archive_member": "action-center-private-lock-content.png",
+      "bytes": 20886,
+      "sha256": "4a4ac8c0c34d1419980f0dace94a6837adfb78ad7a7766fd415a587756051072",
+      "matches_zip_member": true,
+      "path": "raw/action-center-private-lock-content.png"
+    }
+  ],
+  "copied_file_count": 21,
+  "copied_bytes": 1241779
+}

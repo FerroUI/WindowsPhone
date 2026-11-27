@@ -1,0 +1,55 @@
+{
+  "source": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "regression": {
+    "before": {
+      "passed": 0,
+      "failed": 1,
+      "filtered": 67,
+      "reason": "Missing outgoing image after document restore and native shell swipe"
+    },
+    "after": {
+      "passed": 1,
+      "failed": 0,
+      "filtered": 67
+    },
+    "headless_boundary": "Production snapshot/control/input path with headless size-only bitmap stub; browser compositor remains required for rendered output."
+  },
+  "phone_system": {
+    "passed": 68,
+    "failed": 0,
+    "ignored": 0,
+    "command": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=1 CARGO_PROFILE_TEST_DEBUG=0 cargo test --locked -p phone-system -- --test-threads=1"
+  },
+  "phone_app_weather": {
+    "passed": 2,
+    "failed": 0,
+    "ignored": 0
+  },
+  "logs": [
+    {
+      "file": "shell-capture-before-fix.log.gz",
+      "uncompressed_bytes": 18592,
+      "uncompressed_sha256": "1bc93bd6f7152077fc7e79fd44ffc7e7da8d77129eafd0ef6bfdbac72e5cb5df",
+      "gzip_sha256": "e1f7f3bf07ca37b3afba64008a27604d3dcec68638dce425dd7cd7d1e94002d1"
+    },
+    {
+      "file": "shell-capture-after-fix.log.gz",
+      "uncompressed_bytes": 18006,
+      "uncompressed_sha256": "2cd23e70402534e9bf450e9f159863e92c88e623a4f2a82e491966ce77c1f68a",
+      "gzip_sha256": "505a17fc39253443be453a1260f84735d965f762512fc153ee3225bd232ff10d"
+    },
+    {
+      "file": "shell-capture-system-tests.log.gz",
+      "uncompressed_bytes": 24773,
+      "uncompressed_sha256": "00d2ae5045a09baba09a07e75809d1ad7b3d9c4d67a096623771049687addd0e",
+      "gzip_sha256": "c8c5737cf850797167bf6fb6e44b75e25188fca4e2175d506d90de835b23d82a"
+    },
+    {
+      "file": "metro-weather-footer-tests.log.gz",
+      "uncompressed_bytes": 17822,
+      "uncompressed_sha256": "7cb7b4bb98c95a7a1a47492658f31945ef5b1d4d32cecfbfb870862ad56c6c19",
+      "gzip_sha256": "b9f6767ea76bc3edc22a5ed05a4698019fabeeb44d0c6d5661ef0ec819a46068"
+    }
+  ]
+}

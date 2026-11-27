@@ -1,0 +1,208 @@
+{
+  "schema": 1,
+  "source_revision": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+  "source_tree": "49a3af233bcfcefe779cf945c7a237cd0b22494d",
+  "framework_revision": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "records": [
+    {
+      "name": "native-serial",
+      "command": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=1 CARGO_PROFILE_TEST_DEBUG=0 cargo test --locked --no-fail-fast -p phone-system -p phone-sdk -p phone-app-settings -p phone-app-office -p phone-app-people -p phone-app-weather -p phone-app-podcasts",
+      "source_runtime_revision": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+      "log": "native-serial.log.gz",
+      "uncompressed_sha256": "83029f4cac3e8844110fdd6ac60c474ff42dac6e08e5a5b65753994f589ffc63",
+      "uncompressed_bytes": 40736,
+      "suites": [
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_office-46d4ab3d7bea94ba)",
+          "result": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_people-0065e91c29c1f3b4)",
+          "result": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_podcasts-7b9bf225187cd4d9)",
+          "result": "ok",
+          "passed": 11,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_settings-816a01940c0ba68c)",
+          "result": "ok",
+          "passed": 1,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_weather-de6cc06415e4b255)",
+          "result": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+          "result": "ok",
+          "passed": 34,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/activation.rs (target/debug/deps/activation-5d8ef7732ea4302b)",
+          "result": "ok",
+          "passed": 2,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/extensions.rs (target/debug/deps/extensions-bf7dd6cddacd9083)",
+          "result": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/live_tiles.rs (target/debug/deps/live_tiles-36a02cc278a07bba)",
+          "result": "ok",
+          "passed": 3,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/pivots.rs (target/debug/deps/pivots-657b43bbfb305885)",
+          "result": "ok",
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/runtime.rs (target/debug/deps/runtime-01b6635adabdece0)",
+          "result": "ok",
+          "passed": 4,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/search.rs (target/debug/deps/search-ab03a895501e0634)",
+          "result": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running tests/storage.rs (target/debug/deps/storage-8d3564ca2181c7c1)",
+          "result": "ok",
+          "passed": 5,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_system-049265913a93609e)",
+          "result": "ok",
+          "passed": 67,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_app_office",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_app_people",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_app_podcasts",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_app_settings",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_app_weather",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_sdk",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_system",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "passed": 145,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "name": "controls",
+      "command": "CARGO_BUILD_JOBS=3 CARGO_PROFILE_TEST_DEBUG=0 cargo test --locked -p phone-controls",
+      "source_runtime_revision": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+      "log": "controls.log.gz",
+      "uncompressed_sha256": "591640d083f02ea4db254143c122c4861eba90895b626c0d8246c40e5215c9b4",
+      "uncompressed_bytes": 22339,
+      "suites": [
+        {
+          "suite": "Running unittests src/lib.rs (target/debug/deps/phone_controls-eb5413d8c917f9cf)",
+          "result": "ok",
+          "passed": 42,
+          "failed": 0,
+          "ignored": 0
+        },
+        {
+          "suite": "Doc-tests phone_controls",
+          "result": "ok",
+          "passed": 0,
+          "failed": 0,
+          "ignored": 0
+        }
+      ],
+      "passed": 42,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "name": "javascript",
+      "command": "node --test scripts/*.test.mjs",
+      "source_runtime_revision": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+      "log": "javascript.log.gz",
+      "uncompressed_sha256": "ef1a735f3a439f70215721b3770616a3dd4f7dbb41baa63d344af74edfd1eb0e",
+      "uncompressed_bytes": 7806,
+      "passed": 79,
+      "failed": 0,
+      "tests": 79,
+      "skipped": 0
+    }
+  ],
+  "qualification": "These local test logs cover the runtime sources committed at the identified revision. Controls and serial application/SDK suites have separate test binaries; their assertions also overlap later CI checks, so no cross-run aggregate is claimed. An earlier three-job aggregate build was killed during dependency compilation; the serial retry retained all requested test packages and passed."
+}

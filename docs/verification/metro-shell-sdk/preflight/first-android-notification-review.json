@@ -1,0 +1,672 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-11-27T06:44:11.140156+00:00",
+  "status": "reviewed_no_concrete_regression_identified_within_notification_scope",
+  "purpose": "Intermediate review of the first candidate Android mounted-UI notification lifecycle evidence; not an original Windows Phone parity certification.",
+  "provenance": {
+    "repository": "FerroUI/WindowsPhone",
+    "candidate_head": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+    "artifact_checkout_head": "fedefc5a00e9d6d9782de241af6e8ca79c78d55c",
+    "artifact_checkout_source": {
+      "path": "target/metro-android-ui/head.txt",
+      "sha256": "a2a68f81e0b66879ca1848ee52032acd486e1d60fd24a799275fbefcb28b7ea0",
+      "bytes": 41,
+      "archive_member": "head.txt",
+      "matches_archive_member_bytes": true
+    },
+    "checkout_parents": [
+      "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+      "413b4bff45efa83c7afc48c51a0001857c80d0e4"
+    ],
+    "candidate_tree": "49a3af233bcfcefe779cf945c7a237cd0b22494d",
+    "checkout_tree": "49a3af233bcfcefe779cf945c7a237cd0b22494d",
+    "trees_equal_verified_locally": true,
+    "head_relationship": "Artifact was built from the synthetic merge of baseline main and candidate; its complete Git tree is identical to the candidate tree. Both identities are retained.",
+    "run_id": "45951776493",
+    "job_id": "140349049282",
+    "artifact_id": "15177214315",
+    "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45951776493",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45951776493/job/140349049282",
+    "archive": "target/metro-android-ui.zip",
+    "archive_sha256": "5d0aa8a64c28f7214f3a5de6ae636234319b6ed3e3edf510dc482bc0e90cd2f6",
+    "archive_expected_sha256": "5d0aa8a64c28f7214f3a5de6ae636234319b6ed3e3edf510dc482bc0e90cd2f6",
+    "archive_digest_verified_locally": true,
+    "source_directory": "target/metro-android-ui",
+    "run_job_artifact_binding_source": "Parent supplied the GitHub artifact identifiers. This review independently verified the ZIP digest, original/copy member bytes, checkout marker, merge parents and tree identity."
+  },
+  "artifact_result": {
+    "source": "target/metro-android-ui/result.json",
+    "result": "passed",
+    "exit_code": 0,
+    "reported_phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+    "target": {
+      "platform": "android",
+      "api": 36,
+      "abi": "x86_64",
+      "gpu": "software"
+    },
+    "capture_count": 19,
+    "observation_count": 30,
+    "boundary": "The complete result is copied unchanged. This review independently examines only the four listed screenshots and the notification/SMS observations, not every reported call, HOME or codec assertion."
+  },
+  "environment": {
+    "device": {
+      "api": "36",
+      "abi": "x86_64",
+      "serial": "emulator-5584"
+    },
+    "display_size": "Physical size: 720x1440",
+    "display_density": "Physical density: 320",
+    "render_scaling": 2.0,
+    "viewport_points": {
+      "height": 628.0,
+      "width": 360.0
+    },
+    "screen_bounds_points": {
+      "height": 628.0,
+      "width": 360.0,
+      "x": 0.0,
+      "y": 68.0
+    },
+    "safe_area_points": {
+      "bottom": 24.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 68.0
+    },
+    "host": {
+      "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+      "features": [
+        "installedApps",
+        "systemSettings",
+        "nativeSharing",
+        "haptics",
+        "notifications",
+        "location",
+        "hardwareControls",
+        "telephony",
+        "messaging",
+        "contacts",
+        "notificationCenter",
+        "maps",
+        "appShortcuts",
+        "launcherRole"
+      ],
+      "launcher": "available",
+      "mode": "app",
+      "platform": "android",
+      "shell": "unsupported"
+    }
+  },
+  "captures": [
+    {
+      "original_image": {
+        "path": "target/metro-android-ui/device-action-center.png",
+        "sha256": "df36bd08404f7897d035b87817a4e5d335b2cb10c6e1187a04b87514865e696e",
+        "bytes": 101927,
+        "archive_member": "device-action-center.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-android-ui/device-notifications-visible.json",
+        "sha256": "e3b2e29b8b978f72c203fee05ab5d77d1f48f4ee53c4aee810860b7f2271019f",
+        "bytes": 9540,
+        "archive_member": "device-notifications-visible.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "observation_sequence": 21,
+      "observed_at_unix_ms": 1795761532884,
+      "route": "Start"
+    },
+    {
+      "original_image": {
+        "path": "target/metro-android-ui/device-action-center-revoked.png",
+        "sha256": "e3e536e4a732847ef18880cb9ceecba41dd7a21de21d1ee541c72c3d90ffd10a",
+        "bytes": 78956,
+        "archive_member": "device-action-center-revoked.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-android-ui/device-notifications-revoked.json",
+        "sha256": "428ca3be5fe30a6fa8ee58133d2ca8fc100aa178a01dda101c60c444dc2b5230",
+        "bytes": 8459,
+        "archive_member": "device-notifications-revoked.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "observation_sequence": 26,
+      "observed_at_unix_ms": 1795761535677,
+      "route": "Start"
+    },
+    {
+      "original_image": {
+        "path": "target/metro-android-ui/device-start-unread.png",
+        "sha256": "0b6a88dc5670e3280bfd74d16319370ac4b8504bdb8eb3aebf3f8ed4a88758db",
+        "bytes": 428287,
+        "archive_member": "device-start-unread.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-android-ui/device-start-unread.json",
+        "sha256": "fcdbc9210b0482b8519425d65bc1e147a9afecd056d69699201fdebc5db05444",
+        "bytes": 8395,
+        "archive_member": "device-start-unread.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "observation_sequence": 12,
+      "observed_at_unix_ms": 1795761526504,
+      "route": "Start"
+    },
+    {
+      "original_image": {
+        "path": "target/metro-android-ui/device-messaging.png",
+        "sha256": "c07b764c2f72179d1287661cce8612e9a53fae0404f3fd77724a4c3248a6ca0c",
+        "bytes": 74483,
+        "archive_member": "device-messaging.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-android-ui/device-sms-ui.json",
+        "sha256": "92be9dbf289752c965a9dfa67d1b6f67fb80b5c30c332c966894c44e47b48f5d",
+        "bytes": 8306,
+        "archive_member": "device-sms-ui.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "observation_sequence": 29,
+      "observed_at_unix_ms": 1795761537617,
+      "route": {
+        "App": "Messaging"
+      }
+    }
+  ],
+  "notification_lifecycle": [
+    {
+      "sequence": 12,
+      "observed_at_unix_ms": 1795761526504,
+      "process_id": 4916,
+      "ready": true,
+      "route": "Start",
+      "nonce": "8c6de491782d0c541876075111cd1596",
+      "action_center": null,
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "target/metro-android-ui/device-start-unread.json",
+      "notification_operations": [],
+      "notification_listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    },
+    {
+      "sequence": 19,
+      "observed_at_unix_ms": 1795761530781,
+      "process_id": 4916,
+      "ready": true,
+      "route": "Start",
+      "nonce": "8c6de491782d0c541876075111cd1596",
+      "action_center": null,
+      "device_notification_count": 3,
+      "device_notification_fixture": [
+        {
+          "actions": [],
+          "application": "Shell",
+          "body": "Native-listener-8c6de491782d0c541876075111cd1596",
+          "clearable": true,
+          "key": "notification:f84e22a01f3521b63d2e0fb3668b331813a7fdd711816183e0a7ce719ec83d81",
+          "ongoing": false,
+          "package_id": "com.android.shell",
+          "timestamp": 1795761528773,
+          "title": "FerroUI-bootstrap-8c6de491782d0c541876075111cd1596"
+        }
+      ],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "target/metro-android-ui/device-notifications-admitted.json",
+      "notification_operations": [
+        "readNotifications",
+        "notificationActions"
+      ],
+      "notification_listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "active"
+      }
+    },
+    {
+      "sequence": 21,
+      "observed_at_unix_ms": 1795761532884,
+      "process_id": 4916,
+      "ready": true,
+      "route": "Start",
+      "nonce": "8c6de491782d0c541876075111cd1596",
+      "action_center": {
+        "fully_visible": true,
+        "height": 574.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "device_notification_count": 3,
+      "device_notification_fixture": [
+        {
+          "actions": [],
+          "application": "Shell",
+          "body": "Native-listener-8c6de491782d0c541876075111cd1596",
+          "clearable": true,
+          "key": "notification:f84e22a01f3521b63d2e0fb3668b331813a7fdd711816183e0a7ce719ec83d81",
+          "ongoing": false,
+          "package_id": "com.android.shell",
+          "timestamp": 1795761528773,
+          "title": "FerroUI-bootstrap-8c6de491782d0c541876075111cd1596"
+        }
+      ],
+      "notification_fixture_labels": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 79.5,
+            "width": 324.0,
+            "x": 18.0,
+            "y": 328.5
+          },
+          "text": "FerroUI-bootstrap-8c6de491782d0c541876075111cd1596"
+        },
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 61.5,
+            "width": 324.0,
+            "x": 18.0,
+            "y": 412.0
+          },
+          "text": "Native-listener-8c6de491782d0c541876075111cd1596"
+        }
+      ],
+      "notification_scroll": {
+        "bounds": {
+          "fully_visible": true,
+          "height": 311.5,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 282.5
+        },
+        "extent": {
+          "height": 867.0,
+          "width": 360.0
+        },
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "targets": [
+          {
+            "bounds": {
+              "height": 79.5,
+              "width": 324.0,
+              "x": 18.0,
+              "y": 328.5
+            },
+            "text": "FerroUI-bootstrap-8c6de491782d0c541876075111cd1596"
+          },
+          {
+            "bounds": {
+              "height": 61.5,
+              "width": 324.0,
+              "x": 18.0,
+              "y": 412.0
+            },
+            "text": "Native-listener-8c6de491782d0c541876075111cd1596"
+          }
+        ],
+        "viewport": {
+          "height": 311.5,
+          "width": 360.0
+        }
+      },
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "target/metro-android-ui/device-notifications-visible.json",
+      "notification_operations": [
+        "readNotifications",
+        "notificationActions"
+      ],
+      "notification_listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "active"
+      }
+    },
+    {
+      "sequence": 26,
+      "observed_at_unix_ms": 1795761535677,
+      "process_id": 4916,
+      "ready": true,
+      "route": "Start",
+      "nonce": "8c6de491782d0c541876075111cd1596",
+      "action_center": {
+        "fully_visible": true,
+        "height": 574.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "target/metro-android-ui/device-notifications-revoked.json",
+      "notification_operations": [],
+      "notification_listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    },
+    {
+      "sequence": 28,
+      "observed_at_unix_ms": 1795761536767,
+      "process_id": 4916,
+      "ready": true,
+      "route": "Start",
+      "nonce": "8c6de491782d0c541876075111cd1596",
+      "action_center": null,
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "target/metro-android-ui/device-start-restored.json",
+      "notification_operations": [],
+      "notification_listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    },
+    {
+      "sequence": 29,
+      "observed_at_unix_ms": 1795761537617,
+      "process_id": 4916,
+      "ready": true,
+      "route": {
+        "App": "Messaging"
+      },
+      "nonce": "8c6de491782d0c541876075111cd1596",
+      "action_center": null,
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [],
+      "source": "target/metro-android-ui/device-sms-ui.json",
+      "notification_operations": [],
+      "notification_listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    }
+  ],
+  "observed_findings": [
+    "The native Shell fixture is admitted with notificationListener active and both readNotifications and notificationActions present. Admission observes three native rows; only the uniquely tagged Shell fixture is serialized in device_notification_fixture.",
+    "Action Center is fully visible at 360 by 574 points. The unique fixture title and body have fully-visible measured bounds and appear in the original screenshot, wrapped within the notification content width.",
+    "The first Action Center screenshot shows the Shell group and a following System UI group. It does not expose every lower group or prove complete cross-store chronological ordering.",
+    "After listener revocation, the same mounted process reports zero native rows, no fixture records, no fixture labels and no native notification operations. Action Center remains open; the original revoked screenshot shows preserved local Messaging and Outlook groups.",
+    "After the driver Back action, a fresh Start observation has Action Center closed and the unread Messaging tile badge still equals 1.",
+    "The Start unread screenshot shows badge 1, and the later Messaging screenshot renders the unique received SMS fixture. Their observations retain the same fixture nonce and process id."
+  ],
+  "native_input_provenance": {
+    "driver_sources": [
+      {
+        "path": "scripts/smoke-android-notifications.sh",
+        "checkout": "fedefc5a00e9d6d9782de241af6e8ca79c78d55c",
+        "sha256": "5bcc1aa4de679cea19ba06ea33adc185e69d1176bddaee19f9c4dfb7eb47c777",
+        "reviewed_working_file_matches_checkout": true
+      },
+      {
+        "path": "scripts/verify_android_bootstrap.py",
+        "checkout": "fedefc5a00e9d6d9782de241af6e8ca79c78d55c",
+        "sha256": "f79f2dc708c955ba46db0c3fd82a735a725d349390f018234d26ecb2e33f27ec",
+        "reviewed_working_file_matches_checkout": true
+      }
+    ],
+    "action_center_open": "The reviewed shell driver issues adb input tap at the center of the observed shell status_bar, then waits for fresh visible fixture bounds.",
+    "derived_open_point_pixels": [
+      360,
+      162
+    ],
+    "notification_removal": "The driver revokes its notification listener through cmd notification disallow_listener and verifies authority, store and rendered-text removal. It does not dismiss the group by gesture.",
+    "close": "The driver issues adb input keyevent KEYCODE_BACK and waits for a fresh start-restored observation.",
+    "fallback_vertical_scrolling": "The script can issue measured vertical ScrollViewer swipes if the fixture is outside the viewport. No device-notifications-scroll artifacts exist in this run, and the visible observation has offset y=0. No scrolling coverage is claimed.",
+    "fallback_scroll_artifacts": [],
+    "horizontal_group_swipe_performed_by_script": false,
+    "two_finger_clear_performed_by_script": false,
+    "clear_all_button_performed_by_script": false,
+    "event_logging_boundary": "The input commands are established from the exact checkout script and successful phase/observation sequence. Unlike the iOS XCUI driver, this artifact does not contain individual tap-start/tap-completion event records."
+  },
+  "listener_access_evidence": {
+    "observations": [
+      {
+        "path": "target/metro-android-ui/listener-before.txt",
+        "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+        "bytes": 213,
+        "archive_member": "listener-before.txt",
+        "matches_archive_member_bytes": true,
+        "text": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService\n"
+      },
+      {
+        "path": "target/metro-android-ui/listener-granted.txt",
+        "sha256": "05dffa952dda49ff8991906359a7dc12fbaadb3ed1ac1370b29059d045450844",
+        "bytes": 291,
+        "archive_member": "listener-granted.txt",
+        "matches_archive_member_bytes": true,
+        "text": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService\norg.ferroui.windowsphone.launcher/org.ferroui.phone.PhoneNotificationListener\n"
+      },
+      {
+        "path": "target/metro-android-ui/listener-revoked.txt",
+        "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+        "bytes": 213,
+        "archive_member": "listener-revoked.txt",
+        "matches_archive_member_bytes": true,
+        "text": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService\n"
+      },
+      {
+        "path": "target/metro-android-ui/listener-after.txt",
+        "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+        "bytes": 213,
+        "archive_member": "listener-after.txt",
+        "matches_archive_member_bytes": true,
+        "text": "com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener\ncom.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService\n"
+      }
+    ],
+    "before_and_after_bytes_equal": true
+  },
+  "scope_qualifications": [
+    "This is Android API 36 x86_64 emulator evidence with software GPU; it does not qualify physical hardware or all Android versions/vendors.",
+    "The successful notification scenario covers native fixture admission, actual mounted rendering, live listener revocation, native-row/text removal, local-row preservation and Back restoration.",
+    "Native group swipe dismissal, simultaneous two-finger clear, clear-all activation, group-close activation, interaction-time authorization changes, newly arriving keys during a gesture and lock-screen privacy are not exercised by this Android run. Those require separately identified Rust or browser evidence where actually performed.",
+    "The fixture is already visible at scroll offset zero. No native notification list scrolling is demonstrated by this run.",
+    "The notification fixture has no action buttons and is clearable/non-ongoing. Its presence does not qualify ongoing-notification behavior or notification action dispatch.",
+    "The static images do not establish animation timing, frame continuity, every lower notification group or complete sorting correctness.",
+    "Android-owned status/navigation areas and the emulator embedding remain visible; no original Windows Phone reference comparison or 100 percent OS/UI parity is claimed.",
+    "All copied JSON files retain their original bytes. No PNG, APK, logcat or other large binary data is duplicated in this intermediate subset."
+  ],
+  "copied_json_files": [
+    {
+      "path": "target/metro-android-ui/result.json",
+      "sha256": "ca8543dd7c952606665481f5b583142fb294cc2ca87a9fae8b247e252c182cb0",
+      "bytes": 1924,
+      "archive_member": "result.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/result.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device.json",
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82",
+      "bytes": 66,
+      "archive_member": "device.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-sms.json",
+      "sha256": "70ac446959dd62e7cf6dfe532a500accf246dcb792fb96ae511ebb87fcf50dce",
+      "bytes": 7664,
+      "archive_member": "device-sms.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-sms.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-start-unread.json",
+      "sha256": "fcdbc9210b0482b8519425d65bc1e147a9afecd056d69699201fdebc5db05444",
+      "bytes": 8395,
+      "archive_member": "device-start-unread.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-start-unread.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-notifications-admitted.json",
+      "sha256": "5ab41833bdb22164926348fdf5be849ecca67502794a2011a82fb07065b55380",
+      "bytes": 8762,
+      "archive_member": "device-notifications-admitted.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-notifications-admitted.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-notifications-visible.json",
+      "sha256": "e3b2e29b8b978f72c203fee05ab5d77d1f48f4ee53c4aee810860b7f2271019f",
+      "bytes": 9540,
+      "archive_member": "device-notifications-visible.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-notifications-visible.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-notifications-revoked.json",
+      "sha256": "428ca3be5fe30a6fa8ee58133d2ca8fc100aa178a01dda101c60c444dc2b5230",
+      "bytes": 8459,
+      "archive_member": "device-notifications-revoked.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-notifications-revoked.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-start-restored.json",
+      "sha256": "d3434c70e938985f7ee0332ca454b026de05f4d75ba77e6c879d80e36495ff2e",
+      "bytes": 8395,
+      "archive_member": "device-start-restored.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-start-restored.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-android-ui/device-sms-ui.json",
+      "sha256": "92be9dbf289752c965a9dfa67d1b6f67fb80b5c30c332c966894c44e47b48f5d",
+      "bytes": 8306,
+      "archive_member": "device-sms-ui.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-android/device-sms-ui.json",
+      "copy_matches_original_bytes": true
+    }
+  ]
+}

@@ -1,0 +1,553 @@
+{
+  "schema": 1,
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "review_kind": "post-run inspection of original browser artifacts",
+  "total_motion_samples": 531,
+  "browser_viewport_px": [
+    1280,
+    936
+  ],
+  "phone_viewport_bounds": {
+    "x": 440,
+    "y": 61,
+    "width": 400,
+    "height": 820
+  },
+  "resting_page_bounds": {
+    "x": 440,
+    "y": 87,
+    "width": 400,
+    "height": 740
+  },
+  "sampling": "requestAnimationFrame inspection installed before trusted input; approximately 1100 ms per trace. Native properties and latest completed compositor matrices are distinct observations, not an atomic raster sample.",
+  "shell_paging": [
+    {
+      "file": "raw/metro-shell-paging-apps-frames.json",
+      "sample_count": 66,
+      "source_route": "Start",
+      "destination_route": "Apps",
+      "paired_native_samples": 19,
+      "first_pair_ms": 299.3,
+      "last_pair_ms": 630.7,
+      "first_clean_sample_ms": 647.9,
+      "source_image_logical_size": {
+        "height": 740,
+        "width": 400
+      },
+      "incoming_translation_first_last_px": [
+        232.00000000000003,
+        0.19505170920618298
+      ],
+      "outgoing_translation_first_last_px": [
+        -167.99999999999997,
+        -399.80494829079385
+      ],
+      "incoming_moves_monotonically_toward_zero": true,
+      "max_native_adjacency_error_px": 0,
+      "both_surfaces_opaque_and_input_disabled_in_all_paired_samples": true,
+      "outgoing_native_hit_false_in_all_paired_samples": true,
+      "compositor_samples_matching_native_translation": 18,
+      "max_compositor_adjacency_error_px_after_first_matching_sample": 5.684341886080802e-14,
+      "compositor_incoming_x_first_last_px": [
+        573.8002975826985,
+        440.19505170920615
+      ],
+      "compositor_outgoing_x_first_last_px": [
+        173.80029758269853,
+        40.195051709206155
+      ],
+      "compositor_samples_with_earlier_bounds": [
+        {
+          "frame_index_zero_based": 17,
+          "elapsed_ms": 299.3,
+          "incoming_native_x": 232.00000000000003,
+          "outgoing_native_x": -167.99999999999997,
+          "incoming_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          },
+          "outgoing_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          }
+        }
+      ],
+      "terminal": {
+        "elapsed_ms": 1115.4,
+        "route": "Apps",
+        "page_present": true,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_opacity": 1,
+        "page_projection": null,
+        "page_rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null,
+        "locked": false
+      }
+    },
+    {
+      "file": "raw/metro-shell-paging-start-frames.json",
+      "sample_count": 67,
+      "source_route": "Apps",
+      "destination_route": "Start",
+      "paired_native_samples": 21,
+      "first_pair_ms": 277.5,
+      "last_pair_ms": 635.2,
+      "first_clean_sample_ms": 645.8,
+      "source_image_logical_size": {
+        "height": 740,
+        "width": 400
+      },
+      "incoming_translation_first_last_px": [
+        -232.00000000000003,
+        -0.02010844370292375
+      ],
+      "outgoing_translation_first_last_px": [
+        167.99999999999997,
+        399.97989155629705
+      ],
+      "incoming_moves_monotonically_toward_zero": true,
+      "max_native_adjacency_error_px": 0,
+      "both_surfaces_opaque_and_input_disabled_in_all_paired_samples": true,
+      "outgoing_native_hit_false_in_all_paired_samples": true,
+      "compositor_samples_matching_native_translation": 20,
+      "max_compositor_adjacency_error_px_after_first_matching_sample": 5.684341886080802e-14,
+      "compositor_incoming_x_first_last_px": [
+        269.7501103845174,
+        439.97989155629705
+      ],
+      "compositor_outgoing_x_first_last_px": [
+        669.7501103845175,
+        839.979891556297
+      ],
+      "compositor_samples_with_earlier_bounds": [
+        {
+          "frame_index_zero_based": 17,
+          "elapsed_ms": 277.5,
+          "incoming_native_x": -232.00000000000003,
+          "outgoing_native_x": 167.99999999999997,
+          "incoming_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          },
+          "outgoing_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          }
+        }
+      ],
+      "terminal": {
+        "elapsed_ms": 1106,
+        "route": "Start",
+        "page_present": true,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_opacity": 1,
+        "page_projection": null,
+        "page_rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null,
+        "locked": false
+      }
+    }
+  ],
+  "turnstiles": [
+    {
+      "file": "raw/metro-navigation-forward-frames.json",
+      "sample_count": 66,
+      "outgoing_image_samples": 15,
+      "incoming_projection_samples": 19,
+      "outgoing_image_first_last_ms": [
+        42.7,
+        280.6
+      ],
+      "incoming_projection_first_last_ms": [
+        303.7,
+        632.6
+      ],
+      "outgoing_angle_first_last_degrees": [
+        0,
+        34.016953347297225
+      ],
+      "incoming_angle_first_last_degrees": [
+        -80,
+        -0.03717414997331048
+      ],
+      "outgoing_angle_monotonic": true,
+      "outgoing_rendered_width_range_px": [
+        303.70172119140625,
+        400
+      ],
+      "incoming_rendered_width_range_px": [
+        47.56805419921875,
+        412.838623046875
+      ],
+      "maximum_left_hinge_error_px": 0,
+      "maximum_camera_depth_error_px": 0,
+      "destination_hidden_and_input_disabled_during_all_retiring_samples": true,
+      "outgoing_source_absent_and_input_restored_during_all_incoming_samples": true,
+      "terminal": {
+        "elapsed_ms": 1108.7,
+        "route": {
+          "Setting": "ringtones+sounds"
+        },
+        "page_present": true,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_opacity": 1,
+        "page_projection": null,
+        "page_rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null,
+        "locked": false
+      }
+    },
+    {
+      "file": "raw/metro-navigation-backward-frames.json",
+      "sample_count": 62,
+      "outgoing_image_samples": 13,
+      "incoming_projection_samples": 18,
+      "outgoing_image_first_last_ms": [
+        48.8,
+        291.7
+      ],
+      "incoming_projection_first_last_ms": [
+        312.4,
+        650.4
+      ],
+      "outgoing_angle_first_last_degrees": [
+        0,
+        -59.93118175220846
+      ],
+      "incoming_angle_first_last_degrees": [
+        50,
+        0.01584092063502851
+      ],
+      "outgoing_angle_monotonic": true,
+      "outgoing_rendered_width_range_px": [
+        200.71148681640625,
+        412.5050048828125
+      ],
+      "incoming_rendered_width_range_px": [
+        241.75985717773438,
+        399.9734802246094
+      ],
+      "maximum_left_hinge_error_px": 0,
+      "maximum_camera_depth_error_px": 0,
+      "destination_hidden_and_input_disabled_during_all_retiring_samples": true,
+      "outgoing_source_absent_and_input_restored_during_all_incoming_samples": true,
+      "terminal": {
+        "elapsed_ms": 1115.3,
+        "route": {
+          "App": "Settings"
+        },
+        "page_present": true,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_opacity": 1,
+        "page_projection": null,
+        "page_rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null,
+        "locked": false
+      }
+    }
+  ],
+  "interruption": {
+    "file": "raw/metro-navigation-interrupted-frames.json",
+    "sample_count": 66,
+    "captured_image_samples_before_back": 3,
+    "first_returned_route_sample_ms": 99,
+    "returned_route_samples": 60,
+    "outgoing_image_reappearance_after_return": false,
+    "superseding_incoming_projection_samples": 20,
+    "terminal": {
+      "elapsed_ms": 1113.8,
+      "route": {
+        "App": "Settings"
+      },
+      "page_present": true,
+      "page_enabled": true,
+      "page_hit_test_visible": true,
+      "page_opacity": 1,
+      "page_projection": null,
+      "page_rendered_bounds": {
+        "height": 740,
+        "width": 400,
+        "x": 440,
+        "y": 87
+      },
+      "image_source_present": false,
+      "outgoing_opacity": 0,
+      "outgoing_projection": null,
+      "locked": false
+    }
+  },
+  "lock": {
+    "file": "raw/metro-navigation-lock-frames.json",
+    "sample_count": 68,
+    "captured_image_samples_before_lock": 2,
+    "first_locked_sample_ms": 77.8,
+    "locked_samples": 62,
+    "private_page_or_image_visible_in_locked_samples": false,
+    "outgoing_opacity_zero_and_transform_released_in_all_locked_samples": true,
+    "terminal": {
+      "elapsed_ms": 1110.2,
+      "route": {
+        "Setting": "ringtones+sounds"
+      },
+      "page_present": false,
+      "page_enabled": null,
+      "page_hit_test_visible": null,
+      "page_opacity": null,
+      "page_projection": null,
+      "page_rendered_bounds": null,
+      "image_source_present": false,
+      "outgoing_opacity": 0,
+      "outgoing_projection": null,
+      "locked": true
+    },
+    "private_page_or_image_visible_after_first_locked_sample": false,
+    "samples_from_first_locked_observation": 63
+  },
+  "motion_preferences": [
+    {
+      "preference": "reduced_motion",
+      "file": "raw/metro-navigation-reduced_motion-frames.json",
+      "sample_count": 68,
+      "image_source_samples": 0,
+      "projection_samples": 0,
+      "outgoing_opacity_zero_in_all_samples": true,
+      "terminal": {
+        "elapsed_ms": 1110.5,
+        "route": {
+          "Setting": "ringtones+sounds"
+        },
+        "page_present": true,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_opacity": 1,
+        "page_projection": null,
+        "page_rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null,
+        "locked": false
+      }
+    },
+    {
+      "preference": "battery_saver",
+      "file": "raw/metro-navigation-battery_saver-frames.json",
+      "sample_count": 68,
+      "image_source_samples": 0,
+      "projection_samples": 0,
+      "outgoing_opacity_zero_in_all_samples": true,
+      "terminal": {
+        "elapsed_ms": 1110.2,
+        "route": {
+          "Setting": "ringtones+sounds"
+        },
+        "page_present": true,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_opacity": 1,
+        "page_projection": null,
+        "page_rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null,
+        "locked": false
+      }
+    }
+  ],
+  "raster_inspections": [
+    {
+      "png": "raw/metro-shell-paging-restored.png",
+      "inspection": "raw/metro-shell-paging-restored.json",
+      "raster_size_px": [
+        1280,
+        936
+      ],
+      "route": "Start",
+      "phone_page_visible_in_inspection": true,
+      "page_rendered_bounds": {
+        "height": 740,
+        "width": 400,
+        "x": 440,
+        "y": 87
+      },
+      "navigation_row_pixels": {
+        "rectangle_xywh": [
+          440,
+          827,
+          400,
+          54
+        ],
+        "total": 21600,
+        "nonblack": 882,
+        "rgb_channels_at_least_245": 523,
+        "rgb_bytes_sha256": "31c883c9863e00b30fd6d9ad09237a505191a7815b404f46f4b5e9c9ec6641d4"
+      }
+    },
+    {
+      "png": "raw/metro-navigation-restored.png",
+      "inspection": "raw/metro-navigation-restored.json",
+      "raster_size_px": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "phone_page_visible_in_inspection": true,
+      "page_rendered_bounds": {
+        "height": 740,
+        "width": 400,
+        "x": 440,
+        "y": 87
+      },
+      "navigation_row_pixels": {
+        "rectangle_xywh": [
+          440,
+          827,
+          400,
+          54
+        ],
+        "total": 21600,
+        "nonblack": 882,
+        "rgb_channels_at_least_245": 523,
+        "rgb_bytes_sha256": "31c883c9863e00b30fd6d9ad09237a505191a7815b404f46f4b5e9c9ec6641d4"
+      }
+    },
+    {
+      "png": "raw/metro-navigation-lock-cancelled.png",
+      "inspection": "raw/metro-navigation-lock-cancelled.json",
+      "raster_size_px": [
+        1280,
+        936
+      ],
+      "route": {
+        "Setting": "ringtones+sounds"
+      },
+      "phone_page_visible_in_inspection": false
+    },
+    {
+      "png": "raw/metro-turnstile-navigation-settled.png",
+      "inspection": "raw/metro-turnstile-navigation-settled.json",
+      "raster_size_px": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "phone_page_visible_in_inspection": true,
+      "page_rendered_bounds": {
+        "height": 740,
+        "width": 400,
+        "x": 440,
+        "y": 87
+      },
+      "navigation_row_pixels": {
+        "rectangle_xywh": [
+          440,
+          827,
+          400,
+          54
+        ],
+        "total": 21600,
+        "nonblack": 882,
+        "rgb_channels_at_least_245": 523,
+        "rgb_bytes_sha256": "31c883c9863e00b30fd6d9ad09237a505191a7815b404f46f4b5e9c9ec6641d4"
+      }
+    }
+  ],
+  "reviewed_png_observations": [
+    "Restored Start has a populated tile surface, readable status/navigation rows and no visible retiring overlay.",
+    "Restored and separately settled Settings show the system/applications headings and full-width settings list with no visible leftover projection.",
+    "Lock cancellation shows full lock artwork, clock/date and notification counts, with no Settings page or retiring image visible.",
+    "The three unlocked screenshots contain identical 400-by-54 navigation-row RGB bytes: 882 nonblack pixels, including 523 pixels with every RGB channel at least 245."
+  ],
+  "limits": [
+    "Each paging trace has one initial paired native sample whose compositor readback still contains both surfaces at their prior x=440 bounds; all subsequent paired readbacks match native translations. These traces do not establish zero-frame release latency or every-instant pixel adjacency.",
+    "RenderedBounds are the native compositor's transformed axis-aligned bounds in root coordinates, before asserting pixel-level clipping/occlusion. Frame JSON is not a sequence of PNGs.",
+    "Observed sample times are scheduler timestamps, not measurements of physical display latency or an independent calibration of the configured 350 ms paging and 250/350 ms turnstile tracks.",
+    "No original Windows Phone hardware, font/raster reference or original-device transition video was compared. This is browser-host behavioral/rendering evidence, not proof of full OS or 100 percent visual parity.",
+    "The touch scenarios verify the release/settle phase. An adjacent destination preview while the finger remains down is outside the implemented paired-snapshot path."
+  ],
+  "original_assertion_replay": [
+    {
+      "file": "raw/metro-shell-paging-apps-frames.json",
+      "assertion": "assertShellPaging",
+      "passed": true
+    },
+    {
+      "file": "raw/metro-shell-paging-start-frames.json",
+      "assertion": "assertShellPaging",
+      "passed": true
+    },
+    {
+      "file": "raw/metro-navigation-forward-frames.json",
+      "assertion": "assertNavigationChoreography",
+      "passed": true
+    },
+    {
+      "file": "raw/metro-navigation-backward-frames.json",
+      "assertion": "assertNavigationChoreography",
+      "passed": true
+    },
+    {
+      "file": "raw/metro-navigation-reduced_motion-frames.json",
+      "assertion": "assertUnprojectedFrames",
+      "passed": true
+    },
+    {
+      "file": "raw/metro-navigation-battery_saver-frames.json",
+      "assertion": "assertUnprojectedFrames",
+      "passed": true
+    }
+  ]
+}

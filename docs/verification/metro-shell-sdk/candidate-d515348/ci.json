@@ -1,0 +1,1819 @@
+{
+  "candidate": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "checkout": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "merged_source": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "runs": [
+    {
+      "id": 45959413873,
+      "name": "Build and publish",
+      "node_id": "WFR_kwLOV33P9M8AAAAKs2UAcQ",
+      "head_branch": "codex/metro-parity-0f7010e",
+      "head_sha": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "path": ".github/workflows/pages.yml",
+      "display_title": "Refine Metro shell paging, progress controls, Action Center and app pivots",
+      "run_number": 86,
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "workflow_id": 427059328,
+      "check_suite_id": 124338279908,
+      "check_suite_node_id": "CS_kwDOV33P9M8AAAAc8yOV5A",
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413873",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873",
+      "pull_requests": [],
+      "created_at": "2026-11-27T07:34:42Z",
+      "updated_at": "2026-11-27T08:17:23Z",
+      "actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "run_attempt": 1,
+      "referenced_workflows": [],
+      "run_started_at": "2026-11-27T07:34:42Z",
+      "triggering_actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "jobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413873/jobs",
+      "logs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413873/logs",
+      "check_suite_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-suites/124338279908",
+      "artifacts_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413873/artifacts",
+      "cancel_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413873/cancel",
+      "rerun_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413873/rerun",
+      "previous_attempt_url": null,
+      "workflow_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/workflows/427059328",
+      "head_commit": {
+        "id": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+        "tree_id": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+        "message": "Fix restored shell capture ownership and loading layout",
+        "timestamp": "2026-11-27T07:34:30Z",
+        "author": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        },
+        "committer": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        }
+      },
+      "repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      },
+      "head_repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      }
+    },
+    {
+      "id": 45959413886,
+      "name": "Verify Android hosts",
+      "node_id": "WFR_kwLOV33P9M8AAAAKs2UAfg",
+      "head_branch": "codex/metro-parity-0f7010e",
+      "head_sha": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "path": ".github/workflows/android.yml",
+      "display_title": "Refine Metro shell paging, progress controls, Action Center and app pivots",
+      "run_number": 56,
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "workflow_id": 427970826,
+      "check_suite_id": 124338279952,
+      "check_suite_node_id": "CS_kwDOV33P9M8AAAAc8yOWEA",
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413886",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413886",
+      "pull_requests": [],
+      "created_at": "2026-11-27T07:34:42Z",
+      "updated_at": "2026-11-27T07:39:47Z",
+      "actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "run_attempt": 1,
+      "referenced_workflows": [],
+      "run_started_at": "2026-11-27T07:34:42Z",
+      "triggering_actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "jobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413886/jobs",
+      "logs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413886/logs",
+      "check_suite_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-suites/124338279952",
+      "artifacts_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413886/artifacts",
+      "cancel_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413886/cancel",
+      "rerun_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413886/rerun",
+      "previous_attempt_url": null,
+      "workflow_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/workflows/427970826",
+      "head_commit": {
+        "id": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+        "tree_id": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+        "message": "Fix restored shell capture ownership and loading layout",
+        "timestamp": "2026-11-27T07:34:30Z",
+        "author": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        },
+        "committer": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        }
+      },
+      "repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      },
+      "head_repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      }
+    },
+    {
+      "id": 45959413903,
+      "name": "Verify Android mounted UI",
+      "node_id": "WFR_kwLOV33P9M8AAAAKs2UAjw",
+      "head_branch": "codex/metro-parity-0f7010e",
+      "head_sha": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "path": ".github/workflows/android-ui.yml",
+      "display_title": "Refine Metro shell paging, progress controls, Action Center and app pivots",
+      "run_number": 51,
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "workflow_id": 428035391,
+      "check_suite_id": 124338279999,
+      "check_suite_node_id": "CS_kwDOV33P9M8AAAAc8yOWPw",
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413903",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413903",
+      "pull_requests": [],
+      "created_at": "2026-11-27T07:34:42Z",
+      "updated_at": "2026-11-27T07:43:18Z",
+      "actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "run_attempt": 1,
+      "referenced_workflows": [],
+      "run_started_at": "2026-11-27T07:34:42Z",
+      "triggering_actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "jobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413903/jobs",
+      "logs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413903/logs",
+      "check_suite_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-suites/124338279999",
+      "artifacts_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413903/artifacts",
+      "cancel_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413903/cancel",
+      "rerun_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959413903/rerun",
+      "previous_attempt_url": null,
+      "workflow_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/workflows/428035391",
+      "head_commit": {
+        "id": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+        "tree_id": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+        "message": "Fix restored shell capture ownership and loading layout",
+        "timestamp": "2026-11-27T07:34:30Z",
+        "author": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        },
+        "committer": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        }
+      },
+      "repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      },
+      "head_repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      }
+    },
+    {
+      "id": 45959414018,
+      "name": "Verify iOS host",
+      "node_id": "WFR_kwLOV33P9M8AAAAKs2UBAg",
+      "head_branch": "codex/metro-parity-0f7010e",
+      "head_sha": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "path": ".github/workflows/ios.yml",
+      "display_title": "Refine Metro shell paging, progress controls, Action Center and app pivots",
+      "run_number": 56,
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "workflow_id": 427970828,
+      "check_suite_id": 124338280303,
+      "check_suite_node_id": "CS_kwDOV33P9M8AAAAc8yOXbw",
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959414018",
+      "html_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959414018",
+      "pull_requests": [],
+      "created_at": "2026-11-27T07:34:42Z",
+      "updated_at": "2026-11-27T07:56:22Z",
+      "actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "run_attempt": 1,
+      "referenced_workflows": [],
+      "run_started_at": "2026-11-27T07:34:42Z",
+      "triggering_actor": {
+        "login": "wieslawsoltes",
+        "id": 2297442,
+        "node_id": "MDQ6VXNlcjIyOTc0NDI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2297442?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wieslawsoltes",
+        "html_url": "https://github.com/wieslawsoltes",
+        "followers_url": "https://api.github.com/users/wieslawsoltes/followers",
+        "following_url": "https://api.github.com/users/wieslawsoltes/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wieslawsoltes/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wieslawsoltes/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wieslawsoltes/subscriptions",
+        "organizations_url": "https://api.github.com/users/wieslawsoltes/orgs",
+        "repos_url": "https://api.github.com/users/wieslawsoltes/repos",
+        "events_url": "https://api.github.com/users/wieslawsoltes/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wieslawsoltes/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "jobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959414018/jobs",
+      "logs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959414018/logs",
+      "check_suite_url": "https://api.github.com/repos/FerroUI/WindowsPhone/check-suites/124338280303",
+      "artifacts_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959414018/artifacts",
+      "cancel_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959414018/cancel",
+      "rerun_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/runs/45959414018/rerun",
+      "previous_attempt_url": null,
+      "workflow_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/workflows/427970828",
+      "head_commit": {
+        "id": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+        "tree_id": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+        "message": "Fix restored shell capture ownership and loading layout",
+        "timestamp": "2026-11-27T07:34:30Z",
+        "author": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        },
+        "committer": {
+          "name": "Wiesław Šoltés",
+          "email": "wieslawsoltes@users.noreply.github.com"
+        }
+      },
+      "repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      },
+      "head_repository": {
+        "id": 1467863028,
+        "node_id": "R_kgDOV33P9A",
+        "name": "WindowsPhone",
+        "full_name": "FerroUI/WindowsPhone",
+        "private": false,
+        "owner": {
+          "login": "FerroUI",
+          "id": 345665177,
+          "node_id": "O_kgDOFJpumQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/345665177?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/FerroUI",
+          "html_url": "https://github.com/FerroUI",
+          "followers_url": "https://api.github.com/users/FerroUI/followers",
+          "following_url": "https://api.github.com/users/FerroUI/following{/other_user}",
+          "gists_url": "https://api.github.com/users/FerroUI/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/FerroUI/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/FerroUI/subscriptions",
+          "organizations_url": "https://api.github.com/users/FerroUI/orgs",
+          "repos_url": "https://api.github.com/users/FerroUI/repos",
+          "events_url": "https://api.github.com/users/FerroUI/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/FerroUI/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/FerroUI/WindowsPhone",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/FerroUI/WindowsPhone",
+        "forks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/forks",
+        "keys_url": "https://api.github.com/repos/FerroUI/WindowsPhone/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/FerroUI/WindowsPhone/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/FerroUI/WindowsPhone/teams",
+        "hooks_url": "https://api.github.com/repos/FerroUI/WindowsPhone/hooks",
+        "issue_events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/FerroUI/WindowsPhone/events",
+        "assignees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/FerroUI/WindowsPhone/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/tags",
+        "blobs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/FerroUI/WindowsPhone/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/FerroUI/WindowsPhone/languages",
+        "stargazers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/stargazers",
+        "contributors_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contributors",
+        "subscribers_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscribers",
+        "subscription_url": "https://api.github.com/repos/FerroUI/WindowsPhone/subscription",
+        "commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/FerroUI/WindowsPhone/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/FerroUI/WindowsPhone/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/FerroUI/WindowsPhone/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/FerroUI/WindowsPhone/merges",
+        "archive_url": "https://api.github.com/repos/FerroUI/WindowsPhone/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/FerroUI/WindowsPhone/downloads",
+        "issues_url": "https://api.github.com/repos/FerroUI/WindowsPhone/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/FerroUI/WindowsPhone/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/FerroUI/WindowsPhone/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/FerroUI/WindowsPhone/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/FerroUI/WindowsPhone/labels{/name}",
+        "releases_url": "https://api.github.com/repos/FerroUI/WindowsPhone/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/FerroUI/WindowsPhone/deployments"
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": 140373412884,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959413873,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Validate compiled artifact reuse",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Read framework tool pins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/cache/restore@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Install pinned browser tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run actions/cache/save@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/cache/restore@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Verify state",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Verify SDK and game contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Verify host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Build Windows Phone",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Save compiled framework and app",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Run actions/download-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 16
+        },
+        {
+          "name": "Verify reused module links",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 17
+        },
+        {
+          "name": "Verify first frame",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 18
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Verify rendered desktop and touch views",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Run actions/upload-pages-artifact@v3",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 22
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 43
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 44
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 45
+        }
+      ]
+    },
+    {
+      "id": 140373413056,
+      "name": "native (macos-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959413873,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 140373413125,
+      "name": "native (windows-2022)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959413873,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 140373413151,
+      "name": "native (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959413873,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Verify Windows compiler and standard library compatibility",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3
+        },
+        {
+          "name": "Install the pinned Rust toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Normalize pinned framework timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Install Linux media development libraries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Verify portable host boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Verify session packaging boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Parse Windows shell configuration helper",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10
+        },
+        {
+          "name": "Inspect original Windows Phone emulator prerequisites",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12
+        },
+        {
+          "name": "Verify Linux media-session protocol",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Verify shared native services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Build and link the complete native host",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/cache@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 140380837633,
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "skipped",
+      "run_id": 45959413873,
+      "logs_url": null,
+      "steps": null
+    },
+    {
+      "id": 140373413205,
+      "name": "android",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959413886,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Read framework tool pins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run android-actions/setup-android@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Install the pinned Android SDK and NDK",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Install pinned Rust and Android standard library",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Normalize framework source timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/cache/restore@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Verify portable Android completion and media contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Build native application and HOME launcher APKs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Check the Android embedding library",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Cache the successfully built native packages",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Verify merged manifests, JNI entry and native alignment",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 33
+        }
+      ]
+    },
+    {
+      "id": 140373412992,
+      "name": "android-ui",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959413903,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Read framework tool pins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run android-actions/setup-android@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Install the pinned Android tools and API 36 x86_64 image",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Enable KVM for this ephemeral runner",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Install pinned Rust and the Android emulator target",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Normalize framework source timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Run actions/cache/restore@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Reset per-run observation artifacts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Verify package and mounted-layout contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Build x86_64 application and launcher APKs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Save successfully built native outputs before runtime verification",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Verify the actual emulator packages",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Verify native geometry, HOME, cold-Start unread badge, notification bootstrap/revocation and carrier call ownership",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 36
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 37
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 38
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 39
+        }
+      ]
+    },
+    {
+      "id": 140373413519,
+      "name": "ios",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 45959414018,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Read pinned toolchain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install pinned Rust and iOS standard library",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Normalize framework source timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/cache/restore@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Verify portable iOS completion contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Type check the optional carrier provider for physical iPhone",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Check all native bridge files against the simulator SDK",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Build and bundle the standard UIKit application",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Build and bundle the optional carrier provider",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Cache the successfully built UIKit application",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Verify native UI, device roundtrips and activation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    }
+  ]
+}

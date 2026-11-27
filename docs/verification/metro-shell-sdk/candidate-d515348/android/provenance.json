@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "archived_at_utc": "2026-11-27T07:47:48.784930+00:00",
+  "repository": "FerroUI/WindowsPhone",
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "artifact_checkout_head": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "checkout_parents": [
+    "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+    "d515348c699c22110def2dded8f7b8aea4b9cd03"
+  ],
+  "candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "checkout_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "trees_equal_verified_locally": true,
+  "run_id": "45959413903",
+  "job_id": "140373412992",
+  "artifact_id": "15180472180",
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413903",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413903/job/140373412992",
+  "archive_source": "target/metro-candidate-android-ui.zip",
+  "archive_sha256": "a51c0262dd135bb4f7bdb76796958702997042d470e10307fd29a37f5e4acc1a",
+  "archive_sha256_verified_locally": true,
+  "head_marker": "raw/head.txt",
+  "binding": "GitHub identifiers supplied by parent; downloaded ZIP digest, artifact head marker, synthetic merge parents and full candidate tree equality independently checked.",
+  "preservation": "Every raw/ file is an unmodified member of the downloaded artifact. No JSON rewriting, PNG cropping or image recompression was performed. Job API metadata/logs are archived separately by the parent.",
+  "copied_files": [
+    {
+      "source": "target/metro-candidate-android-ui/result.json",
+      "archive_member": "result.json",
+      "bytes": 1924,
+      "sha256": "ca8543dd7c952606665481f5b583142fb294cc2ca87a9fae8b247e252c182cb0",
+      "matches_zip_member": true,
+      "path": "raw/result.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device.json",
+      "archive_member": "device.json",
+      "bytes": 66,
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82",
+      "matches_zip_member": true,
+      "path": "raw/device.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-start-unread.json",
+      "archive_member": "device-start-unread.json",
+      "bytes": 8395,
+      "sha256": "a15e2a7094c653996835254fb9fa82923826effc438d9e4c0af0579b68b78914",
+      "matches_zip_member": true,
+      "path": "raw/device-start-unread.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-notifications-admitted.json",
+      "archive_member": "device-notifications-admitted.json",
+      "bytes": 8762,
+      "sha256": "4667a14ad2114f38136d8004dd14f0ccfe36f58ec532b9a6640e74f28371d858",
+      "matches_zip_member": true,
+      "path": "raw/device-notifications-admitted.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-notifications-visible.json",
+      "archive_member": "device-notifications-visible.json",
+      "bytes": 9540,
+      "sha256": "c0e85fc23d4b499393d5c1848f457688beaa06dd01312084725f006cba8e5875",
+      "matches_zip_member": true,
+      "path": "raw/device-notifications-visible.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-notifications-revoked.json",
+      "archive_member": "device-notifications-revoked.json",
+      "bytes": 8459,
+      "sha256": "5464772645a8c64b3938f5e09a8c96ba853520bda526dfda91bd89f3c383f27d",
+      "matches_zip_member": true,
+      "path": "raw/device-notifications-revoked.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-start-restored.json",
+      "archive_member": "device-start-restored.json",
+      "bytes": 8395,
+      "sha256": "b622c48318f252075852bf910b1c17a6c3232450823b97efeac1e56c680e32f0",
+      "matches_zip_member": true,
+      "path": "raw/device-start-restored.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/app-start.json",
+      "archive_member": "app-start.json",
+      "bytes": 7790,
+      "sha256": "607bf849b7086edf671c4dcd1667271d8c8a16b817a9f611f85a274c03ad0fae",
+      "matches_zip_member": true,
+      "path": "raw/app-start.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/app-wallet.json",
+      "archive_member": "app-wallet.json",
+      "bytes": 7713,
+      "sha256": "a76ca5f8bd71464d6f1a8414bdcf24c4bce54ec2729e071448958170612bc362",
+      "matches_zip_member": true,
+      "path": "raw/app-wallet.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/app-back.json",
+      "archive_member": "app-back.json",
+      "bytes": 7809,
+      "sha256": "e1a54d909b2128ff124584e5026f40f9ecd696bb2b2b712113b75f6bc35968db",
+      "matches_zip_member": true,
+      "path": "raw/app-back.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/app-home-restored.json",
+      "archive_member": "app-home-restored.json",
+      "bytes": 7791,
+      "sha256": "94cbeb2beee548e37597e84992ebc7d92b802b420812894854eec16a20932665",
+      "matches_zip_member": true,
+      "path": "raw/app-home-restored.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/launcher-start.json",
+      "archive_member": "launcher-start.json",
+      "bytes": 7855,
+      "sha256": "704765a2f2459ecfe7a9311415d1b8f905f40e093349fa138390eae0a549d6b1",
+      "matches_zip_member": true,
+      "path": "raw/launcher-start.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/launcher-wallet.json",
+      "archive_member": "launcher-wallet.json",
+      "bytes": 7778,
+      "sha256": "a73955ddb360259edd1fa161f3d6ca01ca6e7968000dfa8010ec963efbf37761",
+      "matches_zip_member": true,
+      "path": "raw/launcher-wallet.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/launcher-back.json",
+      "archive_member": "launcher-back.json",
+      "bytes": 7874,
+      "sha256": "cc9e5d47ce3eac235fc0b81aeee5d7511adb31569312e8de6508aaea275637cc",
+      "matches_zip_member": true,
+      "path": "raw/launcher-back.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/launcher-home-restored.json",
+      "archive_member": "launcher-home-restored.json",
+      "bytes": 7856,
+      "sha256": "16d387dd504f3e46b2a9dbaffc504ee4164d8dd4b0a4b3b20a724b5b051d8001",
+      "matches_zip_member": true,
+      "path": "raw/launcher-home-restored.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-role-start.json",
+      "archive_member": "home-role-start.json",
+      "bytes": 7869,
+      "sha256": "59b2044eaa559de0b09a24df97e2fedb0252e6c775f9bae366f84510267eef71",
+      "matches_zip_member": true,
+      "path": "raw/home-role-start.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-role-wallet.json",
+      "archive_member": "home-role-wallet.json",
+      "bytes": 7792,
+      "sha256": "c71b5f09df64c4463d10efc9637084e133fb0f6acde157b470d3308cdde664e1",
+      "matches_zip_member": true,
+      "path": "raw/home-role-wallet.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-role-returned.json",
+      "archive_member": "home-role-returned.json",
+      "bytes": 7870,
+      "sha256": "6aabed58c711dc2a0a786f2f57229ec5519f4f98b67de8580e88014cca7d4963",
+      "matches_zip_member": true,
+      "path": "raw/home-role-returned.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-role-back-start.json",
+      "archive_member": "home-role-back-start.json",
+      "bytes": 7870,
+      "sha256": "9ad904311bc6987a450ffe20049574d69c38d1fa0eb36b41a50f1e6b243b4ba4",
+      "matches_zip_member": true,
+      "path": "raw/home-role-back-start.json"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-action-center.png",
+      "archive_member": "device-action-center.png",
+      "bytes": 97755,
+      "sha256": "16da9658f4bb80b25a3d6855430814eb6f63ed0993701f7eb77d56e1624467fc",
+      "matches_zip_member": true,
+      "path": "raw/device-action-center.png"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/device-action-center-revoked.png",
+      "archive_member": "device-action-center-revoked.png",
+      "bytes": 77421,
+      "sha256": "50a3b2cf732cc8976cd77d5f4005b04c8060fc3a42ec42d9bce95da6ab326346",
+      "matches_zip_member": true,
+      "path": "raw/device-action-center-revoked.png"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-role-wallet.png",
+      "archive_member": "home-role-wallet.png",
+      "bytes": 93875,
+      "sha256": "072cf30b4fab609d763fea2a5db386fa3c5354d4ee98340f1404bf6f0cfb4e1b",
+      "matches_zip_member": true,
+      "path": "raw/home-role-wallet.png"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-role-back-start.png",
+      "archive_member": "home-role-back-start.png",
+      "bytes": 452859,
+      "sha256": "07c179e11d2311c5285cdcc4673c35004bf7df9688c91b2337ed1c661fbc0f8c",
+      "matches_zip_member": true,
+      "path": "raw/home-role-back-start.png"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/head.txt",
+      "archive_member": "head.txt",
+      "bytes": 41,
+      "sha256": "8687b8453ab4a1ccf015f6ced92ebef74465da682a55b90254426acbad2919bd",
+      "matches_zip_member": true,
+      "path": "raw/head.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/display-size.txt",
+      "archive_member": "display-size.txt",
+      "bytes": 24,
+      "sha256": "0b51346d0204e745ac1baddf51d9e93d9ae8a1e3ac0a73ccb2abef77cfd8ff1d",
+      "matches_zip_member": true,
+      "path": "raw/display-size.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/display-density.txt",
+      "archive_member": "display-density.txt",
+      "bytes": 22,
+      "sha256": "d4282d3761f8524b0cb8905313ff65090c77b3b72f366c9676fdaf8fb2b4ad4c",
+      "matches_zip_member": true,
+      "path": "raw/display-density.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/listener-before.txt",
+      "archive_member": "listener-before.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+      "matches_zip_member": true,
+      "path": "raw/listener-before.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/listener-granted.txt",
+      "archive_member": "listener-granted.txt",
+      "bytes": 291,
+      "sha256": "05dffa952dda49ff8991906359a7dc12fbaadb3ed1ac1370b29059d045450844",
+      "matches_zip_member": true,
+      "path": "raw/listener-granted.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/listener-revoked.txt",
+      "archive_member": "listener-revoked.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+      "matches_zip_member": true,
+      "path": "raw/listener-revoked.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/listener-after.txt",
+      "archive_member": "listener-after.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1",
+      "matches_zip_member": true,
+      "path": "raw/listener-after.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-before.txt",
+      "archive_member": "home-before.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7",
+      "matches_zip_member": true,
+      "path": "raw/home-before.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-selected.txt",
+      "archive_member": "home-selected.txt",
+      "bytes": 34,
+      "sha256": "24ab1edb76e054bd2ad3e303782f971f9f71a03a8042b590b9514981edc74099",
+      "matches_zip_member": true,
+      "path": "raw/home-selected.txt"
+    },
+    {
+      "source": "target/metro-candidate-android-ui/home-restored.txt",
+      "archive_member": "home-restored.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7",
+      "matches_zip_member": true,
+      "path": "raw/home-restored.txt"
+    }
+  ],
+  "copied_file_count": 33,
+  "copied_bytes": 862445,
+  "source_driver_references": [
+    {
+      "path": "scripts/smoke-android.sh",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "a9104e37d663af1459a9f5561c409d25506497b05079a562e55b280fddccd9d3"
+    },
+    {
+      "path": "scripts/smoke-android-home.sh",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "b50f78de273e1e74e861f1b61d46f41089cc0cb2792e10f575ef9d6b17bb6720"
+    },
+    {
+      "path": "scripts/smoke-android-notifications.sh",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "5bcc1aa4de679cea19ba06ea33adc185e69d1176bddaee19f9c4dfb7eb47c777"
+    },
+    {
+      "path": "scripts/verify_android_bootstrap.py",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "f79f2dc708c955ba46db0c3fd82a735a725d349390f018234d26ecb2e33f27ec"
+    }
+  ]
+}
