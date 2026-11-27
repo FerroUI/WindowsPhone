@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { sleep } from "../FerroUI/scripts/browser/harness.mjs";
-import { inputGeometryReady } from "./ui-input-geometry.mjs";
+import { buttonLabelMatches, inputGeometryReady } from "./ui-input-geometry.mjs";
 
 function motionDiagnostic(frames) {
   const firstProjected = frames.findIndex(frame => frame.page && frame.page.projection !== null);
@@ -103,11 +103,14 @@ export async function verifyMetroControls(ctx) {
     await stable(element => element.name === name, name)));
   const settingRow = async name => {
     await app("Settings");
-    await stable(element => button(element) && element.automationName === "system", "system pivot");
-    await clickLabel("system");
-    await page.wheel(...centre(await control(scrollMatch, "Settings scroll viewer")), 0, -100000);
+    // The native Pivot's presentation header carries its label as content;
+    // the PivotItem owns the automation name. Reduced motion uses the shared
+    // labelled Button instead. Click the actual stable header in either case.
+    const system = await stable(element => buttonLabelMatches(element, "system"), "system pivot");
+    await page.click(...centre(system));
+    await page.wheel(...centre(await control(element => element.name === "SettingsSystemScroll", "Settings system pane")), 0, -100000);
     return reveal(element => button(element) && element.automationName === name,
-      name, scrollMatch, "Settings scroll viewer");
+      name, element => element.name === "SettingsSystemScroll", "Settings system pane");
   };
   const setting = async name => {
     const row = await settingRow(name);

@@ -1,4 +1,4 @@
-use crate::{session::Session, AppContext, AppManifest};
+use crate::{AppContext, AppManifest, session::Session};
 use ferroui_view::prelude::Element;
 use phone_domain::{AppId, Route};
 use phone_state::PhoneViewModel;
@@ -40,6 +40,7 @@ pub struct AppRegistration {
     pub(crate) swipe: Option<SwipeHandler>,
     pub(crate) can_swipe: Option<fn(&Session) -> bool>,
     pub(crate) pivot_count: Option<fn(&Session) -> usize>,
+    pub(crate) route_pivot_count: Option<fn(&Route, &Session) -> usize>,
     pub(crate) overlay: Option<fn(&Session) -> bool>,
     pub(crate) host_navigation: Option<fn(&PhoneViewModel, &Session, &str)>,
     pub(crate) host_weather: Option<fn(&Session, String, f64, String)>,
@@ -65,6 +66,7 @@ impl AppRegistration {
             swipe: None,
             can_swipe: None,
             pivot_count: None,
+            route_pivot_count: None,
             overlay: None,
             host_navigation: None,
             host_weather: None,
@@ -143,6 +145,17 @@ impl AppRegistration {
     }
     pub fn with_pivot_count(mut self, value: fn(&Session) -> usize) -> Self {
         self.pivot_count = Some(value);
+        self
+    }
+    /// Declare the visible pivot count for the exact route being considered
+    /// by the shell. Return zero on detail/editor pages that have no pivot.
+    ///
+    /// This callback takes precedence over `with_pivot_count`, including when
+    /// it returns zero, regardless of builder order. Existing session-only
+    /// registrations retain their behavior. A separate `with_can_swipe` policy
+    /// remains available for custom gestures that are not pivot navigation.
+    pub fn with_route_pivot_count(mut self, value: fn(&Route, &Session) -> usize) -> Self {
+        self.route_pivot_count = Some(value);
         self
     }
     pub fn with_overlay(mut self, value: fn(&Session) -> bool) -> Self {

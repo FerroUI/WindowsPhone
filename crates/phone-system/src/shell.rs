@@ -88,13 +88,17 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let attach_ui = ui.clone();
     let dismiss_status = vm.clone();
     let outgoing_motion = page_motion.clone();
+    // Restoration resets navigation's loaded-page visit even when the route
+    // stays on Start. Remount that document's page so Loaded registers its new
+    // capture source; ordinary revisions keep their native controls and state.
+    let page_key = format!("page-{}-{route:?}", vm.document_epoch());
     let screen = rsx! {Grid{name:"PhoneScreen",width:width,height:height,row_definitions:"26,*,54",background:background.as_str(),clip_to_bounds:true,
         with:move |root| {
             attach_ui.state::<crate::previews::PreviewCache>().attach(root);
             gestures::attach(root,attach_vm.clone(),attach_ui.clone());
         },
         Border{is_enabled:!alert,{navigation::status(vm.clone(),ui.clone())}}
-        Border{Grid.row:1,name:"PhonePage",key:format!("page-{route:?}"),clip_to_bounds:true,
+        Border{Grid.row:1,name:"PhonePage",key:page_key,clip_to_bounds:true,
             is_visible:!ui.locked.get(),is_enabled:!ui.locked.get() && !alert,
             on_loaded:move |event|if let Some(control)=event.source().and_then(|source|source.cast::<Control>()){
                 page_motion.loaded(&control,visit);

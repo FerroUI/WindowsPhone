@@ -191,7 +191,32 @@ fn hub(ui: &Session, first: Element, second: Element) -> Element {
 }
 ```
 
-Declare the matching `with_pivot_count` for shell arbitration and return zero while a detail editor or picker owns horizontal input. Native panes own their manipulation; avoid a second manual swipe handler advancing the same gesture. Battery Saver, Data Sense and Games are the current integrations. The phone Pivot disables inherited item auto-scroll so native pan, snap and selection own one consistent viewport; mounted regressions cover both wrap directions and actual composed content alignment. The reduced-motion path keeps the same selection and headers without compositor animation.
+Declare the matching pivot count for shell arbitration and return zero while a detail editor or picker owns horizontal input. `with_route_pivot_count` receives both the current `Route` and `Session`, allowing a hub to advertise sections without making its detail pages change a hidden selection. It takes precedence over the backwards-compatible `with_pivot_count` callback. Settings, Office and People use the route-aware form; custom SDK apps can distinguish their own extension paths.
+
+Native panes own their manipulation; avoid a second manual swipe handler advancing the same gesture. Settings, Office, Battery Saver, Data Sense and Games use native Pivot pages. The phone Pivot disables inherited item auto-scroll so native pan, snap and selection own one consistent viewport; mounted regressions cover both wrap directions and actual composed content alignment. The reduced-motion path keeps the same selection and headers without compositor animation. Each mounted pane keeps its own vertical scrolling. Reconstructing a hub after a detail/search page retains its selected section through `Session::pivot`, but does not automatically persist every ScrollViewer offset.
+
+`progress(label)` is available from `phone_controls` and the SDK prelude. It returns the ordinary native `El<ProgressBar>` builder, so bindings and range semantics remain shared with FerroUI:
+
+```rust
+use phone_sdk::prelude::*;
+
+fn downloading() -> Element {
+    progress("Downloading episodes")
+        .name("EpisodeDownloadProgress")
+        .is_indeterminate(true)
+        .into()
+}
+
+fn completed_bytes(done: Signal<f64>, total: f64) -> Element {
+    progress("Downloading file")
+        .minimum(0.0)
+        .maximum(total.max(1.0))
+        .value(move || done.get())
+        .into()
+}
+```
+
+Show the indicator for the lifetime of the actual operation. The five-dot activity strip uses the published Toolkit timing described in [the design evidence](metro-design.md#progress-control), respects motion suppression, and releases animation ownership on hide/detach. It never reports a percentage for unknown work. Weather and Podcasts use this helper while waiting for their real host task results.
 
 `app_bar` allows four primary commands plus a separate ellipsis and moves additional commands into its text menu. SDK composition connects expansion to `Session::menu`; shared page helpers overlay the bounded menu and prevent a dismissal click from activating page content. Do not implement an independent Back/menu state in each app. Captions remain a single ellipsized line; primary commands use native pressed/disabled ink states and retain stable input bounds.
 

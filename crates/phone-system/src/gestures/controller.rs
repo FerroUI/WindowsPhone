@@ -47,9 +47,10 @@ pub(super) struct Contact {
     pub pointer: Rc<dyn IPointer>,
     pub motion: Motion,
     pub route: Route,
+    pub epoch: u64,
     pub mode: Mode,
     pub tile: Option<Id>,
-    pub notification: Option<Id>,
+    pub notification: Option<crate::notifications::Dismissal>,
     pub back: bool,
     pub context: Option<WeakRef<Control>>,
     pub held: bool,
@@ -192,10 +193,9 @@ impl Controller {
                 .and_then(|name| name.strip_prefix("Tile-").and_then(|id| id.parse().ok()))
         });
         let notification = ancestors.iter().find_map(|control| {
-            control.name().and_then(|name| {
-                name.strip_prefix("Notification-")
-                    .and_then(|id| id.parse().ok())
-            })
+            control
+                .name()
+                .and_then(|name| crate::notifications::Dismissal::from_name(&vm, &name))
         });
         let back = ancestors
             .iter()
@@ -277,6 +277,7 @@ impl Controller {
                 pointer: pointer.clone(),
                 motion: Motion::new(point.x, point.y, event.timestamp()),
                 route: vm.route(),
+                epoch: vm.document_epoch(),
                 mode: if two_finger_clear {
                     Mode::DismissAllNotifications
                 } else if !single {
@@ -503,7 +504,21 @@ impl Controller {
             // release and its capture. An unrelated shell must not swallow it.
             return;
         };
-        feedback::clear(self, true);
+        // A committed Start/Apps pan transfers its displacement to page
+        // choreography. Starting a snap-back here would animate the departing
+        // page in the opposite direction and make its snapshot ineligible.
+        // Rejected/edge pans still settle back into the current page.
+        let committed_shell_swipe = contact.mode == Mode::Swipe
+            && self.vm.upgrade().is_some_and(|vm| {
+                contact.route == vm.route()
+                    && contact.motion.page_swipe(crate::shell::phone_size(&vm).0)
+                    && match &contact.route {
+                        Route::Start | Route::Folder(_) => contact.motion.delta().0 < 0.0,
+                        Route::Apps => contact.motion.delta().0 > 0.0,
+                        _ => false,
+                    }
+            });
+        feedback::clear(self, !committed_shell_swipe);
         self.clear_feedback();
         let suppressed = contact.mode != Mode::Native
             && (contact.held || !contact.motion.is_tap() || contact.mode == Mode::Canceled);
@@ -514,7 +529,15 @@ impl Controller {
         let (Some(vm), Some(ui)) = (self.vm.upgrade(), self.ui.upgrade()) else {
             return;
         };
-        if contact.route != vm.route() {
+        if contact.route != vm.route() || contact.epoch != vm.document_epoch() {
+            return;
+        }
+        if matches!(
+            contact.mode,
+            Mode::DismissNotification | Mode::DismissAllNotifications
+        ) && (!(ui.notification_open.get_untracked() || vm.route() == Route::Notifications)
+            || ui.notification_peek.get_untracked())
+        {
             return;
         }
         match contact.mode {
@@ -548,8 +571,10 @@ impl Controller {
                 }
             }
             Mode::DismissNotification if contact.motion.swipe(Axis::Horizontal) => {
-                if let Some(id) = contact.notification {
-                    vm.dismiss_notification_group(id);
+                if crate::notifications::contents_visible(&vm, &ui) {
+                    if let Some(target) = contact.notification {
+                        target.dismiss(&vm);
+                    }
                 }
             }
             Mode::DismissAllNotifications if contact.motion.swipe(Axis::Horizontal) => {
@@ -561,7 +586,9 @@ impl Controller {
                     for other in self.contacts.borrow_mut().values_mut() {
                         other.mode = Mode::Canceled;
                     }
-                    vm.clear_notifications();
+                    if crate::notifications::contents_visible(&vm, &ui) {
+                        crate::device_notifications::clear(&vm);
+                    }
                 }
             }
             Mode::Swipe

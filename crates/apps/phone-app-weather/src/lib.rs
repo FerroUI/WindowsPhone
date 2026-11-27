@@ -17,7 +17,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 "weather",
                 empty("Weather unavailable", &error),
                 Element::Empty,
-            )
+            );
         }
     };
     let state = ui.state::<WeatherState>();
@@ -76,15 +76,23 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     ));
     let locate = cx.clone();
     let busy = state.busy.get();
-    let mut body = body.child(muted(
+    let mut footer = stack_panel().margin((20.0, 0.0, 20.0, 20.0)).spacing(16.0);
+    if busy {
+        footer = footer.child(
+            phone_controls::progress("Loading weather")
+                .name("WeatherProgress")
+                .is_indeterminate(true),
+        );
+    }
+    footer = footer.child(muted(
         if busy {
             "loading weather…"
         } else {
             "Weather data: Open-Meteo · displayed times are local to each city"
         },
-        12.0,
+        if busy { 18.0 } else { 12.0 },
     ));
-    body = body.child(flat("use my current location", move || {
+    footer = footer.child(flat("use my current location", move || {
         if commands::change(&locate, |saved| {
             saved.selected = None;
             Ok(())
@@ -99,7 +107,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     }));
     page(
         "weather",
-        scroll(body.into()),
+        scroll(body.child(footer).into()),
         app_bar(actions, false, vec![]),
     )
 }

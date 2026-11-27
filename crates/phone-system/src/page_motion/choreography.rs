@@ -144,7 +144,11 @@ impl NavigationMotion {
                 .pending
                 .borrow()
                 .as_ref()
-                .is_some_and(|plan| matches!(plan.entrance, Entrance::Turnstile { .. }))
+                .is_some_and(|plan| match plan.entrance {
+                    Entrance::Turnstile { .. } => true,
+                    Entrance::Slide(remaining) => remaining.abs() > f64::EPSILON,
+                    _ => false,
+                })
         {
             // At most one image. An unfinished incoming page is never used as
             // an outgoing reference, and capture failure changes no app state.
@@ -212,26 +216,57 @@ impl NavigationMotion {
             hit_test_visible: page.is_hit_test_visible(),
             unloaded,
         });
-        if let (Entrance::Turnstile { backward }, Some(preview)) = (plan.entrance, plan.outgoing) {
+        if let Some(preview) = plan.outgoing {
             let width = preview.logical_size.width;
             if let Some(outgoing) = self.host.show_image(preview) {
                 // The destination exists and its route/data are already current,
                 // but input cannot fall through the retiring image into it.
-                page.set_opacity(0.0);
                 page.set_is_enabled(false);
                 page.set_is_hit_test_visible(false);
                 let weak = Rc::downgrade(self);
-                let page = page.downgrade();
-                let task = animation::exit(&outgoing, backward, width, cancellation, clock.clone());
-                task.on_completed(move || {
-                    if let (Some(motion), Some(page)) = (weak.upgrade(), page.upgrade()) {
-                        if motion.host.current(visit) {
-                            motion.host.clear_image();
-                            motion.start_incoming(&page, visit, plan.entrance, clock);
-                        }
+                match plan.entrance {
+                    Entrance::Turnstile { backward } => {
+                        page.set_opacity(0.0);
+                        let page = page.downgrade();
+                        let task = animation::exit(
+                            &outgoing,
+                            backward,
+                            width,
+                            cancellation,
+                            clock.clone(),
+                        );
+                        task.on_completed(move || {
+                            if let (Some(motion), Some(page)) = (weak.upgrade(), page.upgrade()) {
+                                if motion.host.current(visit) {
+                                    motion.host.clear_image();
+                                    motion.start_incoming(&page, visit, plan.entrance, clock);
+                                }
+                            }
+                        });
+                        return;
                     }
-                });
-                return;
+                    Entrance::Slide(remaining) => {
+                        let task = animation::slide_pair(
+                            &outgoing,
+                            page,
+                            remaining,
+                            width,
+                            cancellation,
+                            clock,
+                        );
+                        task.on_completed(move || {
+                            if let Some(motion) = weak.upgrade() {
+                                motion.cancel_visit(visit);
+                            }
+                        });
+                        return;
+                    }
+                    _ => {
+                        // A future entrance must opt into its own outgoing
+                        // choreography before it can keep a captured image.
+                        self.host.clear_image();
+                    }
+                }
             }
         }
         // No render target or outgoing surface: preserve the existing incoming

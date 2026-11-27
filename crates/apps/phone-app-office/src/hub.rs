@@ -1,133 +1,72 @@
 use super::*;
-use ferroui_base::layout::Orientation;
-use phone_controls::{action, app_bar, flat, input, pivot};
-use phone_domain::{AppId, DocumentKind};
+mod content;
+use phone_controls::{action, app_bar, flat, input, pivot_pages, PivotPage};
+use phone_domain::DocumentKind;
 use phone_state::HostRequest;
 
 pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    if ui
-        .state::<phone_office_support::OfficeSession>()
-        .show_new
-        .get()
-    {
+    let state = ui.state::<phone_office_support::OfficeSession>();
+    if state.show_new.get() {
         return new_page(vm, ui);
     }
-    let recent = ui.pivot.get() == 0;
-    let a = ui.clone();
-    let b = ui.clone();
-    let mut body=stack_panel().child(rsx!{StackPanel{orientation:Orientation::Horizontal,margin:(18.0,0.0),
-        {pivot("recent",recent,move||a.pivot.set(0))}{pivot("places",!recent,move||b.pivot.set(1))}}});
-    if ui
-        .state::<phone_office_support::OfficeSession>()
-        .show_find
-        .get()
-    {
-        body = body.child(
-            rsx! {Border{margin:(20.0,8.0),{input("search documents").text(ui.query.two_way())}}},
-        );
+    if state.show_find.get() {
+        return search_page(vm, ui);
     }
-    if recent {
-        let query = ui.query.get().to_lowercase();
-        let mut documents = vm
-            .data()
-            .documents
-            .iter()
-            .filter(|d| d.name.to_lowercase().contains(&query))
-            .cloned()
-            .collect::<Vec<_>>();
-        documents.sort_by_key(|d| std::cmp::Reverse(d.modified));
-        if documents.is_empty() {
-            body = body.child(empty(
-                "take your work with you",
-                "Tap new to create a document or import an existing Office file.",
-            ));
+    let body = pivot_pages(
+        "OfficePivot",
+        ui.pivot,
+        vec![
+            PivotPage::new("recent", content::recent(vm.clone(), ui.clone())),
+            PivotPage::new("places", content::places(vm.clone())),
+        ],
+    );
+    page("office", body, commands(vm, ui))
+}
+
+// Editing belongs outside the horizontal gesture surface. Back closes search
+// before traversing the app journal; the selected hub pane remains untouched.
+fn search_page(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    let body = rsx! {Grid { name:"OfficeSearchPage",row_definitions:"Auto,Auto,*",
+        {title("search")}
+        Border { Grid.row:1,margin:(20.0,0.0,20.0,12.0),
+            {input("search documents").name("OfficeSearchInput").text(ui.query.two_way())}
         }
-        for document in documents {
-            let model = vm.clone();
-            let context = ui.clone();
-            let id = document.id;
-            let detail = format!(
-                "{} · phone · {}",
-                document.kind().label(),
-                date_text(document.modified)
-            );
-            body = body.child(rsx!{Border{
-                on_context_requested:move|event|{event.set_handled(true);context.selected.set(Some(id));context.menu.set(true);},
-                {document_row(&document, &detail, move || model.navigate(Route::Document(id)))}}});
+        Border { Grid.row:2,{content::recent(vm.clone(), ui.clone())} }
+    }};
+    page("office", body, commands(vm, ui))
+}
+
+fn commands(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    if ui.menu.get() {
+        if let Some(document) = ui
+            .selected
+            .get()
+            .and_then(|id| vm.data().document(id).cloned())
+        {
+            return context_bar(vm, ui, document);
         }
-    } else {
-        let phone = vm.clone();
-        let onedrive = vm.clone();
-        let sharepoint = vm.clone();
-        body = body
-            .child(folder_row(
-                "phone",
-                &format!("{} documents", vm.data().documents.len()),
-                move || phone.navigate(Route::FileFolder(None)),
-            ))
-            .child(folder_row(
-                "OneDrive",
-                "open your files online",
-                move || {
-                    onedrive.request(HostRequest::OpenUrl {
-                        url: "https://onedrive.live.com/".into(),
-                    })
-                },
-            ))
-            .child(folder_row(
-                "Office 365",
-                "open your work documents online",
-                move || {
-                    sharepoint.request(HostRequest::OpenUrl {
-                        url: "https://www.microsoft365.com/".into(),
-                    })
-                },
-            ));
-        let notes = vm.clone();
-        body = body.child(row("OneNote", "your notebooks", move || {
-            notes.navigate(Route::App(AppId::OneNote))
-        }));
     }
     let new = ui.clone();
     let search = ui.clone();
-    let import = vm.clone();
-    if ui.menu.get() {
-        let document = ui
-            .selected
-            .get()
-            .and_then(|id| vm.data().document(id).cloned());
-        if let Some(document) = document {
-            return page("office", scroll(body.into()), context_bar(vm, ui, document));
-        }
-    }
-    page(
-        "office",
-        scroll(body.into()),
-        app_bar(
-            vec![
-                action(Icon::Plus, "new", move || {
-                    new.state::<phone_office_support::OfficeSession>()
-                        .show_new
-                        .set(true)
-                }),
-                action(Icon::Search, "search", move || {
-                    search
-                        .state::<phone_office_support::OfficeSession>()
-                        .show_find
-                        .set(
-                            !search
-                                .state::<phone_office_support::OfficeSession>()
-                                .show_find
-                                .get_untracked(),
-                        )
-                }),
-                action(Icon::Upload, "import", move || {
-                    import.request(HostRequest::ImportDocuments { folder: None })
-                }),
-            ],
-            false,
-            vec![],
-        ),
+    app_bar(
+        vec![
+            action(Icon::Plus, "new", move || {
+                new.state::<phone_office_support::OfficeSession>()
+                    .show_new
+                    .set(true)
+            }),
+            action(Icon::Search, "search", move || {
+                search
+                    .state::<phone_office_support::OfficeSession>()
+                    .show_find
+                    .set(true)
+            }),
+            action(Icon::Upload, "import", move || {
+                vm.request(HostRequest::ImportDocuments { folder: None })
+            }),
+        ],
+        false,
+        vec![],
     )
 }
 

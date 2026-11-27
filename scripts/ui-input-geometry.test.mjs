@@ -1,11 +1,27 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import test from "node:test";
-import {inputGeometryReady, stableInputTarget} from "./ui-input-geometry.mjs";
+import {buttonLabelMatches, inputGeometryReady, stableInputTarget} from "./ui-input-geometry.mjs";
 
 const captured = JSON.parse(readFileSync(new URL("./fixtures/ui-native-input-frames.json", import.meta.url)));
 const page = element => element.name === "PhonePage";
 const create = element => element.name === "AppBarAction-new";
+
+test("captured native Pivot headers are labelled pointer targets with separate semantic tab peers", async () => {
+  const capture = JSON.parse(readFileSync(new URL("./fixtures/ui-native-pivot-labels.json", import.meta.url)));
+  const view = capture.view;
+  const header = view.elements.find(element => element.type === "PivotHeaderItem" && element.text === "system");
+  assert.equal(header.automationName, "", "the original rendered header has a non-semantic peer");
+  const target = await stableInputTarget({view, label:"system", frame:async()=>{},
+    snapshot:async()=>view, match:element=>buttonLabelMatches(element,"system")});
+  assert.equal(target, header, "real hit testing and settled geometry still choose the rendered header");
+  assert.equal(buttonLabelMatches({type:"Button",automationName:"system",text:null},"system"),true,
+    "the reduced-motion semantic Button remains actionable");
+  assert.equal(buttonLabelMatches({type:"TextBlock",automationName:null,text:"system"},"system"),false,
+    "unrelated display text is not a pointer command");
+  assert.equal(buttonLabelMatches({type:"Button",automationName:"other",text:"system"},"system"),false,
+    "ordinary buttons keep their explicit accessible names");
+});
 
 test("real native retiring and hittable incoming frames cannot supply normal pointer coordinates", async () => {
   assert(captured.incoming.elements.find(page).hit, "the regression frame passes the old hit-only lookup");

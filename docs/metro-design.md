@@ -1,6 +1,6 @@
 # Metro design and interaction evidence
 
-Research date: **2026-11-24**. Target: **Windows Phone 8.1 Update (2014)**, as defined in [the reference specification](reference.md). This document records measured source constants and implementation requirements. It does not certify complete parity. Original-image setup and capture instructions are in [original-emulator.md](original-emulator.md).
+Research baseline: **2026-11-24**, with shell, Pivot and progress follow-up on **2026-11-27**. Target: **Windows Phone 8.1 Update (2014)**, as defined in [the reference specification](reference.md). This document records measured source constants and implementation requirements. It does not certify complete parity. Original-image setup and capture instructions are in [original-emulator.md](original-emulator.md).
 
 ## Keep the historical layers distinct
 
@@ -55,6 +55,8 @@ The icon rules also specify a **single line for English captions**, with truncat
 [Panorama guidance](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh202912(v=vs.105)) describes a portrait canvas with independent background, title and content layers, wraparound navigation, at most five sections, and restoration of the previously visited section. The title moves slower than background art; sections track the finger. Mini app bars preserve content space. Vertical scrolling is appropriate within a narrow section; simultaneous horizontal section content scrolling introduces ambiguity. Do not replace the layered layout with a static title above unrelated tabs.
 
 The [Panorama overview](https://learn.microsoft.com/en-us/previous-versions/windows/apps/ff941104(v=vs.105)) explicitly identifies a **24-pixel next-section preview**, equivalent to **20 units at 400 width**. A clipped neighboring header/content edge is meaningful navigation information.
+
+Settings (`system` / `applications`) and Office (`recent` / `places`) now use the shared native cyclic Pivot. Each page owns a finite vertical ScrollViewer, so scrolling content leaves the headings fixed and switching panes retains their separate offsets while the hub remains mounted. Office search uses a separate page with its own native editor, consistent with the original guidance to keep edit controls outside a Pivot's horizontal gesture surface. Back returns to the selected hub pane; scroll restoration across reconstructed search/detail pages remains a separate requirement. Native headings, keyboard selection, wraparound touch, narrow dark/light layouts and reduced-motion fallback have dedicated rendered scenarios.
 
 ## Control geometry and input
 
@@ -126,6 +128,14 @@ The following values are from the Toolkit's [navigation storyboards](https://git
 Turnstile entry reaches opacity 1 at 10 ms. Exit stays opaque until 240 ms and becomes invisible at 250 ms. Plain turnstile uses `PlaneProjection.CenterOfRotationX = 0` in [Transitions.cs](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit/Transitions/Transitions.cs), with the default Y origin 0.5. [TurnstileFeatherEffect](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit/Effects/TurnstileFeatherEffect.cs) instead uses a horizontal rotation origin of −0.2; stagger increments are 40 ms for forward-in/backward-out and 50 ms for forward-out/backward-in. Preserve forward/backward distinctions rather than playing one generic fade for every route.
 
 Our page choreography now preserves one rendered image of the settled outgoing page for the 250 ms exit, then starts the 350 ms incoming turnstile. Route mutation and old app disposal remain synchronous; the destination is the only live app tree. During the exit its input is disabled to prevent activation through the retiring image. The image is noninteractive and bounded to 2,097,152 pixels (at most 8 MiB in RGBA), clears at completion, and is discarded on supersession, resize, lock/privacy coverage, unload or reduced motion/Battery Saver. If capture is unavailable, the incoming animation proceeds without an outgoing image. This is a bounded cross-host rendering strategy, not the original operating system's page-cache implementation.
+
+Start/Apps paging uses that same bounded image alongside the live destination. A committed horizontal swipe carries its released displacement into two translations sharing one clock; the page edges stay exactly one viewport apart. It no longer starts a competing snap-back before attempting capture. Rejected swipes still settle, input remains blocked during committed paging, and completion or cancellation clears both transforms and the image. The existing 350 ms exponential-out paging policy is retained; it is not a timing newly measured from WP8.1. Held-drag neighboring-page preview and original-device paging physics remain open.
+
+### Progress control
+
+The Toolkit's [WP7 `PerformanceProgressBar` template](https://github.com/microsoftarchive/WindowsPhoneToolkit/blob/4e4fd5d36c769c004f7ccc7daf78a5ffb8ef18df/Microsoft.Phone.Controls.Toolkit.WP7/Themes/Generic.xaml) defines five square dots, each **4 × 4 reference units**, in a **4.4-second cycle** with **200 ms staggering**. Each dot moves from 0 to 33% in 500 ms with exponential-out exponent 1, continues linearly to 66% at 2 seconds, then reaches 100% at 2.5 seconds with exponential-in exponent 1. The dot is hidden for the remainder of its cycle. These are WP7 Toolkit constants, not recovered private WP8.1 OS control constants.
+
+The `progress` helper applies that activity strip to a native FerroUI ProgressBar. Known work keeps native minimum, maximum, value coercion, percentage and automation semantics; unknown work is explicitly indeterminate. The native pixel grid rounds the adapted 3.333-unit dot extent at the actual display density. Templates survive palette changes. Compositor-owned animations stop when hidden, disabled, detached or motion-suppressed, and resize replaces the bounded animation set. Reduced motion uses a stationary five-dot indicator without manufacturing a completion percentage. The determinate strip, vertical form and motion suppression are adaptations; the Toolkit wrapper's delayed show/fade behavior is not implemented.
 
 ### Position-sensitive tilt
 

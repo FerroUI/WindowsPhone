@@ -13,7 +13,7 @@ pub fn view(cx: AppContext) -> Element {
                 "podcasts",
                 empty("Podcasts unavailable", &error),
                 Element::Empty,
-            )
+            );
         }
     };
     let state = cx.session.state::<State>();
@@ -39,7 +39,13 @@ pub fn view(cx: AppContext) -> Element {
         .spacing(16.0)
         .child(text("collection", 42.0));
     if state.busy.get() {
-        body = body.child(muted("loading podcast…", 18.0));
+        body = body
+            .child(
+                phone_controls::progress("Loading podcast")
+                    .name("PodcastProgress")
+                    .is_indeterminate(true),
+            )
+            .child(muted("loading podcast…", 18.0));
     }
     if saved.shows.is_empty() {
         body=body.child(empty("your podcasts","Subscribe using a public HTTPS RSS or Atom feed, or import a saved feed file. Playable episodes join your shared media library."));
@@ -88,6 +94,13 @@ fn episodes(cx: AppContext, show: &Show) -> Element {
         .margin(20.0)
         .spacing(12.0)
         .child(text(&show.title, 32.0));
+    if state.busy.get() {
+        body = body.child(
+            phone_controls::progress("Refreshing podcast")
+                .name("PodcastProgress")
+                .is_indeterminate(true),
+        );
+    }
     if !show.description.is_empty() {
         body = body.child(muted(&show.description, 18.0));
     }

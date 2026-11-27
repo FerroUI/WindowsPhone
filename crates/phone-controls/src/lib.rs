@@ -15,6 +15,7 @@ mod motion;
 mod paths;
 mod pickers;
 mod pivot_host;
+mod progress;
 mod sliders;
 mod switches;
 mod templates;
@@ -34,6 +35,7 @@ pub use pickers::{
     attach_picker_focus, close_phone_pickers, dismiss_phone_picker, has_open_phone_picker,
 };
 pub use pivot_host::{pivot_pages, PivotPage};
+pub use progress::progress;
 pub use theme::{install_theme, set_palette};
 pub use tilt::attach_press_tilt;
 pub use tokens::*;
