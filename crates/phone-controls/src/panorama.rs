@@ -6,6 +6,7 @@
 //! recycling and keyboard navigation. The parallax ratios and font placement
 //! are explicit adaptations pending matched original-device measurements.
 use ferroui_base::animation::{IPageTransition, PageSlide, SignedDuration, SlideAxis};
+use ferroui_base::data::BindingPriority;
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_base::styling::Styles;
 use ferroui_base::{AttachedProperty, FerroProperty, ferro_property};
@@ -71,12 +72,6 @@ pub fn panorama_pages(
     pages: Vec<PanoramaPage>,
 ) -> El<Carousel> {
     let count = pages.len();
-    let transition: Option<Rc<dyn IPageTransition>> = Some({
-        Rc::new(PageSlide::with_duration(
-            SignedDuration::from_milliseconds(350.0),
-            SlideAxis::Horizontal,
-        )) as Rc<dyn IPageTransition>
-    });
     let mut host = carousel()
         .name(name)
         .class("phone-panorama")
@@ -91,7 +86,23 @@ pub fn panorama_pages(
         // A finite initial fraction ensures the native panel is created in
         // fractional mode. The measured template replaces it before input.
         .viewport_fraction(if count > 1 { 0.8 } else { 1.0 })
-        .page_transition(transition)
+        .with(|owner| {
+            // A new PageTransition value tears down native gesture ownership.
+            // Keep one default per mounted control so ordinary view rebuilds
+            // cannot cancel a held swipe or its pending selection commit.
+            // The removable default remains below caller values and bindings.
+            let transition: Rc<dyn IPageTransition> = Rc::new(PageSlide::with_duration(
+                SignedDuration::from_milliseconds(350.0),
+                SlideAxis::Horizontal,
+            ));
+            if let Some(lease) = owner.set_value_with_priority(
+                Carousel::page_transition_property(),
+                Some(transition),
+                BindingPriority::Style,
+            ) {
+                on_cleanup(move || lease.dispose());
+            }
+        })
         .selected_index(move || {
             if count == 0 {
                 -1

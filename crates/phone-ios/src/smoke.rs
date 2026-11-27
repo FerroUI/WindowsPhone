@@ -1,4 +1,6 @@
 //! Explicit simulator-only observation hook; production launches create no timer.
+mod input;
+
 use ferroui_base::{
     Point, Visual,
     threading::{DispatcherPriority, DispatcherTimer},
@@ -208,6 +210,7 @@ fn write_status(host: &NativeHost) {
         "network_path_online": host.runtime().platform().environment().online,
         "device_fields": fields,
         "people_panorama": people_panorama,
+        "input_trace": input::snapshot(),
         "device": host.vm().device_state().snapshot,
     });
     // HOME is supplied by iOS for its own sandbox; it is never reassigned.
@@ -228,9 +231,20 @@ pub fn install(host: &Rc<NativeHost>) {
     }
     phase("observer.install");
     crate::smoke_devices::install(host);
+    let route_host = Rc::downgrade(host);
+    let input = input::install(&host.view(), move || {
+        route_host
+            .upgrade()
+            .map_or(serde_json::Value::Null, |host| {
+                serde_json::json!(host.vm().route())
+            })
+    });
     let weak = Rc::downgrade(host);
     DispatcherTimer::run(
         move || {
+            // The timer owns the bounded observer; every event subscription
+            // and native handler is disposed when its weak host disappears.
+            let _keep_input_observer = &input;
             let Some(host) = weak.upgrade() else {
                 return false;
             };

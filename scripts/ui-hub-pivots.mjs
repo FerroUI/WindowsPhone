@@ -128,10 +128,16 @@ export async function verifyHubPivots(ctx) {
         "search Back restores the destroyed recent ScrollViewer");
       await capture("metro-office-recent-restored-search");
       const pane = await control(element => element.name === "OfficeRecentScroll", "restored recent pane");
-      const visible = await control(element => /Button$/.test(element.type) &&
-        element.automationName?.startsWith("Pivot document ") &&
-        element.y >= pane.y && element.y + element.height <= pane.y + pane.height,
-      "a fully visible document in the restored pane");
+      const insidePane = element => element.x >= pane.x && element.x + element.width <= pane.x + pane.width &&
+        element.y >= pane.y && element.y + element.height <= pane.y + pane.height;
+      const target = await until(async () => (await snapshot()).elements
+        .filter(element => /Button$/.test(element.type) && element.hit && insidePane(element) &&
+          added.some(document => `${document.name}.docx` === element.automationName))
+        .sort((left, right) => left.y - right.y || left.x - right.x ||
+          left.automationName.localeCompare(right.automationName))[0],
+      "a fully visible fixture document in the restored pane");
+      const visible = await control(element => /Button$/.test(element.type) && insidePane(element) &&
+        element.automationName === target.automationName, "the selected visible fixture document");
       const opened = added.find(document => `${document.name}.docx` === visible.automationName);
       assert(opened, "the real row corresponds to the isolated fixture");
       await page.click(...centre(visible));

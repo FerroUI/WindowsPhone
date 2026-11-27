@@ -66,6 +66,7 @@ record_launch_driver() {
 }
 cleanup() {
   local result=$?
+  local capture_sequence capture
   record_launch_driver cleanup-begin
   save_observations
   # A late XCTest bootstrap can activate the phone while failure diagnostics
@@ -90,6 +91,14 @@ cleanup() {
   fi
   if [ -n "${ui_status:-}" ] && [ -f "$ui_status" ]; then
     cp "$ui_status" "$out/prompt-handler.json" || true
+  fi
+  # A tap can finish without reaching its requested route. Preserve its actual
+  # XCTest button screenshot even when the success-only copy was never reached.
+  if [ -n "${ui_container:-}" ]; then
+    for capture_sequence in 1 2 3 4; do
+      capture="$ui_container/Documents/navigation-$capture_sequence-button.png"
+      if [ -f "$capture" ]; then cp "$capture" "$out/" || true; fi
+    done
   fi
   if [ "$result" != 0 ]; then
     printf 'iOS verification failed during: %s\n' "$(cat "$out/phase.txt")" >&2

@@ -268,6 +268,80 @@ fn native_keyboard_wrap_retains_section_scroll_and_theme_template_identity() {
 }
 
 #[test]
+fn retained_view_rerender_preserves_native_swipe_completion_and_selection() {
+    session()
+        .dispatch(
+            || {
+                crate::set_motion_enabled(true);
+                crate::install_theme(&Application::current().unwrap());
+                let selection = signal(0usize);
+                let revision = signal(0usize);
+                let (root, owner) = rsx! {Grid {{rerender(move || {
+                    // App views observe their section to build commands, and
+                    // ordinary model revisions may rebuild the same retained
+                    // view while its native manipulation is still completing.
+                    selection.get();
+                    revision.get();
+                    let pages = ["all", "favorites"].into_iter().map(|label| {
+                        PanoramaPage::new(label, rsx! {TextBlock {text:label}})
+                    }).collect();
+                    Element::from(panorama_pages("RetainedPanorama", "people", selection, pages))
+                })}}}.mount_root();
+                let clock = ManualClock::new();
+                let window = Window::new();
+                let _mounted = MountedWindow::new(window.clone(), owner);
+                window.set_clock(Some(clock.clone()));
+                window.set_width(400.0);
+                window.set_height(720.0);
+                window.set_content(Some(Control::boxed(root.clone())));
+                window.show();
+                for _ in 0..5 {
+                    frame();
+                }
+                let host = child::<Carousel>(&root, "RetainedPanorama");
+                let panel = host.items_panel_root().unwrap();
+                panel.raise_event(&SwipeGestureEventArgs::new(
+                    47,
+                    Vector::new(240.0, 0.0),
+                    Vector::default(),
+                ));
+                frame();
+                assert!(host.is_swiping());
+                panel.raise_event(&SwipeGestureEndedEventArgs::new(47, Vector::default()));
+                for _ in 0..3 {
+                    clock.advance();
+                    frame();
+                }
+                assert!(host.is_swiping(), "completion is still in flight");
+                let before = panel.as_scrollable().unwrap().offset().x;
+                revision.set(1);
+                frame();
+                assert!(Ref::ptr_eq(
+                    &host,
+                    &child::<Carousel>(&root, "RetainedPanorama")
+                ));
+                assert!(
+                    host.is_swiping(),
+                    "an ordinary view rebuild must not cancel native completion"
+                );
+                assert!(panel.as_scrollable().unwrap().offset().x >= before - 1e-6);
+                settle(&host, &clock);
+                assert_eq!(selection.get_untracked(), 1);
+                assert_eq!(host.selected_index(), 1);
+                assert!(Ref::ptr_eq(
+                    &host,
+                    &child::<Carousel>(&root, "RetainedPanorama")
+                ));
+                assert!((panel.as_scrollable().unwrap().offset().x - 1.0).abs() < 1e-6);
+                assert!(host.container_from_index(1).unwrap().is_hit_test_visible());
+            },
+            CancellationToken::none(),
+        )
+        .wait_timeout(Duration::from_secs(20))
+        .expect("retained panorama completion regression finishes");
+}
+
+#[test]
 fn reduced_motion_keeps_native_keyboard_and_leaves_touch_to_the_host() {
     scene(false, |_, host, selection, _| {
         assert!(!host.is_swipe_enabled());
