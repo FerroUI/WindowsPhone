@@ -199,5 +199,11 @@ export async function verifyMetroProgress(ctx) {
   } finally {
     await unmock();
     await load(original);
+    // Completion status is transient, so restoring the document does not
+    // remove it. Dismiss its actual command before the next visual fixture.
+    const status = element => /Button$/.test(element.type) && element.automationName === "×";
+    if ((await snapshot()).elements.some(status)) await clickLabel("×");
+    await until(async () => !(await snapshot()).elements.some(status),
+      "progress fixture releases its completion message");
   }
 }

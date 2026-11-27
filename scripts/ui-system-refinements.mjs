@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { buttonLabelMatches } from "./ui-input-geometry.mjs";
 
 // Controlled local fixtures; every workflow mutation below is native pointer or
 // keyboard input. No call, SMS, email, clipboard, camera or permission action runs.
@@ -61,7 +62,7 @@ export async function verifySystemRefinements(ctx) {
       const view=await snapshot();
       const page=view.elements.find(element=>element.name==="PhonePage");
       return page&&page.projection===null&&view.elements.some(element=>
-        element.hit&&button(element)&&element.automationName==="system");
+        element.hit&&buttonLabelMatches(element,"system"));
     },"Settings hub entrance settles before native input");
     await isRoute({App:"Settings"});
     await clickLabel("system");

@@ -1,5 +1,14 @@
 import assert from "node:assert/strict";
 
+// Native PivotItem owns the accessible TabItem name. Its separate rendered
+// PivotHeaderItem has content text and a non-semantic peer; pointer tests must
+// target that real header without inventing an automation name for it.
+export function buttonLabelMatches(element, label) {
+  return /(?:Button|ToggleSwitch|CheckBox|PivotHeaderItem)$/.test(element.type) &&
+    (element.automationName === label ||
+      (/PivotHeaderItem$/.test(element.type) && element.text === label));
+}
+
 // inspectView.hit uses the transformed local centre, while its x/y and
 // width/height expose transformed origin and logical size. Their arithmetic
 // centre is a pointer target only after native page projections detach.
