@@ -5,6 +5,8 @@
 //! original Toolkit 350 ms track; paging keeps both edges adjacent. Host/image
 //! unavailability falls back to incoming-only motion; privacy changes cancel.
 mod animation;
+#[cfg(test)]
+mod capture_tests;
 mod choreography;
 mod snapshot;
 #[cfg(test)]

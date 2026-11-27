@@ -4,9 +4,9 @@ Date: 27 November 2026. Base source: [`0f7010ef41b23056ab54b7efeea182a0860ac0d2`
 
 ## Implemented behavior
 
-- Start/Apps release keeps a bounded outgoing image next to the live destination on one paging clock. Input stays blocked until completion; lock, resize, cancellation and replacement release both transforms and the image. Rejected swipes still settle back.
+- Start/Apps release keeps a bounded outgoing image next to the live destination on one paging clock. Input stays blocked until completion; lock, resize, cancellation and replacement release both transforms and the image. Rejected swipes still settle back. Native page identity includes the document epoch, so restoring while already on Start mounts a fresh capture owner; ordinary revisions retain the current page.
 - Action Center uses newest-item chronology across local and native groups. One-finger dismissal and parallel two-finger clear retain document identity and recheck live native authorization. Group dismissal also retains captured package/key ownership; clear-all obtains current clearable keys at gesture completion. Locked private content cannot be cleared through its hidden controls.
-- `progress(label)` provides native determinate range semantics and a five-dot indeterminate strip. Its compositor ownership ends when hidden, disabled, detached or motion-suppressed. Weather and Podcasts expose actual pending operation state.
+- `progress(label)` provides native determinate range semantics and a five-dot indeterminate strip. Its compositor ownership ends when hidden, disabled, detached or motion-suppressed. Weather and Podcasts expose actual pending operation state. Weather's loading/status/location footer shares its existing content inset, and its active loading label uses the application's 18 px status style; this is application consistency, not a measured original-font claim.
 - Settings and Office use native cyclic Pivot panes with separate finite vertical scrollers and fixed headers. Office search keeps native text editing outside the Pivot and Back restores its selected hub section.
 - `with_route_pivot_count` is a backwards-compatible SDK extension. Explicit route callbacks take precedence over legacy session callbacks, including zero; custom swipe opt-in remains separate. Settings, Office and People detail surfaces no longer change hidden hub sections.
 

@@ -167,6 +167,9 @@ export async function verifyMetroProgress(ctx) {
       await clickLabel("subscribe");
       await pending("podcast");
       const { root } = await strip("PodcastProgress");
+      // Leave the command that submitted the form so its hover tooltip cannot
+      // cover the application bar in the activity capture.
+      await page.mouseMove(root.x + root.width / 2, root.y + root.height / 2);
       const observed = await frames(400);
       assert(observed.length >= 3);
       for (let index = 0; index < 5; index++) {
