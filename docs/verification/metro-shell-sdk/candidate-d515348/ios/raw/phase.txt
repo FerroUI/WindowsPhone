@@ -1,0 +1,1 @@
+UIKit mounting, six native activations, four real navigation taps, Contacts CRUD and simulator hardware limits passed.

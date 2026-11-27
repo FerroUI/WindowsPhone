@@ -1,0 +1,753 @@
+{
+  "source": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "checkout": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "merged_source": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5444,
+      "sha256": "db2a05fc50d74ea414dbdfbfb283a638b36d3ce421e431c6905a8a400a7e29a4"
+    },
+    {
+      "path": "android/README.md",
+      "bytes": 3923,
+      "sha256": "2cc6f0959313ba80cb5b48f93b83d996d9af5129bd832175bbff17d955d1f44b"
+    },
+    {
+      "path": "android/provenance.json",
+      "bytes": 12804,
+      "sha256": "54de2e8af1325b89d66b60b1c2dc94cc88c30467e87f75ca232cbbd8f70f732c"
+    },
+    {
+      "path": "android/raw/app-back.json",
+      "bytes": 7809,
+      "sha256": "e1a54d909b2128ff124584e5026f40f9ecd696bb2b2b712113b75f6bc35968db"
+    },
+    {
+      "path": "android/raw/app-home-restored.json",
+      "bytes": 7791,
+      "sha256": "94cbeb2beee548e37597e84992ebc7d92b802b420812894854eec16a20932665"
+    },
+    {
+      "path": "android/raw/app-start.json",
+      "bytes": 7790,
+      "sha256": "607bf849b7086edf671c4dcd1667271d8c8a16b817a9f611f85a274c03ad0fae"
+    },
+    {
+      "path": "android/raw/app-wallet.json",
+      "bytes": 7713,
+      "sha256": "a76ca5f8bd71464d6f1a8414bdcf24c4bce54ec2729e071448958170612bc362"
+    },
+    {
+      "path": "android/raw/device-action-center-revoked.png",
+      "bytes": 77421,
+      "sha256": "50a3b2cf732cc8976cd77d5f4005b04c8060fc3a42ec42d9bce95da6ab326346"
+    },
+    {
+      "path": "android/raw/device-action-center.png",
+      "bytes": 97755,
+      "sha256": "16da9658f4bb80b25a3d6855430814eb6f63ed0993701f7eb77d56e1624467fc"
+    },
+    {
+      "path": "android/raw/device-notifications-admitted.json",
+      "bytes": 8762,
+      "sha256": "4667a14ad2114f38136d8004dd14f0ccfe36f58ec532b9a6640e74f28371d858"
+    },
+    {
+      "path": "android/raw/device-notifications-revoked.json",
+      "bytes": 8459,
+      "sha256": "5464772645a8c64b3938f5e09a8c96ba853520bda526dfda91bd89f3c383f27d"
+    },
+    {
+      "path": "android/raw/device-notifications-visible.json",
+      "bytes": 9540,
+      "sha256": "c0e85fc23d4b499393d5c1848f457688beaa06dd01312084725f006cba8e5875"
+    },
+    {
+      "path": "android/raw/device-start-restored.json",
+      "bytes": 8395,
+      "sha256": "b622c48318f252075852bf910b1c17a6c3232450823b97efeac1e56c680e32f0"
+    },
+    {
+      "path": "android/raw/device-start-unread.json",
+      "bytes": 8395,
+      "sha256": "a15e2a7094c653996835254fb9fa82923826effc438d9e4c0af0579b68b78914"
+    },
+    {
+      "path": "android/raw/device.json",
+      "bytes": 66,
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82"
+    },
+    {
+      "path": "android/raw/display-density.txt",
+      "bytes": 22,
+      "sha256": "d4282d3761f8524b0cb8905313ff65090c77b3b72f366c9676fdaf8fb2b4ad4c"
+    },
+    {
+      "path": "android/raw/display-size.txt",
+      "bytes": 24,
+      "sha256": "0b51346d0204e745ac1baddf51d9e93d9ae8a1e3ac0a73ccb2abef77cfd8ff1d"
+    },
+    {
+      "path": "android/raw/head.txt",
+      "bytes": 41,
+      "sha256": "8687b8453ab4a1ccf015f6ced92ebef74465da682a55b90254426acbad2919bd"
+    },
+    {
+      "path": "android/raw/home-before.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "android/raw/home-restored.txt",
+      "bytes": 38,
+      "sha256": "f24e560f66d969488f8024959e307910be023dc5dda6d9fc9be258eab6f015c7"
+    },
+    {
+      "path": "android/raw/home-role-back-start.json",
+      "bytes": 7870,
+      "sha256": "9ad904311bc6987a450ffe20049574d69c38d1fa0eb36b41a50f1e6b243b4ba4"
+    },
+    {
+      "path": "android/raw/home-role-back-start.png",
+      "bytes": 452859,
+      "sha256": "07c179e11d2311c5285cdcc4673c35004bf7df9688c91b2337ed1c661fbc0f8c"
+    },
+    {
+      "path": "android/raw/home-role-returned.json",
+      "bytes": 7870,
+      "sha256": "6aabed58c711dc2a0a786f2f57229ec5519f4f98b67de8580e88014cca7d4963"
+    },
+    {
+      "path": "android/raw/home-role-start.json",
+      "bytes": 7869,
+      "sha256": "59b2044eaa559de0b09a24df97e2fedb0252e6c775f9bae366f84510267eef71"
+    },
+    {
+      "path": "android/raw/home-role-wallet.json",
+      "bytes": 7792,
+      "sha256": "c71b5f09df64c4463d10efc9637084e133fb0f6acde157b470d3308cdde664e1"
+    },
+    {
+      "path": "android/raw/home-role-wallet.png",
+      "bytes": 93875,
+      "sha256": "072cf30b4fab609d763fea2a5db386fa3c5354d4ee98340f1404bf6f0cfb4e1b"
+    },
+    {
+      "path": "android/raw/home-selected.txt",
+      "bytes": 34,
+      "sha256": "24ab1edb76e054bd2ad3e303782f971f9f71a03a8042b590b9514981edc74099"
+    },
+    {
+      "path": "android/raw/launcher-back.json",
+      "bytes": 7874,
+      "sha256": "cc9e5d47ce3eac235fc0b81aeee5d7511adb31569312e8de6508aaea275637cc"
+    },
+    {
+      "path": "android/raw/launcher-home-restored.json",
+      "bytes": 7856,
+      "sha256": "16d387dd504f3e46b2a9dbaffc504ee4164d8dd4b0a4b3b20a724b5b051d8001"
+    },
+    {
+      "path": "android/raw/launcher-start.json",
+      "bytes": 7855,
+      "sha256": "704765a2f2459ecfe7a9311415d1b8f905f40e093349fa138390eae0a549d6b1"
+    },
+    {
+      "path": "android/raw/launcher-wallet.json",
+      "bytes": 7778,
+      "sha256": "a73955ddb360259edd1fa161f3d6ca01ca6e7968000dfa8010ec963efbf37761"
+    },
+    {
+      "path": "android/raw/listener-after.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "android/raw/listener-before.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "android/raw/listener-granted.txt",
+      "bytes": 291,
+      "sha256": "05dffa952dda49ff8991906359a7dc12fbaadb3ed1ac1370b29059d045450844"
+    },
+    {
+      "path": "android/raw/listener-revoked.txt",
+      "bytes": 213,
+      "sha256": "b6d8a0c3bc4ca833f49de5b4d580c8ffd0e58625793ed82029925dd6a78e5fe1"
+    },
+    {
+      "path": "android/raw/result.json",
+      "bytes": 1924,
+      "sha256": "ca8543dd7c952606665481f5b583142fb294cc2ca87a9fae8b247e252c182cb0"
+    },
+    {
+      "path": "android/review.json",
+      "bytes": 31693,
+      "sha256": "879d20f1eb41edffb34ba1aad7cd43d9abfa4f8fc85b13cdf6941b4318b4cd01"
+    },
+    {
+      "path": "android-arm-artifacts.json",
+      "bytes": 852,
+      "sha256": "5401e628a90ed638a5145c368d1d9697ab849d1b038c8adc3d63e842ebc0bab0"
+    },
+    {
+      "path": "android-arm-run.json",
+      "bytes": 14316,
+      "sha256": "e1efb2b9c47d270880566b1757266a01127f4b9ca931e711b1bbafee0b950d3e"
+    },
+    {
+      "path": "android-arm.log.gz",
+      "bytes": 41204,
+      "sha256": "f3df2d4ee9f1a000d50057fe91fce6afc7fbeb8b10c31c558b308336ce285c36",
+      "decoded_bytes": 208620,
+      "decoded_sha256": "00ed6398e3b87ed049b95202e0f49b984ed8efaabc128763a386d1a541b942fa"
+    },
+    {
+      "path": "android-ui-artifacts.json",
+      "bytes": 1678,
+      "sha256": "7d9f9a97d6ffd6c3b2ca077cb2673ba7eded64f74c526fea91fb56d6ef2b938e"
+    },
+    {
+      "path": "android-ui-run.json",
+      "bytes": 14324,
+      "sha256": "beff21c5dfc3b9e29d2c21e9026dd53d37b17e463d2d97d2c260a37b46a5e184"
+    },
+    {
+      "path": "android-ui.log.gz",
+      "bytes": 35051,
+      "sha256": "1d30bb507376a712d91c9101c5f3a346fd6948f447c7ab25e3d24e50dd054664",
+      "decoded_bytes": 178397,
+      "decoded_sha256": "d0816ed848f2a51b0566eb95e15374b32a64b5fd45bef29f7d2168e3c6ff2e8c"
+    },
+    {
+      "path": "browser-artifacts.json",
+      "bytes": 2485,
+      "sha256": "a651e22eb2ed67869b49c2ad27d9967437bd17215ba503a99b77d393519cff1f"
+    },
+    {
+      "path": "browser-results.json",
+      "bytes": 56720,
+      "sha256": "4e12482340989de8420467df420756367d7b5c601aad99884b55a9148f04d2dc"
+    },
+    {
+      "path": "browser-summary.json",
+      "bytes": 616,
+      "sha256": "4b5393520e0eed566671bda7697004a18f4c3952fe0da260c2b5968cf920cbb0"
+    },
+    {
+      "path": "browser.log.gz",
+      "bytes": 59162,
+      "sha256": "32e65a9758402b03d8dd63908420f613d621d63f6c5fdba0a76cf3d2189029c3",
+      "decoded_bytes": 261764,
+      "decoded_sha256": "83d484b0b2c1757dc8fa9d1af6f89edbfe4b851c9447254ac484fa413ef8d81a"
+    },
+    {
+      "path": "ci.json",
+      "bytes": 83121,
+      "sha256": "f6c37c88fe0b6e5da79566c2e9d92b6790c3bba27948ecfb4f7f8b44afed9fdc"
+    },
+    {
+      "path": "compiled-artifact.json",
+      "bytes": 6690,
+      "sha256": "1853d2fd3ec387741bc234b47d89eb8bc80a10314f84766d1be9c60ec600f2dd"
+    },
+    {
+      "path": "hubs-notifications/README.md",
+      "bytes": 3586,
+      "sha256": "5e4a39809103bf413ea2f5ea9f2c73c6aa78c18c5f71797ce3adbf3a115add38"
+    },
+    {
+      "path": "hubs-notifications/provenance.json",
+      "bytes": 9485,
+      "sha256": "eafd3da38084d2e2b6254cb224860edc8afd9fbbe09c561d81897120ec60ef12"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-chronological-groups.json",
+      "bytes": 128157,
+      "sha256": "4545a4dfcc62aebf2aaa0ceab03996d8afa8bed7c5b302916cb08b65834b71fc"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-chronological-groups.png",
+      "bytes": 38148,
+      "sha256": "06ac949635975c34bd01998a6d6bfbf095810fdb4959a2afb6d770be322e1dd8"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-native-group-dismissal.json",
+      "bytes": 115545,
+      "sha256": "539c16dcdae273f0f9f1a311be1c0c1f8cce1fecd2a3969b653c7679a8653655"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-native-group-dismissal.png",
+      "bytes": 29105,
+      "sha256": "bf3e09f1a1cd2392033373dc28056c6eb084b17a9cb4ae31e5c7a4ad40fa6938"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-parallel-clear.json",
+      "bytes": 99429,
+      "sha256": "49c30ae6eb6a7dc179e4aea95fea14871e78aefb7ec314a3480b8ab5b7fc0bb6"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-private-lock-content.json",
+      "bytes": 61014,
+      "sha256": "d92ff0e1938af4701373c786f1910a33002ccb2f854ef18955cacfcb4c1eb53b"
+    },
+    {
+      "path": "hubs-notifications/raw/action-center-private-lock-content.png",
+      "bytes": 20886,
+      "sha256": "4a4ac8c0c34d1419980f0dace94a6837adfb78ad7a7766fd415a587756051072"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-320-dark.json",
+      "bytes": 66929,
+      "sha256": "0a195bbe947cac8c6c50e01cc6cfa58b4e7a86584279347e0c55a58cc09db23e"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-320-light.json",
+      "bytes": 66929,
+      "sha256": "226337d6bb4de3ee4cc02f48e093d8144cc48a64bf73d52da353b674afc82831"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-places-native.json",
+      "bytes": 75565,
+      "sha256": "51fe8217e8544ae4f39f129e3c1b02c7d3b44dd83a098690e780905f424ddc62"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-places-native.png",
+      "bytes": 32757,
+      "sha256": "d53c9fbeb6ed4d58af889c9d7af8624e733757ff9eec67b7d764f7b73cacf68c"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-reduced-motion-320.json",
+      "bytes": 62114,
+      "sha256": "4915ad5ebfa26de51b6db9731b037627ff66491e39e73e2da2f679714eab356f"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-reduced-motion-320.png",
+      "bytes": 24053,
+      "sha256": "a171f5a10606a7ea43fd3b41592955f5ec2aafb2946465556bffb905ec5109d0"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-search-page.json",
+      "bytes": 56856,
+      "sha256": "8acf9be291b5a41dd016f75eeea50439fb7686d68c9365ecb694c2772285426f"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-office-search-page.png",
+      "bytes": 27500,
+      "sha256": "88dfaf7fce3caaef5f6d15c7cc01c9727e26ebcf7cf3185b36cfc7dd539dd9fb"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-settings-320-dark.json",
+      "bytes": 50315,
+      "sha256": "ea0269319288cd2a0c85ba18bde6318108aaf7471d402dccf57f0febbb77891e"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-settings-320-light.json",
+      "bytes": 50315,
+      "sha256": "a58e834bbc6825cf34ac8ed8f48972ae442e1d11facd2da9536fbb17f878e082"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-settings-320-light.png",
+      "bytes": 26651,
+      "sha256": "e3efb29a1c276285c6974dafa9b0a0972e4d822abfafc460abb830e5c7b2b665"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-settings-applications-native.json",
+      "bytes": 58941,
+      "sha256": "3210e8dce3ed0683fd4044c6d7a26204ed6ac9bba121520bf37e8aa57b0e768f"
+    },
+    {
+      "path": "hubs-notifications/raw/metro-settings-system-scrolled.json",
+      "bytes": 85390,
+      "sha256": "9c5e5310eefa9c34d5fb0b6a2455bf315fcde69037aeb952b5d39ddb910a26a1"
+    },
+    {
+      "path": "hubs-notifications/raw/phone-input-dark-focused.json",
+      "bytes": 65180,
+      "sha256": "e0adf46713ee3fb98f4569ce92a78d19f4478458f7c3c03c526426b33fdbf0c1"
+    },
+    {
+      "path": "hubs-notifications/review.json",
+      "bytes": 37877,
+      "sha256": "d7668d99c78c7254bdbf6329343f709183c6f7375f5e5140916f5a89623609c7"
+    },
+    {
+      "path": "identity.json",
+      "bytes": 698,
+      "sha256": "28143c223a7d2b9fc8e5d0e3edae2f950be72f556acd9c3fd8e02701ae9bb30a"
+    },
+    {
+      "path": "ios/README.md",
+      "bytes": 4218,
+      "sha256": "96801c7f9dc2518684deec07fb7644e2508d2232e02c38e44ae71788bf0542f4"
+    },
+    {
+      "path": "ios/provenance.json",
+      "bytes": 13362,
+      "sha256": "089c6067b00e0e12291cc0068294398a71de088a273aa12dc06d356da199515b"
+    },
+    {
+      "path": "ios/raw/device-tests.json",
+      "bytes": 3142,
+      "sha256": "4c72089e13a22b4dbdfdf07945384ab2d18fcf5ca659490a40684699ce57bdfc"
+    },
+    {
+      "path": "ios/raw/home-restored.json",
+      "bytes": 4059,
+      "sha256": "47ae6318e9da02b46f92c903669b73307877f8f387ab784b408f0914c7620647"
+    },
+    {
+      "path": "ios/raw/last-observation.json",
+      "bytes": 4059,
+      "sha256": "f61900bd3e1506df918078ea83316226d69ca2ea1611e306ccdff1193f6700c5"
+    },
+    {
+      "path": "ios/raw/launch-driver-cleanup-begin.json",
+      "bytes": 651,
+      "sha256": "4d2c1f321081346890591e37acc11587a3ba90a7eeeb08fdb79da716dcd91247"
+    },
+    {
+      "path": "ios/raw/launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "5e74fd6ba76b1acc38ad87b709552cd376ec0ad5bffe57ec44b94b8056813a0c"
+    },
+    {
+      "path": "ios/raw/launch-driver-started.json",
+      "bytes": 636,
+      "sha256": "0542b77e0f6f838bbdbe8ddd8ce25440a3a66fa718e0171a4d6df178131e28e8"
+    },
+    {
+      "path": "ios/raw/messages.json",
+      "bytes": 4169,
+      "sha256": "4f33b187dc662b0f40ff5787bc8f07fed087d1531af536d20d73dc178cf19cab"
+    },
+    {
+      "path": "ios/raw/navigation-1-driver.json",
+      "bytes": 798,
+      "sha256": "4f4b21c31a908657f3e5b5a66e604bf423fe8312822031ed2ad43524b9f04fac"
+    },
+    {
+      "path": "ios/raw/navigation-2-driver.json",
+      "bytes": 1084,
+      "sha256": "b7e1cadf58092fe628913b82023f19d067de22806d0e2a2866da4e8aa6db8c8e"
+    },
+    {
+      "path": "ios/raw/navigation-3-driver.json",
+      "bytes": 1376,
+      "sha256": "bd6447ae522ece2478ab4cdc2ef7cd0dce6772760123944c76c08271cea4d090"
+    },
+    {
+      "path": "ios/raw/navigation-4-driver.json",
+      "bytes": 1667,
+      "sha256": "5a79a5fc7e9a3ad52de98ce9b36219c2cf316073eccf18d3a58e0bfe74b110bb"
+    },
+    {
+      "path": "ios/raw/navigation-back.json",
+      "bytes": 4059,
+      "sha256": "d147bead3a75873d3522c9101f6bb12a6f6902507385eb412c10b8acd8c7e150"
+    },
+    {
+      "path": "ios/raw/navigation-request-1.json",
+      "bytes": 103,
+      "sha256": "07e313c08fad4901cca3c1f2e66f7d6c933c26ecae22d528603865ab3813cc02"
+    },
+    {
+      "path": "ios/raw/navigation-request-2.json",
+      "bytes": 101,
+      "sha256": "4bc75f691be81c55bc355a8040aec3eb79690458ba5d7b0d8976f07d8c530116"
+    },
+    {
+      "path": "ios/raw/navigation-request-3.json",
+      "bytes": 103,
+      "sha256": "5e118a2ea4d3fb0d7044176a7f0990c66a20a452889bfe31d9af5fe76be38a1e"
+    },
+    {
+      "path": "ios/raw/navigation-request-4.json",
+      "bytes": 102,
+      "sha256": "d9ef1e6adb1e122901e9954b891321c26eaf21a5f634f2f47e6e0e91971ac33d"
+    },
+    {
+      "path": "ios/raw/navigation-search-again.json",
+      "bytes": 4048,
+      "sha256": "bccbdc9006e6723d56b423ad51fcc835c084670a42a0928c3518a47be0f130ad"
+    },
+    {
+      "path": "ios/raw/navigation-search.json",
+      "bytes": 4048,
+      "sha256": "c5053b64b1169563e65c5c0c635e731ea903a7e00376e6810dc132f1d4d41df2"
+    },
+    {
+      "path": "ios/raw/navigation-start.json",
+      "bytes": 4059,
+      "sha256": "3606ae9f3c265cd64a32e5913a02b146cdd5825f9ceba47cd11bd838fd184d72"
+    },
+    {
+      "path": "ios/raw/owned-installation.json",
+      "bytes": 404,
+      "sha256": "81e1d343d8e7abd0055097b41a044456dbd600992ecc7de325c2a50fd0b6dd9d"
+    },
+    {
+      "path": "ios/raw/people.json",
+      "bytes": 4086,
+      "sha256": "a38d5f3c3e7bce58514e238e38575356c5be7eb58156025af474c5d8c301a1e9"
+    },
+    {
+      "path": "ios/raw/people.png",
+      "bytes": 128465,
+      "sha256": "4c984cfeb12dbb174e49517932d7f08dc4103854934b34922f02dce742f24bfc"
+    },
+    {
+      "path": "ios/raw/phase.txt",
+      "bytes": 119,
+      "sha256": "6590205a8420f4a1b9305ec3c7955045b240a372aa0b35f46f454318c0f86e55"
+    },
+    {
+      "path": "ios/raw/phone.json",
+      "bytes": 4139,
+      "sha256": "bd43c7cbba6b2131bbd708ee3b27e6c55667555d7bbea6ba1973c8340ce769e8"
+    },
+    {
+      "path": "ios/raw/prompt-handler.json",
+      "bytes": 1670,
+      "sha256": "0aba69110619e2300a97a14dc87cc3f73156074cb1e785a4da56a14dfed646f5"
+    },
+    {
+      "path": "ios/raw/request-1.json",
+      "bytes": 100,
+      "sha256": "c160bb7346eaf76bc09a11e9e14f8b35bdaf6466ea3a458605e9e95776337db1"
+    },
+    {
+      "path": "ios/raw/request-2.json",
+      "bytes": 124,
+      "sha256": "3d16b9caf35c7bc1616590122934bd06e48f4986dcfe739e60075915afe1c7ff"
+    },
+    {
+      "path": "ios/raw/request-3.json",
+      "bytes": 106,
+      "sha256": "7736f486be23fc3ac766ff562005fa3b95f66d9fcacd912b266aacfec9b73481"
+    },
+    {
+      "path": "ios/raw/request-4.json",
+      "bytes": 110,
+      "sha256": "758232a476131f75e1aadc70dbaae7ea6a738d78ba82d45510369830d2b28094"
+    },
+    {
+      "path": "ios/raw/request-5.json",
+      "bytes": 108,
+      "sha256": "30af3c609db284e2cd08f7d8f21a0b67715784e45dbc47a3ecd1c2bd69d25808"
+    },
+    {
+      "path": "ios/raw/request-6.json",
+      "bytes": 82,
+      "sha256": "f095f23359c095bc7acf1acb7c86d8490e13d0d356a14d68827c141f228a17ae"
+    },
+    {
+      "path": "ios/raw/settings.json",
+      "bytes": 4101,
+      "sha256": "1932c4974cb61cdeb230d07ec19276b062a16d7e4ccad963c1e525068f637954"
+    },
+    {
+      "path": "ios/raw/settings.png",
+      "bytes": 131020,
+      "sha256": "90d95224f6010b054085d892f03c8eff541bb9c55bc4db4f516b43116927b157"
+    },
+    {
+      "path": "ios/raw/simulator.txt",
+      "bytes": 92,
+      "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281"
+    },
+    {
+      "path": "ios/raw/start.json",
+      "bytes": 4011,
+      "sha256": "94a8a858feb60f040b72c790235fb5bf17c718aa89fa59fb836df2f4cfaf8b79"
+    },
+    {
+      "path": "ios/raw/start.png",
+      "bytes": 486815,
+      "sha256": "464a01b47c5874d21972f4cfb6f39177dedac16df64297de9a3cf22a4b639ba2"
+    },
+    {
+      "path": "ios/raw/wallet.json",
+      "bytes": 4110,
+      "sha256": "1cbbe1eb19de4b23d38fee5bd5ee575f87c79cff9211f00061db7e4ea248c8bd"
+    },
+    {
+      "path": "ios/raw/wallet.png",
+      "bytes": 138676,
+      "sha256": "df0e2666cf96adda04f7509c306e99a23e8a3d431458e815dc15925c2c3b7e51"
+    },
+    {
+      "path": "ios/review.json",
+      "bytes": 44438,
+      "sha256": "60992fd07e4ef292641d2eff81385b1986064c1c15bc52a17a40400d29d80c2a"
+    },
+    {
+      "path": "ios-artifacts.json",
+      "bytes": 1664,
+      "sha256": "6ed47b3b1fca2179e7e4bd16e4a8c8676527a6170437c8bab6a17f345f50c4d9"
+    },
+    {
+      "path": "ios-run.json",
+      "bytes": 14307,
+      "sha256": "126f2d4389012965e7b527a765f55f8a6a6f9991e04ab7352e0ac536196495b8"
+    },
+    {
+      "path": "ios.log.gz",
+      "bytes": 48010,
+      "sha256": "09dd658b0916ab7a4f922c6130ec78ab30411faabe11b4d007c4af28f444d209",
+      "decoded_bytes": 289288,
+      "decoded_sha256": "ca1085ed83f916d1e8aea97a6b4ca8c6c34849d0590aeef9a2d82171f6a08304"
+    },
+    {
+      "path": "linux.log.gz",
+      "bytes": 43970,
+      "sha256": "fc3f1099901696fafbe7ad69d5047af4faee7edaacb78da178f9f0bb796d735f",
+      "decoded_bytes": 235090,
+      "decoded_sha256": "254de63e8a10ecea7d9f6a26b8928e23cd17d00ae13f38b5e3ba52ea822e9e5d"
+    },
+    {
+      "path": "macos.log.gz",
+      "bytes": 34562,
+      "sha256": "30204134fc9d530f05d4f5ba3030c01ed9944297a33cd0eda7cf2d63e6a058c0",
+      "decoded_bytes": 186790,
+      "decoded_sha256": "e76ad7731749170b95bdec4ce50eef6c1b0f1f7096907ba9641a65ce8d57055a"
+    },
+    {
+      "path": "motion/README.md",
+      "bytes": 8415,
+      "sha256": "161430126ad5083f22e7c325af0a77a96f6d67d2b3d492f6c8c49b1207762b0e"
+    },
+    {
+      "path": "motion/provenance.json",
+      "bytes": 6216,
+      "sha256": "60d7f51c07e5fe6cc62e18e912b292711ace6b581f78033a2cb359d6aefffd43"
+    },
+    {
+      "path": "motion/raw/metro-navigation-backward-frames.json",
+      "bytes": 103382,
+      "sha256": "5e501b892342bf38b77a3edb8054b1725f38a9c634df08bfd0cd531ce7199960"
+    },
+    {
+      "path": "motion/raw/metro-navigation-battery_saver-frames.json",
+      "bytes": 95558,
+      "sha256": "613f8d42bd81af13a2b682c87fb63d4d44905dbd9709d20901048f86bb66dd5a"
+    },
+    {
+      "path": "motion/raw/metro-navigation-forward-frames.json",
+      "bytes": 111549,
+      "sha256": "a9760b522f018177a9c259e40362aff4b445a746b0ed55ac671d19e64960ed2f"
+    },
+    {
+      "path": "motion/raw/metro-navigation-interrupted-frames.json",
+      "bytes": 99657,
+      "sha256": "9d4f001323e707a914d519d534f454bb1be5ee58014c755f4d09405d039b5ad4"
+    },
+    {
+      "path": "motion/raw/metro-navigation-lock-cancelled.json",
+      "bytes": 37109,
+      "sha256": "7f9db6d67bf4e0526d6b8d20ccf02882ffb12b1027634005c5ae0a628a5c2c74"
+    },
+    {
+      "path": "motion/raw/metro-navigation-lock-cancelled.png",
+      "bytes": 262108,
+      "sha256": "846fe2f395750448b6fa45896af8e7e66d821e508d17c6fcba1a03d381f809c2"
+    },
+    {
+      "path": "motion/raw/metro-navigation-lock-frames.json",
+      "bytes": 58828,
+      "sha256": "ad0d0f55c3e95924fdbeaf3c4c3f79fb6207b7362ca329e9ca223d249cb676d7"
+    },
+    {
+      "path": "motion/raw/metro-navigation-reduced_motion-frames.json",
+      "bytes": 95569,
+      "sha256": "0932a255953340ce7f6f7c5f6594a96d0d6145ab4cbbe215c3ef99d90eeed153"
+    },
+    {
+      "path": "motion/raw/metro-navigation-restored.json",
+      "bytes": 75647,
+      "sha256": "c587ff5a119858f6686697053df961994da5dfdd570f3346085d46379029368d"
+    },
+    {
+      "path": "motion/raw/metro-navigation-restored.png",
+      "bytes": 38063,
+      "sha256": "5e5a5a7161a4b6bf55401d3fdc1faca2f6499dad51b1b47c98ccbc8c9684a9d9"
+    },
+    {
+      "path": "motion/raw/metro-shell-paging-apps-frames.json",
+      "bytes": 107572,
+      "sha256": "9d19baed74cc91388f05e6edad2b5ad5d9e1eb724c0d389e4b9f2ea6d95d6b87"
+    },
+    {
+      "path": "motion/raw/metro-shell-paging-restored.json",
+      "bytes": 71391,
+      "sha256": "5cd44f223676a1da955ca24f86df349f6055d231fbd7e76c264aaab137bb3d42"
+    },
+    {
+      "path": "motion/raw/metro-shell-paging-restored.png",
+      "bytes": 149846,
+      "sha256": "88fcbb671330df4f1855286587d884ed8943dda964f4494045dbf2c9128c8e8a"
+    },
+    {
+      "path": "motion/raw/metro-shell-paging-start-frames.json",
+      "bytes": 110879,
+      "sha256": "036665f05e6a6858356d133125940d9662e3f3ce7a8dd48a7fc2b6ea46df96fd"
+    },
+    {
+      "path": "motion/raw/metro-turnstile-navigation-settled.json",
+      "bytes": 75647,
+      "sha256": "df544594200addeb44ae96654825ec90dc2c2b892c29a6002e48370a3ac97af9"
+    },
+    {
+      "path": "motion/raw/metro-turnstile-navigation-settled.png",
+      "bytes": 38207,
+      "sha256": "c2c4d8b42df00b25841bcfdf8f5dfeaaef6f2d4e864501d8eb808ca2736ba8a2"
+    },
+    {
+      "path": "motion/review.json",
+      "bytes": 16812,
+      "sha256": "1a11adb2642124aafd68cbc672c49fcf72694625cbc83ac90236ec1826e39455"
+    },
+    {
+      "path": "progress/README.md",
+      "bytes": 3675,
+      "sha256": "d9d202caaaf887fac2f9bf807899a77ef29fdb4f01e0720ca9758eab3350e405"
+    },
+    {
+      "path": "progress/metro-progress-podcast-reduced-motion.json",
+      "bytes": 54247,
+      "sha256": "941222b37ab2e882822f38a32fccad24c7421a7476137ffa6e6c24a08c211a99"
+    },
+    {
+      "path": "progress/metro-progress-podcast-reduced-motion.png",
+      "bytes": 36085,
+      "sha256": "c533445aef5125f69168b62ae78d6f3f6003f91a16c0e6db30679239a7324466"
+    },
+    {
+      "path": "progress/metro-progress-weather-moving.json",
+      "bytes": 72329,
+      "sha256": "b23891a2ea5b248820908f262e5615c27a99822acef0f7891c3b1be04c0f925f"
+    },
+    {
+      "path": "progress/metro-progress-weather-moving.png",
+      "bytes": 38034,
+      "sha256": "1c5d7613879e4cca72a54a89949826ee52a33cbd6cb13fa22600b761b9e8f279"
+    },
+    {
+      "path": "progress/provenance.json",
+      "bytes": 2715,
+      "sha256": "0838f1e34e8796a286544d0ccc33771ac6783050527b130bdb7f91437bb7a6c3"
+    },
+    {
+      "path": "windows.log.gz",
+      "bytes": 38044,
+      "sha256": "f39c72504f97de0755cfd45d7e2c7256cada6a84c94c25c1acd1a65e247f800a",
+      "decoded_bytes": 212519,
+      "decoded_sha256": "e99d8943c155d49ceca7aa7355e06748148544817319bc28531f77c4cd95ae77"
+    }
+  ],
+  "qualification": "Artifact originals are identified in each scoped provenance record. GitHub log hashes identify archived connector-decoded UTF-8 text after newline normalization; authored summaries are distinct from original observations."
+}

@@ -1,0 +1,575 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-11-27T09:02:15.114709+00:00",
+  "scope": "Four original browser PNG/inspection pairs from the published main source; static appearance and selected existing inspector geometry only. No additional test execution.",
+  "source": {
+    "repository": "FerroUI/WindowsPhone",
+    "branch": "main",
+    "commit": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+    "tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+    "parent": "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+    "candidate_commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+    "candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+    "complete_source_trees_equal_verified_from_local_git_objects": true,
+    "workflow_run_id": 45964709343,
+    "workflow_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45964709343",
+    "artifact_id": 15183619231,
+    "artifact_zip_sha256": "6143525949e98c0136f18149ae6b3a455013dc0e71f0c90e99f5ab1d1c0cbb9a",
+    "downloaded_archive": "target/metro-main-ui.zip",
+    "extracted_directory": "target/metro-main-ui",
+    "identity_provenance": "Run/artifact association supplied by parent from CI download; archive hash and selected member bytes independently verified locally. Commit/tree identity read from local Git objects."
+  },
+  "existing_suite_result": {
+    "source_path": "target/metro-main-ui/results.json",
+    "sha256": "3d311cae8c4393450aa59dc2c60e6aa29c202b2d60c6de5cc61ffd1f6ebc6785",
+    "passed": true,
+    "checks": 112,
+    "captures": 198,
+    "errors": [],
+    "elapsed_ms": 406000,
+    "elapsed_scope": "Whole existing suite execution; not a responsiveness benchmark.",
+    "relevant_existing_checks": [
+      {
+        "name": "Settings and Office native headings stay reachable at 320 pixels in both themes",
+        "elapsedMs": 4807,
+        "passed": true
+      },
+      {
+        "name": "Weather loading renders original five-dot motion and releases it after the real SDK response",
+        "elapsedMs": 7093,
+        "passed": true
+      },
+      {
+        "name": "Action Center sorts groups by newest item and cancels native dismissal cleanly",
+        "elapsedMs": 992,
+        "passed": true
+      }
+    ]
+  },
+  "preservation": {
+    "original_files": 8,
+    "original_pngs": 4,
+    "original_jsons": 4,
+    "original_bytes": 445660,
+    "method": "Original PNG and JSON bytes copied without re-encoding or JSON reserialization; every retained file compared directly with its downloaded ZIP member. README/provenance are derived review documents. Parent maintains aggregate manifests."
+  },
+  "files": [
+    {
+      "path": "metro-settings-320-light.png",
+      "source_path": "target/metro-main-ui/metro-settings-320-light.png",
+      "zip_member": "metro-settings-320-light.png",
+      "bytes": 26684,
+      "sha256": "9fccf668e302b8a77cfe5997ce8ee7e64c1de844fd903194d97139a131108c03",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "metro-settings-320-light.json",
+      "source_path": "target/metro-main-ui/metro-settings-320-light.json",
+      "zip_member": "metro-settings-320-light.json",
+      "bytes": 50315,
+      "sha256": "64814a5a1f4737139bf580d1f7645d899cc86c922e7b94d582d0c256e2a52e1d",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "metro-office-320-dark.png",
+      "source_path": "target/metro-main-ui/metro-office-320-dark.png",
+      "zip_member": "metro-office-320-dark.png",
+      "bytes": 24064,
+      "sha256": "4d8ac65c34f7bec47c374e6f407f2af13e984b4a3c9e3537d5fe0b259748dfad",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "metro-office-320-dark.json",
+      "source_path": "target/metro-main-ui/metro-office-320-dark.json",
+      "zip_member": "metro-office-320-dark.json",
+      "bytes": 66929,
+      "sha256": "dd675af54ed0a18c7eea96e67833692de298fb27fe72a5a56e22b44e8c3e4f99",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "metro-progress-weather-moving.png",
+      "source_path": "target/metro-main-ui/metro-progress-weather-moving.png",
+      "zip_member": "metro-progress-weather-moving.png",
+      "bytes": 38028,
+      "sha256": "f10feb6d6dccc44f700020eccd88e044250e2f83f283c4cfb22e92eddff2fe61",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "metro-progress-weather-moving.json",
+      "source_path": "target/metro-main-ui/metro-progress-weather-moving.json",
+      "zip_member": "metro-progress-weather-moving.json",
+      "bytes": 72329,
+      "sha256": "5077161aa859fae94d70b2c6252e511ad74db501fdb44f09cfbeb64ef33d19f0",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "action-center-chronological-groups.png",
+      "source_path": "target/metro-main-ui/action-center-chronological-groups.png",
+      "zip_member": "action-center-chronological-groups.png",
+      "bytes": 39154,
+      "sha256": "255a1f6f17b90ddd08059bce926642d56e2a9fda16fe7f478287675d0a309263",
+      "matches_downloaded_zip_member": true
+    },
+    {
+      "path": "action-center-chronological-groups.json",
+      "source_path": "target/metro-main-ui/action-center-chronological-groups.json",
+      "zip_member": "action-center-chronological-groups.json",
+      "bytes": 128157,
+      "sha256": "a9e721ce0742fe07894bcfc77005d78bbb02402903e59b9006e57be126ff9c94",
+      "matches_downloaded_zip_member": true
+    }
+  ],
+  "reviews": [
+    {
+      "stem": "metro-settings-320-light",
+      "dimensions": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Settings"
+      },
+      "visually_inspected_original_png": true,
+      "observations": [
+        "320×740 light-theme Settings applications pane is readable; active applications and adjacent system headings are visible, followed by five application rows with secondary labels.",
+        "SettingsPivot is x0/y64/320×622 with selectedIndex1; active header x20/y64/198×64, adjacent system header x218/y64/124×64. The adjacent header control extends beyond the right clip while its visible text remains readable.",
+        "SettingsApplicationsScroll is x0/y128/320×558; bottom Back, Start, and Search glyphs are visible."
+      ],
+      "stable_inspection_geometry_matches_candidate_d515348": true,
+      "compared_inspection_fields": [
+        "name",
+        "type",
+        "text",
+        "x",
+        "y",
+        "width",
+        "height",
+        "selectedIndex",
+        "enabled",
+        "hit",
+        "foreground",
+        "background"
+      ],
+      "compared_controls": [
+        {
+          "name": "SettingsPivot",
+          "type": "Pivot",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 622,
+          "selectedIndex": 1,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#e4000000",
+          "background": "#ffffffff"
+        },
+        {
+          "name": null,
+          "type": "PivotHeaderItem",
+          "text": "system",
+          "x": 218,
+          "y": 64,
+          "width": 124,
+          "height": 64,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ff666666",
+          "background": "#00ffffff"
+        },
+        {
+          "name": null,
+          "type": "PivotHeaderItem",
+          "text": "applications",
+          "x": 20,
+          "y": 64,
+          "width": 198,
+          "height": 64,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ff000000",
+          "background": "#00ffffff"
+        },
+        {
+          "name": "SettingsApplicationsScroll",
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 558,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#e4000000",
+          "background": "#00ffffff"
+        }
+      ],
+      "moving_dot_coordinates_excluded_from_cross_run_comparison": false
+    },
+    {
+      "stem": "metro-office-320-dark",
+      "dimensions": [
+        320,
+        740
+      ],
+      "route": {
+        "App": "Office"
+      },
+      "visually_inspected_original_png": true,
+      "observations": [
+        "320×740 dark-theme Office places pane shows phone, OneDrive, Office 365, and OneNote rows, yellow folder glyphs, secondary descriptions, and visible bottom app-bar and navigation commands.",
+        "OfficePivot is x0/y64/320×562 with selectedIndex1; places header x20/y64/115×64 and recent header x135/y64/116×64. Both inspector header controls are enabled and hit-testable.",
+        "OfficePlacesScroll is x0/y128/320×498. No overlapping row text or missing commands were observed in this frame."
+      ],
+      "stable_inspection_geometry_matches_candidate_d515348": true,
+      "compared_inspection_fields": [
+        "name",
+        "type",
+        "text",
+        "x",
+        "y",
+        "width",
+        "height",
+        "selectedIndex",
+        "enabled",
+        "hit",
+        "foreground",
+        "background"
+      ],
+      "compared_controls": [
+        {
+          "name": "OfficePivot",
+          "type": "Pivot",
+          "text": null,
+          "x": 0,
+          "y": 64,
+          "width": 320,
+          "height": 562,
+          "selectedIndex": 1,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ffffffff",
+          "background": "#ff000000"
+        },
+        {
+          "name": null,
+          "type": "PivotHeaderItem",
+          "text": "recent",
+          "x": 135,
+          "y": 64,
+          "width": 116,
+          "height": 64,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ffa6a6a6",
+          "background": "#00ffffff"
+        },
+        {
+          "name": null,
+          "type": "PivotHeaderItem",
+          "text": "places",
+          "x": 20,
+          "y": 64,
+          "width": 115,
+          "height": 64,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ffffffff",
+          "background": "#00ffffff"
+        },
+        {
+          "name": "OfficePlacesScroll",
+          "type": "ScrollViewer",
+          "text": null,
+          "x": 0,
+          "y": 128,
+          "width": 320,
+          "height": 498,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ffffffff",
+          "background": "#00ffffff"
+        }
+      ],
+      "moving_dot_coordinates_excluded_from_cross_run_comparison": false
+    },
+    {
+      "stem": "metro-progress-weather-moving",
+      "dimensions": [
+        1280,
+        936
+      ],
+      "route": {
+        "App": "Weather"
+      },
+      "visually_inspected_original_png": true,
+      "observations": [
+        "1280×936 desktop frame contains a 400px phone interior at x440. The Weather pending state is visible with five cyan dots and readable loading/weather-location actions.",
+        "WeatherProgress is x460/y383/360×4, leaving 20px horizontal content insets. Five named native Border dots are each 4×4 in the inspector.",
+        "Loading text is x460/y403/360×22; current-location text is x460/y449/228×27. This retains the final-candidate footer alignment fix.",
+        "The PNG and inspection JSON sample moving animation at separate instants; exact dot x coordinates are not asserted equal across these two observations or across runs."
+      ],
+      "stable_inspection_geometry_matches_candidate_d515348": true,
+      "compared_inspection_fields": [
+        "name",
+        "type",
+        "text",
+        "x",
+        "y",
+        "width",
+        "height",
+        "selectedIndex",
+        "enabled",
+        "hit",
+        "foreground",
+        "background"
+      ],
+      "compared_controls": [
+        {
+          "name": "WeatherProgress",
+          "type": "ProgressBar",
+          "text": null,
+          "x": 460,
+          "y": 383,
+          "width": 360,
+          "height": 4,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ff1ba1e2",
+          "background": "#ff333333"
+        },
+        {
+          "name": "PhoneProgressRoot",
+          "type": "Grid",
+          "text": null,
+          "x": 460,
+          "y": 383,
+          "width": 360,
+          "height": 4,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": null,
+          "background": null
+        },
+        {
+          "name": null,
+          "type": "TextBlock",
+          "text": "loading weather…",
+          "x": 460,
+          "y": 403,
+          "width": 360,
+          "height": 22,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffa6a6a6",
+          "background": null
+        },
+        {
+          "name": null,
+          "type": "TextBlock",
+          "text": "use my current location",
+          "x": 460,
+          "y": 449,
+          "width": 228,
+          "height": 27,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": "#ffffffff",
+          "background": null
+        }
+      ],
+      "moving_dot_coordinates_excluded_from_cross_run_comparison": true
+    },
+    {
+      "stem": "action-center-chronological-groups",
+      "dimensions": [
+        1280,
+        936
+      ],
+      "route": "Start",
+      "visually_inspected_original_png": true,
+      "observations": [
+        "1280×936 desktop frame contains Action Center with quick actions, clear all/all settings, and readable Outlook, Messaging, and Phone groups in that order.",
+        "Outlook has Newest mail followed by Earlier mail; Messaging has Later message and Phone has Oldest call. Group close glyphs, body text, and time labels are visible.",
+        "Group grids are x458/w364 at y254/h210, y484/h115, and y619/h115. The stable group and title geometry matches the final-candidate chronological fixture.",
+        "This fixture contains document-backed notifications. This static pair does not independently demonstrate native device-provider cancellation, horizontal dismissal, two-finger input, or lock-screen cleanup."
+      ],
+      "stable_inspection_geometry_matches_candidate_d515348": true,
+      "compared_inspection_fields": [
+        "name",
+        "type",
+        "text",
+        "x",
+        "y",
+        "width",
+        "height",
+        "selectedIndex",
+        "enabled",
+        "hit",
+        "foreground",
+        "background"
+      ],
+      "compared_controls": [
+        {
+          "name": "Notification-1051",
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 254,
+          "width": 364,
+          "height": 210,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": null,
+          "background": null
+        },
+        {
+          "name": "NotificationHeader-mail",
+          "type": "TextBlock",
+          "text": "outlook",
+          "x": 458,
+          "y": 254,
+          "width": 332,
+          "height": 23,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        },
+        {
+          "name": null,
+          "type": "TextBlock",
+          "text": "Newest mail",
+          "x": 458,
+          "y": 286,
+          "width": 364,
+          "height": 27,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        },
+        {
+          "name": null,
+          "type": "TextBlock",
+          "text": "Earlier mail",
+          "x": 458,
+          "y": 381,
+          "width": 364,
+          "height": 27,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        },
+        {
+          "name": "Notification-1053",
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 484,
+          "width": 364,
+          "height": 115,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": null,
+          "background": null
+        },
+        {
+          "name": "NotificationHeader-message",
+          "type": "TextBlock",
+          "text": "messaging",
+          "x": 458,
+          "y": 484,
+          "width": 332,
+          "height": 23,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        },
+        {
+          "name": null,
+          "type": "TextBlock",
+          "text": "Later message",
+          "x": 458,
+          "y": 516,
+          "width": 364,
+          "height": 27,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        },
+        {
+          "name": "Notification-1054",
+          "type": "Grid",
+          "text": null,
+          "x": 458,
+          "y": 619,
+          "width": 364,
+          "height": 115,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": true,
+          "foreground": null,
+          "background": null
+        },
+        {
+          "name": "NotificationHeader-phone",
+          "type": "TextBlock",
+          "text": "phone",
+          "x": 458,
+          "y": 619,
+          "width": 332,
+          "height": 23,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        },
+        {
+          "name": null,
+          "type": "TextBlock",
+          "text": "Oldest call",
+          "x": 458,
+          "y": 651,
+          "width": 364,
+          "height": 27,
+          "selectedIndex": null,
+          "enabled": true,
+          "hit": false,
+          "foreground": "#ffffffff",
+          "background": null
+        }
+      ],
+      "moving_dot_coordinates_excluded_from_cross_run_comparison": false
+    }
+  ],
+  "qualifications": [
+    "This is an independent main browser artifact for the same complete source tree as candidate d515348. It is not a new manual deployed-site interaction test.",
+    "Native in inspection/check labels denotes the FerroUI control/input path rendered in the browser. These are not captures of original Windows Phone hardware.",
+    "Four retained still-frame pairs do not independently prove motion timing, input sequences, private-lock cleanup, real device-provider notification behavior, other themes/widths, or all OS UI paths. Existing suite assertions have their own stated coverage.",
+    "The historical check name containing original five-dot motion is retained verbatim as source evidence; no original-device pixel, font, or timing comparison was performed here.",
+    "No concrete appearance regression was observed within these four frames and compared controls. Original-device parity and a complete Windows Phone OS clone remain unestablished."
+  ]
+}

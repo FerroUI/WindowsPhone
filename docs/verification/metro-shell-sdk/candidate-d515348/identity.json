@@ -1,0 +1,15 @@
+{
+  "candidate": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "checkout": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "parents": [
+    "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+    "d515348c699c22110def2dded8f7b8aea4b9cd03"
+  ],
+  "candidate_and_checkout_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "identity_validation": "Fetched synthetic commit and verified both parents and exact tree equality with candidate.",
+  "merged_source": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "merged_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "merged_parent": "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+  "pull_request": 6
+}

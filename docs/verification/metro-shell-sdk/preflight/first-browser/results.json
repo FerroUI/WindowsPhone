@@ -1,0 +1,1389 @@
+{
+  "site": "/home/runner/work/WindowsPhone/WindowsPhone/target/browser/phone-browser",
+  "viewport": [
+    1280,
+    936
+  ],
+  "checks": [
+    {
+      "name": "desktop Start renders",
+      "elapsedMs": 536,
+      "passed": true
+    },
+    {
+      "name": "native tile launch and Back",
+      "elapsedMs": 955,
+      "passed": true
+    },
+    {
+      "name": "native context menu resizes a tile",
+      "elapsedMs": 1356,
+      "passed": true
+    },
+    {
+      "name": "app list search and native note creation",
+      "elapsedMs": 4599,
+      "passed": true
+    },
+    {
+      "name": "native note edit and reload persistence",
+      "elapsedMs": 5696,
+      "passed": true
+    },
+    {
+      "name": "native secondary note tile opens its note",
+      "elapsedMs": 2220,
+      "passed": true
+    },
+    {
+      "name": "native note deletion",
+      "elapsedMs": 945,
+      "passed": true
+    },
+    {
+      "name": "app search launches a working calculator",
+      "elapsedMs": 4796,
+      "passed": true
+    },
+    {
+      "name": "Action Center toggles and clears notifications",
+      "elapsedMs": 2108,
+      "passed": true
+    },
+    {
+      "name": "native quick-action customization updates Action Center",
+      "elapsedMs": 5802,
+      "passed": true
+    },
+    {
+      "name": "native virtualized Photos rows update and select",
+      "elapsedMs": 6841,
+      "passed": true
+    },
+    {
+      "name": "all 23 app surfaces render",
+      "elapsedMs": 22449,
+      "passed": true
+    },
+    {
+      "name": "native task switcher previews, resumes, and closes an app",
+      "elapsedMs": 3030,
+      "passed": true
+    },
+    {
+      "name": "native Word creation, editing, formatting, reload and pinned activation",
+      "elapsedMs": 6443,
+      "passed": true
+    },
+    {
+      "name": "native Excel editing calculates a range formula and preserves worksheets",
+      "elapsedMs": 4256,
+      "passed": true
+    },
+    {
+      "name": "native Excel range selection, AutoSum, sorting, find and clear preserve unrelated cells",
+      "elapsedMs": 7977,
+      "passed": true
+    },
+    {
+      "name": "native PowerPoint text and speaker notes remain in their slide",
+      "elapsedMs": 5085,
+      "passed": true
+    },
+    {
+      "name": "native Files hierarchy, multi-copy, move and rename preserve document identity",
+      "elapsedMs": 5748,
+      "passed": true
+    },
+    {
+      "name": "native Files properties report actual copies and close with Back without changing documents",
+      "elapsedMs": 2801,
+      "passed": true
+    },
+    {
+      "name": "Office binary host callbacks roundtrip real packages and reject damaged imports",
+      "elapsedMs": 801,
+      "passed": true
+    },
+    {
+      "name": "native calendar month, week, day and year views drill into appointments",
+      "elapsedMs": 3773,
+      "passed": true
+    },
+    {
+      "name": "native recurring appointment edit changes one occurrence atomically",
+      "elapsedMs": 4521,
+      "passed": true
+    },
+    {
+      "name": "native all-day recurring appointment preferences survive reload",
+      "elapsedMs": 6059,
+      "passed": true
+    },
+    {
+      "name": "Calendar overflow creates a persistent task with native due date, priority, reminder and notes",
+      "elapsedMs": 4829,
+      "passed": true
+    },
+    {
+      "name": "Calendar task drafts survive app switching and require explicit discard; saved tasks survive reload",
+      "elapsedMs": 5402,
+      "passed": true
+    },
+    {
+      "name": "Calendar task hold actions, completion, reopening, search and due filtering update one saved item",
+      "elapsedMs": 4325,
+      "passed": true
+    },
+    {
+      "name": "a pinned task activates its typed identity and confirmed deletion retires that identity",
+      "elapsedMs": 3170,
+      "passed": true
+    },
+    {
+      "name": "foreground task reminders queue outside Calendar, snooze, activate the exact task and cancel on completion",
+      "elapsedMs": 1805,
+      "passed": true
+    },
+    {
+      "name": "locked task and appointment reminders hide private content until explicit opening unlocks them",
+      "elapsedMs": 2338,
+      "passed": true
+    },
+    {
+      "name": "replacing the phone document discards a snoozed task reminder from its old epoch",
+      "elapsedMs": 990,
+      "passed": true
+    },
+    {
+      "name": "native alarm editor saves repeat days and configurable snooze",
+      "elapsedMs": 3788,
+      "passed": true
+    },
+    {
+      "name": "foreground alarm preserves an unsaved form and Back snoozes two minutes",
+      "elapsedMs": 3203,
+      "passed": true
+    },
+    {
+      "name": "foreground calendar reminder snoozes and opens its exact occurrence",
+      "elapsedMs": 2398,
+      "passed": true
+    },
+    {
+      "name": "Metro application bar reveals labels without moving page content",
+      "elapsedMs": 2173,
+      "passed": true
+    },
+    {
+      "name": "Settings retains independent pane scrolling with fixed native Pivot headers",
+      "elapsedMs": 2107,
+      "passed": true
+    },
+    {
+      "name": "Office retains both native panes and keeps search editing outside Pivot gestures",
+      "elapsedMs": 3029,
+      "passed": true
+    },
+    {
+      "name": "Settings and Office native headings stay reachable at 320 pixels in both themes",
+      "elapsedMs": 4783,
+      "passed": true
+    },
+    {
+      "name": "reduced motion preserves Settings and Office hub commands without native paging animation",
+      "elapsedMs": 933,
+      "passed": true
+    },
+    {
+      "name": "Weather loading renders original five-dot motion and releases it after the real SDK response",
+      "elapsedMs": 6672,
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion podcast activity stays static, survives app switching and clears on completion",
+      "elapsedMs": 2341,
+      "passed": true
+    },
+    {
+      "name": "Action Center sorts groups by newest item and cancels native dismissal cleanly",
+      "elapsedMs": 1035,
+      "passed": true
+    },
+    {
+      "name": "native group swipe and parallel two-finger clear preserve unrelated notifications",
+      "elapsedMs": 1900,
+      "passed": true
+    },
+    {
+      "name": "private lock-screen Action Center cannot clear hidden notification content",
+      "elapsedMs": 1653,
+      "passed": true
+    },
+    {
+      "name": "native hardware volume separates ringer and media with stable mute",
+      "elapsedMs": 1808,
+      "passed": true
+    },
+    {
+      "name": "SDK rejects unregistered and malformed application activation without mutation",
+      "elapsedMs": 7,
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "name": "01-start-desktop",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 4067
+    },
+    {
+      "name": "02-phone-history",
+      "route": {
+        "App": "Phone"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 193
+    },
+    {
+      "name": "03-start-resized",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3615
+    },
+    {
+      "name": "04-native-note-form",
+      "route": {
+        "App": "OneNote"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 174
+    },
+    {
+      "name": "05-note-created",
+      "route": {
+        "Note": 1048
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 200
+    },
+    {
+      "name": "06-note-restored",
+      "route": {
+        "Note": 1048
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 201
+    },
+    {
+      "name": "06b-note-pinned",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 344
+    },
+    {
+      "name": "07-app-search",
+      "route": "Apps",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 100
+    },
+    {
+      "name": "08-calculator",
+      "route": {
+        "App": "Calculator"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 143
+    },
+    {
+      "name": "09-action-center",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 133
+    },
+    {
+      "name": "09b-quick-action-settings",
+      "route": {
+        "Setting": "notifications+actions"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 258
+    },
+    {
+      "name": "09c-customized-action-center",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 141
+    },
+    {
+      "name": "photos-virtualized-grid",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 8901
+    },
+    {
+      "name": "photos-scrolled-selection",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 6215
+    },
+    {
+      "name": "photos-imported-selection",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 5958
+    },
+    {
+      "name": "app-phone",
+      "route": {
+        "App": "Phone"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 192
+    },
+    {
+      "name": "app-messaging",
+      "route": {
+        "App": "Messaging"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 259
+    },
+    {
+      "name": "app-people",
+      "route": {
+        "App": "People"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 188
+    },
+    {
+      "name": "app-outlook",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 286
+    },
+    {
+      "name": "app-calendar",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 174
+    },
+    {
+      "name": "app-photos",
+      "route": {
+        "App": "Photos"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3183
+    },
+    {
+      "name": "app-camera",
+      "route": {
+        "App": "Camera"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 145
+    },
+    {
+      "name": "app-internet-explorer",
+      "route": {
+        "App": "InternetExplorer"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 169
+    },
+    {
+      "name": "app-music",
+      "route": {
+        "App": "Music"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 207
+    },
+    {
+      "name": "app-video",
+      "route": {
+        "App": "Video"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 201
+    },
+    {
+      "name": "app-games",
+      "route": {
+        "App": "Games"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 176
+    },
+    {
+      "name": "app-store",
+      "route": {
+        "App": "Store"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 251
+    },
+    {
+      "name": "app-settings",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 212
+    },
+    {
+      "name": "app-alarms",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 174
+    },
+    {
+      "name": "app-calculator",
+      "route": {
+        "App": "Calculator"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 141
+    },
+    {
+      "name": "app-one-note",
+      "route": {
+        "App": "OneNote"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 173
+    },
+    {
+      "name": "app-maps",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 242
+    },
+    {
+      "name": "app-cortana",
+      "route": {
+        "App": "Cortana"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 226
+    },
+    {
+      "name": "app-weather",
+      "route": {
+        "App": "Weather"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 241
+    },
+    {
+      "name": "app-files",
+      "route": {
+        "App": "Files"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 154
+    },
+    {
+      "name": "app-office",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 177
+    },
+    {
+      "name": "app-battery-saver",
+      "route": {
+        "App": "BatterySaver"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 216
+    },
+    {
+      "name": "app-data-sense",
+      "route": {
+        "App": "DataSense"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 226
+    },
+    {
+      "name": "task-switcher-preview",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 264
+    },
+    {
+      "name": "task-switcher-closed-card",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 266
+    },
+    {
+      "name": "office-word-native-editor",
+      "route": {
+        "Document": 1052
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 171
+    },
+    {
+      "name": "office-word-persisted-and-pinned",
+      "route": {
+        "Document": 1052
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 183
+    },
+    {
+      "name": "office-excel-formula-and-worksheets",
+      "route": {
+        "Document": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 186
+    },
+    {
+      "name": "office-excel-range-sort-and-autosum",
+      "route": {
+        "Document": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 197
+    },
+    {
+      "name": "office-excel-find-selection",
+      "route": {
+        "Document": 1054
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 186
+    },
+    {
+      "name": "office-powerpoint-native-editor",
+      "route": {
+        "Document": 1051
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "office-powerpoint-slide-and-notes",
+      "route": {
+        "Document": 1051
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 212
+    },
+    {
+      "name": "files-native-copy-move-rename",
+      "route": {
+        "FileFolder": 1055
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 220
+    },
+    {
+      "name": "files-copied-document-reopened",
+      "route": {
+        "Document": 1057
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 187
+    },
+    {
+      "name": "files-native-folder-properties",
+      "route": {
+        "FileFolder": null
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 181
+    },
+    {
+      "name": "files-native-file-properties",
+      "route": {
+        "FileFolder": 1055
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 217
+    },
+    {
+      "name": "office-imported-mobile-copy",
+      "route": {
+        "Document": 1058
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 316
+    },
+    {
+      "name": "calendar-month-inline-appointments",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 298
+    },
+    {
+      "name": "calendar-day-overlapping-appointments",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 278
+    },
+    {
+      "name": "calendar-year-navigation",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 327
+    },
+    {
+      "name": "calendar-native-date-picker",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 154
+    },
+    {
+      "name": "calendar-native-time-picker",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 121
+    },
+    {
+      "name": "calendar-native-occurrence-editor",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 202
+    },
+    {
+      "name": "calendar-recurring-appointment-details",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 215
+    },
+    {
+      "name": "calendar-reloaded-recurring-appointment",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 329
+    },
+    {
+      "name": "calendar-task-native-editor",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 215
+    },
+    {
+      "name": "calendar-task-saved-details",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 223
+    },
+    {
+      "name": "calendar-task-discard-confirmation",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 139
+    },
+    {
+      "name": "calendar-task-restored-details",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 223
+    },
+    {
+      "name": "calendar-task-context-menu",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "calendar-task-search-and-filter",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 199
+    },
+    {
+      "name": "calendar-task-pinned-activation",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 223
+    },
+    {
+      "name": "calendar-task-deleted",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 196
+    },
+    {
+      "name": "calendar-task-foreground-reminder",
+      "route": {
+        "App": "Calculator"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 195
+    },
+    {
+      "name": "calendar-task-reminder-opened-and-completed",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 218
+    },
+    {
+      "name": "calendar-task-locked-reminder-private",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 153
+    },
+    {
+      "name": "calendar-task-unlocked-reminder-details",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 218
+    },
+    {
+      "name": "calendar-appointment-locked-reminder-private",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 153
+    },
+    {
+      "name": "calendar-appointment-unlocked-reminder-details",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 206
+    },
+    {
+      "name": "calendar-task-reminder-epoch-reset",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 3362
+    },
+    {
+      "name": "alarm-native-snooze-choices",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 161
+    },
+    {
+      "name": "alarm-native-editor",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "alarm-native-ringing",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 165
+    },
+    {
+      "name": "alarm-restored-office-draft",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 133
+    },
+    {
+      "name": "calendar-native-reminder",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 178
+    },
+    {
+      "name": "calendar-reminder-opened-occurrence",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 219
+    },
+    {
+      "name": "metro-app-bar-labels-overlay",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 167
+    },
+    {
+      "name": "metro-app-bar-collapsed",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 165
+    },
+    {
+      "name": "metro-controls-failure",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 210
+    },
+    {
+      "name": "metro-settings-system-scrolled",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 215
+    },
+    {
+      "name": "metro-settings-applications-native",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 205
+    },
+    {
+      "name": "metro-office-places-native",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 192
+    },
+    {
+      "name": "metro-office-search-page",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 188
+    },
+    {
+      "name": "metro-settings-320-dark",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 198
+    },
+    {
+      "name": "metro-office-320-dark",
+      "route": {
+        "App": "Office"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 181
+    },
+    {
+      "name": "metro-settings-320-light",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 173
+    },
+    {
+      "name": "metro-office-320-light",
+      "route": {
+        "App": "Office"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 179
+    },
+    {
+      "name": "metro-office-reduced-motion-320",
+      "route": {
+        "App": "Office"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 181
+    },
+    {
+      "name": "metro-progress-weather-moving",
+      "route": {
+        "App": "Weather"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 210
+    },
+    {
+      "name": "metro-progress-podcast-reduced-motion",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.podcasts",
+          "path": ""
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 225
+    },
+    {
+      "name": "action-center-chronological-groups",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 258
+    },
+    {
+      "name": "action-center-native-group-dismissal",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 233
+    },
+    {
+      "name": "action-center-parallel-clear",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 182
+    },
+    {
+      "name": "action-center-private-lock-content",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 147
+    },
+    {
+      "name": "phone-control-states-failure",
+      "route": {
+        "App": "Alarms"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7569
+    },
+    {
+      "name": "phone-picker-failure",
+      "route": {
+        "App": "Calendar"
+      },
+      "width": 320,
+      "height": 740,
+      "sampledColours": 5736
+    },
+    {
+      "name": "metro-navigation-failure",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7577
+    },
+    {
+      "name": "outlook-drafts-failure",
+      "route": {
+        "App": "Outlook"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7577
+    },
+    {
+      "name": "phone-calls-failure",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7578
+    },
+    {
+      "name": "shell-parity-failure",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 13717
+    },
+    {
+      "name": "system-volume-expanded-muted",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 6150
+    },
+    {
+      "name": "system-failure",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7573
+    },
+    {
+      "name": "browser-failure",
+      "route": {
+        "App": "InternetExplorer"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7573
+    },
+    {
+      "name": "pim-failure",
+      "route": {
+        "App": "People"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7565
+    },
+    {
+      "name": "host-refinements-failure",
+      "route": {
+        "App": "Settings"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7571
+    },
+    {
+      "name": "sdk-games-failure",
+      "route": {
+        "App": "Games"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7571
+    },
+    {
+      "name": "office-expansion-failure",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7578
+    },
+    {
+      "name": "maps-expansion-failure",
+      "route": {
+        "App": "Maps"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7577
+    },
+    {
+      "name": "platform-refinements-failure",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.device",
+          "path": ""
+        }
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7577
+    },
+    {
+      "name": "live-people-failure",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7577
+    },
+    {
+      "name": "start-customization-failure",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7577
+    },
+    {
+      "name": "system-lock-draft-failure",
+      "route": {
+        "App": "Office"
+      },
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7573
+    },
+    {
+      "name": "start-folder-failure",
+      "route": "Start",
+      "width": 1280,
+      "height": 936,
+      "sampledColours": 7573
+    }
+  ],
+  "refinementFailures": [
+    {
+      "module": "verifyMetroControls",
+      "error": "Error: Timed out: system pivot reaches stable native geometry\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async settingRow (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-metro-controls.mjs:106:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-metro-controls.mjs:268:19\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyMetroControls (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-metro-controls.mjs:267:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyPhoneControlStates",
+      "error": "Error: Timed out: add\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-control-states.mjs:61:9\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyPhoneControlStates (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-control-states.mjs:58:7)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyPhonePickers",
+      "error": "Error: Timed out: app entrance settles before picker input\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async app (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:53:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:146:29\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyPhonePickers (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-pickers.mjs:142:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyNavigationMotion",
+      "error": "Error: Timed out: Both native page phases release their transforms and image\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async load (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-navigation-motion.mjs:138:5)\n    at async verifyNavigationMotion (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-navigation-motion.mjs:326:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyOutlookDrafts",
+      "error": "Error: Timed out: new\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-outlook-drafts.mjs:69:19\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyOutlookDrafts (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-outlook-drafts.mjs:68:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyPhoneCalls",
+      "error": "Error: Timed out: settled Phone tile\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async load (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-calls.mjs:35:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-calls.mjs:58:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyPhoneCalls (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-phone-calls.mjs:57:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyShellParity",
+      "error": "Error: Timed out: Start entrance has reached its native resting position\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async load (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-shell-parity.mjs:35:5)\n    at async verifyShellParity (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-shell-parity.mjs:234:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifySystemRefinements",
+      "error": "Error: Timed out: Settings entrance settles before native input\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async app (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:45:5)\n    at async setting (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:57:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:110:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifySystemRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-system-refinements.mjs:109:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyBrowserRefinements",
+      "error": "Error: Timed out: AddressInput\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async click (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:121:30)\n    at async edit (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:171:3)\n    at async navigate (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-browser-refinements.mjs:19:30)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-browser-refinements.mjs:26:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyBrowserRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-browser-refinements.mjs:25:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyPimRefinements",
+      "error": "Error: Timed out: PIM contact Żółć\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-pim-refinements.mjs:32:28\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyPimRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-pim-refinements.mjs:20:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyHostRefinements",
+      "error": "Error: Timed out: system\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async setting (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-host-refinements.mjs:24:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-host-refinements.mjs:53:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyHostRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-host-refinements.mjs:52:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifySdkGames",
+      "error": "Error: Timed out: collection\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async launch (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-sdk-games.mjs:91:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-sdk-games.mjs:141:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifySdkGames (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-sdk-games.mjs:140:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyOfficeExpansion",
+      "error": "Error: Timed out: recent\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-office-expanded.mjs:25:27\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyOfficeExpansion (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-office-expanded.mjs:24:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyMediaLibraries",
+      "error": "Error: Timed out: playlists\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-media-libraries.mjs:40:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyMediaLibraries (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-media-libraries.mjs:38:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyConnectedApps",
+      "error": "Error: Timed out: add city\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-connected-apps.mjs:34:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyConnectedApps (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-connected-apps.mjs:32:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyMapsExpansion",
+      "error": "Error: Timed out: fixture PNGs decoded into the visible native Image controls\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-maps-expanded.mjs:35:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyMapsExpansion (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-maps-expanded.mjs:33:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyPlatformRefinements",
+      "error": "Error: Timed out: web browser · application\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-platform-refinements.mjs:27:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyPlatformRefinements (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-platform-refinements.mjs:18:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyLiveTiles",
+      "error": "Error: Timed out: six mounted People cells (People cell 0 must have one mounted native TextBlock\n\n0 !== 1\n)\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-live-tiles.mjs:48:20\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyLiveTiles (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-live-tiles.mjs:38:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyStartCustomization",
+      "error": "Error: Timed out: mounted card 100\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-start-customization.mjs:64:39\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyStartCustomization (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-start-customization.mjs:62:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyLockscreenDraft",
+      "error": "Error: Timed out: recent\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async clickLabel (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:132:15)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-lockscreen.mjs:20:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyLockscreenDraft (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-lockscreen.mjs:17:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    },
+    {
+      "module": "verifyLiveFolder",
+      "error": "Error: Timed out: native folder cover\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-folders.mjs:25:7\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async verifyLiveFolder (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-folders.mjs:23:5)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:690:11"
+    }
+  ],
+  "passed": false,
+  "error": "Error: Timed out: HardwareStart\n    at until (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:96:9)\n    at async click (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:121:30)\n    at async home (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:314:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:704:5\n    at async check (file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:306:3)\n    at async file:///home/runner/work/WindowsPhone/WindowsPhone/scripts/ui-smoke.mjs:698:3",
+  "elapsedMs": 432788,
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:39187/index.html?nooffline=1",
+    "http://127.0.0.1:39187/app.css",
+    "http://127.0.0.1:39187/icon.svg",
+    "http://127.0.0.1:39187/main.js",
+    "http://127.0.0.1:39187/manifest.webmanifest",
+    "http://127.0.0.1:39187/ferroui.js",
+    "http://127.0.0.1:39187/ferroui-loader.js",
+    "http://127.0.0.1:39187/host.js",
+    "http://127.0.0.1:39187/canvas-sizing.js",
+    "http://127.0.0.1:39187/environment.js",
+    "http://127.0.0.1:39187/updates.js",
+    "http://127.0.0.1:39187/platform-bridge.js",
+    "http://127.0.0.1:39187/browser-lifecycle.js",
+    "http://127.0.0.1:39187/system-notifications.js",
+    "http://127.0.0.1:39187/storage-environment.js",
+    "http://127.0.0.1:39187/sdk-tasks.js",
+    "http://127.0.0.1:39187/http-tasks.js",
+    "http://127.0.0.1:39187/map-tiles.js",
+    "http://127.0.0.1:39187/phone-storage.js",
+    "http://127.0.0.1:39187/urls.js",
+    "http://127.0.0.1:39187/media.js",
+    "http://127.0.0.1:39187/backup.js",
+    "http://127.0.0.1:39187/documents.js",
+    "http://127.0.0.1:39187/document-share.js",
+    "http://127.0.0.1:39187/alarm-alert.js",
+    "http://127.0.0.1:39187/pim.js",
+    "http://127.0.0.1:39187/file-picker.js",
+    "http://127.0.0.1:39187/backup-format.js",
+    "http://127.0.0.1:39187/media-session.js",
+    "http://127.0.0.1:39187/phone-browser.js",
+    "http://127.0.0.1:39187/phone_browser.wasm",
+    "https://tile.openstreetmap.org/2/1/1.png",
+    "https://tile.openstreetmap.org/2/1/2.png",
+    "https://tile.openstreetmap.org/2/1/0.png",
+    "https://tile.openstreetmap.org/2/2/0.png",
+    "https://tile.openstreetmap.org/2/2/1.png",
+    "https://tile.openstreetmap.org/2/2/2.png"
+  ]
+}

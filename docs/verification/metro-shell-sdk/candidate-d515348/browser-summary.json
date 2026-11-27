@@ -1,0 +1,23 @@
+{
+  "source": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "checkout": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "browser_job": 140373412884,
+  "rust": {
+    "passed": 469,
+    "failed": 0,
+    "ignored": 1
+  },
+  "rust_result_records": 85,
+  "javascript": {
+    "passed": 80,
+    "failed": 0
+  },
+  "browser": {
+    "passed": true,
+    "checks": 112,
+    "captures": 198,
+    "errors": [],
+    "elapsedMs": 406780
+  },
+  "qualification": "Counts apply to this browser job; native and local repeats are not added. One ignored Rust fixture is retained; browser duration is suite runtime, not app performance."
+}

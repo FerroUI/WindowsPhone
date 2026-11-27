@@ -1,0 +1,1742 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-11-27T06:39:34.231284+00:00",
+  "status": "reviewed_no_concrete_regression_identified_within_inspected_scope",
+  "purpose": "Intermediate review and unmodified JSON evidence subset for the first candidate iOS CI artifact. Not a release or an original Windows Phone parity certification.",
+  "provenance": {
+    "repository": "FerroUI/WindowsPhone",
+    "head": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+    "run_id": "45951776426",
+    "job_id": "140349049141",
+    "artifact_id": "15176952653",
+    "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45951776426",
+    "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45951776426/job/140349049141",
+    "ci_status_reported_by_parent": "passed",
+    "archive": "target/metro-ios-verification.zip",
+    "archive_sha256": "dafa9646108d5fe869608fdb20bdc6f4ed63a13d2bf3f66ce19ede46c433b170",
+    "archive_expected_sha256": "dafa9646108d5fe869608fdb20bdc6f4ed63a13d2bf3f66ce19ede46c433b170",
+    "archive_digest_verified_locally": true,
+    "source_directory": "target/metro-ios-verification",
+    "head_run_job_artifact_binding_source": "Parent task supplied the GitHub artifact provenance; this review independently verified the supplied ZIP digest and the inspected/copied member bytes."
+  },
+  "environment": {
+    "simulator_source": "target/metro-ios-verification/simulator.txt",
+    "simulator": [
+      "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "com.apple.CoreSimulator.SimDeviceType.iPhone-11"
+    ],
+    "viewport_points": {
+      "height": 814.0,
+      "width": 414.0
+    },
+    "render_scaling": 2.0,
+    "screen_bounds_points": {
+      "height": 814.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 48.0
+    },
+    "wrapper_bounds_points": {
+      "height": 896.0,
+      "width": 414.0,
+      "x": 0.0,
+      "y": 0.0
+    },
+    "safe_area_points": {
+      "bottom": 34.0,
+      "left": 0.0,
+      "right": 0.0,
+      "top": 48.0
+    }
+  },
+  "method": {
+    "image_review": "Viewed the original full-size PNGs marked full_image_visually_inspected. Independently decoded all eight listed originals to RGBA and derived each navigation crop from recorded button geometry and render scale. No PNG was changed or copied.",
+    "crop_coordinates": "LTRB pixels, right and bottom exclusive; physical coordinates from native point bounds multiplied by render_scaling.",
+    "row_hash": "SHA-256 of row-major raw RGBA bytes.",
+    "bright_pixel_test": "Every RGB channel >100 and alpha ==255, counted within each recorded navigation button rectangle.",
+    "reference": "docs/verification/feature-completion/ios-navigation-correction.json",
+    "reference_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d"
+  },
+  "observations": {
+    "navigation_rows_byte_identical_to_historical_correction": true,
+    "navigation_row_dimensions_pixels": [
+      828,
+      108
+    ],
+    "navigation_row_height_points": 54,
+    "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+    "bright_opaque_pixels_by_button": {
+      "HardwareBack": 535,
+      "HardwareStart": 1860,
+      "HardwareSearch": 464
+    },
+    "alpha_range": [
+      255,
+      255
+    ],
+    "bottom_gray_strip": "The 68-pixel strip below the navigation row corresponds to the recorded 34-point UIKit bottom safe area; it is not a missing navigation row.",
+    "embedding": "Original captures include the native iOS top status area above the emulated shell status row.",
+    "blank_navigation_assessment": "The historical blank-icon interpretation was retracted in the existing correction; the current original pixels support that correction.",
+    "visible_content": "Start tiles, Settings device-services leaf, People device-contact list/search/app bar, and Search page render in the inspected original frames."
+  },
+  "captures": [
+    {
+      "capture": "start",
+      "original_image": {
+        "path": "target/metro-ios-verification/start.png",
+        "sha256": "41e7fb8eb2d8320e8631e1cff54700f6949ebceff28979f50f3136163dbd8d4a",
+        "bytes": 488333,
+        "archive_member": "start.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/start.json",
+        "sha256": "68f8d71afe92d68521d8e2bc869b6fb4512207903279c626dd488e36821f8765",
+        "bytes": 4010,
+        "archive_member": "start.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 1,
+      "observed_at_unix_ms": 1795761159720,
+      "route": "Start",
+      "activation": null,
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "people",
+      "original_image": {
+        "path": "target/metro-ios-verification/people.png",
+        "sha256": "6e2f090cb89a64d1c407229441654373cae1c3f2cfe82e306ef82630ec0c386e",
+        "bytes": 129289,
+        "archive_member": "people.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/people.json",
+        "sha256": "c5af4e9ff5d4460150c6580302e39f64a871f6ebb0af261bfe2863531cb53924",
+        "bytes": 4085,
+        "archive_member": "people.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 59,
+      "observed_at_unix_ms": 1795761186129,
+      "route": {
+        "App": "People"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.people?path=device"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DevicePeopleSearch"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "settings",
+      "original_image": {
+        "path": "target/metro-ios-verification/settings.png",
+        "sha256": "814cf2c27e80d1427dd60db0adfb0c7f4b9c60ab0d92d28f8cbbac8d2f2f805b",
+        "bytes": 132051,
+        "archive_member": "settings.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/settings.json",
+        "sha256": "ac89c7db435a96cb29b43a5f72aadea00b2c74c74e104654cc165b2156343ff4",
+        "bytes": 4100,
+        "archive_member": "settings.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 71,
+      "observed_at_unix_ms": 1795761190156,
+      "route": {
+        "Setting": "device services"
+      },
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/phone.settings?path=device"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "DeviceSettingsRoot"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "home-restored",
+      "original_image": {
+        "path": "target/metro-ios-verification/home-restored.png",
+        "sha256": "f964912c153c7beffdc4baf1c9d3eaf257ddf9a16deea7c9d3647df9bf288677",
+        "bytes": 661807,
+        "archive_member": "home-restored.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/home-restored.json",
+        "sha256": "8a44bc47d819f1184ed1a1609902d20998d1e29ab636093756b8097c688fcea7",
+        "bytes": 4058,
+        "archive_member": "home-restored.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": false,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 77,
+      "observed_at_unix_ms": 1795761192170,
+      "route": "Start",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "navigation-search",
+      "original_image": {
+        "path": "target/metro-ios-verification/navigation-search.png",
+        "sha256": "c551510c18476ddf8be26d03f0693aa0d68fbc4452d84b8d4487ef30b7738d54",
+        "bytes": 104711,
+        "archive_member": "navigation-search.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/navigation-search.json",
+        "sha256": "3df27613bdf90dbe348a4605d851bebef6cac4c193da0af8bbf10c005c47d87f",
+        "bytes": 4047,
+        "archive_member": "navigation-search.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 85,
+      "observed_at_unix_ms": 1795761196241,
+      "route": "Search",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "CortanaInput"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "navigation-back",
+      "original_image": {
+        "path": "target/metro-ios-verification/navigation-back.png",
+        "sha256": "d9c1913e828ae6e536a39d8b4df602069120c975852fe3bae032e0c06bf4a62b",
+        "bytes": 661352,
+        "archive_member": "navigation-back.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/navigation-back.json",
+        "sha256": "75c70998abe5363047e8e101bd537913523e3be6a34a1954e305b822b071a246",
+        "bytes": 4058,
+        "archive_member": "navigation-back.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": false,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 93,
+      "observed_at_unix_ms": 1795761200312,
+      "route": "Start",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "navigation-search-again",
+      "original_image": {
+        "path": "target/metro-ios-verification/navigation-search-again.png",
+        "sha256": "c551510c18476ddf8be26d03f0693aa0d68fbc4452d84b8d4487ef30b7738d54",
+        "bytes": 104711,
+        "archive_member": "navigation-search-again.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/navigation-search-again.json",
+        "sha256": "32f217765a6b168353d1604fb6825713927b40f76d2195e3041c70d3d42598bd",
+        "bytes": 4048,
+        "archive_member": "navigation-search-again.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": false,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 103,
+      "observed_at_unix_ms": 1795761205360,
+      "route": "Search",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "CortanaInput"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    },
+    {
+      "capture": "navigation-start",
+      "original_image": {
+        "path": "target/metro-ios-verification/navigation-start.png",
+        "sha256": "80066b282a0f751b318c35642ab5ebb3e35d5199b0f535805d79abf55e05e4a1",
+        "bytes": 704925,
+        "archive_member": "navigation-start.png",
+        "matches_archive_member_bytes": true
+      },
+      "original_observation": {
+        "path": "target/metro-ios-verification/navigation-start.json",
+        "sha256": "a6fc513df51e27d1522e6860643262eb3bb2e5ff43c10f264c395fefbd0b8dbe",
+        "bytes": 4059,
+        "archive_member": "navigation-start.json",
+        "matches_archive_member_bytes": true
+      },
+      "full_image_visually_inspected": true,
+      "navigation_pixels_independently_decoded": true,
+      "image_dimensions_pixels": [
+        828,
+        1792
+      ],
+      "observation_sequence": 113,
+      "observed_at_unix_ms": 1795761210426,
+      "route": "Start",
+      "activation": {
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "mounted_controls": [
+        "PhoneScreen",
+        "PhonePage",
+        "StartScroll",
+        "StartTiles"
+      ],
+      "navigation_controls": [
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 0.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 23.0,
+              "width": 23.0,
+              "x": 57.5,
+              "y": 823.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareBack",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 138.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 25.0,
+              "width": 25.0,
+              "x": 194.5,
+              "y": 822.5
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareStart",
+          "opacity": 1.0,
+          "visible": true
+        },
+        {
+          "bounds": {
+            "height": 54.0,
+            "width": 138.0,
+            "x": 276.0,
+            "y": 808.0
+          },
+          "enabled": true,
+          "glyph": {
+            "bounds": {
+              "height": 22.0,
+              "width": 22.0,
+              "x": 334.0,
+              "y": 824.0
+            },
+            "has_geometry": true,
+            "opacity": 1.0,
+            "visible": true
+          },
+          "hit": true,
+          "name": "HardwareSearch",
+          "opacity": 1.0,
+          "visible": true
+        }
+      ],
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1616,
+        828,
+        1724
+      ],
+      "navigation_dimensions_pixels": [
+        828,
+        108
+      ],
+      "navigation_rgba_sha256": "1d770f09717890e24d6e687920de59d2f5ced8049ad25421d5f028e4c542206d",
+      "bright_opaque_pixels_by_button": {
+        "HardwareBack": 535,
+        "HardwareStart": 1860,
+        "HardwareSearch": 464
+      },
+      "alpha_range": [
+        255,
+        255
+      ],
+      "native": {
+        "application_delegate": "FerroAppDelegate",
+        "application_state": 0,
+        "bundle_id": "org.ferroui.windowsphone",
+        "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+        "pid": 28702,
+        "scenes": [
+          {
+            "activation_state": 0,
+            "delegate_class": "FerroSceneDelegate",
+            "scene_class": "UIWindowScene",
+            "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+          }
+        ]
+      },
+      "safe_area_points": {
+        "bottom": 34.0,
+        "left": 0.0,
+        "right": 0.0,
+        "top": 48.0
+      },
+      "viewport_points": {
+        "height": 814.0,
+        "width": 414.0
+      },
+      "render_scaling": 2.0
+    }
+  ],
+  "navigation_provenance": {
+    "driver": "XCUIElement.tap",
+    "actions": [
+      {
+        "request_path": "target/metro-ios-verification/navigation-request-1.json",
+        "driver_path": "target/metro-ios-verification/navigation-1-driver.json",
+        "result_path": "target/metro-ios-verification/navigation-search.json",
+        "driver": "XCUIElement.tap",
+        "request": {
+          "sequence": 1,
+          "control": "HardwareSearch",
+          "after_sequence": 79,
+          "issued_at_unix_ms": 1795761193282
+        },
+        "tap": {
+          "tap_completed_at_unix_ms": 1795761195762,
+          "frame": {
+            "x": 276,
+            "height": 54,
+            "y": 808,
+            "width": 138
+          },
+          "bright_opaque_pixels": 464,
+          "image_height": 108,
+          "label": "Search",
+          "tap_started_at_unix_ms": 1795761195131,
+          "control": "HardwareSearch",
+          "image_width": 276,
+          "sequence": 1,
+          "screenshot": "navigation-1-button.png"
+        },
+        "result_route": "Search",
+        "result_sequence": 85,
+        "result_observed_at_unix_ms": 1795761196241,
+        "result_is_newer_than_requested_sequence": true,
+        "result_observed_after_completed_tap": true
+      },
+      {
+        "request_path": "target/metro-ios-verification/navigation-request-2.json",
+        "driver_path": "target/metro-ios-verification/navigation-2-driver.json",
+        "result_path": "target/metro-ios-verification/navigation-back.json",
+        "driver": "XCUIElement.tap",
+        "request": {
+          "sequence": 2,
+          "control": "HardwareBack",
+          "after_sequence": 88,
+          "issued_at_unix_ms": 1795761197942
+        },
+        "tap": {
+          "screenshot": "navigation-2-button.png",
+          "image_height": 108,
+          "frame": {
+            "height": 54,
+            "width": 138,
+            "y": 808,
+            "x": 0
+          },
+          "bright_opaque_pixels": 535,
+          "image_width": 276,
+          "control": "HardwareBack",
+          "label": "Back",
+          "tap_completed_at_unix_ms": 1795761199946,
+          "sequence": 2,
+          "tap_started_at_unix_ms": 1795761199551
+        },
+        "result_route": "Start",
+        "result_sequence": 93,
+        "result_observed_at_unix_ms": 1795761200312,
+        "result_is_newer_than_requested_sequence": true,
+        "result_observed_after_completed_tap": true
+      },
+      {
+        "request_path": "target/metro-ios-verification/navigation-request-3.json",
+        "driver_path": "target/metro-ios-verification/navigation-3-driver.json",
+        "result_path": "target/metro-ios-verification/navigation-search-again.json",
+        "driver": "XCUIElement.tap",
+        "request": {
+          "sequence": 3,
+          "control": "HardwareSearch",
+          "after_sequence": 97,
+          "issued_at_unix_ms": 1795761202894
+        },
+        "tap": {
+          "image_height": 108,
+          "screenshot": "navigation-3-button.png",
+          "control": "HardwareSearch",
+          "label": "Search",
+          "tap_started_at_unix_ms": 1795761204736,
+          "sequence": 3,
+          "bright_opaque_pixels": 464,
+          "tap_completed_at_unix_ms": 1795761205164,
+          "frame": {
+            "height": 54,
+            "width": 138,
+            "x": 276,
+            "y": 808
+          },
+          "image_width": 276
+        },
+        "result_route": "Search",
+        "result_sequence": 103,
+        "result_observed_at_unix_ms": 1795761205360,
+        "result_is_newer_than_requested_sequence": true,
+        "result_observed_after_completed_tap": true
+      },
+      {
+        "request_path": "target/metro-ios-verification/navigation-request-4.json",
+        "driver_path": "target/metro-ios-verification/navigation-4-driver.json",
+        "result_path": "target/metro-ios-verification/navigation-start.json",
+        "driver": "XCUIElement.tap",
+        "request": {
+          "sequence": 4,
+          "control": "HardwareStart",
+          "after_sequence": 107,
+          "issued_at_unix_ms": 1795761207938
+        },
+        "tap": {
+          "image_height": 108,
+          "image_width": 276,
+          "control": "HardwareStart",
+          "tap_started_at_unix_ms": 1795761209546,
+          "frame": {
+            "y": 808,
+            "x": 138,
+            "width": 138,
+            "height": 54
+          },
+          "screenshot": "navigation-4-button.png",
+          "label": "Start",
+          "tap_completed_at_unix_ms": 1795761209958,
+          "bright_opaque_pixels": 1860,
+          "sequence": 4
+        },
+        "result_route": "Start",
+        "result_sequence": 113,
+        "result_observed_at_unix_ms": 1795761210426,
+        "result_is_newer_than_requested_sequence": true,
+        "result_observed_after_completed_tap": true
+      }
+    ],
+    "all_inspected_results_same_native_launch_and_pid": true,
+    "launch_id": "878D60E0-0EB5-4E5E-9DF2-6BFBCF956012",
+    "pid": 28702,
+    "application_delegate": "FerroAppDelegate",
+    "native_scenes": [
+      {
+        "activation_state": 0,
+        "delegate_class": "FerroSceneDelegate",
+        "scene_class": "UIWindowScene",
+        "session_id": "DFABBF60-0D17-489E-AB01-01389933255A"
+      }
+    ],
+    "activation_driver": "XCUIDevice.shared.system.open",
+    "opened_uris_recorded_by_driver": [
+      "ferroui-phone://app/org.ferroui.wallet",
+      "ferroui-phone://app/phone.phone?path=dial/KzEgMjAyIDU1NSAwMTQ3",
+      "ferroui-phone://app/phone.people?path=device",
+      "ferroui-phone://app/phone.messaging?path=compose",
+      "ferroui-phone://app/phone.settings?path=device",
+      "ferroui-phone://home"
+    ],
+    "activation_count_recorded_by_driver": 6,
+    "driver_liveness_boundary": "launch-driver JSON records shell kill -0 of the simctl launch child; native application identity is taken from the fresh observation native fields."
+  },
+  "device_summary": {
+    "source": "target/metro-ios-verification/device-tests.json",
+    "copied_source": "target/metro-local-evidence/first-ios/device-tests.json",
+    "status": "passed",
+    "check_count": 7,
+    "passing_checks": 7,
+    "checks": [
+      {
+        "name": "network_path_observed",
+        "passed": true
+      },
+      {
+        "name": "location_authorization_observed",
+        "passed": true
+      },
+      {
+        "name": "observed_simulator_capabilities",
+        "passed": true
+      },
+      {
+        "name": "brightness_read_only",
+        "passed": true
+      },
+      {
+        "name": "contact_create_and_query",
+        "passed": true
+      },
+      {
+        "name": "contact_update_and_query",
+        "passed": true
+      },
+      {
+        "name": "contact_delete_and_query",
+        "passed": true
+      }
+    ],
+    "cleanup_errors": [],
+    "error": null,
+    "simulator_only": true,
+    "sent_calls": 0,
+    "sent_messages": 0,
+    "physical_brightness": "requires_device_qualification"
+  },
+  "scope_qualifications": [
+    "Results belong to candidate head 413b4bff45efa83c7afc48c51a0001857c80d0e4 and the identified iOS Simulator artifact; they do not qualify subsequent candidate revisions.",
+    "Settings capture opens the device-services leaf and mounts DeviceSettingsRoot. It does not exercise the newly retained Settings root Pivot.",
+    "People capture opens device contacts. It does not establish every People section, contact-detail layout or Pivot gesture.",
+    "Static Start and restored-Start frames do not qualify Start-to-All-Apps transition motion, timing or held-drag behavior.",
+    "This run provides no visual qualification of the newly implemented Action Center mixed-store gestures or animated progress dots.",
+    "Navigation results establish the four recorded Search, Back, Search and Start taps with fresh route observations, not every lifecycle or input path.",
+    "Device checks are simulator-only. Physical brightness requires device qualification; observed network path availability is not Internet reachability. No calls or messages were sent.",
+    "No original Windows Phone reference-device comparison was performed. These captures do not establish pixel parity, OS completeness, hardware feature equivalence, or original Cortana behavior.",
+    "No PNG or xcresult binary data is duplicated in the intermediate evidence subset. All copied JSON files retain their original bytes."
+  ],
+  "artifact_phase_statement": {
+    "source": "target/metro-ios-verification/phase.txt",
+    "text": "UIKit mounting, six native activations, four real navigation taps, Contacts CRUD and simulator hardware limits passed."
+  },
+  "copied_json_files": [
+    {
+      "path": "target/metro-ios-verification/device-tests.json",
+      "sha256": "42faea81ae7915888830698bc7a4a3603ee8e2e08c4ab663a98bc2e87b9c1ade",
+      "bytes": 3142,
+      "archive_member": "device-tests.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/device-tests.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/start.json",
+      "sha256": "68f8d71afe92d68521d8e2bc869b6fb4512207903279c626dd488e36821f8765",
+      "bytes": 4010,
+      "archive_member": "start.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/start.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/people.json",
+      "sha256": "c5af4e9ff5d4460150c6580302e39f64a871f6ebb0af261bfe2863531cb53924",
+      "bytes": 4085,
+      "archive_member": "people.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/people.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/settings.json",
+      "sha256": "ac89c7db435a96cb29b43a5f72aadea00b2c74c74e104654cc165b2156343ff4",
+      "bytes": 4100,
+      "archive_member": "settings.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/settings.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/home-restored.json",
+      "sha256": "8a44bc47d819f1184ed1a1609902d20998d1e29ab636093756b8097c688fcea7",
+      "bytes": 4058,
+      "archive_member": "home-restored.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/home-restored.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-search.json",
+      "sha256": "3df27613bdf90dbe348a4605d851bebef6cac4c193da0af8bbf10c005c47d87f",
+      "bytes": 4047,
+      "archive_member": "navigation-search.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-search.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-back.json",
+      "sha256": "75c70998abe5363047e8e101bd537913523e3be6a34a1954e305b822b071a246",
+      "bytes": 4058,
+      "archive_member": "navigation-back.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-back.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-search-again.json",
+      "sha256": "32f217765a6b168353d1604fb6825713927b40f76d2195e3041c70d3d42598bd",
+      "bytes": 4048,
+      "archive_member": "navigation-search-again.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-search-again.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-start.json",
+      "sha256": "a6fc513df51e27d1522e6860643262eb3bb2e5ff43c10f264c395fefbd0b8dbe",
+      "bytes": 4059,
+      "archive_member": "navigation-start.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-start.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-1-driver.json",
+      "sha256": "7f6b0292d3d68ddbcf9f57612725c470ccdb04d837044bb0889b2b36b1787a24",
+      "bytes": 798,
+      "archive_member": "navigation-1-driver.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-1-driver.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-2-driver.json",
+      "sha256": "51f8131584c28888a1a9c7ca306304a72097aa9ed198f15c6f49ce99b13a9878",
+      "bytes": 1084,
+      "archive_member": "navigation-2-driver.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-2-driver.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-3-driver.json",
+      "sha256": "20e3ed1b67361314462e1066763b8ea2b539adc486792266afff9fe93a9251c7",
+      "bytes": 1376,
+      "archive_member": "navigation-3-driver.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-3-driver.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-4-driver.json",
+      "sha256": "27da95448a2e8124ccc6f2db92c997ddcf94d9a4c65b0525b3b4898afcbeffa0",
+      "bytes": 1667,
+      "archive_member": "navigation-4-driver.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-4-driver.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-request-1.json",
+      "sha256": "c00375a381900ddfd43736ca6e0a1d5d18520ac643516ad36afb0b8e9f5a0f24",
+      "bytes": 102,
+      "archive_member": "navigation-request-1.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-request-1.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-request-2.json",
+      "sha256": "b4db7d2ce9358676970ec19558ce86fc989e367859f619d766b518c62b0a2a2d",
+      "bytes": 100,
+      "archive_member": "navigation-request-2.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-request-2.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-request-3.json",
+      "sha256": "3cde485ea23ef91899492c0533097a7658a1472591392ad4dafd373bba2274d2",
+      "bytes": 102,
+      "archive_member": "navigation-request-3.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-request-3.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/navigation-request-4.json",
+      "sha256": "dcd587f5982bd9a5d8f4868f9c1e557bb1d684c55a221ef133cad3fe9b62b903",
+      "bytes": 102,
+      "archive_member": "navigation-request-4.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/navigation-request-4.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/launch-driver-started.json",
+      "sha256": "8c6988ebd0b40ee2f7bc65ecaee77874a8e0cc2b06448c73821d7a668879ec41",
+      "bytes": 636,
+      "archive_member": "launch-driver-started.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/launch-driver-started.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/launch-driver-cleanup-begin.json",
+      "sha256": "43872d9850a20792a27e61db746bd529abfcd7589062a7ccb9cf3ff086f1bd79",
+      "bytes": 651,
+      "archive_member": "launch-driver-cleanup-begin.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/launch-driver-cleanup-begin.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/launch-driver-cleanup-end.json",
+      "sha256": "36f3d0ba3ad2c19087025dcad5728402ef8fdc858713726ff585bf2b524b7f46",
+      "bytes": 653,
+      "archive_member": "launch-driver-cleanup-end.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/launch-driver-cleanup-end.json",
+      "copy_matches_original_bytes": true
+    },
+    {
+      "path": "target/metro-ios-verification/prompt-handler.json",
+      "sha256": "73082ce511c9a97edaca1e06cffd60713040c67e7b72f26fbc1b7aa1e6cbbae8",
+      "bytes": 1670,
+      "archive_member": "prompt-handler.json",
+      "matches_archive_member_bytes": true,
+      "copied_to": "target/metro-local-evidence/first-ios/prompt-handler.json",
+      "copy_matches_original_bytes": true
+    }
+  ]
+}

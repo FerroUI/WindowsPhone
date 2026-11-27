@@ -1,0 +1,61 @@
+{
+  "artifacts": [
+    {
+      "id": 15184013527,
+      "name": "github-pages",
+      "size_in_bytes": 10305761,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15184013527",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15184013527/zip",
+      "expired": false,
+      "created_at": "2026-11-27T08:56:38Z",
+      "expires_at": "2026-11-28T08:56:36Z",
+      "updated_at": "2026-11-27T08:56:38Z",
+      "digest": "sha256:6ab301314cd4b1ae9e3008c3968c4529c818901a86ad9c709d9d4a4d20cc6906",
+      "workflow_run": {
+        "id": 45964709343,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "d8557a8a576c34c82dff761ba99ebe82f4f3059c"
+      }
+    },
+    {
+      "id": 15183782822,
+      "name": "compiled-app",
+      "size_in_bytes": 10307094,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15183782822",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15183782822/zip",
+      "expired": false,
+      "created_at": "2026-11-27T08:49:46Z",
+      "expires_at": "2026-11-30T08:49:44Z",
+      "updated_at": "2026-11-27T08:49:46Z",
+      "digest": "sha256:0e35b60e5144e9eb4df3ec2ecd8aba6b78a3e6809c889b7e5c9a51dc25de1dc2",
+      "workflow_run": {
+        "id": 45964709343,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "d8557a8a576c34c82dff761ba99ebe82f4f3059c"
+      }
+    },
+    {
+      "id": 15183619231,
+      "name": "ui-verification",
+      "size_in_bytes": 9864683,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15183619231",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15183619231/zip",
+      "expired": false,
+      "created_at": "2026-11-27T08:56:35Z",
+      "expires_at": "2026-12-02T08:56:33Z",
+      "updated_at": "2026-11-27T08:56:35Z",
+      "digest": "sha256:6143525949e98c0136f18149ae6b3a455013dc0e71f0c90e99f5ab1d1c0cbb9a",
+      "workflow_run": {
+        "id": 45964709343,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "main",
+        "head_sha": "d8557a8a576c34c82dff761ba99ebe82f4f3059c"
+      }
+    }
+  ]
+}

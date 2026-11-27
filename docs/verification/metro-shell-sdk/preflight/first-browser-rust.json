@@ -1,0 +1,693 @@
+{
+  "schema": 1,
+  "head": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+  "checkout": "fedefc5a00e9d6d9782de241af6e8ca79c78d55c",
+  "tree": "49a3af233bcfcefe779cf945c7a237cd0b22494d",
+  "run_id": 45951776435,
+  "job_id": 140349049340,
+  "passed": 468,
+  "failed": 0,
+  "ignored": 1,
+  "suites": [
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 37,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 8,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_domain-6a7b4d459ea5bd7f)",
+      "result": "ok",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_host-782a1159c53e411c)",
+      "result": "ok",
+      "passed": 35,
+      "failed": 0,
+      "ignored": 1
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 7,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 11,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_state-6f4043e746f0d591)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Doc-tests phone_domain",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Doc-tests phone_host",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked -p phone-host -p phone-domain -p phone-state",
+      "suite": "Doc-tests phone_state",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_calendar-a6f55511616b3e04)",
+      "result": "ok",
+      "passed": 18,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_calendar-a6f55511616b3e04)",
+      "result": "ok",
+      "passed": 10,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_cortana-639440201b3cdf45)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_device-95bbe13dc0e90f84)",
+      "result": "ok",
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_maps-26c5d9953e1c0625)",
+      "result": "ok",
+      "passed": 13,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_messaging-f1671689d0faab6b)",
+      "result": "ok",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_minesweeper-6b2fcde3ce5846ef)",
+      "result": "ok",
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_office-46d4ab3d7bea94ba)",
+      "result": "ok",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_onenote-7588be26c2aff4c8)",
+      "result": "ok",
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_outlook-16a9d675abd35392)",
+      "result": "ok",
+      "passed": 8,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_people-0065e91c29c1f3b4)",
+      "result": "ok",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_phone-c7688835d603cb2f)",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_photos-4e9442a725c77a60)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_podcasts-7b9bf225187cd4d9)",
+      "result": "ok",
+      "passed": 11,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_sdk_example-7804dcf1585583f2)",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_settings-816a01940c0ba68c)",
+      "result": "ok",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_support-a194cac2e09cb8ea)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_tic_tac_toe-04a420080993a8d0)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_wallet-4f5a81372f4a47a1)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_app_weather-de6cc06415e4b255)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_controls-c73b5da06f08d555)",
+      "result": "ok",
+      "passed": 42,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_media_support-eafb2df5418f1a9f)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_office_support-d88729a7b3b8391d)",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_runtime-1822d5329a414d5a)",
+      "result": "ok",
+      "passed": 29,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 34,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_sdk-6c6c7b9a80c1701f)",
+      "result": "ok",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Running unittests src/lib.rs (target/debug/deps/phone_system-049265913a93609e)",
+      "result": "ok",
+      "passed": 67,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_alarm_service",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_calendar",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_cortana",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_device",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_maps",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_messaging",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_minesweeper",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_office",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_onenote",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_outlook",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_people",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_phone",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_photos",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_podcasts",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_sdk_example",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_settings",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_support",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_tic_tac_toe",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_wallet",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_app_weather",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_controls",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_media_support",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_office_support",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_runtime",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_sdk",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "step": "cargo test --locked --no-fail-fast -p phone-runtime -p phone-app-device -p phone-app-phone -p phone-app-messaging -p phone-app-outlook -p phone-app-people -p phone-app-settings -p phone-app-office -p phone-alarm-service -p phone-system -p phone-sdk -p phone-controls -p phone-app-support -p phone-media-support -p phone-app-photos -p phone-app-cortana -p phone-app-calendar -p phone-app-tic-tac-toe -p phone-app-minesweeper -p phone-app-onenote -p phone-app-weather -p phone-app-podcasts -p phone-app-wallet -p phone-app-maps -p phone-office-support -p phone-app-sdk-example",
+      "suite": "Doc-tests phone_system",
+      "result": "ok",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    }
+  ]
+}

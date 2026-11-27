@@ -1,0 +1,21 @@
+{
+  "source": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+  "tree": "d7ff330c91e8437f63de3435901b5c9d626eeca8",
+  "rust_suites": 85,
+  "rust_totals": {
+    "passed": 468,
+    "failed": 0,
+    "ignored": 1
+  },
+  "javascript": {
+    "passed": 80,
+    "failed": 0
+  },
+  "browser": {
+    "passed": false,
+    "passing_checks": 106,
+    "captures": 196,
+    "module_failure": "verifyNavigationMotion: shell paging missing outgoing source after same-route document import",
+    "recorded_browser_errors": []
+  }
+}

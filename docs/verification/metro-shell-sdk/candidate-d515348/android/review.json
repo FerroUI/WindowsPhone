@@ -1,0 +1,985 @@
+{
+  "schema": 1,
+  "reviewed_at_utc": "2026-11-27T07:47:48.785000+00:00",
+  "provenance": "provenance.json",
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "status": "android_mounted_ui_passed_no_concrete_regression_found_within_reviewed_scope",
+  "overall_candidate_acceptance": "Not established by this Android-only review. Other candidate CI results require their separate records.",
+  "artifact_result": {
+    "source": "raw/result.json",
+    "result": "passed",
+    "exit_code": 0,
+    "reported_phase": "Native geometry, Back, active HOME, cold-Start SMS badge, rendered notification bootstrap/revocation, restored access, incoming call ownership and MMS codec passed",
+    "target": {
+      "platform": "android",
+      "api": 36,
+      "abi": "x86_64",
+      "gpu": "software"
+    },
+    "recorded_capture_count": 19,
+    "recorded_observation_count": 30
+  },
+  "appearance_summary": [
+    "The native Shell notification title and body wrap within their measured bounds. Action Center quick actions, command row and navigation remain visible.",
+    "Revoked native notification content disappears; local Messaging and Outlook groups remain visible in the revoked frame.",
+    "Wallet is rendered while the HOME role is active, and the subsequent HOME/Back-at-Start observations show Start within the same active launcher process.",
+    "The five inspected PNGs contain identical nonblank navigation-row pixels. The native Android status area and bottom gesture-navigation area remain outside the emulated shell."
+  ],
+  "inspected_captures": [
+    {
+      "name": "device-action-center",
+      "png": {
+        "source": "target/metro-candidate-android-ui/device-action-center.png",
+        "archive_member": "device-action-center.png",
+        "bytes": 97755,
+        "sha256": "16da9658f4bb80b25a3d6855430814eb6f63ed0993701f7eb77d56e1624467fc",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/device-action-center.png",
+      "observation": "raw/device-notifications-visible.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "route": "Start",
+      "sequence": 21,
+      "observed_at_unix_ms": 1795765364351,
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1284,
+        720,
+        1392
+      ],
+      "navigation_rgba_sha256": "f9f96b1aeb58b5a6e148e394bcde079f91519462220f58e4f178a793015f138e",
+      "bright_opaque_pixels_back_start_search": [
+        515,
+        1855,
+        444
+      ],
+      "navigation_alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "device-action-center-revoked",
+      "png": {
+        "source": "target/metro-candidate-android-ui/device-action-center-revoked.png",
+        "archive_member": "device-action-center-revoked.png",
+        "bytes": 77421,
+        "sha256": "50a3b2cf732cc8976cd77d5f4005b04c8060fc3a42ec42d9bce95da6ab326346",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/device-action-center-revoked.png",
+      "observation": "raw/device-notifications-revoked.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "route": "Start",
+      "sequence": 26,
+      "observed_at_unix_ms": 1795765366985,
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1284,
+        720,
+        1392
+      ],
+      "navigation_rgba_sha256": "f9f96b1aeb58b5a6e148e394bcde079f91519462220f58e4f178a793015f138e",
+      "bright_opaque_pixels_back_start_search": [
+        515,
+        1855,
+        444
+      ],
+      "navigation_alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "home-role-wallet",
+      "png": {
+        "source": "target/metro-candidate-android-ui/home-role-wallet.png",
+        "archive_member": "home-role-wallet.png",
+        "bytes": 93875,
+        "sha256": "072cf30b4fab609d763fea2a5db386fa3c5354d4ee98340f1404bf6f0cfb4e1b",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/home-role-wallet.png",
+      "observation": "raw/home-role-wallet.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "sequence": 8,
+      "observed_at_unix_ms": 1795765344017,
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1284,
+        720,
+        1392
+      ],
+      "navigation_rgba_sha256": "f9f96b1aeb58b5a6e148e394bcde079f91519462220f58e4f178a793015f138e",
+      "bright_opaque_pixels_back_start_search": [
+        515,
+        1855,
+        444
+      ],
+      "navigation_alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "home-role-back-start",
+      "png": {
+        "source": "target/metro-candidate-android-ui/home-role-back-start.png",
+        "archive_member": "home-role-back-start.png",
+        "bytes": 452859,
+        "sha256": "07c179e11d2311c5285cdcc4673c35004bf7df9688c91b2337ed1c661fbc0f8c",
+        "matches_zip_member": true
+      },
+      "copied_png": "raw/home-role-back-start.png",
+      "observation": "raw/home-role-back-start.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "route": "Start",
+      "sequence": 14,
+      "observed_at_unix_ms": 1795765347245,
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1284,
+        720,
+        1392
+      ],
+      "navigation_rgba_sha256": "f9f96b1aeb58b5a6e148e394bcde079f91519462220f58e4f178a793015f138e",
+      "bright_opaque_pixels_back_start_search": [
+        515,
+        1855,
+        444
+      ],
+      "navigation_alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "app-back",
+      "png": {
+        "source": "target/metro-candidate-android-ui/app-back.png",
+        "archive_member": "app-back.png",
+        "bytes": 323695,
+        "sha256": "f21805d428ff68af53667e63aca13071313b714f470f824d90113991e2f58b85",
+        "matches_zip_member": true
+      },
+      "copied_png": null,
+      "observation": "raw/app-back.json",
+      "visually_inspected": true,
+      "image_dimensions_pixels": [
+        720,
+        1440
+      ],
+      "route": "Start",
+      "sequence": 11,
+      "observed_at_unix_ms": 1795765306317,
+      "navigation_rectangle_pixels_ltrb": [
+        0,
+        1284,
+        720,
+        1392
+      ],
+      "navigation_rgba_sha256": "f9f96b1aeb58b5a6e148e394bcde079f91519462220f58e4f178a793015f138e",
+      "bright_opaque_pixels_back_start_search": [
+        515,
+        1855,
+        444
+      ],
+      "navigation_alpha_range": [
+        255,
+        255
+      ]
+    }
+  ],
+  "notification_lifecycle": [
+    {
+      "sequence": 12,
+      "observed_at_unix_ms": 1795765359269,
+      "process_id": 4768,
+      "route": "Start",
+      "ready": true,
+      "nonce": "946cc8576c3af74448fb15f5a71a81a3",
+      "action_center": null,
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "raw/device-start-unread.json",
+      "notification_operations": [],
+      "listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    },
+    {
+      "sequence": 19,
+      "observed_at_unix_ms": 1795765363204,
+      "process_id": 4768,
+      "route": "Start",
+      "ready": true,
+      "nonce": "946cc8576c3af74448fb15f5a71a81a3",
+      "action_center": null,
+      "device_notification_count": 3,
+      "device_notification_fixture": [
+        {
+          "actions": [],
+          "application": "Shell",
+          "body": "Native-listener-946cc8576c3af74448fb15f5a71a81a3",
+          "clearable": true,
+          "key": "notification:7084c6aeff3daf0372b6864790b2781e846efbe1b40344bc937869857f4b4e81",
+          "ongoing": false,
+          "package_id": "com.android.shell",
+          "timestamp": 1795765361977,
+          "title": "FerroUI-bootstrap-946cc8576c3af74448fb15f5a71a81a3"
+        }
+      ],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "raw/device-notifications-admitted.json",
+      "notification_operations": [
+        "readNotifications",
+        "notificationActions"
+      ],
+      "listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "active"
+      }
+    },
+    {
+      "sequence": 21,
+      "observed_at_unix_ms": 1795765364351,
+      "process_id": 4768,
+      "route": "Start",
+      "ready": true,
+      "nonce": "946cc8576c3af74448fb15f5a71a81a3",
+      "action_center": {
+        "fully_visible": true,
+        "height": 574.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "device_notification_count": 3,
+      "device_notification_fixture": [
+        {
+          "actions": [],
+          "application": "Shell",
+          "body": "Native-listener-946cc8576c3af74448fb15f5a71a81a3",
+          "clearable": true,
+          "key": "notification:7084c6aeff3daf0372b6864790b2781e846efbe1b40344bc937869857f4b4e81",
+          "ongoing": false,
+          "package_id": "com.android.shell",
+          "timestamp": 1795765361977,
+          "title": "FerroUI-bootstrap-946cc8576c3af74448fb15f5a71a81a3"
+        }
+      ],
+      "notification_fixture_labels": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 79.5,
+            "width": 324.0,
+            "x": 18.0,
+            "y": 328.5
+          },
+          "text": "FerroUI-bootstrap-946cc8576c3af74448fb15f5a71a81a3"
+        },
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 61.5,
+            "width": 324.0,
+            "x": 18.0,
+            "y": 412.0
+          },
+          "text": "Native-listener-946cc8576c3af74448fb15f5a71a81a3"
+        }
+      ],
+      "notification_scroll": {
+        "bounds": {
+          "fully_visible": true,
+          "height": 311.5,
+          "width": 360.0,
+          "x": 0.0,
+          "y": 282.5
+        },
+        "extent": {
+          "height": 867.0,
+          "width": 360.0
+        },
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "targets": [
+          {
+            "bounds": {
+              "height": 79.5,
+              "width": 324.0,
+              "x": 18.0,
+              "y": 328.5
+            },
+            "text": "FerroUI-bootstrap-946cc8576c3af74448fb15f5a71a81a3"
+          },
+          {
+            "bounds": {
+              "height": 61.5,
+              "width": 324.0,
+              "x": 18.0,
+              "y": 412.0
+            },
+            "text": "Native-listener-946cc8576c3af74448fb15f5a71a81a3"
+          }
+        ],
+        "viewport": {
+          "height": 311.5,
+          "width": 360.0
+        }
+      },
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "raw/device-notifications-visible.json",
+      "notification_operations": [
+        "readNotifications",
+        "notificationActions"
+      ],
+      "listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "active"
+      }
+    },
+    {
+      "sequence": 26,
+      "observed_at_unix_ms": 1795765366985,
+      "process_id": 4768,
+      "route": "Start",
+      "ready": true,
+      "nonce": "946cc8576c3af74448fb15f5a71a81a3",
+      "action_center": {
+        "fully_visible": true,
+        "height": 574.0,
+        "width": 360.0,
+        "x": 0.0,
+        "y": 68.0
+      },
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "raw/device-notifications-revoked.json",
+      "notification_operations": [],
+      "listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    },
+    {
+      "sequence": 28,
+      "observed_at_unix_ms": 1795765368084,
+      "process_id": 4768,
+      "route": "Start",
+      "ready": true,
+      "nonce": "946cc8576c3af74448fb15f5a71a81a3",
+      "action_center": null,
+      "device_notification_count": 0,
+      "device_notification_fixture": [],
+      "notification_fixture_labels": [],
+      "notification_scroll": null,
+      "device_message_unread": 1,
+      "messaging_badges": [
+        {
+          "bounds": {
+            "fully_visible": true,
+            "height": 32.5,
+            "width": 10.0,
+            "x": 322.0,
+            "y": 121.0
+          },
+          "name": "TileBadge-101",
+          "text": "1",
+          "tile_id": 101
+        }
+      ],
+      "source": "raw/device-start-restored.json",
+      "notification_operations": [],
+      "listener_role": {
+        "detail": "Android owns role and special-access consent.",
+        "role": "notificationListener",
+        "status": "available"
+      }
+    }
+  ],
+  "shell_navigation_observations": [
+    {
+      "source": "raw/app-start.json",
+      "route": "Start",
+      "sequence": 2,
+      "observed_at_unix_ms": 1795765300725,
+      "process_id": 2927,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts"
+        ],
+        "launcher": "unsupported",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/app-wallet.json",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "sequence": 7,
+      "observed_at_unix_ms": 1795765304215,
+      "process_id": 2927,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "host": {
+        "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts"
+        ],
+        "launcher": "unsupported",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/app-back.json",
+      "route": "Start",
+      "sequence": 11,
+      "observed_at_unix_ms": 1795765306317,
+      "process_id": 2927,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "host": {
+        "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts"
+        ],
+        "launcher": "unsupported",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/app-home-restored.json",
+      "route": "Start",
+      "sequence": 18,
+      "observed_at_unix_ms": 1795765310639,
+      "process_id": 2927,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Application package. The separate launcher package declares Android's HOME intent filter. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts"
+        ],
+        "launcher": "unsupported",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/launcher-start.json",
+      "route": "Start",
+      "sequence": 2,
+      "observed_at_unix_ms": 1795765325023,
+      "process_id": 3923,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "available",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/launcher-wallet.json",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "sequence": 7,
+      "observed_at_unix_ms": 1795765328454,
+      "process_id": 3923,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "available",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/launcher-back.json",
+      "route": "Start",
+      "sequence": 11,
+      "observed_at_unix_ms": 1795765330705,
+      "process_id": 3923,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "available",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/launcher-home-restored.json",
+      "route": "Start",
+      "sequence": 17,
+      "observed_at_unix_ms": 1795765334165,
+      "process_id": 3923,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "available",
+        "mode": "app",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/home-role-start.json",
+      "route": "Start",
+      "sequence": 3,
+      "observed_at_unix_ms": 1795765341500,
+      "process_id": 4489,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "active",
+        "mode": "launcher",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/home-role-wallet.json",
+      "route": {
+        "Extension": {
+          "app": "org.ferroui.wallet",
+          "path": ""
+        }
+      },
+      "sequence": 8,
+      "observed_at_unix_ms": 1795765344017,
+      "process_id": 4489,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://app/org.ferroui.wallet"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "active",
+        "mode": "launcher",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/home-role-returned.json",
+      "route": "Start",
+      "sequence": 11,
+      "observed_at_unix_ms": 1795765345608,
+      "process_id": 4489,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "active",
+        "mode": "launcher",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    },
+    {
+      "source": "raw/home-role-back-start.json",
+      "route": "Start",
+      "sequence": 14,
+      "observed_at_unix_ms": 1795765347245,
+      "process_id": 4489,
+      "ready": true,
+      "activation": {
+        "error": null,
+        "outcome": "accepted",
+        "uri": "ferroui-phone://home"
+      },
+      "host": {
+        "detail": "Android owns the HOME role, system bars, permissions and process lifetime. Choose this app in Android's home-app dialog to use it as your launcher. Device apps are limited to visible launchable activities in the current profile.",
+        "features": [
+          "installedApps",
+          "systemSettings",
+          "nativeSharing",
+          "haptics",
+          "notifications",
+          "location",
+          "hardwareControls",
+          "telephony",
+          "messaging",
+          "contacts",
+          "notificationCenter",
+          "maps",
+          "appShortcuts",
+          "launcherRole"
+        ],
+        "launcher": "active",
+        "mode": "launcher",
+        "platform": "android",
+        "shell": "unsupported"
+      }
+    }
+  ],
+  "shell_navigation_scope": {
+    "application_package": "Start -> Wallet via URL activation -> Start via real Android Back; a later explicit home URL activation also restores Start.",
+    "launcher_package_without_home_role": "Same activation and Back flow; host reports launcher available and mode app.",
+    "active_home_role": "Android resolves the selected HOME without an explicit component; Wallet opens; KEYCODE_HOME returns to Start; a subsequent KEYCODE_BACK at Start keeps the selected HOME focused.",
+    "process_qualification": "Identity is stable within each phase: application PID 2927, launcher-available PID 3923, active HOME PID 4489, notification bootstrap PID 4768. These are separate lifecycle phases and are not claimed to share one process.",
+    "input_evidence": "The exact candidate shell drivers issue native keyevents and require fresh route observations; active-HOME checks also require the selected native window to remain focused. Per-event start/completion timestamps are not separately emitted by this driver."
+  },
+  "native_notification_scope": {
+    "operations_before_revocation": [
+      "readNotifications",
+      "notificationActions"
+    ],
+    "native_rows_before_revocation": 3,
+    "native_rows_after_revocation": 0,
+    "unique_fixture_package": "com.android.shell",
+    "fixture_properties": {
+      "clearable": true,
+      "ongoing": false,
+      "actions": []
+    },
+    "action_center_open": "Native input tap at observed status-bar center, derived physical coordinates [360,162].",
+    "removal_cause": "Notification listener revoked through Android cmd notification disallow_listener; not a dismiss gesture.",
+    "close": "Native KEYCODE_BACK; fresh Start observation with Action Center absent.",
+    "listener_before_after_identical": true,
+    "home_before_after_identical": true,
+    "fallback_scroll_artifacts": [],
+    "visible_scroll_offset": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "horizontal_group_dismissal_tested": false,
+    "two_finger_clear_tested": false,
+    "clear_all_activation_tested": false,
+    "group_close_activation_tested": false
+  },
+  "navigation_pixel_method": "For each inspected original PNG, decode RGBA and crop the 54-point shell navigation row at the bottom of recorded screen bounds, multiplied by render_scaling. Hash raw row-major RGBA. Count every RGB channel >100 with alpha==255 in each third. Crops are computed only in memory; originals remain unchanged.",
+  "qualifications": [
+    "This is Android API 36 x86_64 software-GPU emulator evidence, not qualification of all physical devices or Android versions.",
+    "This scenario covers native notification admission, mounted rendering and listener revocation, with local notifications preserved. It does not exercise horizontal native-group swipes, simultaneous two-finger clear, clear-all/group-close activation, notification action buttons, ongoing notifications, or lock-screen privacy.",
+    "No fallback notification-list scroll artifacts were produced, and the visible offset is zero. No list-scrolling coverage is claimed.",
+    "The native shell navigation checks cover URL activation, Android Back, selected HOME resolution and Android HOME key behavior. They do not exercise Start/All Apps horizontal paging, outgoing bitmap capture after document import or animation-frame continuity.",
+    "The result reports broader incoming-call ownership and MMS codec checks. Their original result is preserved, but those separate assertions and call screenshots were not independently reviewed in this notification/navigation inspection.",
+    "Four PNGs are preserved; app-back.png was additionally inspected and hashed but remains only in the identified original artifact. All 19 screenshots were not visually reviewed.",
+    "No original Windows Phone reference-device, font or raster comparison was performed. Native Android system bars are observable platform embedding; no full OS replacement or 100 percent visual parity is inferred."
+  ]
+}

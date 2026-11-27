@@ -1,0 +1,339 @@
+{
+  "schema": 1,
+  "archived_at_utc": "2026-11-27T08:02:35.550008+00:00",
+  "repository": "FerroUI/WindowsPhone",
+  "candidate_head": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "synthetic_checkout_head": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "checkout_parents": [
+    "0f7010ef41b23056ab54b7efeea182a0860ac0d2",
+    "d515348c699c22110def2dded8f7b8aea4b9cd03"
+  ],
+  "candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "checkout_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "trees_equal_verified_locally": true,
+  "run_id": "45959414018",
+  "job_id": "140373413519",
+  "artifact_id": "15181330522",
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959414018",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959414018/job/140373413519",
+  "archive_source": "target/metro-candidate-ios.zip",
+  "archive_sha256": "4e949354ad6ded58924d3107a437558425dedfdb0ed4d5bf16c6f489bbab230d",
+  "archive_sha256_verified_locally": true,
+  "binding": "Parent supplied GitHub candidate/run/job/artifact identity. This review independently verified the downloaded ZIP digest, original member bytes, synthetic merge parents and exact candidate tree equality. The native observation ZIP has no independent source-checkout marker; parent archives CI job metadata/logs separately.",
+  "preservation": "All top-level original JSON files, four selected original PNGs and phase/simulator text are copied byte for byte from the downloaded ZIP. No cropping or recompression of images; no xcresult or executable binary duplication.",
+  "source_references": [
+    {
+      "path": "scripts/verify-ios-smoke.py",
+      "commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+      "sha256": "420b2397164c7ea7af920d827bac519d26e2542c7e12689e36205c7e675785dd"
+    }
+  ],
+  "copied_files": [
+    {
+      "source": "target/metro-candidate-ios/device-tests.json",
+      "archive_member": "device-tests.json",
+      "bytes": 3142,
+      "sha256": "4c72089e13a22b4dbdfdf07945384ab2d18fcf5ca659490a40684699ce57bdfc",
+      "matches_zip_member": true,
+      "path": "raw/device-tests.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/home-restored.json",
+      "archive_member": "home-restored.json",
+      "bytes": 4059,
+      "sha256": "47ae6318e9da02b46f92c903669b73307877f8f387ab784b408f0914c7620647",
+      "matches_zip_member": true,
+      "path": "raw/home-restored.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/last-observation.json",
+      "archive_member": "last-observation.json",
+      "bytes": 4059,
+      "sha256": "f61900bd3e1506df918078ea83316226d69ca2ea1611e306ccdff1193f6700c5",
+      "matches_zip_member": true,
+      "path": "raw/last-observation.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/launch-driver-cleanup-begin.json",
+      "archive_member": "launch-driver-cleanup-begin.json",
+      "bytes": 651,
+      "sha256": "4d2c1f321081346890591e37acc11587a3ba90a7eeeb08fdb79da716dcd91247",
+      "matches_zip_member": true,
+      "path": "raw/launch-driver-cleanup-begin.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/launch-driver-cleanup-end.json",
+      "archive_member": "launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "5e74fd6ba76b1acc38ad87b709552cd376ec0ad5bffe57ec44b94b8056813a0c",
+      "matches_zip_member": true,
+      "path": "raw/launch-driver-cleanup-end.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/launch-driver-started.json",
+      "archive_member": "launch-driver-started.json",
+      "bytes": 636,
+      "sha256": "0542b77e0f6f838bbdbe8ddd8ce25440a3a66fa718e0171a4d6df178131e28e8",
+      "matches_zip_member": true,
+      "path": "raw/launch-driver-started.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/messages.json",
+      "archive_member": "messages.json",
+      "bytes": 4169,
+      "sha256": "4f33b187dc662b0f40ff5787bc8f07fed087d1531af536d20d73dc178cf19cab",
+      "matches_zip_member": true,
+      "path": "raw/messages.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-1-driver.json",
+      "archive_member": "navigation-1-driver.json",
+      "bytes": 798,
+      "sha256": "4f4b21c31a908657f3e5b5a66e604bf423fe8312822031ed2ad43524b9f04fac",
+      "matches_zip_member": true,
+      "path": "raw/navigation-1-driver.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-2-driver.json",
+      "archive_member": "navigation-2-driver.json",
+      "bytes": 1084,
+      "sha256": "b7e1cadf58092fe628913b82023f19d067de22806d0e2a2866da4e8aa6db8c8e",
+      "matches_zip_member": true,
+      "path": "raw/navigation-2-driver.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-3-driver.json",
+      "archive_member": "navigation-3-driver.json",
+      "bytes": 1376,
+      "sha256": "bd6447ae522ece2478ab4cdc2ef7cd0dce6772760123944c76c08271cea4d090",
+      "matches_zip_member": true,
+      "path": "raw/navigation-3-driver.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-4-driver.json",
+      "archive_member": "navigation-4-driver.json",
+      "bytes": 1667,
+      "sha256": "5a79a5fc7e9a3ad52de98ce9b36219c2cf316073eccf18d3a58e0bfe74b110bb",
+      "matches_zip_member": true,
+      "path": "raw/navigation-4-driver.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-back.json",
+      "archive_member": "navigation-back.json",
+      "bytes": 4059,
+      "sha256": "d147bead3a75873d3522c9101f6bb12a6f6902507385eb412c10b8acd8c7e150",
+      "matches_zip_member": true,
+      "path": "raw/navigation-back.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-request-1.json",
+      "archive_member": "navigation-request-1.json",
+      "bytes": 103,
+      "sha256": "07e313c08fad4901cca3c1f2e66f7d6c933c26ecae22d528603865ab3813cc02",
+      "matches_zip_member": true,
+      "path": "raw/navigation-request-1.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-request-2.json",
+      "archive_member": "navigation-request-2.json",
+      "bytes": 101,
+      "sha256": "4bc75f691be81c55bc355a8040aec3eb79690458ba5d7b0d8976f07d8c530116",
+      "matches_zip_member": true,
+      "path": "raw/navigation-request-2.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-request-3.json",
+      "archive_member": "navigation-request-3.json",
+      "bytes": 103,
+      "sha256": "5e118a2ea4d3fb0d7044176a7f0990c66a20a452889bfe31d9af5fe76be38a1e",
+      "matches_zip_member": true,
+      "path": "raw/navigation-request-3.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-request-4.json",
+      "archive_member": "navigation-request-4.json",
+      "bytes": 102,
+      "sha256": "d9ef1e6adb1e122901e9954b891321c26eaf21a5f634f2f47e6e0e91971ac33d",
+      "matches_zip_member": true,
+      "path": "raw/navigation-request-4.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-search-again.json",
+      "archive_member": "navigation-search-again.json",
+      "bytes": 4048,
+      "sha256": "bccbdc9006e6723d56b423ad51fcc835c084670a42a0928c3518a47be0f130ad",
+      "matches_zip_member": true,
+      "path": "raw/navigation-search-again.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-search.json",
+      "archive_member": "navigation-search.json",
+      "bytes": 4048,
+      "sha256": "c5053b64b1169563e65c5c0c635e731ea903a7e00376e6810dc132f1d4d41df2",
+      "matches_zip_member": true,
+      "path": "raw/navigation-search.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/navigation-start.json",
+      "archive_member": "navigation-start.json",
+      "bytes": 4059,
+      "sha256": "3606ae9f3c265cd64a32e5913a02b146cdd5825f9ceba47cd11bd838fd184d72",
+      "matches_zip_member": true,
+      "path": "raw/navigation-start.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/owned-installation.json",
+      "archive_member": "owned-installation.json",
+      "bytes": 404,
+      "sha256": "81e1d343d8e7abd0055097b41a044456dbd600992ecc7de325c2a50fd0b6dd9d",
+      "matches_zip_member": true,
+      "path": "raw/owned-installation.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/people.json",
+      "archive_member": "people.json",
+      "bytes": 4086,
+      "sha256": "a38d5f3c3e7bce58514e238e38575356c5be7eb58156025af474c5d8c301a1e9",
+      "matches_zip_member": true,
+      "path": "raw/people.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/phone.json",
+      "archive_member": "phone.json",
+      "bytes": 4139,
+      "sha256": "bd43c7cbba6b2131bbd708ee3b27e6c55667555d7bbea6ba1973c8340ce769e8",
+      "matches_zip_member": true,
+      "path": "raw/phone.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/prompt-handler.json",
+      "archive_member": "prompt-handler.json",
+      "bytes": 1670,
+      "sha256": "0aba69110619e2300a97a14dc87cc3f73156074cb1e785a4da56a14dfed646f5",
+      "matches_zip_member": true,
+      "path": "raw/prompt-handler.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/request-1.json",
+      "archive_member": "request-1.json",
+      "bytes": 100,
+      "sha256": "c160bb7346eaf76bc09a11e9e14f8b35bdaf6466ea3a458605e9e95776337db1",
+      "matches_zip_member": true,
+      "path": "raw/request-1.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/request-2.json",
+      "archive_member": "request-2.json",
+      "bytes": 124,
+      "sha256": "3d16b9caf35c7bc1616590122934bd06e48f4986dcfe739e60075915afe1c7ff",
+      "matches_zip_member": true,
+      "path": "raw/request-2.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/request-3.json",
+      "archive_member": "request-3.json",
+      "bytes": 106,
+      "sha256": "7736f486be23fc3ac766ff562005fa3b95f66d9fcacd912b266aacfec9b73481",
+      "matches_zip_member": true,
+      "path": "raw/request-3.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/request-4.json",
+      "archive_member": "request-4.json",
+      "bytes": 110,
+      "sha256": "758232a476131f75e1aadc70dbaae7ea6a738d78ba82d45510369830d2b28094",
+      "matches_zip_member": true,
+      "path": "raw/request-4.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/request-5.json",
+      "archive_member": "request-5.json",
+      "bytes": 108,
+      "sha256": "30af3c609db284e2cd08f7d8f21a0b67715784e45dbc47a3ecd1c2bd69d25808",
+      "matches_zip_member": true,
+      "path": "raw/request-5.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/request-6.json",
+      "archive_member": "request-6.json",
+      "bytes": 82,
+      "sha256": "f095f23359c095bc7acf1acb7c86d8490e13d0d356a14d68827c141f228a17ae",
+      "matches_zip_member": true,
+      "path": "raw/request-6.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/settings.json",
+      "archive_member": "settings.json",
+      "bytes": 4101,
+      "sha256": "1932c4974cb61cdeb230d07ec19276b062a16d7e4ccad963c1e525068f637954",
+      "matches_zip_member": true,
+      "path": "raw/settings.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/start.json",
+      "archive_member": "start.json",
+      "bytes": 4011,
+      "sha256": "94a8a858feb60f040b72c790235fb5bf17c718aa89fa59fb836df2f4cfaf8b79",
+      "matches_zip_member": true,
+      "path": "raw/start.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/wallet.json",
+      "archive_member": "wallet.json",
+      "bytes": 4110,
+      "sha256": "1cbbe1eb19de4b23d38fee5bd5ee575f87c79cff9211f00061db7e4ea248c8bd",
+      "matches_zip_member": true,
+      "path": "raw/wallet.json"
+    },
+    {
+      "source": "target/metro-candidate-ios/start.png",
+      "archive_member": "start.png",
+      "bytes": 486815,
+      "sha256": "464a01b47c5874d21972f4cfb6f39177dedac16df64297de9a3cf22a4b639ba2",
+      "matches_zip_member": true,
+      "path": "raw/start.png"
+    },
+    {
+      "source": "target/metro-candidate-ios/settings.png",
+      "archive_member": "settings.png",
+      "bytes": 131020,
+      "sha256": "90d95224f6010b054085d892f03c8eff541bb9c55bc4db4f516b43116927b157",
+      "matches_zip_member": true,
+      "path": "raw/settings.png"
+    },
+    {
+      "source": "target/metro-candidate-ios/people.png",
+      "archive_member": "people.png",
+      "bytes": 128465,
+      "sha256": "4c984cfeb12dbb174e49517932d7f08dc4103854934b34922f02dce742f24bfc",
+      "matches_zip_member": true,
+      "path": "raw/people.png"
+    },
+    {
+      "source": "target/metro-candidate-ios/wallet.png",
+      "archive_member": "wallet.png",
+      "bytes": 138676,
+      "sha256": "df0e2666cf96adda04f7509c306e99a23e8a3d431458e815dc15925c2c3b7e51",
+      "matches_zip_member": true,
+      "path": "raw/wallet.png"
+    },
+    {
+      "source": "target/metro-candidate-ios/phase.txt",
+      "archive_member": "phase.txt",
+      "bytes": 119,
+      "sha256": "6590205a8420f4a1b9305ec3c7955045b240a372aa0b35f46f454318c0f86e55",
+      "matches_zip_member": true,
+      "path": "raw/phase.txt"
+    },
+    {
+      "source": "target/metro-candidate-ios/simulator.txt",
+      "archive_member": "simulator.txt",
+      "bytes": 92,
+      "sha256": "ffb4214a430680f4bdfd87f46a8a902ee9a3c52be2a692fc15afd7fac6e87281",
+      "matches_zip_member": true,
+      "path": "raw/simulator.txt"
+    }
+  ],
+  "copied_file_count": 38,
+  "copied_bytes": 947255
+}

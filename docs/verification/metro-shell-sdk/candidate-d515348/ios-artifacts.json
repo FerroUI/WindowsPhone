@@ -1,0 +1,42 @@
+{
+  "artifacts": [
+    {
+      "id": 15181330522,
+      "name": "ios-verification",
+      "size_in_bytes": 3101081,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15181330522",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15181330522/zip",
+      "expired": false,
+      "created_at": "2026-11-27T07:56:08Z",
+      "expires_at": "2026-12-04T07:56:06Z",
+      "updated_at": "2026-11-27T07:56:08Z",
+      "digest": "sha256:4e949354ad6ded58924d3107a437558425dedfdb0ed4d5bf16c6f489bbab230d",
+      "workflow_run": {
+        "id": 45959414018,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/metro-parity-0f7010e",
+        "head_sha": "d515348c699c22110def2dded8f7b8aea4b9cd03"
+      }
+    },
+    {
+      "id": 15180973356,
+      "name": "phone-ios-simulator",
+      "size_in_bytes": 53955338,
+      "url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15180973356",
+      "archive_download_url": "https://api.github.com/repos/FerroUI/WindowsPhone/actions/artifacts/15180973356/zip",
+      "expired": false,
+      "created_at": "2026-11-27T07:56:14Z",
+      "expires_at": "2026-11-30T07:56:08Z",
+      "updated_at": "2026-11-27T07:56:14Z",
+      "digest": "sha256:831adb8624f7fd5450b2c55f1da965bb59be594e476ea9fe1577a09a454c9424",
+      "workflow_run": {
+        "id": 45959414018,
+        "repository_id": 1467863028,
+        "head_repository_id": 1467863028,
+        "head_branch": "codex/metro-parity-0f7010e",
+        "head_sha": "d515348c699c22110def2dded8f7b8aea4b9cd03"
+      }
+    }
+  ]
+}

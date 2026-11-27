@@ -1,0 +1,12 @@
+{
+  "site": "/workspace/scratch/be23f884460b/WindowsPhone/target/metro-compiled",
+  "viewport": [
+    1280,
+    936
+  ],
+  "checks": [],
+  "captures": [],
+  "passed": false,
+  "error": "Error: Chrome did not start within 60 s\n/usr/bin/chromium: 9: [: 5225713664: unexpected operator\n/usr/bin/chromium: 153: exec: /usr/lib/chromium/chromium: not found\n\n    at open (file:///workspace/scratch/be23f884460b/WindowsPhone/FerroUI/scripts/browser/harness.mjs:204:60)\n    at async file:///workspace/scratch/be23f884460b/WindowsPhone/scripts/ui-smoke.mjs:422:10",
+  "elapsedMs": 60439
+}

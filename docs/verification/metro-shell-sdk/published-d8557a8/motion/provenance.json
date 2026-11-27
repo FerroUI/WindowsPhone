@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "archived_at_utc": "2026-11-27T08:59:18.678111+00:00",
+  "repository": "FerroUI/WindowsPhone",
+  "source_revision": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "source_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "accepted_candidate_revision": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "trees_equal_verified_locally": true,
+  "run_id": "45964709343",
+  "job_id": "140390520527",
+  "artifact_id": "15183619231",
+  "run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45964709343",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45964709343/job/140390520527",
+  "archive_source": "target/metro-main-ui.zip",
+  "archive_sha256": "6143525949e98c0136f18149ae6b3a455013dc0e71f0c90e99f5ab1d1c0cbb9a",
+  "archive_sha256_verified_locally": true,
+  "binding": "Source/run/job/artifact association comes from the parent directory's retained CI, identity and UI-artifact metadata. ZIP digest, each copied member and main/candidate tree equality were independently checked locally. The UI ZIP has no embedded commit marker.",
+  "preservation": "Both raw JSON files are copied without modification and match their original ZIP members byte for byte.",
+  "copied_files": [
+    {
+      "path": "raw/metro-shell-paging-apps-frames.json",
+      "archive_member": "metro-shell-paging-apps-frames.json",
+      "bytes": 100005,
+      "sha256": "7f831145dbd05370c9e19cd713d47251e38273290e4e1fd2c2cea02d0622899d",
+      "matches_zip_member": true
+    },
+    {
+      "path": "raw/metro-shell-paging-start-frames.json",
+      "archive_member": "metro-shell-paging-start-frames.json",
+      "bytes": 102470,
+      "sha256": "cc8ba2dd44b6a24b1a4b3af646373f138b7cbbd62b58578c82b2333de8c74e40",
+      "matches_zip_member": true
+    }
+  ],
+  "copied_bytes": 202475
+}

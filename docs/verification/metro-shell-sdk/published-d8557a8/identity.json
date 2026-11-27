@@ -1,0 +1,15 @@
+{
+  "source_revision": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "accepted_candidate": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "candidate_checkout": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "verified_equal_trees": {
+    "d8557a8a576c34c82dff761ba99ebe82f4f3059c": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+    "d515348c699c22110def2dded8f7b8aea4b9cd03": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+    "75d8b175260015c8eb61c82ab87d525bbba15221": "ad870fb6a20b630070b6b9e0287dd0eec665f22c"
+  },
+  "main_workflow_run": 45964709343,
+  "main_build_job": 140390520527,
+  "pull_request": 6,
+  "framework": "ec86b9c0204b8dee243eb300135cb0834f0a84b3",
+  "qualification": "Identity record only. Successful main execution and public delivery are supplied by separately retained results; skipped native/mobile main jobs are qualified by the accepted identical candidate tree."
+}

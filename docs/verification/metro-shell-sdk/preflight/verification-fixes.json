@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "before": "413b4bff45efa83c7afc48c51a0001857c80d0e4",
+  "after": "019ad836070d53edf86fbbc1eb7a42235ed75831",
+  "after_tree": "d7ff330c91e8437f63de3435901b5c9d626eeca8",
+  "compiled_input_paths": [
+    "crates",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".cargo",
+    "FerroUI",
+    ".gitmodules",
+    "rust-toolchain.toml",
+    "scripts/build-browser.sh",
+    "scripts/prepare-site.mjs"
+  ],
+  "runtime_sources_equal": true,
+  "changed_paths": [
+    "docs/verification/metro-shell-sdk/README.md",
+    "scripts/fixtures/ui-native-pivot-labels.json",
+    "scripts/ui-input-geometry.mjs",
+    "scripts/ui-input-geometry.test.mjs",
+    "scripts/ui-metro-controls.mjs",
+    "scripts/ui-metro-progress.mjs",
+    "scripts/ui-notification-groups.mjs",
+    "scripts/ui-smoke.mjs",
+    "scripts/ui-system-refinements.mjs"
+  ],
+  "javascript_retry": {
+    "command": "node --test scripts/*.test.mjs",
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0,
+    "log": "javascript-retry.log.gz",
+    "uncompressed_sha256": "6a7368cda2a0adde833e001ff429e7c0c8ce004ea713d7ffe612bfb49624714a"
+  },
+  "qualification": "The follow-up changes verification and documentation. Full CI is rerun on the new head; this source comparison is not used to bypass its publication gates."
+}

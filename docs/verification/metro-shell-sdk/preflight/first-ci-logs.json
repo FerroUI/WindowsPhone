@@ -1,0 +1,39 @@
+{
+  "logs": [
+    {
+      "file": "first-linux.log.gz",
+      "uncompressed_bytes": 235903,
+      "uncompressed_sha256": "30890764a1cd4271299d2a767dcf8cae030858e9454e170c0ed3c13f6c25414f"
+    },
+    {
+      "file": "first-android-arm.log.gz",
+      "uncompressed_bytes": 237341,
+      "uncompressed_sha256": "661355056b132c58a846fa5a56addee98da025b37c1e266011771706352d446c"
+    },
+    {
+      "file": "first-android-ui.log.gz",
+      "uncompressed_bytes": 203332,
+      "uncompressed_sha256": "5ebb1ce064ea6321556cb6273bb7d64b7d37bc304f9221704a33c6921a700b1e"
+    },
+    {
+      "file": "first-ios.log.gz",
+      "uncompressed_bytes": 205576,
+      "uncompressed_sha256": "c04eac50a18055906b1f92cd862b7193cfe75b510580e48c12f53e1519f545a2"
+    },
+    {
+      "file": "first-browser.log.gz",
+      "uncompressed_bytes": 269453,
+      "uncompressed_sha256": "dd80d9e1f050aa79eb511e1da83d846258ec012e8299089869659c283c10e96d"
+    },
+    {
+      "file": "first-windows.log.gz",
+      "uncompressed_bytes": 212518,
+      "uncompressed_sha256": "9bfc76a006822e71ef41e75d841ddf6eb8e47f4034ee5e7afc0206bc865ffdcf"
+    },
+    {
+      "file": "first-macos.log.gz",
+      "uncompressed_bytes": 186711,
+      "uncompressed_sha256": "ae3b4b9ed16c6fddc179f1bb6c60fc57578950f6b084b5f99f0da2fa6744e278"
+    }
+  ]
+}

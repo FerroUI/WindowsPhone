@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "source_revision": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "scope": "Only the two fresh Start/All Apps paging traces from the successful main browser run; no runtime rerun or Cargo invocation.",
+  "resting_page_bounds": {
+    "x": 440,
+    "y": 87,
+    "width": 400,
+    "height": 740
+  },
+  "traces": [
+    {
+      "file": "raw/metro-shell-paging-apps-frames.json",
+      "sample_count": 62,
+      "source_route": "Start",
+      "destination_route": "Apps",
+      "elapsed_first_last_ms": [
+        2.2,
+        1111.1
+      ],
+      "source_image_samples": 17,
+      "source_image_logical_size": {
+        "height": 740,
+        "width": 400
+      },
+      "paired_native_samples": 17,
+      "paired_first_last_ms": [
+        301,
+        629.1
+      ],
+      "native_translations_first_incoming_outgoing_px": [
+        232.00000000000003,
+        -167.99999999999997
+      ],
+      "native_translations_last_incoming_outgoing_px": [
+        0.15637500072591592,
+        -399.8436249992741
+      ],
+      "native_incoming_monotonic_toward_zero": true,
+      "max_native_adjacency_error_px": 0.0,
+      "both_surfaces_opaque_and_input_disabled_in_all_paired_samples": true,
+      "outgoing_native_hit_false_in_all_paired_samples": true,
+      "compositor_samples_matching_native_translation": 15,
+      "max_compositor_adjacency_error_px_in_matching_samples": 5.684341886080802e-14,
+      "matching_compositor_incoming_x_first_last_px": [
+        550.7064824252938,
+        440.1563750007259
+      ],
+      "matching_compositor_outgoing_x_first_last_px": [
+        150.70648242529376,
+        40.156375000725916
+      ],
+      "compositor_samples_with_earlier_bounds": [
+        {
+          "frame_index_zero_based": 17,
+          "elapsed_ms": 301,
+          "incoming_native_translation_x": 232.00000000000003,
+          "outgoing_native_translation_x": -167.99999999999997,
+          "incoming_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          },
+          "outgoing_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          }
+        },
+        {
+          "frame_index_zero_based": 18,
+          "elapsed_ms": 316.1,
+          "incoming_native_translation_x": 232.00000000000003,
+          "outgoing_native_translation_x": -167.99999999999997,
+          "incoming_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          },
+          "outgoing_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          }
+        }
+      ],
+      "first_clean_observation_ms": 653.6,
+      "terminal": {
+        "route": "Apps",
+        "rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "page_opacity": 1,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_projection": null,
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null
+      }
+    },
+    {
+      "file": "raw/metro-shell-paging-start-frames.json",
+      "sample_count": 64,
+      "source_route": "Apps",
+      "destination_route": "Start",
+      "elapsed_first_last_ms": [
+        2.5,
+        1105
+      ],
+      "source_image_samples": 17,
+      "source_image_logical_size": {
+        "height": 740,
+        "width": 400
+      },
+      "paired_native_samples": 17,
+      "paired_first_last_ms": [
+        289.4,
+        625.1
+      ],
+      "native_translations_first_incoming_outgoing_px": [
+        -232.00000000000003,
+        167.99999999999997
+      ],
+      "native_translations_last_incoming_outgoing_px": [
+        -0.2934220597717001,
+        399.70657794022827
+      ],
+      "native_incoming_monotonic_toward_zero": true,
+      "max_native_adjacency_error_px": 0.0,
+      "both_surfaces_opaque_and_input_disabled_in_all_paired_samples": true,
+      "outgoing_native_hit_false_in_all_paired_samples": true,
+      "compositor_samples_matching_native_translation": 16,
+      "max_compositor_adjacency_error_px_in_matching_samples": 5.684341886080802e-14,
+      "matching_compositor_incoming_x_first_last_px": [
+        281.0713281645883,
+        439.70657794022827
+      ],
+      "matching_compositor_outgoing_x_first_last_px": [
+        681.0713281645883,
+        839.7065779402283
+      ],
+      "compositor_samples_with_earlier_bounds": [
+        {
+          "frame_index_zero_based": 18,
+          "elapsed_ms": 289.4,
+          "incoming_native_translation_x": -232.00000000000003,
+          "outgoing_native_translation_x": 167.99999999999997,
+          "incoming_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          },
+          "outgoing_rendered_bounds": {
+            "height": 740,
+            "width": 400,
+            "x": 440,
+            "y": 87
+          }
+        }
+      ],
+      "first_clean_observation_ms": 632.4,
+      "terminal": {
+        "route": "Start",
+        "rendered_bounds": {
+          "height": 740,
+          "width": 400,
+          "x": 440,
+          "y": 87
+        },
+        "page_opacity": 1,
+        "page_enabled": true,
+        "page_hit_test_visible": true,
+        "page_projection": null,
+        "image_source_present": false,
+        "outgoing_opacity": 0,
+        "outgoing_projection": null
+      }
+    }
+  ],
+  "limits": [
+    "Native transforms and the latest completed compositor readback are distinct observations. The recorded initial mismatch is retained and does not establish zero-frame release latency or pixel adjacency at every instant.",
+    "Rendered bounds are transformed axis-aligned geometry, not a per-frame pixel or clipping comparison. Elapsed times include input and scheduling.",
+    "This review covers release/settle behavior on the browser host; it does not compare original Windows Phone hardware/raster/font/transition video or prove full OS parity.",
+    "The complete candidate turnstile, interruption, lock and motion-preference review is separate and is not relabelled as a fresh main-run review."
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "source_commit": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "synthetic_merge_commit": "75d8b175260015c8eb61c82ab87d525bbba15221",
+  "tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "workflow_run_id": 45959413873,
+  "job_id": 140373412884,
+  "artifact_id": 15180379881,
+  "workflow_run_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873",
+  "job_url": "https://github.com/FerroUI/WindowsPhone/actions/runs/45959413873/job/140373412884",
+  "artifact_archive": {
+    "file": "metro-candidate-ui.zip",
+    "bytes": 9549182,
+    "sha256": "1582850c76a9d11b892dfa01a783b9d4d6bf2b28b56cce9ef2126d9273f93211"
+  },
+  "suite": {
+    "passed": true,
+    "checks": 112,
+    "captures": 198,
+    "viewport": [
+      1280,
+      936
+    ],
+    "elapsed_ms": 406780
+  },
+  "progress_checks": [
+    {
+      "name": "Weather loading renders original five-dot motion and releases it after the real SDK response",
+      "elapsedMs": 6887,
+      "passed": true
+    },
+    {
+      "name": "Reduced-motion podcast activity stays static, survives app switching and clears on completion",
+      "elapsedMs": 2218,
+      "passed": true
+    }
+  ],
+  "review": {
+    "pngs_visually_inspected": true,
+    "native_geometry_inspected": true,
+    "weather_footer_content_inset": 20,
+    "podcast_content_inset": 20,
+    "native_dot_count_each": 5,
+    "native_dot_size": [
+      4,
+      4
+    ],
+    "loading_label_source_font_size": 18,
+    "loading_label_native_height_each": 22,
+    "podcast_subscribe_tooltip_visible": false,
+    "runtime_files_changed_for_this_review": false
+  },
+  "files": [
+    {
+      "file": "metro-progress-weather-moving.png",
+      "archive_member": "metro-progress-weather-moving.png",
+      "bytes": 38034,
+      "sha256": "1c5d7613879e4cca72a54a89949826ee52a33cbd6cb13fa22600b761b9e8f279",
+      "unchanged_from_archive": true
+    },
+    {
+      "file": "metro-progress-weather-moving.json",
+      "archive_member": "metro-progress-weather-moving.json",
+      "bytes": 72329,
+      "sha256": "b23891a2ea5b248820908f262e5615c27a99822acef0f7891c3b1be04c0f925f",
+      "unchanged_from_archive": true
+    },
+    {
+      "file": "metro-progress-podcast-reduced-motion.png",
+      "archive_member": "metro-progress-podcast-reduced-motion.png",
+      "bytes": 36085,
+      "sha256": "c533445aef5125f69168b62ae78d6f3f6003f91a16c0e6db30679239a7324466",
+      "unchanged_from_archive": true
+    },
+    {
+      "file": "metro-progress-podcast-reduced-motion.json",
+      "archive_member": "metro-progress-podcast-reduced-motion.json",
+      "bytes": 54247,
+      "sha256": "941222b37ab2e882822f38a32fccad24c7421a7476137ffa6e6c24a08c211a99",
+      "unchanged_from_archive": true
+    }
+  ]
+}

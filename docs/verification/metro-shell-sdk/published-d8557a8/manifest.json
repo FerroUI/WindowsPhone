@@ -1,0 +1,167 @@
+{
+  "source": "d8557a8a576c34c82dff761ba99ebe82f4f3059c",
+  "tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "workflow_run": 45964709343,
+  "qualification": "SHA-256 of archived bytes; decoded hashes on .gz entries identify connector-decoded, newline-normalized job logs. The manifest excludes itself.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5947,
+      "sha256": "c2b609267aa4d3c3f33136242efbeebb413d0bb8f6a2eee6514655ba834cb020"
+    },
+    {
+      "path": "browser-artifacts.json",
+      "bytes": 2405,
+      "sha256": "19524cbbf37139a83ab31528f4659241a929711c9ff817a3dccdc08c632f944a"
+    },
+    {
+      "path": "browser-results.json",
+      "bytes": 56721,
+      "sha256": "3d311cae8c4393450aa59dc2c60e6aa29c202b2d60c6de5cc61ffd1f6ebc6785"
+    },
+    {
+      "path": "browser-summary.json",
+      "bytes": 524,
+      "sha256": "ebeb2d7c0049fada4ec7ef2952d2813c98095502b1522907042eb52abfa3d1fb"
+    },
+    {
+      "path": "browser.log.gz",
+      "bytes": 72420,
+      "sha256": "09d2b9df08be140fb96597542665c96b6e072713c3276d57ad39687deaab8dbc",
+      "decoded_bytes": 329546,
+      "decoded_sha256": "14ca687fc2c7aa558bb2ae8d15d989b5db760ee76d64e984cfec7484db741418"
+    },
+    {
+      "path": "candidate-comparison.json",
+      "bytes": 13050,
+      "sha256": "77dcc1c9051d58b8082c8585f6396db3254a67afafea2ff1c9f4bbf65102f3ea"
+    },
+    {
+      "path": "captures/README.md",
+      "bytes": 4853,
+      "sha256": "ef1d9b4fdeb26a898bc7c9909b8d239ca2a7d9780fa5238b4f05c254feac1ff1"
+    },
+    {
+      "path": "captures/action-center-chronological-groups.json",
+      "bytes": 128157,
+      "sha256": "a9e721ce0742fe07894bcfc77005d78bbb02402903e59b9006e57be126ff9c94"
+    },
+    {
+      "path": "captures/action-center-chronological-groups.png",
+      "bytes": 39154,
+      "sha256": "255a1f6f17b90ddd08059bce926642d56e2a9fda16fe7f478287675d0a309263"
+    },
+    {
+      "path": "captures/metro-office-320-dark.json",
+      "bytes": 66929,
+      "sha256": "dd675af54ed0a18c7eea96e67833692de298fb27fe72a5a56e22b44e8c3e4f99"
+    },
+    {
+      "path": "captures/metro-office-320-dark.png",
+      "bytes": 24064,
+      "sha256": "4d8ac65c34f7bec47c374e6f407f2af13e984b4a3c9e3537d5fe0b259748dfad"
+    },
+    {
+      "path": "captures/metro-progress-weather-moving.json",
+      "bytes": 72329,
+      "sha256": "5077161aa859fae94d70b2c6252e511ad74db501fdb44f09cfbeb64ef33d19f0"
+    },
+    {
+      "path": "captures/metro-progress-weather-moving.png",
+      "bytes": 38028,
+      "sha256": "f10feb6d6dccc44f700020eccd88e044250e2f83f283c4cfb22e92eddff2fe61"
+    },
+    {
+      "path": "captures/metro-settings-320-light.json",
+      "bytes": 50315,
+      "sha256": "64814a5a1f4737139bf580d1f7645d899cc86c922e7b94d582d0c256e2a52e1d"
+    },
+    {
+      "path": "captures/metro-settings-320-light.png",
+      "bytes": 26684,
+      "sha256": "9fccf668e302b8a77cfe5997ce8ee7e64c1de844fd903194d97139a131108c03"
+    },
+    {
+      "path": "captures/provenance.json",
+      "bytes": 19258,
+      "sha256": "2947797896459325dec1e722df417336e7dbf1009c55fbc0ffe0191de45d3c0e"
+    },
+    {
+      "path": "ci.json",
+      "bytes": 20034,
+      "sha256": "687c9c7ab815f744ba0873f287084b78148600ea0bb1d260e0f03569765f5f57"
+    },
+    {
+      "path": "compiled-artifact.json",
+      "bytes": 6674,
+      "sha256": "4482bc73be47e4f65ffcf11ec30aaa1973314755d620e7a381702923939b3675"
+    },
+    {
+      "path": "deployment.log.gz",
+      "bytes": 1834,
+      "sha256": "24562e394027c7f9bcb70647d364b9e57aa9b6f95582571e94f1e143a1201230",
+      "decoded_bytes": 5008,
+      "decoded_sha256": "11da4a0cd3ae57a7c6bd60f2ca9340c85c6c39bbf23ca2d17c784daa5e053bbd"
+    },
+    {
+      "path": "identity.json",
+      "bytes": 885,
+      "sha256": "1ddb138e75760321fa471d0364a82b837233fce86e3587c5a0cd6e5dad941ec9"
+    },
+    {
+      "path": "main-workflows.json",
+      "bytes": 75132,
+      "sha256": "92d20f3df548e6d42b5e066b8b35bba6bd4ea966c863f7b2abd26365e3f901f3"
+    },
+    {
+      "path": "motion/README.md",
+      "bytes": 3694,
+      "sha256": "93ae7fa2cae0c08f487506359f1d00376d65605872464f5c6165d24f9dc6ef86"
+    },
+    {
+      "path": "motion/provenance.json",
+      "bytes": 1866,
+      "sha256": "27bbcea28e4b4ae4a369f25518d83d4c829576dd26c785572c0aab57505f1891"
+    },
+    {
+      "path": "motion/raw/metro-shell-paging-apps-frames.json",
+      "bytes": 100005,
+      "sha256": "7f831145dbd05370c9e19cd713d47251e38273290e4e1fd2c2cea02d0622899d"
+    },
+    {
+      "path": "motion/raw/metro-shell-paging-start-frames.json",
+      "bytes": 102470,
+      "sha256": "cc8ba2dd44b6a24b1a4b3af646373f138b7cbbd62b58578c82b2333de8c74e40"
+    },
+    {
+      "path": "motion/review.json",
+      "bytes": 6281,
+      "sha256": "7f001d9483a2325b91291abddd33928d1258cfc303df6e5c4c6a31d35620fd98"
+    },
+    {
+      "path": "public-delivery-responses/app-sw.js",
+      "bytes": 2604,
+      "sha256": "ec73b038edd57d262b4e62b3525c8afebd44bf5b57353500b08e5f1322e6c217"
+    },
+    {
+      "path": "public-delivery-responses/index.html",
+      "bytes": 1359,
+      "sha256": "cbecbd42b7b753ea07f4f40a64e458a3bd569003cfcf663631fe8fd6b200c898"
+    },
+    {
+      "path": "public-delivery-responses/root-document.html",
+      "bytes": 1359,
+      "sha256": "cbecbd42b7b753ea07f4f40a64e458a3bd569003cfcf663631fe8fd6b200c898"
+    },
+    {
+      "path": "public-delivery.json",
+      "bytes": 49889,
+      "sha256": "df38460674d941c40596278533899496a2e088c2981ee904c5919c31e833918e"
+    },
+    {
+      "path": "ui-artifact.json",
+      "bytes": 266,
+      "sha256": "ac05f57d699d6fbf932407c87c634ce162e4bfcf422a5eb8a27017909ccc4b86"
+    }
+  ]
+}

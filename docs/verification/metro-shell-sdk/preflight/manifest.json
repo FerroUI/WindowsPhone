@@ -1,0 +1,849 @@
+{
+  "schema": 1,
+  "archived_at_utc": "2026-11-27T07:38:27.306673+00:00",
+  "purpose": "Frozen preflight investigation evidence; pending final candidate CI is not an accepted release.",
+  "source_directory": "target/metro-local-evidence",
+  "destination_directory": "docs/verification/metro-shell-sdk/preflight",
+  "latest_candidate": "d515348c699c22110def2dded8f7b8aea4b9cd03",
+  "latest_candidate_tree": "ad870fb6a20b630070b6b9e0287dd0eec665f22c",
+  "latest_candidate_ci_status_at_archive": "pending; no completed results included",
+  "copied_file_count": 129,
+  "copied_bytes": 2563995,
+  "preservation": "All 128 files in the original local evidence inventory and the additional complete failing browser paging trace were copied without byte modification. Existing JSON path strings and gzip bytes were preserved. README.md and this manifest are the only authored archival files.",
+  "files": [
+    {
+      "path": "capture-lifecycle-fix.json",
+      "source": "target/metro-local-evidence/capture-lifecycle-fix.json",
+      "bytes": 1992,
+      "sha256": "bd68b44e062574a83164de9cdaf6ba74cd1eee6f2c6cca97b7630750a0ca0d9b"
+    },
+    {
+      "path": "compiled-verification-comparison.json",
+      "source": "target/metro-local-evidence/compiled-verification-comparison.json",
+      "bytes": 12469,
+      "sha256": "a8d2506566d543aa935f34821d6086edc8d8d6bcae2125995594f0fe8efc5ff9"
+    },
+    {
+      "path": "controls.log.gz",
+      "source": "target/metro-local-evidence/controls.log.gz",
+      "bytes": 5734,
+      "sha256": "01a92082782635bd8d7b8390b3fd21aeea94a399cf7573af0da2a4037a085c58",
+      "uncompressed_bytes": 22339,
+      "uncompressed_sha256": "591640d083f02ea4db254143c122c4861eba90895b626c0d8246c40e5215c9b4"
+    },
+    {
+      "path": "first-android-arm.log.gz",
+      "source": "target/metro-local-evidence/first-android-arm.log.gz",
+      "bytes": 48654,
+      "sha256": "e8ba49980a8046f95e331aeef01a1a07bb733c47a6f6ae3ee576ccfd07202b76",
+      "uncompressed_bytes": 237341,
+      "uncompressed_sha256": "661355056b132c58a846fa5a56addee98da025b37c1e266011771706352d446c"
+    },
+    {
+      "path": "first-android-notification-review.json",
+      "source": "target/metro-local-evidence/first-android-notification-review.json",
+      "bytes": 26928,
+      "sha256": "e7cfb45387edb9fa1516874da4c65178cad3de806ade777acfb990bd65bb6073"
+    },
+    {
+      "path": "first-android-ui.log.gz",
+      "source": "target/metro-local-evidence/first-android-ui.log.gz",
+      "bytes": 40251,
+      "sha256": "42e270e6b4afa84e81b4a0bfc29bd856ebce557fd3e8425c7106448d3eed5c1d",
+      "uncompressed_bytes": 203332,
+      "uncompressed_sha256": "5ebb1ce064ea6321556cb6273bb7d64b7d37bc304f9221704a33c6921a700b1e"
+    },
+    {
+      "path": "first-android/device-notifications-admitted.json",
+      "source": "target/metro-local-evidence/first-android/device-notifications-admitted.json",
+      "bytes": 8762,
+      "sha256": "5ab41833bdb22164926348fdf5be849ecca67502794a2011a82fb07065b55380"
+    },
+    {
+      "path": "first-android/device-notifications-revoked.json",
+      "source": "target/metro-local-evidence/first-android/device-notifications-revoked.json",
+      "bytes": 8459,
+      "sha256": "428ca3be5fe30a6fa8ee58133d2ca8fc100aa178a01dda101c60c444dc2b5230"
+    },
+    {
+      "path": "first-android/device-notifications-visible.json",
+      "source": "target/metro-local-evidence/first-android/device-notifications-visible.json",
+      "bytes": 9540,
+      "sha256": "e3b2e29b8b978f72c203fee05ab5d77d1f48f4ee53c4aee810860b7f2271019f"
+    },
+    {
+      "path": "first-android/device-sms-ui.json",
+      "source": "target/metro-local-evidence/first-android/device-sms-ui.json",
+      "bytes": 8306,
+      "sha256": "92be9dbf289752c965a9dfa67d1b6f67fb80b5c30c332c966894c44e47b48f5d"
+    },
+    {
+      "path": "first-android/device-sms.json",
+      "source": "target/metro-local-evidence/first-android/device-sms.json",
+      "bytes": 7664,
+      "sha256": "70ac446959dd62e7cf6dfe532a500accf246dcb792fb96ae511ebb87fcf50dce"
+    },
+    {
+      "path": "first-android/device-start-restored.json",
+      "source": "target/metro-local-evidence/first-android/device-start-restored.json",
+      "bytes": 8395,
+      "sha256": "d3434c70e938985f7ee0332ca454b026de05f4d75ba77e6c879d80e36495ff2e"
+    },
+    {
+      "path": "first-android/device-start-unread.json",
+      "source": "target/metro-local-evidence/first-android/device-start-unread.json",
+      "bytes": 8395,
+      "sha256": "fcdbc9210b0482b8519425d65bc1e147a9afecd056d69699201fdebc5db05444"
+    },
+    {
+      "path": "first-android/device.json",
+      "source": "target/metro-local-evidence/first-android/device.json",
+      "bytes": 66,
+      "sha256": "d9fbc85bbeedfd300e50bad6e3670754182d01c23eca96fd39b1aa994536fc82"
+    },
+    {
+      "path": "first-android/result.json",
+      "source": "target/metro-local-evidence/first-android/result.json",
+      "bytes": 1924,
+      "sha256": "ca8543dd7c952606665481f5b583142fb294cc2ca87a9fae8b247e252c182cb0"
+    },
+    {
+      "path": "first-browser-rust.json",
+      "source": "target/metro-local-evidence/first-browser-rust.json",
+      "bytes": 52019,
+      "sha256": "619f064f7e0d2d99096da5ccbea1bd61f550d2ef52cd8dea8125dab99976d90f"
+    },
+    {
+      "path": "first-browser.log.gz",
+      "source": "target/metro-local-evidence/first-browser.log.gz",
+      "bytes": 58140,
+      "sha256": "c4710a88b5746c21439790ac2d96d2e5510c75ebf596cb5b34a6acb878ff399d",
+      "uncompressed_bytes": 269453,
+      "uncompressed_sha256": "dd80d9e1f050aa79eb511e1da83d846258ec012e8299089869659c283c10e96d"
+    },
+    {
+      "path": "first-browser/failure-view.json",
+      "source": "target/metro-local-evidence/first-browser/failure-view.json",
+      "bytes": 26093,
+      "sha256": "c9a28c3c9157e1289dafa42c9e1c8d7c63dc5578b4ac7bdaf3e166eb542d57b1"
+    },
+    {
+      "path": "first-browser/metro-controls-failure.json",
+      "source": "target/metro-local-evidence/first-browser/metro-controls-failure.json",
+      "bytes": 75648,
+      "sha256": "3129e0fd3a968eb0bc712cc9e52347f0248cf8652f196286b8192d390e855ff7"
+    },
+    {
+      "path": "first-browser/results.json",
+      "source": "target/metro-local-evidence/first-browser/results.json",
+      "bytes": 44366,
+      "sha256": "9b2fe55e8ed83ec0b02ac100f1a6d69bd39ec45263514bed202ac936c5d3c857"
+    },
+    {
+      "path": "first-ci-logs.json",
+      "source": "target/metro-local-evidence/first-ci-logs.json",
+      "bytes": 1299,
+      "sha256": "66af77958d1547381ceb3904d8dbab5cf56ce97072d9427ca8e0f4343649c102"
+    },
+    {
+      "path": "first-ci.json",
+      "source": "target/metro-local-evidence/first-ci.json",
+      "bytes": 31413,
+      "sha256": "e22952e2cf39c4056b9cef86dc4963d0c38523bb08067aa990d05fbcf00a0626"
+    },
+    {
+      "path": "first-ios-visual-review.json",
+      "source": "target/metro-local-evidence/first-ios-visual-review.json",
+      "bytes": 53960,
+      "sha256": "e93189ce5698f57a32452f5e5055334abb022290cd5544a010c40d3ac42111c7"
+    },
+    {
+      "path": "first-ios.log.gz",
+      "source": "target/metro-local-evidence/first-ios.log.gz",
+      "bytes": 40212,
+      "sha256": "1f1cf8e0637bf1f6c723e29e6238165a0e3d46135d018fa1f14f61240ceffbba",
+      "uncompressed_bytes": 205576,
+      "uncompressed_sha256": "c04eac50a18055906b1f92cd862b7193cfe75b510580e48c12f53e1519f545a2"
+    },
+    {
+      "path": "first-ios/device-tests.json",
+      "source": "target/metro-local-evidence/first-ios/device-tests.json",
+      "bytes": 3142,
+      "sha256": "42faea81ae7915888830698bc7a4a3603ee8e2e08c4ab663a98bc2e87b9c1ade"
+    },
+    {
+      "path": "first-ios/home-restored.json",
+      "source": "target/metro-local-evidence/first-ios/home-restored.json",
+      "bytes": 4058,
+      "sha256": "8a44bc47d819f1184ed1a1609902d20998d1e29ab636093756b8097c688fcea7"
+    },
+    {
+      "path": "first-ios/launch-driver-cleanup-begin.json",
+      "source": "target/metro-local-evidence/first-ios/launch-driver-cleanup-begin.json",
+      "bytes": 651,
+      "sha256": "43872d9850a20792a27e61db746bd529abfcd7589062a7ccb9cf3ff086f1bd79"
+    },
+    {
+      "path": "first-ios/launch-driver-cleanup-end.json",
+      "source": "target/metro-local-evidence/first-ios/launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "36f3d0ba3ad2c19087025dcad5728402ef8fdc858713726ff585bf2b524b7f46"
+    },
+    {
+      "path": "first-ios/launch-driver-started.json",
+      "source": "target/metro-local-evidence/first-ios/launch-driver-started.json",
+      "bytes": 636,
+      "sha256": "8c6988ebd0b40ee2f7bc65ecaee77874a8e0cc2b06448c73821d7a668879ec41"
+    },
+    {
+      "path": "first-ios/navigation-1-driver.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-1-driver.json",
+      "bytes": 798,
+      "sha256": "7f6b0292d3d68ddbcf9f57612725c470ccdb04d837044bb0889b2b36b1787a24"
+    },
+    {
+      "path": "first-ios/navigation-2-driver.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-2-driver.json",
+      "bytes": 1084,
+      "sha256": "51f8131584c28888a1a9c7ca306304a72097aa9ed198f15c6f49ce99b13a9878"
+    },
+    {
+      "path": "first-ios/navigation-3-driver.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-3-driver.json",
+      "bytes": 1376,
+      "sha256": "20e3ed1b67361314462e1066763b8ea2b539adc486792266afff9fe93a9251c7"
+    },
+    {
+      "path": "first-ios/navigation-4-driver.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-4-driver.json",
+      "bytes": 1667,
+      "sha256": "27da95448a2e8124ccc6f2db92c997ddcf94d9a4c65b0525b3b4898afcbeffa0"
+    },
+    {
+      "path": "first-ios/navigation-back.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-back.json",
+      "bytes": 4058,
+      "sha256": "75c70998abe5363047e8e101bd537913523e3be6a34a1954e305b822b071a246"
+    },
+    {
+      "path": "first-ios/navigation-request-1.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-request-1.json",
+      "bytes": 102,
+      "sha256": "c00375a381900ddfd43736ca6e0a1d5d18520ac643516ad36afb0b8e9f5a0f24"
+    },
+    {
+      "path": "first-ios/navigation-request-2.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-request-2.json",
+      "bytes": 100,
+      "sha256": "b4db7d2ce9358676970ec19558ce86fc989e367859f619d766b518c62b0a2a2d"
+    },
+    {
+      "path": "first-ios/navigation-request-3.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-request-3.json",
+      "bytes": 102,
+      "sha256": "3cde485ea23ef91899492c0533097a7658a1472591392ad4dafd373bba2274d2"
+    },
+    {
+      "path": "first-ios/navigation-request-4.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-request-4.json",
+      "bytes": 102,
+      "sha256": "dcd587f5982bd9a5d8f4868f9c1e557bb1d684c55a221ef133cad3fe9b62b903"
+    },
+    {
+      "path": "first-ios/navigation-search-again.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-search-again.json",
+      "bytes": 4048,
+      "sha256": "32f217765a6b168353d1604fb6825713927b40f76d2195e3041c70d3d42598bd"
+    },
+    {
+      "path": "first-ios/navigation-search.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-search.json",
+      "bytes": 4047,
+      "sha256": "3df27613bdf90dbe348a4605d851bebef6cac4c193da0af8bbf10c005c47d87f"
+    },
+    {
+      "path": "first-ios/navigation-start.json",
+      "source": "target/metro-local-evidence/first-ios/navigation-start.json",
+      "bytes": 4059,
+      "sha256": "a6fc513df51e27d1522e6860643262eb3bb2e5ff43c10f264c395fefbd0b8dbe"
+    },
+    {
+      "path": "first-ios/people.json",
+      "source": "target/metro-local-evidence/first-ios/people.json",
+      "bytes": 4085,
+      "sha256": "c5af4e9ff5d4460150c6580302e39f64a871f6ebb0af261bfe2863531cb53924"
+    },
+    {
+      "path": "first-ios/prompt-handler.json",
+      "source": "target/metro-local-evidence/first-ios/prompt-handler.json",
+      "bytes": 1670,
+      "sha256": "73082ce511c9a97edaca1e06cffd60713040c67e7b72f26fbc1b7aa1e6cbbae8"
+    },
+    {
+      "path": "first-ios/settings.json",
+      "source": "target/metro-local-evidence/first-ios/settings.json",
+      "bytes": 4100,
+      "sha256": "ac89c7db435a96cb29b43a5f72aadea00b2c74c74e104654cc165b2156343ff4"
+    },
+    {
+      "path": "first-ios/start.json",
+      "source": "target/metro-local-evidence/first-ios/start.json",
+      "bytes": 4010,
+      "sha256": "68f8d71afe92d68521d8e2bc869b6fb4512207903279c626dd488e36821f8765"
+    },
+    {
+      "path": "first-linux.log.gz",
+      "source": "target/metro-local-evidence/first-linux.log.gz",
+      "bytes": 43999,
+      "sha256": "c70673e943669b7ac771e21cabcdccb7a107cf77e74b11022191a4cf3c6c438d",
+      "uncompressed_bytes": 235903,
+      "uncompressed_sha256": "30890764a1cd4271299d2a767dcf8cae030858e9454e170c0ed3c13f6c25414f"
+    },
+    {
+      "path": "first-macos.log.gz",
+      "source": "target/metro-local-evidence/first-macos.log.gz",
+      "bytes": 34679,
+      "sha256": "3d0f1f056c18610ce34d242703f115a933bf313d856cdbea8fd6cc0c1172a7b2",
+      "uncompressed_bytes": 186711,
+      "uncompressed_sha256": "ae3b4b9ed16c6fddc179f1bb6c60fc57578950f6b084b5f99f0da2fa6744e278"
+    },
+    {
+      "path": "first-windows.log.gz",
+      "source": "target/metro-local-evidence/first-windows.log.gz",
+      "bytes": 37748,
+      "sha256": "c1579573eb3ee77969bae3b9acec726f5f1f85bb2887088392e9c53d1d777e92",
+      "uncompressed_bytes": 212518,
+      "uncompressed_sha256": "9bfc76a006822e71ef41e75d841ddf6eb8e47f4034ee5e7afc0206bc865ffdcf"
+    },
+    {
+      "path": "javascript-retry.log.gz",
+      "source": "target/metro-local-evidence/javascript-retry.log.gz",
+      "bytes": 3409,
+      "sha256": "63e5de89d86021eee6f429a82ae313f16a5501e8d92c4d3789a643aaa778c123",
+      "uncompressed_bytes": 7920,
+      "uncompressed_sha256": "6a7368cda2a0adde833e001ff429e7c0c8ce004ea713d7ffe612bfb49624714a"
+    },
+    {
+      "path": "javascript.log.gz",
+      "source": "target/metro-local-evidence/javascript.log.gz",
+      "bytes": 3345,
+      "sha256": "bde45fdcedd96a63578c46f78d3087f016b8a86be37232173f79eb5322e3db66",
+      "uncompressed_bytes": 7806,
+      "uncompressed_sha256": "ef1a735f3a439f70215721b3770616a3dd4f7dbb41baa63d344af74edfd1eb0e"
+    },
+    {
+      "path": "local-browser-startup/README.json",
+      "source": "target/metro-local-evidence/local-browser-startup/README.json",
+      "bytes": 831,
+      "sha256": "1c5ad1dec0e0be769f425060880dc35af57b8717ac016d8a814112ee9bf29f61"
+    },
+    {
+      "path": "local-browser-startup/downloaded-chromium.json",
+      "source": "target/metro-local-evidence/local-browser-startup/downloaded-chromium.json",
+      "bytes": 3690,
+      "sha256": "e3e5c8e93d4fbf6b7149924c086141db8d60761b58d7702f17b28bd2001de8e9"
+    },
+    {
+      "path": "local-browser-startup/downloaded-chromium.log.gz",
+      "source": "target/metro-local-evidence/local-browser-startup/downloaded-chromium.log.gz",
+      "bytes": 917,
+      "sha256": "494c357cf0a86f77f692d5737df9e243c55f0401e5df5e43c0e384b826bd5021",
+      "uncompressed_bytes": 3195,
+      "uncompressed_sha256": "26067a1b3d9f964f831f9c5d180070671fb679336a71eeb47718a845d37a6b6c"
+    },
+    {
+      "path": "local-browser-startup/installed-launcher.json",
+      "source": "target/metro-local-evidence/local-browser-startup/installed-launcher.json",
+      "bytes": 583,
+      "sha256": "da8701caa53e2b78450e6e70cf5297827778a83211ecca208664299096f04aeb"
+    },
+    {
+      "path": "local-browser-startup/installed-launcher.log.gz",
+      "source": "target/metro-local-evidence/local-browser-startup/installed-launcher.log.gz",
+      "bytes": 268,
+      "sha256": "2718d640c8ac6abdf1de3abe753f8feb6311b4bbcc6ce0b28ac5bad1464dd1b7",
+      "uncompressed_bytes": 405,
+      "uncompressed_sha256": "58dc21c20efba1be44473bd82081cf638ace9831b392d50e6c0cd2f52cccec96"
+    },
+    {
+      "path": "metro-weather-footer-tests.log.gz",
+      "source": "target/metro-local-evidence/metro-weather-footer-tests.log.gz",
+      "bytes": 4268,
+      "sha256": "b9f6767ea76bc3edc22a5ed05a4698019fabeeb44d0c6d5661ef0ec819a46068",
+      "uncompressed_bytes": 17822,
+      "uncompressed_sha256": "7cb7b4bb98c95a7a1a47492658f31945ef5b1d4d32cecfbfb870862ad56c6c19"
+    },
+    {
+      "path": "native-serial.log.gz",
+      "source": "target/metro-local-evidence/native-serial.log.gz",
+      "bytes": 9548,
+      "sha256": "eeb29db99fd0f364fb6c2074d4dd581f330256705c563e46ec5a29d852e5cbdd",
+      "uncompressed_bytes": 40736,
+      "uncompressed_sha256": "83029f4cac3e8844110fdd6ac60c474ff42dac6e08e5a5b65753994f589ffc63"
+    },
+    {
+      "path": "results.json",
+      "source": "target/metro-local-evidence/results.json",
+      "bytes": 6696,
+      "sha256": "0093b2e01bd508ec6fa9364d393ceb2a4ac4dcc049dd86733fec8104c6fc7677"
+    },
+    {
+      "path": "retry-android-arm-logs.log.gz",
+      "source": "target/metro-local-evidence/retry-android-arm-logs.log.gz",
+      "bytes": 41190,
+      "sha256": "beb87008eca63cd0336f0a87034d74e879b5b57750136f7b446dfe697ef5966c",
+      "uncompressed_bytes": 205199,
+      "uncompressed_sha256": "ce60c0ed53b43063462aa59192989d23665c3903b61dfbc5586c6fedeb300c1a"
+    },
+    {
+      "path": "retry-android-ui-logs.log.gz",
+      "source": "target/metro-local-evidence/retry-android-ui-logs.log.gz",
+      "bytes": 35460,
+      "sha256": "be798bcfa4bbae01fb948f0c690bd1da42d2ca1ef0aeb61999b5871fbc6b5416",
+      "uncompressed_bytes": 179508,
+      "uncompressed_sha256": "8d9e608052a0358cad44e7d63bdbe81b5b25b55c5d08e20d05461844c9960ca8"
+    },
+    {
+      "path": "retry-browser-log.log.gz",
+      "source": "target/metro-local-evidence/retry-browser-log.log.gz",
+      "bytes": 65129,
+      "sha256": "935a752694058b26cb4b7113d626ee709713b5029af67300cbd6b03f16bdb78d",
+      "uncompressed_bytes": 300115,
+      "uncompressed_sha256": "6e01ceb96b6a8eefae02472f5ef8cc875dc2b8d42987660588a8518028c86ffa"
+    },
+    {
+      "path": "retry-browser/raw/action-center-chronological-groups.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-chronological-groups.json",
+      "bytes": 128157,
+      "sha256": "c7fdbc593583a1fe7b2cb9a845e5330c361dcb757fcb8cac5663c00cde38f57d"
+    },
+    {
+      "path": "retry-browser/raw/action-center-chronological-groups.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-chronological-groups.png",
+      "bytes": 38404,
+      "sha256": "e2103f1c263c1548ed8df4475c676687371ae07673ee2bda70b1857df29365bf"
+    },
+    {
+      "path": "retry-browser/raw/action-center-native-group-dismissal.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-native-group-dismissal.json",
+      "bytes": 115545,
+      "sha256": "8d754cf0ff89cc315f1b96aee03cb1de8c4709041221f3c41072675c28ce88e9"
+    },
+    {
+      "path": "retry-browser/raw/action-center-native-group-dismissal.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-native-group-dismissal.png",
+      "bytes": 29242,
+      "sha256": "4260ad977be3c2df55a538c8d19c3439959875d3bc32310e86d92880264075fe"
+    },
+    {
+      "path": "retry-browser/raw/action-center-parallel-clear.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-parallel-clear.json",
+      "bytes": 99429,
+      "sha256": "ff74874a7a3af84fdcf5cb9a0f429ff1b21fdd5bd5b1aad252b8777eaa3fcb14"
+    },
+    {
+      "path": "retry-browser/raw/action-center-parallel-clear.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-parallel-clear.png",
+      "bytes": 19632,
+      "sha256": "32ca942b892d855df4fca7362a5c1d83fd5b003cf76f9a3fed9e643b4fa905fb"
+    },
+    {
+      "path": "retry-browser/raw/action-center-private-lock-content.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-private-lock-content.json",
+      "bytes": 61014,
+      "sha256": "162fe6338fa6eafa6569fdc5415d2ce3fbf3e9ebe1faffa2a1e991421587dc98"
+    },
+    {
+      "path": "retry-browser/raw/action-center-private-lock-content.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/action-center-private-lock-content.png",
+      "bytes": 20896,
+      "sha256": "fd69900279c90d753f7f2f705c57c83e5917ae9a162f3f96286a7029e602d406"
+    },
+    {
+      "path": "retry-browser/raw/metro-office-320-light.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-office-320-light.json",
+      "bytes": 66929,
+      "sha256": "ebb4027df9dd1d3313d599aad56f9a44750438a4b17332a39c05a04a9f056843"
+    },
+    {
+      "path": "retry-browser/raw/metro-office-320-light.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-office-320-light.png",
+      "bytes": 24051,
+      "sha256": "a0f0f05ee10ab8749ef0bd7e1a0d2a5b2b06922019ec85e2757e27dbd1b906f1"
+    },
+    {
+      "path": "retry-browser/raw/metro-office-search-page.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-office-search-page.json",
+      "bytes": 56856,
+      "sha256": "8c3d84a62881c5ab273b6f0845ef4f2ba3d5ed48acc60ad4ab69ae983b25e59a"
+    },
+    {
+      "path": "retry-browser/raw/metro-office-search-page.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-office-search-page.png",
+      "bytes": 27532,
+      "sha256": "c9fe122f334f615eaf0610bbafc948fcc906c307e52567d056c598fe54f65dca"
+    },
+    {
+      "path": "retry-browser/raw/metro-progress-podcast-reduced-motion.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-progress-podcast-reduced-motion.json",
+      "bytes": 57745,
+      "sha256": "37962cc2d88ac141a6873c3a6edf621d8ca68f65662d77434dd220bebaf20dde"
+    },
+    {
+      "path": "retry-browser/raw/metro-progress-podcast-reduced-motion.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-progress-podcast-reduced-motion.png",
+      "bytes": 38807,
+      "sha256": "10f01206d0b2fa3bdc9851141f256503681593c3ca1fea81f4fdfe129950dce6"
+    },
+    {
+      "path": "retry-browser/raw/metro-progress-weather-moving.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-progress-weather-moving.json",
+      "bytes": 72331,
+      "sha256": "bcabaf0aa2a6fd4d0e6ff475c52a3b34a87979c8f841c78d734df9cb3b57d69f"
+    },
+    {
+      "path": "retry-browser/raw/metro-progress-weather-moving.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-progress-weather-moving.png",
+      "bytes": 37112,
+      "sha256": "6a57b9973b9029cf7d10d4af213e465c42bec693abd7304155365cfb8db20d81"
+    },
+    {
+      "path": "retry-browser/raw/metro-settings-320-light.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-settings-320-light.json",
+      "bytes": 50315,
+      "sha256": "e4f76e89ef4099d7ed7ea937520259a7d1983f291a36e7fd47503b1113a696f7"
+    },
+    {
+      "path": "retry-browser/raw/metro-settings-320-light.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-settings-320-light.png",
+      "bytes": 26675,
+      "sha256": "3154b0f40b922ec850795fe624fbca879d4fbbeb67f53750b9c8de89321c1141"
+    },
+    {
+      "path": "retry-browser/raw/metro-settings-system-scrolled.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-settings-system-scrolled.json",
+      "bytes": 85390,
+      "sha256": "08336fd4c5fd2e2128e0b9b7dad1d222dd29813ffe8ce7f3339ce158887a1033"
+    },
+    {
+      "path": "retry-browser/raw/metro-settings-system-scrolled.png",
+      "source": "target/metro-local-evidence/retry-browser/raw/metro-settings-system-scrolled.png",
+      "bytes": 39845,
+      "sha256": "d48122bcf027ac3bb3ca8093d2c53ee38894d299264962f5e51f1315cf045e99"
+    },
+    {
+      "path": "retry-browser/raw/metro-shell-paging-apps-frames.json",
+      "source": "target/metro-retry-ui/metro-shell-paging-apps-frames.json",
+      "bytes": 82215,
+      "sha256": "78391a3f9c05fbc507fb1a87177fc64e04c37714020760ede34920219a69f617",
+      "archive": "target/metro-retry-ui.zip",
+      "archive_sha256": "d557d4677abb76d2338e5b7e2a491236058b0ebfa157581b59b7fecb7d2cf571",
+      "archive_member": "metro-shell-paging-apps-frames.json",
+      "matches_archive_member_bytes": true,
+      "frame_count": 59
+    },
+    {
+      "path": "retry-browser/raw/phone-input-dark-focused.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/phone-input-dark-focused.json",
+      "bytes": 65180,
+      "sha256": "9fea64fd9f9d5d090072eeccb96d076e88ea89002629f82fefcee6e90a50be4c"
+    },
+    {
+      "path": "retry-browser/raw/results.json",
+      "source": "target/metro-local-evidence/retry-browser/raw/results.json",
+      "bytes": 72284,
+      "sha256": "c6e1cac231627b3313f8a7e1426ce1fa02d9810c367c336e40c3a327bad557e5"
+    },
+    {
+      "path": "retry-browser/review.json",
+      "source": "target/metro-local-evidence/retry-browser/review.json",
+      "bytes": 36235,
+      "sha256": "dc9a1ae65defdaad659ce2fd99559313d42c90234eb64df9e442ac18a80b6ce0"
+    },
+    {
+      "path": "retry-ci-logs.json",
+      "source": "target/metro-local-evidence/retry-ci-logs.json",
+      "bytes": 2199,
+      "sha256": "597f9b41a978077f994582da34b780b013fed1ccd49940424b245b841c0e936e"
+    },
+    {
+      "path": "retry-ci.json",
+      "source": "target/metro-local-evidence/retry-ci.json",
+      "bytes": 61456,
+      "sha256": "a3c243abfd7bb72e540aebf1364535ba4fe8ae5886f71cab2cd92d31b6bbbd6e"
+    },
+    {
+      "path": "retry-ios-logs.log.gz",
+      "source": "target/metro-local-evidence/retry-ios-logs.log.gz",
+      "bytes": 50978,
+      "sha256": "af28570cd16928df2c7f9765efa1a776f663f6ecd128abddccdf195e48ac42e5",
+      "uncompressed_bytes": 322192,
+      "uncompressed_sha256": "8a535bd71519bd4378974564951810752dc5037e511cddf11705b24629605770"
+    },
+    {
+      "path": "retry-ios/device-tests.json",
+      "source": "target/metro-local-evidence/retry-ios/device-tests.json",
+      "bytes": 3142,
+      "sha256": "e78543abcc6851ae7f71657dfc900b6152e9a4d8fd01f7130ed92074f0680fbc"
+    },
+    {
+      "path": "retry-ios/home-restored.json",
+      "source": "target/metro-local-evidence/retry-ios/home-restored.json",
+      "bytes": 4059,
+      "sha256": "0eaf4b52b7f1ac98035b4a3de23b25b34be4f4c6ce0390ac41408bbf66d2edad"
+    },
+    {
+      "path": "retry-ios/last-observation.json",
+      "source": "target/metro-local-evidence/retry-ios/last-observation.json",
+      "bytes": 4059,
+      "sha256": "c9412aa2518d8420eb37d01b907e2c875873946e8be4860b43515e6d8cbcc45a"
+    },
+    {
+      "path": "retry-ios/launch-driver-cleanup-begin.json",
+      "source": "target/metro-local-evidence/retry-ios/launch-driver-cleanup-begin.json",
+      "bytes": 651,
+      "sha256": "7b9934d6254eafc3e11b20dda97be970dcf0e9082ec03a8cf5802de1fbb26870"
+    },
+    {
+      "path": "retry-ios/launch-driver-cleanup-end.json",
+      "source": "target/metro-local-evidence/retry-ios/launch-driver-cleanup-end.json",
+      "bytes": 653,
+      "sha256": "cbab5a5d8ada09d04c1be65477165bb85f5df7e05d91e2d61333a129843d9d14"
+    },
+    {
+      "path": "retry-ios/launch-driver-started.json",
+      "source": "target/metro-local-evidence/retry-ios/launch-driver-started.json",
+      "bytes": 636,
+      "sha256": "523fa6ae1cc0d359d1fd05324e5e1c8ca2c02ee84ca0227aeafb663bb58b8b40"
+    },
+    {
+      "path": "retry-ios/messages.json",
+      "source": "target/metro-local-evidence/retry-ios/messages.json",
+      "bytes": 4169,
+      "sha256": "3cc71cf032c7ab4c1018c3caa6daf8ecd2d81603d561549552edf97966618933"
+    },
+    {
+      "path": "retry-ios/navigation-1-driver.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-1-driver.json",
+      "bytes": 798,
+      "sha256": "baa6d5d1f7392bef356cc688448d60633ec60444b363d6342e6ae9734219420f"
+    },
+    {
+      "path": "retry-ios/navigation-2-driver.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-2-driver.json",
+      "bytes": 1084,
+      "sha256": "6e4f947e54874926cd53326feda5fa778b1244add32ba1b536ea531f0d3e2045"
+    },
+    {
+      "path": "retry-ios/navigation-3-driver.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-3-driver.json",
+      "bytes": 1376,
+      "sha256": "c5c7ff176c58d1304d5334d6a4acd8570951bc8a570328de4c96f76c8fb38b5c"
+    },
+    {
+      "path": "retry-ios/navigation-4-driver.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-4-driver.json",
+      "bytes": 1667,
+      "sha256": "740952f329382b1f8f5386a6415f0b23346c7a4f7d49f1c05d4dfc133d81632b"
+    },
+    {
+      "path": "retry-ios/navigation-back.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-back.json",
+      "bytes": 4059,
+      "sha256": "3095f193d125387a0e83eca2ad8496d0492d5008efb82f86997f6b8a60c12cac"
+    },
+    {
+      "path": "retry-ios/navigation-request-1.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-request-1.json",
+      "bytes": 103,
+      "sha256": "efd869076bcd40f2d11363e4b912e0ced9f45947c20f94404f2e3c96740bd2ff"
+    },
+    {
+      "path": "retry-ios/navigation-request-2.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-request-2.json",
+      "bytes": 101,
+      "sha256": "77dc2570d60333d989a941c06da8f9d0c4b932e7977aa7674ce52659edcb5011"
+    },
+    {
+      "path": "retry-ios/navigation-request-3.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-request-3.json",
+      "bytes": 103,
+      "sha256": "c0eba8114417dc0a63bb025b92de0f341920ae5fb37c6c040f5f7a89ea16d9a4"
+    },
+    {
+      "path": "retry-ios/navigation-request-4.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-request-4.json",
+      "bytes": 102,
+      "sha256": "a9e3287d31ae046ff127f2fca41cfec0cab19724972eb6e9e10ae3d03132757f"
+    },
+    {
+      "path": "retry-ios/navigation-search-again.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-search-again.json",
+      "bytes": 4048,
+      "sha256": "63b60749ecd27b0cb33594be2198972e2ffb83715486ffc030f48e4288e0114a"
+    },
+    {
+      "path": "retry-ios/navigation-search.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-search.json",
+      "bytes": 4048,
+      "sha256": "b687de35e5a142ecd615883bcb55e53b0f3a253d68bef9c89119b3f6eac9cb08"
+    },
+    {
+      "path": "retry-ios/navigation-start.json",
+      "source": "target/metro-local-evidence/retry-ios/navigation-start.json",
+      "bytes": 4059,
+      "sha256": "6b003e560c4fce34e523bac4d606e4f1a9753cb5864ba87039a084e66091da61"
+    },
+    {
+      "path": "retry-ios/owned-installation.json",
+      "source": "target/metro-local-evidence/retry-ios/owned-installation.json",
+      "bytes": 404,
+      "sha256": "90e130baf528d8293acbad01b537223ada4c50cae5cb0adf449d7925cea7d90d"
+    },
+    {
+      "path": "retry-ios/people.json",
+      "source": "target/metro-local-evidence/retry-ios/people.json",
+      "bytes": 4086,
+      "sha256": "d78f7d864c654b9c0a930fbb742b886a8e2975daa5e6e45e62589fed8338c806"
+    },
+    {
+      "path": "retry-ios/phone.json",
+      "source": "target/metro-local-evidence/retry-ios/phone.json",
+      "bytes": 4139,
+      "sha256": "7de0093eeec6dce2bf5cc13143845565e0d61ec2e666ab3b421fc4b189710875"
+    },
+    {
+      "path": "retry-ios/prompt-handler.json",
+      "source": "target/metro-local-evidence/retry-ios/prompt-handler.json",
+      "bytes": 1670,
+      "sha256": "d92be3c2610c160986a04cc94a29074e6eaf24dfc7ee78272ebda2eb8fecafff"
+    },
+    {
+      "path": "retry-ios/provenance.json",
+      "source": "target/metro-local-evidence/retry-ios/provenance.json",
+      "bytes": 5475,
+      "sha256": "0426fd13ba806d9a5288e09d25ae2c3cef66e22effff2285f34af202a3960277"
+    },
+    {
+      "path": "retry-ios/request-1.json",
+      "source": "target/metro-local-evidence/retry-ios/request-1.json",
+      "bytes": 100,
+      "sha256": "b0376dd7aa8c03e1f629e07088eda7f01ed38c17d1dca84b72655cd9be1705a6"
+    },
+    {
+      "path": "retry-ios/request-2.json",
+      "source": "target/metro-local-evidence/retry-ios/request-2.json",
+      "bytes": 124,
+      "sha256": "511b0962faaae6d872dda5a7a3ff7ae839401aaf1c8a5889bc0ee0583b72fe4a"
+    },
+    {
+      "path": "retry-ios/request-3.json",
+      "source": "target/metro-local-evidence/retry-ios/request-3.json",
+      "bytes": 106,
+      "sha256": "54a6ff5a65fe388e5f5b99ba63af0287482e7e2fecb4580f4df882ccb5723da9"
+    },
+    {
+      "path": "retry-ios/request-4.json",
+      "source": "target/metro-local-evidence/retry-ios/request-4.json",
+      "bytes": 110,
+      "sha256": "a5101991fcc3f9107a45d7f1fbd15db206429d31e560842681a809986be1438f"
+    },
+    {
+      "path": "retry-ios/request-5.json",
+      "source": "target/metro-local-evidence/retry-ios/request-5.json",
+      "bytes": 108,
+      "sha256": "7516cf99629cd6822371399f767822076171d4211f880c02837206cad71ee66a"
+    },
+    {
+      "path": "retry-ios/request-6.json",
+      "source": "target/metro-local-evidence/retry-ios/request-6.json",
+      "bytes": 82,
+      "sha256": "7e2b851f4bbca002184f8e0a8f688b11e017978fc84effe3b577ceffab954385"
+    },
+    {
+      "path": "retry-ios/settings.json",
+      "source": "target/metro-local-evidence/retry-ios/settings.json",
+      "bytes": 4101,
+      "sha256": "0a288ff84ec27e92dd69bec33ff8fc4c49d4df6501338260030d91c1c2021b78"
+    },
+    {
+      "path": "retry-ios/start.json",
+      "source": "target/metro-local-evidence/retry-ios/start.json",
+      "bytes": 4010,
+      "sha256": "b114d1d938197fb9d3e87acc83fa1cf0ddcd59ffea349780ae4faecc052a50f6"
+    },
+    {
+      "path": "retry-ios/wallet.json",
+      "source": "target/metro-local-evidence/retry-ios/wallet.json",
+      "bytes": 4110,
+      "sha256": "640de8e1f4549e5985d76029253012ba26f016b5e95756da250a2bcf8cbe3852"
+    },
+    {
+      "path": "retry-linux-logs.log.gz",
+      "source": "target/metro-local-evidence/retry-linux-logs.log.gz",
+      "bytes": 36632,
+      "sha256": "711a5572302b5ec5eb7c50654675c58a0e9c9e44536bf91704e0639052188cfa",
+      "uncompressed_bytes": 197547,
+      "uncompressed_sha256": "277dbca1f7f619c5f19fd8c5a5bf30bbde526262b56bb2ac8c4da8b23a2c24c8"
+    },
+    {
+      "path": "retry-macos-logs.log.gz",
+      "source": "target/metro-local-evidence/retry-macos-logs.log.gz",
+      "bytes": 28630,
+      "sha256": "4b781e3da034faf3cf821eb9381873ba9e8267b672ab5a733b623900f45d8e13",
+      "uncompressed_bytes": 155317,
+      "uncompressed_sha256": "ad3c8262d0560d9b131a7aeb6d1653570489fd898a178e23f486a6c0c8688107"
+    },
+    {
+      "path": "retry-summary.json",
+      "source": "target/metro-local-evidence/retry-summary.json",
+      "bytes": 510,
+      "sha256": "c6b7cebf46044447b2b363aeae1fd52bf48e2807cf66b08ca1abe201b2386899"
+    },
+    {
+      "path": "retry-windows-logs.log.gz",
+      "source": "target/metro-local-evidence/retry-windows-logs.log.gz",
+      "bytes": 30780,
+      "sha256": "d92547855bb9fde9cd3f5f092e9cafa5481b87b3fff56156e39cf8185fceaf3d",
+      "uncompressed_bytes": 177476,
+      "uncompressed_sha256": "a07eec515069d5ffea1654a0bd6634ccf1e3a9c95ee7e10ecac66ba82ca2ebea"
+    },
+    {
+      "path": "shell-capture-after-fix.log.gz",
+      "source": "target/metro-local-evidence/shell-capture-after-fix.log.gz",
+      "bytes": 4306,
+      "sha256": "505a17fc39253443be453a1260f84735d965f762512fc153ee3225bd232ff10d",
+      "uncompressed_bytes": 18006,
+      "uncompressed_sha256": "2cd23e70402534e9bf450e9f159863e92c88e623a4f2a82e491966ce77c1f68a"
+    },
+    {
+      "path": "shell-capture-before-fix.log.gz",
+      "source": "target/metro-local-evidence/shell-capture-before-fix.log.gz",
+      "bytes": 4506,
+      "sha256": "e1f7f3bf07ca37b3afba64008a27604d3dcec68638dce425dd7cd7d1e94002d1",
+      "uncompressed_bytes": 18592,
+      "uncompressed_sha256": "1bc93bd6f7152077fc7e79fd44ffc7e7da8d77129eafd0ef6bfdbac72e5cb5df"
+    },
+    {
+      "path": "shell-capture-system-tests.log.gz",
+      "source": "target/metro-local-evidence/shell-capture-system-tests.log.gz",
+      "bytes": 6362,
+      "sha256": "c8c5737cf850797167bf6fb6e44b75e25188fca4e2175d506d90de835b23d82a",
+      "uncompressed_bytes": 24773,
+      "uncompressed_sha256": "00d2ae5045a09baba09a07e75809d1ad7b3d9c4d67a096623771049687addd0e"
+    },
+    {
+      "path": "verification-fixes.json",
+      "source": "target/metro-local-evidence/verification-fixes.json",
+      "bytes": 1276,
+      "sha256": "099a95ef320665e2c6ad4bbb9484961dabbd6e072b14406d878436e77e2049a4"
+    }
+  ],
+  "supplemented_at_utc": "2026-11-27T07:42:23.396147+00:00",
+  "supplement": "The complete 59-frame failed browser paging trace was retained directly from the original retry UI artifact after the complete local evidence inventory was copied.",
+  "representation_boundaries": {
+    "github_job_logs": "Connector-decoded text stored as UTF-8; the patch writer normalizes CRLF and adds a final newline. Recorded hashes identify archived text and its gzip representation, not original server log-ZIP bytes.",
+    "downloaded_artifact_json_png": "Copied byte for byte from downloaded artifact members; original ZIP-member bytes were independently verified.",
+    "local_shell_logs": "Original local file bytes preserved before compression; existing gzip bytes were copied unchanged into this archive."
+  }
+}
