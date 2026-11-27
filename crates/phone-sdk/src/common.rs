@@ -2,7 +2,7 @@ use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::AppId;
 use phone_state::PhoneViewModel;
 
@@ -48,6 +48,28 @@ pub fn page(title: &str, body: Element, bar: Element) -> Element {
             on_click:move |event|{event.set_handled(true);menu.set(false);}}}
         Border {Grid.row:1,vertical_alignment:ferroui_base::layout::VerticalAlignment::Bottom,{bar}}
     } }
+}
+
+/// A Panorama owns its large title and section headings. Reserve only the
+/// minimized command strip; expansion and its dismissal layer overlay the
+/// retained body so changing app-bar state cannot remeasure its scroll panes.
+pub fn panorama_page(body: Element, bar: Element) -> Element {
+    let bar_height = if matches!(bar, Element::Empty) {
+        0.0
+    } else {
+        phone_controls::APP_BAR_MINIMIZED_HEIGHT
+    };
+    let dismiss = crate::current_session()
+        .filter(|ui| ui.menu.get())
+        .map(|ui| ui.menu);
+    rsx! {Grid {name:"PhonePanoramaPage",clip_to_bounds:true,
+        Border {name:"PhonePanoramaContent",margin:(0.0,0.0,0.0,bar_height),{body}}
+        if let Some(menu)=dismiss {Button {name:"AppBarDismiss",class:"phone-flat",
+            horizontal_alignment:H::Stretch,vertical_alignment:ferroui_base::layout::VerticalAlignment::Stretch,
+            automation_properties_name:"Close application bar",background:"Transparent",
+            on_click:move |event|{event.set_handled(true);menu.set(false);}}}
+        Border {vertical_alignment:ferroui_base::layout::VerticalAlignment::Bottom,{bar}}
+    }}
 }
 pub fn row(title: &str, subtitle: &str, on_click: impl Fn() + 'static) -> Element {
     rsx! { Button { class:"phone-flat", horizontal_alignment:H::Stretch, horizontal_content_alignment:H::Stretch,

@@ -4,10 +4,12 @@
 //! destination remains the sole live app tree. Turnstile entry then uses the
 //! original Toolkit 350 ms track; paging keeps both edges adjacent. Host/image
 //! unavailability falls back to incoming-only motion; privacy changes cancel.
+mod admission;
 mod animation;
 #[cfg(test)]
 mod capture_tests;
 mod choreography;
+mod neighbor;
 mod snapshot;
 #[cfg(test)]
 mod tests;
@@ -35,6 +37,9 @@ pub(crate) struct NavigationMotion {
     back_from: RefCell<Option<Route>>,
     swipe: RefCell<Option<(Route, f64, f64)>>,
     host: choreography::TransitionHost,
+    neighbor: std::rc::Rc<neighbor::NeighborPreview>,
+    pending_start_handoff: Cell<bool>,
+    start_handoff: Cell<Option<NavigationVisit>>,
 }
 
 /// Identifies a route visit, not just its route. A delayed Loaded callback from
@@ -51,6 +56,7 @@ struct PendingEntrance {
 
 impl NavigationMotion {
     pub(crate) fn reset(&self) {
+        self.neighbor.cancel();
         self.host.cancel();
         self.host.page.borrow_mut().take();
         self.host.eligible.set(false);
@@ -58,6 +64,8 @@ impl NavigationMotion {
         self.pending.borrow_mut().take();
         self.back_from.borrow_mut().take();
         self.swipe.borrow_mut().take();
+        self.pending_start_handoff.set(false);
+        self.start_handoff.set(None);
     }
 
     pub(crate) fn begin_back(&self, route: &Route) {
@@ -85,6 +93,10 @@ impl NavigationMotion {
         }
         let visit = NavigationVisit(self.generation.get().wrapping_add(1));
         self.generation.set(visit.0);
+        let handoff = self.pending_start_handoff.replace(false)
+            && previous.as_ref() == Some(&Route::Apps)
+            && *route == Route::Start;
+        self.start_handoff.set(handoff.then_some(visit));
         let width = viewport_width(width);
         let entrance = self.plan(previous, route, width);
         *self.pending.borrow_mut() = Some(PendingEntrance {
@@ -94,6 +106,18 @@ impl NavigationMotion {
             outgoing: None,
         });
         visit
+    }
+
+    /// A committed pointer may transfer a displayed Start neighbor into this
+    /// exact navigation visit. A canceled/uncaptured gesture cannot arm it.
+    pub(crate) fn commit_neighbor(&self, route: &Route) {
+        self.pending_start_handoff
+            .set(*route == Route::Apps && self.neighbor.ready(route));
+    }
+
+    pub(crate) fn start_continues_neighbor(&self) -> bool {
+        self.start_handoff.get() == Some(NavigationVisit(self.generation.get()))
+            && self.route.borrow().as_ref() == Some(&Route::Start)
     }
 
     /// Loaded is deferred, whereas reactive route cleanup can render a page

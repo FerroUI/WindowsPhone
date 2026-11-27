@@ -37,15 +37,15 @@ pub fn view(cx: AppContext) -> Element {
     let mut body = stack_panel()
         .margin(20.0)
         .spacing(16.0)
-        .child(text("collection", 42.0));
+        .child(text("collection", 42.0))
+        .child(
+            phone_controls::activity_progress("Loading podcast")
+                .key("podcast-activity")
+                .name("PodcastProgress")
+                .is_indeterminate(state.busy),
+        );
     if state.busy.get() {
-        body = body
-            .child(
-                phone_controls::progress("Loading podcast")
-                    .name("PodcastProgress")
-                    .is_indeterminate(true),
-            )
-            .child(muted("loading podcast…", 18.0));
+        body = body.child(muted("loading podcast…", 18.0));
     }
     if saved.shows.is_empty() {
         body=body.child(empty("your podcasts","Subscribe using a public HTTPS RSS or Atom feed, or import a saved feed file. Playable episodes join your shared media library."));
@@ -93,14 +93,13 @@ fn episodes(cx: AppContext, show: &Show) -> Element {
     let mut body = stack_panel()
         .margin(20.0)
         .spacing(12.0)
-        .child(text(&show.title, 32.0));
-    if state.busy.get() {
-        body = body.child(
-            phone_controls::progress("Refreshing podcast")
+        .child(text(&show.title, 32.0))
+        .child(
+            phone_controls::activity_progress("Refreshing podcast")
+                .key("podcast-activity")
                 .name("PodcastProgress")
-                .is_indeterminate(true),
+                .is_indeterminate(state.busy),
         );
-    }
     if !show.description.is_empty() {
         body = body.child(muted(&show.description, 18.0));
     }

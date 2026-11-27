@@ -31,6 +31,7 @@ pub(super) fn document_preview(document: &phone_domain::OfficeDocument, limit: u
 
 pub(super) fn frame(key: String, content: Element, distance: f64, animate: bool) -> Element {
     border()
+        .name(format!("LiveTileContent-{key}"))
         .key(key)
         .clip_to_bounds(true)
         .on_loaded(move |event| {

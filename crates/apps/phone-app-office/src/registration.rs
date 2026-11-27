@@ -33,6 +33,7 @@ fn clear(ui: &Rc<Session>) {
 }
 fn reset(ui: &Rc<Session>) {
     clear(ui);
+    crate::hub::reset_scroll(ui);
     let state = ui.state::<phone_office_support::OfficeSession>();
     state.paragraph.set(0);
     state.sheet.set(0);

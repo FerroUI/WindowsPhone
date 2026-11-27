@@ -2,19 +2,23 @@
 //! The SDK supplies expansion state, so Back, navigation and app-bar input share
 //! one owner. Standalone bars retain their own expansion state when no host is
 //! connected, so overflow commands remain reachable in a control gallery too.
-use crate::{palette, Icon};
+use crate::{Icon, palette};
 use ferroui_base::interactivity::RoutingStrategies;
-use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
+use ferroui_base::layout::{HorizontalAlignment as H, Layoutable, VerticalAlignment as V};
 use ferroui_base::media::{TextTrimming, TextWrapping};
 use ferroui_controls::automation::AutomationProperties;
 use ferroui_controls::primitives::ScrollBarVisibility;
-use ferroui_view::element::{Handler, PropValue};
+use ferroui_view::element::{Handler, PropEntry, PropValue};
 use ferroui_view::prelude::*;
 use std::{cell::RefCell, rc::Rc};
 
 #[cfg(test)]
 #[path = "application_bar/layout_tests.rs"]
 mod layout_tests;
+
+/// Original ApplicationBar.MiniSize is 30 at the 480-pixel phone reference.
+/// A collapsed Panorama bar reserves this extent; expansion overlays content.
+pub const APP_BAR_MINIMIZED_HEIGHT: f64 = crate::reference_pixels(30.0);
 
 #[derive(Clone)]
 struct ExpansionController {
@@ -169,8 +173,34 @@ fn overflow_command(mut element: Element) -> Element {
 /// bars that have labels but no secondary commands. Without a host controller,
 /// expansion is retained locally; changing `expanded` synchronizes that state.
 pub fn app_bar(actions: Vec<Element>, expanded: bool, secondary: Vec<Element>) -> Element {
+    app_bar_mode(actions, expanded, secondary, false)
+}
+
+/// Panorama command surface: only the ellipsis is visible while minimized.
+/// Expanded commands keep the same native controls, target widths, labels, and
+/// dismissal ownership as a regular application bar, then return to mini size.
+pub fn minimized_app_bar(
+    actions: Vec<Element>,
+    expanded: bool,
+    secondary: Vec<Element>,
+) -> Element {
+    app_bar_mode(actions, expanded, secondary, true)
+}
+
+fn app_bar_mode(
+    actions: Vec<Element>,
+    expanded: bool,
+    secondary: Vec<Element>,
+    minimized: bool,
+) -> Element {
     if let Some(host) = controller() {
-        return render_app_bar(actions, expanded || (host.read)(), secondary, host);
+        return render_app_bar(
+            actions,
+            expanded || (host.read)(),
+            secondary,
+            host,
+            minimized,
+        );
     }
     rerender(move || {
         let open = use_signal(|| expanded);
@@ -188,7 +218,13 @@ pub fn app_bar(actions: Vec<Element>, expanded: bool, secondary: Vec<Element>) -
                 }
             }),
         };
-        render_app_bar(actions.clone(), expanded, secondary.clone(), host)
+        render_app_bar(
+            actions.clone(),
+            expanded,
+            secondary.clone(),
+            host,
+            minimized,
+        )
     })
 }
 
@@ -197,6 +233,7 @@ fn render_app_bar(
     expanded: bool,
     secondary: Vec<Element>,
     host: ExpansionController,
+    minimized: bool,
 ) -> Element {
     let p = palette();
     let mut primary = Vec::new();
@@ -217,6 +254,22 @@ fn render_app_bar(
             (host.write)(!(host.read)())
         }));
     }
+    let collapsed_mini = minimized && !expanded;
+    let height = if collapsed_mini {
+        APP_BAR_MINIMIZED_HEIGHT
+    } else {
+        crate::APP_BAR_HEIGHT
+    };
+    // Keep the supplied ellipsis callback and native Button identity, changing
+    // only its row extent. Primary actions retain their ordinary touch targets.
+    if let Some(Element::Control(control)) = more.as_mut() {
+        let property = Layoutable::min_height_property().as_property();
+        control.props.retain(|entry| entry.property != property);
+        control.props.push(PropEntry {
+            property,
+            value: PropValue::Value(Rc::new(height)),
+        });
+    }
     overflow.extend(
         secondary
             .into_iter()
@@ -236,8 +289,8 @@ fn render_app_bar(
         icons = icons.child(action);
     }
     let mut body = stack_panel().child(rsx! {Grid {
-        name:"AppBarCommands",column_definitions:"44,*,44",min_height:60.0,
-        Border {Grid.column:1,{icons}}
+        name:"AppBarCommands",column_definitions:"44,*,44",min_height:height,
+        Border {Grid.column:1,is_visible:!collapsed_mini,{icons}}
         Border {Grid.column:2,vertical_alignment:V::Top,{more.unwrap_or(Element::Empty)}}
     }});
     if expanded && !overflow.is_empty() {
@@ -261,9 +314,10 @@ fn render_app_bar(
     border()
         .name("PhoneApplicationBar")
         .class("phone-app-bar")
+        .class(if minimized { "minimized" } else { "normal" })
         .class(if expanded { "expanded" } else { "collapsed" })
         .background(p.surface)
-        .min_height(60.0)
+        .min_height(height)
         // Commands supplied as dynamic components cannot be inspected above;
         // the bar observes their handled, bubbling click as a fallback.
         .with(move |control| close_on_command(control.upcast_ref(), host.clone()))
@@ -274,10 +328,10 @@ fn render_app_bar(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use ferroui_base::FerroLocator;
     use ferroui_base::interactivity::RoutedEventArgs;
     use ferroui_base::platform::IPlatformRenderInterface;
     use ferroui_base::reactive::IDisposable;
-    use ferroui_base::FerroLocator;
     use std::cell::Cell;
 
     fn render_scope() -> Rc<dyn IDisposable> {
@@ -481,11 +535,13 @@ mod tests {
         )
         .mount_root();
         assert!(control.classes().contains("collapsed"));
-        assert!(control
-            .get_logical_descendants()
-            .filter_map(|child| child.cast::<Button>())
-            .find(|button| button.has_name("AppBarAction-five"))
-            .is_none());
+        assert!(
+            control
+                .get_logical_descendants()
+                .filter_map(|child| child.cast::<Button>())
+                .find(|button| button.has_name("AppBarAction-five"))
+                .is_none()
+        );
         let more = control
             .find_descendant_of_type_where::<Button>(false, |button| button.has_name("AppBarMore"))
             .unwrap();

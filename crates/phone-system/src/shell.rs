@@ -40,6 +40,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         .is_some();
     let (width, height, desktop) = phone_size(&vm);
     let page_motion = ui.state::<crate::page_motion::NavigationMotion>();
+    page_motion.reconcile_neighbor();
     let picker_open = phone_controls::has_open_phone_picker();
     let obscured = locked || alert || ui.preview_obscured(&route) || !vm.status().is_empty();
     // An app-local editor is excluded from previews, but it may own this
@@ -88,6 +89,9 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let attach_ui = ui.clone();
     let dismiss_status = vm.clone();
     let outgoing_motion = page_motion.clone();
+    let neighbor_motion = page_motion.clone();
+    let neighbor_stage_motion = page_motion.clone();
+    let neighbor_unload_motion = page_motion.clone();
     // Restoration resets navigation's loaded-page visit even when the route
     // stays on Start. Remount that document's page so Loaded registers its new
     // capture source; ordinary revisions keep their native controls and state.
@@ -112,6 +116,17 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 Route::Switcher=>navigation::switcher(vm.clone(),ui.clone(),false),
                 _=>ui.registry().view(vm.clone(),ui.clone()),
             }}
+        }
+        Border{Grid.row:1,name:"PhoneNeighborStage",clip_to_bounds:true,
+            opacity:0.0,is_hit_test_visible:false,is_enabled:false,
+            with:move |root|neighbor_stage_motion.attach_neighbor_stage(root),
+            on_unloaded:move |_|neighbor_unload_motion.cancel()
+        }
+        Border{Grid.row:1,name:"PhoneNeighborPage",clip_to_bounds:true,
+            opacity:0.0,is_hit_test_visible:false,is_enabled:false,
+            with:move |root|neighbor_motion.attach_neighbor(root),
+            Image{name:"PhoneNeighborImage",stretch:ferroui_base::media::Stretch::Fill,
+                is_hit_test_visible:false}
         }
         Border{Grid.row:1,name:"PhoneOutgoingPage",clip_to_bounds:true,
             opacity:0.0,is_hit_test_visible:false,is_enabled:false,

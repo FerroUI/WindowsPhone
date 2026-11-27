@@ -4,9 +4,9 @@ use crate::{common, images, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_base::media::{FontWeight, TextWrapping};
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
+use phone_controls::{Icon, icon};
 use phone_domain::{
-    Tile, TileBadge, TileBadgeGlyph, TileNotification, TileSize, TileTemplate, TILE_CARD_SECONDS,
+    TILE_CARD_SECONDS, Tile, TileBadge, TileBadgeGlyph, TileNotification, TileSize, TileTemplate,
 };
 use phone_state::PhoneViewModel;
 
@@ -91,7 +91,7 @@ pub(super) fn view(
         format!("tile-card-{}-{}-{phase}", tile.id, card.tag),
         rsx! {Grid{name:format!("TileCard-{}",tile.id),clip_to_bounds:true,{content}}},
         h * 0.45,
-        rotate,
+        rotate && !vm.is_preview_snapshot() && phone_sdk::TileEntrancePolicy::current().animate,
     )
 }
 fn fallback(tile: &Tile) -> Element {

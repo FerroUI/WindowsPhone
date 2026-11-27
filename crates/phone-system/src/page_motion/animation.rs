@@ -149,6 +149,57 @@ fn slide(
     cancellation: CancellationToken,
     clock: Option<Rc<dyn IClock>>,
 ) -> AnimationTask {
+    translate(
+        target,
+        from,
+        to,
+        0.35,
+        Easing::new(PhoneExponentialOut),
+        cancellation,
+        clock,
+    )
+}
+
+/// A rejected shell pan returns both edges on the existing 180 ms cubic
+/// settle policy. No route changes and no destination command can run.
+pub(super) fn settle_pair(
+    current: &Ref<Control>,
+    neighbor: &Ref<Control>,
+    delta: f64,
+    edge: f64,
+    cancellation: CancellationToken,
+) -> AnimationTask {
+    AnimationTask::when_all([
+        translate(
+            current,
+            delta,
+            0.0,
+            0.18,
+            CubicEaseOut::new().into(),
+            cancellation.clone(),
+            None,
+        ),
+        translate(
+            neighbor,
+            edge + delta,
+            edge,
+            0.18,
+            CubicEaseOut::new().into(),
+            cancellation,
+            None,
+        ),
+    ])
+}
+
+fn translate(
+    target: &Ref<Control>,
+    from: f64,
+    to: f64,
+    seconds: f64,
+    easing: Easing,
+    cancellation: CancellationToken,
+    clock: Option<Rc<dyn IClock>>,
+) -> AnimationTask {
     if !from.is_finite()
         || !to.is_finite()
         || (from - to).abs() <= f64::EPSILON
@@ -161,8 +212,8 @@ fn slide(
     // the old page cannot flash back to its unmanipulated position.
     transform.set_x(from);
     let animation = Animation::new();
-    animation.set_duration(SignedDuration::from_seconds(0.35));
-    animation.set_easing(Easing::new(PhoneExponentialOut));
+    animation.set_duration(SignedDuration::from_seconds(seconds));
+    animation.set_easing(easing);
     for (cue, value) in [(0.0, from), (1.0, to)] {
         animation.children().add(KeyFrame::with_cue(
             Cue::new(cue),

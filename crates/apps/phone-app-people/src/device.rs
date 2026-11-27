@@ -1,6 +1,6 @@
-use ferroui_base::layout::{HorizontalAlignment as H, Orientation};
+use ferroui_base::layout::HorizontalAlignment as H;
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat};
 use phone_sdk::{
     common::{empty, muted, page, scroll, text},
     device,
@@ -35,7 +35,7 @@ pub fn tick(vm: &PhoneViewModel, ui: &Rc<Session>) {
         refresh(vm, ui);
     }
 }
-pub fn refresh(vm: &PhoneViewModel, ui: &Rc<Session>) {
+pub fn refresh(vm: &PhoneViewModel, ui: &Session) {
     let available = vm.platform_state().supports(HostFeature::Contacts);
     ui.state::<State>().available.set(available);
     if !available {
@@ -54,38 +54,71 @@ pub fn refresh(vm: &PhoneViewModel, ui: &Rc<Session>) {
         });
     }
 }
-pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+pub(super) fn selected_detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Option<Element> {
     let state = ui.state::<State>();
-    if let Some(contact) = state
-        .selected
-        .get()
-        .and_then(|id| vm.device_state().contacts.into_iter().find(|v| v.id == id))
-    {
-        return detail(vm, ui, contact);
+    let id = state.selected.get()?;
+    let contact = vm
+        .device_state()
+        .contacts
+        .into_iter()
+        .find(|contact| contact.id == id);
+    if let Some(contact) = contact {
+        Some(detail(vm, ui, contact))
+    } else {
+        state.selected.set(None);
+        None
     }
-    let all = ui.pivot;
-    let favorites = ui.pivot;
-    let native = ui.pivot;
+}
+
+/// Finite pane content only: Panorama owns its title/section heading and search
+/// owns its editor. Device contacts remain in the host store, outside backups.
+pub(super) fn pane(vm: Rc<PhoneViewModel>, ui: Rc<Session>, searching: bool) -> Element {
     let model = vm.clone();
     let session = ui.clone();
     let list = rerender(move || {
-        let query = session.state::<State>().query.get().to_lowercase();
+        let query = if searching {
+            session.state::<State>().query.get().trim().to_lowercase()
+        } else {
+            String::new()
+        };
+        let memory = session.state::<crate::hub::State>();
+        if searching {
+            memory.query_changed(crate::hub::SearchScope::Device, &query);
+        }
+        let retained = if searching {
+            &memory.device_search
+        } else {
+            &memory.device
+        };
         let rows = model
             .device_state()
             .contacts
             .into_iter()
-            .filter(|v| {
-                format!("{} {} {}", v.name, v.phones.join(" "), v.emails.join(" "))
-                    .to_lowercase()
-                    .contains(&query)
+            .filter(|contact| {
+                format!(
+                    "{} {} {}",
+                    contact.name,
+                    contact.phones.join(" "),
+                    contact.emails.join(" ")
+                )
+                .to_lowercase()
+                .contains(&query)
             })
             .collect::<Vec<_>>();
+        let is_empty = rows.is_empty();
         let session = session.clone();
-        device::list(
-            "DeviceContacts",
+        let contact_vm = model.clone();
+        let epoch = model.document_epoch();
+        let list = device::grouped_list(
+            if searching {
+                "DevicePeopleSearchList"
+            } else {
+                "DeviceContacts"
+            },
             rows,
             Rc::new(move |contact: DeviceContact| {
                 let selection = session.state::<State>().selected;
+                let model = contact_vm.clone();
                 let title = if contact.name.is_empty() {
                     contact
                         .phones
@@ -95,11 +128,32 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 } else {
                     contact.name.clone()
                 };
-                rsx! {Button{class:"phone-flat",min_height:70.0,padding:(20.0,10.0),horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,
-                automation_properties_name:format!("Device contact {title}"),on_click:move |_|selection.set(Some(contact.id.clone())),
-                StackPanel{spacing:4.0,{text(&title,26.0)}{muted(contact.phones.first().map(String::as_str).unwrap_or(""),16.0)}}}}
+                rsx! {Button {class:"phone-flat",min_height:70.0,padding:(20.0,10.0),horizontal_alignment:H::Stretch,horizontal_content_alignment:H::Stretch,
+                automation_properties_name:format!("Device contact {title}"),
+                on_click:move |_|if model.document_epoch() == epoch {selection.set(Some(contact.id.clone()));},
+                StackPanel {spacing:4.0,{text(&title,26.0)}{muted(contact.phones.first().map(String::as_str).unwrap_or(""),16.0)}}}}
             }),
-        )
+            retained.node,
+            retained.scroll.clone(),
+        );
+        // Keep the retained native list hooks stable across an empty provider
+        // observation or search result; only its visible content changes.
+        if is_empty {
+            empty(
+                if query.is_empty() {
+                    "No device contacts"
+                } else {
+                    "No contacts"
+                },
+                if query.is_empty() {
+                    "Refresh to read contacts allowed by the device."
+                } else {
+                    "Try a different name or number."
+                },
+            )
+        } else {
+            list
+        }
     });
     let allowed = matches!(
         vm.device_state()
@@ -107,31 +161,25 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             .permission(DevicePermission::Contacts),
         PermissionState::Granted | PermissionState::Limited
     );
+    rsx! {Border {name:if searching {"DevicePeopleSearchResults"} else {"DevicePeoplePane"},
+        if allowed {{list}} else {{scroll(rsx!{StackPanel{margin:20.0,spacing:18.0,
+            {device::permission(vm.clone(),DevicePermission::Contacts,"contacts")}
+            {muted("Device contacts are read from your address book and stay outside Windows Phone backups.",17.0)}
+        }})}}
+    }}
+}
+
+pub(super) fn actions(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Vec<Element> {
     let new_vm = vm.clone();
     let new_ui = ui.clone();
-    let refresh_vm = vm.clone();
-    let refresh_ui = ui.clone();
-    page(
-        "people",
-        rsx! {Grid{row_definitions:"Auto,Auto,*",
-            StackPanel{orientation:Orientation::Horizontal,margin:(20.0,0.0,20.0,12.0),{pivot("all",false,move||all.set(0))}{pivot("favorites",false,move||favorites.set(1))}{pivot("device",true,move||native.set(2))}}
-            TextBox{Grid.row:1,class:"phone-input",name:"DevicePeopleSearch",text:state.query.two_way(),margin:(20.0,0.0,20.0,10.0),placeholder_text:"search device contacts",automation_properties_name:"Search device contacts"}
-            Border{Grid.row:2,if allowed{if vm.device_state().contacts.is_empty(){{empty("No device contacts","Refresh to read contacts allowed by the device.")}}else{{list}}}else{{scroll(rsx!{StackPanel{margin:20.0,spacing:18.0,{device::permission(vm.clone(),DevicePermission::Contacts,"contacts")}{muted("Device contacts are read from your address book and stay outside Windows Phone backups.",17.0)}}})}}}
-        }},
-        app_bar(
-            vec![
-                action(Icon::Plus, "new on device", move || {
-                    edit(new_vm.clone(), new_ui.clone(), DeviceContact::default())
-                }),
-                action(Icon::Refresh, "refresh", move || {
-                    refresh(&refresh_vm, &refresh_ui)
-                }),
-            ],
-            false,
-            vec![],
-        ),
-    )
+    vec![
+        action(Icon::Plus, "new on device", move || {
+            edit(new_vm.clone(), new_ui.clone(), DeviceContact::default())
+        }),
+        action(Icon::Refresh, "refresh", move || refresh(&vm, &ui)),
+    ]
 }
+
 fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: DeviceContact) -> Element {
     let mut rows = stack_panel()
         .margin(20.0)

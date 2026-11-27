@@ -12,6 +12,7 @@ mod grouped_list;
 mod icons;
 mod inputs;
 mod motion;
+mod panorama;
 mod paths;
 mod pickers;
 mod pivot_host;
@@ -26,16 +27,17 @@ mod typography;
 
 pub use application_bar::*;
 pub use buttons::*;
-pub use checked_state::{checked_state, CheckedState};
+pub use checked_state::{CheckedState, checked_state};
 pub use choices::{check, radio};
-pub use grouped_list::{attach_grouped_list, GroupedListState, ListGroup};
-pub use icons::{icon, Icon};
+pub use grouped_list::{GroupedListState, ListGroup, attach_grouped_list};
+pub use icons::{Icon, icon};
 pub use motion::{live_tile_enter, motion_enabled, page_enter, reveal, set_motion_enabled, settle};
+pub use panorama::{PanoramaPage, panorama_pages};
 pub use pickers::{
     attach_picker_focus, close_phone_pickers, dismiss_phone_picker, has_open_phone_picker,
 };
-pub use pivot_host::{pivot_pages, PivotPage};
-pub use progress::progress;
+pub use pivot_host::{PivotPage, pivot_pages};
+pub use progress::{activity_progress, progress};
 pub use theme::{install_theme, set_palette};
 pub use tilt::attach_press_tilt;
 pub use tokens::*;

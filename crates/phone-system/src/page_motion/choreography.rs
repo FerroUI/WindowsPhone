@@ -1,4 +1,7 @@
-use super::{Entrance, NavigationMotion, NavigationVisit, PendingEntrance, animation, snapshot};
+use super::{
+    Entrance, NavigationMotion, NavigationVisit, PendingEntrance, admission::PageAdmission,
+    animation, snapshot,
+};
 use crate::previews::Preview;
 use ferroui_base::animation::IClock;
 use ferroui_base::interactivity::RoutedEventHandlerToken;
@@ -30,12 +33,17 @@ struct Active {
     enabled: bool,
     hit_test_visible: bool,
     unloaded: RoutedEventHandlerToken,
+    admission: Option<PageAdmission>,
 }
 
 impl TransitionHost {
     /// Take ownership out before cancellation: animation completion callbacks
     /// run synchronously and must see that this visit has already retired.
     pub(super) fn cancel(&self) -> bool {
+        self.retire(false)
+    }
+
+    fn retire(&self, restore_focus: bool) -> bool {
         let active = self.active.borrow_mut().take();
         let had_active = active.is_some();
         if let Some(active) = active {
@@ -45,6 +53,9 @@ impl TransitionHost {
                 page.set_opacity(active.opacity);
                 page.set_is_enabled(active.enabled);
                 page.set_is_hit_test_visible(active.hit_test_visible);
+            }
+            if let Some(admission) = active.admission {
+                admission.restore(restore_focus);
             }
         }
         self.clear_image();
@@ -121,10 +132,19 @@ impl NavigationMotion {
             .replace(Some((width, height)))
             .is_some_and(|previous| previous != (width, height));
         let interrupted = if changed || resized || !eligible {
+            // A held/returning neighbor is a different image owner from the
+            // committed outgoing transition. Retire it before a new capture.
+            if self.neighbor.cancel() {
+                crate::gestures::cancel();
+            }
             self.host.cancel()
         } else {
             false
         };
+        if resized || !eligible || interrupted {
+            self.pending_start_handoff.set(false);
+            self.start_handoff.set(None);
+        }
         let visit = self.observe(route, width);
         if !eligible || (!changed && interrupted) {
             self.pending.borrow_mut().take();
@@ -215,17 +235,20 @@ impl NavigationMotion {
             enabled: page.is_enabled(),
             hit_test_visible: page.is_hit_test_visible(),
             unloaded,
+            admission: None,
         });
         if let Some(preview) = plan.outgoing {
             let width = preview.logical_size.width;
             if let Some(outgoing) = self.host.show_image(preview) {
                 // The destination exists and its route/data are already current,
                 // but input cannot fall through the retiring image into it.
-                page.set_is_enabled(false);
-                page.set_is_hit_test_visible(false);
                 let weak = Rc::downgrade(self);
                 match plan.entrance {
                     Entrance::Turnstile { backward } => {
+                        // This phase is hidden; preserve the established
+                        // turnstile disable/hide contract.
+                        page.set_is_enabled(false);
+                        page.set_is_hit_test_visible(false);
                         page.set_opacity(0.0);
                         let page = page.downgrade();
                         let task = animation::exit(
@@ -246,6 +269,11 @@ impl NavigationMotion {
                         return;
                     }
                     Entrance::Slide(remaining) => {
+                        // A live neighboring page remains visible throughout
+                        // paging. Block input without activating disabled ink.
+                        if !self.block_slide_input(page, visit) {
+                            return;
+                        }
                         let task = animation::slide_pair(
                             &outgoing,
                             page,
@@ -274,6 +302,19 @@ impl NavigationMotion {
         self.start_incoming(page, visit, plan.entrance, clock);
     }
 
+    fn block_slide_input(&self, page: &Ref<Control>, visit: NavigationVisit) -> bool {
+        let admission = PageAdmission::block(page);
+        let mut active = self.host.active.borrow_mut();
+        let Some(active) = active
+            .as_mut()
+            .filter(|active| active.visit == visit && !active.cancellation.is_cancelled())
+        else {
+            return false;
+        };
+        active.admission = Some(admission);
+        true
+    }
+
     fn start_incoming(
         self: &Rc<Self>,
         page: &Ref<Control>,
@@ -291,6 +332,12 @@ impl NavigationMotion {
             page.set_is_hit_test_visible(active.hit_test_visible);
             active.cancellation.clone()
         };
+        // Capture failure still leaves a moving shell page. Its admission
+        // lifetime is identical to paired paging, without manufacturing an
+        // outgoing image or changing the hidden turnstile contract.
+        if matches!(entrance, Entrance::Slide(_)) && !self.block_slide_input(page, visit) {
+            return;
+        }
         let weak = Rc::downgrade(self);
         let task = animation::enter(page, entrance, cancellation, clock);
         task.on_completed(move || {
@@ -302,12 +349,17 @@ impl NavigationMotion {
 
     fn cancel_visit(&self, visit: NavigationVisit) {
         if self.host.current(visit) {
-            self.host.cancel();
+            self.host.retire(true);
         }
     }
 
     pub(crate) fn cancel(&self) {
         self.pending.borrow_mut().take();
+        self.pending_start_handoff.set(false);
+        self.start_handoff.set(None);
+        if self.neighbor.cancel() {
+            crate::gestures::cancel();
+        }
         self.host.cancel();
         self.host.eligible.set(false);
     }
@@ -315,6 +367,7 @@ impl NavigationMotion {
 
 impl Drop for NavigationMotion {
     fn drop(&mut self) {
+        self.neighbor.cancel();
         self.host.cancel();
     }
 }

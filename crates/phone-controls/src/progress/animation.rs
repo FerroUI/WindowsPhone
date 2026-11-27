@@ -1,4 +1,5 @@
 //! One bounded pair of compositor animations per dot; no UI-thread tick loop.
+use super::activity::ActivityMotion;
 use super::{DOT_COUNT, DOT_SIZE};
 use ferroui_base::animation::easings::{Easing, IEasing, SharedEasing};
 use ferroui_base::animation::{
@@ -54,6 +55,7 @@ pub(super) struct ProgressMotion {
     track: WeakRef<Border>,
     indicator: WeakRef<Border>,
     dots: Vec<WeakRef<Border>>,
+    activity: Option<Rc<ActivityMotion>>,
     presentation: Cell<Option<Presentation>>,
     subscriptions: RefCell<Vec<Subscription>>,
     properties: RefCell<Vec<Rc<dyn IDisposable>>>,
@@ -76,12 +78,26 @@ impl ProgressMotion {
         indicator: &Ref<Border>,
         dots: &[Ref<Border>],
     ) -> Rc<Self> {
-        let state = Rc::new(Self {
+        let state = Rc::new_cyclic(|weak: &Weak<Self>| Self {
             owner: owner.downgrade(),
             root: root.downgrade(),
             track: track.downgrade(),
             indicator: indicator.downgrade(),
             dots: dots.iter().map(|dot| dot.downgrade()).collect(),
+            activity: owner
+                .classes()
+                .contains("phone-activity-progress")
+                .then(|| {
+                    let weak = weak.clone();
+                    ActivityMotion::new(
+                        root,
+                        Rc::new(move || {
+                            if let Some(state) = weak.upgrade() {
+                                state.refresh();
+                            }
+                        }),
+                    )
+                }),
             presentation: Cell::new(None),
             subscriptions: RefCell::new(Vec::new()),
             properties: RefCell::new(Vec::new()),
@@ -97,6 +113,9 @@ impl ProgressMotion {
         let detached = root.detached_from_visual_tree(move |_| {
             if let Some(state) = weak.upgrade() {
                 state.stop();
+                if let Some(activity) = &state.activity {
+                    activity.detach();
+                }
                 state.presentation.set(None);
             }
         });
@@ -149,7 +168,7 @@ impl ProgressMotion {
         state
     }
 
-    fn refresh(&self) {
+    fn refresh(self: &Rc<Self>) {
         let (Some(owner), Some(root)) = (self.owner.upgrade(), self.root.upgrade()) else {
             self.stop();
             return;
@@ -165,14 +184,20 @@ impl ProgressMotion {
         } else {
             0.0
         };
+        let can_animate = owner.is_effectively_enabled()
+            && root.is_attached_to_visual_tree()
+            && root.is_effectively_visible()
+            && crate::motion_enabled()
+            && extent > 0.0;
+        let indeterminate = if let Some(activity) = &self.activity {
+            activity.update(owner.is_indeterminate(), can_animate);
+            activity.actual()
+        } else {
+            owner.is_indeterminate()
+        };
         let next = Presentation {
-            indeterminate: owner.is_indeterminate(),
-            animate: owner.is_indeterminate()
-                && owner.is_effectively_enabled()
-                && root.is_attached_to_visual_tree()
-                && root.is_effectively_visible()
-                && crate::motion_enabled()
-                && extent > 0.0,
+            indeterminate,
+            animate: indeterminate && can_animate,
             vertical,
             extent,
             compositor: self.dots.iter().all(|dot| {
@@ -185,10 +210,10 @@ impl ProgressMotion {
         }
         self.stop();
         if let Some(track) = self.track.upgrade() {
-            track.set_is_visible(!next.indeterminate);
+            track.set_is_visible(!next.indeterminate && self.activity.is_none());
         }
         if let Some(indicator) = self.indicator.upgrade() {
-            indicator.set_is_visible(!next.indeterminate);
+            indicator.set_is_visible(!next.indeterminate && self.activity.is_none());
             indicator.set_horizontal_alignment(if vertical { H::Stretch } else { H::Left });
             indicator.set_vertical_alignment(if vertical { V::Bottom } else { V::Stretch });
         }
@@ -290,6 +315,11 @@ impl ProgressMotion {
     #[cfg(test)]
     pub(super) fn animation_count(&self) -> usize {
         self.animations.borrow().len()
+    }
+
+    #[cfg(test)]
+    pub(super) fn activity(&self) -> Option<&Rc<ActivityMotion>> {
+        self.activity.as_ref()
     }
 }
 

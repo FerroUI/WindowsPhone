@@ -6,6 +6,9 @@ impl PhoneViewModel {
     /// One authority for Start and lock-screen counts. A native phone provider
     /// never falls back to sample/local calls when access is denied or unknown.
     pub fn app_badge(&self, app: AppId) -> u32 {
+        if let Some(badges) = self.preview_badges.borrow().as_ref() {
+            return badges.get(&app).copied().unwrap_or(0);
+        }
         if app == AppId::Phone && self.platform_state().supports(HostFeature::Telephony) {
             return self
                 .device_state

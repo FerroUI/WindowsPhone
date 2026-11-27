@@ -1,16 +1,15 @@
-use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
-use ferroui_controls::{primitives::ScrollBarVisibility, Control};
-use ferroui_dynamic_data::IObservableCache;
+use ferroui_base::layout::{HorizontalAlignment as H, VerticalAlignment as V};
 use ferroui_view::prelude::*;
-use phone_controls::{action, app_bar, flat, pivot, Icon};
+use phone_controls::{Icon, action, app_bar, flat};
 use phone_domain::{AppId, Contact, Route};
 use phone_sdk::{
-    common::{empty, muted, page, row, scroll, text},
+    common::{muted, page, scroll, text},
     session::Session,
 };
 use phone_state::{HostRequest, PhoneViewModel};
 use std::rc::Rc;
 mod device;
+mod hub;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if let Route::Contact(id) = vm.route() {
@@ -19,129 +18,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             return detail(vm, ui, contact);
         }
     }
-    let native = vm
-        .platform_state()
-        .supports(phone_sdk::host::platform::HostFeature::Contacts);
-    let mode = ui.pivot.get().min(if native { 2 } else { 1 });
-    if mode == 2 {
-        return device::view(vm, ui);
-    }
-    let query = ui.query.get().to_lowercase();
-    let mut contacts = vm
-        .contacts
-        .items()
-        .into_iter()
-        .filter(|contact| {
-            (!query.is_empty()
-                && format!(
-                    "{} {} {} {}",
-                    contact.name, contact.phone, contact.email, contact.company
-                )
-                .to_lowercase()
-                .contains(&query))
-                || query.is_empty()
-        })
-        .filter(|contact| mode == 0 || contact.favorite)
-        .collect::<Vec<_>>();
-    contacts.sort_by_key(|contact| (group_letter(&contact.name), contact.name.to_lowercase()));
-    let mut list = stack_panel();
-    let mut last = None;
-    let mut available = Vec::new();
-    for contact in contacts.iter() {
-        let letter = group_letter(&contact.name);
-        if last != Some(letter) {
-            last = Some(letter);
-            available.push(letter);
-            let show = ui.alphabet;
-            list=list.child(rsx!{Button{name:format!("PeopleLetter{letter}"),class:"phone-flat",margin:(20.0,14.0,0.0,4.0),padding:0.0,
-                width:38.0,height:38.0,horizontal_alignment:H::Left,automation_properties_name:format!("Jump from letter {letter}"),
-                on_click:move |_|show.set(true),
-                Border{border_brush:vm.data().settings.accent.as_str(),border_thickness:2.0,width:34.0,height:34.0,
-                    TextBlock{text:letter.to_string(),font_size:23.0,foreground:vm.data().settings.accent.as_str(),horizontal_alignment:H::Center}}
-            }});
-        }
-        let model = vm.clone();
-        let id = contact.id;
-        list = list.child(row(&contact.name, &contact.company, move || {
-            model.navigate(Route::Contact(id))
-        }));
-    }
-    if contacts.is_empty() {
-        list = list.child(empty(
-            "No contacts",
-            if query.is_empty() {
-                "Tap new to add someone."
-            } else {
-                "Try a different name or number."
-            },
-        ));
-    }
-    let all = ui.pivot;
-    let favorites = ui.pivot;
-    let device = ui.pivot;
-    let overlay = ui.alphabet.get();
-    let body = rsx! {Grid{name:"PeopleRoot",row_definitions:"Auto,*",
-        StackPanel{margin:(20.0,0.0,20.0,10.0),spacing:8.0,
-            StackPanel{orientation:Orientation::Horizontal,
-                {pivot("all",mode==0,move ||all.set(0))}
-                {pivot("favorites",mode==1,move ||favorites.set(1))}
-                if native{{pivot("device",mode==2,move||device.set(2))}}
-            }
-            TextBox{class:"phone-input",text:ui.query.two_way(),placeholder_text:"search contacts",automation_properties_name:"Search contacts"}
-        }
-        ScrollViewer{key:"people-list",Grid.row:1,horizontal_scroll_bar_visibility:ScrollBarVisibility::Disabled,vertical_scroll_bar_visibility:ScrollBarVisibility::Hidden,{list}}
-        if overlay {Border{Grid.row_span:2,background:vm.data().settings.background(),{alphabet(ui.clone(),available)}}}
-    }};
-    let add_vm = vm.clone();
-    let add_ui = ui.clone();
-    let menu = ui.menu;
-    let jump = ui.alphabet;
-    let mut more = phone_app_support::pim::contacts(vm.clone(), ui.clone(), None);
-    more.push(flat("show all contacts", move || {
-        ui.pivot.set(0);
-        ui.query.set(String::new());
-        ui.menu.set(false);
-    }));
-    let expanded = menu.get();
-    let bar = app_bar(
-        vec![
-            action(Icon::Plus, "new", move || {
-                edit(add_vm.clone(), add_ui.clone(), Contact::default())
-            }),
-            action(Icon::List, "jump", move || jump.set(true)),
-            action(Icon::More, "more", move || {
-                menu.update(|value| *value = !*value)
-            }),
-        ],
-        expanded,
-        more,
-    );
-    page("people", body, bar)
-}
-
-fn alphabet(ui: Rc<Session>, available: Vec<char>) -> Element {
-    let mut letters = grid()
-        .column_definitions("*,*,*,*")
-        .row_definitions("60,60,60,60,60,60,60")
-        .row_spacing(8.0)
-        .column_spacing(8.0)
-        .margin(20.0);
-    for (index, letter) in std::iter::once('#').chain('a'..='z').enumerate() {
-        let close = ui.alphabet;
-        let enabled = available.contains(&letter);
-        letters=letters.child(rsx!{Button{Grid.row:(index/4)as i32,Grid.column:(index%4)as i32,class:"phone-button",horizontal_alignment:H::Stretch,vertical_alignment:V::Stretch,
-            content:letter.to_string(),font_size:30.0,is_enabled:enabled,automation_properties_name:format!("Jump to {letter}"),
-            on_click:move |event|{
-                let root=event.source().and_then(|source|source.cast::<Control>()).and_then(|source|source.find_ancestor_of_type_where::<Control>(true,|control|control.name().as_deref()==Some("PeopleRoot")));
-                if let Some(root)=root {
-                    let name=format!("PeopleLetter{letter}");
-                    if let Some(target)=root.find_descendant_of_type_where::<Control>(false,|control|control.name().as_deref()==Some(name.as_str())){target.bring_into_view();}
-                }
-                close.set(false);event.set_handled(true);
-            }
-        }});
-    }
-    scroll(letters.into())
+    hub::view(vm, ui)
 }
 
 fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) -> Element {
@@ -216,15 +93,6 @@ fn detail(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) -> Element 
         more,
     );
     page("people", scroll(body), bar)
-}
-
-fn group_letter(name: &str) -> char {
-    name.trim_start()
-        .chars()
-        .next()
-        .filter(char::is_ascii_alphabetic)
-        .map(|letter| letter.to_ascii_lowercase())
-        .unwrap_or('#')
 }
 
 fn edit(vm: Rc<PhoneViewModel>, ui: Rc<Session>, contact: Contact) {

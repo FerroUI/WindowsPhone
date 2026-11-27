@@ -18,9 +18,10 @@ use ferroui_controls::{Border, Grid, ProgressBar};
 use ferroui_view::{prelude::*, style};
 use std::{cell::OnceCell, rc::Rc};
 
+mod activity;
 mod animation;
-use animation::ProgressMotion;
 pub(crate) use animation::refresh_motion;
+use animation::ProgressMotion;
 
 pub(crate) const DOT_SIZE: f64 = crate::reference_pixels(4.0);
 pub(crate) const DOT_COUNT: usize = 5;
@@ -39,6 +40,20 @@ pub fn progress(label: &str) -> El<ProgressBar> {
         .automation_properties_name(label)
         .is_hit_test_visible(false)
         .focusable(false)
+}
+
+/// The Toolkit's activity-only progress wrapper. Bind `is_indeterminate` to
+/// whether work is requested and keep this control mounted while work finishes.
+/// A running strip fades in over 250 ms and out over 750 ms; its dots stop only
+/// after fade-out. Reversing a request reverses from the current opacity.
+///
+/// Like the original opacity-only wrapper, the idle control reserves its layout
+/// slot. Initial attachment reflects the current request without a transition.
+/// Explicit visibility, enablement and motion preferences remain application
+/// controlled; hiding/detaching cancels motion, and reduced motion settles at
+/// static dots or an empty slot. Use [`progress`] for determinate work.
+pub fn activity_progress(label: &str) -> El<ProgressBar> {
+    progress(label).class("phone-activity-progress")
 }
 
 pub(crate) fn install_template(styles: &Styles) {

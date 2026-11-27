@@ -385,7 +385,10 @@ impl Controller {
                 return;
             };
             contact.motion.update(point.x, point.y, event.timestamp());
-            if contact.route != vm.route() || contact.motion.axis == Axis::Invalid {
+            if contact.route != vm.route()
+                || contact.epoch != vm.document_epoch()
+                || contact.motion.axis == Axis::Invalid
+            {
                 contact.mode = Mode::Canceled;
             }
             let old = contact.mode;
@@ -518,6 +521,12 @@ impl Controller {
                         _ => false,
                     }
             });
+        if committed_shell_swipe {
+            if let Some(ui) = self.ui.upgrade() {
+                ui.state::<crate::page_motion::NavigationMotion>()
+                    .commit_neighbor(&contact.route);
+            }
+        }
         feedback::clear(self, !committed_shell_swipe);
         self.clear_feedback();
         let suppressed = contact.mode != Mode::Native

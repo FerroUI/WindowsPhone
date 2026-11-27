@@ -130,7 +130,11 @@ fn shell_paging_continues_the_pointer_with_two_adjacent_surfaces_and_one_clock()
             assert!((slide_x(&outgoing) + direction * dragged).abs() < 1e-9);
             assert!((slide_x(&incoming) - direction * (320.0 - dragged)).abs() < 1e-9);
             assert!(image.source().is_some());
-            assert!(!incoming.is_enabled() && !incoming.is_hit_test_visible());
+            assert!(incoming.is_enabled() && !incoming.is_hit_test_visible());
+            assert_eq!(
+                ferroui_base::input::KeyboardNavigation::get_tab_navigation(&incoming),
+                ferroui_base::input::KeyboardNavigationMode::None
+            );
             for time in [0.0, 0.04, 0.12, 0.25, 0.349] {
                 clock.step(time);
                 assert!(
@@ -149,6 +153,10 @@ fn shell_paging_continues_the_pointer_with_two_adjacent_surfaces_and_one_clock()
             assert_eq!(dropped.get(), 1);
             assert_eq!(outgoing.opacity(), 0.0);
             assert!(incoming.is_enabled() && incoming.is_hit_test_visible());
+            assert_eq!(
+                ferroui_base::input::KeyboardNavigation::get_tab_navigation(&incoming),
+                ferroui_base::input::KeyboardNavigationMode::Continue
+            );
             assert!(motion.host.active.borrow().is_none());
         }
     }
@@ -240,12 +248,21 @@ fn resize_before_shell_paging_load_releases_the_snapshot_and_preserves_pan_fract
     let incoming = page();
     motion.start(&incoming, plan, Some(clock.clone()));
     assert_eq!(slide_x(&incoming), 240.0);
-    assert!(incoming.is_enabled() && incoming.is_hit_test_visible());
+    assert!(incoming.is_enabled() && !incoming.is_hit_test_visible());
+    assert_eq!(
+        ferroui_base::input::KeyboardNavigation::get_tab_navigation(&incoming),
+        ferroui_base::input::KeyboardNavigationMode::None
+    );
     assert!(image.source().is_none());
     assert_eq!(outgoing.opacity(), 0.0);
     clock.step(0.0);
     clock.step(0.35);
     assert!(incoming.render_transform().is_none());
+    assert!(incoming.is_enabled() && incoming.is_hit_test_visible());
+    assert_eq!(
+        ferroui_base::input::KeyboardNavigation::get_tab_navigation(&incoming),
+        ferroui_base::input::KeyboardNavigationMode::Continue
+    );
 }
 fn angle(page: &Ref<Control>) -> f64 {
     page.render_transform()

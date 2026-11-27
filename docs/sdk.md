@@ -195,15 +195,38 @@ Declare the matching pivot count for shell arbitration and return zero while a d
 
 Native panes own their manipulation; avoid a second manual swipe handler advancing the same gesture. Settings, Office, Battery Saver, Data Sense and Games use native Pivot pages. The phone Pivot disables inherited item auto-scroll so native pan, snap and selection own one consistent viewport; mounted regressions cover both wrap directions and actual composed content alignment. The reduced-motion path keeps the same selection and headers without compositor animation. Each mounted pane keeps its own vertical scrolling. Reconstructing a hub after a detail/search page retains its selected section through `Session::pivot`, but does not automatically persist every ScrollViewer offset.
 
-`progress(label)` is available from `phone_controls` and the SDK prelude. It returns the ordinary native `El<ProgressBar>` builder, so bindings and range semantics remain shared with FerroUI:
+`panorama_pages(name, title, selection, pages)` returns a native `El<Carousel>` with separate background, title and section layers. `PanoramaPage::new(header, content)` retains each section's content and collapses an empty header. The SDK prelude exports both. Pair it with `common::panorama_page` and `minimized_app_bar` so the Panorama owns its large title and the command strip reserves only 25 units:
+
+```rust
+use phone_sdk::{common::{panorama_page, scroll}, prelude::*};
+
+fn panorama(ui: &Session, overview: Element, projects: Element) -> Element {
+    let body = panorama_pages("ExamplePanorama", "projects", ui.pivot, vec![
+        PanoramaPage::new("overview", scroll(overview)),
+        PanoramaPage::new("recent", scroll(projects)),
+    ]).into();
+    let bar = minimized_app_bar(Vec::new(), ui.menu.get(), Vec::new());
+    panorama_page(body, bar)
+}
+```
+
+The same route-aware section count applies to Panorama; return zero on its search/detail routes. Native motion owns horizontal drag and keyboard wrap, while the host's section policy provides immediate reduced-motion touch selection. Each selected section starts at the standard content inset and shows a neighboring header preview. A neighboring pane preserves its enabled appearance but is excluded from pointer/tab input. Keep horizontal editors and maps outside this surface. The current helper supports narrow vertical sections; wide horizontal PanoramaItem layouts and exact original spring/font/background metrics remain incomplete. Background overrides use the returned Carousel's ordinary native builder. See [the source and adaptation record](metro-design.md#pivot-and-panorama).
+
+Two-section cycles use the native compositor's live redirected visual for the alternate edge, retaining one actual control tree per section. Inactive default/cancel Buttons are scoped through removable property leases, so root-level Enter/Escape cannot invoke the preview and the application's underlying values/bindings survive. Keyboard-driven transitions also use the measured native logical offset to decide when the destination can accept input.
+
+Motion policy stays live on retained instances: switching reduced motion suppresses native swipe/transition through removable property leases, cancels active native motion and updates shell input ownership. Re-enabling restores the caller's current bindings, including an explicitly disabled swipe or absent transition. The title uses a private attached property; native `Tag` remains application-owned.
+
+Office owns explicit transient scroll restoration for its reconstructed recent/places/search pages; People owns independent local list memories. These are app-owned positions, invalidated on document replacement and clamped by actual layout. A generic Panorama cannot infer an application's query/filter identity or persist every nested scroll offset automatically.
+
+`progress(label)` and `activity_progress(label)` are available from `phone_controls` and the SDK prelude. Both return the ordinary native `El<ProgressBar>` builder, so bindings and range semantics remain shared with FerroUI. Use the activity wrapper for retained loading slots and the generic helper for determinate work:
 
 ```rust
 use phone_sdk::prelude::*;
 
-fn downloading() -> Element {
-    progress("Downloading episodes")
+fn downloading(busy: Signal<bool>) -> Element {
+    activity_progress("Downloading episodes")
         .name("EpisodeDownloadProgress")
-        .is_indeterminate(true)
+        .is_indeterminate(move || busy.get())
         .into()
 }
 
@@ -216,15 +239,19 @@ fn completed_bytes(done: Signal<f64>, total: f64) -> Element {
 }
 ```
 
-Show the indicator for the lifetime of the actual operation. The five-dot activity strip uses the published Toolkit timing described in [the design evidence](metro-design.md#progress-control), respects motion suppression, and releases animation ownership on hide/detach. It never reports a percentage for unknown work. Weather and Podcasts use this helper while waiting for their real host task results.
+Retain the activity element and bind `is_indeterminate` to the actual operation. Its private presentation root fades in over 250 ms and out over 750 ms, keeping the dots running through exit; removing it or setting `is_visible(false)` intentionally skips that exit. The initial template applies the current request without a transition. Restarting during exit reverses from the current opacity; stale completion callbacks cannot hide the new operation. Application-owned opacity, visibility and range bindings remain untouched. The five-dot activity strip uses the published Toolkit timing described in [the design evidence](metro-design.md#progress-control), respects motion suppression, and releases animation ownership on hide/detach. It never reports a percentage for unknown work. Weather and Podcasts retain keyed slots while waiting for real host task results. The generic `progress` control retains its immediate determinate/indeterminate behavior.
 
 `app_bar` allows four primary commands plus a separate ellipsis and moves additional commands into its text menu. SDK composition connects expansion to `Session::menu`; shared page helpers overlay the bounded menu and prevent a dismissal click from activating page content. Do not implement an independent Back/menu state in each app. Captions remain a single ellipsized line; primary commands use native pressed/disabled ink states and retain stable input bounds.
+
+`minimized_app_bar` uses the same commands and dismissal owner. Its collapsed mode displays the ellipsis in the original 30-reference-unit mini extent (`APP_BAR_MINIMIZED_HEIGHT`, 25 logical units). Expansion overlays the retained Panorama content; dismissing by Back, outside input or command invocation returns to mini size without resizing the section viewport. Landscape adaptation and exact original expansion timing remain separate work.
 
 Native `DatePicker`/`TimePicker` declarations using `attach_picker_focus` receive the shared full phone presenter. Their native values remain staged until confirmation, and the shell owns Back/Home/privacy dismissal. `dismiss_phone_picker()` consumes Back (including collapse of expanded picker commands); `close_phone_pickers()` tears surfaces down immediately before navigation or privacy coverage without committing. Do not call confirmation handlers or implement a second picker journal in app code. Native range, calendar, increment, locale and keyboard behavior remain authoritative; optional seconds are a supported extension to the original three-column page.
 
 Structural button, choice, slider and picker templates remain mounted across palette replacement, preserving selection and input state. A `TextBox.phone-input` keeps its native presenter, selection/composition and undo history while styles change its phone chrome. Read-only fields remain selectable and copyable. Desktop keyboard-focus overlays and the exact neutral state colors are adaptations documented in [the source record](metro-design.md).
 
-Shell turnstiles and press tilt use the [documented original constants](metro-design.md). The navigation controller retains at most one noninteractive outgoing page image for its 250 ms exit and then enters the sole live destination over 350 ms. The outgoing image clears on completion, cancellation, privacy coverage, resize, unload or motion suppression; capture failure uses incoming-only motion. App lifecycle and route changes remain synchronous. Full Panorama, continuum and original-device transition comparison remain incomplete.
+Shell turnstiles and press tilt use the [documented original constants](metro-design.md). The navigation controller retains at most one noninteractive outgoing page image for its 250 ms exit and then enters the sole live destination over 350 ms. The outgoing image clears on completion, cancellation, privacy coverage, resize, unload or motion suppression; capture failure uses incoming-only motion. App lifecycle and route changes remain synchronous. Wide Panorama sections, continuum and original-device transition comparison remain incomplete.
+
+Held Start/Apps previews render once through an isolated model/session and disposable native owner. `TileContext::animate` is false for that rendering. Use only the supplied context for tile presentation; avoid external side effects in render callbacks. The snapshot preserves displayed badges and the observed application catalog, without copying device permissions, provider action tokens, pending host work or source navigation. `images::cached_only(&owner)` restricts that owner's descendants to cached/bundled content, including later reactive evaluations, while unrelated live owners continue normal loading. This is scoped presentation isolation, not a sandbox for arbitrary native Rust code or a clone of application-private session state.
 
 Use `command` for a standalone text command, or `command_button` when a native `El<Button>` must be named or placed explicitly. Its caption wraps and follows text scaling within a minimum 44-unit height. `Session::confirm` uses the explicit text `confirm`; `form` uses `save`; `form_with_action` supplies a specific action such as `discard` or `delete`. Dialogs use readable text commands and never guess a destructive action’s icon from its label. Only a collapsed `phone-app-bar` hides its descendant icon captions; unrelated actions have no ellipsis and retain their labels.
 

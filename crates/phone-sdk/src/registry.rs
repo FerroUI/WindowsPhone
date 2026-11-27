@@ -143,6 +143,8 @@ impl AppRegistry {
                 animate: appearance.live
                     && vm.live_tiles_enabled()
                     && vm.motion_enabled()
+                    && !vm.is_preview_snapshot()
+                    && crate::TileEntrancePolicy::current().animate
                     && ui.edit_tile.get().is_none(),
                 show_badge: appearance.show_badge,
             })

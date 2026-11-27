@@ -1,6 +1,7 @@
 use super::*;
 mod content;
-use phone_controls::{action, app_bar, flat, input, pivot_pages, PivotPage};
+mod scroll;
+use phone_controls::{PivotPage, action, app_bar, flat, input, pivot_pages};
 use phone_domain::DocumentKind;
 use phone_state::HostRequest;
 
@@ -16,8 +17,8 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         "OfficePivot",
         ui.pivot,
         vec![
-            PivotPage::new("recent", content::recent(vm.clone(), ui.clone())),
-            PivotPage::new("places", content::places(vm.clone())),
+            PivotPage::new("recent", content::recent(vm.clone(), ui.clone(), false)),
+            PivotPage::new("places", content::places(vm.clone(), ui.clone())),
         ],
     );
     page("office", body, commands(vm, ui))
@@ -26,12 +27,26 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
 // Editing belongs outside the horizontal gesture surface. Back closes search
 // before traversing the app journal; the selected hub pane remains untouched.
 fn search_page(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    let focus_vm = vm.clone();
+    let focus_ui = ui.clone();
+    let epoch = vm.document_epoch();
     let body = rsx! {Grid { name:"OfficeSearchPage",row_definitions:"Auto,Auto,*",
         {title("search")}
         Border { Grid.row:1,margin:(20.0,0.0,20.0,12.0),
-            {input("search documents").name("OfficeSearchInput").text(ui.query.two_way())}
+            {input("search documents").name("OfficeSearchInput").text(ui.query.two_way())
+                .on_loaded(move |event| {
+                    if focus_vm.document_epoch() == epoch
+                        && focus_vm.route() == Route::App(phone_domain::AppId::Office)
+                        && !focus_ui.locked.get_untracked()
+                        && focus_ui.state::<phone_office_support::OfficeSession>().show_find.get_untracked()
+                    {
+                        if let Some(editor) = event.source().and_then(|source| source.cast::<TextBox>()) {
+                            editor.focus();
+                        }
+                    }
+                })}
         }
-        Border { Grid.row:2,{content::recent(vm.clone(), ui.clone())} }
+        Border { Grid.row:2,{content::recent(vm.clone(), ui.clone(), true)} }
     }};
     page("office", body, commands(vm, ui))
 }
@@ -56,6 +71,14 @@ fn commands(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                     .set(true)
             }),
             action(Icon::Search, "search", move || {
+                if !search
+                    .state::<phone_office_support::OfficeSession>()
+                    .show_find
+                    .get_untracked()
+                {
+                    search.state::<scroll::State>().reset_search();
+                    search.query.set(String::new());
+                }
                 search
                     .state::<phone_office_support::OfficeSession>()
                     .show_find
@@ -68,6 +91,10 @@ fn commands(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         false,
         vec![],
     )
+}
+
+pub(super) fn reset_scroll(ui: &Session) {
+    ui.state::<scroll::State>().reset();
 }
 
 fn context_bar(vm: Rc<PhoneViewModel>, ui: Rc<Session>, document: OfficeDocument) -> Element {
@@ -129,7 +156,7 @@ fn new_page(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let cancel = ui.clone();
     page(
         "office",
-        scroll(body.into()),
+        phone_sdk::common::scroll(body.into()),
         app_bar(
             vec![action(Icon::Back, "cancel", move || {
                 cancel
@@ -142,3 +169,6 @@ fn new_page(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
         ),
     )
 }
+
+#[cfg(test)]
+mod tests;

@@ -1,9 +1,11 @@
 //! Explicit simulator-only observation hook; production launches create no timer.
+mod input;
+
 use ferroui_base::{
-    threading::{DispatcherPriority, DispatcherTimer},
     Point, Visual,
+    threading::{DispatcherPriority, DispatcherTimer},
 };
-use ferroui_controls::{Button, Control, PathIcon, TextBox, TopLevel};
+use ferroui_controls::{Button, Carousel, Control, PathIcon, TextBox, TopLevel};
 use phone_native::NativeHost;
 use std::{
     cell::{Cell, RefCell},
@@ -86,6 +88,8 @@ fn write_status(host: &NativeHost) {
                     | "WalletSearch"
                     | "DevicePhoneNumber"
                     | "DevicePeopleSearch"
+                    | "PeoplePanorama"
+                    | "DevicePeoplePane"
                     | "PeopleRoot"
                     | "NativeMessageSearch"
                     | "DeviceMessageRecipients"
@@ -116,6 +120,22 @@ fn write_status(host: &NativeHost) {
             serde_json::json!({"x": point.x, "y": point.y, "width": bounds.width, "height": bounds.height})
         })
     };
+    let people_panorama = view
+        .get_visual_descendants()
+        .filter_map(|visual| visual.cast::<Carousel>())
+        .find(|control| control.name().as_deref() == Some("PeoplePanorama"))
+        .map(|panorama| {
+            let device = panorama.get_visual_descendants()
+                .filter_map(|visual| visual.cast::<Control>())
+                .find(|control| control.name().as_deref() == Some("DevicePeoplePane"));
+            serde_json::json!({
+                "selected_index": panorama.selected_index(),
+                "swiping": panorama.is_swiping(),
+                "device_visible": device.as_ref().is_some_and(|control| control.is_effectively_visible()),
+                "device_enabled": device.as_ref().is_some_and(|control| control.is_effectively_enabled()),
+                "device_bounds": device.as_ref().and_then(|control| rectangle(control)),
+            })
+        });
     // Observe the real controls, including disabled/hidden ones. Route state
     // alone cannot establish that the navigation row is visible or interactive.
     let navigation = view
@@ -189,6 +209,8 @@ fn write_status(host: &NativeHost) {
         "navigation_controls": navigation,
         "network_path_online": host.runtime().platform().environment().online,
         "device_fields": fields,
+        "people_panorama": people_panorama,
+        "input_trace": input::snapshot(),
         "device": host.vm().device_state().snapshot,
     });
     // HOME is supplied by iOS for its own sandbox; it is never reassigned.
@@ -209,9 +231,20 @@ pub fn install(host: &Rc<NativeHost>) {
     }
     phase("observer.install");
     crate::smoke_devices::install(host);
+    let route_host = Rc::downgrade(host);
+    let input = input::install(&host.view(), move || {
+        route_host
+            .upgrade()
+            .map_or(serde_json::Value::Null, |host| {
+                serde_json::json!(host.vm().route())
+            })
+    });
     let weak = Rc::downgrade(host);
     DispatcherTimer::run(
         move || {
+            // The timer owns the bounded observer; every event subscription
+            // and native handler is disposed when its weak host disappears.
+            let _keep_input_observer = &input;
             let Some(host) = weak.upgrade() else {
                 return false;
             };

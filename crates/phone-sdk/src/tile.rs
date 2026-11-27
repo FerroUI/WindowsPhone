@@ -1,5 +1,5 @@
-use crate::session::Session;
 use crate::AppContext;
+use crate::session::Session;
 use phone_domain::TileSize;
 use phone_domain::{Id, Tile, TileTarget};
 pub use phone_domain::{TileBadge, TileBadgeGlyph, TileNotification, TileTemplate};
@@ -9,6 +9,25 @@ use std::{
     collections::BTreeMap,
     rc::{Rc, Weak},
 };
+
+/// Optional reactive-owner policy for a newly mounted tile surface. This
+/// controls its decorative entrance independently of live content/cadence.
+/// The shell uses it for the first mount that replaces a displayed preview;
+/// ordinary entry and later content updates retain the default policy.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct TileEntrancePolicy {
+    pub animate: bool,
+}
+impl Default for TileEntrancePolicy {
+    fn default() -> Self {
+        Self { animate: true }
+    }
+}
+impl TileEntrancePolicy {
+    pub fn current() -> Self {
+        ferroui_view::use_context::<Self>().unwrap_or_default()
+    }
+}
 
 /// A bounded retained tile surface. System chrome supplies the saved tile label.
 #[derive(Clone)]

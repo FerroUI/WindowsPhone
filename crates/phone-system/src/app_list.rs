@@ -16,11 +16,21 @@ use phone_state::PhoneViewModel;
 use std::{collections::BTreeMap, rc::Rc};
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    view_with_refresh(vm, ui, true)
+}
+
+/// The caller supplies an isolated model/session for a noninteractive image.
+/// Rendering the catalog must not start a native enumeration request.
+pub(crate) fn preview(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+    view_with_refresh(vm, ui, false)
+}
+
+fn view_with_refresh(vm: Rc<PhoneViewModel>, ui: Rc<Session>, refresh_on_load: bool) -> Element {
     if vm
         .platform_state()
         .supports(phone_host::platform::HostFeature::InstalledApps)
     {
-        return native::view(vm, ui);
+        return native::view(vm, ui, refresh_on_load);
     }
     let query = ui.query.get();
     let normalized = query.trim().to_lowercase();

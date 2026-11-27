@@ -76,14 +76,15 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     ));
     let locate = cx.clone();
     let busy = state.busy.get();
-    let mut footer = stack_panel().margin((20.0, 0.0, 20.0, 20.0)).spacing(16.0);
-    if busy {
-        footer = footer.child(
-            phone_controls::progress("Loading weather")
+    let mut footer = stack_panel()
+        .margin((20.0, 0.0, 20.0, 20.0))
+        .spacing(16.0)
+        .child(
+            phone_controls::activity_progress("Loading weather")
+                .key("weather-activity")
                 .name("WeatherProgress")
-                .is_indeterminate(true),
+                .is_indeterminate(state.busy),
         );
-    }
     footer = footer.child(muted(
         if busy {
             "loading weather…"

@@ -116,7 +116,9 @@ fn restored_start_page_registers_a_fresh_capture_source_for_the_next_shell_swipe
                 assert_eq!(bitmap.pixel_size().height, 660);
                 assert_eq!(source.size(), restored.bounds().size());
                 drop(source);
-                assert!(!incoming.is_enabled() && !incoming.is_hit_test_visible());
+                assert!(incoming.is_enabled() && !incoming.is_hit_test_visible());
+                assert_eq!(ferroui_base::input::KeyboardNavigation::get_tab_navigation(&incoming),
+                    ferroui_base::input::KeyboardNavigationMode::None);
                 assert_eq!(outgoing.opacity(), 1.0);
                 assert!((slide_x(&incoming) - slide_x(&outgoing) - 320.0).abs() < 1e-8,
                     "unloading the old visit cannot cancel the paired new-visit motion");
