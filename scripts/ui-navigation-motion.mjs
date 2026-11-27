@@ -75,6 +75,41 @@ export function assertNavigationChoreography(frames, route, backward, resting) {
   assertRestored(frames.at(-1), route, resting);
 }
 
+// Shell paging is a concurrent translation, not two independent entrances.
+// Require both native tracks plus compositor movement: two dummy adjacent
+// controls or the outgoing image parked at rest cannot satisfy this evidence.
+export function assertShellPaging(frames, route, direction, resting) {
+  const details = diagnostic(frames);
+  const paired = frames.filter(frame => sameRoute(frame.route, route) && hasImage(frame) &&
+    frame.outgoing?.opacity > 0 && frame.outgoing.projection?.kind === "slide" &&
+    frame.page?.projection?.kind === "slide");
+  assert(paired.length >= 2, `Shell paging must retain both moving surfaces: ${details}`);
+  let previousIncoming = Infinity;
+  for (const { page, outgoing, image } of paired) {
+    const incomingX = page.projection.translateX * direction;
+    const outgoingX = outgoing.projection.translateX * direction;
+    assert(incomingX >= -0.1 && incomingX <= resting.width + 0.1);
+    assert(outgoingX <= 0.1 && outgoingX >= -resting.width - 0.1);
+    assert(incomingX <= previousIncoming + 0.6, "The settle cannot move back toward the pointer origin");
+    previousIncoming = incomingX;
+    near(incomingX - outgoingX, resting.width, "Native page edges remain adjacent", 0.01);
+    near(image.imageSource.width, resting.width, "Outgoing image logical width");
+    near(image.imageSource.height, resting.height, "Outgoing image logical height");
+    assert.equal(page.opacity, 1, "Paging cannot expose the background by fading either page");
+    assert.equal(outgoing.opacity, 1);
+    assert.equal(page.enabled, false, "The moving destination must reject activation");
+    assert.equal(page.hitTestVisible, false);
+    assert.equal(outgoing.enabled, false);
+    assert.equal(outgoing.hitTestVisible, false);
+    assert.equal(outgoing.hit, false);
+  }
+  assert(paired.some(({ page, outgoing }) => page.renderedBounds && outgoing.renderedBounds &&
+    Math.abs(page.renderedBounds.x - resting.x) > 1 &&
+    Math.abs(outgoing.renderedBounds.x - resting.x) > 1),
+  `Both pages must actually move in the compositor: ${details}`);
+  assertRestored(frames.at(-1), route, resting);
+}
+
 export async function verifyNavigationMotion(ctx) {
   const { page, check, state, snapshot, until, capture, button, centre, control,
     clickLabel, reveal, isRoute, output } = ctx;
@@ -90,7 +125,7 @@ export async function verifyNavigationMotion(ctx) {
   const settingsRoute = { App: "Settings" };
   const detailRoute = { Setting: "ringtones+sounds" };
   const named = (view, name) => view.elements.find(element => element.name === name);
-  const scrollMatch = element => /ScrollViewer$/.test(element.type) && element.width > 220 && element.height > 160;
+  const systemScroll = element => element.name === "SettingsSystemScroll";
   const rawClick = async element => {
     const point = centre(element);
     await page.mouseMove(...point);
@@ -115,9 +150,9 @@ export async function verifyNavigationMotion(ctx) {
     await isRoute(settingsRoute);
     await restingPage();
     await clickLabel("system");
-    await page.wheel(...centre(await control(scrollMatch, "Settings scroll viewer")), 0, -100000);
+    await page.wheel(...centre(await control(systemScroll, "Settings system scroll viewer")), 0, -100000);
     return reveal(element => button(element) && element.automationName === "ringtones+sounds",
-      "ringtones+sounds", scrollMatch, "Settings scroll viewer");
+      "ringtones+sounds", systemScroll, "Settings system scroll viewer");
   };
   const outgoingFrame = (requireProbe = false) => page.evaluate(`new Promise((resolve,reject)=>{
     const started=performance.now();let observed=false;
@@ -167,6 +202,38 @@ export async function verifyNavigationMotion(ctx) {
 
   try {
     await load(fixture);
+    await check("Start and Apps touch paging carries adjacent outgoing and incoming pages without snap-back", async () => {
+      const document = await state();
+      const sendTouch = (type, point) => page.send("Input.dispatchTouchEvent", {
+        type, touchPoints: type === "touchEnd" || type === "touchCancel" ? [] :
+          [{ x: point[0], y: point[1], id: 0, radiusX: 2, radiusY: 2, force: 1 }],
+      });
+      await page.send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+      try {
+        for (const [route, direction] of [["Apps", 1], ["Start", -1]]) {
+          const resting = await restingPage();
+          const y = resting.y + Math.min(resting.height * 0.4, 180);
+          const from = [resting.x + resting.width * (direction > 0 ? 0.78 : 0.22), y];
+          const to = [from[0] - direction * resting.width * 0.42, y];
+          const frames = await record(`metro-shell-paging-${route.toLowerCase()}`, async () => {
+            await sendTouch("touchStart", from);
+            for (let step = 1; step <= 6; step++) {
+              await sendTouch("touchMove", [from[0] + (to[0] - from[0]) * step / 6, y]);
+              await page.evaluate("new Promise(resolve=>requestAnimationFrame(()=>resolve(true)))");
+            }
+            await sendTouch("touchEnd");
+          });
+          await isRoute(route);
+          assertShellPaging(frames, route, direction, resting);
+        }
+      } finally {
+        await sendTouch("touchCancel").catch(() => {});
+        await page.send("Emulation.setTouchEmulationEnabled", { enabled: false });
+      }
+      assert.deepEqual(await state(), document, "Page manipulation cannot alter the saved phone document");
+      await capture("metro-shell-paging-restored");
+    });
+
     await check("native outgoing page image retires before the incoming page and blocks hidden input", async () => {
       const row = await settingRow();
       const resting = await restingPage();

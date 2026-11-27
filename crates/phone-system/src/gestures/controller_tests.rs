@@ -247,3 +247,79 @@ fn cancelled_picker_contact_preserves_the_next_native_drag_through_the_shell() {
         .expect("integrated shell/picker cancellation regression completes");
     session.dispose();
 }
+
+#[test]
+fn committed_shell_pan_does_not_start_a_competing_snap_back_on_release() {
+    let session = HeadlessUnitTestSession::start_new(|| {
+        AppBuilder::configure::<Application>().use_headless(FerroHeadlessPlatformOptions::default())
+    });
+    session
+        .dispatch(
+            || {
+                phone_controls::set_motion_enabled(true);
+                for (from, displacement, expected, settles) in [
+                    (Route::Start, -130.0, Route::Apps, false),
+                    (Route::Apps, 130.0, Route::Start, false),
+                    (Route::Start, -20.0, Route::Start, true),
+                    (Route::Apps, -130.0, Route::Apps, true),
+                ] {
+                    let vm = PhoneViewModel::new(PhoneData::default(), Rc::new(|_| {}));
+                    vm.set_viewport(320.0, 740.0);
+                    if from != Route::Start {
+                        vm.navigate(from.clone());
+                    }
+                    let ui = Rc::new(Session::new(
+                        vm.now(), Rc::new(AppRegistry::new(Vec::new()).unwrap()),
+                    ));
+                    let root = Grid::new();
+                    let page = ferroui_controls::Border::new();
+                    page.set_name(Some("PhonePage".into()));
+                    root.children().add(page.clone());
+                    let window = Window::new();
+                    window.set_width(320.0);
+                    window.set_height(740.0);
+                    window.set_content(Some(Control::boxed(root.clone())));
+                    window.show();
+                    frame();
+                    let controller = Controller::new(&root, &vm, &ui);
+                    let pointer: Rc<dyn IPointer> =
+                        Pointer::new(Pointer::get_next_free_id(), PointerType::Touch, true);
+                    let x = if displacement < 0.0 { 240.0 } else { 60.0 };
+                    controller.pressed(&PointerPressedEventArgs::new(
+                        page.clone(), pointer.clone(), &root, Point::new(x, 100.0), 1,
+                        PointerPointProperties { is_left_button_pressed: true, ..Default::default() },
+                        KeyModifiers::NONE, 1,
+                    ));
+                    let move_event = PointerEventArgs::new(
+                        Some(InputElement::pointer_moved_event()), page.clone(), pointer.clone(),
+                        Some(&root), Point::new(x + displacement, 100.0), 200,
+                        PointerPointProperties { is_left_button_pressed: true, ..Default::default() },
+                        KeyModifiers::NONE,
+                    );
+                    controller.moved(&move_event);
+                    assert!(page.translation().x.abs() > 1.0, "the current page follows the finger");
+                    let released = PointerReleasedEventArgs::new(
+                        page.clone(), pointer.clone(), &root,
+                        Point::new(x + displacement, 100.0), 400,
+                        PointerPointProperties::default(), KeyModifiers::NONE, MouseButton::Left,
+                    );
+                    controller.released(&released);
+                    assert!(released.handled(), "the swiped row cannot receive a click");
+                    assert_eq!(vm.route(), expected);
+                    assert_eq!(page.translation().x, 0.0, "raw pointer translation is restored before capture");
+                    assert_eq!(page.render_transform().is_some(), settles,
+                        "only a rejected or bounded-edge pan starts a snap-back ({from:?}, {displacement})");
+                    assert!(controller.contacts.borrow().is_empty());
+                    assert!(pointer.captured().is_none());
+                    controller.cancel();
+                    window.close();
+                    window.set_content(None);
+                    frame();
+                }
+            },
+            CancellationToken::none(),
+        )
+        .wait_timeout(Duration::from_secs(30))
+        .expect("shell paging release regression completes");
+    session.dispose();
+}

@@ -1,7 +1,8 @@
 //! Phone page choreography keeps navigation/lifecycle changes synchronous.
 //! A bounded, non-interactive image of the outgoing settled page survives only
-//! for its 250 ms turnstile; the destination remains the sole live app tree.
-//! Incoming motion then uses the original Toolkit 350 ms turnstile. Host/image
+//! for its 250 ms turnstile or the shared 350 ms Start/Apps paging settle. The
+//! destination remains the sole live app tree. Turnstile entry then uses the
+//! original Toolkit 350 ms track; paging keeps both edges adjacent. Host/image
 //! unavailability falls back to incoming-only motion; privacy changes cancel.
 mod animation;
 mod choreography;

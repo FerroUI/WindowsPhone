@@ -39,7 +39,10 @@ pub(super) fn update(controller: &Controller) {
                 let (dx, dy) = contact.motion.delta();
                 (
                     contact.mode,
-                    contact.notification,
+                    contact
+                        .notification
+                        .as_ref()
+                        .map(|target| target.name().to_owned()),
                     contact.route.clone(),
                     dx,
                     dy,
@@ -57,7 +60,10 @@ pub(super) fn update(controller: &Controller) {
             Mode::Swipe => "PhonePage".into(),
             Mode::Unlock => "LockScreen".into(),
             Mode::CloseNotifications => "ActionCenter".into(),
-            Mode::DismissNotification => format!("Notification-{}", id.unwrap_or(0)),
+            Mode::DismissNotification => match id {
+                Some(name) => name,
+                None => return,
+            },
             _ => return,
         };
         if let Some(control) =

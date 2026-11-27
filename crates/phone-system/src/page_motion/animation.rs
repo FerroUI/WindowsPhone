@@ -1,5 +1,5 @@
 //! Independent rotation and opacity tracks preserve the Toolkit key times.
-use super::{viewport_width, Entrance};
+use super::{Entrance, viewport_width};
 use ferroui_base::animation::easings::{CubicEaseOut, Easing, IEasing, SharedEasing};
 use ferroui_base::animation::{Animation, AnimationTask, Cue, IClock, KeyFrame, SignedDuration};
 use ferroui_base::media::{ITransform, Rotate3DTransform, TranslateTransform};
@@ -42,6 +42,9 @@ pub(super) fn enter(
     if entrance == Entrance::None || target.render_transform().is_some() {
         return AnimationTask::completed();
     }
+    if let Entrance::Slide(distance) = entrance {
+        return slide(target, distance, 0.0, cancellation, clock);
+    }
     let animation = Animation::new();
     animation.set_duration(SignedDuration::from_seconds(
         if entrance == Entrance::Reveal {
@@ -57,16 +60,6 @@ pub(super) fn enter(
     });
     let old_origin = target.render_transform_origin();
     let transform: Rc<dyn ITransform> = match entrance {
-        Entrance::Slide(distance) => {
-            let transform = TranslateTransform::new();
-            for (cue, value) in [(0.0, distance), (1.0, 0.0)] {
-                animation.children().add(KeyFrame::with_cue(
-                    Cue::new(cue),
-                    [Setter::new(TranslateTransform::x_property(), value) as _],
-                ));
-            }
-            transform.into()
-        }
         Entrance::Turnstile { backward } => {
             let transform = turnstile_transform(target.bounds().width);
             target.set_render_transform_origin(RelativePoint::new(
@@ -95,7 +88,7 @@ pub(super) fn enter(
             }
             transform.into()
         }
-        Entrance::None => return AnimationTask::completed(),
+        Entrance::None | Entrance::Slide(_) => return AnimationTask::completed(),
     };
     let rotation = run_transform(
         target,
@@ -122,6 +115,68 @@ pub(super) fn enter(
     } else {
         rotation
     }
+}
+
+/// Both sides of a shell page settle share the same clock and easing. Their
+/// edges remain one viewport apart, including when release happens partway
+/// through a pan. This is direct-manipulation continuation, not a second
+/// turnstile or a pair of independently timed page entrances.
+pub(super) fn slide_pair(
+    outgoing: &Ref<Control>,
+    incoming: &Ref<Control>,
+    remaining: f64,
+    width: f64,
+    cancellation: CancellationToken,
+    clock: Option<Rc<dyn IClock>>,
+) -> AnimationTask {
+    let travel = remaining.signum() * viewport_width(width);
+    AnimationTask::when_all([
+        slide(
+            outgoing,
+            remaining - travel,
+            -travel,
+            cancellation.clone(),
+            clock.clone(),
+        ),
+        slide(incoming, remaining, 0.0, cancellation, clock),
+    ])
+}
+
+fn slide(
+    target: &Ref<Control>,
+    from: f64,
+    to: f64,
+    cancellation: CancellationToken,
+    clock: Option<Rc<dyn IClock>>,
+) -> AnimationTask {
+    if !from.is_finite()
+        || !to.is_finite()
+        || (from - to).abs() <= f64::EPSILON
+        || target.render_transform().is_some()
+    {
+        return AnimationTask::completed();
+    }
+    let transform = TranslateTransform::new();
+    // Establish the carried pointer position before the first clock tick so
+    // the old page cannot flash back to its unmanipulated position.
+    transform.set_x(from);
+    let animation = Animation::new();
+    animation.set_duration(SignedDuration::from_seconds(0.35));
+    animation.set_easing(Easing::new(PhoneExponentialOut));
+    for (cue, value) in [(0.0, from), (1.0, to)] {
+        animation.children().add(KeyFrame::with_cue(
+            Cue::new(cue),
+            [Setter::new(TranslateTransform::x_property(), value) as _],
+        ));
+    }
+    run_transform(
+        target,
+        transform.into(),
+        target.render_transform_origin(),
+        &animation,
+        cancellation,
+        clock,
+    )
 }
 
 pub(super) fn exit(
