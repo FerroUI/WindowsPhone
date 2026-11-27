@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 
-// Document fixtures never synthesize device notification authority. Native
-// provider keys, revocation and mixed-store gestures have mounted Rust coverage;
-// these browser checks use real touch input against the same shell controller.
+// Document fixtures never synthesize device notification authority. Rust
+// contract tests cover provider keys and revocation; a mounted shell test covers
+// mixed-store gestures. These browser checks use real touch input against that
+// same shell controller.
 export async function verifyNotificationGroups(ctx) {
   const {page, check, state, snapshot, until, capture, control, centre,
     clickName, clickLabel, textPresent, isRoute} = ctx;
@@ -51,6 +52,7 @@ export async function verifyNotificationGroups(ctx) {
     await touch("touchEnd");
   };
   let touchEnabled = false;
+  let scenarioError;
   try {
     await page.send("Emulation.setTouchEmulationEnabled", {enabled:true,maxTouchPoints:2});
     touchEnabled = true;
@@ -121,14 +123,33 @@ export async function verifyNotificationGroups(ctx) {
       await capture("action-center-private-lock-content");
     });
   } catch (error) {
+    scenarioError = error;
     await capture("notification-groups-failure").catch(()=>{});
     throw error;
   } finally {
-    if(touchEnabled){
-      await touch("touchCancel").catch(()=>{});
-      await page.send("Emulation.setTouchEmulationEnabled",{enabled:false});
+    const cleanupErrors=[];
+    const restore=async action=>{try{await action();}catch(error){cleanupErrors.push(error);}};
+    await restore(async()=>{
+      if(touchEnabled){
+        await touch("touchCancel").catch(()=>{});
+        await page.send("Emulation.setTouchEmulationEnabled",{enabled:false});
+      }
+    });
+    // Document import deliberately preserves the shell's lock state. Restore
+    // this fixture through its mounted controls before importing user data.
+    await restore(async()=>{
+      if(named(await snapshot(),"ActionCenter"))await clickLabel("Close action center");
+      if(named(await snapshot(),"LockScreen"))await clickLabel("Unlock");
+      await until(async()=>!named(await snapshot(),"LockScreen"),"notification fixture unlocks the shell");
+    });
+    await restore(async()=>{
+      await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(original))})`);
+      await isRoute("Start");
+      await until(async()=>!named(await snapshot(),"LockScreen"),"restored Start has no lock layer");
+    });
+    if(cleanupErrors.length){
+      if(!scenarioError)throw cleanupErrors[0];
+      console.error("Notification fixture cleanup also failed:",...cleanupErrors);
     }
-    await page.evaluate(`phoneApp.importData(${JSON.stringify(JSON.stringify(original))})`);
-    await isRoute("Start");
   }
 }
