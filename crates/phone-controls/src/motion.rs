@@ -15,7 +15,10 @@ ferroui_base::ferro_thread_local! {
 }
 
 pub fn set_motion_enabled(enabled: bool) {
-    ENABLED.with(|value| value.set(enabled));
+    let changed = ENABLED.with(|value| value.replace(enabled) != enabled);
+    if changed {
+        crate::progress::refresh_motion();
+    }
 }
 
 pub fn motion_enabled() -> bool {

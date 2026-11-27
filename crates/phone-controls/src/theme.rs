@@ -26,6 +26,7 @@ pub fn install_theme(app: &Application) {
     crate::sliders::install_templates(&templates);
     crate::switches::install_templates(&templates);
     crate::pivot_host::install_template(&templates);
+    crate::progress::install_template(&templates);
     app.styles().add(templates);
     let styles = Styles::new();
     app.styles().add(styles.clone());
@@ -98,6 +99,7 @@ fn install_palette(styles: &Styles, p: &Palette) {
     crate::pivot_host::install(styles, p);
     crate::inputs::install(styles, p);
     crate::sliders::install(styles, p);
+    crate::progress::install(styles, p);
     crate::pickers::install(styles, p);
     crate::switches::install(styles, p);
     crate::choices::install(styles, p);

@@ -17,7 +17,7 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
                 "weather",
                 empty("Weather unavailable", &error),
                 Element::Empty,
-            )
+            );
         }
     };
     let state = ui.state::<WeatherState>();
@@ -76,6 +76,15 @@ pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     ));
     let locate = cx.clone();
     let busy = state.busy.get();
+    let body = if busy {
+        body.child(
+            phone_controls::progress("Loading weather")
+                .name("WeatherProgress")
+                .is_indeterminate(true),
+        )
+    } else {
+        body
+    };
     let mut body = body.child(muted(
         if busy {
             "loading weather…"
