@@ -14,6 +14,7 @@ mod navigation;
 mod note_storage;
 mod pim;
 mod platform;
+mod preview;
 mod projection;
 mod secondary_tiles;
 mod services;
@@ -58,6 +59,7 @@ pub struct PhoneViewModel {
     device_applications_revision: Cell<u64>,
     device_state: RefCell<DeviceStore>,
     device_revision: Cell<u64>,
+    preview_badges: RefCell<Option<std::collections::BTreeMap<AppId, u32>>>,
     save: SaveCallback,
     applying: Cell<bool>,
     pending: RefCell<VecDeque<Action>>,
@@ -100,6 +102,7 @@ impl PhoneViewModel {
                 device_applications_revision: Cell::new(0),
                 device_state: RefCell::new(DeviceStore::default()),
                 device_revision: Cell::new(0),
+                preview_badges: RefCell::new(None),
                 save,
                 applying: Cell::new(false),
                 pending: RefCell::new(VecDeque::new()),

@@ -108,7 +108,8 @@ export async function verifyHubPivots(ctx) {
       await selectHeader("places");
       await selected("OfficePivot", 1);
       await clickLabel("search");
-      await control(element => element.name === "OfficeSearchInput", "standalone Office search editor");
+      await control(element => element.name === "OfficeSearchInput" && element.focused,
+        "standalone Office search takes native editor focus");
       assert(!named(await snapshot(), "OfficePivot"), "the editing page does not contain a competing Pivot");
       await edit("OfficeSearchInput", added[3].name);
       await control(element => element.automationName === `${added[3].name}.docx`, "matching local document");
@@ -120,7 +121,70 @@ export async function verifyHubPivots(ctx) {
       await selected("OfficePivot", 1);
       await isRoute({ App: "Office" });
       assert(!named(await snapshot(), "OfficeSearchInput"), "Back closes search before leaving Office");
+      near(await offset("OfficePlacesScroll"), 0, "search does not overwrite the places position");
+      await selectHeader("recent");
+      await selected("OfficePivot", 0);
+      near(await offset("OfficeRecentScroll"), remembered,
+        "search Back restores the destroyed recent ScrollViewer");
+      await capture("metro-office-recent-restored-search");
+      const pane = await control(element => element.name === "OfficeRecentScroll", "restored recent pane");
+      const visible = await control(element => /Button$/.test(element.type) &&
+        element.automationName?.startsWith("Pivot document ") &&
+        element.y >= pane.y && element.y + element.height <= pane.y + pane.height,
+      "a fully visible document in the restored pane");
+      const opened = added.find(document => `${document.name}.docx` === visible.automationName);
+      assert(opened, "the real row corresponds to the isolated fixture");
+      await page.click(...centre(visible));
+      await isRoute({ Document: opened.id });
+      await clickName("HardwareBack");
+      await selected("OfficePivot", 0);
+      near(await offset("OfficeRecentScroll"), remembered,
+        "document Back restores the same recent position");
+      await capture("metro-office-recent-restored-document");
       assert.deepEqual(await state(), document, "search and pane navigation do not edit documents");
+    });
+
+    await check("Office reconstructs independent scrolled panes and search results at 320 pixels", async () => {
+      await page.resize(320, 460);
+      await until(async () => (await snapshot()).width === 320, "compact Office viewport");
+      await load(fixture);
+      await app("Office");
+      await selected("OfficePivot", 0);
+      near(await offset("OfficeRecentScroll"), 0, "document replacement starts a fresh scroll epoch");
+      const document = await state();
+      const recent = await control(element => element.name === "OfficeRecentScroll", "compact recent pane");
+      await page.wheel(...centre(recent), 0, 320);
+      await until(async () => (await offset("OfficeRecentScroll")) > 160, "compact recent scroll");
+      const recentPosition = await offset("OfficeRecentScroll");
+      await selectHeader("places");
+      await selected("OfficePivot", 1);
+      const places = await control(element => element.name === "OfficePlacesScroll", "compact places pane");
+      await page.wheel(...centre(places), 0, 100);
+      await until(async () => (await offset("OfficePlacesScroll")) > 20, "compact places scroll");
+      const placesPosition = await offset("OfficePlacesScroll");
+      await clickLabel("search");
+      await control(element => element.name === "OfficeSearchInput" && element.focused,
+        "compact search editor focus");
+      const results = await control(element => element.name === "OfficeSearchScroll", "independent search results");
+      near(results.scrollOffset.y, 0, "new search starts at its own origin");
+      await page.wheel(...centre(results), 0, 240);
+      await until(async () => (await offset("OfficeSearchScroll")) > 120, "search results really scroll");
+      await edit("OfficeSearchInput", added[7].name);
+      await control(element => element.automationName === `${added[7].name}.docx`, "compact search result");
+      near(await offset("OfficeSearchScroll"), 0, "a new filter starts at the top of its results");
+      await clickName("HardwareBack");
+      await selected("OfficePivot", 1);
+      near(await offset("OfficePlacesScroll"), placesPosition, "Back restores the scrolled places pane");
+      await capture("metro-office-320-places-restored-search");
+      await selectHeader("recent");
+      await selected("OfficePivot", 0);
+      near(await offset("OfficeRecentScroll"), recentPosition, "recent retains a separate nonzero offset");
+      await clickLabel("new");
+      await clickLabel("cancel");
+      await selected("OfficePivot", 0);
+      near(await offset("OfficeRecentScroll"), recentPosition, "cancelling new restores the recent pane");
+      await capture("metro-office-320-recent-restored-new");
+      assert.deepEqual(await state(), document, "all restored offsets remain session-only state");
     });
 
     await check("Settings and Office native headings stay reachable at 320 pixels in both themes", async () => {

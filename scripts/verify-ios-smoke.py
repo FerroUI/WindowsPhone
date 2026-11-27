@@ -114,7 +114,7 @@ def verify(data, expected, after_sequence, uri="", baseline=None):
         "home": {"StartTiles"},
         "org.ferroui.wallet": {"WalletSearch"},
         "phone.phone": {"DevicePhoneNumber"},
-        "phone.people": {"DevicePeopleSearch"},
+        "phone.people": {"PeoplePanorama", "DevicePeoplePane"},
         "phone.messaging": {"DeviceMessageRecipients", "DeviceMessageBody"},
         "phone.settings": {"DeviceSettingsRoot"},
         "search": {"CortanaInput"},
@@ -124,6 +124,16 @@ def verify(data, expected, after_sequence, uri="", baseline=None):
     required = {"PhoneScreen", "PhonePage", *pages[expected]}
     if not required <= controls:
         raise ValueError(f"Expected visible mounted controls: {sorted(required)}.")
+    if expected == "phone.people":
+        panorama = data.get("people_panorama")
+        if (not isinstance(panorama, dict) or panorama.get("selected_index") != 2
+                or panorama.get("swiping") is not False
+                or panorama.get("device_visible") is not True
+                or panorama.get("device_enabled") is not True):
+            raise ValueError("People activation must settle on the real enabled device-contact section.")
+        pane = rectangle(panorama.get("device_bounds"), "Device contact pane")
+        if pane["width"] < 200 or pane["height"] < 100 or not contains(data["screen"], pane):
+            raise ValueError("The selected device-contact pane must fit inside the safe phone screen.")
     route = data["route"]
     if expected == "home":
         matches = route == "Start"

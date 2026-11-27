@@ -1,10 +1,10 @@
 mod cache;
 mod info;
 
-use cache::{Cache, ImageState, Key, Lease, Loader, BUDGET};
+use cache::{BUDGET, Cache, ImageState, Key, Lease, Loader};
 use ferroui_base::media::{
-    imaging::{Bitmap, BitmapInterpolationMode},
     IImage, Stretch,
+    imaging::{Bitmap, BitmapInterpolationMode},
 };
 use ferroui_view::prelude::*;
 use std::{
@@ -16,6 +16,21 @@ use std::{
 const FULL_EDGE: u32 = 1200;
 const THUMBNAIL_EDGE: u32 = 320;
 const TRANSIENT_PREFIX: &str = "phone-transient-image:";
+
+#[derive(Clone, Copy)]
+struct CachedImagesOnly;
+
+/// Restrict image views owned by this isolated rendering scope to already
+/// decoded images and bundled assets. No host loader request or pending-load
+/// entry is created. Descendant reactive evaluations retain the policy until
+/// their owner is disposed; other mounted owners are unaffected.
+///
+/// The caller owns/disposes the supplied scope, including on cancellation or
+/// unwinding. This uses owner context instead of a temporary global switch, so
+/// a nested evaluation of a live owner cannot inherit a preview's restriction.
+pub fn cached_only(owner: &Owner) {
+    owner.provide_context(CachedImagesOnly);
+}
 
 ferroui_base::ferro_thread_local! {
     static CACHE: RefCell<Cache> = RefCell::new(Cache::default());
@@ -181,6 +196,7 @@ pub fn thumbnail(source: &str) -> Element {
 }
 
 fn view(source: &str, edge: u32, stretch: Stretch) -> Element {
+    let cached_only = use_context::<CachedImagesOnly>().is_some();
     let key = Key::new(source, edge);
     let lease: Lease = Rc::new(RefCell::new(ImageState::Waiting));
     CACHE.with(|cache| {
@@ -232,6 +248,7 @@ fn view(source: &str, edge: u32, stretch: Stretch) -> Element {
                 || key.source.starts_with(TRANSIENT_PREFIX);
             let loader = if source.is_none()
                 && !blocked
+                && !cached_only
                 && cache.loader.is_some()
                 && cache.pending.insert(key.source.clone())
             {
@@ -333,5 +350,95 @@ mod transient_tests {
         cache.clear();
         cache.release_transient(&transient);
         assert_eq!(cache.bytes, 0);
+    }
+}
+
+#[cfg(test)]
+mod preview_tests {
+    use super::*;
+    use ferroui_base::media::DrawingContext;
+    use ferroui_base::threading::CancellationToken;
+    use ferroui_base::{Rect, Size};
+    use ferroui_controls::{AppBuilder, Application, Image};
+    use ferroui_headless::{
+        FerroHeadlessPlatformExtensions, FerroHeadlessPlatformOptions, HeadlessUnitTestSession,
+    };
+    use std::time::Duration;
+
+    struct CachedImage;
+    impl IImage for CachedImage {
+        fn size(&self) -> Size {
+            Size::new(10.0, 10.0)
+        }
+        fn draw(&self, _: &mut DrawingContext<'_>, _: Rect, _: Rect) {}
+        fn as_any(&self) -> &dyn std::any::Any {
+            self
+        }
+    }
+    struct Owned(Owner);
+    impl Drop for Owned {
+        fn drop(&mut self) {
+            if self.0.is_alive() {
+                self.0.dispose();
+            }
+        }
+    }
+
+    #[test]
+    fn cached_only_preview_owners_preserve_cached_images_without_blocking_live_loaders() {
+        let session = HeadlessUnitTestSession::start_new(|| {
+            AppBuilder::configure::<Application>()
+                .use_headless(FerroHeadlessPlatformOptions::default())
+        });
+        let result = session
+            .dispatch(
+                || {
+                    let requests = Rc::new(RefCell::new(Vec::new()));
+                    let requested = requests.clone();
+                    set_loader(Rc::new(move |source| requested.borrow_mut().push(source)));
+                    let preview = Owned(Owner::new_root());
+                    cached_only(&preview.0);
+                    CACHE.with(|cache| {
+                        cache.borrow_mut().insert(
+                            Key::new("cached", THUMBNAIL_EDGE),
+                            Rc::new(CachedImage),
+                            400,
+                        )
+                    });
+                    let cached = preview.0.with(|| thumbnail("cached").mount());
+                    assert!(
+                        cached
+                            .find_descendant_of_type::<Image>(true)
+                            .is_some_and(|image| image.source().is_some())
+                    );
+                    let _missing = preview.0.with(|| thumbnail("missing").mount());
+                    assert!(requests.borrow().is_empty());
+                    assert!(!CACHE.with(|cache| cache.borrow().pending.contains("missing")));
+
+                    // A separately evaluated live owner can ask for exactly the same
+                    // source while the preview still exists; no global policy leaked.
+                    let live = Owned(Owner::new_root());
+                    let _live = live.0.with(|| thumbnail("missing").mount());
+                    assert_eq!(&*requests.borrow(), &["missing".to_owned()]);
+                    drop(preview);
+                    assert!(!CACHE.with(|cache| {
+                        cache
+                            .borrow()
+                            .leases
+                            .contains_key(&Key::new("cached", THUMBNAIL_EDGE))
+                    }));
+                    let _next = live.0.with(|| thumbnail("after-preview").mount());
+                    assert_eq!(
+                        &*requests.borrow(),
+                        &["missing".to_owned(), "after-preview".to_owned()]
+                    );
+                    drop(live);
+                    CACHE.with(|cache| *cache.borrow_mut() = Cache::default());
+                },
+                CancellationToken::none(),
+            )
+            .wait_timeout(Duration::from_secs(30));
+        session.dispose();
+        result.expect("image loading remains scoped to the preview owner");
     }
 }

@@ -1,7 +1,12 @@
+use super::activity::ActivityMotion;
 use super::animation::{DotEase, PERIOD, STAGGER};
 use super::*;
 use ferroui_base::animation::easings::IEasing;
+use ferroui_base::animation::{IClock, PlayState, SignedDuration};
 use ferroui_base::layout::Orientation;
+use ferroui_base::reactive::{IDisposable, IObservable, IObserver, LightweightSubject};
+use ferroui_base::rendering::composition::server::ServerCompositionVisual;
+use ferroui_base::rendering::composition::ElementComposition;
 use ferroui_base::threading::{CancellationToken, Dispatcher};
 use ferroui_base::{AnyValue, ObjectType};
 use ferroui_controls::{AppBuilder, Application, Control, Window};
@@ -9,6 +14,7 @@ use ferroui_headless::{
     FerroHeadlessPlatform, FerroHeadlessPlatformExtensions, FerroHeadlessPlatformOptions,
     HeadlessUnitTestSession,
 };
+use std::cell::Cell;
 use std::time::Duration;
 
 #[track_caller]
@@ -79,6 +85,330 @@ fn animation_count(root: &Grid) -> usize {
         .downcast_ref::<ProgressMotion>()
         .expect("progress controller tag")
         .animation_count()
+}
+
+fn activity(root: &Grid) -> Rc<ActivityMotion> {
+    let tag = root.tag().expect("template-owned motion controller");
+    (&*tag as &dyn AnyValue)
+        .downcast_ref::<ProgressMotion>()
+        .unwrap()
+        .activity()
+        .expect("activity-only wrapper")
+        .clone()
+}
+
+/// Only the native animation clock is stepped here; no production timing hook.
+struct ManualClock {
+    ticks: LightweightSubject<SignedDuration>,
+    play: Cell<PlayState>,
+}
+
+impl ManualClock {
+    fn new() -> Rc<Self> {
+        Rc::new(Self {
+            ticks: LightweightSubject::new(),
+            play: Cell::new(PlayState::Run),
+        })
+    }
+
+    fn step(&self, seconds: f64) {
+        self.ticks.on_next(SignedDuration::from_seconds(seconds));
+        Dispatcher::ui_thread().run_jobs(None);
+    }
+}
+
+impl IObservable<SignedDuration> for ManualClock {
+    fn subscribe(&self, observer: Rc<dyn IObserver<SignedDuration>>) -> Rc<dyn IDisposable> {
+        self.ticks.subscribe(observer)
+    }
+}
+
+impl IClock for ManualClock {
+    fn play_state(&self) -> PlayState {
+        self.play.get()
+    }
+    fn set_play_state(&self, value: PlayState) {
+        self.play.set(value);
+    }
+}
+
+fn native_activity() -> (Ref<Grid>, Rc<ActivityMotion>, Rc<ManualClock>) {
+    let root = Grid::new();
+    let clock = ManualClock::new();
+    root.set_clock(Some(clock.clone()));
+    let activity = ActivityMotion::new(&root, Rc::new(|| {}));
+    assert!(ElementComposition::get_element_visual(&root).is_none());
+    (root, activity, clock)
+}
+
+#[test]
+fn activity_wrapper_native_clock_preserves_original_linear_fades_and_delayed_dot_stop() {
+    let session = HeadlessUnitTestSession::start_new(|| {
+        AppBuilder::configure::<Application>().use_headless(FerroHeadlessPlatformOptions::default())
+    });
+    session
+        .dispatch(
+            || {
+                let (root, activity, clock) = native_activity();
+                activity.update(false, true);
+                close(root.opacity(), 0.0);
+                assert!(!activity.actual() && !activity.is_fading());
+                activity.update(true, true);
+                assert!(
+                    activity.actual() && activity.is_fading(),
+                    "dots start before the fade completes"
+                );
+                clock.step(0.0);
+                clock.step(0.125);
+                close(root.opacity(), 0.5);
+                clock.step(0.249);
+                assert!(activity.is_fading());
+                clock.step(0.251);
+                close(root.opacity(), 1.0);
+                assert!(activity.actual() && !activity.is_fading());
+
+                activity.update(false, true);
+                assert!(
+                    activity.actual(),
+                    "completion requests Hidden without stopping the dots"
+                );
+                clock.step(1.0);
+                clock.step(1.375);
+                close(root.opacity(), 0.5);
+                clock.step(1.749);
+                assert!(activity.actual() && activity.is_fading());
+                clock.step(1.751);
+                close(root.opacity(), 0.0);
+                assert!(!activity.actual() && !activity.is_fading());
+                clock.step(2.0);
+                assert!(
+                    !clock.ticks.has_observers(),
+                    "finite native animation releases its clock"
+                );
+            },
+            CancellationToken::none(),
+        )
+        .wait_timeout(Duration::from_secs(10))
+        .unwrap();
+    session.dispose();
+}
+
+#[test]
+fn activity_wrapper_reverses_native_fades_and_discards_canceled_completion() {
+    let session = HeadlessUnitTestSession::start_new(|| {
+        AppBuilder::configure::<Application>().use_headless(FerroHeadlessPlatformOptions::default())
+    });
+    session
+        .dispatch(
+            || {
+                let (root, activity, clock) = native_activity();
+                activity.update(false, true);
+                activity.update(true, true);
+                clock.step(0.0);
+                clock.step(0.125);
+                close(root.opacity(), 0.5);
+                activity.update(false, true);
+                close(root.opacity(), 0.5);
+                clock.step(0.125);
+                clock.step(0.5);
+                close(root.opacity(), 0.25);
+                activity.update(true, true);
+                close(root.opacity(), 0.25);
+                clock.step(0.5);
+                clock.step(0.625);
+                close(root.opacity(), 0.625);
+                clock.step(1.5);
+                close(root.opacity(), 1.0);
+                assert!(
+                    activity.actual() && !activity.is_fading(),
+                    "old exits cannot hide renewed work"
+                );
+
+                activity.update(false, true);
+                clock.step(1.5);
+                clock.step(1.7);
+                activity.update(false, false);
+                assert!(!activity.actual() && !activity.is_fading());
+                close(root.opacity(), 0.0);
+                activity.update(true, false);
+                close(root.opacity(), 1.0);
+                assert!(activity.actual() && !activity.is_fading());
+                activity.update(true, true);
+                assert!(
+                    !activity.is_fading(),
+                    "visibility/motion restoration reflects the current request"
+                );
+                activity.update(false, true);
+                activity.detach();
+                clock.step(4.0);
+                close(root.opacity(), 0.0);
+                assert!(!activity.actual() && !activity.is_fading());
+                assert!(!clock.ticks.has_observers());
+                activity.update(true, true);
+                close(root.opacity(), 1.0);
+                assert!(
+                    !activity.is_fading(),
+                    "reattachment has the original no-transition initial state"
+                );
+                activity.update(false, true);
+                drop(activity);
+                clock.step(5.0);
+                assert!(
+                    !clock.ticks.has_observers(),
+                    "dropping the template cancels a pending exit"
+                );
+            },
+            CancellationToken::none(),
+        )
+        .wait_timeout(Duration::from_secs(10))
+        .unwrap();
+    session.dispose();
+}
+
+fn advance(duration: Duration) {
+    let until = std::time::Instant::now() + duration;
+    while std::time::Instant::now() < until {
+        frame();
+        std::thread::sleep(Duration::from_millis(5));
+    }
+    frame();
+}
+
+fn composed_opacity(root: &Grid) -> f64 {
+    let visual = ElementComposition::get_element_visual(root).expect("mounted compositor visual");
+    visual.compositor().with_server(|server| {
+        f64::from(
+            server
+                .get::<ServerCompositionVisual>(visual.server())
+                .expect("server visual")
+                .opacity(),
+        )
+    })
+}
+
+#[test]
+fn mounted_activity_retains_compositor_motion_through_exit_and_cleans_up_every_lifecycle_path() {
+    let session = HeadlessUnitTestSession::start_new(|| {
+        AppBuilder::configure::<Application>().use_headless(FerroHeadlessPlatformOptions::default())
+    });
+    session
+        .dispatch(
+            || {
+                crate::install_theme(&Application::current().unwrap());
+                crate::set_motion_enabled(true);
+                let bar = ProgressBar::new();
+                bar.classes().add("phone-progress");
+                bar.classes().add("phone-activity-progress");
+                bar.set_width(400.0);
+                bar.set_opacity(0.65);
+                bar.set_range_value(37.0);
+                let window = Window::new();
+                window.set_width(400.0);
+                window.set_height(240.0);
+                window.set_content(Some(Control::boxed(bar.clone())));
+                window.show();
+                for _ in 0..3 {
+                    frame();
+                }
+                let root = part::<Grid>(&bar, "PhoneProgressRoot");
+                let activity = activity(&root);
+                close(root.opacity(), 0.0);
+                assert!(!part::<Border>(&bar, "PhoneProgressTrack").is_visible());
+                assert!(!part::<Border>(&bar, "PART_Indicator").is_visible());
+
+                bar.set_is_indeterminate(true);
+                frame();
+                assert!(activity.is_fading());
+                advance(Duration::from_millis(90));
+                let entering = composed_opacity(&root);
+                assert!(
+                    entering > 0.0 && entering < 1.0,
+                    "compositor entry interpolates: {entering}"
+                );
+                close(root.opacity(), 0.0); // The UI property is not compositor readback.
+                assert_eq!(animation_count(&root), 2 * DOT_COUNT);
+                advance(Duration::from_millis(220));
+                assert!(!activity.is_fading());
+                close(composed_opacity(&root), 1.0);
+
+                bar.set_is_indeterminate(false);
+                frame();
+                advance(Duration::from_millis(150));
+                let exiting = composed_opacity(&root);
+                assert!(exiting > 0.0 && exiting < 1.0);
+                assert!(activity.actual() && activity.is_fading());
+                assert!(
+                    !bar.is_indeterminate(),
+                    "the requested native property is never overwritten"
+                );
+                close(bar.opacity(), 0.65);
+                close(bar.value(), 37.0);
+                assert_eq!(
+                    animation_count(&root),
+                    2 * DOT_COUNT,
+                    "dots continue through the wrapper exit"
+                );
+                bar.set_is_indeterminate(true);
+                frame();
+                assert!(
+                    (composed_opacity(&root) - exiting).abs() < 0.1,
+                    "a compositor reversal must continue from its current frame"
+                );
+                advance(Duration::from_millis(300));
+                assert!(activity.actual() && !activity.is_fading());
+                close(composed_opacity(&root), 1.0);
+
+                bar.set_is_indeterminate(false);
+                frame();
+                crate::set_motion_enabled(false);
+                assert!(!activity.actual() && !activity.is_fading());
+                assert_eq!(animation_count(&root), 0);
+                close(root.opacity(), 0.0);
+                bar.set_is_indeterminate(true);
+                assert!(activity.actual() && !activity.is_fading());
+                close(root.opacity(), 1.0);
+                assert_eq!(animation_count(&root), 0);
+                crate::set_motion_enabled(true);
+                frame();
+                assert_eq!(animation_count(&root), 2 * DOT_COUNT);
+                bar.set_is_indeterminate(false);
+                bar.set_is_visible(false);
+                assert!(!activity.actual() && !activity.is_fading());
+                assert_eq!(animation_count(&root), 0);
+                bar.set_is_visible(true);
+                frame();
+                close(root.opacity(), 0.0);
+                bar.set_is_indeterminate(true);
+                frame();
+                assert!(activity.is_fading());
+                window.set_content(None);
+                frame();
+                assert!(!activity.actual() && !activity.is_fading());
+                assert_eq!(animation_count(&root), 0);
+                window.set_content(Some(Control::boxed(bar.clone())));
+                for _ in 0..3 {
+                    frame();
+                }
+                assert!(activity.actual() && !activity.is_fading());
+                close(root.opacity(), 1.0);
+                assert_eq!(animation_count(&root), 2 * DOT_COUNT);
+                bar.set_is_indeterminate(false);
+                frame();
+                advance(Duration::from_millis(800));
+                assert!(!activity.actual() && !activity.is_fading());
+                assert_eq!(animation_count(&root), 0);
+                close(composed_opacity(&root), 0.0);
+                assert!(
+                    bar.is_visible(),
+                    "the wrapper never changes application-owned visibility"
+                );
+                window.close();
+            },
+            CancellationToken::none(),
+        )
+        .wait_timeout(Duration::from_secs(15))
+        .unwrap();
+    session.dispose();
 }
 
 #[test]

@@ -107,7 +107,7 @@ pub(crate) fn reset(ui: &Session) {
     state.groups.set_groups(Vec::new());
     state.groups.reset();
 }
-pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, refresh_on_load: bool) -> Element {
     let state = ui.state::<State>();
     let query = ui.query.get();
     let installed = vm.data().installed.clone();
@@ -194,7 +194,7 @@ pub(super) fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let clear = ui.query;
     let sticky = state.groups.current_group();
     let alphabet = ui.alphabet;
-    let mut content = rsx! {Grid{name:"NativeAllAppsRoot",row_definitions:"Auto,Auto,*",on_loaded:move|_|load.request(HostRequest::Platform{request:PlatformRequest::ListApplications}),
+    let mut content = rsx! {Grid{name:"NativeAllAppsRoot",row_definitions:"Auto,Auto,*",on_loaded:move|_|if refresh_on_load{load.request(HostRequest::Platform{request:PlatformRequest::ListApplications})},
         Grid{column_definitions:"48,*,40",margin:(10.0,12.0,14.0,8.0),
             Button{class:"phone-flat",automation_properties_name:"Back to Start",on_click:move|_|home.home(),{icon(Icon::Back,23.0,&common::fg(&vm))}}
             TextBox{Grid.column:1,name:"AppSearch",class:"phone-input",text:ui.query.two_way(),placeholder_text:"search",automation_properties_name:"Search apps",font_size:21.0,min_height:43.0}

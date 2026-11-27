@@ -1,16 +1,18 @@
 import assert from "node:assert/strict";
+import { writeFile } from "node:fs/promises";
+import path from "node:path";
 import { inputGeometryReady } from "./ui-input-geometry.mjs";
 
 // These HTTP fixtures hold the real SDK task response. All loading/selection
 // state comes from normal application commands; inspectView only observes it.
 export async function verifyMetroProgress(ctx) {
-  const { page, check, state, snapshot, until, clickLabel, clickName, edit, isRoute, capture } = ctx;
+  const { page, check, state, snapshot, until, clickLabel, clickName, edit, isRoute, capture, output } = ctx;
   const original = await state();
   const fixture = structuredClone(original);
   const podcasts = "org.ferroui.podcasts";
   Object.assign(fixture.settings, {
     lock_timeout: 0, reduced_motion: false, battery_saver: false, live_tiles: false,
-    dark: true, high_contrast: false, text_scale: 1, sounds: false,
+    dark: true, high_contrast: false, text_scale: 1, sounds: false, accent: "#1BA1E2",
   });
   fixture.events = [];
   fixture.alarms = [];
@@ -117,9 +119,27 @@ export async function verifyMetroProgress(ctx) {
     };
     sample();
   })`);
-  const noStrip = () => until(async () => !(await snapshot()).elements.some(element =>
+  const inactive = name => until(async () => {
+    const elements = (await snapshot()).elements;
+    const root = elements.find(element => element.name === "PhoneProgressRoot");
+    return elements.some(element => element.name === name) && root?.opacity === 0 &&
+      !elements.some(element => /^PhoneProgressDot[0-4]$/.test(element.name));
+  }, "finished activity retains its transparent slot and releases the visible dots");
+  const unmounted = () => until(async () => !(await snapshot()).elements.some(element =>
     element.name === "PhoneProgressRoot" || /^PhoneProgressDot[0-4]$/.test(element.name)),
-  "finished operation releases its progress visual tree");
+  "leaving the app detaches its progress visual tree");
+
+  // Native Visual.Opacity is the base value, not compositor animation readback.
+  // Inspect actual PNG pixels to establish the wrapper's intermediate opacity;
+  // the strip is clipped, uniformly accent-coloured, and sits on the black page.
+  const brightness = (image, root, viewport) => {
+    const sx = image.width / viewport.width, sy = image.height / viewport.height;
+    let peak = 0;
+    for (let y = Math.ceil(root.y * sy); y < Math.floor((root.y + root.height) * sy); y++)
+      for (let x = Math.ceil(root.x * sx); x < Math.floor((root.x + root.width) * sx); x++)
+        peak = Math.max(peak, ...image.pixel(x, y));
+    return peak;
+  };
 
   await load(fixture);
   await mock();
@@ -150,7 +170,10 @@ export async function verifyMetroProgress(ctx) {
       assert.equal(await release("weather"), 1);
       await until(async () => !!(await state()).app_data?.["phone.weather"]?.cities[0]?.forecast,
         "the held weather response commits a forecast");
-      await noStrip();
+      // The forecast replaces the welcome body and can move its footer below
+      // the viewport. Scroll the real page to inspect that retained idle slot.
+      await page.wheel(root.x + root.width / 2, root.y, 0, 10000);
+      await inactive("WeatherProgress");
     });
 
     await check("Reduced-motion podcast activity stays static, survives app switching and clears on completion", async () => {
@@ -181,20 +204,74 @@ export async function verifyMetroProgress(ctx) {
       await capture("metro-progress-podcast-reduced-motion");
       await clickName("HardwareStart");
       await isRoute("Start");
-      await noStrip();
+      await unmounted();
       await launch();
       await strip("PodcastProgress");
       assert.equal(await release("podcast"), 1);
       await until(async () => (await state()).app_data?.[podcasts]?.shows?.length === 1,
         "the held podcast response commits one show");
-      await noStrip();
+      await inactive("PodcastProgress");
       await clickLabel("refresh");
       await pending("podcast");
       await strip("PodcastProgress");
       assert.equal(await release("podcast"), 1);
-      await noStrip();
+      await inactive("PodcastProgress");
       assert.equal((await state()).app_data[podcasts].shows.length, 1,
         "refresh updates the existing podcast without adding another show");
+    });
+
+    await check("Podcast activity fades on the compositor, retains moving dots through exit and restarts before an old completion", async () => {
+      const enabled = await state();
+      enabled.settings.reduced_motion = false;
+      await load(enabled);
+      const show = enabled.app_data[podcasts].shows[0];
+      const destination = { Extension: { app: podcasts, path: `show/${show.id}` } };
+      assert.equal(await page.evaluate(`phoneApp.launchApp(${JSON.stringify(podcasts)}, ${JSON.stringify(destination.Extension.path)})`), true);
+      await isRoute(destination);
+      await inactive("PodcastProgress");
+      await clickLabel("refresh");
+      await pending("podcast");
+      await until(async () => (await strip("PodcastProgress")).root.opacity === 1,
+        "the activity's 250 ms entrance reaches its normal state");
+      const active = await strip("PodcastProgress");
+      await page.mouseMove(active.root.x + active.root.width / 2, active.root.y + active.root.height / 2);
+      const full = await capture("metro-progress-podcast-active");
+      const view = await snapshot();
+      const peak = brightness(full, active.root, view);
+      assert(peak > 100, "pending work actually paints full-intensity accent dots");
+
+      const sampled = frames(1150);
+      const action = async () => {
+        assert.equal(await release("podcast"), 1);
+        const faded = await capture("metro-progress-podcast-fading-out");
+        const during = await strip("PodcastProgress");
+        const fadedPeak = brightness(faded, during.root, view);
+        assert(fadedPeak > peak * 0.1 && fadedPeak < peak * 0.95,
+          `the compositor must visibly fade the whole strip: ${fadedPeak}/${peak}`);
+        assert.equal(during.root.opacity, 1,
+          "the native base opacity stays intact until compositor exit completion");
+        // Starting another real fetch while the exit is still active must
+        // cancel the old completion and preserve the moving strip's lifetime.
+        await clickLabel("refresh");
+        await pending("podcast");
+        await strip("PodcastProgress");
+      };
+      const [recorded, acted] = await Promise.allSettled([sampled, action()]);
+      if (output && recorded.status === "fulfilled")
+        await writeFile(path.join(output, "metro-progress-podcast-restart-frames.json"), JSON.stringify(recorded.value, null, 2));
+      if (acted.status === "rejected") throw acted.reason;
+      if (recorded.status === "rejected") throw recorded.reason;
+      assert(recorded.value.length >= 8);
+      assert(recorded.value.every(frame => frame.root && frame.dots.length === 5),
+        "the retained dots must survive response completion and a rapid restart without blinking out");
+      assert.equal(recorded.value.at(-1).root.opacity, 1);
+      await pending("podcast");
+      await strip("PodcastProgress");
+      assert.equal(await release("podcast"), 1);
+      await inactive("PodcastProgress");
+      const hidden = await capture("metro-progress-podcast-idle");
+      assert.equal(brightness(hidden, active.root, view), 0,
+        "the settled empty slot paints no track or activity dots");
     });
   } catch (error) {
     await capture("metro-progress-failure").catch(() => {});

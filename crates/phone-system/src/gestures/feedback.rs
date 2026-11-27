@@ -9,15 +9,22 @@ pub(super) struct Feedback {
     control: WeakRef<Control>,
     translation: Vector3D,
     opacity: f64,
+    shell: bool,
 }
 
 pub(super) fn clear(controller: &Controller, animate: bool) {
-    if let Some(feedback) = controller.feedback.borrow_mut().take() {
+    let feedback = controller.feedback.borrow_mut().take();
+    if let Some(feedback) = feedback {
         if let Some(control) = feedback.control.upgrade() {
             let current = control.translation();
             control.set_translation(feedback.translation);
             control.set_opacity(feedback.opacity);
-            if animate {
+            let paired = feedback.shell
+                && controller.ui.upgrade().is_some_and(|ui| {
+                    ui.state::<crate::page_motion::NavigationMotion>()
+                        .finish_neighbor(&control, current.x - feedback.translation.x, animate)
+                });
+            if animate && !paired {
                 phone_controls::settle(
                     &control,
                     current.x - feedback.translation.x,
@@ -73,6 +80,7 @@ pub(super) fn update(controller: &Controller) {
                 translation: control.translation(),
                 opacity: control.opacity(),
                 control: control.downgrade(),
+                shell: mode == Mode::Swipe,
             });
         }
     }
@@ -99,6 +107,12 @@ pub(super) fn update(controller: &Controller) {
         feedback.translation.y + y,
         feedback.translation.z,
     ));
+    if feedback.shell {
+        if let (Some(vm), Some(ui)) = (controller.vm.upgrade(), controller.ui.upgrade()) {
+            ui.state::<crate::page_motion::NavigationMotion>()
+                .drag_neighbor(&vm, &ui, &control, &route, feedback.translation, x);
+        }
+    }
 }
 
 fn horizontal_offset(route: &Route, displacement: f64, width: f64) -> f64 {

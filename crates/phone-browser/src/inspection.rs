@@ -1,14 +1,17 @@
 //! Live native control geometry and state for end-to-end input verification.
 use ferroui_base::media::{IBrush, Rotate3DTransform, TranslateTransform};
 use ferroui_base::rendering::composition::CompositionVisual;
-use ferroui_base::{input::InputElement, Matrix, Point, Rect, Visual};
+use ferroui_base::{
+    Matrix, Point, Rect, Visual,
+    input::{InputElement, KeyboardNavigation},
+};
 use ferroui_controls::{
-    automation::{peers::ControlAutomationPeer, AutomationProperties},
+    Application, Border, Button, Carousel, Image, ListBox, ListBoxItem, Pivot, PivotHeaderItem,
+    ScrollViewer, TextBlock, TextBox, ToggleSwitch,
+    automation::{AutomationProperties, peers::ControlAutomationPeer},
     presenters::ContentPresenter,
-    primitives::{TemplatedControl, ToggleButton},
+    primitives::{TemplatedControl, ToggleButton, as_logical_scrollable},
     shapes::Shape,
-    Application, Border, Button, Image, ListBox, ListBoxItem, Pivot, PivotHeaderItem, ScrollViewer,
-    TextBlock, TextBox, ToggleSwitch,
 };
 use serde_json::json;
 use wasm_bindgen::prelude::*;
@@ -72,6 +75,8 @@ pub fn inspect_view() -> String {
             let name = visual.name();
             let header = visual.cast::<PivotHeaderItem>();
             let switch = visual.cast::<ToggleSwitch>();
+            let carousel = visual.cast::<Carousel>();
+            let logical = as_logical_scrollable(&visual);
             let text = if let Some(text) = visual.cast::<TextBlock>() {
                 text.text()
             } else if let Some(text) = visual.cast::<TextBox>() {
@@ -85,6 +90,8 @@ pub fn inspect_view() -> String {
                 || visual.cast::<ListBoxItem>().is_some()
                 || visual.cast::<ScrollViewer>().is_some()
                 || switch.is_some()
+                || carousel.is_some()
+                || logical.is_some()
                 || name.is_some()
             {
                 None
@@ -120,7 +127,8 @@ pub fn inspect_view() -> String {
                 .and_then(|toggle| toggle.is_checked());
             // Read the actual animation-owned native transform. Tests sample
             // this across rendered frames; it does not drive animation state.
-            let projection = if matches!(name.as_deref(), Some("PhonePage" | "PhoneOutgoingPage" | "PhonePickerSurface")) {
+            let projection = if matches!(name.as_deref(), Some("PhonePage" | "PhoneOutgoingPage" | "PhoneNeighborPage" | "PhonePickerSurface"))
+                || name.as_ref().is_some_and(|name|name.starts_with("LiveTileContent-")) {
                 visual.render_transform().and_then(|transform| {
                     let object = transform.as_object()?;
                     if let Some(rotation) = object.downcast_ref::<Rotate3DTransform>() {
@@ -129,7 +137,7 @@ pub fn inspect_view() -> String {
                             "centerX":rotation.center_x(), "centerY":rotation.center_y(), "depth":rotation.depth()}))
                     } else {
                         object.downcast_ref::<TranslateTransform>().map(
-                            |translation| json!({"kind":"slide", "translateX":translation.x()}),
+                            |translation| json!({"kind":"slide", "translateX":translation.x(), "translateY":translation.y()}),
                         )
                     }
                 })
@@ -149,10 +157,22 @@ pub fn inspect_view() -> String {
                 let size = source.size();
                 json!({"width":size.width,"height":size.height})
             });
+            let translation = visual.translation();
+            let logical_scroll = logical.map(|scroll| {
+                let offset = scroll.offset();
+                let extent = scroll.extent();
+                let viewport = scroll.viewport();
+                json!({"enabled":scroll.is_logical_scroll_enabled(),
+                    "offset":{"x":offset.x,"y":offset.y},
+                    "extent":{"width":extent.width,"height":extent.height},
+                    "viewport":{"width":viewport.width,"height":viewport.height}})
+            });
             Some(json!({
                 "type":visual.get_type().name(),"name":name,"text":text,
                 "automationName":automation_name,
                 "focused":input.as_ref().is_some_and(|input|input.is_focused()),
+                "focusable":input.as_ref().map(|input|input.focusable()),
+                "tabNavigation":input.as_ref().map(|input|format!("{:?}", KeyboardNavigation::get_tab_navigation(input))),
                 "enabled":input.as_ref().map(|input|input.is_effectively_enabled()),
                 "hitTestVisible":input.as_ref().map(|input|input.is_hit_test_visible()),
                 "pressed":visual.cast::<Button>().map(|button|button.is_pressed()),
@@ -160,12 +180,18 @@ pub fn inspect_view() -> String {
                 "imageSource":image_source,
                 "renderedBounds":{"x":rendered.x,"y":rendered.y,"width":rendered.width,"height":rendered.height},
                 "checked":checked,
-                "selectedIndex":visual.cast::<Pivot>().map(|pivot|pivot.selected_index()),
+                "selectedIndex":visual.cast::<Pivot>().map(|pivot|pivot.selected_index())
+                    .or_else(||carousel.as_ref().map(|carousel|carousel.selected_index())),
+                "isSwiping":carousel.as_ref().map(|carousel|carousel.is_swiping()),
+                "logicalScroll":logical_scroll,
                 "scrollOffset":visual.cast::<ScrollViewer>().map(|scroll| {
                     let offset = scroll.offset();
                     json!({"x":offset.x,"y":offset.y})
                 }),
                 "projection":projection,
+                // Direct manipulation uses Visual.Translation; completed
+                // compositor readback remains a separately sampled value.
+                "translation":{"x":translation.x,"y":translation.y,"z":translation.z},
                 // Keep logical sizes: motion assertions derive the projection
                 // hinge and camera distance from the page's unprojected width.
                 "x":point.x,"y":point.y,"width":bounds.width,"height":bounds.height,"hit":hit

@@ -1,9 +1,9 @@
 //! Explicit simulator-only observation hook; production launches create no timer.
 use ferroui_base::{
-    threading::{DispatcherPriority, DispatcherTimer},
     Point, Visual,
+    threading::{DispatcherPriority, DispatcherTimer},
 };
-use ferroui_controls::{Button, Control, PathIcon, TextBox, TopLevel};
+use ferroui_controls::{Button, Carousel, Control, PathIcon, TextBox, TopLevel};
 use phone_native::NativeHost;
 use std::{
     cell::{Cell, RefCell},
@@ -86,6 +86,8 @@ fn write_status(host: &NativeHost) {
                     | "WalletSearch"
                     | "DevicePhoneNumber"
                     | "DevicePeopleSearch"
+                    | "PeoplePanorama"
+                    | "DevicePeoplePane"
                     | "PeopleRoot"
                     | "NativeMessageSearch"
                     | "DeviceMessageRecipients"
@@ -116,6 +118,22 @@ fn write_status(host: &NativeHost) {
             serde_json::json!({"x": point.x, "y": point.y, "width": bounds.width, "height": bounds.height})
         })
     };
+    let people_panorama = view
+        .get_visual_descendants()
+        .filter_map(|visual| visual.cast::<Carousel>())
+        .find(|control| control.name().as_deref() == Some("PeoplePanorama"))
+        .map(|panorama| {
+            let device = panorama.get_visual_descendants()
+                .filter_map(|visual| visual.cast::<Control>())
+                .find(|control| control.name().as_deref() == Some("DevicePeoplePane"));
+            serde_json::json!({
+                "selected_index": panorama.selected_index(),
+                "swiping": panorama.is_swiping(),
+                "device_visible": device.as_ref().is_some_and(|control| control.is_effectively_visible()),
+                "device_enabled": device.as_ref().is_some_and(|control| control.is_effectively_enabled()),
+                "device_bounds": device.as_ref().and_then(|control| rectangle(control)),
+            })
+        });
     // Observe the real controls, including disabled/hidden ones. Route state
     // alone cannot establish that the navigation row is visible or interactive.
     let navigation = view
@@ -189,6 +207,7 @@ fn write_status(host: &NativeHost) {
         "navigation_controls": navigation,
         "network_path_online": host.runtime().platform().environment().online,
         "device_fields": fields,
+        "people_panorama": people_panorama,
         "device": host.vm().device_state().snapshot,
     });
     // HOME is supplied by iOS for its own sandbox; it is never reassigned.

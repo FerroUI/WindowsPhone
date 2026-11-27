@@ -18,6 +18,7 @@ pub fn set_motion_enabled(enabled: bool) {
     let changed = ENABLED.with(|value| value.replace(enabled) != enabled);
     if changed {
         crate::progress::refresh_motion();
+        crate::panorama::refresh_motion();
     }
 }
 

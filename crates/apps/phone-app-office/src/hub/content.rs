@@ -1,10 +1,14 @@
 //! The two Office hub panes retain independent vertical scroll positions.
+use super::scroll::{Pane, pane};
 use super::*;
-use ferroui_controls::primitives::ScrollBarVisibility;
 use phone_domain::AppId;
 
-pub(super) fn recent(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
-    let query = ui.query.get().trim().to_lowercase();
+pub(super) fn recent(vm: Rc<PhoneViewModel>, ui: Rc<Session>, searching: bool) -> Element {
+    let query = if searching {
+        ui.query.get().trim().to_lowercase()
+    } else {
+        String::new()
+    };
     let mut documents = vm
         .data()
         .documents
@@ -42,16 +46,29 @@ pub(super) fn recent(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
             {document_row(&document, &detail, move || model.navigate(Route::Document(id)))}
         }});
     }
-    pane("OfficeRecentScroll", body.into())
+    pane(
+        vm,
+        &ui,
+        if searching {
+            Pane::Search
+        } else {
+            Pane::Recent
+        },
+        &query,
+        body.into(),
+    )
 }
 
-pub(super) fn places(vm: Rc<PhoneViewModel>) -> Element {
+pub(super) fn places(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     let phone = vm.clone();
     let onedrive = vm.clone();
     let sharepoint = vm.clone();
     let notes = vm.clone();
     pane(
-        "OfficePlacesScroll",
+        vm.clone(),
+        &ui,
+        Pane::Places,
+        "",
         rsx! {StackPanel {
             {folder_row("phone", &format!("{} documents", vm.data().documents.len()),
                 move || phone.navigate(Route::FileFolder(None)))}
@@ -64,12 +81,4 @@ pub(super) fn places(vm: Rc<PhoneViewModel>) -> Element {
             {row("OneNote", "your notebooks", move || notes.navigate(Route::App(AppId::OneNote)))}
         }},
     )
-}
-
-fn pane(name: &str, content: Element) -> Element {
-    rsx! {ScrollViewer { name:name,
-        horizontal_scroll_bar_visibility:ScrollBarVisibility::Disabled,
-        vertical_scroll_bar_visibility:ScrollBarVisibility::Hidden,
-        {content}
-    }}
 }

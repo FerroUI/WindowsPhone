@@ -26,6 +26,7 @@ pub fn install_theme(app: &Application) {
     crate::sliders::install_templates(&templates);
     crate::switches::install_templates(&templates);
     crate::pivot_host::install_template(&templates);
+    crate::panorama::install_template(&templates);
     crate::progress::install_template(&templates);
     app.styles().add(templates);
     let styles = Styles::new();

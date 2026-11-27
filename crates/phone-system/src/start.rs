@@ -15,10 +15,10 @@ use crate::{common, session::Session};
 use ferroui_base::layout::{HorizontalAlignment as H, Orientation, VerticalAlignment as V};
 use ferroui_controls::primitives::ScrollBarVisibility;
 use ferroui_view::prelude::*;
-use phone_controls::{icon, Icon};
-use phone_domain::{pack_tiles, Route};
+use phone_controls::{Icon, icon};
+use phone_domain::{Route, pack_tiles};
 use phone_state::PhoneViewModel;
-use std::rc::Rc;
+use std::{cell::Cell, rc::Rc};
 
 pub(super) const GAP: f64 = 8.0;
 pub(super) const PADDING: f64 = 14.0;
@@ -27,10 +27,21 @@ pub(crate) use clock::tick as tick_notifications;
 
 pub fn view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     // Isolate the cadence dependency from the shell and other mounted pages.
-    rerender(move || content_view(vm.clone(), ui.clone()))
+    rerender(move || {
+        // Loaded is deferred. Keep this first-mount policy through any
+        // pre-Loaded reconciliation; later cadence updates animate normally.
+        let mounted = use_hook(|| Rc::new(Cell::new(false)));
+        let handoff = ui
+            .state::<crate::page_motion::NavigationMotion>()
+            .start_continues_neighbor();
+        provide_context(phone_sdk::TileEntrancePolicy {
+            animate: !vm.is_preview_snapshot() && !(handoff && !mounted.get()),
+        });
+        content_view(vm.clone(), ui.clone(), mounted)
+    })
 }
 
-fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
+fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>, mounted: Rc<Cell<bool>>) -> Element {
     let width = crate::shell::phone_size(&vm).0;
     let data = vm.data();
     let tiles = data.tiles.clone();
@@ -126,5 +137,5 @@ fn content_view(vm: Rc<PhoneViewModel>, ui: Rc<Session>) -> Element {
     if ui.menu.get() && ui.edit_tile.get().is_some() {
         layers.push(menu::view(vm, ui));
     }
-    rsx! {Grid{for layer in layers{{layer}}}}
+    rsx! {Grid{on_loaded:move |_|mounted.set(true),for layer in layers{{layer}}}}
 }
